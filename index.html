@@ -2920,6 +2920,31 @@ Sentence: ${sentence}`
   }
 }
 
+
+// Sync the current published content back into the draft pane
+function syncPublishToDraft() {
+  const pubContent = document.getElementById('pubContent');
+  if (!pubContent) return;
+  // Collect the full text from published paragraphs
+  const paras = Array.from(pubContent.querySelectorAll('p.pub-para'));
+  if (!paras.length) return;
+  const fullText = paras.map(p => p.textContent.trim()).filter(Boolean).join('\n\n');
+  if (!fullText) return;
+  // Store as the edited draft so the draft pane reflects it
+  if (!cur().custom) cur().custom = {};
+  cur().custom['__edited__'] = [fullText];
+  cur().editedCat = cur().editedCat || CATS[0]; // keep existing or default
+  cur().orderedAtDone = cur().orderedAtDone.length ? cur().orderedAtDone : (cur().ordered || []).slice();
+  cur().orderedAfterEdit = [];
+  // Update the draft pane immediately
+  const el = document.getElementById('outEditable');
+  if (el) {
+    el.innerText = fullText;
+    updateWc(fullText);
+    document.getElementById('draftEditBar').className = 'draft-edit-bar visible';
+  }
+  autoSave();
+}
 function applyRewrite() {
   const area = document.getElementById('synRewriteArea');
   if (!area || !_synOpenMark) return;
@@ -2929,7 +2954,10 @@ function applyRewrite() {
   if (!newText) return;
   span.innerHTML = newText;
   closeSynDropdown();
-  requestAnimationFrame(highlightDuplicateWords);
+  requestAnimationFrame(() => {
+    highlightDuplicateWords();
+    syncPublishToDraft();
+  });
 }
 
 async function openSynDropdown(event, markEl) {
@@ -2937,11 +2965,22 @@ async function openSynDropdown(event, markEl) {
   const word = markEl.dataset.word;
   const dd = document.getElementById('synDropdown');
 
-  // Position dropdown
+  // Position dropdown — flip above the word if it would go off the bottom of the screen
   const rect = markEl.getBoundingClientRect();
   dd.style.display = 'block';
-  dd.style.left = Math.min(rect.left, window.innerWidth - 310) + 'px';
-  dd.style.top = (rect.bottom + 6) + 'px';
+  dd.style.visibility = 'hidden'; // measure first before showing
+  const ddH = dd.offsetHeight || 280; // estimated height if not yet rendered
+  const spaceBelow = window.innerHeight - rect.bottom - 10;
+  const spaceAbove = rect.top - 10;
+  let top;
+  if (spaceBelow >= ddH || spaceBelow >= spaceAbove) {
+    top = rect.bottom + 6;
+  } else {
+    top = Math.max(8, rect.top - ddH - 6);
+  }
+  dd.style.left = Math.min(rect.left, window.innerWidth - 350) + 'px';
+  dd.style.top = top + 'px';
+  dd.style.visibility = 'visible';
   _synOpenMark = markEl;
   _synCurrentTab = 'synonyms';
 
@@ -3039,19 +3078,19 @@ Return ONLY a JSON array of 6 lowercase strings, no explanation, no markdown:
 }
 
 function replaceDupWord(markEl, synonym) {
-  // Replace the mark element's word with the synonym in the span
   const span = markEl.closest('span[data-si]');
   if (!span) { closeSynDropdown(); return; }
   const oldWord = markEl.dataset.word;
-  // Preserve capitalisation
   let replacement = synonym;
   if (oldWord[0] === oldWord[0].toUpperCase()) {
     replacement = synonym.charAt(0).toUpperCase() + synonym.slice(1);
   }
   markEl.outerHTML = replacement;
   closeSynDropdown();
-  // Re-run the duplicate checker so the highlighting updates
-  requestAnimationFrame(highlightDuplicateWords);
+  requestAnimationFrame(() => {
+    highlightDuplicateWords();
+    syncPublishToDraft();
+  });
 }
 
 
@@ -3157,6 +3196,6 @@ updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.4.8</div>
+<div class="version-badge">v2.4.9</div>
 </body>
 </html>
