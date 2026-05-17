@@ -549,6 +549,68 @@
 
 
 
+
+<div class="modal-overlay" id="proxyModal" style="display:none">
+  <div class="modal-box" style="max-width:500px">
+    <div class="modal-title">Set Up AI Features (2 min)</div>
+    <div class="modal-body">
+      Because your school's IT policy restricts Python, you need a free Cloudflare Worker to relay AI requests. Here's how:
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">1</div>
+      <div class="guide-step-text">Go to <a href="https://workers.cloudflare.com" target="_blank">workers.cloudflare.com</a> and sign up free (use personal email).</div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">2</div>
+      <div class="guide-step-text">Click <strong>Create Worker</strong>, then replace all the code in the editor with this:</div>
+    </div>
+    <div class="guide-code" style="flex-direction:column;align-items:flex-start;font-size:11px;max-height:140px;overflow-y:auto">
+      <code id="workerCode" style="white-space:pre;line-height:1.5">export default {
+  async fetch(request) {
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST',
+        'Access-Control-Allow-Headers': 'Content-Type, x-api-key',
+      }});
+    }
+    const body = await request.json();
+    const apiKey = request.headers.get('x-api-key');
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-request-header': 'true',
+      },
+      body: JSON.stringify(body),
+    });
+    const data = await resp.json();
+    return new Response(JSON.stringify(data), { headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    }});
+  }
+};</code>
+      <button class="guide-copy-btn" style="margin-top:8px;align-self:flex-end" onclick="navigator.clipboard.writeText(document.getElementById('workerCode').textContent).then(()=>showToast('Code copied!'))">Copy code</button>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">3</div>
+      <div class="guide-step-text">Click <strong>Save and Deploy</strong>. Copy the Worker URL shown (looks like <em>https://your-worker.workers.dev</em>).</div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">4</div>
+      <div class="guide-step-text">Paste your Worker URL here:</div>
+    </div>
+    <input class="modal-input" id="proxyUrlInput" placeholder="https://your-worker.workers.dev" autocomplete="off">
+    <div class="modal-note">Your API key stays in your browser — it's sent directly to your own Worker, which forwards it to Anthropic. Cloudflare never stores it.</div>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="document.getElementById('proxyModal').style.display='none'">Cancel</button>
+      <button class="modal-btn primary" onclick="saveProxyUrl()">Save & enable AI</button>
+    </div>
+  </div>
+</div>
 <div class="modal-overlay" id="localServerModal" style="display:none">
   <div class="modal-box" style="max-width:480px">
     <div class="modal-title">Enable AI Features in Browser</div>
@@ -1266,7 +1328,7 @@ ${sentenceList.slice(0, 80).map((item, i) => `${i}: ${item.text}`).join('\n')}`;
   } catch(e) {
     btn.disabled = false;
     btn.innerHTML = '<svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5.5 8h5M8 5.5v5"/></svg> AI Re-rank';
-    if (e.message === 'CORS_FILE') { note.textContent = 'AI ranking needs local server.'; showLocalServerGuide(); }
+    if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED' || e.message === 'PROXY_FAIL') { note.textContent = 'AI setup needed.'; showProxyGuide(); }
     else { note.textContent = 'AI ranking failed. Using word-overlap ranking instead.'; }
     rankForS2(); // Fall back to word overlap
   }
@@ -2167,9 +2229,24 @@ function saveEarnedBadges(b) { lsSet('rcb_badges', b); }
 // When running from file://, browsers block direct calls to api.anthropic.com (CORS).
 // We detect this and route through a free CORS proxy automatically.
 // When running from a real URL (claude.ai, localhost, hosted), calls go direct.
+function getProxyUrl() { return lsGet('rcb_proxy', ''); }
+function setProxyUrl(url) { lsSet('rcb_proxy', url); }
+
 function anthropicFetch(body) {
-  const directUrl = 'https://api.anthropic.com/v1/messages';
   const storedKey = getApiKey();
+  const proxyUrl = getProxyUrl();
+
+  // If a proxy URL is configured, use it — it handles auth server-side
+  if (proxyUrl) {
+    return fetch(proxyUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': storedKey },
+      body: JSON.stringify(body)
+    }).catch(err => { throw new Error('PROXY_FAIL'); });
+  }
+
+  // Direct call — works from localhost, may be blocked from hosted pages
+  const directUrl = 'https://api.anthropic.com/v1/messages';
   const headers = { 'Content-Type': 'application/json' };
   if (storedKey) {
     headers['x-api-key'] = storedKey;
@@ -2179,7 +2256,7 @@ function anthropicFetch(body) {
   return fetch(directUrl, { method: 'POST', headers, body: JSON.stringify(body) })
     .catch(err => {
       if (window.location.protocol === 'file:') throw new Error('CORS_FILE');
-      throw err;
+      throw new Error('CORS_HOSTED');
     });
 }
 
@@ -2193,6 +2270,22 @@ function showLocalServerGuide() {
 function copyServerCmd() {
   const cmd = document.getElementById('serverCmd').textContent;
   navigator.clipboard.writeText(cmd).then(() => showToast('Command copied!'));
+}
+
+function showProxyGuide() {
+  // Pre-fill the proxy URL if already saved
+  const saved = getProxyUrl();
+  const input = document.getElementById('proxyUrlInput');
+  if (input && saved) input.value = saved;
+  document.getElementById('proxyModal').style.display = 'flex';
+}
+
+function saveProxyUrl() {
+  const val = document.getElementById('proxyUrlInput').value.trim();
+  if (!val) { showToast('Please paste your Worker URL.'); return; }
+  setProxyUrl(val);
+  document.getElementById('proxyModal').style.display = 'none';
+  showToast('Proxy saved — try Check for Issues again!');
 }
 function showBadgeNotif(badge) {
   document.getElementById('badgeNotifIcon').textContent = badge.icon;
@@ -2873,8 +2966,8 @@ Return ONLY a JSON array of 6 lowercase strings, no explanation, no markdown:
     }
 
   } catch(e) {
-    if (e.message === 'CORS_FILE') {
-      list.innerHTML = '<div class="syn-none" style="cursor:pointer;color:var(--blue)" onclick="showLocalServerGuide()">AI features need local server — click for setup guide</div>';
+    if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED' || e.message === 'PROXY_FAIL') {
+      list.innerHTML = '<div class="syn-none" style="cursor:pointer;color:var(--blue)" onclick="showProxyGuide()">AI setup needed — click for guide</div>';
     } else if (e.message.includes('401') || (!getApiKey())) {
       list.innerHTML = '<div class="syn-none">API key needed — set it via the API key button in the publish toolbar.</div>';
     } else {
