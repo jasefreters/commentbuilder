@@ -1057,71 +1057,32 @@ function buildParas(stu) {
 function getPublishedText(stu) {
   if (stu.draftOverride) return stu.draftOverride;
 
-  const name = stu.name || '[Name]';
-  const p = PR[stu.pronoun];
-  const yr = stu.year || '';
-
-  if (!stu.editedCat || !stu.custom || !stu.custom['__edited__'] || !stu.custom['__edited__'][0]) {
-    // No edit — build paragraphs normally with proper alternation
-    return buildParas(stu).map(para => para.join(' ')).join('\n\n');
-  }
-
-  // There is an edited draft. Build paragraphs with the edited text in the correct position.
-  // Use orderedAtDone (the snapshot taken when Done was clicked) for pre-edit sentences,
-  // and orderedAfterEdit for sentences added after Done — this prevents duplicates.
-
-  const editedGroupIdx = PARA_GROUPS.findIndex(g => g.includes(stu.editedCat));
-  const atDone = new Set(stu.orderedAtDone || []);
-  const postEdit = stu.orderedAfterEdit || [];
-  const counter = { value: 0 };
-
-  function inGroup(s, group) {
-    if (s.startsWith('__custom__')) {
-      const parts = s.split('__');
-      const cat = parts.slice(2, parts.length - 1).join('__');
-      if (cat === '__edited__') return false;
-      return group.includes(cat);
-    }
-    return group.includes(SENT_CAT[s]);
-  }
-
-  // Count name/pronoun openers in a text block to advance the counter correctly
-  function advanceCounterForText(text) {
-    // Count sentences starting with name or pronoun by splitting on sentence boundaries
-    const sentences = text.match(/[^.!?]+[.!?]+\s*/g) || [text];
-    sentences.forEach(s => {
-      const t = s.trim();
-      if (t.match(/^(He|She|They|[A-Z][a-z]+)\b/)) counter.value++;
-    });
-  }
-
-  const paras = [];
-
-  PARA_GROUPS.forEach((group, gi) => {
-    if (gi === editedGroupIdx) {
-      // This group uses the edited text verbatim
-      const editedText = stu.custom['__edited__'][0];
-      const paraSents = [editedText];
-      // Advance counter for the edited text so subsequent paragraphs alternate correctly
-      advanceCounterForText(editedText);
-      // Append any post-edit sentences belonging to this group
-      postEdit.filter(s => inGroup(s, group)).forEach(s => {
-        paraSents.push(applyAlternation(resolveKey(s, stu), name, p, counter));
+  // If the draft was manually edited via Done, use that text directly as the
+  // complete published comment — no rebuilding from sentence keys needed.
+  // This is the simplest and most reliable approach and eliminates all duplication.
+  if (stu.editedCat && stu.custom && stu.custom['__edited__'] && stu.custom['__edited__'][0]) {
+    const editedText = stu.custom['__edited__'][0];
+    // Append any sentences added AFTER Done was clicked
+    if (stu.orderedAfterEdit && stu.orderedAfterEdit.length) {
+      const name = stu.name || '[Name]';
+      const p = PR[stu.pronoun];
+      const yr = stu.year || '';
+      const counter = { value: 0 };
+      // Advance counter based on edited text
+      const editSents = editedText.match(/[^.!?]+[.!?]+\s*/g) || [editedText];
+      editSents.forEach(s => {
+        if (s.trim().match(/^(He|She|They|[A-Z][a-z]+)\b/)) counter.value++;
       });
-      paras.push(paraSents);
-    } else {
-      // Use only sentences from orderedAtDone for this group (prevents duplicates)
-      // Plus any post-edit sentences for this group
-      const preEditSents = Array.from(atDone).filter(s => inGroup(s, group));
-      const postEditSents = postEdit.filter(s => inGroup(s, group));
-      const allSents = [...preEditSents, ...postEditSents.filter(s => !atDone.has(s))];
-      if (allSents.length) {
-        paras.push(allSents.map(s => applyAlternation(resolveKey(s, stu), name, p, counter, yr)));
-      }
+      const postText = stu.orderedAfterEdit
+        .map(s => applyAlternation(resolveKey(s, stu), name, p, counter, yr))
+        .join(' ');
+      return editedText + ' ' + postText;
     }
-  });
+    return editedText;
+  }
 
-  return paras.filter(p => p.length).map(para => para.join(' ')).join('\n\n');
+  // No edit — build paragraphs normally
+  return buildParas(stu).map(para => para.join(' ')).join('\n\n');
 }
 
 // ── RENDER: BUILD ─────────────────────────────────────────────────
@@ -3128,6 +3089,6 @@ updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.4.5</div>
+<div class="version-badge">v2.4.6</div>
 </body>
 </html>
