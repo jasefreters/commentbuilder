@@ -523,6 +523,10 @@
         <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 1a4 4 0 014 4 4 4 0 01-4 4 4 4 0 01-3.46-2H2l-1 1-1-1 1-1H1V5h1l3.54 0A4 4 0 0111 1z"/><circle cx="12" cy="5" r="1" fill="currentColor" stroke="none"/></svg>
         API key
       </button>
+      <button class="btn btn-ghost" onclick="showProxyGuide()" style="width:auto;font-size:11px;padding:6px 10px" title="Set Cloudflare Worker proxy URL">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8h2m8 0h2M8 2v2m0 8v2"/><circle cx="8" cy="8" r="3"/></svg>
+        Worker URL
+      </button>
       <div id="checkStatus"></div>
       <div class="flag-legend" id="flagLegend" style="display:none">
         <div class="leg"><div class="swatch d"></div><span>Similar idea</span></div>
@@ -3119,6 +3123,6 @@ updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.4.1</div>
+<div class="version-badge">v2.4.2</div>
 </body>
 </html>
