@@ -371,6 +371,9 @@
   .guide-code code { font-family: var(--mono); font-size: 12px; color: var(--green); flex: 1; }
   .guide-copy-btn { font-family: var(--font); font-size: 11px; padding: 3px 10px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t1); cursor: pointer; white-space: nowrap; }
   .guide-copy-btn:hover { background: var(--bg-4); color: var(--t0); }
+
+  /* VERSION BADGE */
+  .version-badge { position: fixed; bottom: 10px; right: 12px; font-size: 10px; font-family: var(--mono); color: var(--t2); background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 3px 8px; z-index: 100; pointer-events: none; letter-spacing: .04em; }
 </style>
 </head>
 <body>
@@ -2280,12 +2283,33 @@ function showProxyGuide() {
   document.getElementById('proxyModal').style.display = 'flex';
 }
 
-function saveProxyUrl() {
+async function saveProxyUrl() {
   const val = document.getElementById('proxyUrlInput').value.trim();
   if (!val) { showToast('Please paste your Worker URL.'); return; }
-  setProxyUrl(val);
-  document.getElementById('proxyModal').style.display = 'none';
-  showToast('Proxy saved — try Check for Issues again!');
+  if (!val.startsWith('http')) { showToast('URL should start with https://'); return; }
+  // Test the connection first
+  const btn = document.querySelector('#proxyModal .modal-btn.primary');
+  const origText = btn.textContent;
+  btn.textContent = 'Testing…'; btn.disabled = true;
+  try {
+    const res = await fetch(val, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': getApiKey() || 'test' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 5, messages: [{ role: 'user', content: 'Hi' }] })
+    });
+    const data = await res.json();
+    // If we get any response (even an auth error) the proxy is working
+    setProxyUrl(val);
+    document.getElementById('proxyModal').style.display = 'none';
+    if (data.error && data.error.type === 'authentication_error') {
+      showToast('Proxy connected! Check your API key is correct.');
+    } else {
+      showToast('✓ Proxy connected and working!');
+    }
+  } catch(e) {
+    btn.textContent = origText; btn.disabled = false;
+    showToast('Could not reach Worker URL — check it was deployed correctly.');
+  }
 }
 function showBadgeNotif(badge) {
   document.getElementById('badgeNotifIcon').textContent = badge.icon;
@@ -3095,5 +3119,6 @@ updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
+<div class="version-badge">v2.4.0</div>
 </body>
 </html>
