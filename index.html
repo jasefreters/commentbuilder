@@ -930,7 +930,7 @@ CATS.forEach(cat => RAW[cat].forEach(s => { SENT_CAT[s] = cat; }));
 let currentView = 'build';
 let currentSemester = 1;
 let currentTab = CATS[0];
-let students = [{ name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [] }];
+let students = [{ name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [] }];
 let currentIdx = 0;
 
 const cur = () => students[currentIdx];
@@ -1779,7 +1779,7 @@ function renderPublish() {
   renderStuBar();
   if (!wasPublished) touchStreak();
   updateProgress();
-  if (!wasPublished) launchConfetti();
+  if (!stu.confettiShown) { stu.confettiShown = true; launchConfetti(); autoSave(); }
   // Auto-highlight repeated meaningful words
   requestAnimationFrame(highlightDuplicateWords);
 }
@@ -2075,7 +2075,7 @@ function removeSent(i) {
 
 function clearCurrent() { cur().selected = {}; cur().ordered = []; cur().draftOverride = null; cur().editedCat = null; cur().orderedAfterEdit = []; cur().orderedAtDone = []; if (cur().custom) delete cur().custom['__edited__']; cur().published = false; render(); }
 
-function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[] }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
+function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[] }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
 
 function newStudentFromPublish() {
   addStu();
@@ -2190,7 +2190,7 @@ function loadPersistedState() {
   if (saved.students && saved.students.length) {
     // Ensure all student objects have required fields (handles older saves)
     students = saved.students.map(s => Object.assign(
-      { name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [] }, s
+      { name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [] }, s
     ));
     currentIdx = Math.min(saved.currentIdx || 0, students.length - 1);
   }
@@ -2484,7 +2484,7 @@ function updateProgress() {
   label.className = allDone ? 'progress-label done' : 'progress-label';
   const streak = getStreakData().count;
   checkBadges(done, totalStudents, streak);
-  if (allDone && !lsGet('rcb_finale_played', false)) { lsSet('rcb_finale_played', true); launchFinaleConfetti(); } else if (allDone) { launchConfetti(7000, 260); }  // confetti only, no chime
+  if (allDone && !lsGet('rcb_finale_played', false)) { lsSet('rcb_finale_played', true); launchFinaleConfetti(); }
 }
 
 function editClassSize() {
@@ -3119,6 +3119,6 @@ updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.4.0</div>
+<div class="version-badge">v2.4.1</div>
 </body>
 </html>
