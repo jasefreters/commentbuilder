@@ -1856,11 +1856,16 @@ ${text}`
         }]
       });
 
-    if (res.status === 401 || res.status === 403) {
-      btn.disabled = false;
-      status.innerHTML = '';
-      _pendingCheck = true;
-      promptApiKey();
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      const errType = errData?.error?.type || '';
+      if (res.status === 401 || res.status === 403 || errType === 'authentication_error') {
+        btn.disabled = false;
+        status.innerHTML = '<span style="font-size:13px;color:var(--red)">API key invalid — click API key button to update it</span>';
+      } else {
+        btn.disabled = false;
+        status.innerHTML = `<span style="font-size:13px;color:var(--red)">Error ${res.status}: ${errData?.error?.message || 'Unknown error'}</span>`;
+      }
       return;
     }
 
@@ -1878,16 +1883,16 @@ ${text}`
     requestAnimationFrame(highlightDuplicateWords);
   } catch(e) {
     btn.disabled = false;
-    // If no key stored, prompt rather than showing a generic error
     if (e.message === 'CORS_FILE') {
-      btn.disabled = false;
       status.innerHTML = '';
       showLocalServerGuide();
+    } else if (e.message === 'CORS_HOSTED' || e.message === 'PROXY_FAIL') {
+      status.innerHTML = '<span style="font-size:13px;color:var(--red)">Connection failed — check Worker URL is correct</span>';
     } else if (!getApiKey()) {
       _pendingCheck = true;
       promptApiKey();
     } else {
-      status.innerHTML = '<span style="font-size:13px;color:var(--red)">Check failed — try again</span>';
+      status.innerHTML = `<span style="font-size:13px;color:var(--red)">Error: ${e.message}</span>`;
     }
   }
 }
@@ -3123,6 +3128,6 @@ updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.4.2</div>
+<div class="version-badge">v2.4.3</div>
 </body>
 </html>
