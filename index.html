@@ -325,6 +325,9 @@
   #synTabOmit { color: var(--red); opacity: .7; }
   #synTabOmit:hover { opacity: 1; }
   #synTabOmit.active { border-bottom-color: var(--red); opacity: 1; }
+  #synTabEdit { color: var(--blue); opacity: .7; }
+  #synTabEdit:hover { opacity: 1; }
+  #synTabEdit.active { border-bottom-color: var(--blue); opacity: 1; color: var(--blue); }
   .syn-header { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); padding: 8px 12px 4px; }
   .syn-loading { padding: 10px 12px; font-size: 13px; color: var(--t1); display: flex; align-items: center; gap: 8px; }
   .syn-item { display: block; width: 100%; text-align: left; padding: 8px 12px; font-size: 13px; font-family: var(--font); color: var(--t0); background: none; border: none; cursor: pointer; transition: background .1s; }
@@ -706,6 +709,7 @@
   <div class="syn-tabs">
     <button class="syn-tab active" id="synTabSyn" onclick="switchSynTab('synonyms')">Synonyms</button>
     <button class="syn-tab" id="synTabRew" onclick="switchSynTab('rewrite')">Rewrite ✏</button>
+    <button class="syn-tab" id="synTabEdit" onclick="switchSynTab('edit')">Edit ✎</button>
     <button class="syn-tab" id="synTabOmit" onclick="switchSynTab('omit')" style="color:var(--red)">Omit ✕</button>
   </div>
   <div id="synPanel">
@@ -2905,14 +2909,52 @@ function switchSynTab(tab) {
   _synCurrentTab = tab;
   document.getElementById('synTabSyn').className = 'syn-tab' + (tab === 'synonyms' ? ' active' : '');
   document.getElementById('synTabRew').className = 'syn-tab' + (tab === 'rewrite' ? ' active' : '');
+  document.getElementById('synTabEdit').className = 'syn-tab' + (tab === 'edit' ? ' active' : '');
   document.getElementById('synTabOmit').className = 'syn-tab' + (tab === 'omit' ? ' active' : '');
   if (tab === 'synonyms') {
     showSynonymsPanel();
   } else if (tab === 'rewrite') {
     showRewritePanel();
+  } else if (tab === 'edit') {
+    showEditPanel();
   } else {
     showOmitPanel();
   }
+}
+
+function showEditPanel() {
+  const panel = document.getElementById('synPanel');
+  const span = _synOpenMark ? _synOpenMark.closest('span[data-si]') : null;
+  const sentence = span ? span.textContent.trim() : (_synCurrentSentence || '');
+  panel.innerHTML = `
+    <div class="syn-rewrite-box">
+      <div style="font-size:11px;color:var(--t2);margin-bottom:6px">Edit this sentence directly, then click Apply.</div>
+      <textarea class="syn-rewrite-text" id="synEditArea" style="min-height:80px">${sentence}</textarea>
+      <div class="syn-rewrite-actions">
+        <button class="syn-rewrite-btn" onclick="closeSynDropdown()">Cancel</button>
+        <button class="syn-rewrite-btn apply" onclick="applyEditSentence()">Apply</button>
+      </div>
+    </div>`;
+  // Focus and place cursor at end
+  setTimeout(() => {
+    const ta = document.getElementById('synEditArea');
+    if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+  }, 50);
+}
+
+function applyEditSentence() {
+  const area = document.getElementById('synEditArea');
+  if (!area || !_synOpenMark) return;
+  const span = _synOpenMark.closest('span[data-si]');
+  if (!span) { closeSynDropdown(); return; }
+  const newText = area.value.trim();
+  if (!newText) return;
+  span.innerHTML = newText;
+  closeSynDropdown();
+  requestAnimationFrame(() => {
+    highlightDuplicateWords();
+    syncPublishToDraft();
+  });
 }
 
 function showOmitPanel() {
@@ -3067,6 +3109,8 @@ async function openSynDropdown(event, markEl) {
   // Reset to synonyms tab
   document.getElementById('synTabSyn').className = 'syn-tab active';
   document.getElementById('synTabRew').className = 'syn-tab';
+  document.getElementById('synTabEdit').className = 'syn-tab';
+  document.getElementById('synTabOmit').className = 'syn-tab';
   showSynonymsPanel(word, markEl);
 }
 
@@ -3272,6 +3316,6 @@ updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.5.0</div>
+<div class="version-badge">v2.5.1</div>
 </body>
 </html>
