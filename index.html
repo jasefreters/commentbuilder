@@ -2241,7 +2241,7 @@ function saveEarnedBadges(b) { lsSet('rcb_badges', b); }
 // When running from file://, browsers block direct calls to api.anthropic.com (CORS).
 // We detect this and route through a free CORS proxy automatically.
 // When running from a real URL (claude.ai, localhost, hosted), calls go direct.
-function getProxyUrl() { return lsGet('rcb_proxy', ''); }
+function getProxyUrl() { return lsGet('rcb_proxy', 'https://black-sea-3013.freters.workers.dev'); }
 function setProxyUrl(url) { lsSet('rcb_proxy', url); }
 
 function anthropicFetch(body) {
@@ -3128,6 +3128,6 @@ updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.4.3</div>
+<div class="version-badge">v2.4.4</div>
 </body>
 </html>
