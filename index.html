@@ -1028,18 +1028,27 @@ function buildParas(stu) {
   const yr = stu.year || '';
   const ordered = stu.ordered;
   if (!ordered.length) return [];
+  // Note: filteredOrdered is set after this check, using ordered for the empty guard
 
   // Shared counter across ALL paragraphs so alternation is global
   const counter = { value: 0 };
 
+  // Filter out __edited__ keys — these are handled by getPublishedText directly
+  const filteredOrdered = ordered.filter(s => {
+    if (s.startsWith('__custom__')) {
+      const parts = s.split('__');
+      const cat = parts.slice(2, parts.length - 1).join('__');
+      return cat !== '__edited__';
+    }
+    return true;
+  });
+
   const paras = [];
   PARA_GROUPS.forEach(group => {
-    const sents = ordered.filter(s => {
+    const sents = filteredOrdered.filter(s => {
       if (s.startsWith('__custom__')) {
         const parts = s.split('__');
         const cat = parts.slice(2, parts.length - 1).join('__');
-        // Edited drafts are treated as a full comment — put in first para group
-        if (cat === '__edited__') return group === PARA_GROUPS[0];
         return group.includes(cat);
       }
       return group.includes(SENT_CAT[s]);
@@ -1049,7 +1058,7 @@ function buildParas(stu) {
     }
   });
   const known = new Set(PARA_GROUPS.flat());
-  const other = ordered.filter(s => !known.has(SENT_CAT[s]));
+  const other = filteredOrdered.filter(s => !s.startsWith('__custom__') && !known.has(SENT_CAT[s]));
   if (other.length) paras.push(other.map(s => applyAlternation(resolveKey(s, stu), name, p, counter, yr)));
   return paras;
 }
@@ -3148,6 +3157,6 @@ updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.4.7</div>
+<div class="version-badge">v2.4.8</div>
 </body>
 </html>
