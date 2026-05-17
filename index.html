@@ -1311,7 +1311,7 @@ Return ONLY a JSON array of IDs in ranked order: [0,1,2,...]
 Sentences:
 ${sentenceList.slice(0, 80).map((item, i) => `${i}: ${item.text}`).join('\n')}`;
 
-    const res = await anthropicFetch({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] });
+    const res = await anthropicFetch({ model: 'claude-sonnet-4-6', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] });
 
     if (!res.ok) throw new Error('API ' + res.status);
     const data = await res.json();
@@ -1837,7 +1837,7 @@ async function runCheck() {
 
   try {
     const res = await anthropicFetch({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-6',
         max_tokens: 1000,
         messages: [{
           role: 'user',
@@ -2304,7 +2304,7 @@ async function saveProxyUrl() {
     const res = await fetch(val, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': getApiKey() || 'test' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 5, messages: [{ role: 'user', content: 'Hi' }] })
+      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 5, messages: [{ role: 'user', content: 'Hi' }] })
     });
     const data = await res.json();
     // If we get any response (even an auth error) the proxy is working
@@ -2867,7 +2867,7 @@ async function fetchRewrite() {
   area.readOnly = true;
   try {
     const res = await anthropicFetch({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-4-6',
       max_tokens: 150,
       messages: [{
         role: 'user',
@@ -2938,7 +2938,7 @@ async function showSynonymsPanel(word, markEl) {
 
   try {
     const res = await anthropicFetch({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-4-6',
       max_tokens: 200,
       messages: [{
         role: 'user',
@@ -3128,6 +3128,6 @@ updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.4.4</div>
+<div class="version-badge">v2.4.5</div>
 </body>
 </html>
