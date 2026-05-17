@@ -1,0 +1,3006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Comment Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-0: #0a0a0a; --bg-1: #111; --bg-2: #1a1a1a; --bg-3: #222; --bg-4: #2a2a2a;
+    --border: #2e2e2e; --border-h: #444;
+    --t0: #f0f0f0; --t1: #aaa; --t2: #555;
+    --green: #4ade80; --green-bg: #0f2318; --green-bd: #1a4028;
+    --red: #f87171; --red-bg: #2a1010;
+    --amber: #fbbf24; --amber-bg: rgba(251,191,36,0.12);
+    --purple: #c084fc; --purple-bg: #1a0a28;
+    --blue: #60a5fa; --blue-bg: #0a1628; --blue-border: #1a2e4a;
+    --r-sm: 6px; --r-md: 10px; --r-lg: 14px;
+    --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
+  }
+  /* LIGHT MODE */
+  html.light {
+    --bg-0: #f0f0f0; --bg-1: #ffffff; --bg-2: #e8e8e8; --bg-3: #dedede; --bg-4: #d0d0d0;
+    --border: #ccc; --border-h: #999;
+    --t0: #0a0a0a; --t1: #2a2a2a; --t2: #555;
+    --green: #16a34a; --green-bg: #dcfce7; --green-bd: #bbf7d0;
+    --red: #dc2626; --red-bg: #fee2e2;
+    --amber: #d97706; --amber-bg: rgba(217,119,6,0.1);
+    --purple: #9333ea; --purple-bg: #f3e8ff;
+    --blue: #2563eb; --blue-bg: #eff6ff; --blue-border: #bfdbfe;
+  }
+  /* THEME TOGGLE */
+  .theme-toggle { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  .theme-toggle-track { width: 36px; height: 20px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 999px; position: relative; transition: background .2s; flex-shrink: 0; }
+  .theme-toggle-thumb { position: absolute; top: 3px; left: 3px; width: 12px; height: 12px; border-radius: 50%; background: var(--t2); transition: left .2s, background .2s; }
+  html.light .theme-toggle-track { background: var(--green-bg); border-color: var(--green-bd); }
+  html.light .theme-toggle-thumb { left: 19px; background: var(--green); }
+  .theme-toggle-label { font-size: 11px; color: var(--t2); white-space: nowrap; }
+  html { height: 100%; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--bg-0); color: var(--t0); height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* HEADER */
+  header { height: 52px; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--bg-1); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 200; flex-shrink: 0; }
+  .logo { font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+  .logo em { color: var(--t2); font-style: normal; }
+  .view-toggle { display: flex; background: var(--bg-3); border: 1px solid var(--border); border-radius: 999px; padding: 3px; gap: 2px; }
+  .vbtn { font-family: var(--font); font-size: 12px; padding: 4px 16px; border-radius: 999px; border: none; background: none; color: var(--t1); cursor: pointer; transition: all .15s; white-space: nowrap; }
+  .vbtn.active { background: var(--bg-0); color: var(--t0); font-weight: 500; }
+  .student-pill { display: flex; align-items: center; gap: 6px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 999px; padding: 4px 4px 4px 14px; }
+  .student-pill input { background: none; border: none; outline: none; color: var(--t0); font-family: var(--font); font-size: 13px; width: 130px; }
+  .student-pill input::placeholder { color: var(--t2); }
+  .pron-sel { background: var(--bg-3); border: 1px solid var(--border); border-radius: 999px; color: var(--t1); font-family: var(--font); font-size: 12px; padding: 4px 10px; outline: none; cursor: pointer; }
+
+  /* MAIN AREA */
+  .main { flex: 1; overflow: hidden; min-height: 0; display: flex; flex-direction: column; }
+
+  /* BUILD VIEW */
+  .build-view { display: grid; grid-template-columns: 240px 1fr 300px; flex: 1; min-height: 0; overflow: hidden; }
+  .build-view.hidden { display: none; }
+
+  /* Sidebar */
+  .sidebar { border-right: 1px solid var(--border); background: var(--bg-1); overflow-y: auto; padding: 1rem 0; min-height: 0; }
+  .s-label { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--t2); padding: 0 1rem; margin-bottom: 6px; }
+  .cat-btn { width: 100%; text-align: left; background: none; border: none; padding: 8px 1rem; font-family: var(--font); font-size: 13px; color: var(--t1); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 6px; transition: background .1s, color .1s; }
+  .cat-btn:hover { background: var(--bg-2); color: var(--t0); }
+  .cat-btn.active { background: var(--bg-3); color: var(--t0); font-weight: 500; }
+  .cat-name { flex: 1; }
+  .cat-count { font-size: 10px; font-family: var(--mono); background: var(--green-bg); color: var(--green); border-radius: 999px; padding: 1px 6px; display: none; }
+  .cat-btn.has-sel .cat-count { display: block; }
+  .cat-count.edited { background: #2a1f00; color: var(--amber); }
+  .cat-div { height: 1px; background: var(--border); margin: 6px 1rem; }
+
+  /* Centre */
+  .centre { overflow-y: auto; padding: 1.25rem; background: var(--bg-0); min-height: 0; }
+  .c-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1rem; }
+  .c-title { font-size: 17px; font-weight: 500; }
+  .c-hint { font-size: 12px; color: var(--t2); }
+  .opts { display: flex; flex-direction: column; gap: 5px; }
+  .opt { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--r-md); padding: 11px 14px; font-size: 13px; line-height: 1.65; color: var(--t1); cursor: pointer; text-align: left; font-family: var(--font); transition: border-color .12s, background .12s, color .12s; width: 100%; }
+  .opt:hover { border-color: var(--border-h); background: var(--bg-2); color: var(--t0); }
+  .opt.sel { border-color: var(--green-bd); background: var(--green-bg); color: #a7f3c0; }
+  .opt.sel:hover { border-color: var(--green); }
+
+  /* Right panel */
+  .panel { border-left: 1px solid var(--border); background: var(--bg-1); display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
+  .p-top { flex-shrink: 0; }
+  .p-head { padding: .9rem 1.1rem .7rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .p-title { font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); }
+  .wc { font-size: 11px; font-family: var(--mono); color: var(--t2); background: var(--bg-3); padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); transition: all .2s; }
+  .wc.over { color: var(--red); background: var(--red-bg); border-color: #4a1010; }
+  .wc-bar-wrap { height: 2px; background: var(--bg-3); }
+  .wc-bar { height: 2px; background: var(--green); transition: width .3s, background .3s; width: 0; }
+  .wc-bar.over { background: var(--red); }
+  .stu-bar { display: flex; gap: 5px; padding: .6rem 1.1rem; border-bottom: 1px solid var(--border); overflow-x: auto; align-items: center; flex-shrink: 0; }
+  .stu-chip { white-space: nowrap; font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-2); color: var(--t1); cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all .1s; }
+  .stu-chip:hover { border-color: var(--border-h); color: var(--t0); }
+  .stu-chip.active { border-color: var(--border-h); background: var(--bg-3); color: var(--t0); font-weight: 500; }
+  .stu-chip.pub::after { content: ' ✓'; color: var(--green); font-size: 10px; }
+  .rm-stu { color: var(--t2); font-size: 13px; border: none; background: none; cursor: pointer; padding: 0 1px; font-family: var(--font); line-height: 1; }
+  .rm-stu:hover { color: var(--red); }
+  .add-stu { white-space: nowrap; font-size: 12px; padding: 3px 10px; border-radius: 999px; border: 1px dashed var(--border); background: none; color: var(--t2); cursor: pointer; font-family: var(--font); transition: all .1s; }
+  .add-stu:hover { border-color: var(--border-h); color: var(--t1); }
+
+  .out-scroll { flex: 1; overflow-y: auto; padding: 1.1rem; min-height: 0; }
+  .out-empty { color: var(--t2); font-size: 13px; line-height: 1.7; font-style: italic; }
+  .out-sent { display: inline; font-size: 13.5px; line-height: 1.85; color: var(--t0); cursor: pointer; border-radius: 3px; padding: 1px 2px; transition: background .1s, color .1s; }
+  .out-sent:hover { background: var(--red-bg); color: var(--red); }
+
+  .p-actions { padding: .9rem 1.1rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+  .btn { font-family: var(--font); font-size: 13px; padding: 8px 14px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t0); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all .12s; width: 100%; }
+  .btn:hover { background: var(--bg-4); border-color: var(--border-h); }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+  .btn-row { display: flex; gap: 6px; }
+  .btn-row .btn { flex: 1; }
+  .btn-ghost { background: none; color: var(--t1); }
+  .btn-ghost:hover { background: var(--bg-2); color: var(--t0); }
+  .btn-green { background: var(--green-bg); border-color: var(--green-bd); color: var(--green); font-weight: 500; }
+  .btn-green:hover { background: #142e1e; border-color: var(--green); }
+  .btn-purple { background: var(--purple-bg); border-color: #3a1a4a; color: var(--purple); font-weight: 500; }
+  .btn-purple:hover { background: #220a34; border-color: var(--purple); }
+
+  /* PUBLISH VIEW */
+  .pub-view { display: none; flex-direction: column; flex: 1; min-height: 0; }
+  .pub-view.active { display: flex; }
+  .pub-scroll { flex: 1; overflow-y: auto; background: var(--bg-0); }
+  .pub-wrap { max-width: 800px; margin: 0 auto; padding: 2.5rem 2rem; }
+  .pub-name { font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--t2); margin-bottom: 1.75rem; }
+  .pub-para { font-size: 15px; line-height: 2; color: var(--t0); margin-bottom: 1.5rem; }
+  .pub-para:last-child { margin-bottom: 0; }
+
+  /* Flags */
+  .f-dup { background: var(--amber-bg); border-bottom: 1.5px solid var(--amber); border-radius: 2px; cursor: help; }
+  .f-contra { background: rgba(248,113,113,.13); border-bottom: 1.5px solid var(--red); border-radius: 2px; cursor: help; }
+
+  .pub-bar { border-top: 1px solid var(--border); background: var(--bg-1); padding: .9rem 1.5rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex-shrink: 0; }
+  .pub-bar .btn { width: auto; }
+  .check-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--t1); }
+  .spinner { width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--purple); border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .flag-legend { display: flex; align-items: center; gap: 14px; margin-left: auto; font-size: 12px; color: var(--t2); flex-shrink: 0; }
+  .leg { display: flex; align-items: center; gap: 5px; }
+  .swatch { width: 14px; height: 3px; border-radius: 1px; }
+  .swatch.d { background: var(--amber); }
+  .swatch.c { background: var(--red); }
+  .ok-msg { color: var(--green); display: flex; align-items: center; gap: 6px; font-size: 13px; }
+
+  /* Toast */
+  .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(8px); background: var(--bg-4); border: 1px solid var(--border-h); color: var(--t0); font-size: 13px; padding: 9px 18px; border-radius: 999px; opacity: 0; transition: all .22s; pointer-events: none; z-index: 999; white-space: nowrap; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-h); }
+  svg.ico { display: inline-block; vertical-align: middle; width: 14px; height: 14px; }
+
+  /* PROGRESS BAR */
+  .progress-wrap { display: flex; align-items: center; gap: 10px; }
+  .progress-label { font-size: 12px; color: var(--t1); white-space: nowrap; font-family: var(--mono); }
+  .progress-label b { color: var(--t0); }
+  .progress-label.done b { color: var(--green); }
+  .progress-track { width: 120px; height: 4px; background: var(--bg-3); border-radius: 999px; overflow: hidden; border: 1px solid var(--border); }
+  .progress-fill { height: 100%; background: var(--green); border-radius: 999px; transition: width 0.4s cubic-bezier(.4,0,.2,1); width: 0%; }
+  .progress-fill.done { background: var(--green); }
+
+  /* CONFETTI CANVAS */
+  #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+
+  /* STATS VIEW */
+  .stats-view { display: none; flex-direction: column; flex: 1; min-height: 0; overflow-y: auto; background: var(--bg-0); }
+  .stats-view.active { display: flex; }
+  .stats-wrap { max-width: 900px; margin: 0 auto; padding: 2rem; width: 100%; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+  .stat-card { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 1.25rem 1.5rem; }
+  .stat-card-val { font-size: 36px; font-weight: 500; font-family: var(--mono); color: var(--t0); line-height: 1; margin-bottom: 6px; }
+  .stat-card-val.green { color: var(--green); }
+  .stat-card-val.amber { color: var(--amber); }
+  .stat-card-val.purple { color: var(--purple); }
+  .stat-card-label { font-size: 12px; color: var(--t2); text-transform: uppercase; letter-spacing: .08em; font-weight: 500; }
+  .stat-card-sub { font-size: 12px; color: var(--t2); margin-top: 4px; }
+
+  .stats-section { margin-bottom: 2rem; }
+  .stats-section-title { font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--t2); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+
+  /* BADGES */
+  .badges-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .badge { display: flex; align-items: center; gap: 10px; background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--r-md); padding: 10px 14px; min-width: 200px; flex: 1; transition: border-color .2s; }
+  .badge.earned { border-color: var(--green-bd); background: var(--green-bg); }
+  .badge.earned .badge-icon { opacity: 1; filter: none; }
+  .badge.earned .badge-name { color: #a7f3c0; }
+  .badge-icon { font-size: 22px; filter: grayscale(1); opacity: .3; transition: all .3s; }
+  .badge-text { flex: 1; }
+  .badge-name { font-size: 13px; font-weight: 500; color: var(--t1); }
+  .badge-desc { font-size: 11px; color: var(--t2); margin-top: 2px; }
+  .badge-new { font-size: 10px; background: var(--green); color: #000; border-radius: 999px; padding: 1px 7px; font-weight: 600; margin-left: auto; animation: pop .4s cubic-bezier(.36,.07,.19,.97); }
+  @keyframes pop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.3)} }
+
+
+  /* CUSTOM SENTENCE INPUT */
+  .custom-wrap { margin-top: 10px; border: 1px dashed var(--border-h); border-radius: var(--r-md); padding: 12px 14px; background: var(--bg-1); }
+  .custom-label { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); margin-bottom: 8px; }
+  .custom-textarea { width: 100%; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r-sm); color: var(--t0); font-family: var(--font); font-size: 13px; line-height: 1.65; padding: 10px 12px; resize: vertical; min-height: 72px; outline: none; transition: border-color .12s; }
+  .custom-textarea:focus { border-color: var(--border-h); }
+  .custom-textarea::placeholder { color: var(--t2); }
+  .custom-row { display: flex; gap: 8px; margin-top: 8px; align-items: flex-start; }
+  .custom-add-btn { font-family: var(--font); font-size: 12px; padding: 7px 14px; border-radius: var(--r-sm); border: 1px solid var(--green-bd); background: var(--green-bg); color: var(--green); cursor: pointer; white-space: nowrap; transition: all .12s; flex-shrink: 0; }
+  .custom-add-btn:hover { border-color: var(--green); background: #142e1e; }
+  .custom-hint { font-size: 11px; color: var(--t2); line-height: 1.5; padding-top: 2px; }
+  .opt.custom { border-style: dashed; border-color: var(--border-h); color: var(--t0); }
+  .opt.custom.sel { border-color: var(--green); border-style: dashed; background: var(--green-bg); color: #a7f3c0; }
+  .opt.custom::before { content: '✏ '; font-size: 11px; opacity: .5; }
+
+  /* SESSION BUTTONS */
+  .session-btns { display: flex; align-items: center; gap: 4px; }
+  .hdr-btn { font-family: var(--font); font-size: 12px; padding: 5px 10px; border-radius: var(--r-sm); border: 1px solid var(--border); background: none; color: var(--t1); cursor: pointer; white-space: nowrap; transition: all .12s; display: flex; align-items: center; gap: 5px; }
+  .hdr-btn:hover { background: var(--bg-2); color: var(--t0); border-color: var(--border-h); }
+  .hdr-btn.import { border-color: var(--green-bd); color: var(--green); }
+  .hdr-btn.import:hover { background: var(--green-bg); border-color: var(--green); }
+
+  /* TIER INDICATORS */
+  .opt.tier-strong { border-left: 3px solid #4ade80; }
+  .opt.tier-average { border-left: 3px solid #fbbf24; }
+  .opt.tier-developing { border-left: 3px solid #f87171; }
+  .opt.tier-strong.sel { border-color: var(--green); border-left-color: #4ade80; }
+  .opt.tier-average.sel { border-color: var(--green); border-left-color: #fbbf24; }
+  .opt.tier-developing.sel { border-color: var(--green); border-left-color: #f87171; }
+  .tier-divider { display: flex; align-items: center; gap: 8px; margin: 8px 0 4px; }
+  .tier-divider-line { flex: 1; height: 1px; background: var(--border); }
+  .tier-divider-label { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; padding: 2px 8px; border-radius: 999px; border: 1px solid; }
+  .tier-divider-label.strong { color: #4ade80; border-color: var(--green-bd); background: var(--green-bg); }
+  .tier-divider-label.average { color: #fbbf24; border-color: #3a2a00; background: #2a1f00; }
+  .tier-divider-label.developing { color: #f87171; border-color: #4a1010; background: #2a1010; }
+  .tier-legend { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .tier-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--t2); }
+  .tier-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+  .tier-dot.strong { background: #4ade80; }
+  .tier-dot.average { background: #fbbf24; }
+  .tier-dot.developing { background: #f87171; }
+
+  /* EDITABLE DRAFT */
+  .out-editable { flex: 1; overflow-y: auto; padding: 1.1rem; min-height: 0; outline: none; font-size: 13.5px; line-height: 1.85; color: var(--t0); caret-color: var(--green); }
+  .out-editable:empty::before { content: attr(data-placeholder); color: var(--t2); font-style: italic; pointer-events: none; }
+  .out-editable.override-active { background: rgba(255,255,255,0.02); }
+  .draft-edit-bar { display: none; align-items: center; justify-content: space-between; padding: 7px 1.1rem; border-top: 1px solid var(--border); background: var(--bg-2); flex-shrink: 0; gap: 8px; }
+  .draft-edit-bar.visible { display: flex; }
+  .draft-edit-label { font-size: 11px; color: var(--t2); }
+  .draft-done-btn { font-family: var(--font); font-size: 12px; font-weight: 500; padding: 5px 16px; border-radius: var(--r-sm); border: 1px solid var(--green-bd); background: var(--green-bg); color: var(--green); cursor: pointer; white-space: nowrap; }
+  .draft-done-btn:hover { border-color: var(--green); background: #142e1e; }
+  .draft-reset-btn { font-family: var(--font); font-size: 11px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); background: none; color: var(--t2); cursor: pointer; white-space: nowrap; }
+  .draft-reset-btn:hover { border-color: var(--border-h); color: var(--t1); }
+  .out-scroll { display: none; } /* replaced by editable div */
+
+  /* CUSTOM TIER SELECTOR */
+  .tier-sel-row { display: flex; gap: 6px; margin-top: 8px; margin-bottom: 2px; }
+  .tier-sel-btn { font-family: var(--font); font-size: 11px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border); background: none; color: var(--t2); cursor: pointer; transition: all .12s; }
+  .tier-sel-btn:hover { border-color: var(--border-h); color: var(--t1); }
+  .tier-sel-btn.active-strong { border-color: var(--green-bd); background: var(--green-bg); color: var(--green); }
+  .tier-sel-btn.active-average { border-color: #3a2a00; background: #2a1f00; color: var(--amber); }
+  .tier-sel-btn.active-developing { border-color: #4a1010; background: #2a1010; color: var(--red); }
+
+  /* CUSTOM SENTENCE DELETE */
+  .opt-custom-wrap { position: relative; display: flex; align-items: stretch; gap: 0; }
+  .opt-custom-wrap .opt { flex: 1; border-radius: var(--r-md) 0 0 var(--r-md); border-right: none; }
+  .opt-custom-wrap .opt.sel { border-right: none; }
+  .opt-delete-btn { flex-shrink: 0; width: 32px; display: flex; align-items: center; justify-content: center; background: var(--bg-1); border: 1px solid var(--border); border-left: none; border-radius: 0 var(--r-md) var(--r-md) 0; cursor: pointer; color: var(--t2); font-size: 14px; transition: all .12s; }
+  .opt-delete-btn:hover { background: var(--red-bg); color: var(--red); border-color: #4a1010; }
+
+  /* SPORT SUB-GROUP DIVIDERS */
+  .sport-divider { display: flex; align-items: center; gap: 8px; margin: 10px 0 4px; }
+  .sport-divider-line { flex: 1; height: 1px; background: var(--border); }
+  .sport-divider-label { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); white-space: nowrap; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+
+  .f-alt { background: rgba(96,165,250,0.13); border-bottom: 1.5px solid var(--blue); border-radius: 2px; cursor: help; }
+  .swatch.a { background: var(--blue); }
+
+  /* API KEY MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 500; display: flex; align-items: center; justify-content: center; }
+  .modal-box { background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-lg); padding: 1.75rem; width: 440px; max-width: 90vw; display: flex; flex-direction: column; gap: 14px; }
+  .modal-title { font-size: 15px; font-weight: 500; color: var(--t0); }
+  .modal-body { font-size: 13px; color: var(--t1); line-height: 1.6; }
+  .modal-body a { color: var(--blue); text-decoration: none; }
+  .modal-body a:hover { text-decoration: underline; }
+  .modal-input { width: 100%; height: 38px; padding: 0 12px; font-size: 13px; font-family: var(--mono); border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--bg-2); color: var(--t0); outline: none; }
+  .modal-input:focus { border-color: var(--border-h); }
+  .modal-note { font-size: 11px; color: var(--t2); line-height: 1.5; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .modal-btn { font-family: var(--font); font-size: 13px; padding: 8px 16px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t0); cursor: pointer; }
+  .modal-btn:hover { background: var(--bg-4); }
+  .modal-btn.primary { background: var(--green-bg); border-color: var(--green-bd); color: var(--green); font-weight: 500; }
+  .modal-btn.primary:hover { background: #142e1e; border-color: var(--green); }
+  .modal-btn.danger { color: var(--red); border-color: #4a1010; background: var(--red-bg); }
+  .modal-btn.danger:hover { border-color: var(--red); }
+
+  /* BADGE NOTIFICATION */
+  .badge-notif { position: fixed; bottom: 4rem; left: 50%; transform: translateX(-50%) translateY(20px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity .35s, transform .35s; display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .badge-notif.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .badge-notif-card { background: var(--bg-1); border: 1px solid var(--green-bd); border-radius: var(--r-lg); padding: 1rem 1.5rem; display: flex; align-items: center; gap: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); min-width: 260px; }
+  .badge-notif-icon { font-size: 32px; line-height: 1; }
+  .badge-notif-text { display: flex; flex-direction: column; gap: 2px; }
+  .badge-notif-label { font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--green); }
+  .badge-notif-name { font-size: 16px; font-weight: 500; color: var(--t0); }
+  .badge-notif-desc { font-size: 12px; color: var(--t2); }
+
+  /* DUPLICATE WORD HIGHLIGHT */
+  mark.dup-word { background: rgba(251,191,36,0.2); color: inherit; border-radius: 2px; padding: 0 2px; border-bottom: 1.5px solid var(--amber); cursor: pointer; position: relative; transition: background .1s, outline .1s; }
+  html.light mark.dup-word { background: rgba(217,119,6,0.12); }
+  mark.dup-word.dup-active { background: rgba(251,191,36,0.55) !important; outline: 2px solid var(--amber); outline-offset: 1px; border-radius: 3px; color: #000; font-weight: 500; }
+  html.light mark.dup-word.dup-active { color: #000; }
+  mark.dup-word.dup-peer { background: rgba(251,191,36,0.38) !important; outline: 1.5px dashed var(--amber); outline-offset: 1px; border-radius: 3px; }
+  /* HOVER TOOLTIP PANEL */
+  .dup-tooltip { position: fixed; background: var(--bg-1); border: 1px solid var(--amber); border-radius: var(--r-md); box-shadow: 0 6px 24px rgba(0,0,0,0.4); z-index: 899; padding: 10px 14px; min-width: 200px; max-width: 300px; pointer-events: auto; }
+  .dup-tooltip-title { font-size: 11px; font-weight: 500; color: var(--amber); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
+  .dup-tooltip-row { font-size: 12px; color: var(--t1); line-height: 1.5; padding: 3px 0; border-top: 1px solid var(--border); display: flex; align-items: baseline; gap: 6px; }
+  .dup-tooltip-row:first-of-type { border-top: none; }
+  .dup-tooltip-word { font-weight: 500; color: var(--t0); min-width: 80px; }
+  .dup-tooltip-ctx { color: var(--t2); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px; }
+  /* SYNONYM DROPDOWN */
+  .syn-dropdown { position: fixed; background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-md); box-shadow: 0 8px 28px rgba(0,0,0,0.45); z-index: 900; width: 340px; overflow: visible; }
+  .syn-tabs { display: flex; border-bottom: 1px solid var(--border); overflow: hidden; border-radius: var(--r-md) var(--r-md) 0 0; }
+  .syn-tab { flex: 1; padding: 8px 6px; font-size: 11.5px; font-family: var(--font); font-weight: 500; color: var(--t2); background: var(--bg-2); border: none; border-right: 1px solid var(--border); cursor: pointer; transition: color .1s, background .1s; white-space: nowrap; text-align: center; overflow: hidden; text-overflow: ellipsis; }
+  .syn-tab:hover { color: var(--t1); }
+  .syn-tab.active { color: var(--t0); background: var(--bg-1); border-bottom: 2px solid var(--amber); }
+  .syn-header { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); padding: 8px 12px 4px; }
+  .syn-loading { padding: 10px 12px; font-size: 13px; color: var(--t1); display: flex; align-items: center; gap: 8px; }
+  .syn-item { display: block; width: 100%; text-align: left; padding: 8px 12px; font-size: 13px; font-family: var(--font); color: var(--t0); background: none; border: none; cursor: pointer; transition: background .1s; }
+  .syn-item:hover { background: var(--bg-2); }
+  .syn-item.already-used { color: var(--t2); font-style: italic; cursor: default; }
+  .syn-item.already-used:hover { background: none; }
+  .syn-none { padding: 8px 12px; font-size: 12px; color: var(--t2); font-style: italic; }
+  .syn-dismiss { display: block; width: 100%; text-align: center; padding: 6px 12px; font-size: 11px; color: var(--t2); background: var(--bg-2); border: none; border-top: 1px solid var(--border); cursor: pointer; font-family: var(--font); }
+  .syn-dismiss:hover { color: var(--t1); }
+  /* Rewrite panel */
+  .syn-rewrite-box { padding: 8px 12px; }
+  .syn-rewrite-text { width: 100%; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r-sm); color: var(--t0); font-family: var(--font); font-size: 12px; line-height: 1.55; padding: 8px 10px; resize: none; min-height: 70px; outline: none; }
+  .syn-rewrite-text:focus { border-color: var(--border-h); }
+  .syn-rewrite-actions { display: flex; gap: 6px; margin-top: 6px; }
+  .syn-rewrite-btn { flex: 1; font-family: var(--font); font-size: 12px; padding: 6px 0; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t0); cursor: pointer; }
+  .syn-rewrite-btn:hover { background: var(--bg-4); }
+  .syn-rewrite-btn.apply { background: var(--green-bg); border-color: var(--green-bd); color: var(--green); }
+  .syn-rewrite-btn.apply:hover { border-color: var(--green); }
+
+  /* SEMESTER TOGGLE */
+  .sem-toggle { display: flex; background: var(--bg-3); border: 1px solid var(--border); border-radius: 999px; padding: 3px; gap: 2px; flex-shrink: 0; }
+  .sem-btn { font-family: var(--font); font-size: 12px; padding: 4px 14px; border-radius: 999px; border: none; background: none; color: var(--t1); cursor: pointer; transition: all .15s; white-space: nowrap; font-weight: 500; }
+  .sem-btn.active.s1 { background: var(--blue-bg); color: var(--blue); }
+  .sem-btn.active.s2 { background: var(--green-bg); color: var(--green); }
+
+  /* S2 MODE BANNER */
+  .s2-banner { background: var(--green-bg); border-bottom: 1px solid var(--green-bd); padding: 7px 1.25rem; display: none; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0; }
+  .s2-banner.visible { display: flex; }
+  .s2-banner-label { font-size: 12px; color: var(--green); font-weight: 500; display: flex; align-items: center; gap: 6px; }
+  .s2-banner-note { font-size: 11px; color: var(--t2); }
+  .s2-rank-btn { font-family: var(--font); font-size: 12px; padding: 5px 14px; border-radius: var(--r-sm); border: 1px solid var(--green-bd); background: var(--green-bg); color: var(--green); cursor: pointer; font-weight: 500; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+  .s2-rank-btn:hover { border-color: var(--green); background: #142e1e; }
+  .s2-rank-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* S1-USED SENTENCES IN BANK */
+  .opt.s1-used { border-left: 3px solid #f87171; background: rgba(248,113,113,0.08); color: var(--t2); cursor: not-allowed; pointer-events: none; }
+  .opt.s1-used:hover { background: rgba(248,113,113,0.08); }
+  html.light .opt.s1-used { background: rgba(220,38,38,0.06); }
+  .s2-rank-label { font-size: 10px; font-family: var(--mono); color: var(--blue); background: var(--blue-bg); border-radius: 999px; padding: 1px 7px; margin-left: 6px; flex-shrink: 0; }
+  .s2-cat-ranked { font-size: 10px; color: var(--green); margin-left: 4px; }
+
+  /* LOCAL SERVER GUIDE MODAL */
+  .guide-step { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .guide-num { width: 22px; height: 22px; border-radius: 50%; background: var(--green-bg); border: 1px solid var(--green-bd); color: var(--green); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .guide-step-text { font-size: 13px; color: var(--t1); line-height: 1.55; }
+  .guide-code { display: flex; align-items: center; gap: 8px; background: var(--bg-0); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 8px 12px; margin-top: 6px; }
+  .guide-code code { font-family: var(--mono); font-size: 12px; color: var(--green); flex: 1; }
+  .guide-copy-btn { font-family: var(--font); font-size: 11px; padding: 3px 10px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t1); cursor: pointer; white-space: nowrap; }
+  .guide-copy-btn:hover { background: var(--bg-4); color: var(--t0); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Comment Builder</div>
+  <div class="sem-toggle">
+    <button class="sem-btn active s1" id="semS1" onclick="setSemester(1)">Semester 1</button>
+    <button class="sem-btn s2" id="semS2" onclick="setSemester(2)">Semester 2</button>
+  </div>
+  <div class="view-toggle">
+    <button class="vbtn active" id="vBuild" onclick="setView('build')">Build</button>
+    <button class="vbtn" id="vPublish" onclick="setView('publish')">Publish</button>
+    <button class="vbtn" id="vStats" onclick="setView('stats')">Stats</button>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel" onclick="editClassSize()" title="Click to change class size" style="cursor:pointer"><b>0</b> / <span id="classTotal">22</span> done ✎</div>
+  </div>
+  <div class="student-pill">
+    <input type="text" id="studentName" placeholder="Student name…" autocomplete="off">
+    <select class="pron-sel" id="pronounSet">
+      <option value="he">He / His</option>
+      <option value="she">She / Her</option>
+    </select>
+    <select class="pron-sel" id="yearSet" title="Student year level">
+      <option value="">Yr</option>
+      <option value="1">Y1</option>
+      <option value="2">Y2</option>
+      <option value="3">Y3</option>
+      <option value="4">Y4</option>
+      <option value="5">Y5</option>
+      <option value="6">Y6</option>
+    </select>
+  </div>
+  <div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+    <div class="theme-toggle-track"><div class="theme-toggle-thumb"></div></div>
+    <span class="theme-toggle-label" id="themeLabel">Dark</span>
+  </div>
+  <div class="session-btns">
+    <button class="hdr-btn" onclick="exportSession()" title="Save all your work to a file">
+      <svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 10V3m0 7l-3-3m3 3l3-3"/><path d="M3 13h10"/></svg>
+      Export session
+    </button>
+    <button class="hdr-btn import" onclick="importSession()" title="Load a previously saved session">
+      <svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6v7m0-7l-3 3m3-3l3 3"/><path d="M3 3h10"/></svg>
+      Import session
+    </button>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- BUILD -->
+  <div class="s2-banner" id="s2Banner">
+  <div class="s2-banner-label">
+    <svg style="width:14px;height:14px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+    Semester 2 mode
+  </div>
+  <div class="s2-banner-note" id="s2BannerNote">S1 sentences are highlighted in red. The bank is ranked by relevance to each student's S1 comment.</div>
+  <div style="display:flex;gap:6px;flex-shrink:0;align-items:center">
+    <button class="s2-rank-btn" id="s2AiRankBtn" onclick="rankForS2AI()" style="display:none" title="Re-rank using AI (requires API key)">
+      <svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5.5 8h5M8 5.5v5"/></svg>
+      AI Re-rank
+    </button>
+  </div>
+</div>
+<div class="build-view" id="buildView">
+    <nav class="sidebar" id="sidebar"></nav>
+    <main class="centre">
+      <div class="c-header">
+        <div class="c-title" id="cTitle"></div>
+        <div class="c-hint">Click to add · click again to remove</div>
+      </div>
+      <div class="opts" id="optsGrid"></div>
+    </main>
+    <aside class="panel">
+      <div class="p-top">
+        <div class="p-head">
+          <div class="p-title">Draft</div>
+          <div class="wc" id="wcBadge">0 / 200</div>
+        </div>
+        <div class="wc-bar-wrap"><div class="wc-bar" id="wcBar"></div></div>
+        <div class="stu-bar" id="stuBar"></div>
+      </div>
+      <div class="out-editable" id="outEditable" contenteditable="true"
+           data-placeholder="Select sentences from the centre to build this student’s comment, or type here directly…"
+           oninput="onDraftInput()" onkeydown="onDraftKeydown(event)"></div>
+      <div class="draft-edit-bar" id="draftEditBar">
+        <button class="draft-reset-btn" onclick="resetDraft()">Reset</button>
+        <div class="draft-edit-label">Editing draft…</div>
+        <button class="draft-done-btn" onclick="doneDraft()">Done ✓</button>
+      </div>
+      <div class="p-actions">
+        <button class="btn btn-green" onclick="setView('publish')">
+          <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 10V3m0 7l-3-3m3 3l3-3"/><path d="M3 13h10"/></svg>
+          Publish comment
+        </button>
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="saveStudent()">
+            <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 5l-4-3H4a1 1 0 00-1 1v9a1 1 0 001 1h8a1 1 0 001-1V5z"/><path d="M9 2v4H5"/><rect x="5" y="9" width="6" height="4" rx=".5"/></svg>
+            Save
+          </button>
+          <button class="btn btn-ghost" onclick="clearCurrent()">
+            <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
+            Clear
+          </button>
+        </div>
+        <button class="btn btn-ghost" onclick="copyDraft()">
+          <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>
+          Copy draft
+        </button>
+        <button class="btn btn-ghost" id="exportBtn" onclick="exportAll()" style="display:none">
+          <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M5 5h6M5 11h3"/></svg>
+          Export all (.txt)
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- PUBLISH -->
+  <div class="pub-view" id="pubView">
+    <div class="pub-scroll">
+      <div class="pub-wrap">
+        <div class="pub-name" id="pubName"></div>
+        <div id="pubContent"></div>
+      </div>
+    </div>
+    <div class="pub-bar">
+      <button class="btn btn-ghost" onclick="setView('build')" style="width:auto">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12L6 8l4-4"/></svg>
+        Back
+      </button>
+      <button class="btn btn-green" onclick="newStudentFromPublish()" style="width:auto">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
+        New student
+      </button>
+      <button class="btn btn-purple" id="checkBtn" onclick="runCheck()" style="width:auto">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5M8 11v.4"/></svg>
+        Check for issues
+      </button>
+      <button class="btn btn-green" onclick="copyPublished()" style="width:auto">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>
+        Copy
+      </button>
+      <button class="btn btn-ghost" onclick="promptApiKey()" style="width:auto;font-size:11px;padding:6px 10px" title="Set API key for Check for Issues">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 1a4 4 0 014 4 4 4 0 01-4 4 4 4 0 01-3.46-2H2l-1 1-1-1 1-1H1V5h1l3.54 0A4 4 0 0111 1z"/><circle cx="12" cy="5" r="1" fill="currentColor" stroke="none"/></svg>
+        API key
+      </button>
+      <div id="checkStatus"></div>
+      <div class="flag-legend" id="flagLegend" style="display:none">
+        <div class="leg"><div class="swatch d"></div><span>Similar idea</span></div>
+        <div class="leg"><div class="swatch c"></div><span>Contradiction</span></div>
+        <div class="leg"><div class="swatch a"></div><span>Alternation</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-view" id="statsView">
+    <div class="stats-wrap">
+
+      <!-- KEY STATS -->
+      <div class="stats-grid" id="statsGrid"></div>
+
+      <!-- BADGES -->
+      <div class="stats-section">
+        <div class="stats-section-title">Badges</div>
+        <div class="badges-grid" id="badgesGrid"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+<div class="modal-overlay" id="localServerModal" style="display:none">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-title">Enable AI Features in Browser</div>
+    <div class="modal-body" style="margin-bottom:4px">
+      When opening the file directly from your computer, browsers block API calls for security reasons.
+      The fix is simple — run a one-line command to serve the file locally.
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">1</div>
+      <div class="guide-step-text">
+        Open <strong>Terminal</strong> (Mac: press ⌘Space, type Terminal) or <strong>Command Prompt</strong> on Windows.
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">2</div>
+      <div class="guide-step-text">
+        Run this command — replace the path with the folder where your file is saved:
+        <div class="guide-code">
+          <code id="serverCmd">python3 -m http.server 8000 --directory ~/Downloads</code>
+          <button class="guide-copy-btn" onclick="copyServerCmd()">Copy</button>
+        </div>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">3</div>
+      <div class="guide-step-text">
+        Open this address in your browser:
+        <div class="guide-code">
+          <code>http://localhost:8000/report-comment-builder.html</code>
+          <button class="guide-copy-btn" onclick="navigator.clipboard.writeText('http://localhost:8000/report-comment-builder.html').then(()=>showToast('Copied!'))">Copy</button>
+        </div>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">4</div>
+      <div class="guide-step-text">Your session data carries over automatically — all comments, students and progress will be there.</div>
+    </div>
+    <div class="modal-note" style="margin-top:4px">Leave Terminal running while you use the app. Close it when you're done for the day.</div>
+    <div class="modal-actions" style="margin-top:8px">
+      <button class="modal-btn" onclick="document.getElementById('localServerModal').style.display='none'">Got it</button>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="apiKeyModal" style="display:none">
+  <div class="modal-box">
+    <div class="modal-title">API Key Required</div>
+    <div class="modal-body">
+      To use <strong>Check for Issues</strong> outside of Claude.ai, you need a free Anthropic API key.<br><br>
+      Get one at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key.
+    </div>
+    <input class="modal-input" id="apiKeyInput" type="password" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
+    <div class="modal-note">Your key is stored locally in this browser only and never sent anywhere except directly to Anthropic's API.</div>
+    <div class="modal-actions">
+      <button class="modal-btn danger" onclick="clearApiKey()">Clear saved key</button>
+      <button class="modal-btn" onclick="closeApiModal()">Cancel</button>
+      <button class="modal-btn primary" onclick="saveApiKey()">Save & Check</button>
+    </div>
+  </div>
+</div>
+
+<div class="badge-notif" id="badgeNotif">
+  <div class="badge-notif-card">
+    <div class="badge-notif-icon" id="badgeNotifIcon"></div>
+    <div class="badge-notif-text">
+      <div class="badge-notif-label">Badge Unlocked!</div>
+      <div class="badge-notif-name" id="badgeNotifName"></div>
+      <div class="badge-notif-desc" id="badgeNotifDesc"></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="dup-tooltip" id="dupTooltip" style="display:none"></div>
+<div class="syn-dropdown" id="synDropdown" style="display:none">
+  <div class="syn-tabs">
+    <button class="syn-tab active" id="synTabSyn" onclick="switchSynTab('synonyms')">Synonyms</button>
+    <button class="syn-tab" id="synTabRew" onclick="switchSynTab('rewrite')">Rewrite ✏</button>
+  </div>
+  <div id="synPanel">
+    <div id="synList"></div>
+  </div>
+  <button class="syn-dismiss" onclick="closeSynDropdown()">Dismiss</button>
+</div>
+<canvas id="confetti-canvas"></canvas>
+<div class="toast" id="toast"></div>
+
+<script>
+const PR = {
+  he:   { S:'He',   s:'he',   O:'Him',  o:'him',  Pos:'His',  pos:'his',  r:'himself'    },
+  she:  { S:'She',  s:'she',  O:'Her',  o:'her',  Pos:'Her',  pos:'her',  r:'herself'    },
+  they: { S:'They', s:'they', O:'Them', o:'them', Pos:'Their',pos:'their',r:'themselves' }
+};
+
+const RAW = {
+  "Personality": [
+    // Most positive / strong / distinctive first, graduating to developing/conditional
+    "{{N}} is an enthusiastic and curious student whose enquiring mind results in active classroom participation.",
+    "{{N}} is a confident and ambitious student who is eager to learn and develop {{pos}} understanding across all areas.",
+    "{{N}} is a courteous, thoughtful and considerate student who has developed positive friendships this semester.",
+    "{{N}} is a kind and caring student who consistently shows genuine care for {{pos}} friends and classmates.",
+    "{{N}} is a positive student who enters the classroom each morning with a smile.",
+    "{{N}} is cheerful and consistently demonstrates an enthusiastic attitude towards learning and classroom activities.",
+    "{{N}} is a thoughtful student who displays a positive attitude to school and regularly shows genuine care for {{pos}} friends.",
+    "{{N}} is a sensible and respectful student who consistently makes thoughtful and positive behaviour choices in the classroom.",
+    "{{N}} is well-mannered and kind, engaging in all learning experiences with a willingness to increase {{pos}} knowledge.",
+    "{{N}} is a kind and responsible student who consistently demonstrates Ambarvale All Star behaviour.",
+    "{{N}} is a polite and energetic member of our class.",
+    "{{N}} enters the classroom each day with a smile and ready to face new experiences.",
+    "{{N}} approaches school life with a positive attitude and demonstrates resilience when faced with challenges.",
+    "{{N}} is a well-mannered and independent learner who is popular with {{pos}} peers due to {{pos}} good sense of fun.",
+    "{{N}} is a quiet and hard-working student who attempts to complete challenges independently.",
+    "{{N}} displays a positive attitude towards school, showing an interest in all learning areas.",
+    "{{N}} is a capable student who finds success in tasks when {{s}} is determined and displays a growth mindset.",
+    "{{N}} produces a pleasing standard of work when {{s}} is focused and motivated.",
+    "{{N}} is learning to manage challenges and is having success in the classroom with teacher support.",
+  ],
+  "Effort & Work Habits": [
+    "{{S}} displays an excellent attitude towards learning, demonstrating genuine curiosity and eagerness to explore new concepts.",
+    "{{S}} takes ownership of {{pos}} learning and displays a genuine desire to succeed, bringing enthusiasm to class each day.",
+    "{{S}} is a conscientious student who has a love of learning and a desire to strengthen {{pos}} knowledge and skills.",
+    "{{S}} is driven by a hard-working attitude and strives to reach {{pos}} full potential across all learning areas.",
+    "{{N}} is diligent and consistently demonstrates a strong work ethic across all learning areas.",
+    "{{S}} displays a growth mindset, showing determination when facing challenging tasks or learning new concepts.",
+    "{{N}} demonstrates a strong commitment to learning and strives to achieve {{pos}} personal best in all subjects.",
+    "{{N}} consistently demonstrates a strong work ethic and takes pride in all aspects of {{pos}} learning.",
+    "{{S}} perseveres and shows dedication to learning across all subjects, always striving to achieve {{pos}} personal best.",
+    "{{S}} is attentive and shows great focus in all subjects, striving to achieve {{pos}} personal best.",
+    "{{N}} has a mature and positive attitude to learning and applies {{r}} diligently to all class tasks.",
+    "{{S}} listens carefully to instructions and uses feedback to improve the quality of {{pos}} work.",
+    "{{N}} consistently demonstrates persistence when acquiring new skills and thoughtfully refines techniques to enhance performance.",
+    "{{S}} demonstrates a positive attitude towards learning and applies {{r}} to tasks to the best of {{pos}} ability.",
+    "{{S}} usually maintains focus and commitment to {{pos}} learning across most learning areas.",
+    "{{S}} makes a genuine effort in all subjects, usually displaying a growth mindset when {{s}} experiences difficulties.",
+    "{{S}} is striving to become an independent learner, which is resulting in improved work habits.",
+    "{{S}} often requires reminders to stay on task and complete {{pos}} work in an appropriate timeframe.",
+    "{{S}} is beginning to work productively during independent work, however can be easily distracted during lessons.",
+    "{{S}} requires all instructions to be short and explicit, and benefits from step-by-step guidance to begin tasks.",
+  ],
+  "Communication & Collaboration": [
+    "{{S}} communicates with confidence and clarity and is an active participant in class discussions.",
+    "{{S}} analyses information thoughtfully and justifies {{pos}} opinions with evidence.",
+    "{{N}} expresses {{pos}} views clearly, which contributes to collaborative work and enriches the learning experience.",
+    "{{N}} is expressive and shares thoughts clearly during class discussions.",
+    "{{N}} communicates constructively with classmates during group activities, contributing to a positive learning environment.",
+    "{{S}} contributes thoughtfully during discussions and builds positive relationships with classmates.",
+    "{{S}} is collaborative in nature, working well with peers and often taking the lead in group activities.",
+    "{{S}} works cooperatively in groups, sharing resources and listening to the ideas of others.",
+    "{{S}} listens attentively during class discussions, contributing {{pos}} own thoughts and ideas when prompted.",
+    "{{N}} is an attentive listener who is becoming more confident in contributing to class discussions.",
+    "{{N}} is developing the confidence to clearly communicate {{pos}} ideas during class activities.",
+    "I would now like to see {{o}} take a more active role in class discussions as {{s}} has many valuable insights to share.",
+  ],
+  "Social Skills": [
+    "{{N}} is a generous and kind friend who is willing to share {{pos}} time with peers and can brighten anyone's day.",
+    "{{N}} is well-liked by {{pos}} peers and demonstrates a caring and considerate nature towards others.",
+    "{{N}} is sociable and builds strong relationships, making the classroom a welcoming and friendly place.",
+    "{{S}} is friendly and builds strong relationships with classmates, creating a welcoming and inclusive classroom environment.",
+    "{{N}} helps others feel valued and included in group activities, often offering assistance and encouragement.",
+    "{{S}} is considerate, building strong relationships and fostering a supportive atmosphere where everyone feels valued.",
+    "{{N}} is respected by {{pos}} peers, consistently showing a kind-hearted nature.",
+    "{{N}} builds positive relationships with classmates and contributes to a friendly and inclusive classroom environment.",
+    "{{N}} is approachable and maintains a respectful demeanour, contributing positively to the classroom atmosphere.",
+    "{{N}} always shows kindness, courtesy, and consideration towards others.",
+    "{{S}} treats peers and teachers with respect and consideration.",
+    "{{N}} uses effective social skills in the playground to build positive relationships with {{pos}} peers and resolves minor conflicts calmly.",
+    "{{S}} shows respect for both classmates and teachers, helping to create a calm and productive classroom environment.",
+    "{{N}} is well-liked and consistently contributes to a respectful classroom atmosphere.",
+    "{{N}} participates in structured activities during break times, gaining confidence to interact with {{pos}} peers in the playground.",
+    "{{N}} is developing appropriate social skills and is learning to handle disagreements respectfully.",
+    "{{N}} is developing {{pos}} ability to communicate how {{s}} is feeling to peers and staff to improve {{pos}} emotional regulation.",
+  ],
+  "Leadership": [
+    "{{N}} is a confident natural leader who inspires classmates and leads by example.",
+    "As school captain, {{s}} excels in leadership roles and inspires peers by setting a positive example.",
+    "As a house captain, {{N}} diligently fulfils {{pos}} leadership responsibilities.",
+    "As vice-captain, {{N}} has diligently fulfilled {{pos}} leadership responsibilities.",
+    "{{N}} plays an active role in the Student Representative Council, completing {{pos}} responsibilities diligently and setting a strong example for others.",
+    "{{N}} is a valuable member of the Student Representative Council, where {{s}} diligently completes {{pos}} responsibilities.",
+    "{{N}} was elected by {{pos}} peers to represent the class on the Student Representative Council.",
+    "{{N}} embodies leadership qualities in {{pos}} role as a school prefect.",
+    "{{N}} takes on leadership roles in group activities, ensuring tasks are completed efficiently and supporting others as needed.",
+    "{{S}} accepts leadership roles in group tasks, ensuring that peers are included.",
+    "{{N}} is a responsible student who takes on leadership roles in group activities.",
+    "{{N}} demonstrates leadership qualities that inspire classmates in {{pos}} learning.",
+    "{{N}} is a role model to others and leads by example.",
+    "{{N}} shows initiative in the classroom, taking pride in helping with the daily routine and setting a positive example.",
+  ],
+  "Independence": [
+    "{{N}} displays a high level of independence, approaching tasks with confidence and persistence.",
+    "{{N}} is capable and works independently on tasks, demonstrating confidence and initiative in managing responsibilities.",
+    "{{S}} is self-motivated and works well independently, consistently completing required tasks to the best of {{pos}} ability.",
+    "{{N}} works productively in both independent and group situations, diligently staying on task.",
+    "{{N}} works independently and manages tasks effectively.",
+    "{{N}} demonstrates independence when completing tasks and takes pride in achieving personal goals.",
+    "{{N}} follows class routines each day, demonstrating independence and responsibility in managing tasks effectively.",
+    "{{N}} consistently organises {{pos}} work carefully.",
+    "{{S}} begins tasks without prompting and generally stays focused until completion.",
+    "{{N}} is developing independence in using technology to complete research and classwork.",
+    "{{N}} is capable of working independently and benefits from occasional reminders to take care when completing tasks.",
+    "{{N}} is productive during independent work, however often requires reminders to stay on task and complete work in an appropriate timeframe.",
+    "{{N}} is developing the confidence to request assistance while working independently or in a small group.",
+    "{{S}} is learning to refrain from talking to {{pos}} friends at inappropriate times.",
+  ],
+  "Attendance": [
+    "{{N}}'s improved attendance this semester has given {{o}} increased opportunities to further develop {{pos}} knowledge and skills.",
+    "Due to a high number of partial and full absences, {{n}} has missed several important learning opportunities this semester.",
+    "Due to the high number of partial and full absences, {{N}} has missed out on crucial learning opportunities this semester.",
+    "The high number of absences this semester has impacted {{pos}} learning and {{s}} is encouraged to attend school regularly and on time.",
+  ],
+  "Below Expectations": [
+    "{{N}} is working significantly below stage expectations, yet consistently tries {{pos}} best.",
+    "Whilst {{n}} is working significantly below stage expectations, {{s}} consistently puts in {{pos}} best effort.",
+    "{{S}} is working significantly below stage expectations and is building {{pos}} skills at a Year [X] level.",
+    "{{N}} demonstrates resilience and is able to complete more challenging tasks with support.",
+    "{{N}} is always willing to listen and applies teacher feedback to improve the quality of {{pos}} work.",
+    "{{N}} requires all learning tasks to be broken into small, achievable parts.",
+    "{{S}} requires support to complete classwork and benefits from close guidance.",
+    "{{N}} is building {{pos}} confidence in {{pos}} learning and needs assistance to meet stage expectations.",
+    "{{N}} benefits from occasional reminders to take care when completing tasks.",
+    "Significant teacher support and encouragement is required for {{n}} to be successful in the classroom.",
+  ],
+  "Semester KLAs": [
+    "{{N}} has shown strong engagement in Science and Technology this semester, engaging in activities and research on weather and climate, the body's major organ systems and how to design and conduct scientific experiments.",
+    "{{N}} has shown strong interest in History this semester where {{s}} has developed their understanding of how and why Australia became a nation and the influences that significant individuals and migrant groups have had on Australian society.",
+    "{{N}} has shown strong enthusiasm and creativity in Creative Arts this semester, exploring how the elements of Dance and Music can be used to express emotion and communicate ideas across a range of cultural contexts.",
+    "{{N}} has shown strong engagement in Health this semester, developing an understanding of personal identity, the factors that influence health choices and strategies to support {{pos}} own wellbeing.",
+    "{{N}} has participated positively in Physical Education this semester, demonstrating fair play, inclusive behaviour and a willingness to engage in a range of games and physical activities from diverse cultural backgrounds.",
+  ],
+  "Interests & Passions": [
+    "{{S}} approaches Creative Arts with enthusiasm, applying techniques learnt to elevate the quality and craft of {{pos}} work.",
+    "{{N}} has a passion for dance, demonstrating enthusiasm by listening to instructions intently and executing sequences accurately.",
+    "{{N}} is an active participant in the Aboriginal and Torres Strait Islander cultural program and is a valued member for {{pos}} contributions.",
+    "{{N}} demonstrates a strong interest in Visual Arts and confidently explores line, colour, and shape in creative ways.",
+    "{{N}} has a keen interest in working with technology, which enables {{o}} to explore new ideas and develop skills.",
+    "{{N}} enjoys working on the computer, demonstrating confidence in navigating digital tools and completing learning tasks.",
+    "{{S}} approaches art lessons with enthusiasm and creativity, drawing inspiration from famous artists around the world.",
+    "In Physical Education, {{n}} works well with others in groups and teams by encouraging {{pos}} classmates and sharing responsibilities.",
+    "{{N}} shows a keen interest in Science, particularly in exploring how the properties of materials influence their use in everyday products.",
+    "{{N}} uses techniques such as blending and shading with watercolours and oil pastels to enhance artistic effect.",
+  ],
+  "Sport & Extracurricular": [
+    // General
+    "{{N}} excels in Physical Education, using {{pos}} abilities to compete alongside {{pos}} peers and consistently displaying excellent sportsmanship.",
+    "{{N}} enthusiastically participates in sport, displaying a strong ability to compete in games alongside {{pos}} peers.",
+    // Cross Country
+    "{{N}} represented the school at the Zone Cross Country carnival, demonstrating commitment and school pride.",
+    "{{N}} competed in zone cross country and in the touch football knockout team, representing Ambarvale Public School with pride.",
+    "{{N}} competed in zone representative teams, consistently displaying excellent sportsmanship and teamwork.",
+    // Touch Football
+    "{{N}} represented the school as a member of the touch football knockout team, demonstrating commitment and school pride.",
+    "{{N}} participated in knockout touch football, displaying teamwork while representing the school positively.",
+    "{{S}} competes in netball and touch football knockout teams, demonstrating good sportsmanship and representing the school with pride.",
+    // Soccer & Cricket
+    "{{N}} represented the school as a member of the soccer knockout team, demonstrating commitment and school pride.",
+    "{{S}} participates in soccer and cricket gala days, displaying good sportsmanship and teamwork.",
+    // Tiger Tag & Gala Days
+    "{{S}} participated enthusiastically in tiger tag and touch football gala day teams, consistently displaying excellent sportsmanship and teamwork.",
+    // Dance, Cheer & Gymnastics
+    "{{N}} passionately participates in the dance and cheer group, showcasing talent and enthusiasm for performance.",
+    "{{N}} enjoys participating in gymnastics and cheer groups during break times.",
+    "{{N}} enjoys participating in dance and cheer groups during break times.",
+    // Choir & Cultural
+    "{{N}} enjoys participating in the choir during break times, which allows for the development of social skills with like-minded peers.",
+    "{{N}} participates in our cultural program, which strengthens {{pos}} connection with Aboriginal culture.",
+  ],
+  "EAL/D": [
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Beginning phase. To support {{pos}} English language development, {{s}} has received targeted withdrawal sessions to expand {{pos}} growing vocabulary. {{N}} has improved in {{pos}} ability to contribute ideas during group discussions.",
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. To support {{pos}} English language development, {{s}} has engaged in additional modelling and guided practice activities. This support has helped {{n}} use more concise vocabulary in {{pos}} writing.",
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. To support {{pos}} English language learning, {{s}} has benefited from modelling and guided practice activities. These strategies have led to greater confidence in speaking and expressing ideas clearly in both verbal and written forms.",
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. To support {{pos}} English language development, {{s}} has engaged in additional modelling and guided practice activities. {{N}} has gained greater confidence in speaking and expressing ideas more clearly in discussions.",
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. {{S}} has benefited from modelling and guided practice activities, which have supported {{pos}} language development. {{N}} has shown increased confidence when articulating ideas and is using a wider vocabulary.",
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. To support {{pos}} English language development, {{s}} has participated in peer interaction activities that promote language development. This support has led to a noticeable improvement in the vocabulary {{s}} uses during conversations.",
+  ],
+  "Closing Statement": [
+    "{{N}} has demonstrated outstanding effort this semester. I congratulate {{o}} on {{pos}} progress and look forward to seeing {{pos}} continued growth in Semester 2.",
+    "{{N}} has shown excellent commitment this semester. {{S}} has been a joy to teach, and I look forward to seeing {{o}} continue to grow and embrace new opportunities in Semester 2.",
+    "{{S}} has shown excellent dedication this semester. I look forward to supporting {{n}}'s continued growth and success in Semester 2.",
+    "It has been rewarding to witness {{N}}'s growth and development. I look forward to seeing {{pos}} continued success and progress next semester!",
+    "{{N}} has shown a pleasing dedication to {{pos}} studies. {{S}} has been a pleasure to teach this semester. I encourage {{N}} to continue giving {{pos}} best in Semester 2.",
+    "{{N}} has made a valuable contribution to our class, and I look forward to teaching {{o}} in Semester 2.",
+    "It has been a pleasure to teach {{N}}, and I look forward to a successful Semester 2.",
+    "{{S}} has been a joy to teach, and I hope {{N}} continues to embrace new opportunities with enthusiasm in Semester 2!",
+    "I have enjoyed getting to know {{N}} and look forward to teaching {{o}} in Semester 2.",
+    "{{N}} is to be congratulated on a great start to Stage 3. I look forward to seeing {{pos}} learning progress throughout the remainder of the year.",
+    "{{N}} is to be commended for a successful start to the year. I look forward to observing {{pos}} continued development and achievements.",
+    "{{N}} has shown commitment throughout the semester. I look forward to teaching {{o}} in Semester 2!",
+    "I look forward to seeing {{pos}} continued growth and success next semester!",
+    "I commend {{N}} on a successful semester and look forward to seeing further academic and social growth this year.",
+  ]
+};
+
+const CATS = Object.keys(RAW);
+
+// Category paragraph grouping for Publish view
+// Matches structure of approved comments:
+// Para 1: Character / personality / effort / social / communication / leadership / independence / below expectations / attendance
+// Para 2: Subject KLA sentences (Science, History, Creative Arts, PDHPE, PE, other interests)
+// Para 3: EAL/D (own paragraph when present)
+// Para 4: Sport & extracurricular (own paragraph)
+// Para 5: Closing statement (always own paragraph)
+const PARA_GROUPS = [
+  ["Personality", "Effort & Work Habits", "Communication & Collaboration", "Social Skills", "Leadership", "Independence", "Attendance", "Below Expectations"],
+  ["Semester KLAs"],
+  ["Interests & Passions", "Sport & Extracurricular"],
+  ["EAL/D"],
+  ["Closing Statement"],
+];
+
+// Build lookup: raw sentence → its category
+const SENT_CAT = {};
+CATS.forEach(cat => RAW[cat].forEach(s => { SENT_CAT[s] = cat; }));
+
+// ── STATE ─────────────────────────────────────────────────────────
+let currentView = 'build';
+let currentSemester = 1;
+let currentTab = CATS[0];
+let students = [{ name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [] }];
+let currentIdx = 0;
+
+const cur = () => students[currentIdx];
+const getName = () => document.getElementById('studentName').value.trim() || '[Name]';
+const getPron = () => PR[document.getElementById('pronounSet').value];
+
+// ── APPLY PLACEHOLDERS ────────────────────────────────────────────
+function getYear() { return document.getElementById('yearSet') ? document.getElementById('yearSet').value : ''; }
+
+function applyRaw(text, name, p, year) {
+  const n = name || '[Name]';
+  const yr = year !== undefined ? year : getYear();
+  const yearLabel = yr ? 'Year ' + yr : 'Year [X]';
+  return text
+    .replace(/\{\{N\}\}/g, n)
+    .replace(/\{\{n\}\}/g, n[0].toLowerCase() + n.slice(1))
+    .replace(/\{\{S\}\}/g, p.S).replace(/\{\{s\}\}/g, p.s)
+    .replace(/\{\{O\}\}/g, p.O).replace(/\{\{o\}\}/g, p.o)
+    .replace(/\{\{Pos\}\}/g, p.Pos).replace(/\{\{pos\}\}/g, p.pos)
+    .replace(/\{\{r\}\}/g, p.r)
+    .replace(/Year \[X\]/g, yearLabel);
+}
+// applyFC: apply placeholders to a sentence as it would appear in the draft.
+// If the sentence is already selected, use its actual position in cur().ordered.
+// If not yet selected, it would be added at position cur().ordered.length (0-based),
+// which is sentence number (length + 1). Odd positions (1st, 3rd...) use the name,
+// even positions (2nd, 4th...) use the subject pronoun.
+function applyFC(raw, existingKey) {
+  const name = getName() || '[Name]';
+  const p = getPron();
+  // Determine which position this sentence would occupy
+  let position; // 1-based
+  if (existingKey !== undefined) {
+    // Already in ordered — find its actual position
+    const idx = cur().ordered.indexOf(existingKey);
+    position = idx === -1 ? cur().ordered.length + 1 : idx + 1;
+  } else {
+    // Not yet selected — would be added next
+    position = cur().ordered.length + 1;
+  }
+  const useNameOpener = position % 2 === 1; // odd = name, even = pronoun
+
+  // Only swap the OPENER token (first {{N}} or {{S}} in the sentence)
+  // All subsequent tokens in the same sentence apply normally
+  const startsN = raw.startsWith('{{N}}');
+  const startsS = raw.startsWith('{{S}}');
+
+  if (startsN || startsS) {
+    if (useNameOpener) {
+      // Force name opener
+      const forced = startsS ? raw.replace(/^\{\{S\}\}/, '{{N}}') : raw;
+      return applyRaw(forced, name, p);
+    } else {
+      // Force pronoun opener
+      const forced = startsN ? raw.replace(/^\{\{N\}\}/, '{{S}}') : raw;
+      return applyRaw(forced, name, p);
+    }
+  }
+  // Sentence doesn't start with name/pronoun — apply as-is
+  return applyRaw(raw, name, p);
+}
+
+// ── STRICT GLOBAL ALTERNATION ─────────────────────────────────────
+// Every sentence that begins with the student's name or subject pronoun
+// strictly alternates Name → Pronoun → Name → Pronoun… across the
+// entire comment (not per paragraph). A single shared counter is passed
+// in so the alternation carries across paragraph boundaries.
+// Sentences that don't start with {{N}} or {{S}} (e.g. "In Science,…"
+// or "I would now like to…") are rendered as-is and do NOT advance the counter.
+function applyAlternation(raw, name, p, counter, year) {
+  const startsN = raw.startsWith('{{N}}');
+  const startsS = raw.startsWith('{{S}}');
+  if (startsN || startsS) {
+    const useName = counter.value % 2 === 0;
+    counter.value++;
+    if (useName) {
+      const forced = startsS ? raw.replace(/^\{\{S\}\}/, '{{N}}') : raw;
+      return applyRaw(forced, name, p, year);
+    } else {
+      const forced = startsN ? raw.replace(/^\{\{N\}\}/, '{{S}}') : raw;
+      return applyRaw(forced, name, p, year);
+    }
+  }
+  return applyRaw(raw, name, p, year);
+}
+
+// ── PUBLISHED TEXT ────────────────────────────────────────────────
+function buildParas(stu) {
+  const name = stu.name || '[Name]';
+  const p = PR[stu.pronoun];
+  const yr = stu.year || '';
+  const ordered = stu.ordered;
+  if (!ordered.length) return [];
+
+  // Shared counter across ALL paragraphs so alternation is global
+  const counter = { value: 0 };
+
+  const paras = [];
+  PARA_GROUPS.forEach(group => {
+    const sents = ordered.filter(s => {
+      if (s.startsWith('__custom__')) {
+        const parts = s.split('__');
+        const cat = parts.slice(2, parts.length - 1).join('__');
+        // Edited drafts are treated as a full comment — put in first para group
+        if (cat === '__edited__') return group === PARA_GROUPS[0];
+        return group.includes(cat);
+      }
+      return group.includes(SENT_CAT[s]);
+    });
+    if (sents.length) {
+      paras.push(sents.map(s => applyAlternation(resolveKey(s, stu), name, p, counter, yr)));
+    }
+  });
+  const known = new Set(PARA_GROUPS.flat());
+  const other = ordered.filter(s => !known.has(SENT_CAT[s]));
+  if (other.length) paras.push(other.map(s => applyAlternation(resolveKey(s, stu), name, p, counter, yr)));
+  return paras;
+}
+
+function getPublishedText(stu) {
+  if (stu.draftOverride) return stu.draftOverride;
+
+  const name = stu.name || '[Name]';
+  const p = PR[stu.pronoun];
+  const yr = stu.year || '';
+
+  if (!stu.editedCat || !stu.custom || !stu.custom['__edited__'] || !stu.custom['__edited__'][0]) {
+    // No edit — build paragraphs normally with proper alternation
+    return buildParas(stu).map(para => para.join(' ')).join('\n\n');
+  }
+
+  // There is an edited draft. Build paragraphs with the edited text in the correct position.
+  // Use orderedAtDone (the snapshot taken when Done was clicked) for pre-edit sentences,
+  // and orderedAfterEdit for sentences added after Done — this prevents duplicates.
+
+  const editedGroupIdx = PARA_GROUPS.findIndex(g => g.includes(stu.editedCat));
+  const atDone = new Set(stu.orderedAtDone || []);
+  const postEdit = stu.orderedAfterEdit || [];
+  const counter = { value: 0 };
+
+  function inGroup(s, group) {
+    if (s.startsWith('__custom__')) {
+      const parts = s.split('__');
+      const cat = parts.slice(2, parts.length - 1).join('__');
+      if (cat === '__edited__') return false;
+      return group.includes(cat);
+    }
+    return group.includes(SENT_CAT[s]);
+  }
+
+  // Count name/pronoun openers in a text block to advance the counter correctly
+  function advanceCounterForText(text) {
+    // Count sentences starting with name or pronoun by splitting on sentence boundaries
+    const sentences = text.match(/[^.!?]+[.!?]+\s*/g) || [text];
+    sentences.forEach(s => {
+      const t = s.trim();
+      if (t.match(/^(He|She|They|[A-Z][a-z]+)\b/)) counter.value++;
+    });
+  }
+
+  const paras = [];
+
+  PARA_GROUPS.forEach((group, gi) => {
+    if (gi === editedGroupIdx) {
+      // This group uses the edited text verbatim
+      const editedText = stu.custom['__edited__'][0];
+      const paraSents = [editedText];
+      // Advance counter for the edited text so subsequent paragraphs alternate correctly
+      advanceCounterForText(editedText);
+      // Append any post-edit sentences belonging to this group
+      postEdit.filter(s => inGroup(s, group)).forEach(s => {
+        paraSents.push(applyAlternation(resolveKey(s, stu), name, p, counter));
+      });
+      paras.push(paraSents);
+    } else {
+      // Use only sentences from orderedAtDone for this group (prevents duplicates)
+      // Plus any post-edit sentences for this group
+      const preEditSents = Array.from(atDone).filter(s => inGroup(s, group));
+      const postEditSents = postEdit.filter(s => inGroup(s, group));
+      const allSents = [...preEditSents, ...postEditSents.filter(s => !atDone.has(s))];
+      if (allSents.length) {
+        paras.push(allSents.map(s => applyAlternation(resolveKey(s, stu), name, p, counter, yr)));
+      }
+    }
+  });
+
+  return paras.filter(p => p.length).map(para => para.join(' ')).join('\n\n');
+}
+
+// ── RENDER: BUILD ─────────────────────────────────────────────────
+
+// ── SEMESTER 2 ────────────────────────────────────────────────────
+function setSemester(n) {
+  saveCur();
+  if (n === 2 && currentSemester === 1) {
+    // Switching TO S2 — snapshot S1 state for all students, load S2 state (blank)
+    students.forEach(stu => {
+      if (!stu.s1Ordered) {
+        stu.s1Comment  = getPublishedText(stu) || buildDraftTextForStu(stu);
+        stu.s1Ordered  = (stu.ordered  || []).slice();
+        stu.s1Selected = JSON.parse(JSON.stringify(stu.selected || {}));
+      }
+    });
+    // Load S2 state for current student (blank if first time)
+    cur().ordered          = cur().s2Ordered        || [];
+    cur().selected         = cur().s2Selected       || {};
+    cur().draftOverride    = cur().s2DraftOverride  || null;
+    cur().editedCat        = cur().s2EditedCat      || null;
+    cur().orderedAfterEdit = cur().s2OrderedAfterEdit || [];
+    cur().orderedAtDone    = cur().s2OrderedAtDone  || [];
+  }
+  if (n === 1 && currentSemester === 2) {
+    // Switching TO S1 — save S2 state, restore S1 state
+    cur().s2Ordered          = (cur().ordered          || []).slice();
+    cur().s2Selected         = JSON.parse(JSON.stringify(cur().selected || {}));
+    cur().s2DraftOverride    = cur().draftOverride  || null;
+    cur().s2EditedCat        = cur().editedCat      || null;
+    cur().s2OrderedAfterEdit = (cur().orderedAfterEdit || []).slice();
+    cur().s2OrderedAtDone    = (cur().orderedAtDone    || []).slice();
+    // Restore S1
+    cur().ordered          = (cur().s1Ordered  || []).slice();
+    cur().selected         = JSON.parse(JSON.stringify(cur().s1Selected || {}));
+    cur().draftOverride    = null;
+    cur().editedCat        = null;
+    cur().orderedAfterEdit = [];
+    cur().orderedAtDone    = [];
+  }
+
+  currentSemester = n;
+  document.getElementById('semS1').className = 'sem-btn' + (n === 1 ? ' active s1' : '');
+  document.getElementById('semS2').className = 'sem-btn' + (n === 2 ? ' active s2' : '');
+  document.getElementById('s2Banner').className = n === 2 ? 's2-banner visible' : 's2-banner';
+  lsSet('rcb_semester', n);
+  render();
+  if (n === 2 && !cur().s2RankOrder) rankForS2();
+}
+
+// Helper: get category for a sentence key
+function catForKey(key) {
+  if (key.startsWith('__custom__')) {
+    const parts = key.split('__');
+    return parts.slice(2, parts.length - 1).join('__');
+  }
+  return SENT_CAT[key] || null;
+}
+
+// Helper: build draft text for any student (not just cur())
+function buildDraftTextForStu(stu) {
+  const name = stu.name || '[Name]';
+  const p = PR[stu.pronoun];
+  const yr = stu.year || '';
+  const counter = { value: 0 };
+  return (stu.ordered || []).map(s => applyAlternation(resolveKey(s, stu), name, p, counter, yr)).join(' ');
+}
+
+// Get S1-used sentence keys for a student
+function getS1UsedKeys(stu) {
+  return new Set(stu.s1Ordered || []);
+}
+
+// Rank sentences for S2 using AI
+// ── S2 RANKING HELPERS ───────────────────────────────────────────
+const RANK_STOPWORDS = new Set([
+  'a','an','the','and','or','but','in','on','at','to','for','of','with','by',
+  'from','is','are','was','were','has','have','had','be','been','this','that',
+  'he','she','his','her','him','they','their','them','it','its','as','all',
+  'each','every','any','some','such','when','where','who','which','while',
+  'not','so','yet','can','will','just','also','often','well','do','does',
+  'would','could','should','may','might','must','very','own','same','than',
+]);
+
+function getWords(text) {
+  return (text.toLowerCase().match(/\b[a-z]{3,}\b/g) || [])
+    .filter(w => !RANK_STOPWORDS.has(w));
+}
+
+// Score a candidate sentence against the S1 comment:
+//   + bonus for NEW words not in S1 (introduces fresh ideas)
+//   - penalty for REPEATED words already in S1 (duplicates themes)
+// Returns a score where higher = better S2 candidate
+function scoreS2Sentence(candidateText, s1Words) {
+  const cWords = getWords(candidateText);
+  if (!cWords.length) return 0;
+  let score = 0;
+  const seen = new Set();
+  cWords.forEach(w => {
+    if (seen.has(w)) return;
+    seen.add(w);
+    // Word appears in S1 — penalise (repeating themes)
+    if (s1Words.has(w)) score -= 2;
+    // Word is new — reward (fresh idea)
+    else score += 1;
+  });
+  // Normalise by word count
+  return score / cWords.length;
+}
+
+// Default: instant word-overlap ranking (no API needed)
+function rankForS2() {
+  const stu = cur();
+  const s1Text = stu.s1Comment;
+  const note = document.getElementById('s2BannerNote');
+
+  if (!s1Text || !s1Text.trim()) {
+    showToast('No S1 comment found — build a S1 comment first, then switch to S2.');
+    return;
+  }
+
+  const s1Words = new Set(getWords(s1Text));
+  const s1Keys = getS1UsedKeys(stu);
+
+  // Build per-category rank orders
+  const rankOrder = {};
+  CATS.forEach(cat => {
+    const eligible = (RAW[cat] || [])
+      .map((s, i) => {
+        const applied = applyRaw(s, stu.name || 'Student', PR[stu.pronoun], stu.year || '');
+        return { key: s, idx: i, score: scoreS2Sentence(applied, s1Words) };
+      })
+      .filter(item => !s1Keys.has(item.key))
+      .sort((a, b) => b.score - a.score);
+
+    rankOrder[cat] = eligible.map((item, rank) => ({ key: item.key, rank }));
+  });
+
+  stu.s2RankOrder = rankOrder;
+  autoSave();
+
+  // Show AI Re-rank button as an upgrade option
+  const aiBtn = document.getElementById('s2AiRankBtn');
+  if (aiBtn) aiBtn.style.display = 'flex';
+  note.textContent = 'Bank ranked by word novelty. Red sentences were used in S1. For smarter AI ranking, click AI Re-rank (requires API key).';
+  render();
+}
+
+// Optional upgrade: AI-powered ranking
+async function rankForS2AI() {
+  const stu = cur();
+  const s1Text = stu.s1Comment;
+  if (!s1Text || !s1Text.trim()) {
+    showToast('No S1 comment found — build a S1 comment first.');
+    return;
+  }
+
+  const btn = document.getElementById('s2AiRankBtn');
+  const note = document.getElementById('s2BannerNote');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="width:12px;height:12px;border-top-color:var(--green)"></div> Ranking…';
+  note.textContent = 'AI is analysing the S1 comment and ranking alternatives…';
+
+  if (!getApiKey()) { promptApiKey(); btn.disabled = false; btn.innerHTML = '<svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5.5 8h5M8 5.5v5"/></svg> AI Re-rank'; return; }
+
+  const s1Keys = getS1UsedKeys(stu);
+  const sentenceList = [];
+  CATS.forEach(cat => {
+    (RAW[cat] || []).forEach((s, i) => {
+      if (!s1Keys.has(s)) {
+        const applied = applyRaw(s, stu.name || 'Student', PR[stu.pronoun], stu.year || '');
+        sentenceList.push({ cat, idx: i, key: s, text: applied });
+      }
+    });
+  });
+
+  try {
+    const prompt = `You are helping a primary school teacher write Semester 2 student report comments that logically follow on from Semester 1.
+
+Semester 1 comment:
+"${s1Text}"
+
+Rank the following sentences from most to least appropriate for Semester 2 — prioritising sentences that show growth from S1, introduce new themes, or complement S1 without repeating it.
+
+Return ONLY a JSON array of IDs in ranked order: [0,1,2,...]
+
+Sentences:
+${sentenceList.slice(0, 80).map((item, i) => `${i}: ${item.text}`).join('\n')}`;
+
+    const res = await anthropicFetch({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] });
+
+    if (!res.ok) throw new Error('API ' + res.status);
+    const data = await res.json();
+    const raw = (data.content?.find(b => b.type === 'text')?.text || '[]').replace(/```json|```/g, '').trim();
+    const ranked = JSON.parse(raw);
+
+    const rankOrder = {};
+    ranked.forEach((eligibleIdx, rank) => {
+      const item = sentenceList[eligibleIdx];
+      if (!item) return;
+      if (!rankOrder[item.cat]) rankOrder[item.cat] = [];
+      rankOrder[item.cat].push({ key: item.key, rank });
+    });
+    stu.s2RankOrder = rankOrder;
+    autoSave();
+
+    btn.disabled = false;
+    btn.innerHTML = '<svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5.5 8h5M8 5.5v5"/></svg> AI Re-rank';
+    note.textContent = 'Bank ranked by AI. Red = used in S1. Click AI Re-rank to refresh for this student.';
+    render();
+  } catch(e) {
+    btn.disabled = false;
+    btn.innerHTML = '<svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5.5 8h5M8 5.5v5"/></svg> AI Re-rank';
+    if (e.message === 'CORS_FILE') { note.textContent = 'AI ranking needs local server.'; showLocalServerGuide(); }
+    else { note.textContent = 'AI ranking failed. Using word-overlap ranking instead.'; }
+    rankForS2(); // Fall back to word overlap
+  }
+}
+
+function render() {
+  autoSave();
+  renderSidebar();
+  renderOpts();
+  renderOut();
+  renderStuBar();
+}
+
+function renderSidebar() {
+  const el = document.getElementById('sidebar');
+  el.innerHTML = '<div class="s-label">Categories</div>';
+  CATS.forEach((cat, i) => {
+    // Dividers mark paragraph boundaries in the published comment:
+    // Para 1: Personality → Below Expectations | Para 2: Semester KLAs
+    // Para 3: Interests & Sport | Para 4: EAL/D | Para 5: Closing
+    const dividerBefore = new Set(['Semester KLAs', 'Sport & Extracurricular', 'EAL/D', 'Closing Statement']);
+    if (dividerBefore.has(cat)) { const d = document.createElement('div'); d.className = 'cat-div'; el.appendChild(d); }
+    const count = (cur().selected[cat] || []).length;
+    // If draft has been edited, show amber ✎ badge alongside the normal count
+    // for every category that has selections
+    const isEditedCat = cur().editedCat === cat;
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (cat === currentTab ? ' active' : '') + (count ? ' has-sel' : '');
+    let badgeHtml = '';
+    const catRanked = currentSemester === 2 && cur().s2RankOrder && cur().s2RankOrder[cat];
+    if (isEditedCat && count > 0) {
+      badgeHtml = `<span class="cat-count edited">${count} ✎</span>`;
+    } else if (count > 0) {
+      badgeHtml = `<span class="cat-count">${count}${catRanked ? ' ↕' : ''}</span>`;
+    }
+    btn.innerHTML = `<span class="cat-name">${cat}</span>${badgeHtml}`;
+    btn.onclick = () => { currentTab = cat; render(); };
+    el.appendChild(btn);
+  });
+}
+
+
+// Sport sub-group labels for the Sport & Extracurricular category
+// Format: [{ label, from, to }] where from/to are sentence indices (inclusive)
+const SPORT_GROUPS = [
+  { label: 'General',                  from: 0,  to: 1  },
+  { label: 'Cross Country',            from: 2,  to: 4  },
+  { label: 'Touch Football',           from: 5,  to: 7  },
+  { label: 'Soccer & Cricket',         from: 8,  to: 9  },
+  { label: 'Tiger Tag & Gala Days',    from: 10, to: 10 },
+  { label: 'Dance, Cheer & Gymnastics',from: 11, to: 13 },
+  { label: 'Choir & Cultural',         from: 14, to: 15 },
+];
+const TIER_BOUNDARIES = {
+  'Personality': { average: 14, developing: 17 },
+  'Effort & Work Habits': { average: 13, developing: 16 },
+  'Communication & Collaboration': { average: 8, developing: 11 },
+  'Social Skills': { average: 11, developing: 14 },
+  'Leadership': { average: 10, developing: null },
+  'Independence': { average: 8, developing: 10 },
+  'Semester KLAs': { average: null, developing: null },
+  'Interests & Passions': { average: null, developing: null },
+  'Sport & Extracurricular': { average: null, developing: null },
+  'EAL/D': { average: null, developing: null },
+  'Below Expectations': { average: 3, developing: 6 },
+  'Attendance': { average: 1, developing: 2 },
+  'Closing Statement': { average: 6, developing: null },
+};
+
+function renderOpts() {
+  document.getElementById('cTitle').textContent = currentTab;
+  const grid = document.getElementById('optsGrid');
+  grid.innerHTML = '';
+
+  // Custom input box — at the top
+  const wrap = document.createElement('div');
+  wrap.className = 'custom-wrap';
+  wrap.innerHTML = `
+    <div class="custom-label">Write your own sentence</div>
+    <textarea class="custom-textarea" id="customInput" placeholder="Type a custom sentence… Use {{First-name}}, {{He-she}}, {{His-her}}, {{him-her}} as placeholders."></textarea>
+    <div class="tier-sel-row">
+      <button class="tier-sel-btn active-strong" id="tierBtnStrong" onclick="setCustomTier('strong')">Positive</button>
+      <button class="tier-sel-btn" id="tierBtnAverage" onclick="setCustomTier('average')">Average</button>
+      <button class="tier-sel-btn" id="tierBtnDeveloping" onclick="setCustomTier('developing')">Developing</button>
+    </div>
+    <div class="custom-row">
+      <button class="custom-add-btn" onclick="addCustomSentence()">+ Add to comment</button>
+      <div class="custom-hint">Use {{First-name}}, {{He-she}}, {{His-her}}, {{him-her}} as placeholders.</div>
+    </div>`;
+  grid.appendChild(wrap);
+
+  // Custom sentences already added for this category — grouped by tier
+  const customs = (cur().custom || {})[currentTab] || [];
+  const customTiers = (cur().customTiers || {})[currentTab] || [];
+  // Group custom sentences into tiers so they appear under the right divider
+  // We store them as objects and render them inline when we hit the right tier divider
+
+  // Helper: inject a tier divider
+  function addDivider(tier, label) {
+    const div = document.createElement('div');
+    div.className = 'tier-divider';
+    div.innerHTML = `<div class="tier-divider-line"></div><span class="tier-divider-label ${tier}">${label}</span><div class="tier-divider-line"></div>`;
+    grid.appendChild(div);
+  }
+
+  // Pre-approved sentences with tier colouring and dividers
+  const bounds = TIER_BOUNDARIES[currentTab] || { average: null, developing: null };
+  const isS2 = currentSemester === 2;
+  const s1Keys = isS2 ? getS1UsedKeys(cur()) : new Set();
+  const rankOrder = isS2 && cur().s2RankOrder && cur().s2RankOrder[currentTab]
+    ? cur().s2RankOrder[currentTab] : null;
+
+  // Build sentence list as objects { s, origIdx } so we can always look up
+  // the ORIGINAL RAW index for correct tier assignment regardless of S2 reordering
+  let rawSentences = RAW[currentTab] || [];
+  // Wrap each sentence with its original index
+  let sentenceObjs = rawSentences.map((s, origIdx) => ({ s, origIdx }));
+
+  if (isS2 && rankOrder) {
+    // S1-used sentences go to TOP (as reference), then ranked S2 suggestions, then unranked
+    const rankMap = {};
+    rankOrder.forEach(({ key, rank }) => { rankMap[key] = rank; });
+    const used = sentenceObjs.filter(o => s1Keys.has(o.s));
+    const ranked = sentenceObjs
+      .filter(o => !s1Keys.has(o.s) && rankMap[o.s] !== undefined)
+      .sort((a, b) => rankMap[a.s] - rankMap[b.s]);
+    const unranked = sentenceObjs.filter(o => !s1Keys.has(o.s) && rankMap[o.s] === undefined);
+    sentenceObjs = [...used, ...ranked, ...unranked];
+  } else if (isS2) {
+    // S1-used at top, rest below
+    const used = sentenceObjs.filter(o => s1Keys.has(o.s));
+    const notUsed = sentenceObjs.filter(o => !s1Keys.has(o.s));
+    sentenceObjs = [...used, ...notUsed];
+  }
+
+  // Tier is always based on ORIGINAL index in RAW, not display position
+  function tierFor(origIdx) {
+    if (bounds.average === null) return 'strong';
+    if (origIdx < bounds.average) return 'strong';
+    if (bounds.developing === null || origIdx < bounds.developing) return 'average';
+    return 'developing';
+  }
+
+  let lastTier = null;
+  const tierLabels = { strong: 'Positive', average: 'Average', developing: 'Developing' };
+  const allTiers = ['strong', 'average', 'developing'];
+
+  // Build a map of custom sentences by tier for interleaving
+  const customsByTier = { strong: [], average: [], developing: [] };
+  customs.forEach((s, i) => {
+    const t = customTiers[i] || 'strong';
+    customsByTier[t].push({ s, i });
+  });
+
+  // Track which tiers have been rendered so we know when to inject custom sentences
+  const renderedTiers = new Set();
+
+  function renderCustomsForTier(tier) {
+    customsByTier[tier].forEach(({ s, i }) => {
+      const key = '__custom__' + currentTab + '__' + i;
+      const isSel = (cur().selected[currentTab] || []).includes(key);
+      const wrap = document.createElement('div');
+      wrap.className = 'opt-custom-wrap';
+      const btn = document.createElement('button');
+      btn.className = 'opt custom tier-' + tier + (isSel ? ' sel' : '');
+      btn.textContent = isSel ? applyFC(s, key) : applyFC(s);
+      btn.onclick = () => toggleCustomOpt(currentTab, i);
+      const delBtn = document.createElement('button');
+      delBtn.className = 'opt-delete-btn';
+      delBtn.title = 'Remove from bank';
+      delBtn.innerHTML = '&times;';
+      delBtn.onclick = (e) => { e.stopPropagation(); deleteCustomSentence(currentTab, i); };
+      wrap.appendChild(btn);
+      wrap.appendChild(delBtn);
+      grid.appendChild(wrap);
+    });
+  }
+
+  // Sport sub-group divider helper
+  function addSportDivider(label) {
+    const div = document.createElement('div');
+    div.className = 'sport-divider';
+    div.innerHTML = `<div class="sport-divider-line"></div><span class="sport-divider-label">${label}</span><div class="sport-divider-line"></div>`;
+    grid.appendChild(div);
+  }
+
+  const isSportCat = currentTab === 'Sport & Extracurricular';
+  let currentSportGroup = -1;
+
+  sentenceObjs.forEach(({ s, origIdx }, displayIdx) => {
+    const tier = tierFor(origIdx); // always use original index for tier
+    if (tier !== lastTier) {
+      if (lastTier && !renderedTiers.has(lastTier)) {
+        renderCustomsForTier(lastTier);
+        renderedTiers.add(lastTier);
+      }
+      if (!isSportCat) addDivider(tier, tierLabels[tier]);
+      lastTier = tier;
+    }
+    // Inject sport sub-group divider if needed (use origIdx for group lookup)
+    if (isSportCat) {
+      const groupIdx = SPORT_GROUPS.findIndex(g => origIdx >= g.from && origIdx <= g.to);
+      if (groupIdx !== currentSportGroup) {
+        currentSportGroup = groupIdx;
+        if (groupIdx !== -1) addSportDivider(SPORT_GROUPS[groupIdx].label);
+      }
+    }
+    const isSel = (cur().selected[currentTab] || []).includes(s);
+    const isS1Used = isS2 && s1Keys.has(s);
+    const btn = document.createElement('button');
+    btn.className = 'opt tier-' + tier + (isSel ? ' sel' : '') + (isS1Used ? ' s1-used' : '');
+    btn.textContent = isSel ? applyFC(s, s) : applyFC(s);
+    if (!isS1Used) btn.onclick = () => toggleOpt(currentTab, s);
+    if (isS1Used) btn.title = 'Used in Semester 1';
+    grid.appendChild(btn);
+  });
+
+  // After all pre-approved sentences, render custom sentences for the last tier
+  if (lastTier && !renderedTiers.has(lastTier)) {
+    renderCustomsForTier(lastTier);
+    renderedTiers.add(lastTier);
+  }
+  // Render any tiers that had no pre-approved sentences at all
+  allTiers.forEach(tier => {
+    if (!renderedTiers.has(tier) && customsByTier[tier].length > 0) {
+      addDivider(tier, tierLabels[tier]);
+      renderCustomsForTier(tier);
+      renderedTiers.add(tier);
+    }
+  });
+}
+
+function buildDraftText() {
+  const name = cur().name || '[Name]';
+  const p = PR[cur().pronoun];
+  const yr = cur().year || '';
+  const counter = { value: 0 };
+
+  if (cur().editedCat && cur().custom && cur().custom['__edited__'] && cur().custom['__edited__'][0]) {
+    const editedText = cur().custom['__edited__'][0];
+    const postEditKeys = cur().orderedAfterEdit || [];
+    if (postEditKeys.length === 0) return editedText;
+    // Advance counter for sentences in the edited text so post-edit sentences alternate correctly
+    const editSentences = editedText.match(/[^.!?]+[.!?]+\s*/g) || [editedText];
+    editSentences.forEach(s => {
+      if (s.trim().match(/^(He|She|They|[A-Z][a-z]+)\b/)) counter.value++;
+    });
+    const postText = postEditKeys.map(s => applyAlternation(resolveKey(s, cur()), name, p, counter, yr)).join(' ');
+    return editedText + ' ' + postText;
+  }
+
+  return cur().ordered.map(s => applyAlternation(resolveKey(s, cur()), name, p, counter, yr)).join(' ');
+}
+
+function updateWc(text) {
+  const badge = document.getElementById('wcBadge');
+  const bar = document.getElementById('wcBar');
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  badge.textContent = words + ' / 200';
+  badge.className = words > 200 ? 'wc over' : 'wc';
+  bar.style.width = Math.min(100, words / 2) + '%';
+  bar.className = words > 200 ? 'wc-bar over' : 'wc-bar';
+}
+
+function renderOut() {
+  const el = document.getElementById('outEditable');
+  const editBar = document.getElementById('draftEditBar');
+  const hasOverride = cur().draftOverride !== null && cur().draftOverride !== undefined;
+
+  if (hasOverride) {
+    // Only skip update if user is actively typing in the box
+    if (document.activeElement !== el) {
+      el.innerText = cur().draftOverride;
+      updateWc(cur().draftOverride);
+    }
+  } else {
+    // No override — always update from selections, even if box is focused
+    const text = buildDraftText();
+    el.innerText = text;
+    updateWc(text);
+  }
+
+  editBar.className = hasOverride ? 'draft-edit-bar visible' : 'draft-edit-bar';
+}
+
+function onDraftInput() {
+  const el = document.getElementById('outEditable');
+  const text = el.innerText;
+  cur().draftOverride = text || null;
+  updateWc(text);
+  const editBar = document.getElementById('draftEditBar');
+  editBar.className = cur().draftOverride ? 'draft-edit-bar visible' : 'draft-edit-bar';
+  autoSave();
+}
+
+function onDraftKeydown(e) {
+  // Prevent Enter adding a <div> — use a space instead
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.execCommand('insertText', false, ' ');
+  }
+}
+
+function doneDraft() {
+  const el = document.getElementById('outEditable');
+  const editedText = el.innerText.trim();
+  if (editedText) {
+    if (!cur().custom) cur().custom = {};
+    cur().custom['__edited__'] = [editedText];
+    cur().editedCat = currentTab;
+    // Snapshot which sentences were selected at the time of Done
+    cur().orderedAtDone = cur().ordered.slice();
+    // New sentences selected after Done go into this separate list
+    cur().orderedAfterEdit = [];
+  }
+  cur().draftOverride = null;
+  el.blur();
+  render();
+  autoSave();
+  showToast('Done!');
+}
+
+function resetDraft() {
+  cur().draftOverride = null;
+  cur().editedCat = null;
+  cur().orderedAfterEdit = [];
+  cur().orderedAtDone = [];
+  if (cur().custom) delete cur().custom['__edited__'];
+  const el = document.getElementById('outEditable');
+  el.blur();
+  render();
+  autoSave();
+  showToast('Reset to sentence selections.');
+}
+
+function renderStuBar() {
+  const bar = document.getElementById('stuBar');
+  bar.innerHTML = '';
+  students.forEach((stu, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'stu-chip' + (i === currentIdx ? ' active' : '') + (stu.published ? ' pub' : '');
+    chip.innerHTML = `<span onclick="switchStu(${i})">${stu.name || ('Student ' + (i+1))}</span>`;
+    if (students.length > 1) {
+      const rm = document.createElement('button');
+      rm.className = 'rm-stu'; rm.textContent = '×';
+      rm.onclick = e => { e.stopPropagation(); removeStu(i); };
+      chip.appendChild(rm);
+    }
+    bar.appendChild(chip);
+  });
+  const add = document.createElement('button');
+  add.className = 'add-stu'; add.textContent = '+ New student'; add.onclick = addStu;
+  bar.appendChild(add);
+  document.getElementById('exportBtn').style.display =
+    (students.length > 1 || cur().ordered.length) ? '' : 'none';
+}
+
+// ── RENDER: PUBLISH ───────────────────────────────────────────────
+// Auto-fix name/pronoun alternation in a block of text.
+// Returns { text, fixes } where fixes is an array of sentences that were corrected.
+function fixAlternation(text, name, p) {
+  if (!text || !text.trim()) return { text, fixes: [] };
+  // Split into sentences
+  const sentenceRegex = /[^.!?]+[.!?]+\s*/g;
+  const sentences = [];
+  let match;
+  while ((match = sentenceRegex.exec(text)) !== null) sentences.push(match[0]);
+  if (!sentences.length) return { text, fixes: [] };
+
+  const fixes = [];
+  let counter = 0; // 0=even→name, 1=odd→pronoun
+  const fixed = sentences.map(sent => {
+    const trimmed = sent.trim();
+    // Detect opener type
+    const namePattern = new RegExp('^' + escapeRegex(name) + '\\b', 'i');
+    const pronounPattern = new RegExp('^(' + [p.S, p.s].join('|') + ')\\b');
+    const isNameOpener = namePattern.test(trimmed);
+    const isPronounOpener = pronounPattern.test(trimmed) && !isNameOpener;
+
+    if (isNameOpener || isPronounOpener) {
+      const shouldUseName = counter % 2 === 0;
+      counter++;
+      if (shouldUseName && isPronounOpener) {
+        // Should be name but is pronoun — swap first word to name
+        const corrected = trimmed.replace(/^(He|She|They)\b/, name);
+        if (corrected !== trimmed) fixes.push({ original: trimmed, corrected });
+        return corrected + (sent.endsWith(' ') ? ' ' : '');
+      } else if (!shouldUseName && isNameOpener) {
+        // Should be pronoun but is name — swap name to subject pronoun
+        const corrected = trimmed.replace(new RegExp('^' + escapeRegex(name) + '\\b', 'i'), p.S);
+        if (corrected !== trimmed) fixes.push({ original: trimmed, corrected });
+        return corrected + (sent.endsWith(' ') ? ' ' : '');
+      }
+    }
+    return sent;
+  });
+
+  return { text: fixed.join(''), fixes };
+}
+
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function renderPublish() {
+  const stu = cur();
+  const name = stu.name || '[Name]';
+  const p = PR[stu.pronoun];
+  document.getElementById('pubName').textContent = `${name} — Semester 1 2026`;
+  document.getElementById('checkStatus').innerHTML = '';
+  document.getElementById('flagLegend').style.display = 'none';
+  document.getElementById('checkBtn').disabled = false;
+
+  let publishedText = getPublishedText(stu);
+  const content = document.getElementById('pubContent');
+  if (!publishedText || !publishedText.trim()) {
+    content.innerHTML = '<p style="color:var(--t2);font-style:italic;font-size:14px">No sentences selected. Go back and build the comment first.</p>';
+    return;
+  }
+
+  // Auto-fix alternation per paragraph
+  const paragraphs = publishedText.split(/\n\n/).filter(p => p.trim());
+  const allFixes = [];
+  const fixedParas = paragraphs.map(para => {
+    const { text: fixed, fixes } = fixAlternation(para, name, p);
+    allFixes.push(...fixes);
+    return fixed;
+  });
+
+  // Show a subtle notice if fixes were applied
+  if (allFixes.length) {
+    document.getElementById('checkStatus').innerHTML =
+      `<span style="font-size:12px;color:var(--blue)">✓ ${allFixes.length} alternation error${allFixes.length > 1 ? 's' : ''} auto-corrected</span>`;
+  }
+
+  content.innerHTML = fixedParas.map((para, pi) => {
+    const sentences = para.match(/[^.!?]+[.!?]+\s*/g) || [para];
+    return `<p class="pub-para">${sentences.map((s, si) =>
+      `<span data-pi="${pi}" data-si="${si}">${s.trim()}</span>`
+    ).join(' ')}</p>`;
+  }).join('');
+
+  const wasPublished = stu.published;
+  stu.published = true;
+  renderStuBar();
+  if (!wasPublished) touchStreak();
+  updateProgress();
+  if (!wasPublished) launchConfetti();
+  // Auto-highlight repeated meaningful words
+  requestAnimationFrame(highlightDuplicateWords);
+}
+
+// ── AI CHECK ─────────────────────────────────────────────────────
+// ── API KEY MANAGEMENT ───────────────────────────────────────────
+function getApiKey() { return lsGet('rcb_apikey', ''); }
+function storeApiKey(k) { lsSet('rcb_apikey', k); }
+
+let _pendingCheck = false;
+
+function closeApiModal() {
+  document.getElementById('apiKeyModal').style.display = 'none';
+  _pendingCheck = false;
+  document.getElementById('checkBtn').disabled = false;
+}
+
+function saveApiKey() {
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if (!val.startsWith('sk-ant-')) {
+    showToast('Key should start with sk-ant-');
+    return;
+  }
+  storeApiKey(val);
+  document.getElementById('apiKeyModal').style.display = 'none';
+  if (_pendingCheck) { _pendingCheck = false; runCheck(); }
+}
+
+function clearApiKey() {
+  storeApiKey('');
+  document.getElementById('apiKeyInput').value = '';
+  showToast('API key cleared.');
+}
+
+function promptApiKey() {
+  const existing = getApiKey();
+  document.getElementById('apiKeyInput').value = existing;
+  document.getElementById('apiKeyModal').style.display = 'flex';
+}
+
+async function runCheck() {
+  const text = getPublishedText(cur());
+  if (!text.trim()) { showToast('Nothing to check.'); return; }
+
+  const btn = document.getElementById('checkBtn');
+  const status = document.getElementById('checkStatus');
+  btn.disabled = true;
+  document.querySelectorAll('#pubContent span').forEach(s => { s.className = ''; s.title = ''; s.innerHTML = s.textContent; });
+  document.getElementById('flagLegend').style.display = 'none';
+  status.innerHTML = '<div class="check-status"><div class="spinner"></div><span>Analysing comment…</span></div>';
+
+  try {
+    const res = await anthropicFetch({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `You are a school report comment reviewer for a primary school teacher. Carefully read the following student report comment and identify any:
+1. SIMILAR sentences — two sentences that express the same idea, even if worded differently
+2. CONTRADICTIONS — two sentences that say conflicting things (e.g. works independently vs needs support)
+3. ALTERNATION errors — two consecutive sentences where the subject opener is the same (both start with the student's name, or both start with a pronoun like He/She/They). Each sentence should alternate: name → pronoun → name → pronoun.
+
+Return ONLY valid JSON, no markdown, no explanation:
+{"issues":[{"type":"similar"|"contradiction"|"alternation","sentences":["exact text of sentence 1","exact text of sentence 2"],"reason":"brief label max 8 words"}]}
+
+If no issues found, return: {"issues":[]}
+
+Comment:
+${text}`
+        }]
+      });
+
+    if (res.status === 401 || res.status === 403) {
+      btn.disabled = false;
+      status.innerHTML = '';
+      _pendingCheck = true;
+      promptApiKey();
+      return;
+    }
+
+    const data = await res.json();
+    const raw = (data.content?.find(b => b.type === 'text')?.text || '{"issues":[]}').replace(/```json|```/g, '').trim();
+    const result = JSON.parse(raw);
+    btn.disabled = false;
+    if (!result.issues?.length) {
+      status.innerHTML = '<div class="ok-msg"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l3 3 7-7"/></svg> No issues found</div>';
+    } else {
+      applyFlags(result.issues);
+      status.innerHTML = `<span style="font-size:13px;color:var(--t1)">${result.issues.length} issue${result.issues.length > 1 ? 's' : ''} flagged</span>`;
+      document.getElementById('flagLegend').style.display = 'flex';
+    }
+    requestAnimationFrame(highlightDuplicateWords);
+  } catch(e) {
+    btn.disabled = false;
+    // If no key stored, prompt rather than showing a generic error
+    if (e.message === 'CORS_FILE') {
+      btn.disabled = false;
+      status.innerHTML = '';
+      showLocalServerGuide();
+    } else if (!getApiKey()) {
+      _pendingCheck = true;
+      promptApiKey();
+    } else {
+      status.innerHTML = '<span style="font-size:13px;color:var(--red)">Check failed — try again</span>';
+    }
+  }
+}
+
+function applyFlags(issues) {
+  const allSpans = Array.from(document.querySelectorAll('#pubContent span[data-si]'));
+  issues.forEach(issue => {
+    const cls = issue.type === 'contradiction' ? 'f-contra' : issue.type === 'alternation' ? 'f-alt' : 'f-dup';
+    const prefix = issue.type === 'contradiction' ? '⚠ Contradiction: ' : issue.type === 'alternation' ? '↕ Alternation: ' : '≈ Similar: ';
+    issue.sentences.forEach(target => {
+      const trimmed = target.trim();
+      allSpans.forEach(span => {
+        if (span.textContent.trim() === trimmed ||
+            (trimmed.length > 20 && span.textContent.includes(trimmed.slice(0, 30)))) {
+          span.className = cls;
+          span.title = prefix + issue.reason;
+        }
+      });
+    });
+  });
+}
+
+// ── VIEW ─────────────────────────────────────────────────────────
+function setView(v) {
+  saveCur();
+  currentView = v;
+  document.getElementById('buildView').classList.toggle('hidden', v !== 'build');
+  document.getElementById('pubView').classList.toggle('active', v === 'publish');
+  document.getElementById('statsView').classList.toggle('active', v === 'stats');
+  document.getElementById('vBuild').classList.toggle('active', v === 'build');
+  document.getElementById('vPublish').classList.toggle('active', v === 'publish');
+  document.getElementById('vStats').classList.toggle('active', v === 'stats');
+  if (v === 'publish') renderPublish();
+  if (v === 'stats') renderStats();
+}
+
+// ── INTERACTIONS ──────────────────────────────────────────────────
+function toggleOpt(cat, s) {
+  if (!cur().selected[cat]) cur().selected[cat] = [];
+  const idx = cur().selected[cat].indexOf(s);
+  if (idx === -1) {
+    cur().selected[cat].push(s);
+    cur().ordered.push(s);
+    // If in post-edit mode, also track in orderedAfterEdit
+    if (cur().editedCat) {
+      if (!cur().orderedAfterEdit) cur().orderedAfterEdit = [];
+      cur().orderedAfterEdit.push(s);
+    }
+  } else {
+    cur().selected[cat].splice(idx, 1);
+    const oi = cur().ordered.indexOf(s);
+    if (oi !== -1) cur().ordered.splice(oi, 1);
+    // Also remove from post-edit list if present
+    if (cur().orderedAfterEdit) {
+      const pi = cur().orderedAfterEdit.indexOf(s);
+      if (pi !== -1) cur().orderedAfterEdit.splice(pi, 1);
+    }
+  }
+  cur().published = false;
+  render();
+}
+
+let _customTierSelected = 'strong';
+
+function setCustomTier(tier) {
+  _customTierSelected = tier;
+  ['strong','average','developing'].forEach(t => {
+    const btn = document.getElementById('tierBtn' + t.charAt(0).toUpperCase() + t.slice(1));
+    if (btn) btn.className = 'tier-sel-btn' + (t === tier ? ' active-' + t : '');
+  });
+}
+
+function addCustomSentence() {
+  const ta = document.getElementById('customInput');
+  if (!ta) return;
+  const text = ta.value.trim();
+  if (!text) { showToast('Please type a sentence first.'); return; }
+  if (!cur().custom) cur().custom = {};
+  if (!cur().customTiers) cur().customTiers = {};
+  if (!cur().custom[currentTab]) cur().custom[currentTab] = [];
+  if (!cur().customTiers[currentTab]) cur().customTiers[currentTab] = [];
+  cur().custom[currentTab].push(text);
+  cur().customTiers[currentTab].push(_customTierSelected);
+  const key = '__custom__' + currentTab + '__' + (cur().custom[currentTab].length - 1);
+  if (!cur().selected[currentTab]) cur().selected[currentTab] = [];
+  cur().selected[currentTab].push(key);
+  cur().ordered.push(key);
+  cur().published = false;
+  ta.value = '';
+  render();
+}
+
+function toggleCustomOpt(cat, idx) {
+  const key = '__custom__' + cat + '__' + idx;
+  if (!cur().selected[cat]) cur().selected[cat] = [];
+  const si = cur().selected[cat].indexOf(key);
+  if (si === -1) {
+    cur().selected[cat].push(key);
+    cur().ordered.push(key);
+    if (cur().editedCat) {
+      if (!cur().orderedAfterEdit) cur().orderedAfterEdit = [];
+      cur().orderedAfterEdit.push(key);
+    }
+  } else {
+    cur().selected[cat].splice(si, 1);
+    const oi = cur().ordered.indexOf(key);
+    if (oi !== -1) cur().ordered.splice(oi, 1);
+    if (cur().orderedAfterEdit) {
+      const pi = cur().orderedAfterEdit.indexOf(key);
+      if (pi !== -1) cur().orderedAfterEdit.splice(pi, 1);
+    }
+  }
+  cur().published = false;
+  render();
+}
+
+function deleteCustomSentence(cat, idx) {
+  const key = '__custom__' + cat + '__' + idx;
+  if (!cur().custom || !cur().custom[cat]) return;
+
+  // Remove from selected and ordered (and orderedAfterEdit)
+  if (cur().selected[cat]) cur().selected[cat] = cur().selected[cat].filter(k => k !== key);
+  cur().ordered = cur().ordered.filter(k => k !== key);
+  if (cur().orderedAfterEdit) cur().orderedAfterEdit = cur().orderedAfterEdit.filter(k => k !== key);
+
+  // Remove from custom array and customTiers — splice so indices stay consistent
+  // We null the entry rather than splice to preserve other indices in ordered/selected
+  cur().custom[cat][idx] = null;
+  if (cur().customTiers && cur().customTiers[cat]) cur().customTiers[cat][idx] = null;
+
+  // Re-index: rebuild keys in selected/ordered to match the new array
+  // Instead of re-indexing (complex), we filter out nulls and remap keys
+  const oldTexts = cur().custom[cat];
+  const oldTiers = (cur().customTiers && cur().customTiers[cat]) || [];
+  const newTexts = [];
+  const newTiers = [];
+  const remap = {}; // old index -> new index
+
+  oldTexts.forEach((t, i) => {
+    if (t !== null) {
+      remap[i] = newTexts.length;
+      newTexts.push(t);
+      newTiers.push(oldTiers[i] || 'strong');
+    }
+  });
+
+  cur().custom[cat] = newTexts;
+  if (cur().customTiers) cur().customTiers[cat] = newTiers;
+
+  // Update all keys in ordered, selected, orderedAfterEdit to use new indices
+  function remapKey(k) {
+    if (!k.startsWith('__custom__')) return k;
+    const parts = k.split('__');
+    const kCat = parts.slice(2, parts.length - 1).join('__');
+    const kIdx = parseInt(parts[parts.length - 1]);
+    if (kCat !== cat) return k;
+    if (remap[kIdx] === undefined) return null; // deleted
+    return '__custom__' + cat + '__' + remap[kIdx];
+  }
+
+  cur().ordered = cur().ordered.map(remapKey).filter(Boolean);
+  if (cur().selected[cat]) cur().selected[cat] = cur().selected[cat].map(remapKey).filter(Boolean);
+  if (cur().orderedAfterEdit) cur().orderedAfterEdit = cur().orderedAfterEdit.map(remapKey).filter(Boolean);
+
+  cur().published = false;
+  render();
+  autoSave();
+}
+
+// Resolve a sentence key — handles both raw and custom sentences
+function resolveKey(key, stu) {
+  if (!key.startsWith('__custom__')) return key;
+  const parts = key.split('__');
+  // format: __custom__CATNAME__INDEX
+  // parts: ['', 'custom', 'CATNAME', 'INDEX']
+  const cat = parts.slice(2, parts.length - 1).join('__');
+  const idx = parseInt(parts[parts.length - 1]);
+  const source = stu || cur();
+  return (source.custom && source.custom[cat] && source.custom[cat][idx]) || '';
+}
+
+function removeSent(i) {
+  const rm = cur().ordered[i];
+  cur().ordered.splice(i, 1);
+  CATS.forEach(cat => { if (cur().selected[cat]) cur().selected[cat] = cur().selected[cat].filter(s => s !== rm); });
+  cur().published = false;
+  render();
+}
+
+function clearCurrent() { cur().selected = {}; cur().ordered = []; cur().draftOverride = null; cur().editedCat = null; cur().orderedAfterEdit = []; cur().orderedAtDone = []; if (cur().custom) delete cur().custom['__edited__']; cur().published = false; render(); }
+
+function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[] }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
+
+function newStudentFromPublish() {
+  addStu();
+  setView('build');
+  // Focus the name input so the teacher can start typing immediately
+  setTimeout(() => {
+    const nameInput = document.getElementById('studentName');
+    if (nameInput) nameInput.focus();
+  }, 50);
+}
+function switchStu(i) {
+  // Before switching, save the current S2 state back into s2* fields
+  if (currentSemester === 2) {
+    students[currentIdx].s2Ordered          = (students[currentIdx].ordered          || []).slice();
+    students[currentIdx].s2Selected         = JSON.parse(JSON.stringify(students[currentIdx].selected || {}));
+    students[currentIdx].s2DraftOverride    = students[currentIdx].draftOverride  || null;
+    students[currentIdx].s2EditedCat        = students[currentIdx].editedCat      || null;
+    students[currentIdx].s2OrderedAfterEdit = (students[currentIdx].orderedAfterEdit || []).slice();
+    students[currentIdx].s2OrderedAtDone    = (students[currentIdx].orderedAtDone    || []).slice();
+  }
+  saveCur();
+  currentIdx = i;
+  currentTab = CATS[0];
+  loadCur();
+  // Load the correct semester state for the new student
+  if (currentSemester === 2) {
+    cur().ordered          = cur().s2Ordered        || [];
+    cur().selected         = cur().s2Selected       || {};
+    cur().draftOverride    = cur().s2DraftOverride  || null;
+    cur().editedCat        = cur().s2EditedCat      || null;
+    cur().orderedAfterEdit = cur().s2OrderedAfterEdit || [];
+    cur().orderedAtDone    = cur().s2OrderedAtDone  || [];
+  }
+  if (currentView === 'publish') renderPublish();
+  else render();
+  if (currentSemester === 2 && !cur().s2RankOrder && cur().s1Comment) rankForS2();
+}
+function removeStu(i) { students.splice(i,1); if (currentIdx >= students.length) currentIdx = students.length-1; loadCur(); render(); }
+
+function saveCur() {
+  students[currentIdx].name = document.getElementById('studentName').value.trim();
+  students[currentIdx].pronoun = document.getElementById('pronounSet').value;
+  students[currentIdx].year = document.getElementById('yearSet').value;
+  // Persist any live edits from the contenteditable before switching
+  const el = document.getElementById('outEditable');
+  if (el && students[currentIdx].draftOverride !== null && students[currentIdx].draftOverride !== undefined) {
+    students[currentIdx].draftOverride = el.innerText || null;
+  }
+}
+function loadCur() { document.getElementById('studentName').value = cur().name||''; document.getElementById('pronounSet').value = cur().pronoun||'he'; document.getElementById('yearSet').value = cur().year||''; }
+
+function saveStudent() { saveCur(); showToast(`Saved ${cur().name||'student'}!`); render(); }
+
+function copyDraft() {
+  const text = cur().draftOverride !== null && cur().draftOverride !== undefined ? cur().draftOverride : cur().ordered.map(s => applyRaw(resolveKey(s), cur().name||'[Name]', PR[cur().pronoun])).join(' ');
+  if (!text) { showToast('Nothing to copy.'); return; }
+  navigator.clipboard.writeText(text).then(() => showToast('Draft copied!'));
+}
+
+function copyPublished() {
+  const text = getPublishedText(cur());
+  if (!text) { showToast('Nothing to copy.'); return; }
+  navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+}
+
+function exportAll() {
+  saveCur();
+  const out = students.map((stu, i) => {
+    const name = stu.name || `Student ${i+1}`;
+    const text = getPublishedText(stu) || stu.ordered.map(s => applyRaw(resolveKey(s, stu), name, PR[stu.pronoun])).join(' ') || '(No comment)';
+    return `${name}\n${'─'.repeat(50)}\n${text}`;
+  }).join('\n\n');
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([out], {type:'text/plain'})), download: 'report-comments-s1-2026.txt' });
+  a.click();
+  showToast('Exported!');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── LIVE INPUT ────────────────────────────────────────────────────
+document.getElementById('studentName').addEventListener('input', () => {
+  cur().name = document.getElementById('studentName').value.trim();
+  if (currentView === 'publish') renderPublish(); else render();
+});
+document.getElementById('pronounSet').addEventListener('change', () => {
+  cur().pronoun = document.getElementById('pronounSet').value;
+  if (currentView === 'publish') renderPublish(); else render();
+});
+document.getElementById('yearSet').addEventListener('change', () => {
+  cur().year = document.getElementById('yearSet').value;
+  if (currentView === 'publish') renderPublish(); else render();
+});
+
+
+let totalStudents = 22;
+
+// ── PERSISTENCE ───────────────────────────────────────────────────
+function lsGet(k, def) { try { const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : def; } catch { return def; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+
+function autoSave() {
+  lsSet('rcb_session', { students, currentIdx, totalStudents });
+}
+
+function loadPersistedState() {
+  const saved = lsGet('rcb_session', null);
+  if (!saved) return;
+  if (saved.students && saved.students.length) {
+    // Ensure all student objects have required fields (handles older saves)
+    students = saved.students.map(s => Object.assign(
+      { name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [] }, s
+    ));
+    currentIdx = Math.min(saved.currentIdx || 0, students.length - 1);
+  }
+  if (saved.totalStudents) totalStudents = saved.totalStudents;
+}
+
+// ── STREAK ────────────────────────────────────────────────────────
+function getStreakData() { return lsGet('rcb_streak', { count: 0, lastDate: null }); }
+function saveStreakData(d) { lsSet('rcb_streak', d); }
+
+function touchStreak() {
+  const today = new Date().toDateString();
+  const d = getStreakData();
+  if (d.lastDate === today) return; // already counted today
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  d.count = d.lastDate === yesterday ? d.count + 1 : 1;
+  d.lastDate = today;
+  saveStreakData(d);
+}
+
+// ── BADGES ────────────────────────────────────────────────────────
+const BADGE_DEFS = [
+  { id: 'first',    icon: '🌱', name: 'First Published',  desc: 'Publish your first comment',         check: (n) => n >= 1  },
+  { id: 'five',     icon: '⭐', name: 'On a Roll',         desc: 'Publish 5 comments',                 check: (n) => n >= 5  },
+  { id: 'ten',      icon: '🔥', name: 'Fired Up',          desc: 'Publish 10 comments',                check: (n) => n >= 10 },
+  { id: 'halfway',  icon: '🏃', name: 'Halfway There',     desc: 'Publish 11 comments',                check: (n) => n >= 11 },
+  { id: 'twenty',   icon: '🚀', name: 'Almost Done',       desc: 'Publish 20 comments',                check: (n) => n >= 20 },
+  { id: 'allDone',  icon: '🏆', name: 'All Done!',         desc: 'Publish all comments',               check: (n,t) => n >= t },
+  { id: 'streak3',  icon: '⚡', name: 'Three Day Streak',  desc: 'Use the app 3 days in a row',        check: (n,t,s) => s >= 3 },
+  { id: 'streak5',  icon: '💎', name: 'Five Day Streak',   desc: 'Use the app 5 days in a row',        check: (n,t,s) => s >= 5 },
+];
+
+function getEarnedBadges() { return lsGet('rcb_badges', []); }
+function saveEarnedBadges(b) { lsSet('rcb_badges', b); }
+
+
+
+// ── API FETCH HELPER ─────────────────────────────────────────────
+// When running from file://, browsers block direct calls to api.anthropic.com (CORS).
+// We detect this and route through a free CORS proxy automatically.
+// When running from a real URL (claude.ai, localhost, hosted), calls go direct.
+function anthropicFetch(body) {
+  const directUrl = 'https://api.anthropic.com/v1/messages';
+  const storedKey = getApiKey();
+  const headers = { 'Content-Type': 'application/json' };
+  if (storedKey) {
+    headers['x-api-key'] = storedKey;
+    headers['anthropic-version'] = '2023-06-01';
+    headers['anthropic-dangerous-request-header'] = 'true';
+  }
+  return fetch(directUrl, { method: 'POST', headers, body: JSON.stringify(body) })
+    .catch(err => {
+      if (window.location.protocol === 'file:') throw new Error('CORS_FILE');
+      throw err;
+    });
+}
+
+// ── BADGE NOTIFICATION + FIREWORKS ───────────────────────────────
+let _badgeNotifTimer = null;
+
+
+function showLocalServerGuide() {
+  document.getElementById('localServerModal').style.display = 'flex';
+}
+function copyServerCmd() {
+  const cmd = document.getElementById('serverCmd').textContent;
+  navigator.clipboard.writeText(cmd).then(() => showToast('Command copied!'));
+}
+function showBadgeNotif(badge) {
+  document.getElementById('badgeNotifIcon').textContent = badge.icon;
+  document.getElementById('badgeNotifName').textContent = badge.name;
+  document.getElementById('badgeNotifDesc').textContent = badge.desc;
+  const el = document.getElementById('badgeNotif');
+  el.classList.add('show');
+  if (_badgeNotifTimer) clearTimeout(_badgeNotifTimer);
+  _badgeNotifTimer = setTimeout(() => el.classList.remove('show'), 4000);
+  launchFireworks();
+}
+
+function launchFireworks() {
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  if (confettiFrame) cancelAnimationFrame(confettiFrame);
+
+  const colours = ['#4ade80','#c084fc','#fbbf24','#60a5fa','#f87171','#f0f0f0','#34d399','#fb923c','#e879f9'];
+  const particles = [];
+
+  // Launch several rockets from random x positions
+  const rocketCount = 5 + Math.floor(Math.random() * 4);
+  for (let r = 0; r < rocketCount; r++) {
+    const cx = canvas.width * (0.15 + Math.random() * 0.7);
+    const cy = canvas.height * (0.15 + Math.random() * 0.45);
+    const colour = colours[Math.floor(Math.random() * colours.length)];
+    const count = 55 + Math.floor(Math.random() * 35);
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
+      const speed = 2.5 + Math.random() * 5;
+      particles.push({
+        x: cx, y: cy,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        colour,
+        life: 1,
+        decay: 0.012 + Math.random() * 0.01,
+        size: 2.5 + Math.random() * 2.5,
+        trail: [],
+        delay: r * 180, // stagger rockets
+        started: false,
+      });
+    }
+  }
+
+  const start = performance.now();
+  const duration = 3800;
+
+  function drawFireworks(now) {
+    const elapsed = now - start;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+      if (elapsed < p.delay) return;
+      if (!p.started) p.started = true;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.06; // gravity
+      p.vx *= 0.98;
+      p.vy *= 0.98;
+      p.life -= p.decay;
+      if (p.life <= 0) return;
+      // Draw sparkle
+      ctx.save();
+      ctx.globalAlpha = p.life;
+      ctx.fillStyle = p.colour;
+      ctx.shadowColor = p.colour;
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+
+    if (elapsed < duration) {
+      confettiFrame = requestAnimationFrame(drawFireworks);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  confettiFrame = requestAnimationFrame(drawFireworks);
+}
+
+function checkBadges(done, total, streak) {
+  const earned = getEarnedBadges();
+  const newlyEarned = [];
+  BADGE_DEFS.forEach(b => {
+    if (!earned.includes(b.id) && b.check(done, total, streak)) {
+      earned.push(b.id);
+      newlyEarned.push(b);
+    }
+  });
+  if (newlyEarned.length) {
+    saveEarnedBadges(earned);
+    // Show badge notifications sequentially
+    newlyEarned.forEach((b, i) => {
+      setTimeout(() => showBadgeNotif(b), i * 4500);
+    });
+  }
+  return earned;
+}
+
+// ── STATS RENDER ─────────────────────────────────────────────────
+function renderStats() {
+  const done = students.filter(s => s.published).length;
+  const totalWords = students.filter(s => s.published).reduce((acc, stu) => {
+    const name = stu.name || 'Name';
+    const p = PR[stu.pronoun];
+    const text = getPublishedText(stu);
+    return acc + (text ? text.trim().split(/\s+/).filter(Boolean).length : 0);
+  }, 0);
+  const avgWords = done > 0 ? Math.round(totalWords / done) : 0;
+  const streak = getStreakData().count;
+  const earned = getEarnedBadges();
+
+  // Stat cards
+  const grid = document.getElementById('statsGrid');
+  if (grid) grid.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-card-val green">${done}</div>
+      <div class="stat-card-label">Published</div>
+      <div class="stat-card-sub">of ${totalStudents} students</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-val amber">${streak}</div>
+      <div class="stat-card-label">Day Streak</div>
+      <div class="stat-card-sub">${streak === 0 ? 'Start today!' : streak === 1 ? 'Started today' : (streak + ' days running')}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-val">${totalWords.toLocaleString()}</div>
+      <div class="stat-card-label">Words Written</div>
+      <div class="stat-card-sub">across all published comments</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-val purple">${avgWords}</div>
+      <div class="stat-card-label">Avg Words</div>
+      <div class="stat-card-sub">per published comment</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-val">${earned.length}</div>
+      <div class="stat-card-label">Badges</div>
+      <div class="stat-card-sub">of ${BADGE_DEFS.length} available</div>
+    </div>
+  `;
+
+  // Badges
+  const bgrid = document.getElementById('badgesGrid');
+  if (bgrid) bgrid.innerHTML = BADGE_DEFS.map(b => {
+    const isEarned = earned.includes(b.id);
+    return `<div class="badge${isEarned ? ' earned' : ''}">
+      <div class="badge-icon">${b.icon}</div>
+      <div class="badge-text">
+        <div class="badge-name">${b.name}</div>
+        <div class="badge-desc">${b.desc}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+}
+
+// ── PROGRESS BAR ─────────────────────────────────────────────────
+function updateProgress() {
+  autoSave();
+  const done = students.filter(s => s.published).length;
+  const pct = Math.min(100, (done / totalStudents) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  const label = document.getElementById('progressLabel');
+  const allDone = done >= totalStudents;
+  label.innerHTML = `<b>${done}</b> / <span id="classTotal">${totalStudents}</span> done ✎`;
+  label.className = allDone ? 'progress-label done' : 'progress-label';
+  const streak = getStreakData().count;
+  checkBadges(done, totalStudents, streak);
+  if (allDone && !lsGet('rcb_finale_played', false)) { lsSet('rcb_finale_played', true); launchFinaleConfetti(); } else if (allDone) { launchConfetti(7000, 260); }  // confetti only, no chime
+}
+
+function editClassSize() {
+  const val = prompt('How many students in your class?', totalStudents);
+  if (val === null) return;
+  const n = parseInt(val);
+  if (!isNaN(n) && n > 0 && n <= 60) {
+    totalStudents = n;
+    autoSave();
+    lsSet('rcb_finale_played', false); // reset so chime plays again for new class
+    updateProgress();
+  } else {
+    showToast('Please enter a number between 1 and 60.');
+  }
+}
+
+// ── CONFETTI ──────────────────────────────────────────────────────
+let confettiFrame = null;
+
+function launchConfetti(duration = 2800, count = 120) {
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  if (confettiFrame) cancelAnimationFrame(confettiFrame);
+
+  const colours = ['#4ade80','#f0f0f0','#c084fc','#fbbf24','#60a5fa','#f87171','#aaaaaa','#34d399','#fb923c'];
+  const pieces = Array.from({ length: count }, () => ({
+    x: Math.random() * canvas.width,
+    y: -10 - Math.random() * 120,
+    w: 5 + Math.random() * 9,
+    h: 3 + Math.random() * 5,
+    colour: colours[Math.floor(Math.random() * colours.length)],
+    rot: Math.random() * Math.PI * 2,
+    vx: (Math.random() - 0.5) * 4,
+    vy: 1.5 + Math.random() * 4,
+    vr: (Math.random() - 0.5) * 0.18,
+    opacity: 1,
+  }));
+
+  const start = performance.now();
+  function draw(now) {
+    const elapsed = now - start;
+    const progress = Math.min(1, elapsed / duration);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.vy += 0.07;
+      p.opacity = elapsed > duration * 0.65 ? Math.max(0, 1 - (progress - 0.65) / 0.35) : 1;
+      ctx.save();
+      ctx.globalAlpha = p.opacity;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.colour;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    if (elapsed < duration) {
+      confettiFrame = requestAnimationFrame(draw);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  confettiFrame = requestAnimationFrame(draw);
+}
+
+function playChime() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    // Ascending celebratory arpeggio: C E G C E G C (major scale)
+    const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98, 2093.00];
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      const t = ctx.currentTime + i * 0.18;
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.28, t + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.55);
+      osc.start(t); osc.stop(t + 0.6);
+    });
+    // A warm sustained chord at the end
+    [523.25, 659.25, 783.99].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      const t = ctx.currentTime + notes.length * 0.18 + 0.1;
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.18, t + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 1.4);
+      osc.start(t); osc.stop(t + 1.5);
+    });
+  } catch(e) { /* Audio not available */ }
+}
+
+function launchFinaleConfetti() {
+  launchConfetti(7000, 260);
+  playChime();
+  showToast('🎉 All reports done!');
+}
+
+
+// ── SESSION EXPORT / IMPORT ───────────────────────────────────────
+function exportSession() {
+  saveCur();
+  const session = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    totalStudents,
+    students,
+    streak: getStreakData(),
+    badges: getEarnedBadges(),
+  };
+  const json = JSON.stringify(session, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(blob),
+    download: 'report-builder-session-' + new Date().toISOString().slice(0,10) + '.json'
+  });
+  a.click();
+  showToast('Session exported!');
+}
+
+function importSession() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json,application/json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const session = JSON.parse(ev.target.result);
+        if (!session.version || !session.students) throw new Error('Invalid session file.');
+
+        // Restore students
+        students = session.students;
+        currentIdx = 0;
+
+        // Restore class size
+        if (session.totalStudents) totalStudents = session.totalStudents;
+
+        // Restore streak
+        if (session.streak) saveStreakData(session.streak);
+
+        // Restore badges
+        if (session.badges) saveEarnedBadges(session.badges);
+
+        loadCur();
+        render();
+        updateProgress();
+        autoSave();
+        showToast('Session imported — ' + students.length + ' student' + (students.length !== 1 ? 's' : '') + ' loaded!');
+      } catch(err) {
+        showToast('Could not read session file: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+
+// ── THEME ────────────────────────────────────────────────────────
+function toggleTheme() {
+  const isLight = document.documentElement.classList.toggle('light');
+  document.getElementById('themeLabel').textContent = isLight ? 'Light' : 'Dark';
+  lsSet('rcb_theme', isLight ? 'light' : 'dark');
+}
+function loadTheme() {
+  const saved = lsGet('rcb_theme', 'dark');
+  if (saved === 'light') {
+    document.documentElement.classList.add('light');
+    const lbl = document.getElementById('themeLabel');
+    if (lbl) lbl.textContent = 'Light';
+  }
+}
+
+// ── DUPLICATE WORD HIGHLIGHTER ───────────────────────────────────
+// Meaningful adjectives and verbs that are worth flagging if repeated
+const STOPWORDS = new Set([
+  'a','an','the','and','or','but','in','on','at','to','for','of','with','by',
+  'from','is','are','was','were','has','have','had','be','been','being',
+  'this','that','these','those','it','its','as','all','each','every','any',
+  'some','such','when','where','who','which','while','about','across','after',
+  'before','between','during','into','through','throughout','up','down','over',
+  'under','again','further','then','once','not','no','nor','so','yet','both',
+  'either','own','same','than','too','very','can','will','just','also','often',
+  'our','we','my','your','how','what','well','do','does','did','would','could',
+  'should','may','might','must','shall','able','within','however','therefore',
+  'thus','hence','accordingly','make','take','give','come','know','look','want',
+  'think','feel','need','keep','find','let','like','many','much','more','most',
+  'other','them','have','using','upon','into','their','been','also','will',
+]);
+
+// Words that are natural and acceptable to repeat in a school report —
+// flagging these creates noise without useful feedback
+const REPORT_WHITELIST = new Set([
+  // Core report nouns — always expected to appear multiple times
+  'student','students','classroom','class','school','learning','semester','year',
+  'work','tasks','task','subject','subjects','lesson','lessons','activity',
+  'activities','peer','peers','teacher','teachers','group','groups','term',
+  // Common report verbs — expected to repeat
+  'demonstrates','demonstrate','showing','shows','displayed','displays',
+  'participates','participate','contributes','contribute','engages','engage',
+  'completes','complete','attempts','attempt','applies','apply','uses','using',
+  'supports','support','encourages','encourage','assists','assist',
+  'developing','developed','continues','continued','improved','improving',
+  // Common report adjectives that are fine to repeat
+  'positive','strong','good','great','well','high','wide','clear','active',
+  'inclusive','respectful','responsible','caring','kind','helpful','friendly',
+  'cooperative','creative','curious','enthusiastic','diligent','hardworking',
+  'focused','attentive','confident','capable','independent','thoughtful',
+  // Outcome/quality words that naturally recur
+  'skills','skill','knowledge','understanding','ability','abilities','effort',
+  'attitude','behaviour','progress','growth','development','improvement',
+  'opportunity','opportunities','experience','experiences','area','areas',
+  'approach','approaches','interest','interests','ideas','ideas','feedback',
+]);
+
+// Lightweight English stemmer — strips common prefixes/suffixes to find base form
+// Maps surface form → stem so "excellent" and "excellently" share the same stem
+function stem(word) {
+  const w = word.toLowerCase();
+  // Suffixes to try stripping, longest first
+  const suffixes = [
+    'istically','istically','fulness','lessness','iveness','ousness',
+    'ational','tional','alize','alise','alism','alist',
+    'ically','fulness','ousness','iveness',
+    'ation','itions','itions','ments','ances','ences',
+    'edly','ingly','ingly','ness','ment','ment','ance','ence',
+    'able','ible','ible','ful','ful','less','less','ous','ous',
+    'ive','ive','ise','ize','ing','ing','ed','ed','ly','ly',
+    'er','est','al','al','ry','ry',
+  ];
+  for (const sfx of suffixes) {
+    if (w.length > sfx.length + 3 && w.endsWith(sfx)) {
+      return w.slice(0, w.length - sfx.length);
+    }
+  }
+  return w;
+}
+
+function highlightDuplicateWords() {
+  const content = document.getElementById('pubContent');
+  if (!content) return;
+
+  const spans = Array.from(content.querySelectorAll('span[data-si]'));
+  if (!spans.length) return;
+
+  // Remove previous highlights
+  content.querySelectorAll('.dup-word').forEach(el => {
+    el.outerHTML = el.textContent;
+  });
+
+  // Build dynamic ignore list: student name + all pronoun forms
+  const stuName = (cur().name || '').toLowerCase();
+  const pron = PR[cur().pronoun || 'he'];
+  const dynamicIgnore = new Set([
+    stuName, ...stuName.split(/\s+/),
+    pron.S.toLowerCase(), pron.s, pron.O.toLowerCase(), pron.o,
+    pron.Pos.toLowerCase(), pron.pos, pron.r,
+  ].filter(Boolean));
+
+  // Count stems across entire comment
+  const stemCounts = {};   // stem → count
+  const stemToWords = {};  // stem → Set of original surface forms
+
+  const fullText = spans.map(s => s.textContent).join(' ');
+  const wordRegex = /\b([a-zA-Z]{4,})\b/g;
+  let m;
+  while ((m = wordRegex.exec(fullText)) !== null) {
+    const w = m[1].toLowerCase();
+    if (STOPWORDS.has(w) || REPORT_WHITELIST.has(w) || dynamicIgnore.has(w)) continue;
+    const s = stem(w);
+    if (s.length < 3) continue;
+    stemCounts[s] = (stemCounts[s] || 0) + 1;
+    if (!stemToWords[s]) stemToWords[s] = new Set();
+    stemToWords[s].add(w);
+  }
+
+  // Flag stems used more than once
+  const repeatedStems = new Set(Object.keys(stemCounts).filter(s => stemCounts[s] > 1));
+  if (!repeatedStems.size) return;
+
+  // Build word → stem map for fast lookup during highlight
+  const wordStemMap = {};
+  Object.keys(stemToWords).forEach(s => {
+    stemToWords[s].forEach(w => { wordStemMap[w] = s; });
+  });
+
+  // Highlight in each span
+  spans.forEach(span => {
+    const original = span.textContent;
+    const highlighted = original.replace(/\b([a-zA-Z]{4,})\b/g, (match) => {
+      const w = match.toLowerCase();
+      if (STOPWORDS.has(w) || REPORT_WHITELIST.has(w) || dynamicIgnore.has(w)) return match;
+      const s = wordStemMap[w];
+      if (s && repeatedStems.has(s)) {
+        const count = stemCounts[s];
+        const forms = Array.from(stemToWords[s]).join(', ');
+        const tip = count > 1 && stemToWords[s].size > 1
+          ? `Base word used ${count} times (${forms})`
+          : `Used ${count} times`;
+        return `<mark class="dup-word" data-word="${match}" data-stem="${s}" onclick="openSynDropdown(event,this)">${match}</mark>`;
+      }
+      return match;
+    });
+    if (highlighted !== original) span.innerHTML = highlighted;
+  });
+}
+
+
+// ── SYNONYM DROPDOWN ─────────────────────────────────────────────
+let _synOpenMark = null;
+let _synApiKey = null; // cached for session
+
+function closeSynDropdown() {
+  document.getElementById('synDropdown').style.display = 'none';
+  _synOpenMark = null;
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', e => {
+  const dd = document.getElementById('synDropdown');
+  if (dd && dd.style.display !== 'none' && !dd.contains(e.target) && e.target !== _synOpenMark) {
+    closeSynDropdown();
+  }
+});
+
+let _synCurrentTab = 'synonyms';
+let _synCurrentSentence = '';
+
+function switchSynTab(tab) {
+  _synCurrentTab = tab;
+  document.getElementById('synTabSyn').className = 'syn-tab' + (tab === 'synonyms' ? ' active' : '');
+  document.getElementById('synTabRew').className = 'syn-tab' + (tab === 'rewrite' ? ' active' : '');
+  if (tab === 'synonyms') {
+    showSynonymsPanel();
+  } else {
+    showRewritePanel();
+  }
+}
+
+function showRewritePanel() {
+  const panel = document.getElementById('synPanel');
+  const sentence = _synCurrentSentence;
+  panel.innerHTML = `
+    <div class="syn-rewrite-box">
+      <div style="font-size:11px;color:var(--t2);margin-bottom:6px">AI will rewrite this sentence using simpler words. You can edit before applying.</div>
+      <textarea class="syn-rewrite-text" id="synRewriteArea" readonly placeholder="Loading rewrite…">${sentence}</textarea>
+      <div class="syn-rewrite-actions">
+        <button class="syn-rewrite-btn" onclick="fetchRewrite()">
+          <svg style="width:12px;height:12px;vertical-align:middle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6"/><path d="M2 4v4h4"/></svg>
+          Rewrite
+        </button>
+        <button class="syn-rewrite-btn apply" onclick="applyRewrite()">Apply</button>
+      </div>
+    </div>`;
+}
+
+async function fetchRewrite() {
+  const area = document.getElementById('synRewriteArea');
+  if (!area) return;
+  const sentence = _synCurrentSentence;
+  area.value = 'Rewriting…';
+  area.readOnly = true;
+  try {
+    const res = await anthropicFetch({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 150,
+      messages: [{
+        role: 'user',
+        content: `Rewrite this school report sentence so it is clearer and easier for parents to understand. Use simple, everyday words. Keep the same meaning and positive tone. Return ONLY the rewritten sentence, nothing else.
+
+Sentence: ${sentence}`
+      }]
+    });
+    if (!res.ok) throw new Error('API ' + res.status);
+    const data = await res.json();
+    const rewritten = (data.content?.find(b => b.type === 'text')?.text || '').trim().replace(/^["']|["']$/g, '');
+    area.value = rewritten;
+    area.readOnly = false;
+  } catch(e) {
+    if (e.message === 'CORS_FILE') {
+      area.value = 'AI features require local server — see setup guide in the publish toolbar.';
+    } else {
+      area.value = sentence; // restore original
+      area.readOnly = false;
+    }
+  }
+}
+
+function applyRewrite() {
+  const area = document.getElementById('synRewriteArea');
+  if (!area || !_synOpenMark) return;
+  const span = _synOpenMark.closest('span[data-si]');
+  if (!span) { closeSynDropdown(); return; }
+  const newText = area.value.trim();
+  if (!newText) return;
+  span.innerHTML = newText;
+  closeSynDropdown();
+  requestAnimationFrame(highlightDuplicateWords);
+}
+
+async function openSynDropdown(event, markEl) {
+  event.stopPropagation();
+  const word = markEl.dataset.word;
+  const dd = document.getElementById('synDropdown');
+
+  // Position dropdown
+  const rect = markEl.getBoundingClientRect();
+  dd.style.display = 'block';
+  dd.style.left = Math.min(rect.left, window.innerWidth - 310) + 'px';
+  dd.style.top = (rect.bottom + 6) + 'px';
+  _synOpenMark = markEl;
+  _synCurrentTab = 'synonyms';
+
+  // Get the full sentence containing this word for rewrite
+  const span = markEl.closest('span[data-si]');
+  _synCurrentSentence = span ? span.textContent.trim() : word;
+
+  // Reset to synonyms tab
+  document.getElementById('synTabSyn').className = 'syn-tab active';
+  document.getElementById('synTabRew').className = 'syn-tab';
+  showSynonymsPanel(word, markEl);
+}
+
+async function showSynonymsPanel(word, markEl) {
+  word = word || (_synOpenMark ? _synOpenMark.dataset.word : '');
+  markEl = markEl || _synOpenMark;
+  const panel = document.getElementById('synPanel');
+  panel.innerHTML = '<div id="synList"><div class="syn-loading"><div class="spinner"></div><span>Finding synonyms…</span></div></div>';
+  const list = document.getElementById('synList');
+
+  const commentText = document.getElementById('pubContent').textContent.toLowerCase();
+  const usedWords = new Set(commentText.match(/\b[a-z]+\b/g) || []);
+
+  try {
+    const res = await anthropicFetch({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 200,
+      messages: [{
+        role: 'user',
+        content: `You are helping a primary school teacher vary word choice in student report comments written for parents.
+
+Give 6 synonyms for the word "${word}" that meet ALL of these criteria:
+- Simple and easy for any parent to understand (avoid academic, rare or unusual words)
+- Common everyday English — ideally words a Year 5 student would know
+- Natural-sounding in a school report sentence
+- One or two syllables where possible
+- No jargon, no overly formal words
+
+Return ONLY a JSON array of 6 lowercase strings, no explanation, no markdown:
+["word1","word2","word3","word4","word5","word6"]`
+      }]
+    });
+
+    if (!res.ok) throw new Error('API error ' + res.status);
+    const data = await res.json();
+    const raw = (data.content?.find(b => b.type === 'text')?.text || '[]').replace(/\`\`\`json|\`\`\`/g, '').trim();
+    let synonyms = JSON.parse(raw);
+    if (!Array.isArray(synonyms)) throw new Error('Bad response');
+
+    const unused = synonyms.filter(s => !usedWords.has(s.toLowerCase()));
+    const used = synonyms.filter(s => usedWords.has(s.toLowerCase()));
+
+    list.innerHTML = '';
+    if (!unused.length && !used.length) {
+      list.innerHTML = '<div class="syn-none">No synonyms found.</div>';
+      return;
+    }
+
+    if (unused.length) {
+      const hdr = document.createElement('div');
+      hdr.style.cssText = 'font-size:10px;color:var(--t2);padding:6px 12px 2px;font-weight:500;letter-spacing:.06em;text-transform:uppercase';
+      hdr.textContent = 'Not yet used';
+      list.appendChild(hdr);
+      unused.forEach(syn => {
+        const btn = document.createElement('button');
+        btn.className = 'syn-item';
+        btn.textContent = syn;
+        btn.onclick = () => replaceDupWord(markEl, syn);
+        list.appendChild(btn);
+      });
+    }
+
+    if (used.length) {
+      const sep = document.createElement('div');
+      sep.style.cssText = 'font-size:10px;color:var(--t2);padding:6px 12px 2px;border-top:1px solid var(--border);font-weight:500;letter-spacing:.06em;text-transform:uppercase';
+      sep.textContent = 'Already used';
+      list.appendChild(sep);
+      used.forEach(syn => {
+        const btn = document.createElement('button');
+        btn.className = 'syn-item already-used';
+        btn.textContent = syn;
+        list.appendChild(btn);
+      });
+    }
+
+  } catch(e) {
+    if (e.message === 'CORS_FILE') {
+      list.innerHTML = '<div class="syn-none" style="cursor:pointer;color:var(--blue)" onclick="showLocalServerGuide()">AI features need local server — click for setup guide</div>';
+    } else if (e.message.includes('401') || (!getApiKey())) {
+      list.innerHTML = '<div class="syn-none">API key needed — set it via the API key button in the publish toolbar.</div>';
+    } else {
+      list.innerHTML = '<div class="syn-none">Could not fetch synonyms.</div>';
+    }
+  }
+}
+
+function replaceDupWord(markEl, synonym) {
+  // Replace the mark element's word with the synonym in the span
+  const span = markEl.closest('span[data-si]');
+  if (!span) { closeSynDropdown(); return; }
+  const oldWord = markEl.dataset.word;
+  // Preserve capitalisation
+  let replacement = synonym;
+  if (oldWord[0] === oldWord[0].toUpperCase()) {
+    replacement = synonym.charAt(0).toUpperCase() + synonym.slice(1);
+  }
+  markEl.outerHTML = replacement;
+  closeSynDropdown();
+  // Re-run the duplicate checker so the highlighting updates
+  requestAnimationFrame(highlightDuplicateWords);
+}
+
+
+// ── DUPLICATE WORD HOVER HIGHLIGHTING ────────────────────────────
+// ── DUPLICATE WORD TOOLTIP — position-based approach ─────────────
+// Instead of relying on mouseout/mouseleave (unreliable with inline text),
+// we track the mouse position on every move and hide only when the cursor
+// is genuinely outside both the active mark and the tooltip.
+
+let _dupActiveMark = null;
+let _dupCheckFrame = null;
+let _dupTooltipVisible = false;
+
+function buildDupTooltip(el) {
+  const stem = el.dataset.stem;
+  if (!stem) return;
+
+  const allMarks = Array.from(document.querySelectorAll('#pubContent mark.dup-word'));
+  const peers = allMarks.filter(m => m.dataset.stem === stem);
+  allMarks.forEach(m => m.classList.remove('dup-active', 'dup-peer'));
+  peers.forEach(m => m.classList.add(m === el ? 'dup-active' : 'dup-peer'));
+
+  const tooltip = document.getElementById('dupTooltip');
+  const rows = peers.map(m => {
+    const word = m.dataset.word || m.textContent;
+    const span = m.closest('span[data-si]');
+    let ctx = span ? span.textContent : '';
+    const idx = ctx.toLowerCase().indexOf(word.toLowerCase());
+    if (idx > -1) {
+      const start = Math.max(0, idx - 20);
+      const end = Math.min(ctx.length, idx + word.length + 20);
+      ctx = (start > 0 ? '…' : '') + ctx.slice(start, end).trim() + (end < ctx.length ? '…' : '');
+    } else {
+      ctx = ctx.slice(0, 44) + (ctx.length > 44 ? '…' : '');
+    }
+    return { word, ctx };
+  });
+
+  tooltip.innerHTML =
+    '<div class="dup-tooltip-title">Repeated ' + peers.length + ' times</div>' +
+    rows.map(r =>
+      '<div class="dup-tooltip-row">' +
+      '<span class="dup-tooltip-word">' + r.word + '</span>' +
+      '<span class="dup-tooltip-ctx">' + r.ctx + '</span>' +
+      '</div>'
+    ).join('');
+
+  const rect = el.getBoundingClientRect();
+  tooltip.style.display = 'block';
+  const ttW = tooltip.offsetWidth;
+  const ttH = tooltip.offsetHeight;
+  let top = rect.bottom + 8;
+  let left = rect.left;
+  if (left + ttW > window.innerWidth - 10) left = window.innerWidth - ttW - 10;
+  if (top + ttH > window.innerHeight - 10) top = rect.top - ttH - 8;
+  tooltip.style.top = Math.max(8, top) + 'px';
+  tooltip.style.left = Math.max(8, left) + 'px';
+  _dupTooltipVisible = true;
+}
+
+function clearDupTooltip() {
+  _dupActiveMark = null;
+  _dupTooltipVisible = false;
+  document.querySelectorAll('mark.dup-word.dup-active, mark.dup-word.dup-peer').forEach(m => {
+    m.classList.remove('dup-active', 'dup-peer');
+  });
+  document.getElementById('dupTooltip').style.display = 'none';
+}
+
+function isPointInElement(x, y, el) {
+  if (!el) return false;
+  const r = el.getBoundingClientRect();
+  // Add a small buffer (8px) around the element so small mouse movements don't hide it
+  return x >= r.left - 8 && x <= r.right + 8 && y >= r.top - 8 && y <= r.bottom + 8;
+}
+
+// Single mousemove listener on document — the source of truth for show/hide
+document.addEventListener('mousemove', e => {
+  const x = e.clientX, y = e.clientY;
+  const mark = document.elementFromPoint(x, y)?.closest('mark.dup-word');
+  const tooltip = document.getElementById('dupTooltip');
+  const overTooltip = _dupTooltipVisible && isPointInElement(x, y, tooltip);
+
+  if (mark) {
+    // Hovering over a dup word — show or update tooltip
+    if (mark !== _dupActiveMark) {
+      _dupActiveMark = mark;
+      buildDupTooltip(mark);
+    }
+  } else if (overTooltip) {
+    // Hovering over the tooltip itself — keep everything visible
+    // (no action needed)
+  } else if (_dupTooltipVisible) {
+    // Mouse has moved away from both the mark and tooltip — hide
+    clearDupTooltip();
+  }
+});
+
+loadPersistedState();
+loadCur();
+render();
+updateProgress();
+loadTheme();
+const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
+</script>
+</body>
+</html>
