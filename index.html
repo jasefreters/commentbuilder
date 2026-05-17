@@ -1057,32 +1057,91 @@ function buildParas(stu) {
 function getPublishedText(stu) {
   if (stu.draftOverride) return stu.draftOverride;
 
-  // If the draft was manually edited via Done, use that text directly as the
-  // complete published comment — no rebuilding from sentence keys needed.
-  // This is the simplest and most reliable approach and eliminates all duplication.
-  if (stu.editedCat && stu.custom && stu.custom['__edited__'] && stu.custom['__edited__'][0]) {
-    const editedText = stu.custom['__edited__'][0];
-    // Append any sentences added AFTER Done was clicked
-    if (stu.orderedAfterEdit && stu.orderedAfterEdit.length) {
-      const name = stu.name || '[Name]';
-      const p = PR[stu.pronoun];
-      const yr = stu.year || '';
-      const counter = { value: 0 };
-      // Advance counter based on edited text
-      const editSents = editedText.match(/[^.!?]+[.!?]+\s*/g) || [editedText];
-      editSents.forEach(s => {
-        if (s.trim().match(/^(He|She|They|[A-Z][a-z]+)\b/)) counter.value++;
-      });
-      const postText = stu.orderedAfterEdit
-        .map(s => applyAlternation(resolveKey(s, stu), name, p, counter, yr))
-        .join(' ');
-      return editedText + ' ' + postText;
-    }
-    return editedText;
+  const name = stu.name || '[Name]';
+  const p = PR[stu.pronoun];
+  const yr = stu.year || '';
+
+  if (!stu.editedCat || !stu.custom || !stu.custom['__edited__'] || !stu.custom['__edited__'][0]) {
+    // No edit — build paragraphs normally
+    return buildParas(stu).map(para => para.join(' ')).join('\n\n');
   }
 
-  // No edit — build paragraphs normally
-  return buildParas(stu).map(para => para.join(' ')).join('\n\n');
+  // Draft was manually edited. Strategy:
+  // - The edited text replaces ALL sentences that were selected at the time Done was clicked
+  //   (orderedAtDone) — treated as a single paragraph
+  // - Sentences added AFTER Done (orderedAfterEdit) are grouped into their proper
+  //   paragraph positions alongside any non-edited-group sentences
+  // - This gives correct paragraphing without any duplication
+
+  const editedText = stu.custom['__edited__'][0];
+  const atDone = new Set(stu.orderedAtDone || []);
+  const postEdit = stu.orderedAfterEdit || [];
+  const counter = { value: 0 };
+
+  // Helper: which PARA_GROUP does this sentence key belong to?
+  function groupIdxFor(s) {
+    if (s.startsWith('__custom__')) {
+      const parts = s.split('__');
+      const cat = parts.slice(2, parts.length - 1).join('__');
+      if (cat === '__edited__') return -1;
+      return PARA_GROUPS.findIndex(g => g.includes(cat));
+    }
+    return PARA_GROUPS.findIndex(g => g.includes(SENT_CAT[s]));
+  }
+
+  // Advance counter for sentences in a text block
+  function advanceCounter(text) {
+    (text.match(/[^.!?]+[.!?]+\s*/g) || [text]).forEach(s => {
+      if (s.trim().match(/^(He|She|They|[A-Z][a-z]+)\b/)) counter.value++;
+    });
+  }
+
+  // Build a map of post-edit sentences grouped by para index
+  const postByGroup = {};
+  postEdit.forEach(s => {
+    const gi = groupIdxFor(s);
+    if (gi >= 0) {
+      if (!postByGroup[gi]) postByGroup[gi] = [];
+      postByGroup[gi].push(s);
+    }
+  });
+
+  // The edited text goes into whichever paragraph group(s) the atDone sentences belonged to.
+  // Find the FIRST para group that had any atDone sentences — edited text goes there.
+  // All other para groups with atDone sentences are SKIPPED (they're covered by the edit).
+  let editedParaIdx = -1;
+  PARA_GROUPS.forEach((group, gi) => {
+    if (editedParaIdx === -1) {
+      const hasAtDone = Array.from(atDone).some(s => groupIdxFor(s) === gi);
+      if (hasAtDone) editedParaIdx = gi;
+    }
+  });
+  // Fallback: if no atDone sentences, put edited text in para group 0
+  if (editedParaIdx === -1) editedParaIdx = 0;
+
+  const paras = [];
+
+  PARA_GROUPS.forEach((group, gi) => {
+    if (gi === editedParaIdx) {
+      // Use edited text as this paragraph's content
+      const paraSents = [editedText];
+      advanceCounter(editedText);
+      // Append post-edit sentences for this group
+      (postByGroup[gi] || []).forEach(s => {
+        paraSents.push(applyAlternation(resolveKey(s, stu), name, p, counter, yr));
+      });
+      paras.push(paraSents);
+    } else {
+      // Skip atDone sentences for ALL groups (they're covered by the edit)
+      // Only include post-edit sentences for this group
+      const postSents = (postByGroup[gi] || []);
+      if (postSents.length) {
+        paras.push(postSents.map(s => applyAlternation(resolveKey(s, stu), name, p, counter, yr)));
+      }
+    }
+  });
+
+  return paras.filter(para => para.length).map(para => para.join(' ')).join('\n\n');
 }
 
 // ── RENDER: BUILD ─────────────────────────────────────────────────
@@ -3089,6 +3148,6 @@ updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.4.6</div>
+<div class="version-badge">v2.4.7</div>
 </body>
 </html>
