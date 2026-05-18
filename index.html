@@ -131,8 +131,8 @@
   .pub-para:last-child { margin-bottom: 0; }
 
   /* Flags */
-  .f-dup { background: var(--amber-bg); border-bottom: 1.5px solid var(--amber); border-radius: 2px; cursor: help; }
-  .f-contra { background: rgba(248,113,113,.13); border-bottom: 1.5px solid var(--red); border-radius: 2px; cursor: help; }
+  .f-dup { cursor: pointer; background: var(--amber-bg); border-bottom: 1.5px solid var(--amber); border-radius: 2px; cursor: help; }
+  .f-contra { cursor: pointer; background: rgba(248,113,113,.13); border-bottom: 1.5px solid var(--red); border-radius: 2px; cursor: help; }
 
   .pub-bar { border-top: 1px solid var(--border); background: var(--bg-1); padding: .9rem 1.5rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex-shrink: 0; }
   .pub-bar .btn { width: auto; }
@@ -158,6 +158,11 @@
 
   /* PROGRESS BAR */
   .progress-wrap { display: flex; align-items: center; gap: 10px; }
+  .save-indicator { font-size: 10px; color: var(--t2); font-family: var(--mono); white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+  .save-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--t2); flex-shrink: 0; transition: background .3s; }
+  .save-dot.saved { background: var(--green); }
+  .save-dot.saving { background: var(--amber); animation: pulse .6s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
   .progress-label { font-size: 12px; color: var(--t1); white-space: nowrap; font-family: var(--mono); }
   .progress-label b { color: var(--t0); }
   .progress-label.done b { color: var(--green); }
@@ -272,8 +277,10 @@
   .sport-divider-line { flex: 1; height: 1px; background: var(--border); }
   .sport-divider-label { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); white-space: nowrap; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
 
-  .f-alt { background: rgba(96,165,250,0.13); border-bottom: 1.5px solid var(--blue); border-radius: 2px; cursor: help; }
+  .f-alt { cursor: pointer; background: rgba(96,165,250,0.13); border-bottom: 1.5px solid var(--blue); border-radius: 2px; cursor: help; }
   .swatch.a { background: var(--blue); }
+  .f-tense { cursor: pointer; background: rgba(167,139,250,0.15); border-bottom: 1.5px solid #a78bfa; border-radius: 2px; cursor: help; }
+  .swatch.t { background: #a78bfa; }
 
   /* API KEY MODAL */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 500; display: flex; align-items: center; justify-content: center; }
@@ -380,6 +387,25 @@
 
   /* VERSION BADGE */
   .version-badge { position: fixed; bottom: 10px; right: 12px; font-size: 10px; font-family: var(--mono); color: var(--t2); background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 3px 8px; z-index: 100; pointer-events: none; letter-spacing: .04em; }
+
+  /* AI FIX DROPDOWN */
+  .fix-dropdown { position: fixed; background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-md); box-shadow: 0 8px 28px rgba(0,0,0,0.45); z-index: 901; width: 340px; overflow: hidden; }
+  .fix-header { padding: 8px 12px 6px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .fix-type-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: .06em; }
+  .fix-type-badge.similar { background: var(--amber-bg); color: var(--amber); }
+  .fix-type-badge.contradiction { background: var(--red-bg); color: var(--red); }
+  .fix-type-badge.alternation { background: var(--blue-bg); color: var(--blue); }
+  .fix-type-badge.tense { background: rgba(167,139,250,0.15); color: #a78bfa; }
+  .fix-reason { font-size: 12px; color: var(--t1); flex: 1; }
+  .fix-body { padding: 10px 12px; }
+  .fix-label { font-size: 10px; color: var(--t2); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; font-weight: 500; }
+  .fix-suggestion { font-size: 13px; color: var(--t0); line-height: 1.6; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 8px 10px; margin-bottom: 8px; font-style: italic; }
+  .fix-actions { display: flex; gap: 6px; }
+  .fix-btn { flex: 1; font-family: var(--font); font-size: 12px; padding: 7px 0; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t0); cursor: pointer; }
+  .fix-btn:hover { background: var(--bg-4); }
+  .fix-btn.apply { background: var(--green-bg); border-color: var(--green-bd); color: var(--green); font-weight: 500; }
+  .fix-btn.apply:hover { border-color: var(--green); }
+  .fix-loading { padding: 12px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--t1); }
 </style>
 </head>
 <body>
@@ -394,6 +420,10 @@
     <button class="vbtn active" id="vBuild" onclick="setView('build')">Build</button>
     <button class="vbtn" id="vPublish" onclick="setView('publish')">Publish</button>
     <button class="vbtn" id="vStats" onclick="setView('stats')">Stats</button>
+  </div>
+  <div class="save-indicator" id="saveIndicator" title="Auto-save status">
+    <div class="save-dot" id="saveDot"></div>
+    <span id="saveLabel">Not saved</span>
   </div>
   <div class="progress-wrap">
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -546,6 +576,7 @@
         <div class="leg"><div class="swatch d"></div><span>Similar idea</span></div>
         <div class="leg"><div class="swatch c"></div><span>Contradiction</span></div>
         <div class="leg"><div class="swatch a"></div><span>Alternation</span></div>
+        <div class="leg"><div class="swatch t"></div><span>Tense</span></div>
       </div>
     </div>
   </div>
@@ -705,6 +736,18 @@
 
 
 <div class="dup-tooltip" id="dupTooltip" style="display:none"></div>
+
+<div class="fix-dropdown" id="fixDropdown" style="display:none">
+  <div class="fix-header">
+    <span class="fix-type-badge" id="fixTypeBadge"></span>
+    <span class="fix-reason" id="fixReason"></span>
+  </div>
+  <div class="fix-body">
+    <div class="fix-label">Suggested fix</div>
+    <div id="fixSuggestion"></div>
+    <div class="fix-actions" id="fixActions"></div>
+  </div>
+</div>
 <div class="syn-dropdown" id="synDropdown" style="display:none">
   <div class="syn-tabs">
     <button class="syn-tab active" id="synTabSyn" onclick="switchSynTab('synonyms')">Synonyms</button>
@@ -1830,8 +1873,10 @@ function renderPublish() {
   if (!wasPublished) touchStreak();
   updateProgress();
   if (!stu.confettiShown) { stu.confettiShown = true; launchConfetti(); autoSave(); }
-  // Auto-highlight repeated meaningful words
-  requestAnimationFrame(highlightDuplicateWords);
+  // Auto-download backup JSON after each publish so work is never lost
+  if (!wasPublished) autoBackup();
+  // Auto-highlight repeated words and tense issues
+  requestAnimationFrame(() => { highlightDuplicateWords(); highlightTenseIssues(); });
 }
 
 // ── AI CHECK ─────────────────────────────────────────────────────
@@ -1891,9 +1936,10 @@ async function runCheck() {
 1. SIMILAR sentences — two sentences that express the same idea, even if worded differently
 2. CONTRADICTIONS — two sentences that say conflicting things (e.g. works independently vs needs support)
 3. ALTERNATION errors — two consecutive sentences where the subject opener is the same (both start with the student's name, or both start with a pronoun like He/She/They). Each sentence should alternate: name → pronoun → name → pronoun.
+4. TENSE errors — sentences written in a different tense to the rest of the comment. School report comments should be consistently in present tense OR consistently in past tense throughout. Flag any sentence that breaks this consistency.
 
 Return ONLY valid JSON, no markdown, no explanation:
-{"issues":[{"type":"similar"|"contradiction"|"alternation","sentences":["exact text of sentence 1","exact text of sentence 2"],"reason":"brief label max 8 words"}]}
+{"issues":[{"type":"similar"|"contradiction"|"alternation"|"tense","sentences":["exact text of sentence"],"reason":"brief label max 8 words"}]}
 
 If no issues found, return: {"issues":[]}
 
@@ -1926,7 +1972,7 @@ ${text}`
       status.innerHTML = `<span style="font-size:13px;color:var(--t1)">${result.issues.length} issue${result.issues.length > 1 ? 's' : ''} flagged</span>`;
       document.getElementById('flagLegend').style.display = 'flex';
     }
-    requestAnimationFrame(highlightDuplicateWords);
+    requestAnimationFrame(() => { highlightDuplicateWords(); highlightTenseIssues(); });
   } catch(e) {
     btn.disabled = false;
     if (e.message === 'CORS_FILE') {
@@ -1943,21 +1989,144 @@ ${text}`
   }
 }
 
+// Store flagged issues so we can show fix suggestions on click
+let _flaggedIssues = [];
+function closeFix() { document.getElementById('fixDropdown').style.display = 'none'; }
+
 function applyFlags(issues) {
+  _flaggedIssues = issues;
   const allSpans = Array.from(document.querySelectorAll('#pubContent span[data-si]'));
-  issues.forEach(issue => {
-    const cls = issue.type === 'contradiction' ? 'f-contra' : issue.type === 'alternation' ? 'f-alt' : 'f-dup';
-    const prefix = issue.type === 'contradiction' ? '⚠ Contradiction: ' : issue.type === 'alternation' ? '↕ Alternation: ' : '≈ Similar: ';
+  issues.forEach((issue, issueIdx) => {
+    const cls = issue.type === 'contradiction' ? 'f-contra' : issue.type === 'alternation' ? 'f-alt' : issue.type === 'tense' ? 'f-tense' : 'f-dup';
     issue.sentences.forEach(target => {
       const trimmed = target.trim();
       allSpans.forEach(span => {
         if (span.textContent.trim() === trimmed ||
             (trimmed.length > 20 && span.textContent.includes(trimmed.slice(0, 30)))) {
           span.className = cls;
-          span.title = prefix + issue.reason;
+          span.title = 'Click for fix suggestion';
+          span.dataset.issueIdx = issueIdx;
+          span.onclick = (e) => { e.stopPropagation(); openFixDropdown(e, span, issue); };
         }
       });
     });
+  });
+}
+
+// Close fix dropdown on outside click
+document.addEventListener('click', e => {
+  const dd = document.getElementById('fixDropdown');
+  if (dd && dd.style.display !== 'none' && !dd.contains(e.target)) {
+    dd.style.display = 'none';
+  }
+});
+
+function openFixDropdown(event, span, issue) {
+  const dd = document.getElementById('fixDropdown');
+  const badge = document.getElementById('fixTypeBadge');
+  const reason = document.getElementById('fixReason');
+  const suggestion = document.getElementById('fixSuggestion');
+  const actions = document.getElementById('fixActions');
+
+  // Position dropdown
+  const rect = span.getBoundingClientRect();
+  dd.style.display = 'block';
+  dd.style.visibility = 'hidden';
+  const ddH = dd.offsetHeight || 200;
+  const spaceBelow = window.innerHeight - rect.bottom - 10;
+  let top = spaceBelow >= ddH ? rect.bottom + 6 : Math.max(8, rect.top - ddH - 6);
+  let left = Math.min(rect.left, window.innerWidth - 350);
+  dd.style.top = top + 'px';
+  dd.style.left = left + 'px';
+  dd.style.visibility = 'visible';
+
+  // Set badge
+  const typeLabels = { similar: 'Similar', contradiction: 'Contradiction', alternation: 'Alternation', tense: 'Tense' };
+  badge.textContent = typeLabels[issue.type] || issue.type;
+  badge.className = 'fix-type-badge ' + issue.type;
+  reason.textContent = issue.reason;
+
+  // Show loading state
+  suggestion.innerHTML = '<div class="fix-loading"><div class="spinner"></div><span>Getting fix suggestion…</span></div>';
+  actions.innerHTML = '<button class="fix-btn" onclick="closeFix()">Dismiss</button>';
+
+  // Fetch AI fix suggestion
+  fetchFixSuggestion(span, issue, suggestion, actions);
+}
+
+async function fetchFixSuggestion(span, issue, suggestionEl, actionsEl) {
+  const fullComment = document.getElementById('pubContent').textContent;
+  const sentences = issue.sentences.join(' / ');
+  const typeDescriptions = {
+    similar: 'two sentences express the same idea',
+    contradiction: 'two sentences contradict each other',
+    alternation: 'two consecutive sentences use the same subject opener (should alternate name/pronoun)',
+    tense: 'a sentence uses a different tense to the rest of the comment'
+  };
+
+  try {
+    const res = await anthropicFetch({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 300,
+      messages: [{
+        role: 'user',
+        content: `You are helping a primary school teacher fix an issue in a student report comment.
+
+Issue type: ${issue.type} — ${typeDescriptions[issue.type] || issue.reason}
+Reason: ${issue.reason}
+Problematic sentence(s): "${sentences}"
+Full comment context: "${fullComment.slice(0, 500)}"
+
+Provide a single concrete fix: either a rewritten version of the problematic sentence, or a brief instruction like "Remove this sentence" or "Combine with the previous sentence".
+
+Keep language simple and parent-friendly. Return ONLY the suggested fix as plain text, no explanation, no quotes.`
+      }]
+    });
+
+    if (!res.ok) throw new Error('API ' + res.status);
+    const data = await res.json();
+    const fix = (data.content?.find(b => b.type === 'text')?.text || '').trim();
+    if (!fix) throw new Error('empty');
+
+    suggestionEl.innerHTML = `<div class="fix-suggestion">${fix}</div>`;
+
+    // Determine what kind of action to offer
+    const isRemoval = /^remove|^delete|^omit/i.test(fix);
+    actionsEl.innerHTML = `
+      <button class="fix-btn" onclick="document.getElementById('fixDropdown').style.display='none'">Dismiss</button>
+      ${isRemoval
+        ? `<button class="fix-btn apply" onclick="applyFlagFix('remove', ${JSON.stringify(span.dataset.pi)}, ${JSON.stringify(span.dataset.si)})">Remove sentence</button>`
+        : `<button class="fix-btn apply" onclick="applyFlagFix('replace', ${JSON.stringify(span.dataset.pi)}, ${JSON.stringify(span.dataset.si)}, ${JSON.stringify(fix).replace(/'/g, "\x27")})">Apply fix</button>`
+      }`;
+
+  } catch(e) {
+    if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED') {
+      suggestionEl.innerHTML = '<div class="fix-suggestion" style="color:var(--t2)">AI fix requires Worker setup — see Worker URL button in toolbar.</div>';
+    } else {
+      suggestionEl.innerHTML = '<div class="fix-suggestion" style="color:var(--t2)">Could not fetch suggestion — try Check for Issues again first.</div>';
+    }
+    actionsEl.innerHTML = '<button class="fix-btn" onclick="closeFix()">Dismiss</button>';
+  }
+}
+
+function applyFlagFix(action, pi, si, replacement) {
+  const span = document.querySelector(`#pubContent span[data-pi="${pi}"][data-si="${si}"]`);
+  if (!span) { document.getElementById('fixDropdown').style.display = 'none'; return; }
+  if (action === 'remove') {
+    const para = span.closest('p.pub-para');
+    span.remove();
+    // Clean up empty paragraph
+    if (para && !para.textContent.trim()) para.remove();
+  } else if (action === 'replace' && replacement) {
+    span.textContent = replacement;
+    span.className = '';
+    span.onclick = null;
+  }
+  document.getElementById('fixDropdown').style.display = 'none';
+  requestAnimationFrame(() => {
+    highlightDuplicateWords();
+    highlightTenseIssues();
+    syncPublishToDraft();
   });
 }
 
@@ -2263,21 +2432,93 @@ let totalStudents = 22;
 function lsGet(k, def) { try { const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : def; } catch { return def; } }
 function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 
+// ── INDEXEDDB STORAGE ─────────────────────────────────────────────
+let _db = null;
+const DB_NAME = 'rcb_store', DB_VER = 1, STORE = 'session';
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    if (_db) { resolve(_db); return; }
+    const req = indexedDB.open(DB_NAME, DB_VER);
+    req.onupgradeneeded = e => e.target.result.createObjectStore(STORE);
+    req.onsuccess = e => { _db = e.target.result; resolve(_db); };
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function idbSet(key, value) {
+  return openDB().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).put(value, key);
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  })).catch(() => lsSet(key, value)); // fall back to localStorage
+}
+
+function idbGet(key) {
+  return openDB().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readonly');
+    const req = tx.objectStore(STORE).get(key);
+    req.onsuccess = () => resolve(req.result ?? null);
+    req.onerror = () => reject(req.error);
+  })).catch(() => lsGet(key, null)); // fall back to localStorage
+}
+
+// ── SAVE INDICATOR ────────────────────────────────────────────────
+let _saveTimer = null;
+function setSaveState(state, label) {
+  const dot = document.getElementById('saveDot');
+  const lbl = document.getElementById('saveLabel');
+  if (dot) dot.className = 'save-dot' + (state ? ' ' + state : '');
+  if (lbl) lbl.textContent = label;
+}
+
+let _publishedSinceLastBackup = false;
+
 function autoSave() {
-  lsSet('rcb_session', { students, currentIdx, totalStudents });
+  // Show saving state
+  setSaveState('saving', 'Saving…');
+  const session = { students, currentIdx, totalStudents, savedAt: new Date().toISOString() };
+  // Save to both IndexedDB (primary) and localStorage (fallback)
+  idbSet('rcb_session', session)
+    .then(() => lsSet('rcb_session', session))
+    .then(() => {
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      setSaveState('saved', 'Saved ' + time);
+      if (_saveTimer) clearTimeout(_saveTimer);
+      _saveTimer = setTimeout(() => setSaveState('', ''), 8000);
+    })
+    .catch(() => {
+      lsSet('rcb_session', session); // ensure localStorage backup always runs
+      setSaveState('saved', 'Saved (local)');
+    });
 }
 
 function loadPersistedState() {
-  const saved = lsGet('rcb_session', null);
+  // Try IndexedDB first, fall back to localStorage
+  idbGet('rcb_session').then(saved => {
+    if (!saved) saved = lsGet('rcb_session', null);
+    if (!saved) return;
+    _applyPersistedState(saved);
+    render();
+    updateProgress();
+    loadTheme();
+  }).catch(() => {
+    const saved = lsGet('rcb_session', null);
+    if (saved) _applyPersistedState(saved);
+  });
+}
+
+function _applyPersistedState(saved) {
+  const saved_ls = lsGet('rcb_session', null);
   if (!saved) return;
-  if (saved.students && saved.students.length) {
-    // Ensure all student objects have required fields (handles older saves)
+  if (saved && saved.students && saved.students.length) {
     students = saved.students.map(s => Object.assign(
       { name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [] }, s
     ));
     currentIdx = Math.min(saved.currentIdx || 0, students.length - 1);
   }
-  if (saved.totalStudents) totalStudents = saved.totalStudents;
+  if (saved && saved.totalStudents) totalStudents = saved.totalStudents;
 }
 
 // ── STREAK ────────────────────────────────────────────────────────
@@ -2674,6 +2915,28 @@ function launchFinaleConfetti() {
 
 
 // ── SESSION EXPORT / IMPORT ───────────────────────────────────────
+
+function autoBackup() {
+  saveCur();
+  const session = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    totalStudents,
+    students,
+    streak: getStreakData(),
+    badges: getEarnedBadges(),
+    myName: getMyName(),
+  };
+  const json = JSON.stringify(session, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(blob),
+    download: 'rcb-backup-' + new Date().toISOString().slice(0, 10) + '.json'
+  });
+  a.click();
+  showToast('Backup saved!');
+}
+
 function exportSession() {
   saveCur();
   const session = {
@@ -2815,6 +3078,58 @@ function stem(word) {
   return w;
 }
 
+
+// ── BUILT-IN TENSE CHECKER ────────────────────────────────────────
+// Detects the dominant tense of the comment and highlights sentences
+// that appear to be in a different tense. Uses simple verb pattern matching.
+const PAST_MARKERS = [
+  /\b(was|were|had|did|went|showed|displayed|demonstrated|participated|competed|represented|performed|enjoyed|worked|helped|used|made|took|gave|came|brought|built|created|developed|improved|produced|completed|achieved|excelled|contributed|supported|encouraged|assisted|engaged|joined|tried|attempted|needed|required|benefited|gained|found|grew|led|managed|applied|adapted|listened|communicated|collaborated|shared|explored|investigated|designed|constructed|planned|organised|organized|began|started|finished|learned|learnt)\b/i
+];
+const PRESENT_MARKERS = [
+  /\b(is|are|has|does|goes|shows|displays|demonstrates|participates|competes|represents|performs|enjoys|works|helps|uses|makes|takes|gives|comes|brings|builds|creates|develops|improves|produces|completes|achieves|excels|contributes|supports|encourages|assists|engages|tries|attempts|needs|requires|benefits|gains|finds|grows|leads|manages|applies|adapts|listens|communicates|collaborates|shares|explores|investigates|designs|constructs|plans|organises|organizes|begins|starts|finishes|learns|approaches|strives|aspires|continues|maintains|demonstrates|displays|shows|achieves|pursues|embraces|tackles|handles|navigates)\b/i
+];
+
+function detectSentenceTense(sentence) {
+  const hasPast = PAST_MARKERS.some(r => r.test(sentence));
+  const hasPresent = PRESENT_MARKERS.some(r => r.test(sentence));
+  if (hasPast && !hasPresent) return 'past';
+  if (hasPresent && !hasPast) return 'present';
+  if (hasPast && hasPresent) return 'mixed';
+  return 'unknown';
+}
+
+function highlightTenseIssues() {
+  const pubContent = document.getElementById('pubContent');
+  if (!pubContent) return;
+
+  const spans = Array.from(pubContent.querySelectorAll('span[data-si]'));
+  if (spans.length < 2) return;
+
+  // Remove previous tense flags
+  spans.forEach(s => {
+    if (s.className === 'f-tense') { s.className = ''; s.title = ''; }
+  });
+
+  // Detect tense for each sentence
+  const tenses = spans.map(s => detectSentenceTense(s.textContent));
+
+  // Find dominant tense (ignore 'unknown' and 'mixed')
+  const counts = { past: 0, present: 0 };
+  tenses.forEach(t => { if (t === 'past' || t === 'present') counts[t]++; });
+  const dominant = counts.present >= counts.past ? 'present' : 'past';
+  const minority = dominant === 'present' ? 'past' : 'present';
+
+  // Only flag if there's a clear majority and at least one minority
+  if (counts[minority] === 0 || counts[dominant] === 0) return;
+
+  spans.forEach((span, i) => {
+    if (tenses[i] === minority) {
+      span.classList.add('f-tense');
+      span.title = `Tense mismatch: comment is mostly ${dominant} tense`;
+    }
+  });
+}
+
 function highlightDuplicateWords() {
   const content = document.getElementById('pubContent');
   if (!content) return;
@@ -2953,6 +3268,7 @@ function applyEditSentence() {
   closeSynDropdown();
   requestAnimationFrame(() => {
     highlightDuplicateWords();
+    highlightTenseIssues();
     syncPublishToDraft();
   });
 }
@@ -2985,6 +3301,7 @@ function omitDupWord() {
   closeSynDropdown();
   requestAnimationFrame(() => {
     highlightDuplicateWords();
+    highlightTenseIssues();
     syncPublishToDraft();
   });
 }
@@ -3074,6 +3391,7 @@ function applyRewrite() {
   closeSynDropdown();
   requestAnimationFrame(() => {
     highlightDuplicateWords();
+    highlightTenseIssues();
     syncPublishToDraft();
   });
 }
@@ -3209,6 +3527,7 @@ function replaceDupWord(markEl, synonym) {
   closeSynDropdown();
   requestAnimationFrame(() => {
     highlightDuplicateWords();
+    highlightTenseIssues();
     syncPublishToDraft();
   });
 }
@@ -3309,13 +3628,11 @@ document.addEventListener('mousemove', e => {
   }
 });
 
+// loadPersistedState is now async (IndexedDB) — it calls render() itself
 loadPersistedState();
-loadCur();
-render();
-updateProgress();
 loadTheme();
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.5.1</div>
+<div class="version-badge">v2.5.4</div>
 </body>
 </html>
