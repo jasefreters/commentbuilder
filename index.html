@@ -167,8 +167,10 @@
   .progress-label b { color: var(--t0); }
   .progress-label.done b { color: var(--green); }
   .progress-track { width: 120px; height: 4px; background: var(--bg-3); border-radius: 999px; overflow: hidden; border: 1px solid var(--border); }
-  .progress-fill { height: 100%; background: var(--green); border-radius: 999px; transition: width 0.4s cubic-bezier(.4,0,.2,1); width: 0%; }
-  .progress-fill.done { background: var(--green); }
+  .progress-fill { height: 100%; background: var(--amber); border-radius: 999px; transition: width 0.4s cubic-bezier(.4,0,.2,1), background 0.3s; width: 0%; }
+  .progress-fill.english { background: #60a5fa; }
+  .progress-fill.maths { background: #a78bfa; }
+  .progress-fill.done { background: var(--green) !important; }
 
   /* CONFETTI CANVAS */
   #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
@@ -190,16 +192,20 @@
   .stats-section-title { font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--t2); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
 
   /* BADGES */
+  .badges-section { margin-bottom: 1.5rem; }
+  .badges-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .09em; color: var(--t2); margin-bottom: 8px; }
   .badges-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-  .badge { display: flex; align-items: center; gap: 10px; background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--r-md); padding: 10px 14px; min-width: 200px; flex: 1; transition: border-color .2s; }
+  .badge { display: flex; align-items: center; gap: 10px; background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--r-md); padding: 10px 14px; min-width: 200px; flex: 1; transition: border-color .2s, background .2s; position: relative; cursor: default; }
+  .badge:hover .badge-tooltip { opacity: 1; pointer-events: auto; transform: translateY(0); }
   .badge.earned { border-color: var(--green-bd); background: var(--green-bg); }
   .badge.earned .badge-icon { opacity: 1; filter: none; }
-  .badge.earned .badge-name { color: #a7f3c0; }
-  .badge-icon { font-size: 22px; filter: grayscale(1); opacity: .3; transition: all .3s; }
-  .badge-text { flex: 1; }
+  .badge-icon { font-size: 22px; filter: grayscale(1); opacity: .3; transition: all .3s; flex-shrink: 0; }
   .badge-name { font-size: 13px; font-weight: 500; color: var(--t1); }
+  .badge.earned .badge-name { color: #a7f3c0; }
+  .badge-text { flex: 1; }
   .badge-desc { font-size: 11px; color: var(--t2); margin-top: 2px; }
-  .badge-new { font-size: 10px; background: var(--green); color: #000; border-radius: 999px; padding: 1px 7px; font-weight: 600; margin-left: auto; animation: pop .4s cubic-bezier(.36,.07,.19,.97); }
+  .badge-tooltip { display: none; }
+  .badge-new { position: absolute; top: -4px; right: -4px; font-size: 9px; background: var(--green); color: #000; border-radius: 999px; padding: 1px 5px; font-weight: 700; animation: pop .4s cubic-bezier(.36,.07,.19,.97); }
   @keyframes pop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.3)} }
 
 
@@ -470,6 +476,21 @@
   .grade-entry-done { font-family: var(--font); font-size: 12px; font-weight: 600; padding: 8px; border-radius: var(--r-sm); border: none; background: var(--green-bg); color: var(--green); cursor: pointer; margin-top: 4px; border: 1px solid var(--green-bd); }
   .grade-entry-done:hover { border-color: var(--green); }
   .grade-entry-skip { font-family: var(--font); font-size: 11px; color: var(--t2); background: none; border: none; cursor: pointer; padding: 4px; text-decoration: underline; text-align: center; }
+
+  /* SETTINGS PANEL */
+  .settings-btn { width: 32px; height: 32px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t1); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .15s; }
+  .settings-btn:hover { border-color: var(--border-h); color: var(--t0); background: var(--bg-4); }
+  .settings-btn.open { border-color: var(--border-h); color: var(--t0); background: var(--bg-2); }
+  .settings-panel { position: fixed; top: 52px; right: 10px; width: 260px; background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-md); box-shadow: 0 8px 28px rgba(0,0,0,0.45); z-index: 500; overflow: hidden; }
+  .settings-section { padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .settings-section:last-child { border-bottom: none; }
+  .settings-section-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--t2); padding: 4px 14px 6px; }
+  .settings-row { display: flex; align-items: center; gap: 10px; padding: 6px 14px; }
+  .settings-row-label { font-size: 13px; color: var(--t1); flex: 1; }
+  .settings-action-btn { font-family: var(--font); font-size: 12px; padding: 5px 12px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t0); cursor: pointer; white-space: nowrap; transition: all .12s; }
+  .settings-action-btn:hover { background: var(--bg-4); border-color: var(--border-h); }
+  .settings-action-btn.green { border-color: var(--green-bd); color: var(--green); background: var(--green-bg); }
+  .settings-action-btn.green:hover { border-color: var(--green); }
 </style>
 </head>
 <body>
@@ -482,8 +503,8 @@
     <button class="subject-btn" id="subjMaths" onclick="setSubject('maths')">Maths</button>
   </div>
   <div class="sem-toggle">
-    <button class="sem-btn active s1" id="semS1" onclick="setSemester(1)">Semester 1</button>
-    <button class="sem-btn s2" id="semS2" onclick="setSemester(2)">Semester 2</button>
+    <button class="sem-btn active s1" id="semS1" onclick="setSemester(1)">S1</button>
+    <button class="sem-btn s2" id="semS2" onclick="setSemester(2)">S2</button>
   </div>
   <div class="view-toggle">
     <button class="vbtn active" id="vBuild" onclick="setView('build')">Build</button>
@@ -514,21 +535,50 @@
       <option value="6">Y6</option>
     </select>
   </div>
-  <div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
-    <div class="theme-toggle-track"><div class="theme-toggle-thumb"></div></div>
-    <span class="theme-toggle-label" id="themeLabel">Dark</span>
-  </div>
-  <div class="session-btns">
-    <button class="hdr-btn" onclick="exportSession()" title="Save all your work to a file">
-      <svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 10V3m0 7l-3-3m3 3l3-3"/><path d="M3 13h10"/></svg>
-      Export session
-    </button>
-    <button class="hdr-btn import" onclick="importSession()" title="Load a previously saved session">
-      <svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6v7m0-7l-3 3m3-3l3 3"/><path d="M3 3h10"/></svg>
-      Import session
-    </button>
-  </div>
+  <!-- Settings button -->
+  <button class="settings-btn" id="settingsBtn" onclick="toggleSettings()" title="Settings">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="8" cy="8" r="2.5"/>
+      <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"/>
+    </svg>
+  </button>
 </header>
+
+<!-- Settings panel -->
+<div class="settings-panel" id="settingsPanel" style="display:none">
+  <div class="settings-section">
+    <div class="settings-section-label">Appearance</div>
+    <div class="settings-row">
+      <span class="settings-row-label">Theme</span>
+      <div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+        <div class="theme-toggle-track"><div class="theme-toggle-thumb"></div></div>
+        <span class="theme-toggle-label" id="themeLabel">Dark</span>
+      </div>
+    </div>
+  </div>
+  <div class="settings-section">
+    <div class="settings-section-label">Session</div>
+    <div class="settings-row">
+      <span class="settings-row-label">Export session</span>
+      <button class="settings-action-btn green" onclick="exportSession(); toggleSettings()">Export</button>
+    </div>
+    <div class="settings-row">
+      <span class="settings-row-label">Import session</span>
+      <button class="settings-action-btn" onclick="importSession(); toggleSettings()">Import</button>
+    </div>
+  </div>
+  <div class="settings-section">
+    <div class="settings-section-label">AI Features</div>
+    <div class="settings-row">
+      <span class="settings-row-label">API key</span>
+      <button class="settings-action-btn" onclick="promptApiKey(); toggleSettings()">Set key</button>
+    </div>
+    <div class="settings-row">
+      <span class="settings-row-label">Worker URL</span>
+      <button class="settings-action-btn" onclick="showProxyGuide(); toggleSettings()">Set URL</button>
+    </div>
+  </div>
+</div>
 
 <div class="main">
 
@@ -638,14 +688,7 @@
         <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>
         Copy
       </button>
-      <button class="btn btn-ghost" onclick="promptApiKey()" style="width:auto;font-size:11px;padding:6px 10px" title="Set API key for Check for Issues">
-        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 1a4 4 0 014 4 4 4 0 01-4 4 4 4 0 01-3.46-2H2l-1 1-1-1 1-1H1V5h1l3.54 0A4 4 0 0111 1z"/><circle cx="12" cy="5" r="1" fill="currentColor" stroke="none"/></svg>
-        API key
-      </button>
-      <button class="btn btn-ghost" onclick="showProxyGuide()" style="width:auto;font-size:11px;padding:6px 10px" title="Set Cloudflare Worker proxy URL">
-        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8h2m8 0h2M8 2v2m0 8v2"/><circle cx="8" cy="8" r="3"/></svg>
-        Worker URL
-      </button>
+
       <div id="checkStatus"></div>
       <div class="flag-legend" id="flagLegend" style="display:none">
         <div class="leg"><div class="swatch d"></div><span>Similar idea</span></div>
@@ -666,7 +709,7 @@
       <!-- BADGES -->
       <div class="stats-section">
         <div class="stats-section-title">Badges</div>
-        <div class="badges-grid" id="badgesGrid"></div>
+        <div id="badgesGrid"></div>
       </div>
 
     </div>
@@ -1315,7 +1358,10 @@ function setSubject(subj) {
   } else {
     currentTab = CATS[0];
   }
-  render();
+  // Always switch to Build view when changing subject
+  if (currentView !== 'build') setView('build');
+  else render();
+  updateProgress();
 }
 
 function getCatList() {
@@ -3418,8 +3464,7 @@ function renderPublish() {
     ).join(' ')}</p>`;
   }).join('');
 
-  // Only mark published / trigger confetti for general comments
-  // English/Maths have their own published flags
+  // Mark published and trigger effects per subject
   if (currentSubject === 'general') {
     const wasPublished = stu.published;
     stu.published = true;
@@ -3428,7 +3473,17 @@ function renderPublish() {
     updateProgress();
     if (!stu.confettiShown) { stu.confettiShown = true; launchConfetti(); autoSave(); }
     if (!wasPublished) autoBackup();
-  } else {
+  } else if (currentSubject === 'english') {
+    const wasPublished = stu.engPublished;
+    stu.engPublished = true;
+    if (!wasPublished) { touchStreak(); autoBackup(); }
+    updateProgress();
+    autoSave();
+  } else if (currentSubject === 'maths') {
+    const wasPublished = stu.mathPublished;
+    stu.mathPublished = true;
+    if (!wasPublished) { touchStreak(); autoBackup(); }
+    updateProgress();
     autoSave();
   }
 
@@ -4344,14 +4399,28 @@ function touchStreak() {
 
 // ── BADGES ────────────────────────────────────────────────────────
 const BADGE_DEFS = [
-  { id: 'first',    icon: '🌱', name: 'First Published',  desc: 'Publish your first comment',         check: (n) => n >= 1  },
-  { id: 'five',     icon: '⭐', name: 'On a Roll',         desc: 'Publish 5 comments',                 check: (n) => n >= 5  },
-  { id: 'ten',      icon: '🔥', name: 'Fired Up',          desc: 'Publish 10 comments',                check: (n) => n >= 10 },
-  { id: 'halfway',  icon: '🏃', name: 'Halfway There',     desc: 'Publish 11 comments',                check: (n) => n >= 11 },
-  { id: 'twenty',   icon: '🚀', name: 'Almost Done',       desc: 'Publish 20 comments',                check: (n) => n >= 20 },
-  { id: 'allDone',  icon: '🏆', name: 'All Done!',         desc: 'Publish all comments',               check: (n,t) => n >= t },
-  { id: 'streak3',  icon: '⚡', name: 'Three Day Streak',  desc: 'Use the app 3 days in a row',        check: (n,t,s) => s >= 3 },
-  { id: 'streak5',  icon: '💎', name: 'Five Day Streak',   desc: 'Use the app 5 days in a row',        check: (n,t,s) => s >= 5 },
+  // Publishing milestones
+  { id: 'first',     icon: '🌱', name: 'First Steps',       desc: 'Publish your very first comment',                check: (n) => n >= 1  },
+  { id: 'five',      icon: '⭐', name: 'On a Roll',          desc: 'Publish 5 comments',                             check: (n) => n >= 5  },
+  { id: 'ten',       icon: '🔥', name: 'Fired Up',           desc: 'Publish 10 comments',                            check: (n) => n >= 10 },
+  { id: 'halfway',   icon: '🏃', name: 'Halfway There',      desc: 'Reach the halfway point of your class',          check: (n,t) => t > 0 && n >= Math.ceil(t/2) },
+  { id: 'twenty',    icon: '🚀', name: 'Full Steam Ahead',   desc: 'Publish 20 comments',                            check: (n) => n >= 20 },
+  { id: 'allDone',   icon: '🏆', name: 'All Done!',          desc: 'Publish every student general comment',       check: (n,t) => t > 0 && n >= t },
+  // Streak badges
+  { id: 'streak2',   icon: '⚡', name: 'Two Days Running',   desc: 'Use the app 2 days in a row',                   check: (n,t,s) => s >= 2 },
+  { id: 'streak3',   icon: '💥', name: 'Three Day Streak',   desc: 'Use the app 3 days in a row',                   check: (n,t,s) => s >= 3 },
+  { id: 'streak5',   icon: '💎', name: 'Five Day Streak',    desc: 'Use the app 5 days in a row',                   check: (n,t,s) => s >= 5 },
+  { id: 'streak7',   icon: '👑', name: 'Week Warrior',       desc: 'Use the app 7 days in a row',                   check: (n,t,s) => s >= 7 },
+  // English & Maths milestones
+  { id: 'eng1',      icon: '📖', name: 'English Begun',      desc: 'Start an English comment for any student',       check: (n,t,s,stu) => stu.some(st => st.engPublished) },
+  { id: 'engAll',    icon: '📚', name: 'English Complete',   desc: 'Complete English comments for all students',     check: (n,t,s,stu) => t > 0 && stu.filter(st => st.engPublished).length >= t },
+  { id: 'math1',     icon: '🔢', name: 'Maths Begun',        desc: 'Start a Maths comment for any student',          check: (n,t,s,stu) => stu.some(st => st.mathPublished) },
+  { id: 'mathAll',   icon: '🧮', name: 'Maths Complete',     desc: 'Complete Maths comments for all students',       check: (n,t,s,stu) => t > 0 && stu.filter(st => st.mathPublished).length >= t },
+  { id: 'tripleAll', icon: '🎓', name: 'Triple Threat',      desc: 'Complete General, English and Maths for all',    check: (n,t,s,stu) => t > 0 && n >= t && stu.filter(st => st.engPublished).length >= t && stu.filter(st => st.mathPublished).length >= t },
+  // Quality badges
+  { id: 'words500',  icon: '✍️',  name: 'Word Crafter',       desc: 'Write 500 words across all comments',            check: (n,t,s,stu,w) => w >= 500 },
+  { id: 'words2000', icon: '📝', name: 'Wordy Teacher',      desc: 'Write 2,000 words across all comments',          check: (n,t,s,stu,w) => w >= 2000 },
+  { id: 'words5000', icon: '🖊️',  name: 'Prolific Writer',    desc: 'Write 5,000 words across all comments',          check: (n,t,s,stu,w) => w >= 5000 },
 ];
 
 function getEarnedBadges() { return lsGet('rcb_badges', []); }
@@ -4442,6 +4511,25 @@ async function saveProxyUrl() {
     showToast('Could not reach Worker URL — check it was deployed correctly.');
   }
 }
+
+function toggleSettings() {
+  const panel = document.getElementById('settingsPanel');
+  const btn = document.getElementById('settingsBtn');
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  btn.className = 'settings-btn' + (isOpen ? '' : ' open');
+}
+
+// Close settings panel when clicking outside
+document.addEventListener('click', e => {
+  const panel = document.getElementById('settingsPanel');
+  const btn = document.getElementById('settingsBtn');
+  if (panel && panel.style.display !== 'none' && !panel.contains(e.target) && !btn.contains(e.target)) {
+    panel.style.display = 'none';
+    btn.className = 'settings-btn';
+  }
+});
+
 function showBadgeNotif(badge) {
   document.getElementById('badgeNotifIcon').textContent = badge.icon;
   document.getElementById('badgeNotifName').textContent = badge.name;
@@ -4526,96 +4614,168 @@ function launchFireworks() {
   confettiFrame = requestAnimationFrame(drawFireworks);
 }
 
+function getTotalWordsWritten() {
+  return students.reduce((acc, stu) => {
+    const genText = getPublishedText(stu) || '';
+    const engText = stu.engDraft || (stu.engOrdered||[]).join(' ');
+    const mathText = stu.mathDraft || (stu.mathOrdered||[]).join(' ');
+    return acc + [genText, engText, mathText].join(' ').trim().split(/\s+/).filter(Boolean).length;
+  }, 0);
+}
+
 function checkBadges(done, total, streak) {
   const earned = getEarnedBadges();
   const newlyEarned = [];
+  const totalWords = getTotalWordsWritten();
   BADGE_DEFS.forEach(b => {
-    if (!earned.includes(b.id) && b.check(done, total, streak)) {
+    if (!earned.includes(b.id) && b.check(done, total, streak, students, totalWords)) {
       earned.push(b.id);
       newlyEarned.push(b);
     }
   });
   if (newlyEarned.length) {
     saveEarnedBadges(earned);
-    // Show badge notifications sequentially
-    newlyEarned.forEach((b, i) => {
-      setTimeout(() => showBadgeNotif(b), i * 4500);
-    });
+    newlyEarned.forEach(b => showBadgeNotif(b));
   }
-  return earned;
 }
-
-// ── STATS RENDER ─────────────────────────────────────────────────
 function renderStats() {
   const done = students.filter(s => s.published).length;
-  const totalWords = students.filter(s => s.published).reduce((acc, stu) => {
-    const name = stu.name || 'Name';
-    const p = PR[stu.pronoun];
-    const text = getPublishedText(stu);
-    return acc + (text ? text.trim().split(/\s+/).filter(Boolean).length : 0);
+  const engDone = students.filter(s => s.engPublished).length;
+  const mathDone = students.filter(s => s.mathPublished).length;
+  const totalWords = getTotalWordsWritten();
+  const genWords = students.filter(s => s.published).reduce((acc, stu) => {
+    const text = getPublishedText(stu) || '';
+    return acc + text.trim().split(/\s+/).filter(Boolean).length;
   }, 0);
-  const avgWords = done > 0 ? Math.round(totalWords / done) : 0;
+  const avgWords = done > 0 ? Math.round(genWords / done) : 0;
+  const remaining = Math.max(0, totalStudents - done);
   const streak = getStreakData().count;
   const earned = getEarnedBadges();
+  const completion = totalStudents > 0 ? Math.round((done / totalStudents) * 100) : 0;
 
-  // Stat cards
   const grid = document.getElementById('statsGrid');
   if (grid) grid.innerHTML = `
     <div class="stat-card">
       <div class="stat-card-val green">${done}</div>
-      <div class="stat-card-label">Published</div>
+      <div class="stat-card-label">General Published</div>
+      <div class="stat-card-sub">${completion}% complete — ${remaining} remaining</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-val" style="color:#60a5fa">${engDone}</div>
+      <div class="stat-card-label">English Done</div>
+      <div class="stat-card-sub">of ${totalStudents} students</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-val" style="color:#a78bfa">${mathDone}</div>
+      <div class="stat-card-label">Maths Done</div>
       <div class="stat-card-sub">of ${totalStudents} students</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-val amber">${streak}</div>
       <div class="stat-card-label">Day Streak</div>
-      <div class="stat-card-sub">${streak === 0 ? 'Start today!' : streak === 1 ? 'Started today' : (streak + ' days running')}</div>
+      <div class="stat-card-sub">${streak === 0 ? 'Start today!' : streak === 1 ? 'Started today' : streak + ' days running'}</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-val">${totalWords.toLocaleString()}</div>
-      <div class="stat-card-label">Words Written</div>
-      <div class="stat-card-sub">across all published comments</div>
+      <div class="stat-card-label">Total Words</div>
+      <div class="stat-card-sub">across all subjects</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-val purple">${avgWords}</div>
       <div class="stat-card-label">Avg Words</div>
-      <div class="stat-card-sub">per published comment</div>
+      <div class="stat-card-sub">per general comment</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-val">${earned.length}</div>
       <div class="stat-card-label">Badges</div>
       <div class="stat-card-sub">of ${BADGE_DEFS.length} available</div>
     </div>
+    <div class="stat-card">
+      <div class="stat-card-val green">${students.length}</div>
+      <div class="stat-card-label">Students</div>
+      <div class="stat-card-sub">in this session</div>
+    </div>
   `;
 
-  // Badges
+  // Badges — grouped sections with compact icon grid
   const bgrid = document.getElementById('badgesGrid');
-  if (bgrid) bgrid.innerHTML = BADGE_DEFS.map(b => {
-    const isEarned = earned.includes(b.id);
-    return `<div class="badge${isEarned ? ' earned' : ''}">
-      <div class="badge-icon">${b.icon}</div>
-      <div class="badge-text">
-        <div class="badge-name">${b.name}</div>
-        <div class="badge-desc">${b.desc}</div>
-      </div>
-    </div>`;
-  }).join('');
-
+  if (bgrid) {
+    const groups = [
+      { label: 'Publishing', ids: ['first','five','ten','halfway','twenty','allDone'] },
+      { label: 'Streaks', ids: ['streak2','streak3','streak5','streak7'] },
+      { label: 'English & Maths', ids: ['eng1','engAll','math1','mathAll','tripleAll'] },
+      { label: 'Words Written', ids: ['words500','words2000','words5000'] },
+    ];
+    bgrid.innerHTML = '';
+    const groups2 = [
+      { label: 'Publishing', ids: ['first','five','ten','halfway','twenty','allDone'] },
+      { label: 'Streaks', ids: ['streak2','streak3','streak5','streak7'] },
+      { label: 'English & Maths', ids: ['eng1','engAll','math1','mathAll','tripleAll'] },
+      { label: 'Words Written', ids: ['words500','words2000','words5000'] },
+    ];
+    groups2.forEach(group => {
+      const section = document.createElement('div');
+      section.className = 'badges-section';
+      const titleEl = document.createElement('div');
+      titleEl.className = 'badges-section-title';
+      titleEl.textContent = group.label;
+      section.appendChild(titleEl);
+      const grid = document.createElement('div');
+      grid.className = 'badges-grid';
+      group.ids.forEach(id => {
+        const b = BADGE_DEFS.find(x => x.id === id);
+        if (!b) return;
+        const isEarned = earned.includes(b.id);
+        const el = document.createElement('div');
+        el.className = 'badge' + (isEarned ? ' earned' : '');
+        el.innerHTML = '<div class="badge-icon">' + b.icon + '</div>' +
+          '<div class="badge-text"><div class="badge-name">' + b.name + '</div>' +
+          '<div class="badge-desc">' + b.desc + '</div></div>';
+        grid.appendChild(el);
+      });
+      section.appendChild(grid);
+      bgrid.appendChild(section);
+    });
+  }
 }
 
 // ── PROGRESS BAR ─────────────────────────────────────────────────
 function updateProgress() {
   autoSave();
+  const fill = document.getElementById('progressFill');
+  const label = document.getElementById('progressLabel');
+
+  if (currentSubject === 'english') {
+    const done = students.filter(s => s.engPublished).length;
+    const pct = Math.min(100, (done / totalStudents) * 100);
+    fill.style.width = pct + '%';
+    fill.className = 'progress-fill english' + (done >= totalStudents ? ' done' : '');
+    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${totalStudents}</span> English ✎`;
+    label.className = done >= totalStudents ? 'progress-label done' : 'progress-label';
+    checkBadges(students.filter(s => s.published).length, totalStudents, getStreakData().count);
+    return;
+  }
+  if (currentSubject === 'maths') {
+    const done = students.filter(s => s.mathPublished).length;
+    const pct = Math.min(100, (done / totalStudents) * 100);
+    fill.style.width = pct + '%';
+    fill.className = 'progress-fill maths' + (done >= totalStudents ? ' done' : '');
+    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${totalStudents}</span> Maths ✎`;
+    label.className = done >= totalStudents ? 'progress-label done' : 'progress-label';
+    checkBadges(students.filter(s => s.published).length, totalStudents, getStreakData().count);
+    return;
+  }
+
+  // General
   const done = students.filter(s => s.published).length;
   const pct = Math.min(100, (done / totalStudents) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  const label = document.getElementById('progressLabel');
-  const allDone = done >= totalStudents;
+  fill.style.width = pct + '%';
+  fill.className = 'progress-fill' + (done >= totalStudents ? ' done' : '');
   label.innerHTML = `<b>${done}</b> / <span id="classTotal">${totalStudents}</span> done ✎`;
-  label.className = allDone ? 'progress-label done' : 'progress-label';
+  label.className = done >= totalStudents ? 'progress-label done' : 'progress-label';
   const streak = getStreakData().count;
   checkBadges(done, totalStudents, streak);
-  if (allDone && !lsGet('rcb_finale_played', false)) { lsSet('rcb_finale_played', true); launchFinaleConfetti(); }
+  if (done >= totalStudents && !lsGet('rcb_finale_played', false)) { lsSet('rcb_finale_played', true); launchFinaleConfetti(); }
 }
 
 function editClassSize() {
@@ -5443,6 +5603,6 @@ loadTheme();
 const _savedSubj = lsGet('rcb_subject', 'general'); if (_savedSubj !== 'general') setTimeout(() => setSubject(_savedSubj), 100);
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.8.2</div>
+<div class="version-badge">v2.8.7</div>
 </body>
 </html>
