@@ -406,12 +406,81 @@
   .fix-btn.apply { background: var(--green-bg); border-color: var(--green-bd); color: var(--green); font-weight: 500; }
   .fix-btn.apply:hover { border-color: var(--green); }
   .fix-loading { padding: 12px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--t1); }
+
+  /* SUBJECT SWITCHER */
+  .subject-toggle { display: flex; background: var(--bg-3); border: 1px solid var(--border); border-radius: 999px; padding: 3px; gap: 2px; flex-shrink: 0; }
+  .subject-btn { font-family: var(--font); font-size: 12px; padding: 4px 12px; border-radius: 999px; border: none; background: none; color: var(--t1); cursor: pointer; transition: all .15s; white-space: nowrap; font-weight: 500; }
+  .subject-btn.active { background: var(--bg-1); color: var(--t0); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .subject-btn.active.english { color: #60a5fa; }
+  .subject-btn.active.maths { color: #a78bfa; }
+
+  /* GRADE SELECTOR */
+  .grade-sel-wrap { display: flex; align-items: center; gap: 6px; padding: 8px 12px 4px; border-bottom: 1px solid var(--border); flex-shrink: 0; flex-wrap: wrap; }
+  .grade-sel-label { font-size: 10px; font-weight: 500; color: var(--t2); text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+  .grade-btn { font-family: var(--font); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); background: none; color: var(--t1); cursor: pointer; transition: all .12s; }
+  .grade-btn:hover { border-color: var(--border-h); color: var(--t0); }
+  .grade-btn.active-A { border-color: #22c55e; background: rgba(34,197,94,0.12); color: #22c55e; }
+  .grade-btn.active-B { border-color: #60a5fa; background: rgba(96,165,250,0.12); color: #60a5fa; }
+  .grade-btn.active-C { border-color: #fbbf24; background: rgba(251,191,36,0.12); color: #fbbf24; }
+  .grade-btn.active-D { border-color: #fb923c; background: rgba(251,146,60,0.12); color: #fb923c; }
+  .grade-btn.active-E { border-color: #f87171; background: rgba(248,113,113,0.12); color: #f87171; }
+  .grade-indicator { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .grade-indicator.A { background: #22c55e; }
+  .grade-indicator.B { background: #60a5fa; }
+  .grade-indicator.C { background: #fbbf24; }
+  .grade-indicator.D { background: #fb923c; }
+  .grade-indicator.E { background: #f87171; }
+
+  /* GRADE DIVIDERS IN SENTENCE BANK */
+  .grade-divider { display: flex; align-items: center; gap: 8px; margin: 8px 0 4px; }
+  .grade-divider-line { flex: 1; height: 1px; background: var(--border); }
+  .grade-divider-label { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+  .grade-divider-label.A { color: #22c55e; border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.1); }
+  .grade-divider-label.B { color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.1); }
+  .grade-divider-label.C { color: #fbbf24; border-color: rgba(251,191,36,0.3); background: rgba(251,191,36,0.1); }
+  .grade-divider-label.D { color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.1); }
+  .grade-divider-label.E { color: #f87171; border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.1); }
+  .opt.grade-selected { border-color: var(--blue); background: rgba(96,165,250,0.08); }
+  html.light .opt.grade-selected { background: rgba(96,165,250,0.06); }
+
+  /* SUBJECT CHIP TABS */
+  .stu-subj-tabs { display: flex; gap: 3px; border-bottom: 1px solid var(--border); padding: 0 1.1rem 0; flex-shrink: 0; background: var(--bg-1); }
+  .stu-subj-tab { font-family: var(--font); font-size: 11px; padding: 5px 10px; border: none; background: none; color: var(--t2); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .1s, border-color .1s; font-weight: 500; }
+  .stu-subj-tab:hover { color: var(--t1); }
+  .stu-subj-tab.active { color: var(--t0); border-bottom-color: var(--amber); }
+  .stu-subj-tab.active.english { border-bottom-color: #60a5fa; color: #60a5fa; }
+  .stu-subj-tab.active.maths { border-bottom-color: #a78bfa; color: #a78bfa; }
+  .stu-subj-tab.has-content::after { content: ' ●'; font-size: 7px; vertical-align: middle; color: var(--green); }
+
+  /* GRADE ENTRY SCREEN */
+  .grade-entry-screen { padding: 12px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; flex: 1; }
+  .grade-entry-title { font-size: 12px; font-weight: 600; color: var(--t0); margin-bottom: 2px; }
+  .grade-entry-hint { font-size: 11px; color: var(--t2); margin-bottom: 6px; }
+  .grade-entry-row { display: flex; align-items: center; gap: 8px; padding: 6px 8px; background: var(--bg-2); border-radius: var(--r-sm); border: 1px solid var(--border); }
+  .grade-entry-strand { font-size: 12px; color: var(--t1); flex: 1; min-width: 0; }
+  .grade-entry-strand-group { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--t2); padding: 6px 2px 2px; }
+  .grade-pill-row { display: flex; gap: 3px; flex-shrink: 0; }
+  .grade-pill { font-family: var(--font); font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--border); background: none; color: var(--t2); cursor: pointer; transition: all .1s; }
+  .grade-pill:hover { color: var(--t0); border-color: var(--border-h); }
+  .grade-pill.sel-A { border-color: #22c55e; background: rgba(34,197,94,0.12); color: #22c55e; }
+  .grade-pill.sel-B { border-color: #60a5fa; background: rgba(96,165,250,0.12); color: #60a5fa; }
+  .grade-pill.sel-C { border-color: #fbbf24; background: rgba(251,191,36,0.12); color: #fbbf24; }
+  .grade-pill.sel-D { border-color: #fb923c; background: rgba(251,146,60,0.12); color: #fb923c; }
+  .grade-pill.sel-E { border-color: #f87171; background: rgba(248,113,113,0.12); color: #f87171; }
+  .grade-entry-done { font-family: var(--font); font-size: 12px; font-weight: 600; padding: 8px; border-radius: var(--r-sm); border: none; background: var(--green-bg); color: var(--green); cursor: pointer; margin-top: 4px; border: 1px solid var(--green-bd); }
+  .grade-entry-done:hover { border-color: var(--green); }
+  .grade-entry-skip { font-family: var(--font); font-size: 11px; color: var(--t2); background: none; border: none; cursor: pointer; padding: 4px; text-decoration: underline; text-align: center; }
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">Comment Builder</div>
+  <div class="subject-toggle">
+    <button class="subject-btn active" id="subjGeneral" onclick="setSubject('general')">General</button>
+    <button class="subject-btn" id="subjEnglish" onclick="setSubject('english')">English</button>
+    <button class="subject-btn" id="subjMaths" onclick="setSubject('maths')">Maths</button>
+  </div>
   <div class="sem-toggle">
     <button class="sem-btn active s1" id="semS1" onclick="setSemester(1)">Semester 1</button>
     <button class="sem-btn s2" id="semS2" onclick="setSemester(2)">Semester 2</button>
@@ -484,7 +553,8 @@
         <div class="c-title" id="cTitle"></div>
         <div class="c-hint">Click to add · click again to remove</div>
       </div>
-      <div class="opts" id="optsGrid"></div>
+      <div class="grade-sel-wrap" id="gradeSelWrap" style="display:none"></div>
+  <div class="opts" id="optsGrid"></div>
     </main>
     <aside class="panel">
       <div class="p-top">
@@ -494,6 +564,11 @@
         </div>
         <div class="wc-bar-wrap"><div class="wc-bar" id="wcBar"></div></div>
         <div class="stu-bar" id="stuBar"></div>
+      </div>
+      <div class="stu-subj-tabs" id="stuSubjTabs">
+        <button class="stu-subj-tab active" id="tabGeneral" onclick="setSubject('general')">General</button>
+        <button class="stu-subj-tab english" id="tabEnglish" onclick="setSubject('english')">English</button>
+        <button class="stu-subj-tab maths" id="tabMaths" onclick="setSubject('maths')">Maths</button>
       </div>
       <div class="out-editable" id="outEditable" contenteditable="true"
            data-placeholder="Select sentences from the centre to build this student’s comment, or type here directly…"
@@ -993,7 +1068,7 @@ CATS.forEach(cat => RAW[cat].forEach(s => { SENT_CAT[s] = cat; }));
 let currentView = 'build';
 let currentSemester = 1;
 let currentTab = CATS[0];
-let students = [{ name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [] }];
+let students = [{ name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [], engSelected: {}, engOrdered: [], engGrades: {}, engDraft: null, engPublished: false, mathSelected: {}, mathOrdered: [], mathGrades: {}, mathDraft: null, mathPublished: false }];
 let currentIdx = 0;
 
 const cur = () => students[currentIdx];
@@ -1210,6 +1285,418 @@ function getPublishedText(stu) {
   });
 
   return paras.filter(para => para.length).map(para => para.join(' ')).join('\n\n');
+}
+
+
+// ── SUBJECT SWITCHER ─────────────────────────────────────────────
+let currentSubject = 'general'; // 'general' | 'english' | 'maths'
+
+function setSubject(subj) {
+  currentSubject = subj;
+  _showGradeEntry = false;
+  _showAllStrands = false;
+  lsSet('rcb_subject', subj);
+
+  // Update header buttons
+  document.getElementById('subjGeneral').className = 'subject-btn' + (subj === 'general' ? ' active' : '');
+  document.getElementById('subjEnglish').className = 'subject-btn' + (subj === 'english' ? ' active english' : '');
+  document.getElementById('subjMaths').className = 'subject-btn' + (subj === 'maths' ? ' active maths' : '');
+
+  // Update panel tabs
+  document.getElementById('tabGeneral').className = 'stu-subj-tab' + (subj === 'general' ? ' active' : '');
+  document.getElementById('tabEnglish').className = 'stu-subj-tab english' + (subj === 'english' ? ' active' : '');
+  document.getElementById('tabMaths').className = 'stu-subj-tab maths' + (subj === 'maths' ? ' active' : '');
+
+  // Switch to first category for this subject
+  if (subj === 'english') {
+    currentTab = ENGLISH_CATS[0];
+  } else if (subj === 'maths') {
+    currentTab = MATHS_CATS[0];
+  } else {
+    currentTab = CATS[0];
+  }
+  render();
+}
+
+function getCatList() {
+  if (currentSubject === 'english') return ENGLISH_CATS;
+  if (currentSubject === 'maths') return MATHS_CATS;
+  return CATS;
+}
+
+function getBank() {
+  if (currentSubject === 'english') return ENGLISH_BANK;
+  if (currentSubject === 'maths') return MATHS_BANK;
+  return RAW;
+}
+
+function getCurGrade(cat) {
+  if (currentSubject === 'english') return (cur().engGrades || {})[cat] || null;
+  if (currentSubject === 'maths') return (cur().mathGrades || {})[cat] || null;
+  return null;
+}
+
+function setCurGrade(cat, grade) {
+  if (!grade) {
+    // Toggle off
+    if (currentSubject === 'english') { if (cur().engGrades) delete cur().engGrades[cat]; }
+    else if (currentSubject === 'maths') { if (cur().mathGrades) delete cur().mathGrades[cat]; }
+  } else {
+    if (currentSubject === 'english') {
+      if (!cur().engGrades) cur().engGrades = {};
+      cur().engGrades[cat] = grade;
+    } else if (currentSubject === 'maths') {
+      if (!cur().mathGrades) cur().mathGrades = {};
+      cur().mathGrades[cat] = grade;
+    }
+  }
+  renderOpts();
+  renderSidebar();
+  autoSave();
+}
+
+function getSubjSelected() {
+  if (currentSubject === 'english') return cur().engSelected || (cur().engSelected = {});
+  if (currentSubject === 'maths') return cur().mathSelected || (cur().mathSelected = {});
+  return cur().selected;
+}
+
+function getSubjOrdered() {
+  if (currentSubject === 'english') return cur().engOrdered || (cur().engOrdered = []);
+  if (currentSubject === 'maths') return cur().mathOrdered || (cur().mathOrdered = []);
+  return cur().ordered;
+}
+
+function setSubjSelected(val) {
+  if (currentSubject === 'english') cur().engSelected = val;
+  else if (currentSubject === 'maths') cur().mathSelected = val;
+  else cur().selected = val;
+}
+
+function setSubjOrdered(val) {
+  if (currentSubject === 'english') cur().engOrdered = val;
+  else if (currentSubject === 'maths') cur().mathOrdered = val;
+  else cur().ordered = val;
+}
+
+function toggleSubjOpt(cat, s) {
+  const sel = getSubjSelected();
+  const ord = getSubjOrdered();
+  if (!sel[cat]) sel[cat] = [];
+  const idx = sel[cat].indexOf(s);
+  if (idx === -1) { sel[cat].push(s); ord.push(s); }
+  else {
+    sel[cat].splice(idx, 1);
+    const oi = ord.indexOf(s);
+    if (oi !== -1) ord.splice(oi, 1);
+  }
+  setSubjSelected(sel);
+  setSubjOrdered(ord);
+  render();
+  autoSave();
+}
+
+function getSubjDraft() {
+  const name = cur().name || '[Name]';
+  const p = PR[cur().pronoun];
+  const yr = cur().year || '';
+  const counter = { value: 0 };
+  if (currentSubject === 'english') {
+    if (cur().engDraft) return cur().engDraft;
+    return (cur().engOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+  }
+  if (currentSubject === 'maths') {
+    if (cur().mathDraft) return cur().mathDraft;
+    return (cur().mathOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+  }
+  return null;
+}
+
+function updateSubjTabIndicators() {
+  const engTab = document.getElementById('tabEnglish');
+  const mathTab = document.getElementById('tabMaths');
+  if (engTab) {
+    const hasEng = (cur().engOrdered || []).length > 0;
+    engTab.className = 'stu-subj-tab english' + (currentSubject === 'english' ? ' active' : '') + (hasEng ? ' has-content' : '');
+  }
+  if (mathTab) {
+    const hasMath = (cur().mathOrdered || []).length > 0;
+    mathTab.className = 'stu-subj-tab maths' + (currentSubject === 'maths' ? ' active' : '') + (hasMath ? ' has-content' : '');
+  }
+}
+
+
+
+// ── GRADE ENTRY SCREEN ───────────────────────────────────────────
+let _showGradeEntry = false;
+
+function openGradeEntry() {
+  _showGradeEntry = true;
+  _filterByGrade = true;
+  renderOpts();
+  renderSidebar();
+}
+
+let _showAllStrands = false;
+let _filterByGrade = true; // true = show only assigned grade, false = show all grades
+
+function closeGradeEntry() {
+  _showGradeEntry = false;
+  _showAllStrands = true; // switch to all-strands view after setting grades
+  renderOpts();
+  renderSidebar();
+}
+
+function setGradeFilter(val) {
+  _filterByGrade = val;
+  if (!val) {
+    // All grades mode — exit the all-strands view, show normal category view
+    _showAllStrands = false;
+  }
+  renderOpts();
+  renderSidebar();
+}
+
+function closeAllStrands() {
+  _showAllStrands = false;
+  renderOpts();
+  renderSidebar();
+}
+
+function renderGradeEntryScreen(grid) {
+  const screen = document.createElement('div');
+  screen.className = 'grade-entry-screen';
+
+  const title = document.createElement('div');
+  title.className = 'grade-entry-title';
+  title.textContent = 'Set strand grades';
+  screen.appendChild(title);
+
+  const hint = document.createElement('div');
+  hint.className = 'grade-entry-hint';
+  hint.textContent = 'Select a grade for each strand. The sentence bank will show only sentences matching that grade.';
+  screen.appendChild(hint);
+
+  // Get the strand list for this subject
+  const isMaths = currentSubject === 'maths';
+  const grades = isMaths ? (cur().mathGrades || {}) : (cur().engGrades || {});
+
+  if (isMaths) {
+    // Group by strand group
+    const groups = [
+      { label: 'Number & Algebra', cats: ['Introduction', 'Represents Numbers', 'Additive Relations', 'Multiplicative Relations', 'Representing Quantity Fractions'] },
+      { label: 'Measurement & Space', cats: ['Geometric Measure', 'Two-Dimensional Spatial Structure', 'Three-Dimensional Spatial Structure', 'Non-Spatial Measure'] },
+      { label: 'Statistics & Probability', cats: ['Data', 'Chance'] },
+    ];
+    // Add Introduction at top without a group heading
+    const introRow = makeGradeRow('Introduction', grades['Introduction'] || null);
+    screen.appendChild(introRow);
+    groups.forEach(group => {
+      const groupLabel = document.createElement('div');
+      groupLabel.className = 'grade-entry-strand-group';
+      groupLabel.textContent = group.label;
+      screen.appendChild(groupLabel);
+      group.cats.filter(c => c !== 'Introduction').forEach(cat => {
+        screen.appendChild(makeGradeRow(cat, grades[cat] || null));
+      });
+    });
+  } else {
+    // English — all cats except Future Directions
+    ENGLISH_CATS.filter(c => c !== 'Future Directions').forEach(cat => {
+      screen.appendChild(makeGradeRow(cat, grades[cat] || null));
+    });
+  }
+
+  // Done button
+  const done = document.createElement('button');
+  done.className = 'grade-entry-done';
+  done.textContent = '✓ Done — show sentence bank';
+  done.onclick = closeGradeEntry;
+  screen.appendChild(done);
+
+  grid.appendChild(screen);
+}
+
+function makeGradeRow(cat, currentGrade) {
+  const row = document.createElement('div');
+  row.className = 'grade-entry-row';
+  row.id = 'grade-row-' + cat.replace(/\s+/g, '-');
+
+  const label = document.createElement('div');
+  label.className = 'grade-entry-strand';
+  label.textContent = cat;
+  row.appendChild(label);
+
+  const pills = document.createElement('div');
+  pills.className = 'grade-pill-row';
+  GRADE_ORDER.forEach(g => {
+    const pill = document.createElement('button');
+    pill.className = 'grade-pill' + (currentGrade === g ? ' sel-' + g : '');
+    pill.textContent = g;
+    pill.onclick = () => {
+      // Toggle: click same grade to deselect
+      const newGrade = currentGrade === g ? null : g;
+      setCurGrade(cat, newGrade);
+      currentGrade = newGrade;
+      // Update all pills in this row
+      pills.querySelectorAll('.grade-pill').forEach((p, i) => {
+        p.className = 'grade-pill' + (GRADE_ORDER[i] === newGrade ? ' sel-' + GRADE_ORDER[i] : '');
+      });
+    };
+    pills.appendChild(pill);
+  });
+  row.appendChild(pills);
+  return row;
+}
+
+// ── FUTURE DIRECTIONS ────────────────────────────────────────────
+function getFDBank() {
+  return currentSubject === 'english' ? ENGLISH_FD : MATHS_FD;
+}
+
+function getCurFD() {
+  return currentSubject === 'english' ? (cur().engFD || []) : (cur().mathFD || []);
+}
+
+function setCurFD(arr) {
+  if (currentSubject === 'english') cur().engFD = arr;
+  else cur().mathFD = arr;
+  autoSave();
+}
+
+function getFDStage() {
+  return cur().fdStage || FD_DEFAULT_STAGE;
+}
+
+function setFDStage(stage) {
+  cur().fdStage = stage;
+  autoSave();
+  renderOpts();
+}
+
+// Auto-suggest 2 FDs based on lowest strand grades
+function autoSuggestFD() {
+  const fd = getFDBank();
+  const grades = currentSubject === 'english' ? (cur().engGrades || {}) : (cur().mathGrades || {});
+  const stage = getFDStage();
+  const gradeOrder = { E: 0, D: 1, C: 2, B: 3, A: 4 };
+
+  // Sort strands by grade (lowest first = most needs improvement)
+  const strandsByNeed = Object.keys(fd).sort((a, b) => {
+    const ga = gradeOrder[grades[a] || 'C'] ?? 2;
+    const gb = gradeOrder[grades[b] || 'C'] ?? 2;
+    return ga - gb;
+  });
+
+  // Pick first available FD from each of the 2 neediest strands
+  const suggestions = [];
+  for (const strand of strandsByNeed) {
+    if (suggestions.length >= 2) break;
+    const stageItems = (fd[strand] || {})[stage] || [];
+    if (stageItems.length > 0) {
+      suggestions.push({ strand, text: stageItems[0] });
+    }
+  }
+  return suggestions;
+}
+
+function renderFDPanel(grid) {
+  const fd = getFDBank();
+  const stage = getFDStage();
+  const curFD = getCurFD();
+  const name = cur().name || '[Name]';
+
+  // Stage selector
+  const stageSel = document.createElement('div');
+  stageSel.className = 'grade-sel-wrap';
+  stageSel.style.cssText = 'flex-wrap:wrap;gap:4px;';
+  stageSel.innerHTML = '<span class="grade-sel-label">Stage:</span>' +
+    FD_STAGES.map(s => `<button class="grade-btn${stage === s ? ' active-C' : ''}" onclick="setFDStage('${s}')" style="font-size:10px;padding:2px 8px">${s}</button>`).join('');
+  grid.appendChild(stageSel);
+
+  // Auto-suggest button
+  const suggestions = autoSuggestFD();
+  const suggestWrap = document.createElement('div');
+  suggestWrap.style.cssText = 'padding:8px 12px;border-bottom:1px solid var(--border);';
+  suggestWrap.innerHTML = `
+    <div style="font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.08em;font-weight:500;margin-bottom:6px">Auto-suggest</div>
+    <div style="font-size:12px;color:var(--t1);margin-bottom:6px">Based on strand grades, suggested future directions:</div>
+    ${suggestions.map((s, i) => `
+      <div style="font-size:12px;padding:5px 8px;background:var(--bg-2);border-radius:var(--r-sm);margin-bottom:4px;border-left:3px solid var(--amber)">
+        <span style="font-size:10px;color:var(--t2);display:block">${s.strand}</span>
+        ${s.text}
+      </div>`).join('')}
+    <button class="custom-add-btn" style="margin-top:6px" onclick="applyFDSuggestions()">Use these suggestions</button>`;
+  grid.appendChild(suggestWrap);
+
+  // Full list by strand
+  Object.entries(fd).forEach(([strand, stages]) => {
+    const items = stages[stage] || [];
+    if (!items.length) return;
+
+    const div = document.createElement('div');
+    div.className = 'grade-divider';
+    div.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label C" style="font-size:9px">${strand}</span><div class="grade-divider-line"></div>`;
+    grid.appendChild(div);
+
+    items.forEach(text => {
+      const isSel = curFD.includes(text);
+      const btn = document.createElement('button');
+      btn.className = 'opt' + (isSel ? ' sel' : '') + (curFD.length >= 2 && !isSel ? ' opts-locked' : '');
+      btn.style.cssText = 'font-size:12px;line-height:1.5;';
+      btn.textContent = text;
+      if (isSel || curFD.length < 2) {
+        btn.onclick = () => toggleFD(text);
+      }
+      grid.appendChild(btn);
+    });
+  });
+
+  if (curFD.length >= 2) {
+    const note = document.createElement('div');
+    note.style.cssText = 'padding:8px 12px;font-size:11px;color:var(--amber);border-top:1px solid var(--border);margin-top:4px;';
+    note.textContent = '2 future directions selected. Deselect one to choose a different one.';
+    grid.appendChild(note);
+  }
+}
+
+function toggleFD(text) {
+  const curFD = getCurFD().slice();
+  const idx = curFD.indexOf(text);
+  if (idx !== -1) {
+    curFD.splice(idx, 1);
+  } else if (curFD.length < 2) {
+    curFD.push(text);
+  }
+  setCurFD(curFD);
+  renderOpts();
+  renderOut();
+  renderSidebar();
+}
+
+function applyFDSuggestions() {
+  const suggestions = autoSuggestFD();
+  setCurFD(suggestions.map(s => s.text));
+  renderOpts();
+  renderOut();
+  renderSidebar();
+  showToast('Suggestions applied!');
+}
+
+function getFDText() {
+  return getFDTextForStu(cur(), currentSubject);
+}
+function _getFDText_unused() {
+  const fd = getCurFD();
+  if (!fd.length) return '';
+  const name = cur().name || '[Name]';
+  const p = PR[cur().pronoun];
+  const poss = p.Pos; // His/Her
+  // Build the combined FD paragraph
+  if (fd.length === 1) {
+    return `To further develop ${p.pos} skills, ${p.s} is encouraged to work on: ${fd[0].toLowerCase().replace(/\.$/, '')}.`;
+  }
+  return `To further develop ${p.pos} skills, ${p.s} is encouraged to work on: ${fd[0].toLowerCase().replace(/\.$/, '')} and ${fd[1].toLowerCase().replace(/\.$/, '')}.`;
 }
 
 // ── RENDER: BUILD ─────────────────────────────────────────────────
@@ -1429,6 +1916,903 @@ ${sentenceList.slice(0, 80).map((item, i) => `${i}: ${item.text}`).join('\n')}`;
   }
 }
 
+
+const ENGLISH_BANK = {
+  "Introduction": {
+    "A": ["{{N}} has demonstrated a strong understanding of important language concepts this semester.", "{{N}} has demonstrated a strong understanding of English skills this semester.", "{{N}} is an engaged learner who has made significant progress in English.", "{{N}} enthusiastically participates in all English activities.", "{{S}} has demonstrated a sound understanding of important English skills this semester.", "{{S}} has shown a solid knowledge of English skills this semester."],
+    "B": ["{{N}} has demonstrated a strong understanding of key English concepts this semester and engages thoughtfully in all learning activities.", "{{N}} is an engaged learner who consistently demonstrates interest and participation in English lessons.", "{{N}} has made steady progress in English this semester.", "{{N}} has made pleasing progress in {{pos}} understanding of concepts taught in English."],
+    "C": ["{{N}} has demonstrated a sound understanding of English concepts this semester.", "{{N}} has demonstrated a sound understanding of concepts covered this semester and is beginning to apply these skills in familiar situations.", "{{N}} has improved {{pos}} knowledge of all concepts taught in English.", "{{N}} is making pleasing progress in {{pos}} understanding of all concepts taught in English.", "{{S}} is developing {{pos}} knowledge of all concepts taught in English."],
+    "D": ["{{N}} is developing {{pos}} understanding of key English concepts.", "{{N}} is developing {{pos}} understanding of English skills.", "{{N}} has made some progress in English.", "{{N}} has made some progress in English."],
+    "E": ["{{N}} is developing foundational English skills with growing confidence.", "{{N}} has made limited progress in English.", "{{N}} has made minimal progress in English.", "{{N}} is developing {{pos}} understanding of key English concepts."],
+  },
+  "Oral Language & Communication": {
+    "A": ["{{S}} actively participates in class discussions, asking specific questions to clarify information and deepen {{pos}} understanding.", "{{S}} adjusts {{pos}} volume, pace and expression when reading aloud to suit the purpose and complexity of the text.", "{{S}} actively listens to others, retelling and building on their ideas to enhance classroom discussions.", "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions."],
+    "B": ["{{S}} communicates clearly and uses appropriate language during class discussions.", "{{S}} actively participates in group discussions.", "{{S}} appropriately adjusts {{pos}} volume and pace during class presentations to support audience engagement.", "{{S}} experiments with {{pos}} volume and pace to support audience engagement during class presentations.", "{{S}} asks specific questions to clarify information and listens attentively to the contributions of others."],
+    "C": ["{{S}} participates positively in discussions and is becoming more confident when expressing opinions about texts.", "{{S}} participates positively in class discussions and shares ideas about characters, themes and author choices.", "{{S}} uses appropriate language skills when interacting with others during class discussions.", "{{S}} is developing confidence in clearly communicating {{pos}} ideas during class activities.", "{{S}} concentrates well during English lessons."],
+    "D": ["{{S}} is developing the ability to change {{pos}} volume and pace to support audience engagement during class presentations.", "{{S}} participates in class discussions and is learning to express ideas more clearly.", "{{S}} asks clarifying questions and listens respectfully to peers."],
+    "E": ["{{S}} participates in class discussions with support and is learning to express ideas more clearly when speaking.", "{{S}} listens to others and is beginning to respond appropriately in conversations.", "{{S}} contributes to discussions with peers, sharing ideas and participates in conversations with partners by listening and responding appropriately."],
+  },
+  "Reading Comprehension": {
+    "A": ["{{S}} reads with confidence and uses context, grammar knowledge and skimming strategies to locate information in moderately complex texts.", "{{S}} applies reading strategies to interpret complex texts and explains how these texts communicate meaning.", "{{S}} reads and comprehends digital texts and advertisements, identifying key ideas in various materials.", "{{S}} monitors {{pos}} understanding and recognises when meaning breaks down.", "{{S}} comprehends digital texts and identifies themes in a variety of narratives."],
+    "B": ["{{S}} comprehends digital texts and advertisements and identifies key ideas in narratives.", "{{S}} identifies main ideas, understands simple inferences and explains how authors use evidence to support ideas.", "{{S}} reads with confidence and connects with the ideas in texts.", "{{S}} uses background knowledge and reading skills to better understand texts.", "{{S}} identifies and applies themes in various texts."],
+    "C": ["{{S}} reads and comprehends digital texts and advertisements, identifying main ideas in a range of materials.", "{{S}} identifies key ideas and supporting details when reading.", "{{S}} reads with confidence and uses context and skimming strategies to identify key ideas, locate details and understand unfamiliar words.", "{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts.", "{{S}} identifies main ideas in narratives and uses these when creating original texts."],
+    "D": ["{{S}} reads simple and predictable texts with growing confidence and identifies key ideas to support comprehension.", "{{S}} reads simple texts with support and is working towards identifying key information and following the main ideas.", "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.", "{{S}} understands simple, predictable texts."],
+    "E": ["{{S}} reads predictable texts with guidance and draws basic connections to gain a clearer understanding of the stories.", "{{S}} reads simple, familiar texts and is building confidence in recognising high-frequency words.", "{{S}} is working towards identifying the author's message and purpose.", "{{S}} comprehends predictable imaginative texts from the main character's perspective."],
+  },
+  "Vocabulary": {
+    "A": ["{{S}} recognises how language contributes to meaning and shows a strong understanding of reading comprehension strategies.", "{{S}} understands that words can have multiple meanings and can describe how authors use language choices to influence meaning and perspective.", "{{S}} recognises that words can have multiple meanings and applies this knowledge to understand and create texts.", "{{S}} explains how word choices can make writing entertaining or informative in both fiction and non-fiction texts."],
+    "B": ["{{S}} understands that words can have multiple meanings and uses a varied vocabulary.", "{{S}} recognises that words can have different meanings and applies this understanding when reading.", "{{S}} considers {{pos}} word choices and sentence types to make {{pos}} writing more engaging for the reader.", "{{S}} selects words that persuade the reader and uses language that creates emotion in poetry.", "{{S}} explains how vocabulary choices can enhance the entertainment value of narratives."],
+    "C": ["{{S}} applies known vocabulary effectively and is beginning to experiment with descriptive language to add detail.", "{{S}} selects appropriate tenses to suit different writing tasks.", "{{S}} recognises that words can have different meanings and identifies letter patterns and sounds when spelling.", "{{S}} uses a varied vocabulary in {{pos}} own writing.", "{{S}} experiments with different styles and incorporates vocabulary drawn from other texts."],
+    "D": ["{{S}} selects a basic vocabulary to enhance writing.", "{{S}} includes describing words to add detail and variety to writing.", "{{S}} uses a growing vocabulary to enhance {{pos}} writing.", "{{S}} is developing {{pos}} vocabulary and is learning how word choices influence meaning."],
+    "E": ["{{S}} uses basic descriptive language in {{pos}} writing.", "{{S}} is beginning to use known words and picture clues to help understand new vocabulary.", "{{S}} uses a growing vocabulary to enhance {{pos}} writing."],
+  },
+  "Creating Written Texts": {
+    "A": ["{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader.", "{{S}} shows a strong understanding of how to plan, structure and revise persuasive texts.", "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types.", "{{S}} sequences arguments into paragraphs with clear ideas and topic sentences.", "{{S}} demonstrates an understanding of how punctuation is used for different purposes and accurately identifies various language features in {{pos}} writing."],
+    "B": ["{{S}} plans, drafts and revises persuasive texts effectively.", "{{S}} uses planning strategies effectively when creating texts and understands how different punctuation marks are used for specific purposes.", "{{S}} plans and organises information reports.", "{{S}} includes specific details in {{pos}} writing to make {{pos}} ideas clearer and more engaging.", "{{S}} applies a variety of tenses to suit different writing tasks."],
+    "C": ["{{S}} constructs simple and compound sentences, organises ideas logically and uses familiar spelling patterns with developing accuracy.", "{{S}} presents ideas in a logical order and uses familiar vocabulary with increasing accuracy, adding detail to enhance {{pos}} texts.", "{{S}} organises ideas appropriately, selects vocabulary to add detail, and applies common spelling patterns with developing accuracy.", "{{S}} uses a range of punctuation for different purposes and chooses the appropriate tense.", "{{S}} organises {{pos}} ideas into paragraphs and is learning to include topic sentences."],
+    "D": ["{{S}} is developing skills in structuring and editing persuasive texts.", "{{S}} organises recounts and attempts informative texts with emerging control.", "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.", "{{S}} includes describing words to add detail and is beginning to apply common spelling patterns."],
+    "E": ["{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks.", "{{S}} plans, writes and edits factual texts with support.", "{{S}} constructs sentences that include basic punctuation.", "{{S}} is learning to use a variety of sentence types when writing texts."],
+  },
+  "Spelling": {
+    "A": ["{{S}} identifies complex letter patterns and sounds when spelling and applies this knowledge to improve spelling accuracy.", "{{S}} applies correct letter patterns and general rules when spelling words.", "{{S}} recognises that words can have multiple meanings and identifies letter patterns when spelling."],
+    "B": ["{{S}} applies correct spelling patterns and general rules when writing.", "{{S}} applies correct letter patterns and general rules when spelling words and has made steady progress in this area throughout the semester.", "{{S}} has shown improvement in spelling by identifying letter patterns to support correct spelling."],
+    "C": ["{{S}} applies familiar spelling patterns with developing accuracy and continues to build consistency in handwriting and editing.", "{{S}} applies familiar spelling patterns and uses descriptive language to add detail.", "{{S}} applies some spelling patterns and general rules when writing.", "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy."],
+    "D": ["{{S}} applies some common spelling patterns when writing and is developing accuracy.", "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.", "{{S}} spells unfamiliar words using common letter patterns and applies general rules to improve accuracy."],
+    "E": ["{{S}} spells simple words with common endings and uses basic strategies to spell unfamiliar words with some success.", "{{S}} is learning to apply common spelling patterns in writing.", "{{S}} is developing spelling knowledge and forms most letters correctly."],
+  },
+  "Handwriting & Digital Transcription": {
+    "A": ["{{S}} writes with a legible and fluent handwriting style for extended periods and navigates the keyboard efficiently when typing words, numbers and punctuation.", "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation.", "{{S}} types accurately and presents ideas clearly in digital formats."],
+    "B": ["{{S}} writes with a fluent, legible handwriting style and navigates the keyboard efficiently when typing.", "{{S}} presents written work neatly and maintains consistent letter formation.", "{{S}} uses the keyboard efficiently when creating digital texts."],
+    "C": ["{{S}} writes with a clear and legible handwriting style and types accurately using the keyboard.", "{{S}} presents written work neatly and communicates ideas clearly when typing.", "{{S}} uses the keyboard efficiently when publishing {{pos}} texts digitally.", "{{S}} maintains a fluent handwriting style and types efficiently using the keyboard."],
+    "D": ["{{S}} is developing greater consistency in letter size and spacing and uses the keyboard with increasing accuracy when creating digital texts.", "{{S}} presents written and digital work neatly, demonstrating a consistent and legible handwriting style.", "{{S}} joins letters when writing familiar words and uses keyboard skills to type efficiently."],
+    "E": ["{{S}} forms most letters correctly on the line and uses appropriate spacing between words.", "{{S}} joins letters when writing familiar words and uses technology appropriately when creating texts.", "{{S}} is learning to maintain consistent spacing between words."],
+  },
+  "Understanding and Responding to Literature": {
+    "A": ["{{S}} explains how language in poetry can evoke emotion and shows creativity when developing ideas.", "{{S}} explores how language can evoke emotions in poems and creates poems with a clear, consistent theme.", "{{S}} analyses and creates poems with a clear focus and consistent theme, showing creativity and thoughtfulness.", "{{S}} understands how language evokes emotions and describes characters through their traits and actions."],
+    "B": ["{{S}} identifies themes in narratives and applies them to create {{pos}} own texts.", "{{S}} explains how authors use language to present different perspectives and analyses persuasive devices in texts.", "{{S}} understands how language can evoke emotion and identifies how characters are developed through their traits and actions.", "{{S}} explores themes in narratives and connects with key ideas in a variety of stories."],
+    "C": ["{{S}} identifies themes in narratives and applies them when creating {{pos}} own texts.", "{{S}} explores how language can evoke emotions in poems.", "{{S}} recognises how persuasive texts are structured and discusses how language can be used to evoke emotion.", "{{S}} describes the structure of persuasive texts and discusses how language can be used to evoke emotion.", "{{S}} identifies how characters are developed through their traits and actions."],
+    "D": ["{{S}} explains how characters are developed in stories and describes how authors can show different points of view.", "{{S}} identifies words and phrases that are used to persuade the reader.", "{{S}} recognises how authors develop characters and identifies features of different text types."],
+    "E": ["{{S}} recognises how authors build characters and structure stories to engage the reader.", "{{S}} identifies how advertisements are organised and describes features of both fiction and non-fiction texts.", "{{S}} reads imaginative and persuasive texts and understands how the words and pictures contribute to meaning."],
+  },
+};
+
+const MATHS_BANK = {
+  "Introduction": {
+    "A": [
+      "{{N}} demonstrates an outstanding understanding of mathematical concepts this semester.",
+      "{{N}} has demonstrated a strong understanding of key mathematical concepts this semester.",
+      "{{N}} concentrates during mathematics and often effectively applies {{pos}} understanding of concepts during independent tasks."
+    ],
+    "B": [
+      "{{N}} has demonstrated a strong understanding of key mathematical concepts this semester.",
+      "{{N}} concentrates during mathematics and demonstrates {{pos}} understanding by explaining {{pos}} thinking clearly.",
+      "{{N}} has demonstrated a sound understanding of key mathematical concepts this semester."
+    ],
+    "C": [
+      "{{N}} has demonstrated a sound understanding of mathematical concepts this semester.",
+      "{{N}} has demonstrated a sound understanding of key mathematical concepts.",
+      "{{N}} concentrates well during mathematics lessons and has made steady progress across number and measurement concepts."
+    ],
+    "D": [
+      "{{N}} concentrates during mathematics lessons and has shown some growth this semester.",
+      "{{N}} is developing {{pos}} understanding of mathematical concepts this semester.",
+      "{{N}} concentrates well during mathematics lessons."
+    ],
+    "E": [
+      "{{N}} concentrates well during mathematics lessons and participates confidently in number activities.",
+      "{{N}} is developing {{pos}} understanding of mathematical concepts.",
+      "{{N}} concentrates during mathematics lessons and is building confidence across key areas."
+    ]
+  },
+  "Represents Numbers": {
+    "A": [
+      "{{S}} works confidently with large numbers, reads and writes values in the millions, and understands decimals to the hundredths and thousandths.",
+      "{{S}} confidently works with large numbers and applies place value knowledge to understand numbers in the millions.",
+      "{{S}} compares and orders decimals and percentages.",
+      "{{S}} adds and subtracts positive and negative numbers."
+    ],
+    "B": [
+      "{{S}} works confidently with large numbers in the millions and applies place value to solve a range of problems.",
+      "{{S}} rounds numbers to estimate results and applies place value knowledge confidently.",
+      "{{S}} compares and orders whole numbers and fractions and rounds decimals accurately.",
+      "{{S}} reads numbers in the millions and uses place value to separate, regroup and rename numbers."
+    ],
+    "C": [
+      "{{S}} works confidently with large numbers and applies place value to solve problems.",
+      "{{S}} rounds whole numbers and decimals to estimate results.",
+      "{{S}} reads and represents numbers using place value knowledge.",
+      "{{S}} uses place value to read, write and work with large numbers and represents them in different ways."
+    ],
+    "D": [
+      "{{S}} works with whole numbers and applies place value to solve problems.",
+      "{{S}} rounds numbers to estimate results and records numbers in different ways.",
+      "{{S}} uses rounding to estimate addition and subtraction problems and applies place value to separate, regroup and rename numbers."
+    ],
+    "E": [
+      "{{S}} is developing {{pos}} understanding of place value and is working towards reading and writing numbers in different ways.",
+      "{{S}} separates numbers into groups of tens and ones.",
+      "{{S}} is learning to read and represent numbers in different ways and can order numbers up to four digits."
+    ]
+  },
+  "Additive Relations": {
+    "A": [
+      "{{S}} selects efficient strategies to solve addition and subtraction problems.",
+      "{{S}} multiplies 2- and 3-digit numbers by 2-digit numbers and is proficient in multiplying and dividing decimals by powers of 10.",
+      "{{S}} adds and subtracts simple fractions with accuracy.",
+      "{{S}} multiplies and divides decimals accurately and applies the order of operations to solve problems."
+    ],
+    "B": [
+      "{{S}} multiplies 2- and 3-digit numbers by 2-digit numbers and represents and solves division problems with whole number remainders.",
+      "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders.",
+      "{{S}} applies the order of operations to solve number problems.",
+      "{{S}} solves problems involving the multiplication and division of fractions."
+    ],
+    "C": [
+      "{{S}} solves division problems with remainders and recalls multiplication facts to support calculations.",
+      "{{S}} applies different strategies to solve addition and subtraction problems.",
+      "{{S}} solves subtraction with three-digit numbers and solves division problems with whole number remainders.",
+      "{{S}} solves multiplication problems and uses number facts to support calculations."
+    ],
+    "D": [
+      "{{S}} recalls some multiplication facts and uses them to support calculations.",
+      "{{S}} solves division problems with whole number remainders.",
+      "{{S}} solves subtraction with three-digit numbers.",
+      "{{S}} applies number facts to create equal number sentences."
+    ],
+    "E": [
+      "{{S}} solves simple addition and subtraction problems and separates two-digit numbers into tens and ones.",
+      "{{S}} counts by twos, threes and fives to recognise simple division and creates equal groups to show multiplication.",
+      "{{S}} uses visual representations to find multiplication facts."
+    ]
+  },
+  "Multiplicative Relations": {
+    "A": [
+      "{{S}} compares and orders fractions, decimals and percentages and explains how they are related.",
+      "{{S}} solves problems involving the multiplication and division of fractions.",
+      "{{S}} identifies and simplifies ratios and explains the connection with fractions.",
+      "{{S}} calculates percentage discounts and finds fractions of whole numbers."
+    ],
+    "B": [
+      "{{S}} works with fractions and decimals and identifies prime numbers.",
+      "{{S}} adds and subtracts fractions and compares and orders common unit fractions.",
+      "{{S}} demonstrates an understanding of the connection between common fractions, decimals and percentages.",
+      "{{S}} compares and orders fractions and decimals and uses letters to represent numbers when solving simple algebraic problems."
+    ],
+    "C": [
+      "{{S}} finds fractions of amounts and records numbers as decimals.",
+      "{{S}} works with fractions and decimals with growing accuracy.",
+      "{{S}} recognises and represents fractions and converts between fractions and decimals.",
+      "{{S}} understands common fractions and writes them as decimals."
+    ],
+    "D": [
+      "{{S}} recognises fractions and decimals and applies them in simple problems.",
+      "{{S}} recognises simple fractions such as halves and quarters and records numbers as decimals.",
+      "{{S}} converts simple fractions to decimals and continues to build fluency when working with number patterns."
+    ],
+    "E": [
+      "{{S}} recognises and names simple fractions such as halves and quarters.",
+      "{{S}} is learning to recognise, name and represent simple fractions.",
+      "{{S}} represents common fractions using models and number lines."
+    ]
+  },
+  "Representing Quantity Fractions": {
+    "A": [
+      "{{S}} calculates totals with money and compares prices.",
+      "{{S}} calculates totals and change when working with money."
+    ],
+    "B": [
+      "{{S}} adds amounts of money and identifies the lowest price when comparing items.",
+      "{{S}} calculates percentage discounts of 10%, 25% and 50%."
+    ],
+    "C": [
+      "{{S}} works with money to add amounts and compare prices in everyday situations.",
+      "{{S}} represents money in different ways and solves problems involving purchases."
+    ],
+    "D": [
+      "{{S}} adds amounts of money and compares prices in familiar situations.",
+      "{{S}} shows money values in different forms."
+    ],
+    "E": [
+      "{{S}} represents money in different ways and counts collections of coins and notes in familiar situations.",
+      "{{S}} uses concrete materials to represent money."
+    ]
+  },
+  "Geometric Measure": {
+    "A": [
+      "{{S}} calculates the perimeter of two-dimensional shapes and precisely measures angles with a protractor.",
+      "{{S}} identifies and plots points in all four quadrants of a number plane.",
+      "{{S}} plots points on a number plane accurately."
+    ],
+    "B": [
+      "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor.",
+      "{{S}} plots points in all four quadrants of a number plane.",
+      "{{S}} measures angles with a protractor and matches three-dimensional objects with their two-dimensional representations."
+    ],
+    "C": [
+      "{{S}} calculates the perimeter of rectangles and measures area by covering shapes with squares.",
+      "{{S}} identifies angles in shapes and uses them to solve problems.",
+      "{{S}} identifies and plots points in the first quadrant of a number plane.",
+      "{{S}} calculates the perimeters of common two-dimensional shapes."
+    ],
+    "D": [
+      "{{S}} calculates the perimeter of common shapes and identifies right angles.",
+      "{{S}} identifies and plots points in the first quadrant of a number plane with support.",
+      "{{S}} measures angles accurately."
+    ],
+    "E": [
+      "{{S}} measures and compares lengths in centimetres and metres.",
+      "{{S}} calculates the perimeters of common two-dimensional shapes.",
+      "{{S}} is beginning to measure perimeter and calculate the area of familiar two-dimensional shapes."
+    ]
+  },
+  "Two-Dimensional Spatial Structure": {
+    "A": [
+      "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations.",
+      "{{S}} precisely classifies shapes such as triangles and quadrilaterals.",
+      "{{S}} efficiently connects three-dimensional objects with their two-dimensional representations."
+    ],
+    "B": [
+      "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations.",
+      "{{S}} recognises the features of two- and three-dimensional shapes and identifies angles in triangles.",
+      "{{S}} compares and constructs three-dimensional objects such as prisms and pyramids."
+    ],
+    "C": [
+      "{{S}} names and describes the features of two- and three-dimensional shapes.",
+      "{{S}} identifies and classifies triangles and quadrilaterals by their features.",
+      "{{S}} connects three-dimensional objects with two-dimensional drawings and representations."
+    ],
+    "D": [
+      "{{S}} identifies and names common two- and three-dimensional shapes.",
+      "{{S}} names and describes the features of common three-dimensional objects.",
+      "{{S}} classifies triangles and quadrilaterals."
+    ],
+    "E": [
+      "{{S}} identifies basic two-dimensional shapes and common three-dimensional objects.",
+      "{{S}} describes and compares three-dimensional objects and links them to their two-dimensional drawings.",
+      "{{S}} compares basic three-dimensional objects and explains how to connect them with their two-dimensional representations."
+    ]
+  },
+  "Three-Dimensional Spatial Structure": {
+    "A": [
+      "{{S}} finds the volume of rectangular prisms and solves problems involving area, understanding both square metres and hectares.",
+      "{{S}} selects appropriate units to measure capacity and mass and converts between units.",
+      "{{S}} converts between units of time and reads timetables accurately."
+    ],
+    "B": [
+      "{{S}} measures length using appropriate units and converts between centimetres, metres and kilometres.",
+      "{{S}} solves problems involving capacity and mass.",
+      "{{S}} finds areas of shapes and solves problems involving volume.",
+      "{{S}} converts between 12-hour and 24-hour time systems."
+    ],
+    "C": [
+      "{{S}} measures length, area and capacity using appropriate units.",
+      "{{S}} solves problems involving both perimeter and area and finds the volume of rectangular prisms.",
+      "{{S}} converts between units of measurement and interprets timetables using both 12- and 24-hour time."
+    ],
+    "D": [
+      "{{S}} measures length using appropriate units and identifies area and compares shapes by size.",
+      "{{S}} converts between 12- and 24-hour time.",
+      "{{S}} selects appropriate units of measurement to determine length."
+    ],
+    "E": [
+      "{{S}} measures and compares lengths using simple units.",
+      "{{S}} reads and records time using hours and minutes and uses a calendar to find the number of days to a date.",
+      "{{S}} uses metres and kilometres to estimate and measure distances."
+    ]
+  },
+  "Non-Spatial Measure": {
+    "A": [
+      "{{S}} chooses suitable graphs and timelines to display information, and collects and organises data effectively.",
+      "{{S}} interprets data presented in tables and graphs.",
+      "{{S}} selects the most appropriate graphs to represent data and evaluates data displays."
+    ],
+    "B": [
+      "{{S}} interprets data from tables and column graphs and explains outcomes in chance experiments.",
+      "{{S}} chooses suitable graphs to represent data and justifies {{pos}} choices.",
+      "{{S}} constructs and interprets data displays using many-to-one scales."
+    ],
+    "C": [
+      "{{S}} interprets information from tables and column graphs, makes comparisons between categories and describes the chance of events happening.",
+      "{{S}} chooses suitable graphs and timelines to display information and organises data clearly.",
+      "{{S}} interprets information from tables and column graphs and finds totals in data displays."
+    ],
+    "D": [
+      "{{S}} reads information from tables and explains what is shown in column graphs.",
+      "{{S}} interprets information from tables and column graphs with growing understanding.",
+      "{{S}} selects suitable graphs to display data."
+    ],
+    "E": [
+      "{{S}} reads basic tables and column graphs with growing understanding.",
+      "{{S}} identifies possible outcomes of events and describes them as more or less likely.",
+      "{{S}} chooses appropriate graphs and data displays to represent simple information."
+    ]
+  },
+  "Data": {
+    "A": [
+      "{{S}} compares expected probabilities with observed outcomes in chance experiments.",
+      "{{S}} describes the likelihood of events using probability language.",
+      "{{S}} conducts chance experiments and quantifies the probability."
+    ],
+    "B": [
+      "{{S}} describes the likelihood of outcomes in chance experiments using appropriate language.",
+      "{{S}} compares expected probabilities with observed frequencies and explains the results."
+    ],
+    "C": [
+      "{{S}} describes the likelihood of outcomes in chance experiments using everyday language.",
+      "{{S}} identifies possible outcomes of different events and uses everyday language to describe likelihood."
+    ],
+    "D": [
+      "{{S}} identifies possible outcomes of events and describes them using everyday language.",
+      "{{S}} describes outcomes in simple chance experiments."
+    ],
+    "E": [
+      "{{S}} identifies possible outcomes and describes events as more or less likely.",
+      "{{S}} understands chance by identifying possible outcomes and describing how likely events are to happen."
+    ]
+  },
+  "Chance": {
+    "A": [
+      "{{S}} compares expected probabilities with observed outcomes in chance experiments.",
+      "{{S}} describes the likelihood of events using probability language.",
+      "{{S}} conducts chance experiments and quantifies the probability."
+    ],
+    "B": [
+      "{{S}} describes the likelihood of outcomes in chance experiments using appropriate language.",
+      "{{S}} compares expected probabilities with observed frequencies and explains the results."
+    ],
+    "C": [
+      "{{S}} describes the likelihood of outcomes in chance experiments using everyday language.",
+      "{{S}} identifies possible outcomes of different events and uses everyday language to describe likelihood."
+    ],
+    "D": [
+      "{{S}} identifies possible outcomes of events and describes them using everyday language.",
+      "{{S}} describes outcomes in simple chance experiments."
+    ],
+    "E": [
+      "{{S}} identifies possible outcomes and describes events as more or less likely.",
+      "{{S}} understands chance by identifying possible outcomes and describing how likely events are to happen."
+    ]
+  }
+};
+
+const ENGLISH_CATS = ["Introduction", "Oral Language & Communication", "Reading Comprehension", "Vocabulary", "Creating Written Texts", "Spelling", "Handwriting & Digital Transcription", "Understanding and Responding to Literature", "Future Directions"];
+const MATHS_CATS = ["Introduction", "Represents Numbers", "Additive Relations", "Multiplicative Relations", "Representing Quantity Fractions", "Geometric Measure", "Two-Dimensional Spatial Structure", "Three-Dimensional Spatial Structure", "Non-Spatial Measure", "Data", "Chance", "Future Directions"];
+const GRADE_LABELS = { A: 'Outstanding', B: 'High', C: 'Expected', D: 'Basic', E: 'Limited' };
+const GRADE_ORDER = ['A','B','C','D','E'];
+
+
+const ENGLISH_FD = {
+  "Oral Language and Communication": {
+    "Access Points": [
+      "Looking at and acknowledging someone when they are speaking.",
+      "Responding to a yes or no question appropriately.",
+      "Following a single instruction from the teacher.",
+      "Sharing thoughts and feelings on a familiar topic.",
+      "Communicating a single idea when speaking to a teacher.",
+      "Communicating two connected ideas when speaking to a teacher.",
+      "Starting social interactions with peers and staff.",
+      "Taking turns when speaking to others.",
+      "Participating in class discussions.",
+      "Retelling parts of a familiar story.",
+      "Answering questions about familiar people and places."
+    ],
+    "Early Stage 1": [
+      "Responding to spoken questions.",
+      "Following 3-step spoken instructions.",
+      "Contributing to group conversations.",
+      "Starting a conversation with peers and adults.",
+      "Taking turns when speaking.",
+      "Asking questions using who, what, when, where, why or how.",
+      "Telling a story to peers and adults.",
+      "Staying on topic when speaking."
+    ],
+    "Stage 1": [
+      "Asking for support when unsure of a spoken message.",
+      "Asking relevant questions to extend their knowledge.",
+      "Interacting with peers during partner or group work.",
+      "Refining their understanding by discussing with others.",
+      "Remaining on-topic during group discussions.",
+      "Speaking in a logical sequence.",
+      "Comparing ideas with others during group discussions.",
+      "Including key details when describing events and stories."
+    ],
+    "Stage 2": [
+      "Asking specific questions to clarify information.",
+      "Listening actively to others' contributions.",
+      "Understanding vocabulary within a spoken text.",
+      "Contributing to discussions with peers.",
+      "Demonstrating appropriate language when interacting with others.",
+      "Delivering oral presentations using language to suit purpose and audience.",
+      "Enhancing oral presentations by changing the volume of their voice."
+    ],
+    "Stage 3": [
+      "Initiating and contributing to discussions and evaluating shared information.",
+      "Interacting in a range of contexts and deliberately adjusting language and style.",
+      "Asking and responding to a range of questions about literature that contribute to own or others' understanding.",
+      "Applying active listening strategies by retelling and building on what another person has said.",
+      "Responding to questions with elaboration and detail.",
+      "Delivering presentations suited to purpose and audience.",
+      "Experimenting with volume, pace and expression to enhance meaning when presenting and reciting.",
+      "Reflecting on and monitoring own and peer presentations according to given criteria."
+    ]
+  },
+  "Reading Comprehension": {
+    "Access Points": [
+      "Engaging in texts for different purposes.",
+      "Indicating likes and dislikes in a story.",
+      "Recognising familiar words in texts.",
+      "Asking questions when meaning is unknown.",
+      "Recalling key events and characters in a story.",
+      "Recalling key facts from an information text."
+    ],
+    "Early Stage 1": [
+      "Pausing when meaning has been disrupted while reading aloud.",
+      "Re-reading to check if an error was made.",
+      "Asking questions to clarify meaning when reading.",
+      "Using background knowledge to identify connections between a story and own experiences.",
+      "Recalling characters and events in a text after reading.",
+      "Recalling the sequence of events in a text after reading.",
+      "Using information or events from a text to form an opinion.",
+      "Pausing to clarify the meaning of unknown words.",
+      "Identifying the who, what, when, where and why in texts."
+    ],
+    "Stage 1": [
+      "Understanding the structure and purpose of a complex sentence.",
+      "Making meaning when reading using multiple sources (e.g. images and text).",
+      "Recounting main ideas from a text.",
+      "Forming an opinion of a text using evidence.",
+      "Recognising when meaning is interrupted during reading.",
+      "Re-reading parts of a text to ensure meaning is understood.",
+      "Using background knowledge and personal experiences to make personal connections to texts.",
+      "Monitoring understanding while reading.",
+      "Sequencing and explaining events from a text."
+    ],
+    "Stage 2": [
+      "Identifying different purposes and strategies for reading (e.g. skimming and scanning).",
+      "Making connections to different texts to compare and analyse them.",
+      "Building and using topic knowledge during reading to deepen understanding.",
+      "Finding and using relevant information from different types of texts.",
+      "Determining a text's specific purpose.",
+      "Linking the meanings of key words across a text to help make connections.",
+      "Identifying how their background knowledge is used to create understanding in a text.",
+      "Asking questions to promote deeper understanding of a text."
+    ],
+    "Stage 3": [
+      "Identifying where meaning breaks down when reading.",
+      "Using evidence from a text to support reading comprehension.",
+      "Categorising information or ideas to aid recall and support summaries.",
+      "Summarising the main ideas of a text.",
+      "Comparing the purposes for different texts and considering why authors and illustrators have structured texts in particular ways."
+    ]
+  },
+  "Creating Written Texts": {
+    "Access Points": [
+      "Participating in creating texts with others.",
+      "Using pictures and symbols to create texts.",
+      "Identifying topics they would like to write about.",
+      "Drawing pictures to support writing."
+    ],
+    "Early Stage 1": [
+      "Creating a text including at least 2 related ideas.",
+      "Sequencing ideas in a written text.",
+      "Creating written texts to give an opinion.",
+      "Creating written texts to recount an event.",
+      "Writing phrases that show time or place.",
+      "Using a capital letter and full stop correctly when writing sentences.",
+      "Using question marks and exclamation marks correctly when writing sentences.",
+      "Editing their work after receiving feedback."
+    ],
+    "Stage 1": [
+      "Writing a text that gives a description.",
+      "Writing a text that gives an opinion.",
+      "Writing a text that tells a story.",
+      "Sequencing ideas in a logical order when writing.",
+      "Writing paragraphs in a sequenced order.",
+      "Writing a combination of sentence types.",
+      "Using commas to separate ideas when writing.",
+      "Using punctuation accurately when writing.",
+      "Re-reading and editing their own writing."
+    ],
+    "Stage 2": [
+      "Sequencing ideas and actions into paragraphs when writing.",
+      "Creating written texts to persuade a viewpoint.",
+      "Sequencing arguments into paragraphs with ideas and topic sentences when writing a persuasive text.",
+      "Using a variety of sentence types when writing texts.",
+      "Using topic specific language in writing.",
+      "Writing informative texts using the correct features (e.g. headings, paragraphs, topic sentences).",
+      "Creating factual and historical accounts which follow the appropriate structure.",
+      "Using capital letters appropriately when writing.",
+      "Using commas appropriately when writing.",
+      "Researching and summarising topic-related ideas when planning for writing."
+    ],
+    "Stage 3": [
+      "Choosing appropriate text structures, features and language when writing imaginative texts to engage the audience.",
+      "Making creative choices about imaginary settings, character profiles and motives to enhance reader engagement.",
+      "Choosing appropriate text structures, features and language when writing informative texts.",
+      "Writing ideas through logically sequenced paragraphs.",
+      "Choosing appropriate text structures, features and language when writing persuasive texts.",
+      "Using persuasive language to strengthen arguments in writing.",
+      "Writing appropriate sentence types to suit purpose and audience.",
+      "Varying the sentence structures and lengths when creating texts.",
+      "Experimenting with different language features for effect and to engage the reader.",
+      "Using print or digital tools to plan, sequence, create, revise, edit and publish texts.",
+      "Re-reading, proofreading and editing own and others' writing."
+    ]
+  },
+  "Spelling": {
+    "Access Points": [
+      "Matching letters in their own name.",
+      "Putting the letters of their name in the correct order.",
+      "Recognising words that start with the same sound.",
+      "Identifying letters in familiar words."
+    ],
+    "Early Stage 1": [
+      "Spelling irregular words (e.g. to, was, come).",
+      "Breaking words into syllables as a spelling strategy (e.g. pic-nic).",
+      "Spelling their own name.",
+      "Experimenting with letter patterns to spell common words."
+    ],
+    "Stage 1": [
+      "Breaking words into sounds when spelling words.",
+      "Spelling words which have double letters accurately.",
+      "Spelling high-frequency words accurately.",
+      "Selecting the correct spelling rule when writing plurals.",
+      "Selecting the correct spelling rule when changing a word between tenses.",
+      "Breaking words into syllables as a spelling strategy.",
+      "Spelling taught high-frequency contractions accurately.",
+      "Spelling words that sound the same but have different meanings."
+    ],
+    "Stage 2": [
+      "Identifying and correcting spelling errors.",
+      "Breaking words into syllables and letter-sounds when spelling.",
+      "Understanding that certain letter patterns change depending on where they are in a word."
+    ],
+    "Stage 3": [
+      "Breaking longer words into syllables and sounds when spelling.",
+      "Applying uncommon letter patterns to spell words correctly.",
+      "Using a dictionary or thesaurus to correct misspelled words.",
+      "Using the correct spelling of words that sound the same but have different meanings."
+    ]
+  },
+  "Handwriting": {
+    "Access Points": [
+      "Making a mark on a page or digital device.",
+      "Using writing tools to form strokes on paper.",
+      "Forming letters using playdough.",
+      "Tracing letter templates using a finger."
+    ],
+    "Early Stage 1": [
+      "Using a stable posture when handwriting or drawing.",
+      "Using a stable and relaxed pencil grasp.",
+      "Writing letters of the alphabet with correct formation, including capital letters.",
+      "Applying appropriate pressure when handwriting to produce legible writing."
+    ],
+    "Stage 1": [
+      "Forming letters with consistent size and slope from memory.",
+      "Locating punctuation on a keyboard.",
+      "Using punctuation when typing.",
+      "Writing all letters correctly on a line consistently.",
+      "Using spaces between written words.",
+      "Typing up to 5 words per minute on a keyboard."
+    ],
+    "Stage 2": [
+      "Joining letters using consistent size and spacing to develop handwriting fluency.",
+      "Using knowledge of the keyboard layout and functions to type texts.",
+      "Using a word-processing program to draft and revise texts."
+    ],
+    "Stage 3": [
+      "Writing with a legible, fluent and personal handwriting style for longer periods of time.",
+      "Navigating the keyboard with efficiency and accuracy when typing words, numbers, punctuation and other symbols.",
+      "Using taught keyboard shortcuts when creating digital texts.",
+      "Adjusting handwriting style to suit writing purpose."
+    ]
+  }
+};
+const MATHS_FD = {
+  "Representing Whole Numbers": {
+    "Access Points": [
+      "Recognising different finger patterns for the same number.",
+      "Selecting numerals using eye contact, gesture or physical contact.",
+      "Saying number words in a sequence starting at one.",
+      "Looking at, pointing to or touching objects as they are being counted."
+    ],
+    "Early Stage 1": [
+      "Recognising up to four items in small groups without counting.",
+      "Counting forwards to at least 30.",
+      "Stating the number after or before a given number.",
+      "Counting backwards from a given number between 1 and 20.",
+      "Reading numerals to at least 20, including zero.",
+      "Comparing and ordering numbers to 20."
+    ],
+    "Stage 1": [
+      "Counting forwards from any given number up to 120.",
+      "Counting backwards from any given number from 120.",
+      "Rounding numbers to the nearest ten using a number line.",
+      "Estimating the number of objects in a collection to the nearest hundred.",
+      "Stating the place value of digits in two-digit numbers.",
+      "Using place value to separate three-digit numbers."
+    ],
+    "Stage 2": [
+      "Comparing the size of numbers by positioning them on a number line.",
+      "Representing numbers up to four-digits using different materials.",
+      "Reading and ordering numbers of up to at least four-digits.",
+      "Representing tenths and hundredths on a number line.",
+      "Using a decimal point to record tenths and hundredths.",
+      "Comparing and ordering decimals of up to two places."
+    ],
+    "Stage 3": [
+      "Arranging numbers in the millions in ascending and descending order.",
+      "Rounding numbers to a specified place value.",
+      "Regrouping numbers in different forms.",
+      "Interpreting decimal notation for thousandths.",
+      "Recognising the location of negative whole numbers in relation to zero.",
+      "Recalling commonly used percentages, decimals and fractions.",
+      "Calculating the sale price of an item after a discount of 10%, 25% and 50%."
+    ]
+  },
+  "Additive Relations": {
+    "Access Points": [
+      "Combining groups of items.",
+      "Separating groups of items.",
+      "Counting across two small groups to a total within a counting range."
+    ],
+    "Early Stage 1": [
+      "Combining two or more groups of objects to model addition.",
+      "Separating and taking away part of a group of objects to model subtraction.",
+      "Creating and recognising combinations for numbers up to ten.",
+      "Counting by ones to find the total or difference when solving questions.",
+      "Comparing two groups of objects to determine how many more."
+    ],
+    "Stage 1": [
+      "Using strategies to solve addition and subtraction problems involving one and two-digit numbers.",
+      "Describing number combinations using 'more than', 'less than' and 'double'.",
+      "Recalling related addition and subtraction facts for numbers to at least 20.",
+      "Solving two-digit addition problems.",
+      "Solving addition problems by separating numbers into tens and ones."
+    ],
+    "Stage 2": [
+      "Applying mental strategies to add and subtract.",
+      "Representing solutions to addition and subtraction problems using a variety of strategies.",
+      "Calculating addition and subtraction problems with money.",
+      "Using an algorithm to solve addition and subtraction problems with up to 3 digits.",
+      "Choosing the most efficient addition and subtraction strategies to solve mathematical problems."
+    ],
+    "Stage 3": [
+      "Solving word problems with multiple steps.",
+      "Applying known strategies to solve addition and subtraction problems.",
+      "Using place value to add or subtract 3 or more numbers with different numbers of digits.",
+      "Rounding numbers appropriately when estimating.",
+      "Solving word problems involving the addition and subtraction of decimals up to 3 decimal places."
+    ]
+  },
+  "Multiplicative Relations": {
+    "Access Points": [
+      "Copying a continuing pattern.",
+      "Pointing to or touching objects as they are being shared into smaller equal groups.",
+      "Identifying the number of objects in a group."
+    ],
+    "Early Stage 1": [
+      "Continuing repeating patterns using sounds and/or actions.",
+      "Creating repeating patterns using shapes, objects, images or pictures.",
+      "Dividing objects into smaller groups and recognising whether the number in each group is equal or not.",
+      "Grouping and sharing concrete materials by distributing objects one by one."
+    ],
+    "Stage 1": [
+      "Modelling and describing collections of objects as 'groups of'.",
+      "Solving multiplication problems using repeated addition.",
+      "Solving multiplication and division problems using objects and diagrams.",
+      "Recording answers to multiplication and division problems using drawings, words or numerals."
+    ],
+    "Stage 2": [
+      "Creating and continuing number patterns that increase or decrease by the same amount.",
+      "Understanding doubling is multiplying a number by two.",
+      "Relating multiplication facts to their opposite division fact.",
+      "Recalling multiplication facts up to 10 x 10.",
+      "Representing and solving multiplication and division word problems using number sentences."
+    ],
+    "Stage 3": [
+      "Determining factors for a given whole number.",
+      "Using mental strategies to multiply one-digit numbers by 10, 100, 1000.",
+      "Solving a multiplication algorithm correctly.",
+      "Selecting and using efficient strategies to multiply whole numbers.",
+      "Solving problems involving brackets.",
+      "Providing reasoning when solving complex multiplication and division problems."
+    ]
+  },
+  "Representing Quantity Fractions": {
+    "Stage 2": [
+      "Representing fractions with halves, quarters, eighths and thirds.",
+      "Naming fractions up to one whole.",
+      "Recording fractions that are equal using diagrams and number lines.",
+      "Recognising how many parts make one whole.",
+      "Determining the location of common fractions on a number line."
+    ],
+    "Stage 3": [
+      "Comparing and ordering different fractions by placing them on a number line.",
+      "Adding and subtracting similar fractions.",
+      "Solving word problems that involve similar fractions.",
+      "Ordering common fractions using diagrams and number lines.",
+      "Creating fractions that are equal for half in quarters, eighths, sixths and tenths.",
+      "Solving real-life problems that involve finding a part of a total amount.",
+      "Finding parts of a group including halves, quarters, fifths and tenths."
+    ]
+  },
+  "Geometric Measure": {
+    "Access Points": [
+      "Responding to simple instructions to demonstrate position or movement.",
+      "Matching items of a similar length.",
+      "Identifying if the length of two items is the same or different."
+    ],
+    "Early Stage 1": [
+      "Following simple directions to position themselves or objects.",
+      "Describing the position of an object in relation to another object.",
+      "Identifying length as a measure of an object from one end to the other.",
+      "Comparing the length of objects by placing them side-by-side."
+    ],
+    "Stage 1": [
+      "Comparing the lengths of two or more objects using appropriate units.",
+      "Estimating lengths and distances to the nearest centimetre.",
+      "Selecting appropriate units to measure the length of an object.",
+      "Estimating lengths and distances to the nearest metre."
+    ],
+    "Stage 2": [
+      "Describing a route taken on a map using landmarks and directional language.",
+      "Accurately identifying the grid reference of locations and/or objects.",
+      "Using a combination of centimetres and metres to measure distances.",
+      "Identifying angles in real-life situations.",
+      "Identifying right angles in shapes.",
+      "Estimating and measuring the perimeters of squares and rectangles."
+    ],
+    "Stage 3": [
+      "Estimating lengths and distances using an appropriate unit.",
+      "Calculating perimeters of common two-dimensional shapes, including squares, rectangles and triangles.",
+      "Measuring angles of up to 360° using a protractor.",
+      "Converting measurements to the same unit to compare lengths and distances.",
+      "Solving a variety of problems involving different units of length."
+    ]
+  },
+  "Two-Dimensional Spatial Structure": {
+    "Access Points": [
+      "Pointing to a square, triangle, circle or rectangle when asked.",
+      "Sorting shapes into groups.",
+      "Matching circles, squares, triangles or rectangles to images."
+    ],
+    "Early Stage 1": [
+      "Sorting shapes according to features such as size and shape.",
+      "Describing shapes including circles, squares, triangles and rectangles.",
+      "Making pictures and designs using a selection of shapes.",
+      "Using comparative language to describe areas."
+    ],
+    "Stage 1": [
+      "Describing the features of two-dimensional shapes.",
+      "Naming two-dimensional shapes based on their sides and corners.",
+      "Comparing two-dimensional shapes based on their sides and corners.",
+      "Using informal units to compare the area of two-dimensional shapes."
+    ],
+    "Stage 2": [
+      "Comparing two-dimensional shapes based on their features.",
+      "Identifying two-dimensional shapes that have parallel sides.",
+      "Creating a grid structure to model the area of a rectangle.",
+      "Measuring the areas of squares and rectangles.",
+      "Measuring the areas of rectangles and right-angled triangles."
+    ],
+    "Stage 3": [
+      "Describing shapes that have parallel sides.",
+      "Recognising the need for formal units larger than the square metre.",
+      "Calculating areas of rectangles in square centimetres, square metres and square kilometres.",
+      "Recording and using the formula to find the area of a parallelogram.",
+      "Recording and using the formula to find the area of a triangle."
+    ]
+  },
+  "Three-Dimensional Spatial Structure": {
+    "Access Points": [
+      "Selecting objects by pointing or touching as they are named.",
+      "Matching objects to given shapes.",
+      "Stacking three-dimensional objects."
+    ],
+    "Early Stage 1": [
+      "Describing the features of familiar objects.",
+      "Making and describing a variety of three-dimensional models.",
+      "Sorting objects and identifying the features used to sort them."
+    ],
+    "Stage 1": [
+      "Naming three-dimensional objects, including cubes, cylinders, spheres and rectangular prisms.",
+      "Sorting three-dimensional objects according to features.",
+      "Naming a three-dimensional object when given a description of its features.",
+      "Explaining why containers of different shapes may have the same volume."
+    ],
+    "Stage 2": [
+      "Identifying the differences between prisms, pyramids and cylinders.",
+      "Constructing models of prisms, pyramids and cylinders.",
+      "Identifying features of prisms and pyramids from images.",
+      "Sketching rectangular prisms and pyramids, showing depth."
+    ],
+    "Stage 3": [
+      "Comparing features of prisms and pyramids.",
+      "Drawing three-dimensional objects from different views.",
+      "Constructing three-dimensional models of prisms and pyramids.",
+      "Calculating volumes of rectangular prisms in cubic centimetres and cubic metres."
+    ]
+  },
+  "Non-Spatial Measure": {
+    "Access Points": [
+      "Identifying if an object is heavy or light.",
+      "Understanding the order of routines.",
+      "Identifying events that can happen at daytime or night-time.",
+      "Locating the hour hand and minute hand on an analog clock."
+    ],
+    "Early Stage 1": [
+      "Identifying that objects can be heavy or light.",
+      "Comparing weight by lifting objects.",
+      "Reading analog and digital clocks to the hour using the term 'o'clock.'",
+      "Sequencing events in time.",
+      "Naming and ordering the days of the week."
+    ],
+    "Stage 1": [
+      "Comparing and ordering the mass of two objects.",
+      "Naming and ordering the months of the year.",
+      "Reading analog clocks to the half hour.",
+      "Using a calendar to calculate the number of days to a future event.",
+      "Using the terms hour, minute and second.",
+      "Reading analog clocks to the quarter-hour."
+    ],
+    "Stage 2": [
+      "Recognising the need for a formal unit to measure mass.",
+      "Recording masses using the abbreviation for kilograms (kg).",
+      "Using 5-minute intervals to read time on an analog clock.",
+      "Using minutes to describe the duration of events.",
+      "Recording times using the colon notation with am and pm."
+    ],
+    "Stage 3": [
+      "Selecting appropriate units of measurement for mass.",
+      "Converting between kilograms and grams and between kilograms and tonnes.",
+      "Reading 24-hour time correctly.",
+      "Converting between 12- and 24-hour time accurately.",
+      "Using timetables from real-life situations involving 12- and 24-hour time.",
+      "Using start and finish times to calculate the elapsed time of events."
+    ]
+  },
+  "Data": {
+    "Access Points": [
+      "Providing a yes or no response to questions for the purpose of collecting data.",
+      "Responding to a question from a choice of at least two options.",
+      "Representing collected data using pictures."
+    ],
+    "Early Stage 1": [
+      "Posing and responding to questions about information collected for a simple graph.",
+      "Grouping objects according to characteristics.",
+      "Arranging objects according to a feature to create a simple graph.",
+      "Interpreting information presented in a simple graph to answer questions."
+    ],
+    "Stage 1": [
+      "Choosing suitable questions when collecting data for a graph.",
+      "Using tally marks to record collected data.",
+      "Creating data displays using objects or symbols.",
+      "Interpreting information presented in picture graphs."
+    ],
+    "Stage 2": [
+      "Representing data using multiple graphs.",
+      "Comparing the same data shown in different types of graphs.",
+      "Conducting a survey to collect a variety of data."
+    ],
+    "Stage 3": [
+      "Collecting different types of data through observations and by conducting surveys.",
+      "Recognising which type of graph is most appropriate when representing data.",
+      "Comparing different sets of data shown together in a column graph.",
+      "Understanding data on a timeline using a scale accurately."
+    ]
+  }
+};
+
+// Maths sidebar structure — headings and their sub-strand categories
+const MATHS_STRAND_GROUPS = [
+  { heading: 'Number & Algebra', cats: ['Represents Numbers', 'Additive Relations', 'Multiplicative Relations', 'Representing Quantity Fractions'] },
+  { heading: 'Measurement & Space', cats: ['Geometric Measure', 'Two-Dimensional Spatial Structure', 'Three-Dimensional Spatial Structure', 'Non-Spatial Measure'] },
+  { heading: 'Statistics & Probability', cats: ['Data', 'Chance'] },
+];
+const FD_STAGES = ['Access Points', 'Early Stage 1', 'Stage 1', 'Stage 2', 'Stage 3'];
+const FD_DEFAULT_STAGE = 'Stage 3';
+
 function render() {
   autoSave();
   renderSidebar();
@@ -1440,26 +2824,78 @@ function render() {
 function renderSidebar() {
   const el = document.getElementById('sidebar');
   el.innerHTML = '<div class="s-label">Categories</div>';
-  CATS.forEach((cat, i) => {
-    // Dividers mark paragraph boundaries in the published comment:
-    // Para 1: Personality → Below Expectations | Para 2: Semester KLAs
-    // Para 3: Interests & Sport | Para 4: EAL/D | Para 5: Closing
-    const dividerBefore = new Set(['Semester KLAs', 'Sport & Extracurricular', 'EAL/D', 'Closing Statement']);
-    if (dividerBefore.has(cat)) { const d = document.createElement('div'); d.className = 'cat-div'; el.appendChild(d); }
-    const count = (cur().selected[cat] || []).length;
-    // If draft has been edited, show amber ✎ badge alongside the normal count
-    // for every category that has selections
-    const isEditedCat = cur().editedCat === cat;
+  const cats = getCatList();
+  const isSubject = currentSubject !== 'general';
+
+  if (currentSubject === 'maths') {
+    // Maths: Introduction first, then 3 strand group headings with sub-strand buttons
+    const sel = getSubjSelected();
+
+    // Introduction
+    const introCount = (sel['Introduction'] || []).length;
+    const introBtn = document.createElement('button');
+    introBtn.className = 'cat-btn' + (currentTab === 'Introduction' ? ' active' : '') + (introCount ? ' has-sel' : '');
+    const introGrade = getCurGrade('Introduction');
+    const introGradeHtml = introGrade ? `<span class="grade-indicator ${introGrade}"></span>` : '';
+    introBtn.innerHTML = `<span class="cat-name">Introduction</span>${introGradeHtml}${introCount ? `<span class="cat-count">${introCount}</span>` : ''}`;
+    introBtn.onclick = () => { currentTab = 'Introduction'; render(); };
+    el.appendChild(introBtn);
+
+    // Strand group headings + sub-strand buttons
+    MATHS_STRAND_GROUPS.forEach(group => {
+      // Non-clickable heading
+      const heading = document.createElement('div');
+      heading.style.cssText = 'font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--t2);padding:8px 1rem 3px;margin-top:2px;';
+      heading.textContent = group.heading;
+      el.appendChild(heading);
+
+      group.cats.forEach(cat => {
+        const count = (sel[cat] || []).length;
+        const grade = getCurGrade(cat);
+        const btn = document.createElement('button');
+        btn.className = 'cat-btn' + (cat === currentTab ? ' active' : '') + (count ? ' has-sel' : '');
+        btn.style.paddingLeft = '1.5rem';
+        const gradeHtml = grade ? `<span class="grade-indicator ${grade}"></span>` : '';
+        btn.innerHTML = `<span class="cat-name">${cat}</span>${gradeHtml}${count ? `<span class="cat-count">${count}</span>` : ''}`;
+        btn.onclick = () => { currentTab = cat; render(); };
+        el.appendChild(btn);
+      });
+    });
+
+    // Future Directions
+    const fdCount = (cur().mathFD || []).length;
+    const d = document.createElement('div'); d.className = 'cat-div'; el.appendChild(d);
+    const fdBtn = document.createElement('button');
+    fdBtn.className = 'cat-btn' + (currentTab === 'Future Directions' ? ' active' : '') + (fdCount ? ' has-sel' : '');
+    fdBtn.innerHTML = `<span class="cat-name">Future Directions</span>${fdCount ? `<span class="cat-count">${fdCount}</span>` : ''}`;
+    fdBtn.onclick = () => { currentTab = 'Future Directions'; render(); };
+    el.appendChild(fdBtn);
+    return;
+  }
+
+  cats.forEach((cat, i) => {
+    if (!isSubject) {
+      const dividerBefore = new Set(['Semester KLAs', 'Sport & Extracurricular', 'EAL/D', 'Closing Statement']);
+      if (dividerBefore.has(cat)) { const d = document.createElement('div'); d.className = 'cat-div'; el.appendChild(d); }
+    }
+    const sel = getSubjSelected();
+    const isFDCat = cat === 'Future Directions';
+    const count = isFDCat
+      ? (currentSubject === 'english' ? (cur().engFD || []).length : (cur().mathFD || []).length)
+      : (sel[cat] || []).length;
+    const isEditedCat = !isSubject && cur().editedCat === cat;
+    const grade = isSubject ? getCurGrade(cat) : null;
+    const catRanked = !isSubject && currentSemester === 2 && cur().s2RankOrder && cur().s2RankOrder[cat];
     const btn = document.createElement('button');
     btn.className = 'cat-btn' + (cat === currentTab ? ' active' : '') + (count ? ' has-sel' : '');
     let badgeHtml = '';
-    const catRanked = currentSemester === 2 && cur().s2RankOrder && cur().s2RankOrder[cat];
     if (isEditedCat && count > 0) {
       badgeHtml = `<span class="cat-count edited">${count} ✎</span>`;
     } else if (count > 0) {
       badgeHtml = `<span class="cat-count">${count}${catRanked ? ' ↕' : ''}</span>`;
     }
-    btn.innerHTML = `<span class="cat-name">${cat}</span>${badgeHtml}`;
+    const gradeHtml = grade ? `<span class="grade-indicator ${grade}" title="Grade ${grade}: ${GRADE_LABELS[grade]}"></span>` : '';
+    btn.innerHTML = `<span class="cat-name">${cat}</span>${gradeHtml}${badgeHtml}`;
     btn.onclick = () => { currentTab = cat; render(); };
     el.appendChild(btn);
   });
@@ -1497,6 +2933,27 @@ function renderOpts() {
   document.getElementById('cTitle').textContent = currentTab;
   const grid = document.getElementById('optsGrid');
   grid.innerHTML = '';
+
+  // Show grade selector for English/Maths
+  const gradeSel = document.getElementById('gradeSelWrap');
+  if (currentSubject !== 'general') {
+    gradeSel.style.display = (_showAllStrands || _showGradeEntry) ? 'none' : 'flex';
+    const curGrade = getCurGrade(currentTab);
+    gradeSel.innerHTML = `<span class="grade-sel-label">Grade:</span>` +
+      GRADE_ORDER.map(g => {
+        const active = curGrade === g;
+        return `<button class="grade-btn${active ? ' active-' + g : ''}" onclick="setCurGrade('${currentTab}','${active ? '' : g}')">${g} <span style="font-size:9px;opacity:.7">${GRADE_LABELS[g]}</span></button>`;
+      }).join('') +
+      `<button onclick="openGradeEntry()" style="font-family:var(--font);font-size:10px;color:var(--t2);background:none;border:1px solid var(--border);border-radius:var(--r-sm);padding:2px 8px;cursor:pointer;margin-left:4px" title="Set all strand grades at once">All strands ✎</button>`;
+  } else {
+    gradeSel.style.display = 'none';
+  }
+
+  // For English/Maths, use the subject bank
+  if (currentSubject !== 'general') {
+    renderSubjOpts(grid);
+    return;
+  }
 
   // Custom input box — at the top
   const wrap = document.createElement('div');
@@ -1691,16 +3148,38 @@ function updateWc(text) {
 function renderOut() {
   const el = document.getElementById('outEditable');
   const editBar = document.getElementById('draftEditBar');
+  const badge = document.getElementById('wcBadge');
+  const bar = document.getElementById('wcBar');
+
+  // Update subject tab indicators
+  updateSubjTabIndicators();
+
+  // For English/Maths, show their draft + FD
+  if (currentSubject !== 'general') {
+    const subjText = getSubjDraft() || '';
+    const fdText = getFDText();
+    const fullText = subjText + (fdText ? '\n\n' + fdText : '');
+    if (document.activeElement !== el) {
+      el.innerText = fullText;
+    }
+    // Word count with 125 limit
+    const words = fullText.trim().split(/\s+/).filter(Boolean).length;
+    badge.textContent = `${words} / 125`;
+    badge.className = words > 125 ? 'wc over' : 'wc';
+    bar.style.width = Math.min(100, (words / 1.25)) + '%';
+    bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
+    editBar.className = 'draft-edit-bar';
+    return;
+  }
+
   const hasOverride = cur().draftOverride !== null && cur().draftOverride !== undefined;
 
   if (hasOverride) {
-    // Only skip update if user is actively typing in the box
     if (document.activeElement !== el) {
       el.innerText = cur().draftOverride;
       updateWc(cur().draftOverride);
     }
   } else {
-    // No override — always update from selections, even if box is focused
     const text = buildDraftText();
     el.innerText = text;
     updateWc(text);
@@ -1712,10 +3191,31 @@ function renderOut() {
 function onDraftInput() {
   const el = document.getElementById('outEditable');
   const text = el.innerText;
-  cur().draftOverride = text || null;
-  updateWc(text);
-  const editBar = document.getElementById('draftEditBar');
-  editBar.className = cur().draftOverride ? 'draft-edit-bar visible' : 'draft-edit-bar';
+  if (currentSubject === 'english') {
+    cur().engDraft = text || null;
+    // 125 word limit for English
+    const words = text.trim().split(/\s+/).filter(Boolean).length;
+    const badge = document.getElementById('wcBadge');
+    const bar = document.getElementById('wcBar');
+    badge.textContent = `${words} / 125`;
+    badge.className = words > 125 ? 'wc over' : 'wc';
+    bar.style.width = Math.min(100, words / 1.25) + '%';
+    bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
+  } else if (currentSubject === 'maths') {
+    cur().mathDraft = text || null;
+    const words = text.trim().split(/\s+/).filter(Boolean).length;
+    const badge = document.getElementById('wcBadge');
+    const bar = document.getElementById('wcBar');
+    badge.textContent = `${words} / 125`;
+    badge.className = words > 125 ? 'wc over' : 'wc';
+    bar.style.width = Math.min(100, words / 1.25) + '%';
+    bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
+  } else {
+    cur().draftOverride = text || null;
+    updateWc(text);
+    const editBar = document.getElementById('draftEditBar');
+    editBar.className = cur().draftOverride ? 'draft-edit-bar visible' : 'draft-edit-bar';
+  }
   autoSave();
 }
 
@@ -1747,16 +3247,24 @@ function doneDraft() {
 }
 
 function resetDraft() {
-  cur().draftOverride = null;
-  cur().editedCat = null;
-  cur().orderedAfterEdit = [];
-  cur().orderedAtDone = [];
-  if (cur().custom) delete cur().custom['__edited__'];
+  if (currentSubject === 'english') {
+    cur().engDraft = null;
+    showToast('Draft reset to selected sentences.');
+  } else if (currentSubject === 'maths') {
+    cur().mathDraft = null;
+    showToast('Draft reset to selected sentences.');
+  } else {
+    cur().draftOverride = null;
+    cur().editedCat = null;
+    cur().orderedAfterEdit = [];
+    cur().orderedAtDone = [];
+    if (cur().custom) delete cur().custom['__edited__'];
+    showToast('Reset to sentence selections.');
+  }
   const el = document.getElementById('outEditable');
-  el.blur();
+  if (el) el.blur();
   render();
   autoSave();
-  showToast('Reset to sentence selections.');
 }
 
 function renderStuBar() {
@@ -1828,54 +3336,102 @@ function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+function getSubjectPublishText(stu) {
+  // Returns the correct published text depending on the active subject
+  if (currentSubject === 'english') {
+    const draft = stu.engDraft || '';
+    const ordered = stu.engOrdered || [];
+    const name = stu.name || '[Name]';
+    const p = PR[stu.pronoun];
+    const yr = stu.year || '';
+    const counter = { value: 0 };
+    const bodyText = draft || ordered.map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    const fdText = getFDTextForStu(stu, 'english');
+    return [bodyText, fdText].filter(Boolean).join('\n\n');
+  }
+  if (currentSubject === 'maths') {
+    const draft = stu.mathDraft || '';
+    const ordered = stu.mathOrdered || [];
+    const name = stu.name || '[Name]';
+    const p = PR[stu.pronoun];
+    const yr = stu.year || '';
+    const counter = { value: 0 };
+    const bodyText = draft || ordered.map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    const fdText = getFDTextForStu(stu, 'maths');
+    return [bodyText, fdText].filter(Boolean).join('\n\n');
+  }
+  return getPublishedText(stu);
+}
+
+function getFDTextForStu(stu, subj) {
+  const fd = subj === 'english' ? (stu.engFD || []) : (stu.mathFD || []);
+  if (!fd.length) return '';
+  // Each FD on its own line, preceded by an asterisk, exactly as in the document
+  return fd.map(item => `* ${item}`).join('\n');
+}
+
 function renderPublish() {
   const stu = cur();
   const name = stu.name || '[Name]';
   const p = PR[stu.pronoun];
-  document.getElementById('pubName').textContent = `${name} — Semester 1 2026`;
+  const subjLabel = currentSubject === 'english' ? ' — English' : currentSubject === 'maths' ? ' — Mathematics' : '';
+  document.getElementById('pubName').textContent = `${name} — Semester 1 2026${subjLabel}`;
   document.getElementById('checkStatus').innerHTML = '';
   document.getElementById('flagLegend').style.display = 'none';
   document.getElementById('checkBtn').disabled = false;
   updatePubNavBtns();
 
-  let publishedText = getPublishedText(stu);
+  let publishedText = getSubjectPublishText(stu);
   const content = document.getElementById('pubContent');
   if (!publishedText || !publishedText.trim()) {
     content.innerHTML = '<p style="color:var(--t2);font-style:italic;font-size:14px">No sentences selected. Go back and build the comment first.</p>';
     return;
   }
 
-  // Auto-fix alternation per paragraph
+  // Auto-fix alternation per paragraph (general comments only)
   const paragraphs = publishedText.split(/\n\n/).filter(p => p.trim());
   const allFixes = [];
   const fixedParas = paragraphs.map(para => {
+    if (currentSubject !== 'general') return para; // skip alternation fix for Eng/Maths
     const { text: fixed, fixes } = fixAlternation(para, name, p);
     allFixes.push(...fixes);
     return fixed;
   });
 
-  // Show a subtle notice if fixes were applied
   if (allFixes.length) {
     document.getElementById('checkStatus').innerHTML =
       `<span style="font-size:12px;color:var(--blue)">✓ ${allFixes.length} alternation error${allFixes.length > 1 ? 's' : ''} auto-corrected</span>`;
   }
 
   content.innerHTML = fixedParas.map((para, pi) => {
+    // FD lines are single-newline separated and start with *
+    // Render them as a special block rather than sentence spans
+    if (para.trim().startsWith('*')) {
+      const lines = para.split('\n').filter(l => l.trim());
+      return `<p class="pub-para fd-para">${lines.map(l =>
+        `<span data-pi="${pi}" data-si="0" class="fd-line">${l.trim()}</span>`
+      ).join('<br>')}</p>`;
+    }
     const sentences = para.match(/[^.!?]+[.!?]+\s*/g) || [para];
     return `<p class="pub-para">${sentences.map((s, si) =>
       `<span data-pi="${pi}" data-si="${si}">${s.trim()}</span>`
     ).join(' ')}</p>`;
   }).join('');
 
-  const wasPublished = stu.published;
-  stu.published = true;
-  renderStuBar();
-  if (!wasPublished) touchStreak();
-  updateProgress();
-  if (!stu.confettiShown) { stu.confettiShown = true; launchConfetti(); autoSave(); }
-  // Auto-download backup JSON after each publish so work is never lost
-  if (!wasPublished) autoBackup();
-  // Auto-highlight repeated words and tense issues
+  // Only mark published / trigger confetti for general comments
+  // English/Maths have their own published flags
+  if (currentSubject === 'general') {
+    const wasPublished = stu.published;
+    stu.published = true;
+    renderStuBar();
+    if (!wasPublished) touchStreak();
+    updateProgress();
+    if (!stu.confettiShown) { stu.confettiShown = true; launchConfetti(); autoSave(); }
+    if (!wasPublished) autoBackup();
+  } else {
+    autoSave();
+  }
+
   requestAnimationFrame(() => { highlightDuplicateWords(); highlightTenseIssues(); });
 }
 
@@ -1935,11 +3491,10 @@ async function runCheck() {
           content: `You are a school report comment reviewer for a primary school teacher. Carefully read the following student report comment and identify any:
 1. SIMILAR sentences — two sentences that express the same idea, even if worded differently
 2. CONTRADICTIONS — two sentences that say conflicting things (e.g. works independently vs needs support)
-3. ALTERNATION errors — two consecutive sentences where the subject opener is the same (both start with the student's name, or both start with a pronoun like He/She/They). Each sentence should alternate: name → pronoun → name → pronoun.
-4. TENSE errors — sentences written in a different tense to the rest of the comment. School report comments should be consistently in present tense OR consistently in past tense throughout. Flag any sentence that breaks this consistency.
+3. TENSE errors — sentences written in a different tense to the rest of the comment. School report comments should be consistently in present tense OR consistently in past tense throughout. Flag any sentence that breaks this consistency.
 
 Return ONLY valid JSON, no markdown, no explanation:
-{"issues":[{"type":"similar"|"contradiction"|"alternation"|"tense","sentences":["exact text of sentence"],"reason":"brief label max 8 words"}]}
+{"issues":[{"type":"similar"|"contradiction"|"tense","sentences":["exact text of sentence"],"reason":"brief label max 8 words"}]}
 
 If no issues found, return: {"issues":[]}
 
@@ -2090,14 +3645,12 @@ Keep language simple and parent-friendly. Return ONLY the suggested fix as plain
 
     suggestionEl.innerHTML = `<div class="fix-suggestion">${fix}</div>`;
 
-    // Determine what kind of action to offer
+    // Store fix safely and render buttons
     const isRemoval = /^remove|^delete|^omit/i.test(fix);
+    window._pendingFix = { action: isRemoval ? 'remove' : 'replace', pi: span.dataset.pi, si: span.dataset.si, replacement: fix };
     actionsEl.innerHTML = `
-      <button class="fix-btn" onclick="document.getElementById('fixDropdown').style.display='none'">Dismiss</button>
-      ${isRemoval
-        ? `<button class="fix-btn apply" onclick="applyFlagFix('remove', ${JSON.stringify(span.dataset.pi)}, ${JSON.stringify(span.dataset.si)})">Remove sentence</button>`
-        : `<button class="fix-btn apply" onclick="applyFlagFix('replace', ${JSON.stringify(span.dataset.pi)}, ${JSON.stringify(span.dataset.si)}, ${JSON.stringify(fix).replace(/'/g, "\x27")})">Apply fix</button>`
-      }`;
+      <button class="fix-btn" onclick="closeFix()">Dismiss</button>
+      <button class="fix-btn apply" onclick="applyPendingFix()">${isRemoval ? 'Remove sentence' : 'Apply fix'}</button>`;
 
   } catch(e) {
     if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED') {
@@ -2109,20 +3662,27 @@ Keep language simple and parent-friendly. Return ONLY the suggested fix as plain
   }
 }
 
+function applyPendingFix() {
+  const fix = window._pendingFix;
+  if (!fix) { closeFix(); return; }
+  applyFlagFix(fix.action, fix.pi, fix.si, fix.replacement);
+  window._pendingFix = null;
+}
+
 function applyFlagFix(action, pi, si, replacement) {
-  const span = document.querySelector(`#pubContent span[data-pi="${pi}"][data-si="${si}"]`);
-  if (!span) { document.getElementById('fixDropdown').style.display = 'none'; return; }
+  const span = document.querySelector('#pubContent span[data-pi="' + pi + '"][data-si="' + si + '"]');
+  if (!span) { closeFix(); return; }
   if (action === 'remove') {
     const para = span.closest('p.pub-para');
     span.remove();
-    // Clean up empty paragraph
     if (para && !para.textContent.trim()) para.remove();
   } else if (action === 'replace' && replacement) {
     span.textContent = replacement;
     span.className = '';
     span.onclick = null;
+    span.title = '';
   }
-  document.getElementById('fixDropdown').style.display = 'none';
+  closeFix();
   requestAnimationFrame(() => {
     highlightDuplicateWords();
     highlightTenseIssues();
@@ -2133,6 +3693,10 @@ function applyFlagFix(action, pi, si, replacement) {
 // ── VIEW ─────────────────────────────────────────────────────────
 function setView(v) {
   saveCur();
+  // When going back to build from publish, sync the student
+  if (v === 'build') {
+    loadCur();
+  }
   currentView = v;
   document.getElementById('buildView').classList.toggle('hidden', v !== 'build');
   document.getElementById('pubView').classList.toggle('active', v === 'publish');
@@ -2178,6 +3742,233 @@ function setCustomTier(tier) {
     const btn = document.getElementById('tierBtn' + t.charAt(0).toUpperCase() + t.slice(1));
     if (btn) btn.className = 'tier-sel-btn' + (t === tier ? ' active-' + t : '');
   });
+}
+
+
+
+function renderAllStrandsView(grid) {
+  const bank = getBank();
+  const sel = getSubjSelected();
+  const name = cur().name || '[Name]';
+  const p = PR[cur().pronoun];
+  const yr = cur().year || '';
+  const isMaths = currentSubject === 'maths';
+  const grades = isMaths ? (cur().mathGrades || {}) : (cur().engGrades || {});
+
+  // Header bar with filter toggle and edit grades button
+  const header = document.createElement('div');
+  header.style.cssText = 'display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap;';
+  header.innerHTML = `
+    <span style="font-size:11px;color:var(--t2);font-weight:500;flex:1;min-width:0">All strands</span>
+    <div style="display:flex;background:var(--bg-3);border:1px solid var(--border);border-radius:999px;padding:2px;gap:1px;flex-shrink:0;">
+      <button onclick="setGradeFilter(true)" style="font-family:var(--font);font-size:10px;padding:2px 9px;border-radius:999px;border:none;cursor:pointer;transition:all .12s;background:${_filterByGrade ? 'var(--bg-1)' : 'none'};color:${_filterByGrade ? 'var(--t0)' : 'var(--t2)'};" title="Show only sentences for the assigned grade">By grade</button>
+      <button onclick="setGradeFilter(false)" style="font-family:var(--font);font-size:10px;padding:2px 9px;border-radius:999px;border:none;cursor:pointer;transition:all .12s;background:${!_filterByGrade ? 'var(--bg-1)' : 'none'};color:${!_filterByGrade ? 'var(--t0)' : 'var(--t2)'};" title="Show all sentences for all grades">All grades</button>
+    </div>
+    <button onclick="openGradeEntry()" style="font-family:var(--font);font-size:10px;color:var(--t2);background:var(--bg-3);border:1px solid var(--border);border-radius:var(--r-sm);padding:2px 8px;cursor:pointer;flex-shrink:0;">Edit grades ✎</button>`;
+  grid.appendChild(header);
+
+  // Determine strand order
+  let cats;
+  if (isMaths) {
+    cats = ['Introduction', 'Represents Numbers', 'Additive Relations', 'Multiplicative Relations',
+            'Representing Quantity Fractions', 'Geometric Measure', 'Two-Dimensional Spatial Structure',
+            'Three-Dimensional Spatial Structure', 'Non-Spatial Measure', 'Data', 'Chance'];
+  } else {
+    cats = ENGLISH_CATS.filter(c => c !== 'Future Directions');
+  }
+
+  // Maths group headings map
+  const mathsGroupMap = {
+    'Introduction': null,
+    'Represents Numbers': 'Number & Algebra',
+    'Additive Relations': 'Number & Algebra',
+    'Multiplicative Relations': 'Number & Algebra',
+    'Representing Quantity Fractions': 'Number & Algebra',
+    'Geometric Measure': 'Measurement & Space',
+    'Two-Dimensional Spatial Structure': 'Measurement & Space',
+    'Three-Dimensional Spatial Structure': 'Measurement & Space',
+    'Non-Spatial Measure': 'Measurement & Space',
+    'Data': 'Statistics & Probability',
+    'Chance': 'Statistics & Probability',
+  };
+  let lastGroup = null;
+
+  cats.forEach(cat => {
+    const grade = grades[cat] || null;
+    const catSentences = bank[cat] || {};
+    const sents = grade ? (catSentences[grade] || []) : [];
+
+    // Maths: insert non-clickable group heading when group changes
+    if (isMaths) {
+      const group = mathsGroupMap[cat];
+      if (group && group !== lastGroup) {
+        lastGroup = group;
+        const groupHead = document.createElement('div');
+        groupHead.style.cssText = 'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--t2);padding:10px 12px 2px;';
+        groupHead.textContent = group;
+        grid.appendChild(groupHead);
+      }
+    }
+
+    // Strand heading with grade badge
+    const strandHead = document.createElement('div');
+    strandHead.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 12px 3px;cursor:pointer;';
+    strandHead.onclick = () => { currentTab = cat; _showAllStrands = false; render(); };
+    const gradeColor = grade ? { A:'#22c55e', B:'#60a5fa', C:'#fbbf24', D:'#fb923c', E:'#f87171' }[grade] : 'var(--t2)';
+    strandHead.innerHTML = `
+      <span style="font-size:12px;font-weight:600;color:var(--t0);flex:1">${cat}</span>
+      ${grade
+        ? `<span style="font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;border:1px solid ${gradeColor};color:${gradeColor};background:${gradeColor}18">${grade} — ${GRADE_LABELS[grade]}</span>`
+        : `<span style="font-size:10px;color:var(--t2);font-style:italic">No grade set</span>`}`;
+    grid.appendChild(strandHead);
+
+    // When showing all grades, use all grade sentences with dividers
+    const allSents = !_filterByGrade
+      ? GRADE_ORDER.flatMap(g => (catSentences[g] || []).map(s => ({ s, g })))
+      : sents.map(s => ({ s, g: grade }));
+
+    if (!allSents.length) {
+      const empty = document.createElement('div');
+      empty.style.cssText = 'font-size:11px;color:var(--t2);padding:2px 12px 6px;font-style:italic;';
+      empty.textContent = grade ? 'No sentences for this grade.' : 'Set a grade to see sentences.';
+      grid.appendChild(empty);
+      return;
+    }
+
+    // When showing all grades, insert grade dividers between groups
+    let lastRenderedGrade = null;
+
+    // Sentence buttons
+    allSents.forEach(({ s, g }) => {
+      if (!_filterByGrade && g !== lastRenderedGrade) {
+        lastRenderedGrade = g;
+        const gradeColor = { A:'#22c55e', B:'#60a5fa', C:'#fbbf24', D:'#fb923c', E:'#f87171' }[g];
+        const gDiv = document.createElement('div');
+        gDiv.style.cssText = `display:flex;align-items:center;gap:6px;margin:4px 12px 2px;`;
+        gDiv.innerHTML = `<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:999px;border:1px solid ${gradeColor};color:${gradeColor};background:${gradeColor}18">${g} — ${GRADE_LABELS[g]}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
+        grid.appendChild(gDiv);
+      }
+      const displayed = applyRaw(s, name, p, yr);
+      const isSel = (sel[cat] || []).includes(s);
+      const btn = document.createElement('button');
+      btn.className = 'opt' + (isSel ? ' sel' : '');
+      btn.style.cssText = 'font-size:12px;';
+      btn.textContent = displayed;
+      btn.onclick = () => {
+        // Use toggleSubjOpt which handles state + calls render() + autoSave()
+        // But first we need to temporarily set currentTab to this cat
+        const prevTab = currentTab;
+        currentTab = cat;
+        toggleSubjOpt(cat, s);
+        currentTab = prevTab;
+        // toggleSubjOpt calls render() which rebuilds the all-strands view
+        // so the button sel state will update automatically
+      };
+      grid.appendChild(btn);
+    });
+
+    // Small divider between strands
+    const sep = document.createElement('div');
+    sep.style.cssText = 'height:1px;background:var(--border);margin:4px 12px;';
+    grid.appendChild(sep);
+  });
+}
+
+function renderSubjOpts(grid) {
+  // Grade entry screen
+  if (_showGradeEntry) {
+    renderGradeEntryScreen(grid);
+    return;
+  }
+
+  // All-strands view after Done
+  if (_showAllStrands) {
+    renderAllStrandsView(grid);
+    return;
+  }
+
+  // Future Directions category
+  if (currentTab === 'Future Directions') {
+    renderFDPanel(grid);
+    return;
+  }
+
+  const bank = getBank();
+  const catSentences = bank[currentTab] || {};
+  const sel = getSubjSelected();
+  const ord = getSubjOrdered();
+  const selectedGrade = getCurGrade(currentTab);
+  const name = cur().name || '[Name]';
+  const p = PR[cur().pronoun];
+  const yr = cur().year || '';
+
+  // Custom input box at top
+  const wrap = document.createElement('div');
+  wrap.className = 'custom-wrap';
+  wrap.innerHTML = `
+    <div class="custom-label">Write your own sentence</div>
+    <textarea class="custom-textarea" id="customInput" placeholder="Type a custom sentence…"></textarea>
+    <div class="tier-sel-row">
+      <button class="tier-sel-btn active-strong" id="tierBtnStrong" onclick="setCustomTier('strong')">A/B</button>
+      <button class="tier-sel-btn" id="tierBtnAverage" onclick="setCustomTier('average')">C</button>
+      <button class="tier-sel-btn" id="tierBtnDeveloping" onclick="setCustomTier('developing')">D/E</button>
+    </div>
+    <div class="custom-row">
+      <button class="custom-add-btn" onclick="addSubjCustomSentence()">+ Add to comment</button>
+    </div>`;
+  grid.appendChild(wrap);
+
+  // If a grade is set, show ONLY that grade's sentences
+  // If no grade set, show all grades with dividers
+  const gradesToShow = selectedGrade ? [selectedGrade] : GRADE_ORDER;
+
+  if (!selectedGrade) {
+    // Show hint to set grade
+    const hint = document.createElement('div');
+    hint.style.cssText = 'font-size:11px;color:var(--t2);padding:6px 12px;font-style:italic;';
+    hint.innerHTML = 'No grade set — showing all. <button onclick="openGradeEntry()" style="font-family:var(--font);font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0">Set grades</button>';
+    grid.appendChild(hint);
+  }
+
+  gradesToShow.forEach(grade => {
+    const sents = catSentences[grade] || [];
+    if (!sents.length) return;
+
+    // Only show divider when showing all grades
+    if (!selectedGrade) {
+      const div = document.createElement('div');
+      div.className = 'grade-divider';
+      div.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label ${grade}">${grade} — ${GRADE_LABELS[grade]}</span><div class="grade-divider-line"></div>`;
+      grid.appendChild(div);
+    }
+
+    sents.forEach(s => {
+      const displayed = applyRaw(s, name, p, yr);
+      const isSel = (sel[currentTab] || []).includes(s);
+      const btn = document.createElement('button');
+      btn.className = 'opt' + (isSel ? ' sel' : '');
+      btn.textContent = displayed;
+      btn.onclick = () => toggleSubjOpt(currentTab, s);
+      grid.appendChild(btn);
+    });
+  });
+}
+
+function addSubjCustomSentence() {
+  const ta = document.getElementById('customInput');
+  if (!ta) return;
+  const text = ta.value.trim();
+  if (!text) { showToast('Please type a sentence first.'); return; }
+  // Add to current subject ordered list
+  const ord = getSubjOrdered();
+  const sel = getSubjSelected();
+  ord.push(text);
+  if (!sel[currentTab]) sel[currentTab] = [];
+  sel[currentTab].push(text);
+  setSubjSelected(sel);
+  setSubjOrdered(ord);
+  ta.value = '';
+  render();
 }
 
 function addCustomSentence() {
@@ -2297,9 +4088,25 @@ function removeSent(i) {
   render();
 }
 
-function clearCurrent() { cur().selected = {}; cur().ordered = []; cur().draftOverride = null; cur().editedCat = null; cur().orderedAfterEdit = []; cur().orderedAtDone = []; if (cur().custom) delete cur().custom['__edited__']; cur().published = false; render(); }
+function clearCurrent() {
+  if (currentSubject === 'english') {
+    cur().engSelected = {}; cur().engOrdered = []; cur().engDraft = null; cur().engFD = [];
+    showToast('English comment cleared.');
+  } else if (currentSubject === 'maths') {
+    cur().mathSelected = {}; cur().mathOrdered = []; cur().mathDraft = null; cur().mathFD = [];
+    showToast('Maths comment cleared.');
+  } else {
+    cur().selected = {}; cur().ordered = []; cur().draftOverride = null;
+    cur().editedCat = null; cur().orderedAfterEdit = []; cur().orderedAtDone = [];
+    if (cur().custom) delete cur().custom['__edited__'];
+    cur().published = false;
+    showToast('Comment cleared.');
+  }
+  autoSave();
+  render();
+}
 
-function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[] }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
+function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[], engSelected:{}, engOrdered:[], engGrades:{}, engDraft:null, engPublished:false, mathSelected:{}, mathOrdered:[], mathGrades:{}, mathDraft:null, mathPublished:false, engFD:[], mathFD:[], fdStage:'Stage 3' }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
 
 function pubNavStudent(dir) {
   saveCur();
@@ -2514,7 +4321,7 @@ function _applyPersistedState(saved) {
   if (!saved) return;
   if (saved && saved.students && saved.students.length) {
     students = saved.students.map(s => Object.assign(
-      { name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [] }, s
+      { name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [], engSelected: {}, engOrdered: [], engGrades: {}, engDraft: null, engPublished: false, mathSelected: {}, mathOrdered: [], mathGrades: {}, mathDraft: null, mathPublished: false, engFD: [], mathFD: [], fdStage: 'Stage 3' }, s
     ));
     currentIdx = Math.min(saved.currentIdx || 0, students.length - 1);
   }
@@ -3145,8 +4952,10 @@ function highlightDuplicateWords() {
   // Build dynamic ignore list: student name + all pronoun forms
   const stuName = (cur().name || '').toLowerCase();
   const pron = PR[cur().pronoun || 'he'];
+  // Split name on spaces AND hyphens so Ruby-Lee doesn't flag Lee as repeated
+  const nameParts = stuName.split(/[\s\-]+/);
   const dynamicIgnore = new Set([
-    stuName, ...stuName.split(/\s+/),
+    stuName, ...nameParts,
     pron.S.toLowerCase(), pron.s, pron.O.toLowerCase(), pron.o,
     pron.Pos.toLowerCase(), pron.pos, pron.r,
   ].filter(Boolean));
@@ -3631,8 +5440,9 @@ document.addEventListener('mousemove', e => {
 // loadPersistedState is now async (IndexedDB) — it calls render() itself
 loadPersistedState();
 loadTheme();
+const _savedSubj = lsGet('rcb_subject', 'general'); if (_savedSubj !== 'general') setTimeout(() => setSubject(_savedSubj), 100);
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.5.4</div>
+<div class="version-badge">v2.8.2</div>
 </body>
 </html>
