@@ -1418,17 +1418,46 @@ function toggleSubjOpt(cat, s) {
   const ord = getSubjOrdered();
   if (!sel[cat]) sel[cat] = [];
   const idx = sel[cat].indexOf(s);
-  if (idx === -1) { sel[cat].push(s); ord.push(s); }
-  else {
+  const isAdding = idx === -1;
+
+  if (isAdding) {
+    sel[cat].push(s);
+    ord.push(s);
+  } else {
     sel[cat].splice(idx, 1);
     const oi = ord.indexOf(s);
     if (oi !== -1) ord.splice(oi, 1);
   }
   setSubjSelected(sel);
   setSubjOrdered(ord);
-  // Clear manual draft override so new selections rebuild the draft automatically
-  if (currentSubject === 'english') { cur().engDraft = null; cur().pubEditEnglish = null; }
-  if (currentSubject === 'maths') { cur().mathDraft = null; cur().pubEditMaths = null; }
+
+  // If there's a manual draft edit, preserve it:
+  // - Adding a sentence: append it to the existing draft text
+  // - Removing a sentence: remove it from the existing draft text (best-effort)
+  const draftKey  = currentSubject === 'english' ? 'engDraft'  : 'mathDraft';
+  const pubKey    = currentSubject === 'english' ? 'pubEditEnglish' : 'pubEditMaths';
+  const existing  = cur()[draftKey];
+
+  if (existing) {
+    const name = cur().name || '[Name]';
+    const p    = PR[cur().pronoun];
+    const yr   = cur().year || '';
+    const counter = { value: 0 };
+    const resolved = applyAlternation(s, name, p, counter, yr);
+    if (isAdding) {
+      // Append the new sentence to the existing manual draft
+      cur()[draftKey] = existing.trimEnd() + ' ' + resolved;
+    } else {
+      // Remove the sentence from the draft (strip it wherever it appears)
+      const escaped = resolved.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      cur()[draftKey] = existing.replace(new RegExp('\\s*' + escaped, 'g'), '').trim() || null;
+    }
+    cur()[pubKey] = null; // draft changed — rebuild publish
+  } else {
+    // No manual edit — clear nothing, let getSubjDraft rebuild from engOrdered
+    cur()[pubKey] = null;
+  }
+
   render();
   autoSave();
 }
@@ -2404,7 +2433,7 @@ const MATHS_BANK = {
   }
 };
 
-const ENGLISH_CATS = ["Introduction", "Below Expectations", "Reading Comprehension", "Oral Language & Communication", "Creating Written Texts", "Vocabulary", "Spelling & Grammar", "Handwriting & Digital Transcription", "Understanding and Responding to Literature", "Future Directions"];
+const ENGLISH_CATS = ["Introduction", "Below Expectations", "Oral Language & Communication", "Reading Comprehension", "Creating Written Texts", "Vocabulary", "Spelling & Grammar", "Handwriting & Digital Transcription", "Understanding and Responding to Literature", "Future Directions"];
 const MATHS_CATS = ["Introduction", "Below Expectations", "Represents Numbers", "Additive Relations", "Multiplicative Relations", "Representing Quantity Fractions", "Geometric Measure", "Two-Dimensional Spatial Structure", "Three-Dimensional Spatial Structure", "Non-Spatial Measure", "Data", "Chance", "Future Directions"];
 const GRADE_LABELS = { A: 'Outstanding', B: 'High', C: 'Expected', D: 'Basic', E: 'Limited' };
 const GRADE_ORDER = ['A','B','C','D','E'];
@@ -5793,6 +5822,6 @@ loadTheme();
 const _savedSubj = lsGet('rcb_subject', 'general'); if (_savedSubj !== 'general') setTimeout(() => setSubject(_savedSubj), 100);
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.9.5</div>
+<div class="version-badge">v2.9.6</div>
 </body>
 </html>
