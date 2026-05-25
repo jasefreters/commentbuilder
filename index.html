@@ -1751,6 +1751,20 @@ function setSemester(n) {
         stu.s1Ordered  = (stu.ordered  || []).slice();
         stu.s1Selected = JSON.parse(JSON.stringify(stu.selected || {}));
       }
+      // Snapshot English/Maths S1 state once
+      if (!stu.engS1Snapped) {
+        stu.engS1Snapped   = true;
+        stu.engS1Selected  = JSON.parse(JSON.stringify(stu.engSelected || {}));
+        stu.engS1Ordered   = (stu.engOrdered  || []).slice();
+        stu.engS1Grades    = JSON.parse(JSON.stringify(stu.engGrades   || {}));
+        stu.engS1Draft     = stu.engDraft || null;
+        stu.engS1FD        = (stu.engFD || []).slice();
+        stu.mathS1Selected = JSON.parse(JSON.stringify(stu.mathSelected || {}));
+        stu.mathS1Ordered  = (stu.mathOrdered  || []).slice();
+        stu.mathS1Grades   = JSON.parse(JSON.stringify(stu.mathGrades   || {}));
+        stu.mathS1Draft    = stu.mathDraft || null;
+        stu.mathS1FD       = (stu.mathFD || []).slice();
+      }
     });
     // Load S2 state for current student (blank if first time)
     cur().ordered          = cur().s2Ordered        || [];
@@ -1759,6 +1773,18 @@ function setSemester(n) {
     cur().editedCat        = cur().s2EditedCat      || null;
     cur().orderedAfterEdit = cur().s2OrderedAfterEdit || [];
     cur().orderedAtDone    = cur().s2OrderedAtDone  || [];
+    // English S2
+    cur().engSelected = cur().engS2Selected || {};
+    cur().engOrdered  = cur().engS2Ordered  || [];
+    cur().engGrades   = cur().engS2Grades   || {};
+    cur().engDraft    = cur().engS2Draft    || null;
+    cur().engFD       = cur().engS2FD       || [];
+    // Maths S2
+    cur().mathSelected = cur().mathS2Selected || {};
+    cur().mathOrdered  = cur().mathS2Ordered  || [];
+    cur().mathGrades   = cur().mathS2Grades   || {};
+    cur().mathDraft    = cur().mathS2Draft    || null;
+    cur().mathFD       = cur().mathS2FD       || [];
   }
   if (n === 1 && currentSemester === 2) {
     // Switching TO S1 — save S2 state, restore S1 state
@@ -1768,13 +1794,26 @@ function setSemester(n) {
     cur().s2EditedCat        = cur().editedCat      || null;
     cur().s2OrderedAfterEdit = (cur().orderedAfterEdit || []).slice();
     cur().s2OrderedAtDone    = (cur().orderedAtDone    || []).slice();
-    // Restore S1
+    // Save English/Maths S2 state before reverting
+    cur().engS2Selected = JSON.parse(JSON.stringify(cur().engSelected || {}));
+    cur().engS2Ordered  = (cur().engOrdered  || []).slice();
+    cur().engS2Grades   = JSON.parse(JSON.stringify(cur().engGrades   || {}));
+    cur().engS2Draft    = cur().engDraft || null;
+    cur().engS2FD       = (cur().engFD || []).slice();
+    cur().mathS2Selected = JSON.parse(JSON.stringify(cur().mathSelected || {}));
+    cur().mathS2Ordered  = (cur().mathOrdered  || []).slice();
+    cur().mathS2Grades   = JSON.parse(JSON.stringify(cur().mathGrades   || {}));
+    cur().mathS2Draft    = cur().mathDraft || null;
+    cur().mathS2FD       = (cur().mathFD || []).slice();
+    // Restore S1 General
     cur().ordered          = (cur().s1Ordered  || []).slice();
     cur().selected         = JSON.parse(JSON.stringify(cur().s1Selected || {}));
     cur().draftOverride    = null;
     cur().editedCat        = null;
     cur().orderedAfterEdit = [];
     cur().orderedAtDone    = [];
+    // Restore S1 English/Maths (engSelected etc. already hold S1 state — nothing to restore,
+    // but clear any S2 overrides by reloading from eng/mathSelected which were never overwritten)
   }
 
   currentSemester = n;
@@ -2365,7 +2404,7 @@ const MATHS_BANK = {
   }
 };
 
-const ENGLISH_CATS = ["Introduction", "Below Expectations", "Oral Language & Communication", "Creating Written Texts", "Vocabulary", "Spelling & Grammar", "Handwriting & Digital Transcription", "Reading Comprehension", "Understanding and Responding to Literature", "Future Directions"];
+const ENGLISH_CATS = ["Introduction", "Below Expectations", "Reading Comprehension", "Oral Language & Communication", "Creating Written Texts", "Vocabulary", "Spelling & Grammar", "Handwriting & Digital Transcription", "Understanding and Responding to Literature", "Future Directions"];
 const MATHS_CATS = ["Introduction", "Below Expectations", "Represents Numbers", "Additive Relations", "Multiplicative Relations", "Representing Quantity Fractions", "Geometric Measure", "Two-Dimensional Spatial Structure", "Three-Dimensional Spatial Structure", "Non-Spatial Measure", "Data", "Chance", "Future Directions"];
 const GRADE_LABELS = { A: 'Outstanding', B: 'High', C: 'Expected', D: 'Basic', E: 'Limited' };
 const GRADE_ORDER = ['A','B','C','D','E'];
@@ -3288,11 +3327,25 @@ function renderOut() {
   editBar.className = hasOverride ? 'draft-edit-bar visible' : 'draft-edit-bar';
 }
 
+function stripFDFromDraftText(text) {
+  // Remove any FD lines (lines starting with "* ") from the end of the draft text
+  // so they aren't double-appended when getSubjectPublishText adds them back
+  if (!text) return text;
+  const lines = text.split('\n');
+  // Walk backwards removing FD lines and blank lines at the end
+  let end = lines.length;
+  while (end > 0 && (lines[end-1].trim() === '' || lines[end-1].trim().startsWith('* '))) {
+    end--;
+  }
+  return lines.slice(0, end).join('\n').trim() || null;
+}
+
 function onDraftInput() {
   const el = document.getElementById('outEditable');
   const text = el.innerText;
   if (currentSubject === 'english') {
-    cur().engDraft = text || null;
+    cur().engDraft = stripFDFromDraftText(text);
+    cur().pubEditEnglish = null; // draft changed — rebuild publish from new draft
     // 125 word limit for English
     const words = text.trim().split(/\s+/).filter(Boolean).length;
     const badge = document.getElementById('wcBadge');
@@ -3302,7 +3355,8 @@ function onDraftInput() {
     bar.style.width = Math.min(100, words / 1.25) + '%';
     bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
   } else if (currentSubject === 'maths') {
-    cur().mathDraft = text || null;
+    cur().mathDraft = stripFDFromDraftText(text);
+    cur().pubEditMaths = null; // draft changed — rebuild publish from new draft
     const words = text.trim().split(/\s+/).filter(Boolean).length;
     const badge = document.getElementById('wcBadge');
     const bar = document.getElementById('wcBar');
@@ -4251,7 +4305,7 @@ function clearCurrent() {
   render();
 }
 
-function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[], engSelected:{}, engOrdered:[], engGrades:{}, engDraft:null, engPublished:false, mathSelected:{}, mathOrdered:[], mathGrades:{}, mathDraft:null, mathPublished:false, engFD:[], mathFD:[], fdStage:'Stage 3', pubEditGeneral:null, pubEditEnglish:null, pubEditMaths:null }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
+function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[], engSelected:{}, engOrdered:[], engGrades:{}, engDraft:null, engPublished:false, mathSelected:{}, mathOrdered:[], mathGrades:{}, mathDraft:null, mathPublished:false, engFD:[], mathFD:[], fdStage:'Stage 3', pubEditGeneral:null, pubEditEnglish:null, pubEditMaths:null, engS2Selected:{}, engS2Ordered:[], engS2Grades:{}, engS2Draft:null, mathS2Selected:{}, mathS2Ordered:[], mathS2Grades:{}, mathS2Draft:null, engS2FD:[], mathS2FD:[] }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
 
 function pubNavStudent(dir) {
   saveCur();
@@ -4286,12 +4340,24 @@ function newStudentFromPublish() {
 function switchStu(i) {
   // Before switching, save the current S2 state back into s2* fields
   if (currentSemester === 2) {
-    students[currentIdx].s2Ordered          = (students[currentIdx].ordered          || []).slice();
-    students[currentIdx].s2Selected         = JSON.parse(JSON.stringify(students[currentIdx].selected || {}));
-    students[currentIdx].s2DraftOverride    = students[currentIdx].draftOverride  || null;
-    students[currentIdx].s2EditedCat        = students[currentIdx].editedCat      || null;
-    students[currentIdx].s2OrderedAfterEdit = (students[currentIdx].orderedAfterEdit || []).slice();
-    students[currentIdx].s2OrderedAtDone    = (students[currentIdx].orderedAtDone    || []).slice();
+    const ci = currentIdx;
+    students[ci].s2Ordered          = (students[ci].ordered          || []).slice();
+    students[ci].s2Selected         = JSON.parse(JSON.stringify(students[ci].selected || {}));
+    students[ci].s2DraftOverride    = students[ci].draftOverride  || null;
+    students[ci].s2EditedCat        = students[ci].editedCat      || null;
+    students[ci].s2OrderedAfterEdit = (students[ci].orderedAfterEdit || []).slice();
+    students[ci].s2OrderedAtDone    = (students[ci].orderedAtDone    || []).slice();
+    // Save English/Maths S2 state for outgoing student
+    students[ci].engS2Selected = JSON.parse(JSON.stringify(students[ci].engSelected || {}));
+    students[ci].engS2Ordered  = (students[ci].engOrdered || []).slice();
+    students[ci].engS2Grades   = JSON.parse(JSON.stringify(students[ci].engGrades || {}));
+    students[ci].engS2Draft    = students[ci].engDraft || null;
+    students[ci].engS2FD       = (students[ci].engFD || []).slice();
+    students[ci].mathS2Selected = JSON.parse(JSON.stringify(students[ci].mathSelected || {}));
+    students[ci].mathS2Ordered  = (students[ci].mathOrdered || []).slice();
+    students[ci].mathS2Grades   = JSON.parse(JSON.stringify(students[ci].mathGrades || {}));
+    students[ci].mathS2Draft    = students[ci].mathDraft || null;
+    students[ci].mathS2FD       = (students[ci].mathFD || []).slice();
   }
   saveCur();
   currentIdx = i;
@@ -4305,6 +4371,17 @@ function switchStu(i) {
     cur().editedCat        = cur().s2EditedCat      || null;
     cur().orderedAfterEdit = cur().s2OrderedAfterEdit || [];
     cur().orderedAtDone    = cur().s2OrderedAtDone  || [];
+    // Load English/Maths S2 state for incoming student
+    cur().engSelected = cur().engS2Selected || {};
+    cur().engOrdered  = cur().engS2Ordered  || [];
+    cur().engGrades   = cur().engS2Grades   || {};
+    cur().engDraft    = cur().engS2Draft    || null;
+    cur().engFD       = cur().engS2FD       || [];
+    cur().mathSelected = cur().mathS2Selected || {};
+    cur().mathOrdered  = cur().mathS2Ordered  || [];
+    cur().mathGrades   = cur().mathS2Grades   || {};
+    cur().mathDraft    = cur().mathS2Draft    || null;
+    cur().mathFD       = cur().mathS2FD       || [];
   }
   if (currentView === 'publish') renderPublish();
   else render();
@@ -4313,6 +4390,7 @@ function switchStu(i) {
 function removeStu(i) {
   const name = students[i].name || ('Student ' + (i + 1));
   if (!confirm('Delete ' + name + '? This cannot be undone.')) return;
+  saveCur(); // ensure current student is saved before removing another
   students.splice(i, 1);
   if (currentIdx >= students.length) currentIdx = students.length - 1;
   loadCur();
@@ -4320,7 +4398,9 @@ function removeStu(i) {
 }
 
 function saveCur() {
-  students[currentIdx].name = document.getElementById('studentName').value.trim();
+  const _nameVal = document.getElementById('studentName').value.trim();
+  // Only overwrite name if the field has a value — prevents blank input clearing a saved name
+  if (_nameVal) students[currentIdx].name = _nameVal;
   students[currentIdx].pronoun = document.getElementById('pronounSet').value;
   students[currentIdx].year = document.getElementById('yearSet').value;
   // Persist any live edits from the contenteditable draft pane
@@ -5713,6 +5793,6 @@ loadTheme();
 const _savedSubj = lsGet('rcb_subject', 'general'); if (_savedSubj !== 'general') setTimeout(() => setSubject(_savedSubj), 100);
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.9.2</div>
+<div class="version-badge">v2.9.5</div>
 </body>
 </html>
