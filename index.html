@@ -1004,18 +1004,6 @@ const RAW = {
     "Due to the high number of partial and full absences, {{N}} has missed out on crucial learning opportunities this semester.",
     "The high number of absences this semester has impacted {{pos}} learning and {{s}} is encouraged to attend school regularly and on time.",
   ],
-  "Below Expectations": [
-    "{{N}} is working significantly below stage expectations, yet consistently tries {{pos}} best.",
-    "Whilst {{n}} is working significantly below stage expectations, {{s}} consistently puts in {{pos}} best effort.",
-    "{{S}} is working significantly below stage expectations and is building {{pos}} skills at a Year [X] level.",
-    "{{N}} demonstrates resilience and is able to complete more challenging tasks with support.",
-    "{{N}} is always willing to listen and applies teacher feedback to improve the quality of {{pos}} work.",
-    "{{N}} requires all learning tasks to be broken into small, achievable parts.",
-    "{{S}} requires support to complete classwork and benefits from close guidance.",
-    "{{N}} is building {{pos}} confidence in {{pos}} learning and needs assistance to meet stage expectations.",
-    "{{N}} benefits from occasional reminders to take care when completing tasks.",
-    "Significant teacher support and encouragement is required for {{n}} to be successful in the classroom.",
-  ],
   "Semester KLAs": [
     "{{N}} has shown strong engagement in Science and Technology this semester, engaging in activities and research on weather and climate, the body's major organ systems and how to design and conduct scientific experiments.",
     "{{N}} has shown strong interest in History this semester where {{s}} has developed their understanding of how and why Australia became a nation and the influences that significant individuals and migrant groups have had on Australian society.",
@@ -1096,7 +1084,7 @@ const CATS = Object.keys(RAW);
 // Para 4: Sport & extracurricular (own paragraph)
 // Para 5: Closing statement (always own paragraph)
 const PARA_GROUPS = [
-  ["Personality", "Effort & Work Habits", "Communication & Collaboration", "Social Skills", "Leadership", "Independence", "Attendance", "Below Expectations"],
+  ["Personality", "Effort & Work Habits", "Communication & Collaboration", "Social Skills", "Leadership", "Independence", "Attendance"],
   ["Semester KLAs"],
   ["Interests & Passions", "Sport & Extracurricular"],
   ["EAL/D"],
@@ -1358,9 +1346,9 @@ function setSubject(subj) {
   } else {
     currentTab = CATS[0];
   }
-  // Always switch to Build view when changing subject
+  // Always switch to Build view when changing subject, always render
   if (currentView !== 'build') setView('build');
-  else render();
+  render();
   updateProgress();
 }
 
@@ -1438,6 +1426,9 @@ function toggleSubjOpt(cat, s) {
   }
   setSubjSelected(sel);
   setSubjOrdered(ord);
+  // Clear manual draft override so new selections rebuild the draft automatically
+  if (currentSubject === 'english') cur().engDraft = null;
+  if (currentSubject === 'maths') cur().mathDraft = null;
   render();
   autoSave();
 }
@@ -1971,6 +1962,18 @@ const ENGLISH_BANK = {
     "D": ["{{N}} is developing {{pos}} understanding of key English concepts.", "{{N}} is developing {{pos}} understanding of English skills.", "{{N}} has made some progress in English.", "{{N}} has made some progress in English."],
     "E": ["{{N}} is developing foundational English skills with growing confidence.", "{{N}} has made limited progress in English.", "{{N}} has made minimal progress in English.", "{{N}} is developing {{pos}} understanding of key English concepts."],
   },
+  "Below Expectations": {
+    "E": [
+      "{{S}} is working significantly below stage expectations and is demonstrating progress in English that aligns with Year [X] expectations.",
+      "{{S}} is working significantly below stage expectations in English and is building {{pos}} foundational skills with growing confidence.",
+      "{{S}} is working significantly below stage expectations and is developing {{pos}} English skills with teacher support.",
+    ],
+    "D": [
+      "{{S}} is working below stage expectations in English and is continuing to develop key skills with teacher support.",
+      "{{S}} is working towards achieving stage expectations in English and continues to build understanding with guidance.",
+      "{{S}} is working below stage expectations and is making progress towards meeting key English outcomes.",
+    ],
+  },
   "Oral Language & Communication": {
     "A": ["{{S}} actively participates in class discussions, asking specific questions to clarify information and deepen {{pos}} understanding.", "{{S}} adjusts {{pos}} volume, pace and expression when reading aloud to suit the purpose and complexity of the text.", "{{S}} actively listens to others, retelling and building on their ideas to enhance classroom discussions.", "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions."],
     "B": ["{{S}} communicates clearly and uses appropriate language during class discussions.", "{{S}} actively participates in group discussions.", "{{S}} appropriately adjusts {{pos}} volume and pace during class presentations to support audience engagement.", "{{S}} experiments with {{pos}} volume and pace to support audience engagement during class presentations.", "{{S}} asks specific questions to clarify information and listens attentively to the contributions of others."],
@@ -1999,12 +2002,39 @@ const ENGLISH_BANK = {
     "D": ["{{S}} is developing skills in structuring and editing persuasive texts.", "{{S}} organises recounts and attempts informative texts with emerging control.", "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.", "{{S}} includes describing words to add detail and is beginning to apply common spelling patterns."],
     "E": ["{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks.", "{{S}} plans, writes and edits factual texts with support.", "{{S}} constructs sentences that include basic punctuation.", "{{S}} is learning to use a variety of sentence types when writing texts."],
   },
-  "Spelling": {
-    "A": ["{{S}} identifies complex letter patterns and sounds when spelling and applies this knowledge to improve spelling accuracy.", "{{S}} applies correct letter patterns and general rules when spelling words.", "{{S}} recognises that words can have multiple meanings and identifies letter patterns when spelling."],
-    "B": ["{{S}} applies correct spelling patterns and general rules when writing.", "{{S}} applies correct letter patterns and general rules when spelling words and has made steady progress in this area throughout the semester.", "{{S}} has shown improvement in spelling by identifying letter patterns to support correct spelling."],
-    "C": ["{{S}} applies familiar spelling patterns with developing accuracy and continues to build consistency in handwriting and editing.", "{{S}} applies familiar spelling patterns and uses descriptive language to add detail.", "{{S}} applies some spelling patterns and general rules when writing.", "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy."],
-    "D": ["{{S}} applies some common spelling patterns when writing and is developing accuracy.", "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.", "{{S}} spells unfamiliar words using common letter patterns and applies general rules to improve accuracy."],
-    "E": ["{{S}} spells simple words with common endings and uses basic strategies to spell unfamiliar words with some success.", "{{S}} is learning to apply common spelling patterns in writing.", "{{S}} is developing spelling knowledge and forms most letters correctly."],
+  "Spelling & Grammar": {
+    "A": [
+      "{{S}} identifies complex letter patterns and sounds when spelling and applies this knowledge to improve spelling accuracy.",
+      "{{S}} applies correct letter patterns and general rules when spelling words.",
+      "{{S}} recognises the purposes of a range of punctuation marks and uses them accurately in {{pos}} writing.",
+      "{{S}} uses a variety of sentence structures and applies complex punctuation, including colons, semicolons and dashes, accurately.",
+      "{{S}} demonstrates a strong understanding of grammar by applying correct tense, subject-verb agreement and sentence structure across different text types.",
+    ],
+    "B": [
+      "{{S}} applies correct spelling patterns and general rules when writing.",
+      "{{S}} understands how punctuation marks such as commas, apostrophes and quotation marks are used for different purposes and applies these in {{pos}} writing.",
+      "{{S}} uses commas for different purposes in {{pos}} writing and demonstrates a growing understanding of sentence structure.",
+      "{{S}} demonstrates an understanding of how different tenses and sentence types are used to suit different writing purposes.",
+    ],
+    "C": [
+      "{{S}} applies familiar spelling patterns with developing accuracy.",
+      "{{S}} applies some spelling patterns and general rules when writing.",
+      "{{S}} uses basic punctuation correctly, including capital letters, full stops, question marks and exclamation marks.",
+      "{{S}} is developing an understanding of how commas and apostrophes are used in writing.",
+      "{{S}} is developing the ability to use different types of sentences, including simple and compound sentences, in {{pos}} writing.",
+    ],
+    "D": [
+      "{{S}} applies some common spelling patterns when writing and is developing accuracy.",
+      "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.",
+      "{{S}} is learning how to use basic punctuation, including capital letters and full stops, in {{pos}} writing.",
+      "{{S}} constructs simple sentences and is developing an understanding of correct sentence structure.",
+    ],
+    "E": [
+      "{{S}} spells simple words with common endings and uses basic strategies to spell unfamiliar words with some success.",
+      "{{S}} is learning to apply common spelling patterns in writing.",
+      "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly.",
+      "{{S}} is beginning to identify nouns and verbs in simple sentences.",
+    ],
   },
   "Handwriting & Digital Transcription": {
     "A": ["{{S}} writes with a legible and fluent handwriting style for extended periods and navigates the keyboard efficiently when typing words, numbers and punctuation.", "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation.", "{{S}} types accurately and presents ideas clearly in digital formats."],
@@ -2049,6 +2079,18 @@ const MATHS_BANK = {
       "{{N}} is developing {{pos}} understanding of mathematical concepts.",
       "{{N}} concentrates during mathematics lessons and is building confidence across key areas."
     ]
+  },
+  "Below Expectations": {
+    "E": [
+      "{{S}} is working significantly below stage expectations and is demonstrating progress in Mathematics that aligns with Year [X] expectations.",
+      "{{S}} is working significantly below stage expectations in Mathematics and is building {{pos}} foundational skills with teacher support.",
+      "{{S}} is working significantly below stage expectations and is continuing to build {{pos}} confidence and Mathematics skills.",
+    ],
+    "D": [
+      "{{S}} is working below stage expectations in Mathematics and is continuing to develop key skills with guidance.",
+      "{{S}} is working towards achieving stage expectations in Mathematics and is making steady progress.",
+      "{{S}} is working below stage expectations and is building {{pos}} Mathematics skills in line with Year [X] learning outcomes.",
+    ],
   },
   "Represents Numbers": {
     "A": [
@@ -2321,8 +2363,8 @@ const MATHS_BANK = {
   }
 };
 
-const ENGLISH_CATS = ["Introduction", "Oral Language & Communication", "Reading Comprehension", "Vocabulary", "Creating Written Texts", "Spelling", "Handwriting & Digital Transcription", "Understanding and Responding to Literature", "Future Directions"];
-const MATHS_CATS = ["Introduction", "Represents Numbers", "Additive Relations", "Multiplicative Relations", "Representing Quantity Fractions", "Geometric Measure", "Two-Dimensional Spatial Structure", "Three-Dimensional Spatial Structure", "Non-Spatial Measure", "Data", "Chance", "Future Directions"];
+const ENGLISH_CATS = ["Introduction", "Below Expectations", "Oral Language & Communication", "Creating Written Texts", "Vocabulary", "Spelling & Grammar", "Handwriting & Digital Transcription", "Reading Comprehension", "Understanding and Responding to Literature", "Future Directions"];
+const MATHS_CATS = ["Introduction", "Below Expectations", "Represents Numbers", "Additive Relations", "Multiplicative Relations", "Representing Quantity Fractions", "Geometric Measure", "Two-Dimensional Spatial Structure", "Three-Dimensional Spatial Structure", "Non-Spatial Measure", "Data", "Chance", "Future Directions"];
 const GRADE_LABELS = { A: 'Outstanding', B: 'High', C: 'Expected', D: 'Basic', E: 'Limited' };
 const GRADE_ORDER = ['A','B','C','D','E'];
 
@@ -2970,7 +3012,7 @@ const TIER_BOUNDARIES = {
   'Interests & Passions': { average: null, developing: null },
   'Sport & Extracurricular': { average: null, developing: null },
   'EAL/D': { average: null, developing: null },
-  'Below Expectations': { average: 3, developing: 6 },
+
   'Attendance': { average: 1, developing: 2 },
   'Closing Statement': { average: 6, developing: null },
 };
@@ -3527,7 +3569,8 @@ function promptApiKey() {
 }
 
 async function runCheck() {
-  const text = getPublishedText(cur());
+  // Use subject-appropriate text for English/Maths
+  const text = (currentSubject !== 'general') ? getSubjectPublishText(cur()) : getPublishedText(cur());
   if (!text.trim()) { showToast('Nothing to check.'); return; }
 
   const btn = document.getElementById('checkBtn');
@@ -3547,6 +3590,7 @@ async function runCheck() {
 1. SIMILAR sentences — two sentences that express the same idea, even if worded differently
 2. CONTRADICTIONS — two sentences that say conflicting things (e.g. works independently vs needs support)
 3. TENSE errors — sentences written in a different tense to the rest of the comment. School report comments should be consistently in present tense OR consistently in past tense throughout. Flag any sentence that breaks this consistency.
+4. FUTURE DIRECTION CONTRADICTIONS — a future direction (lines starting with *) that contradicts a strength already described in the comment body (e.g. the comment praises the student's spelling accuracy but a future direction targets spelling improvement)
 
 Return ONLY valid JSON, no markdown, no explanation:
 {"issues":[{"type":"similar"|"contradiction"|"tense","sentences":["exact text of sentence"],"reason":"brief label max 8 words"}]}
@@ -3927,6 +3971,26 @@ function renderAllStrandsView(grid) {
     sep.style.cssText = 'height:1px;background:var(--border);margin:4px 12px;';
     grid.appendChild(sep);
   });
+
+  // Always show Future Directions at bottom of all-strands view
+  const fdSep = document.createElement('div');
+  fdSep.style.cssText = 'height:1px;background:var(--border);margin:8px 12px 4px;';
+  grid.appendChild(fdSep);
+  const fdStrandHead = document.createElement('div');
+  fdStrandHead.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 12px 3px;cursor:pointer;';
+  fdStrandHead.onclick = () => { currentTab = 'Future Directions'; _showAllStrands = false; render(); };
+  const curFDItems = getCurFD();
+  fdStrandHead.innerHTML = '<span style="font-size:12px;font-weight:600;color:var(--t0);flex:1">Future Directions</span>' +
+    (curFDItems.length
+      ? `<span style="font-size:10px;color:var(--green);padding:1px 6px;background:var(--green-bg);border-radius:999px;border:1px solid var(--green-bd)">${curFDItems.length} selected</span>`
+      : '<span style="font-size:10px;color:var(--t2);font-style:italic">None selected — tap to set</span>');
+  grid.appendChild(fdStrandHead);
+  curFDItems.forEach(item => {
+    const fdLine = document.createElement('div');
+    fdLine.style.cssText = 'font-size:12px;padding:2px 12px 2px 20px;color:var(--t1);line-height:1.5;';
+    fdLine.textContent = '* ' + item;
+    grid.appendChild(fdLine);
+  });
 }
 
 function renderSubjOpts(grid) {
@@ -4244,13 +4308,23 @@ function loadCur() { document.getElementById('studentName').value = cur().name||
 function saveStudent() { saveCur(); showToast(`Saved ${cur().name||'student'}!`); render(); }
 
 function copyDraft() {
-  const text = cur().draftOverride !== null && cur().draftOverride !== undefined ? cur().draftOverride : cur().ordered.map(s => applyRaw(resolveKey(s), cur().name||'[Name]', PR[cur().pronoun])).join(' ');
+  let text;
+  if (currentSubject === 'english') {
+    text = getSubjectPublishText(cur());
+  } else if (currentSubject === 'maths') {
+    text = getSubjectPublishText(cur());
+  } else {
+    text = cur().draftOverride !== null && cur().draftOverride !== undefined
+      ? cur().draftOverride
+      : cur().ordered.map(s => applyRaw(resolveKey(s), cur().name||'[Name]', PR[cur().pronoun])).join(' ');
+  }
   if (!text) { showToast('Nothing to copy.'); return; }
-  navigator.clipboard.writeText(text).then(() => showToast('Draft copied!'));
+  navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
 }
 
 function copyPublished() {
-  const text = getPublishedText(cur());
+  // In publish view, copy the subject-appropriate text
+  const text = (currentSubject !== 'general') ? getSubjectPublishText(cur()) : getPublishedText(cur());
   if (!text) { showToast('Nothing to copy.'); return; }
   navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
 }
@@ -5603,6 +5677,6 @@ loadTheme();
 const _savedSubj = lsGet('rcb_subject', 'general'); if (_savedSubj !== 'general') setTimeout(() => setSubject(_savedSubj), 100);
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.8.7</div>
+<div class="version-badge">v2.9.0</div>
 </body>
 </html>
