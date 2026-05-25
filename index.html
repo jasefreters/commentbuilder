@@ -1427,8 +1427,8 @@ function toggleSubjOpt(cat, s) {
   setSubjSelected(sel);
   setSubjOrdered(ord);
   // Clear manual draft override so new selections rebuild the draft automatically
-  if (currentSubject === 'english') cur().engDraft = null;
-  if (currentSubject === 'maths') cur().mathDraft = null;
+  if (currentSubject === 'english') { cur().engDraft = null; cur().pubEditEnglish = null; }
+  if (currentSubject === 'maths') { cur().mathDraft = null; cur().pubEditMaths = null; }
   render();
   autoSave();
 }
@@ -1528,6 +1528,8 @@ function renderGradeEntryScreen(grid) {
     // Add Introduction at top without a group heading
     const introRow = makeGradeRow('Introduction', grades['Introduction'] || null);
     screen.appendChild(introRow);
+    const beRow = makeGradeRow('Below Expectations', grades['Below Expectations'] || null);
+    screen.appendChild(beRow);
     groups.forEach(group => {
       const groupLabel = document.createElement('div');
       groupLabel.className = 'grade-entry-strand-group';
@@ -2929,6 +2931,16 @@ function renderSidebar() {
     introBtn.onclick = () => { currentTab = 'Introduction'; render(); };
     el.appendChild(introBtn);
 
+    // Below Expectations
+    const beCount = (sel['Below Expectations'] || []).length;
+    const beBtn = document.createElement('button');
+    beBtn.className = 'cat-btn' + (currentTab === 'Below Expectations' ? ' active' : '') + (beCount ? ' has-sel' : '');
+    const beGrade = getCurGrade('Below Expectations');
+    const beGradeHtml = beGrade ? `<span class="grade-indicator ${beGrade}"></span>` : '';
+    beBtn.innerHTML = `<span class="cat-name">Below Expectations</span>${beGradeHtml}${beCount ? `<span class="cat-count">${beCount}</span>` : ''}`;
+    beBtn.onclick = () => { currentTab = 'Below Expectations'; render(); };
+    el.appendChild(beBtn);
+
     // Strand group headings + sub-strand buttons
     MATHS_STRAND_GROUPS.forEach(group => {
       // Non-clickable heading
@@ -3337,9 +3349,11 @@ function doneDraft() {
 function resetDraft() {
   if (currentSubject === 'english') {
     cur().engDraft = null;
+    cur().pubEditEnglish = null;
     showToast('Draft reset to selected sentences.');
   } else if (currentSubject === 'maths') {
     cur().mathDraft = null;
+    cur().pubEditMaths = null;
     showToast('Draft reset to selected sentences.');
   } else {
     cur().draftOverride = null;
@@ -3489,6 +3503,16 @@ function renderPublish() {
   if (allFixes.length) {
     document.getElementById('checkStatus').innerHTML =
       `<span style="font-size:12px;color:var(--blue)">✓ ${allFixes.length} alternation error${allFixes.length > 1 ? 's' : ''} auto-corrected</span>`;
+  }
+
+  // Check if there's a saved publish edit to restore
+  const pubEditKey = currentSubject === 'english' ? 'pubEditEnglish'
+                   : currentSubject === 'maths'   ? 'pubEditMaths'
+                   : 'pubEditGeneral';
+  if (stu[pubEditKey]) {
+    content.innerHTML = stu[pubEditKey];
+    requestAnimationFrame(() => { highlightDuplicateWords(); highlightTenseIssues(); });
+    return;
   }
 
   content.innerHTML = fixedParas.map((para, pi) => {
@@ -3830,6 +3854,7 @@ function toggleOpt(cat, s) {
     }
   }
   cur().published = false;
+  cur().pubEditGeneral = null; // clear stale publish edit
   render();
 }
 
@@ -3869,7 +3894,7 @@ function renderAllStrandsView(grid) {
   // Determine strand order
   let cats;
   if (isMaths) {
-    cats = ['Introduction', 'Represents Numbers', 'Additive Relations', 'Multiplicative Relations',
+    cats = ['Introduction', 'Below Expectations', 'Represents Numbers', 'Additive Relations', 'Multiplicative Relations',
             'Representing Quantity Fractions', 'Geometric Measure', 'Two-Dimensional Spatial Structure',
             'Three-Dimensional Spatial Structure', 'Non-Spatial Measure', 'Data', 'Chance'];
   } else {
@@ -3879,6 +3904,7 @@ function renderAllStrandsView(grid) {
   // Maths group headings map
   const mathsGroupMap = {
     'Introduction': null,
+    'Below Expectations': null,
     'Represents Numbers': 'Number & Algebra',
     'Additive Relations': 'Number & Algebra',
     'Multiplicative Relations': 'Number & Algebra',
@@ -4225,7 +4251,7 @@ function clearCurrent() {
   render();
 }
 
-function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[], engSelected:{}, engOrdered:[], engGrades:{}, engDraft:null, engPublished:false, mathSelected:{}, mathOrdered:[], mathGrades:{}, mathDraft:null, mathPublished:false, engFD:[], mathFD:[], fdStage:'Stage 3' }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
+function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[], engSelected:{}, engOrdered:[], engGrades:{}, engDraft:null, engPublished:false, mathSelected:{}, mathOrdered:[], mathGrades:{}, mathDraft:null, mathPublished:false, engFD:[], mathFD:[], fdStage:'Stage 3', pubEditGeneral:null, pubEditEnglish:null, pubEditMaths:null }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
 
 function pubNavStudent(dir) {
   saveCur();
@@ -4297,10 +4323,20 @@ function saveCur() {
   students[currentIdx].name = document.getElementById('studentName').value.trim();
   students[currentIdx].pronoun = document.getElementById('pronounSet').value;
   students[currentIdx].year = document.getElementById('yearSet').value;
-  // Persist any live edits from the contenteditable before switching
+  // Persist any live edits from the contenteditable draft pane
   const el = document.getElementById('outEditable');
   if (el && students[currentIdx].draftOverride !== null && students[currentIdx].draftOverride !== undefined) {
     students[currentIdx].draftOverride = el.innerText || null;
+  }
+  // Persist any edits made in the Publish view (synonym replacements, manual edits)
+  if (currentView === 'publish') {
+    const pubEl = document.getElementById('pubContent');
+    if (pubEl && pubEl.innerHTML && pubEl.innerHTML.trim()) {
+      const key = currentSubject === 'english' ? 'pubEditEnglish'
+                : currentSubject === 'maths'   ? 'pubEditMaths'
+                : 'pubEditGeneral';
+      students[currentIdx][key] = pubEl.innerHTML;
+    }
   }
 }
 function loadCur() { document.getElementById('studentName').value = cur().name||''; document.getElementById('pronounSet').value = cur().pronoun||'he'; document.getElementById('yearSet').value = cur().year||''; }
@@ -5677,6 +5713,6 @@ loadTheme();
 const _savedSubj = lsGet('rcb_subject', 'general'); if (_savedSubj !== 'general') setTimeout(() => setSubject(_savedSubj), 100);
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.9.0</div>
+<div class="version-badge">v2.9.2</div>
 </body>
 </html>
