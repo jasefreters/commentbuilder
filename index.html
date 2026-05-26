@@ -4696,8 +4696,37 @@ function copyDraft() {
   navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
 }
 
+function getPublishedPaneText() {
+  // Read the live publish pane content (includes all edits, synonym swaps etc.)
+  const el = document.getElementById('pubContent');
+  if (!el) return null;
+  // Convert the HTML back to clean plain text:
+  // - fd-para blocks: each fd-line becomes "* text" on its own line
+  // - pub-para blocks: sentences joined with spaces, then paragraphs with double newline
+  const paras = el.querySelectorAll('.pub-para');
+  if (!paras.length) return el.innerText.trim() || null;
+  const parts = Array.from(paras).map(para => {
+    if (para.classList.contains('fd-para')) {
+      return Array.from(para.querySelectorAll('.fd-line'))
+        .map(l => '* ' + l.textContent.trim())
+        .join('\n');
+    }
+    return Array.from(para.querySelectorAll('span'))
+      .map(s => s.textContent.trim())
+      .filter(Boolean)
+      .join(' ');
+  }).filter(Boolean);
+  return parts.join('\n\n') || null;
+}
+
 function copyPublished() {
-  // In publish view, copy the subject-appropriate text
+  // Always read from the live publish pane to capture all edits
+  const liveText = getPublishedPaneText();
+  if (liveText) {
+    navigator.clipboard.writeText(liveText).then(() => showToast('Copied!'));
+    return;
+  }
+  // Fallback: rebuild from data if pane isn't rendered
   const text = (currentSubject !== 'general') ? getSubjectPublishText(cur()) : getPublishedText(cur());
   if (!text) { showToast('Nothing to copy.'); return; }
   navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
@@ -4805,17 +4834,31 @@ function autoSave() {
 }
 
 function loadPersistedState() {
-  // Try IndexedDB first, fall back to localStorage
+  // Render immediately with default state so panes aren't empty on load
+  loadCur();
+  render();
+  // Then try IndexedDB first, fall back to localStorage
   idbGet('rcb_session').then(saved => {
     if (!saved) saved = lsGet('rcb_session', null);
-    if (!saved) return;
-    _applyPersistedState(saved);
-    render();
-    updateProgress();
-    loadTheme();
+    if (saved) {
+      _applyPersistedState(saved);
+      loadCur();
+      render();
+      updateProgress();
+      loadTheme();
+      // Restore subject and semester after data is loaded
+      const _savedSubj = lsGet('rcb_subject', 'general');
+      if (_savedSubj !== 'general') setSubject(_savedSubj);
+      const _savedSem = lsGet('rcb_semester', 1);
+      if (_savedSem === 2) setSemester(2);
+    }
   }).catch(() => {
     const saved = lsGet('rcb_session', null);
-    if (saved) _applyPersistedState(saved);
+    if (saved) {
+      _applyPersistedState(saved);
+      loadCur();
+      render();
+    }
   });
 }
 
@@ -6045,12 +6088,10 @@ document.addEventListener('mousemove', e => {
   }
 });
 
-// loadPersistedState is now async (IndexedDB) — it calls render() itself
+// loadPersistedState is async (IndexedDB) — it calls render() itself
 loadPersistedState();
 loadTheme();
-const _savedSubj = lsGet('rcb_subject', 'general'); if (_savedSubj !== 'general') setTimeout(() => setSubject(_savedSubj), 100);
-const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v3.0.2</div>
+<div class="version-badge">v3.0.3</div>
 </body>
 </html>
