@@ -1573,6 +1573,44 @@ function renderGradeEntryScreen(grid) {
     });
   }
 
+  // ── Future Directions section ───────────────────────────────────
+  const fdSep = document.createElement('div');
+  fdSep.className = 'grade-entry-strand-group';
+  fdSep.style.cssText = 'margin-top:10px;color:var(--blue);border-color:var(--blue-bd,var(--border));';
+  fdSep.textContent = 'Future Directions (select up to 2)';
+  screen.appendChild(fdSep);
+
+  const fdSubRow = document.createElement('div');
+  fdSubRow.style.cssText = 'display:flex;align-items:center;gap:6px;padding:4px 12px 6px;flex-wrap:wrap;';
+  // Stage selector
+  const fdStageLabel = document.createElement('span');
+  fdStageLabel.style.cssText = 'font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.08em;font-weight:500;white-space:nowrap';
+  fdStageLabel.textContent = 'Stage:';
+  fdSubRow.appendChild(fdStageLabel);
+  FD_STAGES.forEach(s => {
+    const sb = document.createElement('button');
+    sb.style.cssText = 'font-family:var(--font);font-size:10px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer;';
+    const updateStageBtns = () => {
+      fdSubRow.querySelectorAll('.fd-stage-btn').forEach(b => {
+        const active = b.dataset.stage === getFDStage();
+        b.style.borderColor = active ? 'var(--blue)' : '';
+        b.style.color = active ? 'var(--blue)' : '';
+        b.style.background = active ? 'rgba(96,165,250,0.1)' : '';
+      });
+    };
+    sb.className = 'fd-stage-btn';
+    sb.dataset.stage = s;
+    sb.textContent = s;
+    sb.onclick = () => { setFDStage(s); renderFDInGradeEntry(fdItemsContainer); updateStageBtns(); };
+    fdSubRow.appendChild(sb);
+  });
+  screen.appendChild(fdSubRow);
+
+  const fdItemsContainer = document.createElement('div');
+  fdItemsContainer.style.cssText = 'padding:0 12px 8px;';
+  renderFDInGradeEntry(fdItemsContainer);
+  screen.appendChild(fdItemsContainer);
+
   // Done button
   const done = document.createElement('button');
   done.className = 'grade-entry-done';
@@ -1581,9 +1619,140 @@ function renderGradeEntryScreen(grid) {
   screen.appendChild(done);
 
   grid.appendChild(screen);
+
+  // Init stage button highlights
+  fdSubRow.querySelectorAll('.fd-stage-btn').forEach(b => {
+    const active = b.dataset.stage === getFDStage();
+    b.style.borderColor = active ? 'var(--blue)' : '';
+    b.style.color = active ? 'var(--blue)' : '';
+    b.style.background = active ? 'rgba(96,165,250,0.1)' : '';
+  });
 }
 
-function makeGradeRow(cat, currentGrade) {
+function renderFDInGradeEntry(container) {
+  container.innerHTML = '';
+  const fd = getFDBank();
+  const stage = getFDStage();
+  const curFD = getCurFD();
+  const customFD = getCustomFD();
+
+  Object.entries(fd).forEach(([strand, stages]) => {
+    const stdItems = stages[stage] || [];
+    const custItems = (customFD[strand] && customFD[strand][stage]) ? customFD[strand][stage] : [];
+    const items = [...stdItems, ...custItems];
+    if (!items.length) return;
+
+    const head = document.createElement('div');
+    head.style.cssText = 'font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;padding:6px 0 3px;border-top:1px solid var(--border);margin-top:4px;display:flex;align-items:center;justify-content:space-between;';
+    head.innerHTML = `<span>${strand}</span>
+      <button onclick="openAddCustomFD('${strand.replace(/'/g,"\\'")}', this)" style="font-family:var(--font);font-size:10px;color:var(--blue);background:none;border:none;cursor:pointer;padding:0">+ Add</button>`;
+    container.appendChild(head);
+
+    items.forEach((text, ti) => {
+      const isCustom = ti >= stdItems.length;
+      const isSel = curFD.includes(text);
+      const locked = curFD.length >= 2 && !isSel;
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:flex-start;gap:6px;padding:3px 0;';
+
+      const btn = document.createElement('button');
+      btn.style.cssText = `font-family:var(--font);font-size:11.5px;line-height:1.5;text-align:left;flex:1;padding:4px 8px;border-radius:var(--r-sm);border:1px solid ${isSel ? 'var(--blue)' : 'var(--border)'};background:${isSel ? 'rgba(96,165,250,0.1)' : 'none'};color:${locked ? 'var(--t3)' : isSel ? 'var(--blue)' : 'var(--t1)'};cursor:${locked ? 'default' : 'pointer'};`;
+      btn.textContent = text + (isCustom ? ' ✎' : '');
+      if (!locked) btn.onclick = () => { toggleFD(text); renderFDInGradeEntry(container); };
+
+      row.appendChild(btn);
+
+      if (isCustom) {
+        const del = document.createElement('button');
+        del.style.cssText = 'font-size:11px;color:var(--t3);background:none;border:none;cursor:pointer;padding:4px 2px;flex-shrink:0;';
+        del.textContent = '✕';
+        del.title = 'Remove custom FD';
+        del.onclick = () => { deleteCustomFD(strand, stage, text); renderFDInGradeEntry(container); };
+        row.appendChild(del);
+      }
+
+      container.appendChild(row);
+    });
+  });
+
+  if (curFD.length >= 2) {
+    const note = document.createElement('div');
+    note.style.cssText = 'font-size:11px;color:var(--amber);padding:6px 0 2px;';
+    note.textContent = '2 selected. Deselect one to choose another.';
+    container.appendChild(note);
+  }
+
+  const selDiv = document.createElement('div');
+  selDiv.style.cssText = 'margin-top:8px;';
+  if (curFD.length > 0) {
+    selDiv.innerHTML = '<div style="font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.08em;font-weight:500;margin-bottom:4px">Selected</div>' +
+      curFD.map(t => `<div style="font-size:11.5px;padding:3px 0;color:var(--blue)">* ${t}</div>`).join('');
+    container.appendChild(selDiv);
+  }
+}
+
+// ── Custom FD storage (persisted to localStorage) ─────────────────
+function getCustomFD() {
+  const subj = currentSubject === 'english' ? 'english' : 'maths';
+  try { return JSON.parse(lsGet('rcb_customFD_' + subj, '{}')) || {}; } catch { return {}; }
+}
+
+function saveCustomFD(data) {
+  const subj = currentSubject === 'english' ? 'english' : 'maths';
+  lsSet('rcb_customFD_' + subj, JSON.stringify(data));
+}
+
+function deleteCustomFD(strand, stage, text) {
+  const data = getCustomFD();
+  if (data[strand] && data[strand][stage]) {
+    data[strand][stage] = data[strand][stage].filter(t => t !== text);
+    if (!data[strand][stage].length) delete data[strand][stage];
+    if (!Object.keys(data[strand]).length) delete data[strand];
+  }
+  saveCustomFD(data);
+  // Also remove from curFD if selected
+  const curFD = getCurFD();
+  const idx = curFD.indexOf(text);
+  if (idx !== -1) { curFD.splice(idx, 1); setCurFD(curFD); }
+}
+
+function openAddCustomFD(strand, triggerEl) {
+  // Remove any existing add-form
+  document.querySelectorAll('.fd-add-form').forEach(f => f.remove());
+
+  const form = document.createElement('div');
+  form.className = 'fd-add-form';
+  form.style.cssText = 'background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px;margin:4px 0 6px;';
+  form.innerHTML = `
+    <div style="font-size:10px;color:var(--t2);margin-bottom:6px;font-weight:500">Add custom future direction for <strong style="color:var(--t1)">${strand}</strong> — ${getFDStage()}</div>
+    <textarea id="fdAddInput" style="font-family:var(--font);font-size:12px;width:100%;box-sizing:border-box;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--t0);padding:6px;resize:vertical;min-height:56px;" placeholder="Type your future direction…"></textarea>
+    <div style="display:flex;gap:6px;margin-top:6px;">
+      <button onclick="saveCustomFDFromForm('${strand.replace(/'/g,"\\'")}', this)" style="font-family:var(--font);font-size:12px;padding:4px 12px;border-radius:var(--r-sm);border:none;background:var(--blue);color:#fff;cursor:pointer;">Save</button>
+      <button onclick="this.closest('.fd-add-form').remove()" style="font-family:var(--font);font-size:12px;padding:4px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer;">Cancel</button>
+    </div>`;
+  // Insert after the heading for this strand
+  triggerEl.closest('div').after(form);
+  form.querySelector('#fdAddInput').focus();
+}
+
+function saveCustomFDFromForm(strand, btn) {
+  const input = btn.closest('.fd-add-form').querySelector('#fdAddInput');
+  const text = input.value.trim();
+  if (!text) { input.focus(); return; }
+  const stage = getFDStage();
+  const data = getCustomFD();
+  if (!data[strand]) data[strand] = {};
+  if (!data[strand][stage]) data[strand][stage] = [];
+  if (!data[strand][stage].includes(text)) data[strand][stage].push(text);
+  saveCustomFD(data);
+  btn.closest('.fd-add-form').remove();
+  // Refresh FD display
+  const container = document.querySelector('.fd-items-container') || btn.closest('[style*="padding:0 12px"]');
+  if (container) renderFDInGradeEntry(container);
+  showToast('Future direction saved!');
+}
+
+function makeGradeRow(cat) {
   const row = document.createElement('div');
   row.className = 'grade-entry-row';
   row.id = 'grade-row-' + cat.replace(/\s+/g, '-');
@@ -1595,23 +1764,25 @@ function makeGradeRow(cat, currentGrade) {
 
   const pills = document.createElement('div');
   pills.className = 'grade-pill-row';
+
+  function refreshPills() {
+    const selected = getCurGrade(cat);
+    pills.querySelectorAll('.grade-pill').forEach((p, i) => {
+      const g = GRADE_ORDER[i];
+      p.className = 'grade-pill' + ((selected||[]).includes(g) ? ' sel-' + g : '');
+    });
+  }
+
   GRADE_ORDER.forEach(g => {
     const pill = document.createElement('button');
-    pill.className = 'grade-pill' + (currentGrade === g ? ' sel-' + g : '');
+    pill.className = 'grade-pill';
     pill.textContent = g;
-    pill.onclick = () => {
-      // Toggle: click same grade to deselect
-      const newGrade = currentGrade === g ? null : g;
-      setCurGrade(cat, newGrade);
-      currentGrade = newGrade;
-      // Update all pills in this row
-      pills.querySelectorAll('.grade-pill').forEach((p, i) => {
-        p.className = 'grade-pill' + (GRADE_ORDER[i] === newGrade ? ' sel-' + GRADE_ORDER[i] : '');
-      });
-    };
+    pill.onclick = () => { setCurGrade(cat, g); refreshPills(); };
     pills.appendChild(pill);
   });
+
   row.appendChild(pills);
+  refreshPills();
   return row;
 }
 
@@ -1695,26 +1866,38 @@ function renderFDPanel(grid) {
     <button class="custom-add-btn" style="margin-top:6px" onclick="applyFDSuggestions()">Use these suggestions</button>`;
   grid.appendChild(suggestWrap);
 
-  // Full list by strand
+  // Full list by strand (including custom FDs)
+  const customFD = getCustomFD();
   Object.entries(fd).forEach(([strand, stages]) => {
-    const items = stages[stage] || [];
-    if (!items.length) return;
+    const stdItems = stages[stage] || [];
+    const custItems = (customFD[strand] && customFD[strand][stage]) ? customFD[strand][stage] : [];
+    const items = [...stdItems, ...custItems];
+    if (!items.length && !true) return; // always show strand so user can add custom
 
     const div = document.createElement('div');
     div.className = 'grade-divider';
-    div.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label C" style="font-size:9px">${strand}</span><div class="grade-divider-line"></div>`;
+    div.style.cssText = 'display:flex;align-items:center;gap:6px;padding:4px 12px;';
+    div.innerHTML = `<div class="grade-divider-line" style="flex:1"></div><span class="grade-divider-label C" style="font-size:9px;flex-shrink:0">${strand}</span><div class="grade-divider-line" style="flex:1"></div>
+      <button onclick="openAddCustomFD('${strand.replace(/'/g,"\'")}', this.parentElement)" style="font-family:var(--font);font-size:10px;color:var(--blue);background:none;border:none;cursor:pointer;padding:0 0 0 4px;flex-shrink:0">+ Add</button>`;
     grid.appendChild(div);
 
-    items.forEach(text => {
+    items.forEach((text, ti) => {
+      const isCustom = ti >= stdItems.length;
       const isSel = curFD.includes(text);
+      const locked = curFD.length >= 2 && !isSel;
       const btn = document.createElement('button');
-      btn.className = 'opt' + (isSel ? ' sel' : '') + (curFD.length >= 2 && !isSel ? ' opts-locked' : '');
+      btn.className = 'opt' + (isSel ? ' sel' : '') + (locked ? ' opts-locked' : '');
       btn.style.cssText = 'font-size:12px;line-height:1.5;';
-      btn.textContent = text;
-      if (isSel || curFD.length < 2) {
-        btn.onclick = () => toggleFD(text);
-      }
+      btn.textContent = text + (isCustom ? ' ✎' : '');
+      if (!locked) btn.onclick = () => toggleFD(text);
       grid.appendChild(btn);
+      if (isCustom) {
+        const del = document.createElement('button');
+        del.style.cssText = 'font-size:10px;color:var(--t3);background:none;border:none;cursor:pointer;padding:2px 12px;display:block;';
+        del.textContent = '✕ Remove';
+        del.onclick = () => { deleteCustomFD(strand, stage, text); renderOpts(); };
+        grid.appendChild(del);
+      }
     });
   });
 
@@ -3015,7 +3198,7 @@ function renderSidebar() {
     const beBtn = document.createElement('button');
     beBtn.className = 'cat-btn' + (currentTab === 'Below Expectations' ? ' active' : '') + (beCount ? ' has-sel' : '');
     const beGrades = getCurGrade('Below Expectations');
-    const beGradeHtml = (beGrades||[]).map(g => `<span class="grade-indicator ${g}"></span>`).join('');
+    const beGradeHtml = (beGrades||[]).slice(0,2).map(g => `<span class="grade-indicator ${g}"></span>`).join('');
     beBtn.innerHTML = `<span class="cat-name">Below Expectations</span>${beGradeHtml}${beCount ? `<span class="cat-count">${beCount}</span>` : ''}`;
     beBtn.onclick = () => { currentTab = 'Below Expectations'; render(); };
     el.appendChild(beBtn);
@@ -5672,7 +5855,7 @@ Return ONLY a JSON array of 6 lowercase strings, no explanation, no markdown:
 
     if (!res.ok) throw new Error('API error ' + res.status);
     const data = await res.json();
-    const raw = (data.content?.find(b => b.type === 'text')?.text || '[]').replace(/\`\`\`json|\`\`\`/g, '').trim();
+    const raw = (data.content?.find(b => b.type === 'text')?.text || '[]').replace(/```json|```/g, '').trim();
     let synonyms = JSON.parse(raw);
     if (!Array.isArray(synonyms)) throw new Error('Bad response');
 
@@ -5842,6 +6025,6 @@ loadTheme();
 const _savedSubj = lsGet('rcb_subject', 'general'); if (_savedSubj !== 'general') setTimeout(() => setSubject(_savedSubj), 100);
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.9.8</div>
+<div class="version-badge">v3.0.0</div>
 </body>
 </html>
