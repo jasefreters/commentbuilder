@@ -1918,6 +1918,9 @@ function toggleFD(text) {
     curFD.push(text);
   }
   setCurFD(curFD);
+  // Invalidate publish cache so FD change shows up next time Publish is opened
+  if (currentSubject === 'english') { cur().pubEditEnglish = null; cur().pubEditEnglish_fdHash = null; }
+  if (currentSubject === 'maths')   { cur().pubEditMaths   = null; cur().pubEditMaths_fdHash   = null; }
   renderOpts();
   renderOut();
   renderSidebar();
@@ -3721,27 +3724,36 @@ function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+function stripFDLines(text) {
+  // Remove any "* ..." lines from text (FD lines baked into draft)
+  if (!text) return text;
+  return text.split('\n')
+    .filter(l => !l.trim().startsWith('* '))
+    .join('\n')
+    .trim();
+}
+
 function getSubjectPublishText(stu) {
   // Returns the correct published text depending on the active subject
   if (currentSubject === 'english') {
-    const draft = stu.engDraft || '';
-    const ordered = stu.engOrdered || [];
     const name = stu.name || '[Name]';
     const p = PR[stu.pronoun];
     const yr = stu.year || '';
     const counter = { value: 0 };
-    const bodyText = draft || ordered.map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    // Always strip FD lines from draft in case old data has them baked in
+    const rawDraft = stu.engDraft ? stripFDLines(stu.engDraft) : '';
+    const bodyText = rawDraft || (stu.engOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    // Always read FD fresh from engFD — never rely on it being in the draft
     const fdText = getFDTextForStu(stu, 'english');
     return [bodyText, fdText].filter(Boolean).join('\n\n');
   }
   if (currentSubject === 'maths') {
-    const draft = stu.mathDraft || '';
-    const ordered = stu.mathOrdered || [];
     const name = stu.name || '[Name]';
     const p = PR[stu.pronoun];
     const yr = stu.year || '';
     const counter = { value: 0 };
-    const bodyText = draft || ordered.map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    const rawDraft = stu.mathDraft ? stripFDLines(stu.mathDraft) : '';
+    const bodyText = rawDraft || (stu.mathOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
     const fdText = getFDTextForStu(stu, 'maths');
     return [bodyText, fdText].filter(Boolean).join('\n\n');
   }
@@ -3792,10 +3804,21 @@ function renderPublish() {
   const pubEditKey = currentSubject === 'english' ? 'pubEditEnglish'
                    : currentSubject === 'maths'   ? 'pubEditMaths'
                    : 'pubEditGeneral';
-  if (stu[pubEditKey]) {
+  const pubEditFDKey = pubEditKey + '_fdHash';
+  // Compute current FD hash to detect if FD changed since cache was saved
+  const currentFDHash = JSON.stringify(
+    currentSubject === 'english' ? (stu.engFD || []) :
+    currentSubject === 'maths'   ? (stu.mathFD || []) : []
+  );
+  if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash) {
+    // Cache is valid — FD hasn't changed since last save
     content.innerHTML = stu[pubEditKey];
     setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
     return;
+  } else if (stu[pubEditKey] && stu[pubEditFDKey] !== currentFDHash) {
+    // FD changed — clear stale cache so we rebuild with fresh FD
+    stu[pubEditKey] = null;
+    stu[pubEditFDKey] = null;
   }
 
   content.innerHTML = fixedParas.map((para, pi) => {
@@ -4346,12 +4369,11 @@ function renderSubjOpts(grid) {
     </div>`;
   grid.appendChild(wrap);
 
-  // If a grade is set, show ONLY that grade's sentences
-  // If no grade set, show all grades with dividers
-  const gradesToShow = selectedGrade ? [selectedGrade] : GRADE_ORDER;
+  // If grades selected, show those; if none selected show all grades
+  const hasGrades = selectedGrades && selectedGrades.length > 0;
+  const gradesToShow = hasGrades ? selectedGrades : GRADE_ORDER;
 
-  if (!selectedGrade) {
-    // Show hint to set grade
+  if (!hasGrades) {
     const hint = document.createElement('div');
     hint.style.cssText = 'font-size:11px;color:var(--t2);padding:6px 12px;font-style:italic;';
     hint.innerHTML = 'No grade set — showing all. <button onclick="openGradeEntry()" style="font-family:var(--font);font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0">Set grades</button>';
@@ -4362,13 +4384,11 @@ function renderSubjOpts(grid) {
     const sents = catSentences[grade] || [];
     if (!sents.length) return;
 
-    // Only show divider when showing all grades
-    if (!selectedGrade) {
-      const div = document.createElement('div');
-      div.className = 'grade-divider';
-      div.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label ${grade}">${grade} — ${GRADE_LABELS[grade]}</span><div class="grade-divider-line"></div>`;
-      grid.appendChild(div);
-    }
+    // Always show grade dividers so user knows which grade each sentence belongs to
+    const div = document.createElement('div');
+    div.className = 'grade-divider';
+    div.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label ${grade}">${grade} — ${GRADE_LABELS[grade]}</span><div class="grade-divider-line"></div>`;
+    grid.appendChild(div);
 
     sents.forEach(s => {
       const displayed = applyRaw(s, name, p, yr);
@@ -4648,6 +4668,12 @@ function saveCur() {
                 : currentSubject === 'maths'   ? 'pubEditMaths'
                 : 'pubEditGeneral';
       students[currentIdx][key] = pubEl.innerHTML;
+      // Save FD hash so we can detect FD changes that should invalidate the cache
+      const fdHashKey = key + '_fdHash';
+      const fdArr = currentSubject === 'english' ? (students[currentIdx].engFD || [])
+                  : currentSubject === 'maths'   ? (students[currentIdx].mathFD || [])
+                  : [];
+      students[currentIdx][fdHashKey] = JSON.stringify(fdArr);
     }
   }
 }
@@ -6025,6 +6051,6 @@ loadTheme();
 const _savedSubj = lsGet('rcb_subject', 'general'); if (_savedSubj !== 'general') setTimeout(() => setSubject(_savedSubj), 100);
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v3.0.0</div>
+<div class="version-badge">v3.0.2</div>
 </body>
 </html>
