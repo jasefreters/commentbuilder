@@ -1365,25 +1365,23 @@ function getBank() {
 }
 
 function getCurGrade(cat) {
-  if (currentSubject === 'english') return (cur().engGrades || {})[cat] || null;
-  if (currentSubject === 'maths') return (cur().mathGrades || {})[cat] || null;
-  return null;
+  // Returns array of selected grades e.g. ['A','B'] or [] if none
+  if (currentSubject === 'english') return (cur().engGrades || {})[cat] || [];
+  if (currentSubject === 'maths') return (cur().mathGrades || {})[cat] || [];
+  return [];
 }
 
 function setCurGrade(cat, grade) {
-  if (!grade) {
-    // Toggle off
-    if (currentSubject === 'english') { if (cur().engGrades) delete cur().engGrades[cat]; }
-    else if (currentSubject === 'maths') { if (cur().mathGrades) delete cur().mathGrades[cat]; }
-  } else {
-    if (currentSubject === 'english') {
-      if (!cur().engGrades) cur().engGrades = {};
-      cur().engGrades[cat] = grade;
-    } else if (currentSubject === 'maths') {
-      if (!cur().mathGrades) cur().mathGrades = {};
-      cur().mathGrades[cat] = grade;
-    }
-  }
+  // Toggle grade in/out of the array for this category
+  const gradesObj = currentSubject === 'english'
+    ? (cur().engGrades || (cur().engGrades = {}))
+    : (cur().mathGrades || (cur().mathGrades = {}));
+  if (!gradesObj[cat]) gradesObj[cat] = [];
+  const arr = gradesObj[cat];
+  const idx = arr.indexOf(grade);
+  if (idx === -1) arr.push(grade);
+  else arr.splice(idx, 1);
+  if (arr.length === 0) delete gradesObj[cat];
   renderOpts();
   renderSidebar();
   autoSave();
@@ -1841,8 +1839,21 @@ function setSemester(n) {
     cur().editedCat        = null;
     cur().orderedAfterEdit = [];
     cur().orderedAtDone    = [];
-    // Restore S1 English/Maths (engSelected etc. already hold S1 state — nothing to restore,
-    // but clear any S2 overrides by reloading from eng/mathSelected which were never overwritten)
+    // Restore S1 English/Maths from snapshots taken when we first switched to S2
+    cur().engSelected  = JSON.parse(JSON.stringify(cur().engS1Selected  || {}));
+    cur().engOrdered   = (cur().engS1Ordered  || []).slice();
+    cur().engGrades    = JSON.parse(JSON.stringify(cur().engS1Grades    || {}));
+    cur().engDraft     = cur().engS1Draft  || null;
+    cur().engFD        = (cur().engS1FD    || []).slice();
+    cur().mathSelected = JSON.parse(JSON.stringify(cur().mathS1Selected || {}));
+    cur().mathOrdered  = (cur().mathS1Ordered || []).slice();
+    cur().mathGrades   = JSON.parse(JSON.stringify(cur().mathS1Grades   || {}));
+    cur().mathDraft    = cur().mathS1Draft || null;
+    cur().mathFD       = (cur().mathS1FD   || []).slice();
+    // Clear any stale publish-view caches so they rebuild from restored state
+    cur().pubEditEnglish = null;
+    cur().pubEditMaths   = null;
+    cur().pubEditGeneral = null;
   }
 
   currentSemester = n;
@@ -3003,8 +3014,8 @@ function renderSidebar() {
     const beCount = (sel['Below Expectations'] || []).length;
     const beBtn = document.createElement('button');
     beBtn.className = 'cat-btn' + (currentTab === 'Below Expectations' ? ' active' : '') + (beCount ? ' has-sel' : '');
-    const beGrade = getCurGrade('Below Expectations');
-    const beGradeHtml = beGrade ? `<span class="grade-indicator ${beGrade}"></span>` : '';
+    const beGrades = getCurGrade('Below Expectations');
+    const beGradeHtml = (beGrades||[]).map(g => `<span class="grade-indicator ${g}"></span>`).join('');
     beBtn.innerHTML = `<span class="cat-name">Below Expectations</span>${beGradeHtml}${beCount ? `<span class="cat-count">${beCount}</span>` : ''}`;
     beBtn.onclick = () => { currentTab = 'Below Expectations'; render(); };
     el.appendChild(beBtn);
@@ -3374,7 +3385,10 @@ function onDraftInput() {
   const text = el.innerText;
   if (currentSubject === 'english') {
     cur().engDraft = stripFDFromDraftText(text);
-    cur().pubEditEnglish = null; // draft changed — rebuild publish from new draft
+    cur().pubEditEnglish = null;
+    // Sync any FD lines the user typed in the pane back to engFD
+    const _parsedEngFD = parseFDFromDraftText(text);
+    if (_parsedEngFD.length > 0) cur().engFD = _parsedEngFD;
     // 125 word limit for English
     const words = text.trim().split(/\s+/).filter(Boolean).length;
     const badge = document.getElementById('wcBadge');
@@ -3385,7 +3399,10 @@ function onDraftInput() {
     bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
   } else if (currentSubject === 'maths') {
     cur().mathDraft = stripFDFromDraftText(text);
-    cur().pubEditMaths = null; // draft changed — rebuild publish from new draft
+    cur().pubEditMaths = null;
+    // Sync any FD lines the user typed in the pane back to mathFD
+    const _parsedMathFD = parseFDFromDraftText(text);
+    if (_parsedMathFD.length > 0) cur().mathFD = _parsedMathFD;
     const words = text.trim().split(/\s+/).filter(Boolean).length;
     const badge = document.getElementById('wcBadge');
     const bar = document.getElementById('wcBar');
@@ -3594,7 +3611,7 @@ function renderPublish() {
                    : 'pubEditGeneral';
   if (stu[pubEditKey]) {
     content.innerHTML = stu[pubEditKey];
-    requestAnimationFrame(() => { highlightDuplicateWords(); highlightTenseIssues(); });
+    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
     return;
   }
 
@@ -3636,7 +3653,7 @@ function renderPublish() {
     autoSave();
   }
 
-  requestAnimationFrame(() => { highlightDuplicateWords(); highlightTenseIssues(); });
+  setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
 }
 
 // ── AI CHECK ─────────────────────────────────────────────────────
@@ -3733,7 +3750,7 @@ ${text}`
       status.innerHTML = `<span style="font-size:13px;color:var(--t1)">${result.issues.length} issue${result.issues.length > 1 ? 's' : ''} flagged</span>`;
       document.getElementById('flagLegend').style.display = 'flex';
     }
-    requestAnimationFrame(() => { highlightDuplicateWords(); highlightTenseIssues(); });
+    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
   } catch(e) {
     btn.disabled = false;
     if (e.message === 'CORS_FILE') {
@@ -4341,11 +4358,14 @@ function pubNavStudent(dir) {
   const newIdx = currentIdx + dir;
   if (newIdx < 0 || newIdx >= students.length) return;
   currentIdx = newIdx;
-  currentTab = CATS[0];
+  // Keep currentSubject so English/Maths publish view stays on the right tab
+  // Set currentTab to match subject so Build view is in sync
+  if (currentSubject === 'english') currentTab = ENGLISH_CATS[0];
+  else if (currentSubject === 'maths') currentTab = MATHS_CATS[0];
+  else currentTab = CATS[0];
   loadCur();
   renderPublish();
   renderStuBar();
-  // Update button states
   document.getElementById('pubPrevBtn').disabled = currentIdx === 0;
   document.getElementById('pubNextBtn').disabled = currentIdx === students.length - 1;
 }
@@ -5822,6 +5842,6 @@ loadTheme();
 const _savedSubj = lsGet('rcb_subject', 'general'); if (_savedSubj !== 'general') setTimeout(() => setSubject(_savedSubj), 100);
 const _savedSem = lsGet('rcb_semester', 1); if (_savedSem === 2) setSemester(2);
 </script>
-<div class="version-badge">v2.9.6</div>
+<div class="version-badge">v2.9.8</div>
 </body>
 </html>
