@@ -1115,7 +1115,7 @@ function applyRaw(text, name, p, year) {
   const yearLabel = yr ? 'Year ' + yr : 'Year [X]';
   return text
     .replace(/\{\{N\}\}/g, n)
-    .replace(/\{\{n\}\}/g, n[0].toLowerCase() + n.slice(1))
+    .replace(/\{\{n\}\}/g, n.length ? n[0].toLowerCase() + n.slice(1) : n)
     .replace(/\{\{S\}\}/g, p.S).replace(/\{\{s\}\}/g, p.s)
     .replace(/\{\{O\}\}/g, p.O).replace(/\{\{o\}\}/g, p.o)
     .replace(/\{\{Pos\}\}/g, p.Pos).replace(/\{\{pos\}\}/g, p.pos)
@@ -1471,7 +1471,9 @@ function toggleSubjOpt(cat, s) {
     const name = cur().name || '[Name]';
     const p    = PR[cur().pronoun];
     const yr   = cur().year || '';
-    const counter = { value: 0 };
+    // Count existing name/pronoun openers to continue alternation correctly
+    const openerCount = (existing.match(/^[A-Z][a-z]+\s|^(He|She|They)\s/gm) || []).length;
+    const counter = { value: openerCount };
     const resolved = applyAlternation(s, name, p, counter, yr);
     if (isAdding) {
       // Append the new sentence to the existing manual draft
@@ -1495,13 +1497,15 @@ function getSubjDraft() {
   const name = cur().name || '[Name]';
   const p = PR[cur().pronoun];
   const yr = cur().year || '';
-  const counter = { value: 0 };
   if (currentSubject === 'english') {
     if (cur().engDraft) return cur().engDraft;
+    // Single shared counter so alternation is consistent across all sentences
+    const counter = { value: 0 };
     return (cur().engOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
   }
   if (currentSubject === 'maths') {
     if (cur().mathDraft) return cur().mathDraft;
+    const counter = { value: 0 };
     return (cur().mathOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
   }
   return null;
@@ -2702,7 +2706,6 @@ const MATHS_BANK = {
       "{{S}} understands common fractions and writes them as decimals."
     ],
     "D": [
-      "{{S}} recognises the relational size of fractions in terms of the whole and its parts.",
       "{{S}} recognises and represents fractions of a length and records numbers in different forms.",
       "{{S}} recognises fractions and decimals and applies them in simple problems.",
       "{{S}} recognises simple fractions such as halves and quarters and records numbers as decimals.",
@@ -4412,10 +4415,6 @@ function applyFlagFix(action, pi, si, replacement) {
 // ── VIEW ─────────────────────────────────────────────────────────
 function setView(v) {
   saveCur();
-  // When going back to build from publish, sync the student
-  if (v === 'build') {
-    loadCur();
-  }
   currentView = v;
   document.getElementById('buildView').classList.toggle('hidden', v !== 'build');
   document.getElementById('pubView').classList.toggle('active', v === 'publish');
@@ -4423,6 +4422,7 @@ function setView(v) {
   document.getElementById('vBuild').classList.toggle('active', v === 'build');
   document.getElementById('vPublish').classList.toggle('active', v === 'publish');
   document.getElementById('vStats').classList.toggle('active', v === 'stats');
+  if (v === 'build') { loadCur(); render(); }
   if (v === 'publish') renderPublish();
   if (v === 'stats') renderStats();
 }
@@ -5012,7 +5012,7 @@ function getPublishedPaneText() {
   const parts = Array.from(paras).map(para => {
     if (para.classList.contains('fd-para')) {
       return Array.from(para.querySelectorAll('.fd-line'))
-        .map(l => '* ' + l.textContent.trim())
+        .map(l => l.textContent.trim()) // text already contains "* " from getFDTextForStu
         .join('\n');
     }
     return Array.from(para.querySelectorAll('span'))
@@ -6421,6 +6421,6 @@ document.addEventListener('mousemove', e => {
 loadPersistedState();
 loadTheme();
 </script>
-<div class="version-badge">v3.1.5</div>
+<div class="version-badge">v3.1.6</div>
 </body>
 </html>
