@@ -4352,7 +4352,7 @@ function renderSubjOpts(grid) {
   const catSentences = bank[currentTab] || {};
   const sel = getSubjSelected();
   const ord = getSubjOrdered();
-  const selectedGrade = getCurGrade(currentTab);
+  const selectedGrades = getCurGrade(currentTab);
   const name = cur().name || '[Name]';
   const p = PR[cur().pronoun];
   const yr = cur().year || '';
@@ -4617,7 +4617,10 @@ function switchStu(i) {
   }
   saveCur();
   currentIdx = i;
-  currentTab = CATS[0];
+  // Reset currentTab to the first category of whichever subject is active
+  if (currentSubject === 'english') currentTab = ENGLISH_CATS[0];
+  else if (currentSubject === 'maths') currentTab = MATHS_CATS[0];
+  else currentTab = CATS[0];
   loadCur();
   // Load the correct semester state for the new student
   if (currentSemester === 2) {
@@ -4649,6 +4652,9 @@ function removeStu(i) {
   saveCur(); // ensure current student is saved before removing another
   students.splice(i, 1);
   if (currentIdx >= students.length) currentIdx = students.length - 1;
+  if (currentSubject === 'english') currentTab = ENGLISH_CATS[0];
+  else if (currentSubject === 'maths') currentTab = MATHS_CATS[0];
+  else currentTab = CATS[0];
   loadCur();
   render();
 }
@@ -6121,6 +6127,6 @@ document.addEventListener('mousemove', e => {
 loadPersistedState();
 loadTheme();
 </script>
-<div class="version-badge">v3.0.4</div>
+<div class="version-badge">v3.0.6</div>
 </body>
 </html>
