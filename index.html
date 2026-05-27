@@ -5303,11 +5303,16 @@ async function cloudCreateAccount() {
       return;
     }
     // New account — save current session to cloud
-    const saved = await cloudSave(false);
+    await cloudSave(false);
     if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
     updateCloudStatus();
     toggleSettings();
-    showToast('Account created for ' + user + '. Your session is now syncing.');
+    const hasData = students && students.some(s => s.name || (s.ordered && s.ordered.length) || (s.engOrdered && s.engOrdered.length));
+    if (hasData) {
+      showToast('Account created for ' + user + '. Your session is syncing to cloud.');
+    } else {
+      showToast('Account created for ' + user + '. Import your session file to sync your data.');
+    }
   } catch(e) {
     if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
     cloudShowAuthError('Could not reach server — check your internet connection.');
@@ -5377,31 +5382,25 @@ async function cloudLoad(showPrompt = false) {
       return false;
     }
     const saved = data.session;
-    const cloudTime = new Date(saved.savedAt || 0).getTime();
-    const localSession = lsGet('rcb_session', null);
-    const localTime = localSession ? new Date(localSession.savedAt || 0).getTime() : 0;
-    if (cloudTime >= localTime) {
-      _applyPersistedState(saved);
-      idbSet('rcb_session', saved);
-      lsSet('rcb_session', saved);
-      loadCur();
-      render();
-      updateProgress();
-      loadTheme();
-      const _savedSubj = lsGet('rcb_subject', 'general');
-      if (_savedSubj !== 'general') setSubject(_savedSubj);
-      const _savedSem = lsGet('rcb_semester', 1);
-      if (_savedSem === 2) setSemester(2);
-      if (showPrompt) {
-        const time = new Date(saved.savedAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
-        showToast('Loaded cloud session (saved ' + time + ')');
-      }
-      return true;
-    } else {
-      // Local is newer — push to cloud silently
-      cloudSave(false);
-      return false;
+    // Always apply cloud session when explicitly loading —
+    // the user chose to sign in, so cloud is the source of truth
+    _applyPersistedState(saved);
+    idbSet('rcb_session', saved);
+    lsSet('rcb_session', saved);
+    loadCur();
+    render();
+    updateProgress();
+    loadTheme();
+    const _savedSubj = lsGet('rcb_subject', 'general');
+    if (_savedSubj !== 'general') setSubject(_savedSubj);
+    const _savedSem = lsGet('rcb_semester', 1);
+    if (_savedSem === 2) setSemester(2);
+    if (showPrompt) {
+      const stuCount = (saved.students || []).length;
+      const time = new Date(saved.savedAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
+      showToast('Session loaded — ' + stuCount + ' student' + (stuCount !== 1 ? 's' : '') + ' (saved ' + time + ')');
     }
+    return true;
   } catch(e) {
     return false;
   }
@@ -5490,20 +5489,25 @@ function loadPersistedState() {
   render();
   // Load sequence: cloud (if user set) → IndexedDB → localStorage
   // Cloud load handles everything including render() if it succeeds
-  const cloudUser = getCloudToken();
-  if (cloudUser) {
-    // Show loading indicator
+  const cloudToken = getCloudToken();
+  if (cloudToken) {
+    // Signed in — cloud is source of truth, always load from cloud on startup
     setSaveState('saving', 'Loading from cloud…');
     cloudLoad(false).then(loaded => {
       if (loaded) {
         setSaveState('saved', 'Loaded from cloud');
-        updateCloudStatus();
-        return;
+      } else {
+        // Nothing in cloud yet (new account) — use local data
+        setSaveState('saved', '');
+        loadFromLocal();
       }
-      // Cloud found nothing newer — fall through to local
+      updateCloudStatus();
+    }).catch(() => {
+      // Cloud unreachable — fall back to local
+      setSaveState('saved', 'Offline — using local data');
       loadFromLocal();
       updateCloudStatus();
-    }).catch(() => loadFromLocal());
+    });
   } else {
     loadFromLocal();
   }
@@ -6142,7 +6146,14 @@ function importSession() {
         render();
         updateProgress();
         autoSave();
-        showToast('Session imported — ' + students.length + ' student' + (students.length !== 1 ? 's' : '') + ' loaded!');
+        // Push imported session to cloud immediately if signed in
+        if (getCloudToken()) {
+          cloudSave(false).then(() => {
+            showToast('Session imported and synced to cloud — ' + students.length + ' student' + (students.length !== 1 ? 's' : '') + ' loaded!');
+          });
+        } else {
+          showToast('Session imported — ' + students.length + ' student' + (students.length !== 1 ? 's' : '') + ' loaded!');
+        }
       } catch(err) {
         console.error('Import error:', err); showToast('Could not read session file: ' + err.message);
       }
@@ -6789,6 +6800,6 @@ document.addEventListener('mousemove', e => {
 loadPersistedState();
 loadTheme();
 </script>
-<div class="version-badge">v3.2.0</div>
+<div class="version-badge">v3.2.1</div>
 </body>
 </html>
