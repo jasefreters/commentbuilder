@@ -1327,6 +1327,12 @@ function setSubject(subj) {
   _showGradeEntry = false;
   _showAllStrands = false;
   lsSet('rcb_subject', subj);
+  // Clear all publish caches when subject changes — prevents cross-subject bleed
+  if (cur()) {
+    cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null;
+    cur().pubEditEnglish = null; cur().pubEditEnglish_fdHash = null;
+    cur().pubEditMaths   = null; cur().pubEditMaths_fdHash   = null;
+  }
 
   // Update header buttons
   document.getElementById('subjGeneral').className = 'subject-btn' + (subj === 'general' ? ' active' : '');
@@ -1346,9 +1352,13 @@ function setSubject(subj) {
   } else {
     currentTab = CATS[0];
   }
-  // Always switch to Build view when changing subject, always render
-  if (currentView !== 'build') setView('build');
-  render();
+  // Stay in whatever view we're in — if Publish, re-render publish for the new subject
+  if (currentView === 'publish') {
+    renderPublish();
+  } else {
+    if (currentView !== 'build') setView('build');
+    render();
+  }
   updateProgress();
 }
 
@@ -1372,7 +1382,24 @@ function getCurGrade(cat) {
   else if (currentSubject === 'maths') val = (cur().mathGrades || {})[cat];
   if (!val) return [];
   if (typeof val === 'string') return val ? [val] : [];
+  if (!Array.isArray(val)) return [];
   return val;
+}
+
+// Returns a safe array of grades from any value (string, array, null)
+function normaliseGradeVal(val) {
+  if (!val) return [];
+  if (typeof val === 'string') return val ? [val] : [];
+  if (Array.isArray(val)) return val;
+  return [];
+}
+
+// Renders grade indicator dots for an array of grades
+function gradeDotsHtml(grades) {
+  const arr = normaliseGradeVal(grades);
+  return arr.slice(0, 2).map(g =>
+    `<span class="grade-indicator ${g}" title="Grade ${g}: ${GRADE_LABELS[g]||g}"></span>`
+  ).join('');
 }
 
 function setCurGrade(cat, grade) {
@@ -3194,8 +3221,7 @@ function renderSidebar() {
     const introCount = (sel['Introduction'] || []).length;
     const introBtn = document.createElement('button');
     introBtn.className = 'cat-btn' + (currentTab === 'Introduction' ? ' active' : '') + (introCount ? ' has-sel' : '');
-    const introGrade = getCurGrade('Introduction');
-    const introGradeHtml = introGrade ? `<span class="grade-indicator ${introGrade}"></span>` : '';
+    const introGradeHtml = gradeDotsHtml(getCurGrade('Introduction'));
     introBtn.innerHTML = `<span class="cat-name">Introduction</span>${introGradeHtml}${introCount ? `<span class="cat-count">${introCount}</span>` : ''}`;
     introBtn.onclick = () => { currentTab = 'Introduction'; render(); };
     el.appendChild(introBtn);
@@ -3220,11 +3246,10 @@ function renderSidebar() {
 
       group.cats.forEach(cat => {
         const count = (sel[cat] || []).length;
-        const grade = getCurGrade(cat);
+        const gradeHtml = gradeDotsHtml(getCurGrade(cat));
         const btn = document.createElement('button');
         btn.className = 'cat-btn' + (cat === currentTab ? ' active' : '') + (count ? ' has-sel' : '');
         btn.style.paddingLeft = '1.5rem';
-        const gradeHtml = grade ? `<span class="grade-indicator ${grade}"></span>` : '';
         btn.innerHTML = `<span class="cat-name">${cat}</span>${gradeHtml}${count ? `<span class="cat-count">${count}</span>` : ''}`;
         btn.onclick = () => { currentTab = cat; render(); };
         el.appendChild(btn);
@@ -3253,7 +3278,6 @@ function renderSidebar() {
       ? (currentSubject === 'english' ? (cur().engFD || []).length : (cur().mathFD || []).length)
       : (sel[cat] || []).length;
     const isEditedCat = !isSubject && cur().editedCat === cat;
-    const grade = isSubject ? getCurGrade(cat) : null;
     const catRanked = !isSubject && currentSemester === 2 && cur().s2RankOrder && cur().s2RankOrder[cat];
     const btn = document.createElement('button');
     btn.className = 'cat-btn' + (cat === currentTab ? ' active' : '') + (count ? ' has-sel' : '');
@@ -3263,7 +3287,7 @@ function renderSidebar() {
     } else if (count > 0) {
       badgeHtml = `<span class="cat-count">${count}${catRanked ? ' ↕' : ''}</span>`;
     }
-    const gradeHtml = grade ? `<span class="grade-indicator ${grade}" title="Grade ${grade}: ${GRADE_LABELS[grade]}"></span>` : '';
+    const gradeHtml = isSubject ? gradeDotsHtml(getCurGrade(cat)) : '';
     btn.innerHTML = `<span class="cat-name">${cat}</span>${gradeHtml}${badgeHtml}`;
     btn.onclick = () => { currentTab = cat; render(); };
     el.appendChild(btn);
@@ -3307,11 +3331,11 @@ function renderOpts() {
   const gradeSel = document.getElementById('gradeSelWrap');
   if (currentSubject !== 'general') {
     gradeSel.style.display = (_showAllStrands || _showGradeEntry) ? 'none' : 'flex';
-    const curGrade = getCurGrade(currentTab);
+    const curGrades = getCurGrade(currentTab);
     gradeSel.innerHTML = `<span class="grade-sel-label">Grade:</span>` +
       GRADE_ORDER.map(g => {
-        const active = curGrade === g;
-        return `<button class="grade-btn${active ? ' active-' + g : ''}" onclick="setCurGrade('${currentTab}','${active ? '' : g}')">${g} <span style="font-size:9px;opacity:.7">${GRADE_LABELS[g]}</span></button>`;
+        const active = (curGrades||[]).includes(g);
+        return `<button class="grade-btn${active ? ' active-' + g : ''}" onclick="setCurGrade('${currentTab}','${g}')">${g} <span style="font-size:9px;opacity:.7">${GRADE_LABELS[g]}</span></button>`;
       }).join('') +
       `<button onclick="openGradeEntry()" style="font-family:var(--font);font-size:10px;color:var(--t2);background:none;border:1px solid var(--border);border-radius:var(--r-sm);padding:2px 8px;cursor:pointer;margin-left:4px" title="Set all strand grades at once">All strands ✎</button>`;
   } else {
@@ -3815,18 +3839,18 @@ function renderPublish() {
                    : renderSubject === 'maths'   ? 'pubEditMaths'
                    : 'pubEditGeneral';
   const pubEditFDKey = pubEditKey + '_fdHash';
-  // Compute current FD hash to detect if FD changed since cache was saved
-  const currentFDHash = JSON.stringify(
+  // FD hash includes subject so cross-subject cache hits are impossible
+  const currentFDHash = renderSubject + '|' + JSON.stringify(
     renderSubject === 'english' ? (stu.engFD || []) :
     renderSubject === 'maths'   ? (stu.mathFD || []) : []
   );
   if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash) {
-    // Cache is valid — FD hasn't changed since last save
+    // Cache is valid — FD + subject match
     content.innerHTML = stu[pubEditKey];
     setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
     return;
-  } else if (stu[pubEditKey] && stu[pubEditFDKey] !== currentFDHash) {
-    // FD changed — clear stale cache so we rebuild with fresh FD
+  } else if (stu[pubEditKey]) {
+    // Cache is stale (subject changed or FD changed) — discard and rebuild
     stu[pubEditKey] = null;
     stu[pubEditFDKey] = null;
   }
@@ -4235,9 +4259,12 @@ function renderAllStrandsView(grid) {
   let lastGroup = null;
 
   cats.forEach(cat => {
-    const grade = grades[cat] || null;
+    const gradeArr = normaliseGradeVal(grades[cat]);
     const catSentences = bank[cat] || {};
-    const sents = grade ? (catSentences[grade] || []) : [];
+    // Collect sentences for all selected grades
+    const sents = gradeArr.length > 0
+      ? gradeArr.flatMap(g => catSentences[g] || [])
+      : [];
 
     // Maths: insert non-clickable group heading when group changes
     if (isMaths) {
@@ -4255,23 +4282,27 @@ function renderAllStrandsView(grid) {
     const strandHead = document.createElement('div');
     strandHead.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 12px 3px;cursor:pointer;';
     strandHead.onclick = () => { currentTab = cat; _showAllStrands = false; render(); };
-    const gradeColor = grade ? { A:'#22c55e', B:'#60a5fa', C:'#fbbf24', D:'#fb923c', E:'#f87171' }[grade] : 'var(--t2)';
+    const gradeColors = { A:'#22c55e', B:'#60a5fa', C:'#fbbf24', D:'#fb923c', E:'#f87171' };
+    const gradeBadges = gradeArr.length > 0
+      ? gradeArr.map(g => {
+          const c = gradeColors[g] || 'var(--t2)';
+          return `<span style="font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;border:1px solid ${c};color:${c};background:${c}18">${g} — ${GRADE_LABELS[g]||g}</span>`;
+        }).join(' ')
+      : `<span style="font-size:10px;color:var(--t2);font-style:italic">No grade set</span>`;
     strandHead.innerHTML = `
       <span style="font-size:12px;font-weight:600;color:var(--t0);flex:1">${cat}</span>
-      ${grade
-        ? `<span style="font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;border:1px solid ${gradeColor};color:${gradeColor};background:${gradeColor}18">${grade} — ${GRADE_LABELS[grade]}</span>`
-        : `<span style="font-size:10px;color:var(--t2);font-style:italic">No grade set</span>`}`;
+      ${gradeBadges}`;
     grid.appendChild(strandHead);
 
     // When showing all grades, use all grade sentences with dividers
     const allSents = !_filterByGrade
       ? GRADE_ORDER.flatMap(g => (catSentences[g] || []).map(s => ({ s, g })))
-      : sents.map(s => ({ s, g: grade }));
+      : sents.map(s => ({ s, g: gradeArr[0] || 'C' }));
 
     if (!allSents.length) {
       const empty = document.createElement('div');
       empty.style.cssText = 'font-size:11px;color:var(--t2);padding:2px 12px 6px;font-style:italic;';
-      empty.textContent = grade ? 'No sentences for this grade.' : 'Set a grade to see sentences.';
+      empty.textContent = gradeArr.length > 0 ? 'No sentences for this grade.' : 'Set a grade to see sentences.';
       grid.appendChild(empty);
       return;
     }
@@ -4689,7 +4720,8 @@ function saveCur() {
       const fdArr = currentSubject === 'english' ? (students[currentIdx].engFD || [])
                   : currentSubject === 'maths'   ? (students[currentIdx].mathFD || [])
                   : [];
-      students[currentIdx][fdHashKey] = JSON.stringify(fdArr);
+      // Include subject in hash so restoring on a different subject invalidates cache
+      students[currentIdx][fdHashKey] = currentSubject + '|' + JSON.stringify(fdArr);
     }
   }
 }
@@ -5488,7 +5520,7 @@ function importSession() {
         autoSave();
         showToast('Session imported — ' + students.length + ' student' + (students.length !== 1 ? 's' : '') + ' loaded!');
       } catch(err) {
-        showToast('Could not read session file: ' + err.message);
+        console.error('Import error:', err); showToast('Could not read session file: ' + err.message);
       }
     };
     reader.readAsText(file);
@@ -6133,6 +6165,6 @@ document.addEventListener('mousemove', e => {
 loadPersistedState();
 loadTheme();
 </script>
-<div class="version-badge">v3.0.7</div>
+<div class="version-badge">v3.0.9</div>
 </body>
 </html>
