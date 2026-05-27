@@ -557,6 +557,45 @@
     </div>
   </div>
   <div class="settings-section">
+    <div class="settings-section-label">Cloud Sync</div>
+    <!-- Signed-in state -->
+    <div id="cloudSignedIn" style="display:none">
+      <div class="settings-row">
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:13px;color:var(--t0);font-weight:500" id="cloudSignedInName"></span>
+          <span style="font-size:11px;color:var(--green)" id="cloudSignedInStatus"></span>
+        </div>
+        <button class="settings-action-btn" onclick="cloudSignOut()">Sign out</button>
+      </div>
+      <div class="settings-row">
+        <span class="settings-row-label">Sync now</span>
+        <button class="settings-action-btn green" onclick="cloudSave(true); toggleSettings()">Sync</button>
+      </div>
+      <div class="settings-row" style="justify-content:center">
+        <button style="font-family:var(--font);font-size:11px;color:var(--t2);background:none;border:none;cursor:pointer;text-decoration:underline;padding:2px 0" onclick="cloudShowChangeCredentials()">Change username or PIN</button>
+      </div>
+    </div>
+    <!-- Signed-out / create state -->
+    <div id="cloudSignedOut">
+      <div class="settings-row" style="flex-direction:column;align-items:stretch;gap:6px">
+        <div style="font-size:11px;color:var(--t2);line-height:1.5" id="cloudSyncDetail">Enter a username and PIN to enable cloud sync. Your data will be saved securely and accessible on any device.</div>
+        <input id="cloudUserInput" type="text" placeholder="Username (e.g. jsmith)" autocomplete="off" spellcheck="false"
+          style="font-family:var(--font);font-size:13px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--t0);padding:6px 9px;outline:none;width:100%;box-sizing:border-box"
+          onkeydown="if(event.key==='Enter')document.getElementById('cloudPinInput').focus()"/>
+        <input id="cloudPinInput" type="password" placeholder="PIN (min. 4 characters)" autocomplete="off" maxlength="20"
+          style="font-family:var(--font);font-size:13px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--t0);padding:6px 9px;outline:none;width:100%;box-sizing:border-box"
+          onkeydown="if(event.key==='Enter')cloudSignIn()"/>
+        <div id="cloudAuthError" style="font-size:11px;color:var(--red,#f87171);display:none"></div>
+        <div style="display:flex;gap:6px">
+          <button class="settings-action-btn green" style="flex:1" onclick="cloudSignIn()">Sign in</button>
+          <button class="settings-action-btn" style="flex:1" onclick="cloudCreateAccount()">Create account</button>
+        </div>
+      </div>
+    </div>
+    <!-- hidden status span kept for JS compat -->
+    <span id="cloudSyncStatus" style="display:none"></span>
+  </div>
+  <div class="settings-section">
     <div class="settings-section-label">Session</div>
     <div class="settings-row">
       <span class="settings-row-label">Export session</span>
@@ -5118,6 +5157,266 @@ document.getElementById('yearSet').addEventListener('change', () => {
 let totalStudents = 22;
 
 // ── PERSISTENCE ───────────────────────────────────────────────────
+
+// ── CLOUD SYNC (Cloudflare KV) ────────────────────────────────────
+const CLOUD_WORKER = 'https://black-sea-3013.freters.workers.dev';
+let _cloudSaveTimer = null;
+let _cloudSavePending = false;
+
+function getCloudUser() {
+  return (lsGet('rcb_cloud_user', '') || '').trim().toLowerCase();
+}
+function getCloudPin() {
+  return (lsGet('rcb_cloud_pin', '') || '').trim();
+}
+function setCloudUser(u) {
+  lsSet('rcb_cloud_user', u.trim().toLowerCase());
+}
+function setCloudPin(p) {
+  lsSet('rcb_cloud_pin', p.trim());
+}
+// Cloud token = username:pin (pin is required)
+function getCloudToken() {
+  const user = getCloudUser();
+  const pin  = getCloudPin();
+  if (!user || !pin) return null;
+  return user + ':' + pin;
+}
+
+function updateCloudStatus() {
+  const user = getCloudUser();
+  const pin  = getCloudPin();
+  const signedInEl  = document.getElementById('cloudSignedIn');
+  const signedOutEl = document.getElementById('cloudSignedOut');
+  const nameEl      = document.getElementById('cloudSignedInName');
+  const statusEl    = document.getElementById('cloudSignedInStatus');
+  if (!signedInEl || !signedOutEl) return;
+  if (user && pin) {
+    signedInEl.style.display  = 'block';
+    signedOutEl.style.display = 'none';
+    if (nameEl)   nameEl.textContent   = user;
+    if (statusEl) statusEl.textContent = '● Signed in — syncing automatically';
+  } else {
+    signedInEl.style.display  = 'none';
+    signedOutEl.style.display = 'block';
+  }
+}
+
+function cloudShowAuthError(msg) {
+  const el = document.getElementById('cloudAuthError');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+
+function cloudGetInputs() {
+  const userEl = document.getElementById('cloudUserInput');
+  const pinEl  = document.getElementById('cloudPinInput');
+  const user = (userEl ? userEl.value.trim().toLowerCase() : '');
+  const pin  = (pinEl  ? pinEl.value.trim()  : '');
+  return { user, pin, userEl, pinEl };
+}
+
+function cloudValidateInputs() {
+  const { user, pin, pinEl } = cloudGetInputs();
+  cloudShowAuthError('');
+  if (!user || user.length < 2) {
+    cloudShowAuthError('Username must be at least 2 characters.');
+    return false;
+  }
+  if (!/^[a-z0-9_\-]+$/.test(user)) {
+    cloudShowAuthError('Username can only contain letters, numbers, hyphens and underscores.');
+    return false;
+  }
+  if (!pin || pin.length < 4) {
+    cloudShowAuthError('PIN must be at least 4 characters.');
+    if (pinEl) pinEl.focus();
+    return false;
+  }
+  return true;
+}
+
+async function cloudSignIn() {
+  if (!cloudValidateInputs()) return;
+  const { user, pin } = cloudGetInputs();
+  const btn = document.querySelector('#cloudSignedOut .settings-action-btn.green');
+  if (btn) { btn.textContent = 'Signing in…'; btn.disabled = true; }
+  // Set credentials temporarily and try to load
+  setCloudUser(user);
+  setCloudPin(pin);
+  const loaded = await cloudLoad(false);
+  if (btn) { btn.textContent = 'Sign in'; btn.disabled = false; }
+  if (loaded) {
+    updateCloudStatus();
+    toggleSettings();
+    showToast('Signed in as ' + user + ' — session loaded.');
+  } else {
+    // Could be wrong PIN (existing account) or no account yet
+    // Try a test GET to distinguish
+    const token = getCloudToken();
+    try {
+      const res = await fetch(CLOUD_WORKER + '/session', {
+        method: 'GET',
+        headers: { 'X-User-Token': token }
+      });
+      const data = await res.json();
+      if (data.found) {
+        // Credentials are valid but local is newer — signed in OK
+        updateCloudStatus();
+        toggleSettings();
+        showToast('Signed in as ' + user + '. Local session is up to date.');
+      } else {
+        // No account found for these credentials
+        cloudShowAuthError('No account found with these credentials. Check your username and PIN, or create a new account.');
+        setCloudUser('');
+        setCloudPin('');
+      }
+    } catch(e) {
+      cloudShowAuthError('Could not reach server — check your internet connection.');
+      setCloudUser('');
+      setCloudPin('');
+    }
+  }
+}
+
+async function cloudCreateAccount() {
+  if (!cloudValidateInputs()) return;
+  const { user, pin } = cloudGetInputs();
+  const btn = document.querySelector('#cloudSignedOut .settings-action-btn:not(.green)');
+  if (btn) { btn.textContent = 'Creating…'; btn.disabled = true; }
+  // Check if account already exists
+  setCloudUser(user);
+  setCloudPin(pin);
+  const token = getCloudToken();
+  try {
+    const checkRes = await fetch(CLOUD_WORKER + '/session', {
+      method: 'GET',
+      headers: { 'X-User-Token': token }
+    });
+    const checkData = await checkRes.json();
+    if (checkData.found) {
+      // Account already exists — treat as sign in instead
+      if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
+      cloudShowAuthError('An account with these credentials already exists. Use Sign in instead.');
+      setCloudUser('');
+      setCloudPin('');
+      return;
+    }
+    // New account — save current session to cloud
+    const saved = await cloudSave(false);
+    if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
+    updateCloudStatus();
+    toggleSettings();
+    showToast('Account created for ' + user + '. Your session is now syncing.');
+  } catch(e) {
+    if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
+    cloudShowAuthError('Could not reach server — check your internet connection.');
+    setCloudUser('');
+    setCloudPin('');
+  }
+}
+
+function cloudSignOut() {
+  if (!confirm('Sign out of cloud sync? Your local session data stays on this device.')) return;
+  setCloudUser('');
+  setCloudPin('');
+  updateCloudStatus();
+  showToast('Signed out of cloud sync.');
+}
+
+function cloudShowChangeCredentials() {
+  // Show the sign-out/sign-in form pre-filled with current username
+  const user = getCloudUser();
+  setCloudUser('');
+  setCloudPin('');
+  updateCloudStatus();
+  const userEl = document.getElementById('cloudUserInput');
+  if (userEl) userEl.value = user;
+  const detailEl = document.getElementById('cloudSyncDetail');
+  if (detailEl) detailEl.textContent = 'Enter your new username and PIN, then sign in or create a new account.';
+}
+
+// Keep saveCloudUser as alias for backwards compat (used nowhere now but safe to keep)
+function saveCloudUser() { cloudSignIn(); }
+
+async function cloudSave(manual = false) {
+  const token = getCloudToken();
+  if (!token) return;
+  const session = { students, currentIdx, totalStudents, savedAt: new Date().toISOString() };
+  try {
+    const res = await fetch(CLOUD_WORKER + '/session', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-User-Token': token },
+      body: JSON.stringify(session),
+    });
+    if (res.ok) {
+      if (manual) {
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        showToast('Synced to cloud (' + time + ')');
+      }
+    } else {
+      if (manual) showToast('Cloud sync failed — check your connection.');
+    }
+  } catch(e) {
+    if (manual) showToast('Cloud sync failed — check your connection.');
+  }
+}
+
+async function cloudLoad(showPrompt = false) {
+  const token = getCloudToken();
+  if (!token) return false;
+  try {
+    const res = await fetch(CLOUD_WORKER + '/session', {
+      method: 'GET',
+      headers: { 'X-User-Token': token },
+    });
+    if (!res.ok) return false;
+    const data = await res.json();
+    if (!data.found || !data.session) {
+      if (showPrompt) showToast('No cloud data found — starting fresh.');
+      return false;
+    }
+    const saved = data.session;
+    const cloudTime = new Date(saved.savedAt || 0).getTime();
+    const localSession = lsGet('rcb_session', null);
+    const localTime = localSession ? new Date(localSession.savedAt || 0).getTime() : 0;
+    if (cloudTime >= localTime) {
+      _applyPersistedState(saved);
+      idbSet('rcb_session', saved);
+      lsSet('rcb_session', saved);
+      loadCur();
+      render();
+      updateProgress();
+      loadTheme();
+      const _savedSubj = lsGet('rcb_subject', 'general');
+      if (_savedSubj !== 'general') setSubject(_savedSubj);
+      const _savedSem = lsGet('rcb_semester', 1);
+      if (_savedSem === 2) setSemester(2);
+      if (showPrompt) {
+        const time = new Date(saved.savedAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
+        showToast('Loaded cloud session (saved ' + time + ')');
+      }
+      return true;
+    } else {
+      // Local is newer — push to cloud silently
+      cloudSave(false);
+      return false;
+    }
+  } catch(e) {
+    return false;
+  }
+}
+
+// Throttled cloud save — fires at most once per 15 seconds
+function scheduledCloudSave() {
+  if (!getCloudUser()) return;
+  if (_cloudSaveTimer) return; // already scheduled
+  _cloudSaveTimer = setTimeout(() => {
+    _cloudSaveTimer = null;
+    cloudSave(false);
+  }, 15000);
+}
+
 function lsGet(k, def) { try { const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : def; } catch { return def; } }
 function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 
@@ -5181,13 +5480,37 @@ function autoSave() {
       lsSet('rcb_session', session); // ensure localStorage backup always runs
       setSaveState('saved', 'Saved (local)');
     });
+  // Schedule a cloud save (throttled to once per 15 seconds)
+  scheduledCloudSave();
 }
 
 function loadPersistedState() {
   // Render immediately with default state so panes aren't empty on load
   loadCur();
   render();
-  // Then try IndexedDB first, fall back to localStorage
+  // Load sequence: cloud (if user set) → IndexedDB → localStorage
+  // Cloud load handles everything including render() if it succeeds
+  const cloudUser = getCloudToken();
+  if (cloudUser) {
+    // Show loading indicator
+    setSaveState('saving', 'Loading from cloud…');
+    cloudLoad(false).then(loaded => {
+      if (loaded) {
+        setSaveState('saved', 'Loaded from cloud');
+        updateCloudStatus();
+        return;
+      }
+      // Cloud found nothing newer — fall through to local
+      loadFromLocal();
+      updateCloudStatus();
+    }).catch(() => loadFromLocal());
+  } else {
+    loadFromLocal();
+  }
+  updateCloudStatus();
+}
+
+function loadFromLocal() {
   idbGet('rcb_session').then(saved => {
     if (!saved) saved = lsGet('rcb_session', null);
     if (saved) {
@@ -5196,7 +5519,6 @@ function loadPersistedState() {
       render();
       updateProgress();
       loadTheme();
-      // Restore subject and semester after data is loaded
       const _savedSubj = lsGet('rcb_subject', 'general');
       if (_savedSubj !== 'general') setSubject(_savedSubj);
       const _savedSem = lsGet('rcb_semester', 1);
@@ -6467,6 +6789,6 @@ document.addEventListener('mousemove', e => {
 loadPersistedState();
 loadTheme();
 </script>
-<div class="version-badge">v3.1.7</div>
+<div class="version-badge">v3.2.0</div>
 </body>
 </html>
