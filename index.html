@@ -78,7 +78,7 @@
   .c-title { font-size: 17px; font-weight: 500; }
   .c-hint { font-size: 12px; color: var(--t2); }
   .opts { display: flex; flex-direction: column; gap: 5px; }
-  .opt { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--r-md); padding: 11px 14px; font-size: 13px; line-height: 1.65; color: var(--t1); cursor: pointer; text-align: left; font-family: var(--font); transition: border-color .12s, background .12s, color .12s; width: 100%; }
+  .opt { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--r-md); padding: 11px 14px; font-size: 14px; line-height: 1.7; color: var(--t1); cursor: pointer; text-align: left; font-family: var(--font); transition: border-color .12s, background .12s, color .12s; width: 100%; }
   .opt:hover { border-color: var(--border-h); background: var(--bg-2); color: var(--t0); }
   .opt.sel { border-color: var(--green-bd); background: var(--green-bg); color: #a7f3c0; }
   .opt.sel:hover { border-color: var(--green); }
@@ -105,7 +105,7 @@
 
   .out-scroll { flex: 1; overflow-y: auto; padding: 1.1rem; min-height: 0; }
   .out-empty { color: var(--t2); font-size: 13px; line-height: 1.7; font-style: italic; }
-  .out-sent { display: inline; font-size: 13.5px; line-height: 1.85; color: var(--t0); cursor: pointer; border-radius: 3px; padding: 1px 2px; transition: background .1s, color .1s; }
+  .out-sent { display: inline; font-size: 15px; line-height: 1.9; color: var(--t0); cursor: pointer; border-radius: 3px; padding: 1px 2px; transition: background .1s, color .1s; }
   .out-sent:hover { background: var(--red-bg); color: var(--red); }
 
   .p-actions { padding: .9rem 1.1rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
@@ -251,7 +251,7 @@
   .tier-dot.developing { background: #f87171; }
 
   /* EDITABLE DRAFT */
-  .out-editable { flex: 1; overflow-y: auto; padding: 1.1rem; min-height: 0; outline: none; font-size: 13.5px; line-height: 1.85; color: var(--t0); caret-color: var(--green); }
+  .out-editable { flex: 1; overflow-y: auto; padding: 1.1rem; min-height: 0; outline: none; font-size: 15px; line-height: 1.9; color: var(--t0); caret-color: var(--green); }
   .out-editable:empty::before { content: attr(data-placeholder); color: var(--t2); font-style: italic; pointer-events: none; }
   .out-editable.override-active { background: rgba(255,255,255,0.02); }
   .draft-edit-bar { display: none; align-items: center; justify-content: space-between; padding: 7px 1.1rem; border-top: 1px solid var(--border); background: var(--bg-2); flex-shrink: 0; gap: 8px; }
@@ -1413,6 +1413,25 @@ function setCurGrade(cat, grade) {
   if (idx === -1) arr.push(grade);
   else arr.splice(idx, 1);
   if (arr.length === 0) delete gradesObj[cat];
+
+  // Auto-manage Below Expectations based on Introduction grade
+  // BE is only relevant when the student's overall grade is E
+  if (cat === 'Introduction') {
+    const introGrades = gradesObj['Introduction'] || [];
+    if (introGrades.includes('E')) {
+      // Auto-activate Below Expectations with E grade
+      if (!gradesObj['Below Expectations'] || !gradesObj['Below Expectations'].includes('E')) {
+        gradesObj['Below Expectations'] = ['E'];
+      }
+    } else if (introGrades.includes('D') && !introGrades.includes('E')) {
+      // If only D (no E), set BE to D
+      gradesObj['Below Expectations'] = ['D'];
+    } else {
+      // No D or E — clear Below Expectations
+      delete gradesObj['Below Expectations'];
+    }
+  }
+
   renderOpts();
   renderSidebar();
   autoSave();
@@ -1580,6 +1599,30 @@ function renderGradeEntryScreen(grid) {
   const isMaths = currentSubject === 'maths';
   const grades = isMaths ? (cur().mathGrades || {}) : (cur().engGrades || {});
 
+  // Below Expectations row — auto-set from Introduction, shown as read-only status
+  function makeBEStatusRow(grades) {
+    const beGrades = grades['Below Expectations'] || [];
+    const row = document.createElement('div');
+    row.className = 'grade-entry-row';
+    row.style.cssText = 'opacity:' + (beGrades.length ? '1' : '0.45') + ';';
+    const label = document.createElement('div');
+    label.className = 'grade-entry-strand';
+    label.textContent = 'Below Expectations';
+    row.appendChild(label);
+    const status = document.createElement('div');
+    status.style.cssText = 'font-size:11px;color:var(--t2);font-style:italic;white-space:nowrap;';
+    if (beGrades.length) {
+      status.style.color = beGrades.includes('E') ? 'var(--red,#f87171)' : 'var(--amber,#fbbf24)';
+      status.style.fontStyle = 'normal';
+      status.style.fontWeight = '500';
+      status.textContent = 'Active — Grade ' + beGrades.join('/');
+    } else {
+      status.textContent = 'Auto-activates when Introduction = D or E';
+    }
+    row.appendChild(status);
+    return row;
+  }
+
   if (isMaths) {
     // Group by strand group
     const groups = [
@@ -1588,23 +1631,26 @@ function renderGradeEntryScreen(grid) {
       { label: 'Statistics & Probability', cats: ['Data', 'Chance'] },
     ];
     // Add Introduction at top without a group heading
-    const introRow = makeGradeRow('Introduction', grades['Introduction'] || null);
+    const introRow = makeGradeRow('Introduction');
     screen.appendChild(introRow);
-    const beRow = makeGradeRow('Below Expectations', grades['Below Expectations'] || null);
-    screen.appendChild(beRow);
+    screen.appendChild(makeBEStatusRow(grades));
     groups.forEach(group => {
       const groupLabel = document.createElement('div');
       groupLabel.className = 'grade-entry-strand-group';
       groupLabel.textContent = group.label;
       screen.appendChild(groupLabel);
       group.cats.filter(c => c !== 'Introduction').forEach(cat => {
-        screen.appendChild(makeGradeRow(cat, grades[cat] || null));
+        screen.appendChild(makeGradeRow(cat));
       });
     });
   } else {
-    // English — all cats except Future Directions
-    ENGLISH_CATS.filter(c => c !== 'Future Directions').forEach(cat => {
-      screen.appendChild(makeGradeRow(cat, grades[cat] || null));
+    // English — all cats except Future Directions and Below Expectations
+    // BE is shown as a read-only status row after Introduction
+    ENGLISH_CATS.filter(c => c !== 'Future Directions' && c !== 'Below Expectations').forEach(cat => {
+      screen.appendChild(makeGradeRow(cat));
+      if (cat === 'Introduction') {
+        screen.appendChild(makeBEStatusRow(grades));
+      }
     });
   }
 
@@ -6421,6 +6467,6 @@ document.addEventListener('mousemove', e => {
 loadPersistedState();
 loadTheme();
 </script>
-<div class="version-badge">v3.1.6</div>
+<div class="version-badge">v3.1.7</div>
 </body>
 </html>
