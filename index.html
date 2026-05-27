@@ -3737,9 +3737,11 @@ function stripFDLines(text) {
     .trim();
 }
 
-function getSubjectPublishText(stu) {
+function getSubjectPublishText(stu, subj) {
+  // subj can be passed explicitly (from renderPublish snapshot) or falls back to global
+  const subject = subj || currentSubject;
   // Returns the correct published text depending on the active subject
-  if (currentSubject === 'english') {
+  if (subject === 'english') {
     const name = stu.name || '[Name]';
     const p = PR[stu.pronoun];
     const yr = stu.year || '';
@@ -3751,7 +3753,7 @@ function getSubjectPublishText(stu) {
     const fdText = getFDTextForStu(stu, 'english');
     return [bodyText, fdText].filter(Boolean).join('\n\n');
   }
-  if (currentSubject === 'maths') {
+  if (subject === 'maths') {
     const name = stu.name || '[Name]';
     const p = PR[stu.pronoun];
     const yr = stu.year || '';
@@ -3775,14 +3777,17 @@ function renderPublish() {
   const stu = cur();
   const name = stu.name || '[Name]';
   const p = PR[stu.pronoun];
-  const subjLabel = currentSubject === 'english' ? ' — English' : currentSubject === 'maths' ? ' — Mathematics' : '';
+  // Snapshot currentSubject at the moment renderPublish is called —
+  // prevents any async/event timing from changing it mid-render
+  const renderSubject = currentSubject;
+  const subjLabel = renderSubject === 'english' ? ' — English' : renderSubject === 'maths' ? ' — Mathematics' : '';
   document.getElementById('pubName').textContent = `${name} — Semester 1 2026${subjLabel}`;
   document.getElementById('checkStatus').innerHTML = '';
   document.getElementById('flagLegend').style.display = 'none';
   document.getElementById('checkBtn').disabled = false;
   updatePubNavBtns();
 
-  let publishedText = getSubjectPublishText(stu);
+  let publishedText = getSubjectPublishText(stu, renderSubject);
   const content = document.getElementById('pubContent');
   if (!publishedText || !publishedText.trim()) {
     content.innerHTML = '<p style="color:var(--t2);font-style:italic;font-size:14px">No sentences selected. Go back and build the comment first.</p>';
@@ -3793,7 +3798,7 @@ function renderPublish() {
   const paragraphs = publishedText.split(/\n\n/).filter(p => p.trim());
   const allFixes = [];
   const fixedParas = paragraphs.map(para => {
-    if (currentSubject !== 'general') return para; // skip alternation fix for Eng/Maths
+    if (renderSubject !== 'general') return para; // skip alternation fix for Eng/Maths
     const { text: fixed, fixes } = fixAlternation(para, name, p);
     allFixes.push(...fixes);
     return fixed;
@@ -3805,14 +3810,15 @@ function renderPublish() {
   }
 
   // Check if there's a saved publish edit to restore
-  const pubEditKey = currentSubject === 'english' ? 'pubEditEnglish'
-                   : currentSubject === 'maths'   ? 'pubEditMaths'
+  // Use renderSubject (snapshotted above) to avoid stale global reads
+  const pubEditKey = renderSubject === 'english' ? 'pubEditEnglish'
+                   : renderSubject === 'maths'   ? 'pubEditMaths'
                    : 'pubEditGeneral';
   const pubEditFDKey = pubEditKey + '_fdHash';
   // Compute current FD hash to detect if FD changed since cache was saved
   const currentFDHash = JSON.stringify(
-    currentSubject === 'english' ? (stu.engFD || []) :
-    currentSubject === 'maths'   ? (stu.mathFD || []) : []
+    renderSubject === 'english' ? (stu.engFD || []) :
+    renderSubject === 'maths'   ? (stu.mathFD || []) : []
   );
   if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash) {
     // Cache is valid — FD hasn't changed since last save
@@ -6127,6 +6133,6 @@ document.addEventListener('mousemove', e => {
 loadPersistedState();
 loadTheme();
 </script>
-<div class="version-badge">v3.0.6</div>
+<div class="version-badge">v3.0.7</div>
 </body>
 </html>
