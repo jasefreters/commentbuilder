@@ -1366,9 +1366,13 @@ function getBank() {
 
 function getCurGrade(cat) {
   // Returns array of selected grades e.g. ['A','B'] or [] if none
-  if (currentSubject === 'english') return (cur().engGrades || {})[cat] || [];
-  if (currentSubject === 'maths') return (cur().mathGrades || {})[cat] || [];
-  return [];
+  // Defensively handles old string format in case of un-migrated data
+  let val;
+  if (currentSubject === 'english') val = (cur().engGrades || {})[cat];
+  else if (currentSubject === 'maths') val = (cur().mathGrades || {})[cat];
+  if (!val) return [];
+  if (typeof val === 'string') return val ? [val] : [];
+  return val;
 }
 
 function setCurGrade(cat, grade) {
@@ -4866,9 +4870,22 @@ function _applyPersistedState(saved) {
   const saved_ls = lsGet('rcb_session', null);
   if (!saved) return;
   if (saved && saved.students && saved.students.length) {
-    students = saved.students.map(s => Object.assign(
-      { name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [], engSelected: {}, engOrdered: [], engGrades: {}, engDraft: null, engPublished: false, mathSelected: {}, mathOrdered: [], mathGrades: {}, mathDraft: null, mathPublished: false, engFD: [], mathFD: [], fdStage: 'Stage 3' }, s
-    ));
+    students = saved.students.map(s => {
+      const stu = Object.assign(
+        { name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [], engSelected: {}, engOrdered: [], engGrades: {}, engDraft: null, engPublished: false, mathSelected: {}, mathOrdered: [], mathGrades: {}, mathDraft: null, mathPublished: false, engFD: [], mathFD: [], fdStage: 'Stage 3' }, s
+      );
+      // Normalise engGrades/mathGrades: old format stored single strings, new format uses arrays
+      ['engGrades', 'mathGrades'].forEach(key => {
+        if (stu[key]) {
+          Object.keys(stu[key]).forEach(cat => {
+            if (typeof stu[key][cat] === 'string') {
+              stu[key][cat] = stu[key][cat] ? [stu[key][cat]] : [];
+            }
+          });
+        }
+      });
+      return stu;
+    });
     currentIdx = Math.min(saved.currentIdx || 0, students.length - 1);
   }
   if (saved && saved.totalStudents) totalStudents = saved.totalStudents;
@@ -5428,8 +5445,20 @@ function importSession() {
         const session = JSON.parse(ev.target.result);
         if (!session.version || !session.students) throw new Error('Invalid session file.');
 
-        // Restore students
-        students = session.students;
+        // Restore students — normalise engGrades/mathGrades from old
+        // string format (e.g. {Reading:"B"}) to new array format ({Reading:["B"]})
+        students = session.students.map(stu => {
+          ['engGrades', 'mathGrades'].forEach(key => {
+            if (stu[key]) {
+              Object.keys(stu[key]).forEach(cat => {
+                if (typeof stu[key][cat] === 'string') {
+                  stu[key][cat] = stu[key][cat] ? [stu[key][cat]] : [];
+                }
+              });
+            }
+          });
+          return stu;
+        });
         currentIdx = 0;
 
         // Restore class size
@@ -6092,6 +6121,6 @@ document.addEventListener('mousemove', e => {
 loadPersistedState();
 loadTheme();
 </script>
-<div class="version-badge">v3.0.3</div>
+<div class="version-badge">v3.0.4</div>
 </body>
 </html>
