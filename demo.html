@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comment Builder — Interactive Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-0:#0a0a0a;--bg-1:#111;--bg-2:#1a1a1a;--bg-3:#222;--bg-4:#2a2a2a;
+    --border:#2e2e2e;--border-h:#444;
+    --t0:#f0f0f0;--t1:#aaa;--t2:#555;--t3:#333;
+    --green:#4ade80;--green-bg:#0f2318;--green-bd:#1a4028;
+    --red:#f87171;--red-bg:#2a1010;
+    --amber:#fbbf24;--amber-bg:rgba(251,191,36,.12);
+    --purple:#c084fc;--purple-bg:#1a0a28;
+    --blue:#60a5fa;--blue-bg:#0a1628;
+    --r-sm:6px;--r-md:10px;--r-lg:14px;
+    --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden}
+  body{font-family:var(--font);background:var(--bg-0);color:var(--t0);display:flex;flex-direction:column}
+
+  /* DEMO BANNER */
+  .demo-banner{background:linear-gradient(90deg,#0f2318,#0a1628);border-bottom:1px solid var(--green-bd);padding:8px 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;flex-wrap:wrap}
+  .demo-banner-text{font-size:12.5px;color:var(--t1);display:flex;align-items:center;gap:8px}
+  .demo-banner-text strong{color:var(--green)}
+  .demo-cta{font-family:var(--font);font-size:12px;font-weight:500;padding:5px 14px;border-radius:999px;border:none;background:var(--green);color:#0a0a0a;cursor:pointer;text-decoration:none;white-space:nowrap;transition:opacity .15s}
+  .demo-cta:hover{opacity:.85}
+
+  /* HEADER */
+  header{height:52px;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg-1);border-bottom:1px solid var(--border);flex-shrink:0}
+  .logo{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+  .logo em{color:var(--t2);font-style:normal}
+  .subj-toggle{display:flex;background:var(--bg-3);border:1px solid var(--border);border-radius:999px;padding:3px;gap:2px}
+  .view-toggle{display:flex;background:var(--bg-3);border:1px solid var(--border);border-radius:999px;padding:3px;gap:2px}
+  .vbtn{font-family:var(--font);font-size:12px;padding:4px 14px;border-radius:999px;border:none;background:none;color:var(--t1);cursor:pointer;transition:all .15s;white-space:nowrap}
+  .vbtn.active{background:var(--bg-0);color:var(--t0);font-weight:500}
+  .student-pill{display:flex;align-items:center;gap:6px;background:var(--bg-2);border:1px solid var(--border);border-radius:999px;padding:4px 4px 4px 12px}
+  .student-pill input{background:none;border:none;outline:none;color:var(--t0);font-family:var(--font);font-size:13px;width:90px}
+  .pron-sel{background:var(--bg-3);border:1px solid var(--border);border-radius:999px;color:var(--t1);font-family:var(--font);font-size:12px;padding:4px 8px;outline:none;cursor:pointer}
+  .settings-btn{background:none;border:none;padding:6px;cursor:pointer;color:var(--t2);display:flex;align-items:center;border-radius:var(--r-sm);transition:color .1s,background .1s}
+  .settings-btn:hover{color:var(--t0);background:var(--bg-3)}
+
+  /* MAIN */
+  .main{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+  .build-view{display:grid;grid-template-columns:240px 1fr 300px;flex:1;min-height:0;overflow:hidden}
+  .build-view.hidden{display:none}
+
+  /* Sidebar */
+  .sidebar{border-right:1px solid var(--border);background:var(--bg-1);overflow-y:auto;padding:1rem 0;min-height:0}
+  .s-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t2);padding:0 1rem;margin-bottom:6px;display:block}
+  .cat-btn{width:100%;text-align:left;background:none;border:none;padding:8px 1rem;font-family:var(--font);font-size:13px;color:var(--t1);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;transition:background .1s,color .1s}
+  .cat-btn:hover{background:var(--bg-2);color:var(--t0)}
+  .cat-btn.active{background:var(--bg-3);color:var(--t0);font-weight:500}
+  .cat-name{flex:1}
+  .cat-count{font-size:10px;font-family:var(--mono);background:var(--green-bg);color:var(--green);border-radius:999px;padding:1px 6px;display:none}
+  .cat-btn.has-sel .cat-count{display:block}
+  .cat-div{height:1px;background:var(--border);margin:6px 1rem}
+
+  /* Centre */
+  .centre{overflow-y:auto;padding:1.25rem;background:var(--bg-0);min-height:0}
+  .c-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.75rem}
+  .c-title{font-size:17px;font-weight:500}
+  .c-hint{font-size:12px;color:var(--t2)}
+  .grade-row{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+  .grade-pill{font-family:var(--font);font-size:12px;padding:3px 11px;border-radius:999px;border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer;transition:all .12s}
+  .grade-pill.sel-A{background:#0f2318;border-color:#1a4028;color:#4ade80}
+  .grade-pill.sel-B{background:#0a1628;border-color:#1a2e4a;color:#60a5fa}
+  .grade-pill.sel-C{background:#1e1800;border-color:#3a2e00;color:#fbbf24}
+  .grade-pill.sel-D{background:#1a0e00;border-color:#3a1e00;color:#fb923c}
+  .grade-pill.sel-E{background:#2a1010;border-color:#4a1010;color:#f87171}
+  .opts{display:flex;flex-direction:column;gap:5px}
+  .opt{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-md);padding:11px 14px;font-size:14px;line-height:1.7;color:var(--t1);cursor:pointer;text-align:left;font-family:var(--font);transition:border-color .12s,background .12s,color .12s;width:100%;position:relative}
+  .opt:hover{border-color:var(--border-h);background:var(--bg-2);color:var(--t0)}
+  .opt.sel{border-color:var(--green-bd);background:var(--green-bg);color:#a7f3c0}
+  .opt.sel:hover{border-color:var(--green)}
+  .opt.demo-locked{cursor:default}
+  .opt.demo-locked:hover{border-color:var(--border);background:var(--bg-1);color:var(--t1)}
+  .blur-text{display:inline-block;background:var(--bg-3);border-radius:3px;color:transparent;user-select:none;filter:blur(5px);height:.9em;vertical-align:middle}
+  .lock-icon{font-size:10px;color:var(--t3);margin-left:6px;vertical-align:middle}
+
+  /* Right panel */
+  .panel{border-left:1px solid var(--border);background:var(--bg-1);display:flex;flex-direction:column;overflow:hidden;min-height:0}
+  .p-head{padding:.9rem 1.1rem .7rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+  .p-title{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--t2)}
+  .wc{font-size:11px;font-family:var(--mono);color:var(--t2);background:var(--bg-3);padding:2px 8px;border-radius:999px;border:1px solid var(--border);transition:all .2s}
+  .wc-bar-wrap{height:2px;background:var(--bg-3)}
+  .wc-bar{height:2px;background:var(--green);transition:width .3s;width:0}
+  .stu-bar{display:flex;gap:5px;padding:.6rem 1.1rem;border-bottom:1px solid var(--border);overflow-x:auto;align-items:center;flex-shrink:0}
+  .stu-chip{white-space:nowrap;font-size:12px;padding:3px 9px;border-radius:999px;border:1px solid var(--border);background:var(--bg-2);color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .1s}
+  .stu-chip.active{border-color:var(--border-h);background:var(--bg-3);color:var(--t0);font-weight:500}
+  .out-editable{flex:1;overflow-y:auto;padding:1.1rem;min-height:0;font-size:15px;line-height:1.9;color:var(--t0)}
+  .out-editable:empty::before{content:attr(data-placeholder);color:var(--t2);font-style:italic}
+  .p-actions{padding:.9rem 1.1rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+  .btn{font-family:var(--font);font-size:13px;padding:8px 14px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--bg-3);color:var(--t0);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .12s;width:100%}
+  .btn:hover{background:var(--bg-4);border-color:var(--border-h)}
+  .btn-row{display:flex;gap:6px}
+  .btn-row .btn{flex:1}
+  .btn-ghost{background:none;color:var(--t1)}
+  .btn-ghost:hover{background:var(--bg-2);color:var(--t0)}
+  .btn-green{background:var(--green-bg);border-color:var(--green-bd);color:var(--green);font-weight:500}
+  .btn-green:hover{background:#142e1e;border-color:var(--green)}
+
+  /* Publish view */
+  .pub-view{display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden}
+  .pub-view.active{display:flex}
+  .pub-scroll{flex:1;overflow-y:auto;background:var(--bg-0)}
+  .pub-wrap{max-width:760px;margin:0 auto;padding:2.5rem 2rem}
+  .pub-name{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t2);margin-bottom:1.75rem}
+  .pub-para{font-size:15px;line-height:2;color:var(--t0);margin-bottom:1.5rem}
+  .pub-bar{border-top:1px solid var(--border);background:var(--bg-1);padding:.9rem 1.5rem;display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .pub-bar .btn{width:auto}
+
+  /* Stats view */
+  .stats-view{display:none;flex-direction:column;flex:1;min-height:0;overflow-y:auto;background:var(--bg-0)}
+  .stats-view.active{display:flex}
+  .stats-wrap{max-width:900px;margin:0 auto;padding:2rem 1.5rem;width:100%}
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:2rem}
+  .stat-card{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-md);padding:16px}
+  .stat-val{font-size:28px;font-weight:600;font-family:var(--mono);margin-bottom:4px}
+  .stat-label{font-size:11px;color:var(--t2);text-transform:uppercase;letter-spacing:.08em}
+  .stats-section{margin-top:1.5rem}
+  .stats-section-title{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t2);margin-bottom:12px}
+  .badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+  .badge{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 12px;text-align:center;opacity:.4;transition:opacity .2s}
+  .badge.earned{opacity:1;border-color:var(--amber);background:var(--amber-bg)}
+  .badge-icon{font-size:22px;margin-bottom:6px}
+  .badge-name{font-size:11px;font-weight:500;color:var(--t1)}
+  .badge-desc{font-size:10px;color:var(--t2);margin-top:2px}
+
+  /* Settings panel */
+  .settings-panel{position:fixed;top:52px;right:10px;width:260px;background:var(--bg-1);border:1px solid var(--border-h);border-radius:var(--r-md);box-shadow:0 8px 28px rgba(0,0,0,.45);z-index:500;overflow:hidden;display:none}
+  .settings-head{padding:10px 14px;border-bottom:1px solid var(--border);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--t2)}
+  .settings-section{padding:8px 0;border-bottom:1px solid var(--border)}
+  .settings-section:last-child{border-bottom:none}
+  .settings-section-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t2);padding:6px 14px 4px}
+  .settings-row{display:flex;align-items:center;justify-content:space-between;padding:6px 14px;gap:10px}
+  .settings-row-label{font-size:13px;color:var(--t1)}
+  .settings-action-btn{font-family:var(--font);font-size:12px;padding:4px 12px;border-radius:999px;border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer;transition:all .1s;white-space:nowrap}
+  .settings-action-btn:hover{border-color:var(--border-h);color:var(--t0)}
+  .settings-action-btn.green{background:var(--green-bg);border-color:var(--green-bd);color:var(--green)}
+  .theme-toggle{display:flex;background:var(--bg-3);border:1px solid var(--border);border-radius:999px;padding:2px}
+  .theme-btn{font-family:var(--font);font-size:11px;padding:3px 10px;border-radius:999px;border:none;background:none;color:var(--t2);cursor:pointer}
+  .theme-btn.active{background:var(--bg-1);color:var(--t0)}
+
+  /* Signup prompt */
+  .signup-prompt{position:fixed;inset:0;z-index:400;display:none;align-items:flex-end;justify-content:center;padding:0 0 40px;pointer-events:none}
+  .signup-prompt.show{display:flex}
+  .signup-card{background:var(--bg-1);border:1px solid var(--border-h);border-radius:var(--r-lg);padding:20px 24px;max-width:440px;width:100%;pointer-events:all;box-shadow:0 8px 40px rgba(0,0,0,.6);display:flex;align-items:center;gap:16px;flex-wrap:wrap;animation:slideUp .3s ease}
+  @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .signup-card-text h3{font-size:14px;font-weight:600;margin-bottom:4px}
+  .signup-card-text p{font-size:12.5px;color:var(--t1);line-height:1.5}
+  .signup-card-btn{font-family:var(--font);font-size:13px;font-weight:500;padding:8px 20px;border-radius:999px;border:none;background:var(--green);color:#0a0a0a;cursor:pointer;white-space:nowrap;text-decoration:none;transition:opacity .15s}
+  .signup-card-btn:hover{opacity:.88}
+  .signup-card-dismiss{background:none;border:none;color:var(--t2);cursor:pointer;font-size:16px;padding:4px}
+
+  .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(8px);background:var(--bg-4);border:1px solid var(--border-h);color:var(--t0);font-size:13px;padding:9px 18px;border-radius:999px;opacity:0;transition:all .22s;pointer-events:none;z-index:999;white-space:nowrap}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  svg.ico{display:inline-block;vertical-align:middle;width:14px;height:14px}
+  ::-webkit-scrollbar{width:4px;height:4px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:var(--bg-4);border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- DEMO BANNER -->
+<div class="demo-banner">
+  <div class="demo-banner-text">
+    <strong>✦ Demo mode</strong> — One sample sentence shown per category. Sign up to access the full approved bank.
+  </div>
+  <a href="index.html" class="demo-cta">Create free account →</a>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Comment<em>Builder</em></div>
+  <div class="subj-toggle" id="subjToggle">
+    <button class="vbtn active" onclick="setSubject('general')">General</button>
+    <button class="vbtn" onclick="setSubject('english')">English</button>
+    <button class="vbtn" onclick="setSubject('maths')">Maths</button>
+  </div>
+  <div class="view-toggle">
+    <button class="vbtn active" id="vBuild" onclick="setView('build')">Build</button>
+    <button class="vbtn" id="vPublish" onclick="setView('publish')">Publish</button>
+    <button class="vbtn" id="vStats" onclick="setView('stats')">Stats</button>
+  </div>
+  <div class="student-pill">
+    <input type="text" id="stuName" value="Alex" placeholder="Student name…" oninput="renderDraft()"/>
+    <select class="pron-sel" id="stuPron" onchange="renderDraft()">
+      <option value="he">He / His</option>
+      <option value="she" selected>She / Her</option>
+    </select>
+  </div>
+  <button class="settings-btn" onclick="toggleSettings()" title="Settings">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="8" cy="8" r="2.5"/>
+      <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"/>
+    </svg>
+  </button>
+</header>
+
+<!-- SETTINGS PANEL -->
+<div class="settings-panel" id="settingsPanel">
+  <div class="settings-head">Settings</div>
+  <div class="settings-section">
+    <div class="settings-section-label">Appearance</div>
+    <div class="settings-row">
+      <span class="settings-row-label">Theme</span>
+      <div class="theme-toggle">
+        <button class="theme-btn active">Dark</button>
+        <button class="theme-btn" onclick="showToast('Sign up to unlock light mode.')">Light</button>
+      </div>
+    </div>
+  </div>
+  <div class="settings-section">
+    <div class="settings-section-label">Cloud Sync</div>
+    <div class="settings-row" style="flex-direction:column;align-items:stretch;gap:8px">
+      <div style="font-size:12px;color:var(--t2);line-height:1.6">Sign up for a free account to enable cloud sync. Your session saves automatically across any device.</div>
+      <a href="index.html" style="display:block;text-align:center;font-family:var(--font);font-size:12px;font-weight:500;padding:7px;border-radius:var(--r-sm);border:none;background:var(--green);color:#0a0a0a;cursor:pointer;text-decoration:none">Create free account</a>
+    </div>
+  </div>
+  <div class="settings-section">
+    <div class="settings-section-label">AI Features</div>
+    <div class="settings-row">
+      <span style="font-size:12px;color:var(--t2);line-height:1.6">AI-powered issue checking, flow suggestions and Polish are available in the full version.</span>
+    </div>
+  </div>
+  <div class="settings-section">
+    <div class="settings-section-label">Session</div>
+    <div class="settings-row">
+      <span class="settings-row-label">Export session</span>
+      <button class="settings-action-btn" onclick="showToast('Sign up to export your session.')">Export</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- BUILD VIEW -->
+  <div class="build-view" id="buildView">
+    <div class="sidebar" id="sidebar"></div>
+    <div class="centre" id="centre">
+      <div class="c-header">
+        <span class="c-title" id="cTitle">Personality</span>
+        <span class="c-hint">Click to add to comment</span>
+      </div>
+      <div class="grade-row" id="gradeRow" style="display:none"></div>
+      <div class="opts" id="opts"></div>
+    </div>
+    <div class="panel">
+      <div class="p-head">
+        <span class="p-title">Draft</span>
+        <span class="wc" id="wcBadge">0 / 200</span>
+      </div>
+      <div class="wc-bar-wrap"><div class="wc-bar" id="wcBar"></div></div>
+      <div class="stu-bar">
+        <div class="stu-chip active">Alex</div>
+        <div class="stu-chip" style="opacity:.45" title="Add more students in the full version">Sam</div>
+        <div class="stu-chip" style="opacity:.45" title="Add more students in the full version">Jordan</div>
+      </div>
+      <div class="out-editable" id="draftPane" data-placeholder="Select sentences from the centre panel to build your comment…"></div>
+      <div class="p-actions">
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="clearDraft()">
+            <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
+            Clear
+          </button>
+          <button class="btn btn-green" onclick="setView('publish')">
+            <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            Publish
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PUBLISH VIEW -->
+  <div class="pub-view" id="publishView">
+    <div class="pub-scroll">
+      <div class="pub-wrap">
+        <div class="pub-name" id="pubName">ALEX — SEMESTER 1 2026</div>
+        <div id="pubContent"></div>
+        <div style="margin-top:2rem;padding:18px;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-md)">
+          <div style="font-size:11px;font-weight:600;color:var(--amber);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">✦ Full version includes</div>
+          <div style="font-size:13px;color:var(--t1);line-height:1.75">AI issue checking · Synonym suggestions · Flow polish · Complete sentence bank · Cloud sync across any device · Semester 1 &amp; 2 · Future Directions</div>
+          <a href="index.html" style="display:inline-block;margin-top:14px;font-family:var(--font);font-size:13px;font-weight:500;padding:8px 20px;border-radius:999px;background:var(--green);color:#0a0a0a;text-decoration:none">Create free account →</a>
+        </div>
+      </div>
+    </div>
+    <div class="pub-bar">
+      <button class="btn btn-ghost" onclick="setView('build')" style="width:auto">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12L6 8l4-4"/></svg>
+        Back
+      </button>
+      <button class="btn btn-green" onclick="handleCopy()" style="width:auto">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>
+        Copy
+      </button>
+    </div>
+  </div>
+
+  <!-- STATS VIEW -->
+  <div class="stats-view" id="statsView">
+    <div class="stats-wrap">
+      <div class="stats-grid" id="statsGrid"></div>
+      <div class="stats-section">
+        <div class="stats-section-title">Badges</div>
+        <div class="badge-grid" id="badgesGrid"></div>
+      </div>
+      <div style="margin-top:1.5rem;padding:16px;background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-md);text-align:center">
+        <div style="font-size:13px;color:var(--t1);line-height:1.7;margin-bottom:12px">In the full version, stats and badges track your real progress across all students and semesters.</div>
+        <a href="index.html" style="display:inline-block;font-family:var(--font);font-size:13px;font-weight:500;padding:8px 20px;border-radius:999px;background:var(--green);color:#0a0a0a;text-decoration:none">Start tracking →</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- SIGNUP PROMPT -->
+<div class="signup-prompt" id="signupPrompt">
+  <div class="signup-card">
+    <div class="signup-card-text">
+      <h3>Ready for the full version?</h3>
+      <p>Free account — complete sentence bank, cloud sync, AI features and more.</p>
+    </div>
+    <a href="index.html" class="signup-card-btn">Sign up free</a>
+    <button class="signup-card-dismiss" onclick="hideSignupPrompt()">✕</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DEMO SENTENCE DATA ──────────────────────────────────────────
+// One real sentence per category (sample), rest blurred
+// Real sentences use {{N}}/{{S}}/{{pos}} placeholders
+const DEMO_BANK = {
+  general: {
+    "Personality": {
+      sample: "{{N}} is an enthusiastic and curious student whose enquiring mind results in active classroom participation.",
+      extras: 4
+    },
+    "Effort & Work Habits": {
+      sample: "{{S}} displays an excellent attitude towards learning, demonstrating genuine curiosity and a willingness to challenge {{pos}} thinking.",
+      extras: 4
+    },
+    "Communication & Collaboration": {
+      sample: "{{S}} communicates with confidence and clarity and is an active participant in class discussions.",
+      extras: 3
+    },
+    "Social Skills": {
+      sample: "{{N}} is a generous and kind friend who is willing to share {{pos}} time with peers and cares for the wellbeing of others.",
+      extras: 3
+    },
+    "Leadership": {
+      sample: "{{N}} is a confident natural leader who inspires classmates and leads by example.",
+      extras: 3
+    },
+    "Independence": {
+      sample: "{{N}} displays a high level of independence, approaching tasks with confidence and persistence.",
+      extras: 3
+    },
+    "Semester KLAs": {
+      sample: "{{N}} has shown strong engagement in Science and Technology this semester, actively participating in research on weather and climate.",
+      extras: 3
+    },
+    "Sport & Extracurricular": {
+      sample: "{{N}} excels in Physical Education, using {{pos}} abilities to compete alongside {{pos}} peers.",
+      extras: 3
+    },
+    "Closing Statement": {
+      sample: "{{N}} is to be congratulated on a great start to Stage 3. I look forward to seeing {{pos}} learning progress throughout the remainder of the year.",
+      extras: 3
+    }
+  },
+  english: {
+    "Introduction": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{N}} has demonstrated a sound understanding of key concepts covered in English this semester.",
+      extras: 2
+    },
+    "Below Expectations": {
+      grades: ['D','E'],
+      sample: "{{S}} is working below stage expectations in English and is continuing to develop key skills with teacher support.",
+      extras: 1
+    },
+    "Oral Language & Communication": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} seeks clarification during discussions and uses this to build a clearer understanding of texts.",
+      extras: 3
+    },
+    "Reading Comprehension": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} uses reading strategies to comprehend more complex texts.",
+      extras: 3
+    },
+    "Creating Written Texts": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} organises ideas into paragraphs using basic connectives to sequence events and information.",
+      extras: 3
+    },
+    "Vocabulary": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} selects vocabulary that enhances meaning.",
+      extras: 3
+    },
+    "Spelling & Grammar": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy.",
+      extras: 4
+    },
+    "Handwriting & Digital Transcription": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} forms letters correctly and maintains appropriate spacing when writing.",
+      extras: 2
+    },
+    "Understanding and Responding to Literature": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} describes how characters are built through their actions and viewpoints.",
+      extras: 3
+    },
+    "Future Directions": { special: true }
+  },
+  maths: {
+    "Introduction": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{N}} has demonstrated a sound understanding of key mathematical concepts this semester.",
+      extras: 2
+    },
+    "Below Expectations": {
+      grades: ['D','E'],
+      sample: "{{S}} is working below stage expectations in Mathematics and is continuing to develop key skills with guidance.",
+      extras: 1
+    },
+    "Represents Numbers": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} applies {{pos}} knowledge of place value to work confidently with large numbers.",
+      extras: 3
+    },
+    "Additive Relations": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} applies number facts to create equal number sentences.",
+      extras: 3
+    },
+    "Multiplicative Relations": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders.",
+      extras: 3
+    },
+    "Representing Quantity Fractions": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} expresses common percentages as both fractions and decimals.",
+      extras: 3
+    },
+    "Geometric Measure": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor.",
+      extras: 3
+    },
+    "Two-Dimensional Spatial Structure": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} identifies and classifies triangles and quadrilaterals based on their properties.",
+      extras: 3
+    },
+    "Three-Dimensional Spatial Structure": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} names and describes the features of two- and three-dimensional shapes.",
+      extras: 2
+    },
+    "Non-Spatial Measure": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} measures weight, perimeter and area accurately.",
+      extras: 2
+    },
+    "Data": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} accurately interprets information presented in tables, column graphs and line graphs.",
+      extras: 2
+    },
+    "Chance": {
+      grades: ['A','B','C','D','E'],
+      sample: "{{S}} describes the chance of events occurring using the terms equally likely, likely and unlikely.",
+      extras: 1
+    },
+    "Future Directions": { special: true }
+  }
+};
+
+// Blur bar lengths (chars approximated)
+const BLUR_LENS = [72, 88, 65, 94, 79, 81, 68, 96, 73];
+
+const PR = {
+  he: { N:'He', n:'he', S:'He', s:'he', pos:'his', obj:'him', refl:'himself' },
+  she: { N:'She', n:'she', S:'She', s:'she', pos:'her', obj:'her', refl:'herself' }
+};
+
+// State
+let currentSubject = 'general';
+let currentCat = 'Personality';
+let currentView = 'build';
+let selectedSentences = {}; // cat -> Set of 'sample'|0|1|2...
+let selectedGrades = {};
+let promptShown = false;
+let selectionCount = 0;
+
+// ── Apply pronouns/name ──────────────────────────────────────────
+function applyPR(text) {
+  const name = document.getElementById('stuName').value || 'Alex';
+  const p = PR[document.getElementById('stuPron').value] || PR.she;
+  return text
+    .replace(/{{N}}/g, name).replace(/{{n}}/g, name.toLowerCase())
+    .replace(/{{S}}/g, p.N).replace(/{{s}}/g, p.n)
+    .replace(/{{pos}}/g, p.pos).replace(/{{obj}}/g, p.obj);
+}
+
+function blurBar(len) {
+  return `<span class="blur-text" style="width:${len}px">&nbsp;</span>`;
+}
+
+// ── Subject switching ────────────────────────────────────────────
+function setSubject(s) {
+  currentSubject = s;
+  currentCat = Object.keys(DEMO_BANK[s])[0];
+  selectedSentences = {};
+  selectedGrades = {};
+  document.querySelectorAll('#subjToggle .vbtn').forEach((b, i) => {
+    b.className = 'vbtn' + (['general','english','maths'][i] === s ? ' active' : '');
+  });
+  renderSidebar();
+  renderCentre();
+  renderDraft();
+}
+
+// ── Sidebar ──────────────────────────────────────────────────────
+function renderSidebar() {
+  const el = document.getElementById('sidebar');
+  const bank = DEMO_BANK[currentSubject];
+  el.innerHTML = `<span class="s-label">${{general:'General',english:'English',maths:'Maths'}[currentSubject]}</span>`;
+  Object.keys(bank).forEach(cat => {
+    if (cat === 'Future Directions') {
+      el.appendChild(Object.assign(document.createElement('div'), { className: 'cat-div' }));
+    }
+    const sel = selectedSentences[cat];
+    const count = sel ? sel.size : 0;
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (cat === currentCat ? ' active' : '') + (count ? ' has-sel' : '');
+    btn.innerHTML = `<span class="cat-name">${cat}</span><span class="cat-count">${count}</span>`;
+    btn.onclick = () => { currentCat = cat; renderSidebar(); renderCentre(); };
+    el.appendChild(btn);
+  });
+}
+
+// ── Centre ───────────────────────────────────────────────────────
+function renderCentre() {
+  document.getElementById('cTitle').textContent = currentCat;
+  const catData = DEMO_BANK[currentSubject][currentCat];
+  const gradeRow = document.getElementById('gradeRow');
+  const optsEl = document.getElementById('opts');
+  optsEl.innerHTML = '';
+
+  if (catData.special) {
+    gradeRow.style.display = 'none';
+    optsEl.innerHTML = `<div style="padding:24px 0;text-align:center;color:var(--t2);font-size:13px;line-height:1.8">
+      <div style="font-size:24px;margin-bottom:10px">◎</div>
+      <strong style="color:var(--t1);display:block;margin-bottom:6px">Future Directions</strong>
+      Select up to 2 future directions from a stage-appropriate bank, with auto-suggestions based on the student's lowest grades.
+      <br><br><a href="index.html" style="color:var(--blue);text-decoration:none;font-weight:500">Sign up for full access →</a>
+    </div>`;
+    return;
+  }
+
+  // Grade filter
+  if (catData.grades) {
+    gradeRow.style.display = 'flex';
+    gradeRow.innerHTML = `<span style="font-size:11px;color:var(--t2);align-self:center;margin-right:2px">Grade:</span>`;
+    catData.grades.forEach(g => {
+      const selG = selectedGrades[currentCat] || [];
+      const btn = document.createElement('button');
+      btn.className = 'grade-pill' + (selG.includes(g) ? ' sel-' + g : '');
+      btn.textContent = g;
+      btn.onclick = () => { toggleGrade(g); };
+      gradeRow.appendChild(btn);
+    });
+  } else {
+    gradeRow.style.display = 'none';
+  }
+
+  const catSel = selectedSentences[currentCat] || new Set();
+
+  // Sample sentence (real, clickable)
+  const sampleSel = catSel.has('sample');
+  const sampleBtn = document.createElement('button');
+  sampleBtn.className = 'opt' + (sampleSel ? ' sel' : '');
+  sampleBtn.innerHTML = applyPR(catData.sample);
+  sampleBtn.onclick = () => toggleSentence('sample');
+  optsEl.appendChild(sampleBtn);
+
+  // Blurred extras
+  const extras = catData.extras || 3;
+  for (let i = 0; i < extras; i++) {
+    const len = BLUR_LENS[i % BLUR_LENS.length];
+    const btn = document.createElement('button');
+    btn.className = 'opt demo-locked';
+    btn.title = 'Sign up to read this sentence';
+    btn.innerHTML = blurBar(len) + `<span class="lock-icon">🔒</span>`;
+    btn.onclick = () => showSignupPrompt();
+    optsEl.appendChild(btn);
+  }
+}
+
+// ── Toggle grade ──────────────────────────────────────────────────
+function toggleGrade(g) {
+  if (!selectedGrades[currentCat]) selectedGrades[currentCat] = [];
+  const idx = selectedGrades[currentCat].indexOf(g);
+  if (idx === -1) selectedGrades[currentCat].push(g);
+  else selectedGrades[currentCat].splice(idx, 1);
+  renderCentre();
+}
+
+// ── Toggle sentence ───────────────────────────────────────────────
+function toggleSentence(key) {
+  if (!selectedSentences[currentCat]) selectedSentences[currentCat] = new Set();
+  const set = selectedSentences[currentCat];
+  if (set.has(key)) { set.delete(key); selectionCount--; }
+  else { set.add(key); selectionCount++; }
+  if (set.size === 0) delete selectedSentences[currentCat];
+  renderSidebar();
+  renderCentre();
+  renderDraft();
+  if (selectionCount >= 3 && !promptShown) {
+    promptShown = true;
+    setTimeout(showSignupPrompt, 1200);
+  }
+}
+
+// ── Draft ─────────────────────────────────────────────────────────
+function renderDraft() {
+  const draft = document.getElementById('draftPane');
+  const lines = [];
+  Object.entries(selectedSentences).forEach(([cat, set]) => {
+    const catData = DEMO_BANK[currentSubject][cat];
+    if (catData && set.has('sample')) lines.push(applyPR(catData.sample));
+  });
+  if (!lines.length) { draft.innerHTML = ''; updateWC(0); return; }
+  draft.innerHTML = lines.join(' ');
+  const words = draft.innerText.trim().split(/\s+/).filter(Boolean).length;
+  updateWC(words);
+}
+
+function updateWC(words) {
+  document.getElementById('wcBadge').textContent = `${words} / 200`;
+  document.getElementById('wcBar').style.width = Math.min(100, words / 2) + '%';
+}
+
+// ── Publish ───────────────────────────────────────────────────────
+function renderPublish() {
+  const name = (document.getElementById('stuName').value || 'Alex').toUpperCase();
+  document.getElementById('pubName').textContent = `${name} — SEMESTER 1 2026`;
+  const lines = [];
+  Object.entries(selectedSentences).forEach(([cat, set]) => {
+    const catData = DEMO_BANK[currentSubject][cat];
+    if (catData && set.has('sample')) lines.push(applyPR(catData.sample));
+  });
+  const pub = document.getElementById('pubContent');
+  if (!lines.length) {
+    pub.innerHTML = `<p style="color:var(--t2);font-style:italic;font-size:14px">No sentences selected — go to Build and add some.</p>`;
+  } else {
+    pub.innerHTML = `<p class="pub-para">${lines.join(' ')}</p>`;
+  }
+}
+
+function handleCopy() {
+  const lines = [];
+  Object.entries(selectedSentences).forEach(([cat, set]) => {
+    const catData = DEMO_BANK[currentSubject][cat];
+    if (catData && set.has('sample')) lines.push(applyPR(catData.sample));
+  });
+  if (!lines.length) { showToast('Nothing to copy.'); return; }
+  navigator.clipboard.writeText(lines.join(' ')).then(() => {
+    showToast('Copied! Sign up to access the full sentence bank.');
+    setTimeout(showSignupPrompt, 800);
+  });
+}
+
+// ── Stats ─────────────────────────────────────────────────────────
+function renderStats() {
+  const stats = [
+    { val: '22', label: 'Total students', color: 'var(--blue)' },
+    { val: '18', label: 'Comments done', color: 'var(--green)' },
+    { val: '4', label: 'In progress', color: 'var(--amber)' },
+    { val: '1,847', label: 'Words written', color: 'var(--purple)' },
+  ];
+  const grid = document.getElementById('statsGrid');
+  grid.innerHTML = '';
+  stats.forEach(s => {
+    grid.innerHTML += `<div class="stat-card">
+      <div class="stat-val" style="color:${s.color}">${s.val}</div>
+      <div class="stat-label">${s.label}</div>
+    </div>`;
+  });
+
+  const badges = [
+    { icon:'🏅', name:'First Comment', desc:'Publish your first comment', earned: true },
+    { icon:'⚡', name:'On a Roll', desc:'5 comments in one session', earned: true },
+    { icon:'🌟', name:'Halfway There', desc:'11 students published', earned: false },
+    { icon:'🎯', name:'All Done', desc:'All 22 students published', earned: false },
+    { icon:'✍️', name:'Wordsmith', desc:'Write 5,000 words', earned: false },
+    { icon:'🔥', name:'3-Day Streak', desc:'Use the app 3 days in a row', earned: true },
+  ];
+  const bg = document.getElementById('badgesGrid');
+  bg.innerHTML = '';
+  badges.forEach(b => {
+    bg.innerHTML += `<div class="badge ${b.earned ? 'earned' : ''}">
+      <div class="badge-icon">${b.icon}</div>
+      <div class="badge-name">${b.name}</div>
+      <div class="badge-desc">${b.desc}</div>
+    </div>`;
+  });
+}
+
+// ── View switching ────────────────────────────────────────────────
+function setView(v) {
+  currentView = v;
+  document.getElementById('buildView').style.display = v === 'build' ? 'grid' : 'none';
+  document.getElementById('publishView').classList.toggle('active', v === 'publish');
+  document.getElementById('statsView').classList.toggle('active', v === 'stats');
+  ['vBuild','vPublish','vStats'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.className = 'vbtn' + (id === 'v' + v.charAt(0).toUpperCase() + v.slice(1) ? ' active' : '');
+  });
+  if (v === 'publish') renderPublish();
+  if (v === 'stats') renderStats();
+  if (settingsOpen) toggleSettings();
+}
+
+// ── Settings ──────────────────────────────────────────────────────
+let settingsOpen = false;
+function toggleSettings() {
+  settingsOpen = !settingsOpen;
+  document.getElementById('settingsPanel').style.display = settingsOpen ? 'block' : 'none';
+}
+document.addEventListener('click', e => {
+  if (!settingsOpen) return;
+  const panel = document.getElementById('settingsPanel');
+  const btn = document.querySelector('.settings-btn');
+  if (!panel.contains(e.target) && !btn.contains(e.target)) {
+    settingsOpen = false;
+    panel.style.display = 'none';
+  }
+});
+
+// ── Prompts / Toast ───────────────────────────────────────────────
+function showSignupPrompt() {
+  document.getElementById('signupPrompt').classList.add('show');
+}
+function hideSignupPrompt() {
+  document.getElementById('signupPrompt').classList.remove('show');
+}
+let _toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+// ── Clear ────────────────────────────────────────────────────────
+function clearDraft() {
+  selectedSentences = {};
+  selectionCount = 0;
+  renderSidebar();
+  renderCentre();
+  renderDraft();
+}
+
+// ── Init ─────────────────────────────────────────────────────────
+renderSidebar();
+renderCentre();
+</script>
+</body>
+</html>
