@@ -666,7 +666,6 @@
       <div class="out-editable" id="outEditable" contenteditable="true"
            data-placeholder="Select sentences from the centre to build this student’s comment, or type here directly…"
            oninput="onDraftInput()" onkeydown="onDraftKeydown(event)"></div>
-      <div id="mergeSuggestionBanner" style="display:none;background:var(--bg-2);border-top:1px solid var(--border);padding:8px 1.1rem;flex-shrink:0"></div>
       <div class="draft-edit-bar" id="draftEditBar">
         <button class="draft-reset-btn" onclick="resetDraft()">Reset</button>
         <div class="draft-edit-label">Editing draft…</div>
@@ -707,6 +706,7 @@
         <div id="pubContent"></div>
       </div>
     </div>
+    <div id="pubMergeSuggestions" style="display:none;border-top:1px solid var(--border);background:var(--bg-1);padding:12px 1.5rem;flex-shrink:0;max-height:280px;overflow-y:auto"></div>
     <div class="pub-bar">
       <button class="btn btn-ghost" onclick="setView('build')" style="width:auto">
         <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12L6 8l4-4"/></svg>
@@ -3893,7 +3893,7 @@ function updateWc(text) {
 
 
 function renderMergeSuggestions() {
-  const banner = document.getElementById('mergeSuggestionBanner');
+  const banner = document.getElementById('pubMergeSuggestions');
   if (!banner) return;
   if (currentSubject === 'general') { banner.style.display = 'none'; return; }
 
@@ -3940,26 +3940,32 @@ function acceptMergeSuggestion(ruleIdx) {
   const text = textarea ? textarea.value.trim() : '';
   if (!text) return;
 
-  // Append the merged sentence to the draft
-  const draftKey = currentSubject === 'english' ? 'engDraft' : 'mathDraft';
-  const pubKey   = currentSubject === 'english' ? 'pubEditEnglish' : 'pubEditMaths';
-  const existing = cur()[draftKey] || getSubjDraft() || '';
-  cur()[draftKey] = existing.trimEnd() + (existing ? ' ' : '') + text;
-  cur()[pubKey] = null;
+  // Add merged sentence directly to the publish pane
+  const pubContent = document.getElementById('pubContent');
+  if (pubContent) {
+    const newPara = document.createElement('p');
+    newPara.className = 'pub-para';
+    const sentences = text.match(/[^.!?]+[.!?]+\s*/g) || [text];
+    newPara.innerHTML = sentences.map((s, si) =>
+      `<span data-pi="merged" data-si="${si}">${s.trim()}</span>`
+    ).join(' ');
+    pubContent.appendChild(newPara);
+    saveCur(); // persist pubEdit
+    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
+  }
 
-  // Dismiss this rule
+  // Dismiss this rule so it doesn't reappear
   _dismissedMerges.push(JSON.stringify(rule.strands));
-
-  renderOut();
+  renderMergeSuggestions();
   autoSave();
-  showToast('Merged sentence added to draft.');
+  showToast('Merged sentence added to comment.');
 }
 
 function dismissMergeSuggestion(ruleIdx) {
   const rules = getActiveMergeRules();
   const rule = rules[ruleIdx];
   if (rule) _dismissedMerges.push(JSON.stringify(rule.strands));
-  renderOut();
+  renderMergeSuggestions();
 }
 
 // Reset dismissed merges when sentences change
@@ -3993,7 +3999,6 @@ function renderOut() {
 
   // Update subject tab indicators
   updateSubjTabIndicators();
-  renderMergeSuggestions();
 
   // For English/Maths, show their draft + FD
   if (currentSubject !== 'general') {
@@ -4246,6 +4251,7 @@ function getFDTextForStu(stu, subj) {
 }
 
 function renderPublish() {
+  _dismissedMerges = []; // reset dismissed flow suggestions on each publish render
   const stu = cur();
   const name = stu.name || '[Name]';
   const p = PR[stu.pronoun];
@@ -4295,7 +4301,7 @@ function renderPublish() {
   if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash) {
     // Cache is valid — FD + subject match
     content.innerHTML = stu[pubEditKey];
-    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
+    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); renderMergeSuggestions(); }, 60);
     return;
   } else if (stu[pubEditKey]) {
     // Cache is stale (subject changed or FD changed) — discard and rebuild
@@ -6162,7 +6168,9 @@ function anthropicFetch(body) {
 
   // If a proxy URL is configured, use it — it handles auth server-side
   if (proxyUrl) {
-    return fetch(proxyUrl, {
+    // Append /api/anthropic if not already present
+    const endpoint = proxyUrl.endsWith('/api/anthropic') ? proxyUrl : proxyUrl.replace(/\/+$/, '') + '/api/anthropic';
+    return fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': storedKey },
       body: JSON.stringify(body)
@@ -6213,7 +6221,8 @@ async function saveProxyUrl() {
   const origText = btn.textContent;
   btn.textContent = 'Testing…'; btn.disabled = true;
   try {
-    const res = await fetch(val, {
+    const testEndpoint = val.endsWith('/api/anthropic') ? val : val.replace(/\/+$/, '') + '/api/anthropic';
+    const res = await fetch(testEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': getApiKey() || 'test' },
       body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 5, messages: [{ role: 'user', content: 'Hi' }] })
@@ -7434,6 +7443,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.2.5</div>
+<div class="version-badge">v3.2.8</div>
 </body>
 </html>
