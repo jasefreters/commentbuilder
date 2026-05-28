@@ -1374,11 +1374,12 @@ function setSubject(subj) {
   _showGradeEntry = false;
   _showAllStrands = false;
   lsSet('rcb_subject', subj);
-  // Clear all publish caches when subject changes — prevents cross-subject bleed
+  // Only clear the OTHER subjects' caches to prevent cross-subject bleed
+  // Never clear the cache for the subject we're switching TO — that would lose edits
   if (cur()) {
-    cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null;
-    cur().pubEditEnglish = null; cur().pubEditEnglish_fdHash = null;
-    cur().pubEditMaths   = null; cur().pubEditMaths_fdHash   = null;
+    if (subj !== 'general') { cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null; }
+    if (subj !== 'english') { cur().pubEditEnglish = null; cur().pubEditEnglish_fdHash = null; }
+    if (subj !== 'maths')   { cur().pubEditMaths   = null; cur().pubEditMaths_fdHash   = null; }
   }
 
   // Update header buttons
@@ -1550,9 +1551,11 @@ function toggleSubjOpt(cat, s) {
       cur()[draftKey] = existing.replace(new RegExp('\\s*' + escaped, 'g'), '').trim() || null;
     }
     cur()[pubKey] = null; // draft changed — rebuild publish
+    cur()[pubKey + '_fdHash'] = null;
   } else {
     // No manual edit — clear nothing, let getSubjDraft rebuild from engOrdered
     cur()[pubKey] = null;
+    cur()[pubKey + '_fdHash'] = null;
   }
 
   render();
@@ -2306,7 +2309,7 @@ async function rankForS2AI() {
   });
 
   try {
-    const prompt = `You are helping a primary school teacher write Semester 2 student report comments that logically follow on from Semester 1.
+    const prompt = `You are helping an Australian primary school teacher write Semester 2 student report comments that logically follow on from Semester 1. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma.
 
 Semester 1 comment:
 "${s1Text}"
@@ -4302,10 +4305,31 @@ function renderPublish() {
     content.innerHTML = stu[pubEditKey];
     setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
     return;
-  } else if (stu[pubEditKey]) {
-    // Cache is stale (subject changed or FD changed) — discard and rebuild
-    stu[pubEditKey] = null;
-    stu[pubEditFDKey] = null;
+  } else if (stu[pubEditKey] && stu[pubEditFDKey] !== currentFDHash) {
+    // FD changed — update the cached HTML to swap in the new FD block
+    // rather than discarding the whole cache and losing manual edits
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(stu[pubEditKey], 'text/html');
+    // Remove existing FD para if present
+    doc.querySelectorAll('.fd-para').forEach(el => el.remove());
+    // Append new FD if any
+    const fdArr = renderSubject === 'english' ? (stu.engFD || []) : (stu.mathFD || []);
+    if (fdArr.length) {
+      const fdText = getFDTextForStu(stu, renderSubject);
+      const fdLines = fdText.split('\n').filter(l => l.trim());
+      const fdPara = doc.createElement('p');
+      fdPara.className = 'pub-para fd-para';
+      fdPara.innerHTML = fdLines.map((l, i) =>
+        `<span data-pi="fd" data-si="${i}" class="fd-line">${l.trim()}</span>`
+      ).join('<br>');
+      doc.body.appendChild(fdPara);
+    }
+    // Save updated cache with new FD hash
+    stu[pubEditKey] = doc.body.innerHTML;
+    stu[pubEditFDKey] = currentFDHash;
+    content.innerHTML = stu[pubEditKey];
+    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
+    return;
   }
 
   content.innerHTML = fixedParas.map((para, pi) => {
@@ -4426,6 +4450,8 @@ async function runPolish() {
         messages: [{
           role: 'user',
           content: `You are reviewing a primary school ${subjectName} report comment for a student named ${studentName}.
+
+Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma.
 
 The comment is made up of individual sentences selected from a bank. Your job is to identify pairs of ADJACENT sentences that cover closely related content and could be naturally combined into one shorter, cleaner sentence.
 
@@ -4633,7 +4659,7 @@ async function runCheck() {
         max_tokens: 1000,
         messages: [{
           role: 'user',
-          content: `You are a school report comment reviewer for a primary school teacher. Carefully read the following student report comment and identify any:
+          content: `You are a school report comment reviewer for an Australian primary school teacher. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma. Carefully read the following student report comment and identify any:
 1. SIMILAR sentences — two sentences that express the same idea, even if worded differently
 2. CONTRADICTIONS — two sentences that say conflicting things (e.g. works independently vs needs support)
 3. TENSE errors — sentences written in a different tense to the rest of the comment. School report comments should be consistently in present tense OR consistently in past tense throughout. Flag any sentence that breaks this consistency.
@@ -4771,7 +4797,7 @@ async function fetchFixSuggestion(span, issue, suggestionEl, actionsEl) {
       max_tokens: 300,
       messages: [{
         role: 'user',
-        content: `You are helping a primary school teacher fix an issue in a student report comment.
+        content: `You are helping an Australian primary school teacher fix an issue in a student report comment. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma.
 
 Issue type: ${issue.type} — ${typeDescriptions[issue.type] || issue.reason}
 Reason: ${issue.reason}
@@ -5452,13 +5478,14 @@ function saveCur() {
                 : currentSubject === 'maths'   ? 'pubEditMaths'
                 : 'pubEditGeneral';
       students[currentIdx][key] = pubEl.innerHTML;
-      // Save FD hash so we can detect FD changes that should invalidate the cache
+      // Save FD hash — includes subject so cross-subject cache hits are impossible
       const fdHashKey = key + '_fdHash';
       const fdArr = currentSubject === 'english' ? (students[currentIdx].engFD || [])
                   : currentSubject === 'maths'   ? (students[currentIdx].mathFD || [])
                   : [];
-      // Include subject in hash so restoring on a different subject invalidates cache
       students[currentIdx][fdHashKey] = currentSubject + '|' + JSON.stringify(fdArr);
+      // Also persist to autoSave so cloud sync captures the publish edits
+      autoSave();
     }
   }
 }
@@ -6339,10 +6366,31 @@ function renderPublish() {
     content.innerHTML = stu[pubEditKey];
     setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
     return;
-  } else if (stu[pubEditKey]) {
-    // Cache is stale (subject changed or FD changed) — discard and rebuild
-    stu[pubEditKey] = null;
-    stu[pubEditFDKey] = null;
+  } else if (stu[pubEditKey] && stu[pubEditFDKey] !== currentFDHash) {
+    // FD changed — update the cached HTML to swap in the new FD block
+    // rather than discarding the whole cache and losing manual edits
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(stu[pubEditKey], 'text/html');
+    // Remove existing FD para if present
+    doc.querySelectorAll('.fd-para').forEach(el => el.remove());
+    // Append new FD if any
+    const fdArr = renderSubject === 'english' ? (stu.engFD || []) : (stu.mathFD || []);
+    if (fdArr.length) {
+      const fdText = getFDTextForStu(stu, renderSubject);
+      const fdLines = fdText.split('\n').filter(l => l.trim());
+      const fdPara = doc.createElement('p');
+      fdPara.className = 'pub-para fd-para';
+      fdPara.innerHTML = fdLines.map((l, i) =>
+        `<span data-pi="fd" data-si="${i}" class="fd-line">${l.trim()}</span>`
+      ).join('<br>');
+      doc.body.appendChild(fdPara);
+    }
+    // Save updated cache with new FD hash
+    stu[pubEditKey] = doc.body.innerHTML;
+    stu[pubEditFDKey] = currentFDHash;
+    content.innerHTML = stu[pubEditKey];
+    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
+    return;
   }
 
   content.innerHTML = fixedParas.map((para, pi) => {
@@ -6462,6 +6510,8 @@ async function runPolish() {
         messages: [{
           role: 'user',
           content: `You are reviewing a primary school ${subjectName} report comment for a student named ${studentName}.
+
+Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma.
 
 The comment is made up of individual sentences selected from a bank. Your job is to identify pairs of ADJACENT sentences that cover closely related content and could be naturally combined into one shorter, cleaner sentence.
 
@@ -6669,7 +6719,7 @@ async function runCheck() {
         max_tokens: 1000,
         messages: [{
           role: 'user',
-          content: `You are a school report comment reviewer for a primary school teacher. Carefully read the following student report comment and identify any:
+          content: `You are a school report comment reviewer for an Australian primary school teacher. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma. Carefully read the following student report comment and identify any:
 1. SIMILAR sentences — two sentences that express the same idea, even if worded differently
 2. CONTRADICTIONS — two sentences that say conflicting things (e.g. works independently vs needs support)
 3. TENSE errors — sentences written in a different tense to the rest of the comment. School report comments should be consistently in present tense OR consistently in past tense throughout. Flag any sentence that breaks this consistency.
@@ -6806,7 +6856,7 @@ async function fetchFixSuggestion(span, issue, suggestionEl, actionsEl) {
       max_tokens: 300,
       messages: [{
         role: 'user',
-        content: `You are helping a primary school teacher fix an issue in a student report comment.
+        content: `You are helping an Australian primary school teacher fix an issue in a student report comment. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma.
 
 Issue type: ${issue.type} — ${typeDescriptions[issue.type] || issue.reason}
 Reason: ${issue.reason}
@@ -7486,13 +7536,14 @@ function saveCur() {
                 : currentSubject === 'maths'   ? 'pubEditMaths'
                 : 'pubEditGeneral';
       students[currentIdx][key] = pubEl.innerHTML;
-      // Save FD hash so we can detect FD changes that should invalidate the cache
+      // Save FD hash — includes subject so cross-subject cache hits are impossible
       const fdHashKey = key + '_fdHash';
       const fdArr = currentSubject === 'english' ? (students[currentIdx].engFD || [])
                   : currentSubject === 'maths'   ? (students[currentIdx].mathFD || [])
                   : [];
-      // Include subject in hash so restoring on a different subject invalidates cache
       students[currentIdx][fdHashKey] = currentSubject + '|' + JSON.stringify(fdArr);
+      // Also persist to autoSave so cloud sync captures the publish edits
+      autoSave();
     }
   }
 }
@@ -9355,7 +9406,7 @@ async function showSynonymsPanel(word, markEl) {
       max_tokens: 200,
       messages: [{
         role: 'user',
-        content: `You are helping a primary school teacher vary word choice in student report comments written for parents.
+        content: `You are helping an Australian primary school teacher vary word choice in student report comments written for parents. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma.
 
 Give 6 synonyms for the word "${word}" that meet ALL of these criteria:
 - Simple and easy for any parent to understand (avoid academic, rare or unusual words)
@@ -9632,6 +9683,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.3.4</div>
+<div class="version-badge">v3.3.7</div>
 </body>
 </html>
