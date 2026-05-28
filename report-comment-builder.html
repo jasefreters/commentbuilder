@@ -4419,18 +4419,7 @@ async function runPolish() {
   const studentName = cur().name || 'the student';
 
   try {
-    const apiKey = lsGet('rcb_api_key', '');
-    const workerUrl = lsGet('rcb_worker_url', '');
-    const endpoint = workerUrl ? workerUrl + '/api/anthropic' : 'https://api.anthropic.com/v1/messages';
-
-    const headers = { 'Content-Type': 'application/json' };
-    if (!workerUrl && apiKey) headers['x-api-key'] = apiKey;
-    if (!workerUrl && apiKey) headers['anthropic-version'] = '2023-06-01';
-
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
+    const response = await anthropicFetch({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
         messages: [{
@@ -4451,8 +4440,7 @@ Return ONLY the rewritten comment. No explanation, no preamble, no quotation mar
 Comment to rewrite:
 ${text}`
         }]
-      })
-    });
+      });
 
     const data = await response.json();
     const suggestion = data.content && data.content[0] && data.content[0].text
@@ -7443,6 +7431,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.2.8</div>
+<div class="version-badge">v3.2.9</div>
 </body>
 </html>
