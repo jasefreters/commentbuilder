@@ -4408,8 +4408,10 @@ async function runPolish() {
 
   origEl.textContent = text;
   sugEl.value = '';
-  statusEl.textContent = 'Generating suggestion…';
-  acceptBtn.disabled = true;
+  sugEl.style.display = 'none';
+  acceptBtn.style.display = 'none';
+  statusEl.innerHTML = '';
+  statusEl.textContent = 'Analysing sentences…';
   modal.style.display = 'flex';
 
   const btn = document.getElementById('polishBtn');
@@ -4424,36 +4426,86 @@ async function runPolish() {
         max_tokens: 1000,
         messages: [{
           role: 'user',
-          content: `You are helping a primary school teacher improve the flow and cohesion of a student report comment for ${subjectName}.
+          content: `You are reviewing a primary school ${subjectName} report comment for a student named ${studentName}.
 
-The comment was built by selecting individual sentences from a sentence bank, so it can feel disjointed. Your job is to rewrite it so it reads as one naturally flowing paragraph, while:
-- Keeping ALL the same content and meaning — do not add or remove information
-- Merging sentences that cover related ideas into single, smooth sentences
-- Varying the sentence openers (avoid starting every sentence with the student's name)
-- Maintaining present tense throughout
-- Keeping Future Directions lines (lines starting with *) exactly as they are — do not modify them
-- Keeping the same overall tone — warm, professional, appropriate for a school report
-- The student's name is ${studentName}
+The comment is made up of individual sentences selected from a bank. Your job is to identify pairs of ADJACENT sentences that cover closely related content and could be naturally combined into one shorter, cleaner sentence.
 
-Return ONLY the rewritten comment. No explanation, no preamble, no quotation marks around it.
+STRICT RULES:
+- Only suggest merging sentences that are directly ADJACENT to each other in the comment
+- Only merge sentences that cover the same specific skill or a very closely related skill within the same strand (e.g. two sentences both about spelling, or two sentences both about reading comprehension strategies)
+- NEVER merge sentences from different strands (e.g. do not combine an oral language sentence with a reading sentence — these are assessed separately)
+- The merged sentence MUST be 17 words or fewer
+- The merged sentence must stay in present tense
+- Do not change the meaning — only improve flow
+- Do not touch Future Directions lines (lines starting with *)
+- If no good merges exist, return an empty array
 
-Comment to rewrite:
+Return ONLY a valid JSON array. No explanation, no markdown. Format:
+[
+  {
+    "original1": "exact text of first sentence",
+    "original2": "exact text of second sentence",
+    "merged": "the combined sentence (max 17 words)",
+    "reason": "brief reason e.g. both about spelling accuracy"
+  }
+]
+
+If no suitable merges found, return: []
+
+Comment to review:
 ${text}`
         }]
       });
 
     const data = await response.json();
-    const suggestion = data.content && data.content[0] && data.content[0].text
+    const raw = data.content && data.content[0] && data.content[0].text
       ? data.content[0].text.trim()
       : '';
 
-    if (suggestion) {
-      sugEl.value = suggestion;
-      statusEl.textContent = 'Edit the suggestion above if needed, then click Accept & replace.';
-      acceptBtn.disabled = false;
-    } else {
+    if (!raw) {
       statusEl.textContent = 'Could not generate a suggestion. Check your API key in settings.';
+      return;
     }
+
+    // Parse the JSON array of merge suggestions
+    let suggestions = [];
+    try {
+      const cleaned = raw.replace(/^```json\s*|^```\s*|```\s*$/gm, '').trim();
+      suggestions = JSON.parse(cleaned);
+    } catch(e) {
+      statusEl.textContent = 'Could not parse suggestions. Try again.';
+      return;
+    }
+
+    if (!Array.isArray(suggestions) || suggestions.length === 0) {
+      sugEl.style.display = 'none';
+      acceptBtn.style.display = 'none';
+      statusEl.textContent = '✓ No merge suggestions — the comment already flows well.';
+      return;
+    }
+
+    // Store suggestions for individual acceptance
+    window._polishSuggestions = suggestions;
+    window._polishOriginalText = text;
+
+    // Render suggestions as individual cards
+    const suggestionsHtml = suggestions.map((s, i) => `
+      <div id="polishSug_${i}" style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:10px;">
+        <div style="font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">
+          Suggestion ${suggestions.length > 1 ? i + 1 : ''} — ${s.reason || 'Flow improvement'}
+        </div>
+        <div style="font-size:12px;color:var(--t2);margin-bottom:4px;text-decoration:line-through;line-height:1.6">${s.original1}</div>
+        <div style="font-size:12px;color:var(--t2);margin-bottom:8px;text-decoration:line-through;line-height:1.6">${s.original2}</div>
+        <textarea id="polishSugEdit_${i}" style="font-family:var(--font);font-size:13px;width:100%;box-sizing:border-box;background:var(--bg-3);border:1px solid var(--blue);border-radius:var(--r-sm);color:var(--t0);padding:7px 10px;resize:vertical;min-height:52px;outline:none;line-height:1.6">${s.merged}</textarea>
+        <div style="display:flex;gap:6px;margin-top:8px;justify-content:flex-end">
+          <button onclick="dismissPolishSuggestion(${i})" style="font-family:var(--font);font-size:12px;padding:4px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t2);cursor:pointer">Dismiss</button>
+          <button onclick="acceptPolishSuggestion(${i})" style="font-family:var(--font);font-size:12px;padding:5px 14px;border-radius:var(--r-sm);border:none;background:var(--blue);color:#fff;cursor:pointer;font-weight:500">✓ Accept</button>
+        </div>
+      </div>`).join('');
+
+    sugEl.style.display = 'none'; // hide old single textarea
+    acceptBtn.style.display = 'none'; // hide old accept button
+    statusEl.innerHTML = suggestionsHtml;
   } catch(e) {
     statusEl.textContent = 'Error: ' + e.message;
   } finally {
@@ -4464,6 +4516,66 @@ ${text}`
 function closePolishModal() {
   const modal = document.getElementById('polishModal');
   if (modal) modal.style.display = 'none';
+  window._polishSuggestions = null;
+  window._polishOriginalText = null;
+}
+
+function acceptPolishSuggestion(idx) {
+  const suggestions = window._polishSuggestions;
+  if (!suggestions || !suggestions[idx]) return;
+  const sug = suggestions[idx];
+  const editedText = document.getElementById('polishSugEdit_' + idx).value.trim();
+  if (!editedText) return;
+
+  // Replace the two original sentences in the publish pane with the merged one
+  const pubContent = document.getElementById('pubContent');
+  if (!pubContent) return;
+
+  const fullHtml = pubContent.innerHTML;
+  // Find spans containing the original sentences and replace
+  const spans = pubContent.querySelectorAll('span[data-si]');
+  let found1 = null, found2 = null;
+  spans.forEach(span => {
+    const t = span.textContent.trim();
+    if (t === sug.original1.trim() || sug.original1.trim().startsWith(t) || t.startsWith(sug.original1.trim().slice(0, 20))) found1 = span;
+    if (t === sug.original2.trim() || sug.original2.trim().startsWith(t) || t.startsWith(sug.original2.trim().slice(0, 20))) found2 = span;
+  });
+
+  if (found1 && found2) {
+    // Replace first span text with merged, remove second span
+    found1.textContent = editedText;
+    // Remove second span and any space between them
+    const parent = found2.parentNode;
+    if (parent) parent.removeChild(found2);
+  } else {
+    // Fallback: text replace in full content
+    const orig1 = sug.original1.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const orig2 = sug.original2.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    pubContent.innerHTML = pubContent.innerHTML
+      .replace(new RegExp(orig1 + '(\\s*)', 'i'), editedText + ' ')
+      .replace(new RegExp(orig2, 'i'), '');
+  }
+
+  // Remove this suggestion card
+  const card = document.getElementById('polishSug_' + idx);
+  if (card) card.remove();
+
+  saveCur();
+  setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
+  showToast('Sentences merged.');
+
+  // Check if any suggestions remain
+  const remaining = document.querySelectorAll('[id^="polishSug_"]');
+  if (!remaining.length) {
+    closePolishModal();
+  }
+}
+
+function dismissPolishSuggestion(idx) {
+  const card = document.getElementById('polishSug_' + idx);
+  if (card) card.remove();
+  const remaining = document.querySelectorAll('[id^="polishSug_"]');
+  if (!remaining.length) closePolishModal();
 }
 
 function acceptPolish() {
@@ -7366,14 +7478,14 @@ loadTheme();
         <div id="polishOriginal" style="font-size:13.5px;line-height:1.8;color:var(--t2);background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;white-space:pre-wrap"></div>
       </div>
       <div>
-        <div style="font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Suggested rewrite — edit as needed</div>
-        <textarea id="polishSuggestion" style="font-family:var(--font);font-size:13.5px;line-height:1.8;color:var(--t0);background:var(--bg-3);border:1px solid var(--blue);border-radius:var(--r-sm);padding:10px 12px;width:100%;box-sizing:border-box;resize:vertical;min-height:140px;outline:none"></textarea>
+        <div style="font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Suggested merges — edit as needed</div>
+        <textarea id="polishSuggestion" style="display:none;font-family:var(--font);font-size:13.5px;line-height:1.8;color:var(--t0);background:var(--bg-3);border:1px solid var(--blue);border-radius:var(--r-sm);padding:10px 12px;width:100%;box-sizing:border-box;resize:vertical;min-height:140px;outline:none"></textarea>
       </div>
       <div id="polishStatus" style="font-size:12px;color:var(--t2);font-style:italic"></div>
     </div>
     <div style="padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0">
       <button onclick="closePolishModal()" style="font-family:var(--font);font-size:13px;padding:6px 16px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer">Dismiss</button>
-      <button id="polishAcceptBtn" onclick="acceptPolish()" style="font-family:var(--font);font-size:13px;padding:6px 16px;border-radius:var(--r-sm);border:none;background:var(--blue);color:#fff;cursor:pointer;font-weight:500">✓ Accept &amp; replace</button>
+      <button id="polishAcceptBtn" onclick="acceptPolish()" style="display:none;font-family:var(--font);font-size:13px;padding:6px 16px;border-radius:var(--r-sm);border:none;background:var(--blue);color:#fff;cursor:pointer;font-weight:500">✓ Accept &amp; replace</button>
     </div>
   </div>
 </div>
@@ -7431,6 +7543,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.3.0</div>
+<div class="version-badge">v3.3.1</div>
 </body>
 </html>
