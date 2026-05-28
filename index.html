@@ -976,6 +976,7 @@
 <footer>
   <span class="footer-logo">Comment<span>Builder</span></span>
   <span class="footer-note">Built for NSW primary school teachers · Free to use</span>
+  <span class="footer-note" style="font-family:var(--mono);color:var(--t2);opacity:.5">landing v1.0.2</span>
 </footer>
 
 <!-- SIGN UP MODAL -->
@@ -1100,14 +1101,14 @@ async function doSignup() {
     });
 
     // Success — redirect to app with credentials in URL hash (never in query string)
-    sucEl.textContent = '✓ Account created! Opening the app and signing you in…';
+    sucEl.innerHTML = '✓ Account created! Opening the app… <a href="' + APP_URL + '" style="color:var(--green)">' + APP_URL + '</a>';
     sucEl.style.display = 'block';
     btn.textContent = 'Opening app…';
 
     // Pass credentials to app via sessionStorage (cleared after page load)
     sessionStorage.setItem('rcb_pending_user', user);
     sessionStorage.setItem('rcb_pending_pin', pin);
-    setTimeout(() => { window.location.href = APP_URL; }, 1200);
+    setTimeout(() => { window.location.replace(APP_URL); }, 1200);
 
   } catch(e) {
     errEl.textContent = 'Could not reach server — check your internet connection.';
@@ -1151,13 +1152,13 @@ async function doLogin() {
     }
 
     const stuCount = (data.session && data.session.students) ? data.session.students.length : 0;
-    sucEl.textContent = '✓ Signed in! Loading your ' + stuCount + ' student' + (stuCount !== 1 ? 's' : '') + '…';
+    sucEl.innerHTML = '✓ Signed in! Loading your ' + stuCount + ' student' + (stuCount !== 1 ? 's' : '') + '… <a href="' + APP_URL + '" style="color:var(--green)">Click here if not redirected.</a>';
     sucEl.style.display = 'block';
     btn.textContent = 'Opening app…';
 
     sessionStorage.setItem('rcb_pending_user', user);
     sessionStorage.setItem('rcb_pending_pin', pin);
-    setTimeout(() => { window.location.href = APP_URL; }, 1200);
+    setTimeout(() => { window.location.replace(APP_URL); }, 1200);
 
   } catch(e) {
     errEl.textContent = 'Could not reach server — check your internet connection.';
