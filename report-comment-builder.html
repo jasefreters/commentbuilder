@@ -706,7 +706,6 @@
         <div id="pubContent"></div>
       </div>
     </div>
-    <div id="pubMergeSuggestions" style="display:none;border-top:1px solid var(--border);background:var(--bg-1);padding:12px 1.5rem;flex-shrink:0;max-height:280px;overflow-y:auto"></div>
     <div class="pub-bar">
       <button class="btn btn-ghost" onclick="setView('build')" style="width:auto">
         <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12L6 8l4-4"/></svg>
@@ -4301,7 +4300,7 @@ function renderPublish() {
   if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash) {
     // Cache is valid — FD + subject match
     content.innerHTML = stu[pubEditKey];
-    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); renderMergeSuggestions(); }, 60);
+    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
     return;
   } else if (stu[pubEditKey]) {
     // Cache is stale (subject changed or FD changed) — discard and rebuild
@@ -5444,14 +5443,20 @@ function getPublishedPaneText() {
 }
 
 function copyPublished() {
-  // Always read from the live publish pane to capture all edits
+  // For English/Maths always use getSubjectPublishText which guarantees FD is included
+  if (currentSubject !== 'general') {
+    const text = getSubjectPublishText(cur());
+    if (!text) { showToast('Nothing to copy.'); return; }
+    navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+    return;
+  }
+  // General: read from live publish pane to capture synonym edits etc.
   const liveText = getPublishedPaneText();
   if (liveText) {
     navigator.clipboard.writeText(liveText).then(() => showToast('Copied!'));
     return;
   }
-  // Fallback: rebuild from data if pane isn't rendered
-  const text = (currentSubject !== 'general') ? getSubjectPublishText(cur()) : getPublishedText(cur());
+  const text = getPublishedText(cur());
   if (!text) { showToast('Nothing to copy.'); return; }
   navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
 }
@@ -5960,6 +5965,1968 @@ function setSaveState(state, label) {
 let _publishedSinceLastBackup = false;
 
 
+function renderOut() {
+  const el = document.getElementById('outEditable');
+  const editBar = document.getElementById('draftEditBar');
+  const badge = document.getElementById('wcBadge');
+  const bar = document.getElementById('wcBar');
+
+  // Update subject tab indicators
+  updateSubjTabIndicators();
+
+  // For English/Maths, show their draft + FD
+  if (currentSubject !== 'general') {
+    const subjText = getSubjDraft() || '';
+    const fdText = getFDText();
+    const fullText = subjText + (fdText ? '\n\n' + fdText : '');
+    if (document.activeElement !== el) {
+      el.innerText = fullText;
+    }
+    // Word count with 125 limit
+    const words = fullText.trim().split(/\s+/).filter(Boolean).length;
+    badge.textContent = `${words} / 125`;
+    badge.className = words > 125 ? 'wc over' : 'wc';
+    bar.style.width = Math.min(100, (words / 1.25)) + '%';
+    bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
+    editBar.className = 'draft-edit-bar';
+    return;
+  }
+
+  const hasOverride = cur().draftOverride !== null && cur().draftOverride !== undefined;
+
+  if (hasOverride) {
+    if (document.activeElement !== el) {
+      el.innerText = cur().draftOverride;
+      updateWc(cur().draftOverride);
+    }
+  } else {
+    const text = buildDraftText();
+    el.innerText = text;
+    updateWc(text);
+  }
+
+  editBar.className = hasOverride ? 'draft-edit-bar visible' : 'draft-edit-bar';
+}
+
+function stripFDFromDraftText(text) {
+  // Remove any FD lines (lines starting with "* ") from the end of the draft text
+  // so they aren't double-appended when getSubjectPublishText adds them back
+  if (!text) return text;
+  const lines = text.split('\n');
+  // Walk backwards removing FD lines and blank lines at the end
+  let end = lines.length;
+  while (end > 0 && (lines[end-1].trim() === '' || lines[end-1].trim().startsWith('* '))) {
+    end--;
+  }
+  return lines.slice(0, end).join('\n').trim() || null;
+}
+
+function onDraftInput() {
+  const el = document.getElementById('outEditable');
+  const text = el.innerText;
+  if (currentSubject === 'english') {
+    cur().engDraft = stripFDFromDraftText(text);
+    cur().pubEditEnglish = null;
+    // Sync any FD lines the user typed in the pane back to engFD
+    const _parsedEngFD = parseFDFromDraftText(text);
+    if (_parsedEngFD.length > 0) cur().engFD = _parsedEngFD;
+    // 125 word limit for English
+    const words = text.trim().split(/\s+/).filter(Boolean).length;
+    const badge = document.getElementById('wcBadge');
+    const bar = document.getElementById('wcBar');
+    badge.textContent = `${words} / 125`;
+    badge.className = words > 125 ? 'wc over' : 'wc';
+    bar.style.width = Math.min(100, words / 1.25) + '%';
+    bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
+  } else if (currentSubject === 'maths') {
+    cur().mathDraft = stripFDFromDraftText(text);
+    cur().pubEditMaths = null;
+    // Sync any FD lines the user typed in the pane back to mathFD
+    const _parsedMathFD = parseFDFromDraftText(text);
+    if (_parsedMathFD.length > 0) cur().mathFD = _parsedMathFD;
+    const words = text.trim().split(/\s+/).filter(Boolean).length;
+    const badge = document.getElementById('wcBadge');
+    const bar = document.getElementById('wcBar');
+    badge.textContent = `${words} / 125`;
+    badge.className = words > 125 ? 'wc over' : 'wc';
+    bar.style.width = Math.min(100, words / 1.25) + '%';
+    bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
+  } else {
+    cur().draftOverride = text || null;
+    updateWc(text);
+    const editBar = document.getElementById('draftEditBar');
+    editBar.className = cur().draftOverride ? 'draft-edit-bar visible' : 'draft-edit-bar';
+  }
+  autoSave();
+}
+
+function onDraftKeydown(e) {
+  // Prevent Enter adding a <div> — use a space instead
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.execCommand('insertText', false, ' ');
+  }
+}
+
+function doneDraft() {
+  const el = document.getElementById('outEditable');
+  const editedText = el.innerText.trim();
+  if (editedText) {
+    if (!cur().custom) cur().custom = {};
+    cur().custom['__edited__'] = [editedText];
+    cur().editedCat = currentTab;
+    // Snapshot which sentences were selected at the time of Done
+    cur().orderedAtDone = cur().ordered.slice();
+    // New sentences selected after Done go into this separate list
+    cur().orderedAfterEdit = [];
+  }
+  cur().draftOverride = null;
+  el.blur();
+  render();
+  autoSave();
+  showToast('Done!');
+}
+
+function resetDraft() {
+  if (currentSubject === 'english') {
+    cur().engDraft = null;
+    cur().pubEditEnglish = null;
+    showToast('Draft reset to selected sentences.');
+  } else if (currentSubject === 'maths') {
+    cur().mathDraft = null;
+    cur().pubEditMaths = null;
+    showToast('Draft reset to selected sentences.');
+  } else {
+    cur().draftOverride = null;
+    cur().editedCat = null;
+    cur().orderedAfterEdit = [];
+    cur().orderedAtDone = [];
+    if (cur().custom) delete cur().custom['__edited__'];
+    showToast('Reset to sentence selections.');
+  }
+  const el = document.getElementById('outEditable');
+  if (el) el.blur();
+  render();
+  autoSave();
+}
+
+function renderStuBar() {
+  const bar = document.getElementById('stuBar');
+  bar.innerHTML = '';
+  students.forEach((stu, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'stu-chip' + (i === currentIdx ? ' active' : '') + (stu.published ? ' pub' : '');
+    chip.innerHTML = `<span onclick="switchStu(${i})">${stu.name || ('Student ' + (i+1))}</span>`;
+    if (students.length > 1) {
+      const rm = document.createElement('button');
+      rm.className = 'rm-stu'; rm.textContent = '×';
+      rm.onclick = e => { e.stopPropagation(); removeStu(i); };
+      chip.appendChild(rm);
+    }
+    bar.appendChild(chip);
+  });
+  const add = document.createElement('button');
+  add.className = 'add-stu'; add.textContent = '+ New student'; add.onclick = addStu;
+  bar.appendChild(add);
+  document.getElementById('exportBtn').style.display =
+    (students.length > 1 || cur().ordered.length) ? '' : 'none';
+}
+
+// ── RENDER: PUBLISH ───────────────────────────────────────────────
+// Auto-fix name/pronoun alternation in a block of text.
+// Returns { text, fixes } where fixes is an array of sentences that were corrected.
+function fixAlternation(text, name, p) {
+  if (!text || !text.trim()) return { text, fixes: [] };
+  // Split into sentences
+  const sentenceRegex = /[^.!?]+[.!?]+\s*/g;
+  const sentences = [];
+  let match;
+  while ((match = sentenceRegex.exec(text)) !== null) sentences.push(match[0]);
+  if (!sentences.length) return { text, fixes: [] };
+
+  const fixes = [];
+  let counter = 0; // 0=even→name, 1=odd→pronoun
+  const fixed = sentences.map(sent => {
+    const trimmed = sent.trim();
+    // Detect opener type
+    const namePattern = new RegExp('^' + escapeRegex(name) + '\\b', 'i');
+    const pronounPattern = new RegExp('^(' + [p.S, p.s].join('|') + ')\\b');
+    const isNameOpener = namePattern.test(trimmed);
+    const isPronounOpener = pronounPattern.test(trimmed) && !isNameOpener;
+
+    if (isNameOpener || isPronounOpener) {
+      const shouldUseName = counter % 2 === 0;
+      counter++;
+      if (shouldUseName && isPronounOpener) {
+        // Should be name but is pronoun — swap first word to name
+        const corrected = trimmed.replace(/^(He|She|They)\b/, name);
+        if (corrected !== trimmed) fixes.push({ original: trimmed, corrected });
+        return corrected + (sent.endsWith(' ') ? ' ' : '');
+      } else if (!shouldUseName && isNameOpener) {
+        // Should be pronoun but is name — swap name to subject pronoun
+        const corrected = trimmed.replace(new RegExp('^' + escapeRegex(name) + '\\b', 'i'), p.S);
+        if (corrected !== trimmed) fixes.push({ original: trimmed, corrected });
+        return corrected + (sent.endsWith(' ') ? ' ' : '');
+      }
+    }
+    return sent;
+  });
+
+  return { text: fixed.join(''), fixes };
+}
+
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function stripFDLines(text) {
+  // Remove any "* ..." lines from text (FD lines baked into draft)
+  if (!text) return text;
+  return text.split('\n')
+    .filter(l => !l.trim().startsWith('* '))
+    .join('\n')
+    .trim();
+}
+
+function getSubjectPublishText(stu, subj) {
+  // subj can be passed explicitly (from renderPublish snapshot) or falls back to global
+  const subject = subj || currentSubject;
+  // Returns the correct published text depending on the active subject
+  if (subject === 'english') {
+    const name = stu.name || '[Name]';
+    const p = PR[stu.pronoun];
+    const yr = stu.year || '';
+    const counter = { value: 0 };
+    // Always strip FD lines from draft in case old data has them baked in
+    const rawDraft = stu.engDraft ? stripFDLines(stu.engDraft) : '';
+    const bodyText = rawDraft || (stu.engOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    // Always read FD fresh from engFD — never rely on it being in the draft
+    const fdText = getFDTextForStu(stu, 'english');
+    return [bodyText, fdText].filter(Boolean).join('\n\n');
+  }
+  if (subject === 'maths') {
+    const name = stu.name || '[Name]';
+    const p = PR[stu.pronoun];
+    const yr = stu.year || '';
+    const counter = { value: 0 };
+    const rawDraft = stu.mathDraft ? stripFDLines(stu.mathDraft) : '';
+    const bodyText = rawDraft || (stu.mathOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    const fdText = getFDTextForStu(stu, 'maths');
+    return [bodyText, fdText].filter(Boolean).join('\n\n');
+  }
+  return getPublishedText(stu);
+}
+
+function getFDTextForStu(stu, subj) {
+  const fd = subj === 'english' ? (stu.engFD || []) : (stu.mathFD || []);
+  if (!fd.length) return '';
+  // Each FD on its own line, preceded by an asterisk, exactly as in the document
+  return fd.map(item => `* ${item}`).join('\n');
+}
+
+function renderPublish() {
+  _dismissedMerges = []; // reset dismissed flow suggestions on each publish render
+  const stu = cur();
+  const name = stu.name || '[Name]';
+  const p = PR[stu.pronoun];
+  // Snapshot currentSubject at the moment renderPublish is called —
+  // prevents any async/event timing from changing it mid-render
+  const renderSubject = currentSubject;
+  const subjLabel = renderSubject === 'english' ? ' — English' : renderSubject === 'maths' ? ' — Mathematics' : '';
+  document.getElementById('pubName').textContent = `${name} — Semester 1 2026${subjLabel}`;
+  document.getElementById('checkStatus').innerHTML = '';
+  document.getElementById('flagLegend').style.display = 'none';
+  document.getElementById('checkBtn').disabled = false;
+  updatePubNavBtns();
+
+  let publishedText = getSubjectPublishText(stu, renderSubject);
+  const content = document.getElementById('pubContent');
+  if (!publishedText || !publishedText.trim()) {
+    content.innerHTML = '<p style="color:var(--t2);font-style:italic;font-size:14px">No sentences selected. Go back and build the comment first.</p>';
+    return;
+  }
+
+  // Auto-fix alternation per paragraph (general comments only)
+  const paragraphs = publishedText.split(/\n\n/).filter(p => p.trim());
+  const allFixes = [];
+  const fixedParas = paragraphs.map(para => {
+    if (renderSubject !== 'general') return para; // skip alternation fix for Eng/Maths
+    const { text: fixed, fixes } = fixAlternation(para, name, p);
+    allFixes.push(...fixes);
+    return fixed;
+  });
+
+  if (allFixes.length) {
+    document.getElementById('checkStatus').innerHTML =
+      `<span style="font-size:12px;color:var(--blue)">✓ ${allFixes.length} alternation error${allFixes.length > 1 ? 's' : ''} auto-corrected</span>`;
+  }
+
+  // Check if there's a saved publish edit to restore
+  // Use renderSubject (snapshotted above) to avoid stale global reads
+  const pubEditKey = renderSubject === 'english' ? 'pubEditEnglish'
+                   : renderSubject === 'maths'   ? 'pubEditMaths'
+                   : 'pubEditGeneral';
+  const pubEditFDKey = pubEditKey + '_fdHash';
+  // FD hash includes subject so cross-subject cache hits are impossible
+  const currentFDHash = renderSubject + '|' + JSON.stringify(
+    renderSubject === 'english' ? (stu.engFD || []) :
+    renderSubject === 'maths'   ? (stu.mathFD || []) : []
+  );
+  if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash) {
+    // Cache is valid — FD + subject match
+    content.innerHTML = stu[pubEditKey];
+    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
+    return;
+  } else if (stu[pubEditKey]) {
+    // Cache is stale (subject changed or FD changed) — discard and rebuild
+    stu[pubEditKey] = null;
+    stu[pubEditFDKey] = null;
+  }
+
+  content.innerHTML = fixedParas.map((para, pi) => {
+    // FD lines are single-newline separated and start with *
+    // Render them as a special block rather than sentence spans
+    if (para.trim().startsWith('*')) {
+      const lines = para.split('\n').filter(l => l.trim());
+      return `<p class="pub-para fd-para">${lines.map(l =>
+        `<span data-pi="${pi}" data-si="0" class="fd-line">${l.trim()}</span>`
+      ).join('<br>')}</p>`;
+    }
+    const sentences = para.match(/[^.!?]+[.!?]+\s*/g) || [para];
+    return `<p class="pub-para">${sentences.map((s, si) =>
+      `<span data-pi="${pi}" data-si="${si}">${s.trim()}</span>`
+    ).join(' ')}</p>`;
+  }).join('');
+
+  // Mark published and trigger effects per subject
+  if (currentSubject === 'general') {
+    const wasPublished = stu.published;
+    stu.published = true;
+    renderStuBar();
+    if (!wasPublished) touchStreak();
+    updateProgress();
+    if (!stu.confettiShown) { stu.confettiShown = true; launchConfetti(); autoSave(); }
+    if (!wasPublished) autoBackup();
+  } else if (currentSubject === 'english') {
+    const wasPublished = stu.engPublished;
+    stu.engPublished = true;
+    if (!wasPublished) { touchStreak(); autoBackup(); }
+    updateProgress();
+    autoSave();
+  } else if (currentSubject === 'maths') {
+    const wasPublished = stu.mathPublished;
+    stu.mathPublished = true;
+    if (!wasPublished) { touchStreak(); autoBackup(); }
+    updateProgress();
+    autoSave();
+  }
+
+  setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
+}
+
+// ── AI CHECK ─────────────────────────────────────────────────────
+// ── API KEY MANAGEMENT ───────────────────────────────────────────
+function getApiKey() { return lsGet('rcb_apikey', ''); }
+function storeApiKey(k) { lsSet('rcb_apikey', k); }
+
+
+function closeApiModal() {
+  document.getElementById('apiKeyModal').style.display = 'none';
+  _pendingCheck = false;
+  document.getElementById('checkBtn').disabled = false;
+}
+
+function saveApiKey() {
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if (!val.startsWith('sk-ant-')) {
+    showToast('Key should start with sk-ant-');
+    return;
+  }
+  storeApiKey(val);
+  document.getElementById('apiKeyModal').style.display = 'none';
+  if (_pendingCheck) { _pendingCheck = false; runCheck(); }
+}
+
+function clearApiKey() {
+  storeApiKey('');
+  document.getElementById('apiKeyInput').value = '';
+  showToast('API key cleared.');
+}
+
+function promptApiKey() {
+  const existing = getApiKey();
+  document.getElementById('apiKeyInput').value = existing;
+  document.getElementById('apiKeyModal').style.display = 'flex';
+}
+
+
+// ── POLISH COMMENT (Option 4) ─────────────────────────────────────
+async function runPolish() {
+  if (currentSubject === 'general') {
+    showToast('Polish is available for English and Maths comments.');
+    return;
+  }
+  const text = getPublishedPaneText();
+  if (!text || text.trim().length < 20) {
+    showToast('Nothing to polish — build your comment first.');
+    return;
+  }
+
+  // Show modal with original text and loading state
+  const modal = document.getElementById('polishModal');
+  const origEl = document.getElementById('polishOriginal');
+  const sugEl  = document.getElementById('polishSuggestion');
+  const statusEl = document.getElementById('polishStatus');
+  const acceptBtn = document.getElementById('polishAcceptBtn');
+
+  origEl.textContent = text;
+  sugEl.value = '';
+  sugEl.style.display = 'none';
+  acceptBtn.style.display = 'none';
+  statusEl.innerHTML = '';
+  statusEl.textContent = 'Analysing sentences…';
+  modal.style.display = 'flex';
+
+  const btn = document.getElementById('polishBtn');
+  if (btn) { btn.textContent = 'Polishing…'; btn.disabled = true; }
+
+  const subjectName = currentSubject === 'english' ? 'English' : 'Mathematics';
+  const studentName = cur().name || 'the student';
+
+  try {
+    const response = await anthropicFetch({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `You are reviewing a primary school ${subjectName} report comment for a student named ${studentName}.
+
+The comment is made up of individual sentences selected from a bank. Your job is to identify pairs of ADJACENT sentences that cover closely related content and could be naturally combined into one shorter, cleaner sentence.
+
+STRICT RULES:
+- Only suggest merging sentences that are directly ADJACENT to each other in the comment
+- Only merge sentences that cover the same specific skill or a very closely related skill within the same strand (e.g. two sentences both about spelling, or two sentences both about reading comprehension strategies)
+- NEVER merge sentences from different strands (e.g. do not combine an oral language sentence with a reading sentence — these are assessed separately)
+- The merged sentence MUST be 17 words or fewer
+- The merged sentence must stay in present tense
+- Do not change the meaning — only improve flow
+- Do not touch Future Directions lines (lines starting with *)
+- If no good merges exist, return an empty array
+
+Return ONLY a valid JSON array. No explanation, no markdown. Format:
+[
+  {
+    "original1": "exact text of first sentence",
+    "original2": "exact text of second sentence",
+    "merged": "the combined sentence (max 17 words)",
+    "reason": "brief reason e.g. both about spelling accuracy"
+  }
+]
+
+If no suitable merges found, return: []
+
+Comment to review:
+${text}`
+        }]
+      });
+
+    const data = await response.json();
+    const raw = data.content && data.content[0] && data.content[0].text
+      ? data.content[0].text.trim()
+      : '';
+
+    if (!raw) {
+      statusEl.textContent = 'Could not generate a suggestion. Check your API key in settings.';
+      return;
+    }
+
+    // Parse the JSON array of merge suggestions
+    let suggestions = [];
+    try {
+      const cleaned = raw.replace(/^```json\s*|^```\s*|```\s*$/gm, '').trim();
+      suggestions = JSON.parse(cleaned);
+    } catch(e) {
+      statusEl.textContent = 'Could not parse suggestions. Try again.';
+      return;
+    }
+
+    if (!Array.isArray(suggestions) || suggestions.length === 0) {
+      sugEl.style.display = 'none';
+      acceptBtn.style.display = 'none';
+      statusEl.textContent = '✓ No merge suggestions — the comment already flows well.';
+      return;
+    }
+
+    // Store suggestions for individual acceptance
+    window._polishSuggestions = suggestions;
+    window._polishOriginalText = text;
+
+    // Render suggestions as individual cards
+    const suggestionsHtml = suggestions.map((s, i) => `
+      <div id="polishSug_${i}" style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:10px;">
+        <div style="font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">
+          Suggestion ${suggestions.length > 1 ? i + 1 : ''} — ${s.reason || 'Flow improvement'}
+        </div>
+        <div style="font-size:12px;color:var(--t2);margin-bottom:4px;text-decoration:line-through;line-height:1.6">${s.original1}</div>
+        <div style="font-size:12px;color:var(--t2);margin-bottom:8px;text-decoration:line-through;line-height:1.6">${s.original2}</div>
+        <textarea id="polishSugEdit_${i}" style="font-family:var(--font);font-size:13px;width:100%;box-sizing:border-box;background:var(--bg-3);border:1px solid var(--blue);border-radius:var(--r-sm);color:var(--t0);padding:7px 10px;resize:vertical;min-height:52px;outline:none;line-height:1.6">${s.merged}</textarea>
+        <div style="display:flex;gap:6px;margin-top:8px;justify-content:flex-end">
+          <button onclick="dismissPolishSuggestion(${i})" style="font-family:var(--font);font-size:12px;padding:4px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t2);cursor:pointer">Dismiss</button>
+          <button onclick="acceptPolishSuggestion(${i})" style="font-family:var(--font);font-size:12px;padding:5px 14px;border-radius:var(--r-sm);border:none;background:var(--blue);color:#fff;cursor:pointer;font-weight:500">✓ Accept</button>
+        </div>
+      </div>`).join('');
+
+    sugEl.style.display = 'none'; // hide old single textarea
+    acceptBtn.style.display = 'none'; // hide old accept button
+    statusEl.innerHTML = suggestionsHtml;
+  } catch(e) {
+    statusEl.textContent = 'Error: ' + e.message;
+  } finally {
+    if (btn) { btn.textContent = 'Polish'; btn.disabled = false; }
+  }
+}
+
+function closePolishModal() {
+  const modal = document.getElementById('polishModal');
+  if (modal) modal.style.display = 'none';
+  window._polishSuggestions = null;
+  window._polishOriginalText = null;
+}
+
+function acceptPolishSuggestion(idx) {
+  const suggestions = window._polishSuggestions;
+  if (!suggestions || !suggestions[idx]) return;
+  const sug = suggestions[idx];
+  const editedText = document.getElementById('polishSugEdit_' + idx).value.trim();
+  if (!editedText) return;
+
+  // Replace the two original sentences in the publish pane with the merged one
+  const pubContent = document.getElementById('pubContent');
+  if (!pubContent) return;
+
+  const fullHtml = pubContent.innerHTML;
+  // Find spans containing the original sentences and replace
+  const spans = pubContent.querySelectorAll('span[data-si]');
+  let found1 = null, found2 = null;
+  spans.forEach(span => {
+    const t = span.textContent.trim();
+    if (t === sug.original1.trim() || sug.original1.trim().startsWith(t) || t.startsWith(sug.original1.trim().slice(0, 20))) found1 = span;
+    if (t === sug.original2.trim() || sug.original2.trim().startsWith(t) || t.startsWith(sug.original2.trim().slice(0, 20))) found2 = span;
+  });
+
+  if (found1 && found2) {
+    // Replace first span text with merged, remove second span
+    found1.textContent = editedText;
+    // Remove second span and any space between them
+    const parent = found2.parentNode;
+    if (parent) parent.removeChild(found2);
+  } else {
+    // Fallback: text replace in full content
+    const orig1 = sug.original1.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const orig2 = sug.original2.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    pubContent.innerHTML = pubContent.innerHTML
+      .replace(new RegExp(orig1 + '(\\s*)', 'i'), editedText + ' ')
+      .replace(new RegExp(orig2, 'i'), '');
+  }
+
+  // Remove this suggestion card
+  const card = document.getElementById('polishSug_' + idx);
+  if (card) card.remove();
+
+  saveCur();
+  setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
+  showToast('Sentences merged.');
+
+  // Check if any suggestions remain
+  const remaining = document.querySelectorAll('[id^="polishSug_"]');
+  if (!remaining.length) {
+    closePolishModal();
+  }
+}
+
+function dismissPolishSuggestion(idx) {
+  const card = document.getElementById('polishSug_' + idx);
+  if (card) card.remove();
+  const remaining = document.querySelectorAll('[id^="polishSug_"]');
+  if (!remaining.length) closePolishModal();
+}
+
+function acceptPolish() {
+  const sugEl = document.getElementById('polishSuggestion');
+  if (!sugEl || !sugEl.value.trim()) return;
+  const newText = sugEl.value.trim();
+
+  // Update the publish pane content directly
+  const pubContent = document.getElementById('pubContent');
+  if (pubContent) {
+    // Parse the polished text into the same span structure
+    const paras = newText.split(/\n\n+/).filter(Boolean);
+    pubContent.innerHTML = paras.map((para, pi) => {
+      if (para.trim().startsWith('*')) {
+        const lines = para.split('\n').filter(l => l.trim());
+        return `<p class="pub-para fd-para">${lines.map(l =>
+          `<span data-pi="${pi}" data-si="0" class="fd-line">${l.trim()}</span>`
+        ).join('<br>')}</p>`;
+      }
+      const sentences = para.match(/[^.!?]+[.!?]+\s*/g) || [para];
+      return `<p class="pub-para">${sentences.map((s, si) =>
+        `<span data-pi="${pi}" data-si="${si}">${s.trim()}</span>`
+      ).join(' ')}</p>`;
+    }).join('');
+
+    // Save to pubEdit cache
+    saveCur();
+    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
+  }
+
+  closePolishModal();
+  showToast('Comment polished and updated.');
+  autoSave();
+}
+
+async function runCheck() {
+  // Use subject-appropriate text for English/Maths
+  const text = (currentSubject !== 'general') ? getSubjectPublishText(cur()) : getPublishedText(cur());
+  if (!text.trim()) { showToast('Nothing to check.'); return; }
+
+  const btn = document.getElementById('checkBtn');
+  const status = document.getElementById('checkStatus');
+  btn.disabled = true;
+  document.querySelectorAll('#pubContent span').forEach(s => { s.className = ''; s.title = ''; s.innerHTML = s.textContent; });
+  document.getElementById('flagLegend').style.display = 'none';
+  status.innerHTML = '<div class="check-status"><div class="spinner"></div><span>Analysing comment…</span></div>';
+
+  try {
+    const res = await anthropicFetch({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `You are a school report comment reviewer for a primary school teacher. Carefully read the following student report comment and identify any:
+1. SIMILAR sentences — two sentences that express the same idea, even if worded differently
+2. CONTRADICTIONS — two sentences that say conflicting things (e.g. works independently vs needs support)
+3. TENSE errors — sentences written in a different tense to the rest of the comment. School report comments should be consistently in present tense OR consistently in past tense throughout. Flag any sentence that breaks this consistency.
+4. FUTURE DIRECTION CONTRADICTIONS — a future direction (lines starting with *) that contradicts a strength already described in the comment body (e.g. the comment praises the student's spelling accuracy but a future direction targets spelling improvement)
+
+Return ONLY valid JSON, no markdown, no explanation:
+{"issues":[{"type":"similar"|"contradiction"|"tense","sentences":["exact text of sentence"],"reason":"brief label max 8 words"}]}
+
+If no issues found, return: {"issues":[]}
+
+Comment:
+${text}`
+        }]
+      });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      const errType = errData?.error?.type || '';
+      if (res.status === 401 || res.status === 403 || errType === 'authentication_error') {
+        btn.disabled = false;
+        status.innerHTML = '<span style="font-size:13px;color:var(--red)">API key invalid — click API key button to update it</span>';
+      } else {
+        btn.disabled = false;
+        status.innerHTML = `<span style="font-size:13px;color:var(--red)">Error ${res.status}: ${errData?.error?.message || 'Unknown error'}</span>`;
+      }
+      return;
+    }
+
+    const data = await res.json();
+    const raw = (data.content?.find(b => b.type === 'text')?.text || '{"issues":[]}').replace(/```json|```/g, '').trim();
+    const result = JSON.parse(raw);
+    btn.disabled = false;
+    if (!result.issues?.length) {
+      status.innerHTML = '<div class="ok-msg"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l3 3 7-7"/></svg> No issues found</div>';
+    } else {
+      applyFlags(result.issues);
+      status.innerHTML = `<span style="font-size:13px;color:var(--t1)">${result.issues.length} issue${result.issues.length > 1 ? 's' : ''} flagged</span>`;
+      document.getElementById('flagLegend').style.display = 'flex';
+    }
+    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
+  } catch(e) {
+    btn.disabled = false;
+    if (e.message === 'CORS_FILE') {
+      status.innerHTML = '';
+      showLocalServerGuide();
+    } else if (e.message === 'CORS_HOSTED' || e.message === 'PROXY_FAIL') {
+      status.innerHTML = '<span style="font-size:13px;color:var(--red)">Connection failed — check Worker URL is correct</span>';
+    } else if (!getApiKey()) {
+      _pendingCheck = true;
+      promptApiKey();
+    } else {
+      status.innerHTML = `<span style="font-size:13px;color:var(--red)">Error: ${e.message}</span>`;
+    }
+  }
+}
+
+// Store flagged issues so we can show fix suggestions on click
+function closeFix() { document.getElementById('fixDropdown').style.display = 'none'; }
+
+function applyFlags(issues) {
+  _flaggedIssues = issues;
+  const allSpans = Array.from(document.querySelectorAll('#pubContent span[data-si]'));
+  issues.forEach((issue, issueIdx) => {
+    const cls = issue.type === 'contradiction' ? 'f-contra' : issue.type === 'alternation' ? 'f-alt' : issue.type === 'tense' ? 'f-tense' : 'f-dup';
+    issue.sentences.forEach(target => {
+      const trimmed = target.trim();
+      allSpans.forEach(span => {
+        if (span.textContent.trim() === trimmed ||
+            (trimmed.length > 20 && span.textContent.includes(trimmed.slice(0, 30)))) {
+          span.className = cls;
+          span.title = 'Click for fix suggestion';
+          span.dataset.issueIdx = issueIdx;
+          span.onclick = (e) => { e.stopPropagation(); openFixDropdown(e, span, issue); };
+        }
+      });
+    });
+  });
+}
+
+// Close fix dropdown on outside click
+document.addEventListener('click', e => {
+  const dd = document.getElementById('fixDropdown');
+  if (dd && dd.style.display !== 'none' && !dd.contains(e.target)) {
+    dd.style.display = 'none';
+  }
+});
+
+function openFixDropdown(event, span, issue) {
+  const dd = document.getElementById('fixDropdown');
+  const badge = document.getElementById('fixTypeBadge');
+  const reason = document.getElementById('fixReason');
+  const suggestion = document.getElementById('fixSuggestion');
+  const actions = document.getElementById('fixActions');
+
+  // Position dropdown
+  const rect = span.getBoundingClientRect();
+  dd.style.display = 'block';
+  dd.style.visibility = 'hidden';
+  const ddH = dd.offsetHeight || 200;
+  const spaceBelow = window.innerHeight - rect.bottom - 10;
+  let top = spaceBelow >= ddH ? rect.bottom + 6 : Math.max(8, rect.top - ddH - 6);
+  let left = Math.min(rect.left, window.innerWidth - 350);
+  dd.style.top = top + 'px';
+  dd.style.left = left + 'px';
+  dd.style.visibility = 'visible';
+
+  // Set badge
+  const typeLabels = { similar: 'Similar', contradiction: 'Contradiction', alternation: 'Alternation', tense: 'Tense' };
+  badge.textContent = typeLabels[issue.type] || issue.type;
+  badge.className = 'fix-type-badge ' + issue.type;
+  reason.textContent = issue.reason;
+
+  // Show loading state
+  suggestion.innerHTML = '<div class="fix-loading"><div class="spinner"></div><span>Getting fix suggestion…</span></div>';
+  actions.innerHTML = '<button class="fix-btn" onclick="closeFix()">Dismiss</button>';
+
+  // Fetch AI fix suggestion
+  fetchFixSuggestion(span, issue, suggestion, actions);
+}
+
+async function fetchFixSuggestion(span, issue, suggestionEl, actionsEl) {
+  const fullComment = document.getElementById('pubContent').textContent;
+  const sentences = issue.sentences.join(' / ');
+  const typeDescriptions = {
+    similar: 'two sentences express the same idea',
+    contradiction: 'two sentences contradict each other',
+    alternation: 'two consecutive sentences use the same subject opener (should alternate name/pronoun)',
+    tense: 'a sentence uses a different tense to the rest of the comment'
+  };
+
+  try {
+    const res = await anthropicFetch({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 300,
+      messages: [{
+        role: 'user',
+        content: `You are helping a primary school teacher fix an issue in a student report comment.
+
+Issue type: ${issue.type} — ${typeDescriptions[issue.type] || issue.reason}
+Reason: ${issue.reason}
+Problematic sentence(s): "${sentences}"
+Full comment context: "${fullComment.slice(0, 500)}"
+
+Provide a single concrete fix: either a rewritten version of the problematic sentence, or a brief instruction like "Remove this sentence" or "Combine with the previous sentence".
+
+Keep language simple and parent-friendly. Return ONLY the suggested fix as plain text, no explanation, no quotes.`
+      }]
+    });
+
+    if (!res.ok) throw new Error('API ' + res.status);
+    const data = await res.json();
+    const fix = (data.content?.find(b => b.type === 'text')?.text || '').trim();
+    if (!fix) throw new Error('empty');
+
+    suggestionEl.innerHTML = `<div class="fix-suggestion">${fix}</div>`;
+
+    // Store fix safely and render buttons
+    const isRemoval = /^remove|^delete|^omit/i.test(fix);
+    window._pendingFix = { action: isRemoval ? 'remove' : 'replace', pi: span.dataset.pi, si: span.dataset.si, replacement: fix };
+    actionsEl.innerHTML = `
+      <button class="fix-btn" onclick="closeFix()">Dismiss</button>
+      <button class="fix-btn apply" onclick="applyPendingFix()">${isRemoval ? 'Remove sentence' : 'Apply fix'}</button>`;
+
+  } catch(e) {
+    if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED') {
+      suggestionEl.innerHTML = '<div class="fix-suggestion" style="color:var(--t2)">AI fix requires Worker setup — see Worker URL button in toolbar.</div>';
+    } else {
+      suggestionEl.innerHTML = '<div class="fix-suggestion" style="color:var(--t2)">Could not fetch suggestion — try Check for Issues again first.</div>';
+    }
+    actionsEl.innerHTML = '<button class="fix-btn" onclick="closeFix()">Dismiss</button>';
+  }
+}
+
+function applyPendingFix() {
+  const fix = window._pendingFix;
+  if (!fix) { closeFix(); return; }
+  applyFlagFix(fix.action, fix.pi, fix.si, fix.replacement);
+  window._pendingFix = null;
+}
+
+function applyFlagFix(action, pi, si, replacement) {
+  const span = document.querySelector('#pubContent span[data-pi="' + pi + '"][data-si="' + si + '"]');
+  if (!span) { closeFix(); return; }
+  if (action === 'remove') {
+    const para = span.closest('p.pub-para');
+    span.remove();
+    if (para && !para.textContent.trim()) para.remove();
+  } else if (action === 'replace' && replacement) {
+    span.textContent = replacement;
+    span.className = '';
+    span.onclick = null;
+    span.title = '';
+  }
+  closeFix();
+  requestAnimationFrame(() => {
+    highlightDuplicateWords();
+    highlightTenseIssues();
+    syncPublishToDraft();
+  });
+}
+
+// ── VIEW ─────────────────────────────────────────────────────────
+function setView(v) {
+  saveCur();
+  currentView = v;
+  document.getElementById('buildView').classList.toggle('hidden', v !== 'build');
+  document.getElementById('pubView').classList.toggle('active', v === 'publish');
+  document.getElementById('statsView').classList.toggle('active', v === 'stats');
+  document.getElementById('vBuild').classList.toggle('active', v === 'build');
+  document.getElementById('vPublish').classList.toggle('active', v === 'publish');
+  document.getElementById('vStats').classList.toggle('active', v === 'stats');
+  if (v === 'build') { loadCur(); render(); }
+  if (v === 'publish') renderPublish();
+  if (v === 'stats') renderStats();
+}
+
+// ── INTERACTIONS ──────────────────────────────────────────────────
+function toggleOpt(cat, s) {
+  if (!cur().selected[cat]) cur().selected[cat] = [];
+  const idx = cur().selected[cat].indexOf(s);
+  if (idx === -1) {
+    cur().selected[cat].push(s);
+    cur().ordered.push(s);
+    // If in post-edit mode, also track in orderedAfterEdit
+    if (cur().editedCat) {
+      if (!cur().orderedAfterEdit) cur().orderedAfterEdit = [];
+      cur().orderedAfterEdit.push(s);
+    }
+  } else {
+    cur().selected[cat].splice(idx, 1);
+    const oi = cur().ordered.indexOf(s);
+    if (oi !== -1) cur().ordered.splice(oi, 1);
+    // Also remove from post-edit list if present
+    if (cur().orderedAfterEdit) {
+      const pi = cur().orderedAfterEdit.indexOf(s);
+      if (pi !== -1) cur().orderedAfterEdit.splice(pi, 1);
+    }
+  }
+  cur().published = false;
+  cur().pubEditGeneral = null; // clear stale publish edit
+  render();
+}
+
+
+function setCustomTier(tier) {
+  _customTierSelected = tier;
+  ['strong','average','developing'].forEach(t => {
+    const btn = document.getElementById('tierBtn' + t.charAt(0).toUpperCase() + t.slice(1));
+    if (btn) btn.className = 'tier-sel-btn' + (t === tier ? ' active-' + t : '');
+  });
+}
+
+
+
+function renderAllStrandsView(grid) {
+  const bank = getBank();
+  const sel = getSubjSelected();
+  const name = cur().name || '[Name]';
+  const p = PR[cur().pronoun];
+  const yr = cur().year || '';
+  const isMaths = currentSubject === 'maths';
+  const grades = isMaths ? (cur().mathGrades || {}) : (cur().engGrades || {});
+
+  // Header bar with filter toggle and edit grades button
+  const header = document.createElement('div');
+  header.style.cssText = 'display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap;';
+  header.innerHTML = `
+    <span style="font-size:11px;color:var(--t2);font-weight:500;flex:1;min-width:0">All strands</span>
+    <div style="display:flex;background:var(--bg-3);border:1px solid var(--border);border-radius:999px;padding:2px;gap:1px;flex-shrink:0;">
+      <button onclick="setGradeFilter(true)" style="font-family:var(--font);font-size:10px;padding:2px 9px;border-radius:999px;border:none;cursor:pointer;transition:all .12s;background:${_filterByGrade ? 'var(--bg-1)' : 'none'};color:${_filterByGrade ? 'var(--t0)' : 'var(--t2)'};" title="Show only sentences for the assigned grade">By grade</button>
+      <button onclick="setGradeFilter(false)" style="font-family:var(--font);font-size:10px;padding:2px 9px;border-radius:999px;border:none;cursor:pointer;transition:all .12s;background:${!_filterByGrade ? 'var(--bg-1)' : 'none'};color:${!_filterByGrade ? 'var(--t0)' : 'var(--t2)'};" title="Show all sentences for all grades">All grades</button>
+    </div>
+    <button onclick="openGradeEntry()" style="font-family:var(--font);font-size:10px;color:var(--t2);background:var(--bg-3);border:1px solid var(--border);border-radius:var(--r-sm);padding:2px 8px;cursor:pointer;flex-shrink:0;">Edit grades ✎</button>`;
+  grid.appendChild(header);
+
+  // Determine strand order
+  let cats;
+  if (isMaths) {
+    cats = ['Introduction', 'Below Expectations', 'Represents Numbers', 'Additive Relations', 'Multiplicative Relations',
+            'Representing Quantity Fractions', 'Geometric Measure', 'Two-Dimensional Spatial Structure',
+            'Three-Dimensional Spatial Structure', 'Non-Spatial Measure', 'Data', 'Chance'];
+  } else {
+    cats = ENGLISH_CATS.filter(c => c !== 'Future Directions');
+  }
+
+  // Maths group headings map
+  const mathsGroupMap = {
+    'Introduction': null,
+    'Below Expectations': null,
+    'Represents Numbers': 'Number & Algebra',
+    'Additive Relations': 'Number & Algebra',
+    'Multiplicative Relations': 'Number & Algebra',
+    'Representing Quantity Fractions': 'Number & Algebra',
+    'Geometric Measure': 'Measurement & Space',
+    'Two-Dimensional Spatial Structure': 'Measurement & Space',
+    'Three-Dimensional Spatial Structure': 'Measurement & Space',
+    'Non-Spatial Measure': 'Measurement & Space',
+    'Data': 'Statistics & Probability',
+    'Chance': 'Statistics & Probability',
+  };
+  let lastGroup = null;
+
+  cats.forEach(cat => {
+    const gradeArr = normaliseGradeVal(grades[cat]);
+    const catSentences = bank[cat] || {};
+    // Collect sentences for all selected grades
+    const sents = gradeArr.length > 0
+      ? gradeArr.flatMap(g => catSentences[g] || [])
+      : [];
+
+    // Maths: insert non-clickable group heading when group changes
+    if (isMaths) {
+      const group = mathsGroupMap[cat];
+      if (group && group !== lastGroup) {
+        lastGroup = group;
+        const groupHead = document.createElement('div');
+        groupHead.style.cssText = 'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--t2);padding:10px 12px 2px;';
+        groupHead.textContent = group;
+        grid.appendChild(groupHead);
+      }
+    }
+
+    // Strand heading with grade badge
+    const strandHead = document.createElement('div');
+    strandHead.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 12px 3px;cursor:pointer;';
+    strandHead.onclick = () => { currentTab = cat; _showAllStrands = false; render(); };
+    const gradeColors = { A:'#22c55e', B:'#60a5fa', C:'#fbbf24', D:'#fb923c', E:'#f87171' };
+    const gradeBadges = gradeArr.length > 0
+      ? gradeArr.map(g => {
+          const c = gradeColors[g] || 'var(--t2)';
+          return `<span style="font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;border:1px solid ${c};color:${c};background:${c}18">${g} — ${GRADE_LABELS[g]||g}</span>`;
+        }).join(' ')
+      : `<span style="font-size:10px;color:var(--t2);font-style:italic">No grade set</span>`;
+    strandHead.innerHTML = `
+      <span style="font-size:12px;font-weight:600;color:var(--t0);flex:1">${cat}</span>
+      ${gradeBadges}`;
+    grid.appendChild(strandHead);
+
+    // When showing all grades, use all grade sentences with dividers
+    const allSents = !_filterByGrade
+      ? GRADE_ORDER.flatMap(g => (catSentences[g] || []).map(s => ({ s, g })))
+      : sents.map(s => ({ s, g: gradeArr[0] || 'C' }));
+
+    if (!allSents.length) {
+      const empty = document.createElement('div');
+      empty.style.cssText = 'font-size:11px;color:var(--t2);padding:2px 12px 6px;font-style:italic;';
+      empty.textContent = gradeArr.length > 0 ? 'No sentences for this grade.' : 'Set a grade to see sentences.';
+      grid.appendChild(empty);
+      return;
+    }
+
+    // When showing all grades, insert grade dividers between groups
+    let lastRenderedGrade = null;
+
+    // Sentence buttons
+    allSents.forEach(({ s, g }) => {
+      if (!_filterByGrade && g !== lastRenderedGrade) {
+        lastRenderedGrade = g;
+        const gradeColor = { A:'#22c55e', B:'#60a5fa', C:'#fbbf24', D:'#fb923c', E:'#f87171' }[g];
+        const gDiv = document.createElement('div');
+        gDiv.style.cssText = `display:flex;align-items:center;gap:6px;margin:4px 12px 2px;`;
+        gDiv.innerHTML = `<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:999px;border:1px solid ${gradeColor};color:${gradeColor};background:${gradeColor}18">${g} — ${GRADE_LABELS[g]}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
+        grid.appendChild(gDiv);
+      }
+      const displayed = applyRaw(s, name, p, yr);
+      const isSel = (sel[cat] || []).includes(s);
+      const btn = document.createElement('button');
+      btn.className = 'opt' + (isSel ? ' sel' : '');
+      btn.style.cssText = 'font-size:12px;';
+      btn.textContent = displayed;
+      btn.onclick = () => {
+        // Use toggleSubjOpt which handles state + calls render() + autoSave()
+        // But first we need to temporarily set currentTab to this cat
+        const prevTab = currentTab;
+        currentTab = cat;
+        toggleSubjOpt(cat, s);
+        currentTab = prevTab;
+        // toggleSubjOpt calls render() which rebuilds the all-strands view
+        // so the button sel state will update automatically
+      };
+      grid.appendChild(btn);
+    });
+
+    // Small divider between strands
+    const sep = document.createElement('div');
+    sep.style.cssText = 'height:1px;background:var(--border);margin:4px 12px;';
+    grid.appendChild(sep);
+  });
+
+  // Always show Future Directions at bottom of all-strands view
+  const fdSep = document.createElement('div');
+  fdSep.style.cssText = 'height:1px;background:var(--border);margin:8px 12px 4px;';
+  grid.appendChild(fdSep);
+  const fdStrandHead = document.createElement('div');
+  fdStrandHead.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 12px 3px;cursor:pointer;';
+  fdStrandHead.onclick = () => { currentTab = 'Future Directions'; _showAllStrands = false; render(); };
+  const curFDItems = getCurFD();
+  fdStrandHead.innerHTML = '<span style="font-size:12px;font-weight:600;color:var(--t0);flex:1">Future Directions</span>' +
+    (curFDItems.length
+      ? `<span style="font-size:10px;color:var(--green);padding:1px 6px;background:var(--green-bg);border-radius:999px;border:1px solid var(--green-bd)">${curFDItems.length} selected</span>`
+      : '<span style="font-size:10px;color:var(--t2);font-style:italic">None selected — tap to set</span>');
+  grid.appendChild(fdStrandHead);
+  curFDItems.forEach(item => {
+    const fdLine = document.createElement('div');
+    fdLine.style.cssText = 'font-size:12px;padding:2px 12px 2px 20px;color:var(--t1);line-height:1.5;';
+    fdLine.textContent = '* ' + item;
+    grid.appendChild(fdLine);
+  });
+}
+
+function renderSubjOpts(grid) {
+  // Grade entry screen
+  if (_showGradeEntry) {
+    renderGradeEntryScreen(grid);
+    return;
+  }
+
+  // All-strands view after Done
+  if (_showAllStrands) {
+    renderAllStrandsView(grid);
+    return;
+  }
+
+  // Future Directions category
+  if (currentTab === 'Future Directions') {
+    renderFDPanel(grid);
+    return;
+  }
+
+  const bank = getBank();
+  const catSentences = bank[currentTab] || {};
+  const sel = getSubjSelected();
+  const ord = getSubjOrdered();
+  const selectedGrades = getCurGrade(currentTab);
+  const name = cur().name || '[Name]';
+  const p = PR[cur().pronoun];
+  const yr = cur().year || '';
+
+  // Custom input box at top
+  const wrap = document.createElement('div');
+  wrap.className = 'custom-wrap';
+  wrap.innerHTML = `
+    <div class="custom-label">Write your own sentence</div>
+    <textarea class="custom-textarea" id="customInput" placeholder="Type a custom sentence…"></textarea>
+    <div class="tier-sel-row">
+      <button class="tier-sel-btn active-strong" id="tierBtnStrong" onclick="setCustomTier('strong')">A/B</button>
+      <button class="tier-sel-btn" id="tierBtnAverage" onclick="setCustomTier('average')">C</button>
+      <button class="tier-sel-btn" id="tierBtnDeveloping" onclick="setCustomTier('developing')">D/E</button>
+    </div>
+    <div class="custom-row">
+      <button class="custom-add-btn" onclick="addSubjCustomSentence()">+ Add to comment</button>
+    </div>`;
+  grid.appendChild(wrap);
+
+  // If grades selected, show those; if none selected show all grades
+  const hasGrades = selectedGrades && selectedGrades.length > 0;
+  const gradesToShow = hasGrades ? selectedGrades : GRADE_ORDER;
+
+  if (!hasGrades) {
+    const hint = document.createElement('div');
+    hint.style.cssText = 'font-size:11px;color:var(--t2);padding:6px 12px;font-style:italic;';
+    hint.innerHTML = 'No grade set — showing all. <button onclick="openGradeEntry()" style="font-family:var(--font);font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0">Set grades</button>';
+    grid.appendChild(hint);
+  }
+
+  gradesToShow.forEach(grade => {
+    const sents = catSentences[grade] || [];
+    if (!sents.length) return;
+
+    // Always show grade dividers so user knows which grade each sentence belongs to
+    const div = document.createElement('div');
+    div.className = 'grade-divider';
+    div.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label ${grade}">${grade} — ${GRADE_LABELS[grade]}</span><div class="grade-divider-line"></div>`;
+    grid.appendChild(div);
+
+    sents.forEach(s => {
+      const displayed = applyRaw(s, name, p, yr);
+      const isSel = (sel[currentTab] || []).includes(s);
+      const btn = document.createElement('button');
+      btn.className = 'opt' + (isSel ? ' sel' : '');
+      btn.textContent = displayed;
+      btn.onclick = () => toggleSubjOpt(currentTab, s);
+      grid.appendChild(btn);
+    });
+  });
+}
+
+function addSubjCustomSentence() {
+  const ta = document.getElementById('customInput');
+  if (!ta) return;
+  const text = ta.value.trim();
+  if (!text) { showToast('Please type a sentence first.'); return; }
+  // Add to current subject ordered list
+  const ord = getSubjOrdered();
+  const sel = getSubjSelected();
+  ord.push(text);
+  if (!sel[currentTab]) sel[currentTab] = [];
+  sel[currentTab].push(text);
+  setSubjSelected(sel);
+  setSubjOrdered(ord);
+  ta.value = '';
+  render();
+}
+
+function addCustomSentence() {
+  const ta = document.getElementById('customInput');
+  if (!ta) return;
+  const text = ta.value.trim();
+  if (!text) { showToast('Please type a sentence first.'); return; }
+  if (!cur().custom) cur().custom = {};
+  if (!cur().customTiers) cur().customTiers = {};
+  if (!cur().custom[currentTab]) cur().custom[currentTab] = [];
+  if (!cur().customTiers[currentTab]) cur().customTiers[currentTab] = [];
+  cur().custom[currentTab].push(text);
+  cur().customTiers[currentTab].push(_customTierSelected);
+  const key = '__custom__' + currentTab + '__' + (cur().custom[currentTab].length - 1);
+  if (!cur().selected[currentTab]) cur().selected[currentTab] = [];
+  cur().selected[currentTab].push(key);
+  cur().ordered.push(key);
+  cur().published = false;
+  ta.value = '';
+  render();
+}
+
+function toggleCustomOpt(cat, idx) {
+  const key = '__custom__' + cat + '__' + idx;
+  if (!cur().selected[cat]) cur().selected[cat] = [];
+  const si = cur().selected[cat].indexOf(key);
+  if (si === -1) {
+    cur().selected[cat].push(key);
+    cur().ordered.push(key);
+    if (cur().editedCat) {
+      if (!cur().orderedAfterEdit) cur().orderedAfterEdit = [];
+      cur().orderedAfterEdit.push(key);
+    }
+  } else {
+    cur().selected[cat].splice(si, 1);
+    const oi = cur().ordered.indexOf(key);
+    if (oi !== -1) cur().ordered.splice(oi, 1);
+    if (cur().orderedAfterEdit) {
+      const pi = cur().orderedAfterEdit.indexOf(key);
+      if (pi !== -1) cur().orderedAfterEdit.splice(pi, 1);
+    }
+  }
+  cur().published = false;
+  render();
+}
+
+function deleteCustomSentence(cat, idx) {
+  const key = '__custom__' + cat + '__' + idx;
+  if (!cur().custom || !cur().custom[cat]) return;
+
+  // Remove from selected and ordered (and orderedAfterEdit)
+  if (cur().selected[cat]) cur().selected[cat] = cur().selected[cat].filter(k => k !== key);
+  cur().ordered = cur().ordered.filter(k => k !== key);
+  if (cur().orderedAfterEdit) cur().orderedAfterEdit = cur().orderedAfterEdit.filter(k => k !== key);
+
+  // Remove from custom array and customTiers — splice so indices stay consistent
+  // We null the entry rather than splice to preserve other indices in ordered/selected
+  cur().custom[cat][idx] = null;
+  if (cur().customTiers && cur().customTiers[cat]) cur().customTiers[cat][idx] = null;
+
+  // Re-index: rebuild keys in selected/ordered to match the new array
+  // Instead of re-indexing (complex), we filter out nulls and remap keys
+  const oldTexts = cur().custom[cat];
+  const oldTiers = (cur().customTiers && cur().customTiers[cat]) || [];
+  const newTexts = [];
+  const newTiers = [];
+  const remap = {}; // old index -> new index
+
+  oldTexts.forEach((t, i) => {
+    if (t !== null) {
+      remap[i] = newTexts.length;
+      newTexts.push(t);
+      newTiers.push(oldTiers[i] || 'strong');
+    }
+  });
+
+  cur().custom[cat] = newTexts;
+  if (cur().customTiers) cur().customTiers[cat] = newTiers;
+
+  // Update all keys in ordered, selected, orderedAfterEdit to use new indices
+  function remapKey(k) {
+    if (!k.startsWith('__custom__')) return k;
+    const parts = k.split('__');
+    const kCat = parts.slice(2, parts.length - 1).join('__');
+    const kIdx = parseInt(parts[parts.length - 1]);
+    if (kCat !== cat) return k;
+    if (remap[kIdx] === undefined) return null; // deleted
+    return '__custom__' + cat + '__' + remap[kIdx];
+  }
+
+  cur().ordered = cur().ordered.map(remapKey).filter(Boolean);
+  if (cur().selected[cat]) cur().selected[cat] = cur().selected[cat].map(remapKey).filter(Boolean);
+  if (cur().orderedAfterEdit) cur().orderedAfterEdit = cur().orderedAfterEdit.map(remapKey).filter(Boolean);
+
+  cur().published = false;
+  render();
+  autoSave();
+}
+
+// Resolve a sentence key — handles both raw and custom sentences
+function resolveKey(key, stu) {
+  if (!key.startsWith('__custom__')) return key;
+  const parts = key.split('__');
+  // format: __custom__CATNAME__INDEX
+  // parts: ['', 'custom', 'CATNAME', 'INDEX']
+  const cat = parts.slice(2, parts.length - 1).join('__');
+  const idx = parseInt(parts[parts.length - 1]);
+  const source = stu || cur();
+  return (source.custom && source.custom[cat] && source.custom[cat][idx]) || '';
+}
+
+function removeSent(i) {
+  const rm = cur().ordered[i];
+  cur().ordered.splice(i, 1);
+  CATS.forEach(cat => { if (cur().selected[cat]) cur().selected[cat] = cur().selected[cat].filter(s => s !== rm); });
+  cur().published = false;
+  render();
+}
+
+function clearCurrent() {
+  if (currentSubject === 'english') {
+    cur().engSelected = {}; cur().engOrdered = []; cur().engDraft = null; cur().engFD = [];
+    showToast('English comment cleared.');
+  } else if (currentSubject === 'maths') {
+    cur().mathSelected = {}; cur().mathOrdered = []; cur().mathDraft = null; cur().mathFD = [];
+    showToast('Maths comment cleared.');
+  } else {
+    cur().selected = {}; cur().ordered = []; cur().draftOverride = null;
+    cur().editedCat = null; cur().orderedAfterEdit = []; cur().orderedAtDone = [];
+    if (cur().custom) delete cur().custom['__edited__'];
+    cur().published = false;
+    showToast('Comment cleared.');
+  }
+  autoSave();
+  render();
+}
+
+function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[], engSelected:{}, engOrdered:[], engGrades:{}, engDraft:null, engPublished:false, mathSelected:{}, mathOrdered:[], mathGrades:{}, mathDraft:null, mathPublished:false, engFD:[], mathFD:[], fdStage:'Stage 3', pubEditGeneral:null, pubEditEnglish:null, pubEditMaths:null, engS2Selected:{}, engS2Ordered:[], engS2Grades:{}, engS2Draft:null, mathS2Selected:{}, mathS2Ordered:[], mathS2Grades:{}, mathS2Draft:null, engS2FD:[], mathS2FD:[] }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
+
+function pubNavStudent(dir) {
+  saveCur();
+  const newIdx = currentIdx + dir;
+  if (newIdx < 0 || newIdx >= students.length) return;
+  currentIdx = newIdx;
+  // Keep currentSubject so English/Maths publish view stays on the right tab
+  // Set currentTab to match subject so Build view is in sync
+  if (currentSubject === 'english') currentTab = ENGLISH_CATS[0];
+  else if (currentSubject === 'maths') currentTab = MATHS_CATS[0];
+  else currentTab = CATS[0];
+  loadCur();
+  renderPublish();
+  renderStuBar();
+  document.getElementById('pubPrevBtn').disabled = currentIdx === 0;
+  document.getElementById('pubNextBtn').disabled = currentIdx === students.length - 1;
+}
+
+function updatePubNavBtns() {
+  const prev = document.getElementById('pubPrevBtn');
+  const next = document.getElementById('pubNextBtn');
+  if (prev) prev.disabled = currentIdx === 0;
+  if (next) next.disabled = currentIdx === students.length - 1;
+}
+
+function newStudentFromPublish() {
+  addStu();
+  setView('build');
+  // Focus the name input so the teacher can start typing immediately
+  setTimeout(() => {
+    const nameInput = document.getElementById('studentName');
+    if (nameInput) nameInput.focus();
+  }, 50);
+}
+function switchStu(i) {
+  // Before switching, save the current S2 state back into s2* fields
+  if (currentSemester === 2) {
+    const ci = currentIdx;
+    students[ci].s2Ordered          = (students[ci].ordered          || []).slice();
+    students[ci].s2Selected         = JSON.parse(JSON.stringify(students[ci].selected || {}));
+    students[ci].s2DraftOverride    = students[ci].draftOverride  || null;
+    students[ci].s2EditedCat        = students[ci].editedCat      || null;
+    students[ci].s2OrderedAfterEdit = (students[ci].orderedAfterEdit || []).slice();
+    students[ci].s2OrderedAtDone    = (students[ci].orderedAtDone    || []).slice();
+    // Save English/Maths S2 state for outgoing student
+    students[ci].engS2Selected = JSON.parse(JSON.stringify(students[ci].engSelected || {}));
+    students[ci].engS2Ordered  = (students[ci].engOrdered || []).slice();
+    students[ci].engS2Grades   = JSON.parse(JSON.stringify(students[ci].engGrades || {}));
+    students[ci].engS2Draft    = students[ci].engDraft || null;
+    students[ci].engS2FD       = (students[ci].engFD || []).slice();
+    students[ci].mathS2Selected = JSON.parse(JSON.stringify(students[ci].mathSelected || {}));
+    students[ci].mathS2Ordered  = (students[ci].mathOrdered || []).slice();
+    students[ci].mathS2Grades   = JSON.parse(JSON.stringify(students[ci].mathGrades || {}));
+    students[ci].mathS2Draft    = students[ci].mathDraft || null;
+    students[ci].mathS2FD       = (students[ci].mathFD || []).slice();
+  }
+  saveCur();
+  currentIdx = i;
+  // Reset currentTab to the first category of whichever subject is active
+  if (currentSubject === 'english') currentTab = ENGLISH_CATS[0];
+  else if (currentSubject === 'maths') currentTab = MATHS_CATS[0];
+  else currentTab = CATS[0];
+  loadCur();
+  // Load the correct semester state for the new student
+  if (currentSemester === 2) {
+    cur().ordered          = cur().s2Ordered        || [];
+    cur().selected         = cur().s2Selected       || {};
+    cur().draftOverride    = cur().s2DraftOverride  || null;
+    cur().editedCat        = cur().s2EditedCat      || null;
+    cur().orderedAfterEdit = cur().s2OrderedAfterEdit || [];
+    cur().orderedAtDone    = cur().s2OrderedAtDone  || [];
+    // Load English/Maths S2 state for incoming student
+    cur().engSelected = cur().engS2Selected || {};
+    cur().engOrdered  = cur().engS2Ordered  || [];
+    cur().engGrades   = cur().engS2Grades   || {};
+    cur().engDraft    = cur().engS2Draft    || null;
+    cur().engFD       = cur().engS2FD       || [];
+    cur().mathSelected = cur().mathS2Selected || {};
+    cur().mathOrdered  = cur().mathS2Ordered  || [];
+    cur().mathGrades   = cur().mathS2Grades   || {};
+    cur().mathDraft    = cur().mathS2Draft    || null;
+    cur().mathFD       = cur().mathS2FD       || [];
+  }
+  if (currentView === 'publish') renderPublish();
+  else render();
+  if (currentSemester === 2 && !cur().s2RankOrder && cur().s1Comment) rankForS2();
+}
+function removeStu(i) {
+  const name = students[i].name || ('Student ' + (i + 1));
+  if (!confirm('Delete ' + name + '? This cannot be undone.')) return;
+  saveCur(); // ensure current student is saved before removing another
+  students.splice(i, 1);
+  if (currentIdx >= students.length) currentIdx = students.length - 1;
+  if (currentSubject === 'english') currentTab = ENGLISH_CATS[0];
+  else if (currentSubject === 'maths') currentTab = MATHS_CATS[0];
+  else currentTab = CATS[0];
+  loadCur();
+  render();
+}
+
+function saveCur() {
+  const _nameVal = document.getElementById('studentName').value.trim();
+  // Only overwrite name if the field has a value — prevents blank input clearing a saved name
+  if (_nameVal) students[currentIdx].name = _nameVal;
+  students[currentIdx].pronoun = document.getElementById('pronounSet').value;
+  students[currentIdx].year = document.getElementById('yearSet').value;
+  // Persist any live edits from the contenteditable draft pane
+  const el = document.getElementById('outEditable');
+  if (el && students[currentIdx].draftOverride !== null && students[currentIdx].draftOverride !== undefined) {
+    students[currentIdx].draftOverride = el.innerText || null;
+  }
+  // Persist any edits made in the Publish view (synonym replacements, manual edits)
+  if (currentView === 'publish') {
+    const pubEl = document.getElementById('pubContent');
+    if (pubEl && pubEl.innerHTML && pubEl.innerHTML.trim()) {
+      const key = currentSubject === 'english' ? 'pubEditEnglish'
+                : currentSubject === 'maths'   ? 'pubEditMaths'
+                : 'pubEditGeneral';
+      students[currentIdx][key] = pubEl.innerHTML;
+      // Save FD hash so we can detect FD changes that should invalidate the cache
+      const fdHashKey = key + '_fdHash';
+      const fdArr = currentSubject === 'english' ? (students[currentIdx].engFD || [])
+                  : currentSubject === 'maths'   ? (students[currentIdx].mathFD || [])
+                  : [];
+      // Include subject in hash so restoring on a different subject invalidates cache
+      students[currentIdx][fdHashKey] = currentSubject + '|' + JSON.stringify(fdArr);
+    }
+  }
+}
+function loadCur() { document.getElementById('studentName').value = cur().name||''; document.getElementById('pronounSet').value = cur().pronoun||'he'; document.getElementById('yearSet').value = cur().year||''; }
+
+function saveStudent() { saveCur(); showToast(`Saved ${cur().name||'student'}!`); render(); }
+
+function copyDraft() {
+  let text;
+  if (currentSubject === 'english') {
+    text = getSubjectPublishText(cur());
+  } else if (currentSubject === 'maths') {
+    text = getSubjectPublishText(cur());
+  } else {
+    text = cur().draftOverride !== null && cur().draftOverride !== undefined
+      ? cur().draftOverride
+      : cur().ordered.map(s => applyRaw(resolveKey(s), cur().name||'[Name]', PR[cur().pronoun])).join(' ');
+  }
+  if (!text) { showToast('Nothing to copy.'); return; }
+  navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+}
+
+function getPublishedPaneText() {
+  // Read the live publish pane content (includes all edits, synonym swaps etc.)
+  const el = document.getElementById('pubContent');
+  if (!el) return null;
+  // Convert the HTML back to clean plain text:
+  // - fd-para blocks: each fd-line becomes "* text" on its own line
+  // - pub-para blocks: sentences joined with spaces, then paragraphs with double newline
+  const paras = el.querySelectorAll('.pub-para');
+  if (!paras.length) return el.innerText.trim() || null;
+  const parts = Array.from(paras).map(para => {
+    if (para.classList.contains('fd-para')) {
+      return Array.from(para.querySelectorAll('.fd-line'))
+        .map(l => l.textContent.trim()) // text already contains "* " from getFDTextForStu
+        .join('\n');
+    }
+    return Array.from(para.querySelectorAll('span'))
+      .map(s => s.textContent.trim())
+      .filter(Boolean)
+      .join(' ');
+  }).filter(Boolean);
+  return parts.join('\n\n') || null;
+}
+
+function copyPublished() {
+  // For English/Maths always use getSubjectPublishText which guarantees FD is included
+  if (currentSubject !== 'general') {
+    const text = getSubjectPublishText(cur());
+    if (!text) { showToast('Nothing to copy.'); return; }
+    navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+    return;
+  }
+  // General: read from live publish pane to capture synonym edits etc.
+  const liveText = getPublishedPaneText();
+  if (liveText) {
+    navigator.clipboard.writeText(liveText).then(() => showToast('Copied!'));
+    return;
+  }
+  const text = getPublishedText(cur());
+  if (!text) { showToast('Nothing to copy.'); return; }
+  navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+}
+
+function exportAll() {
+  saveCur();
+  const out = students.map((stu, i) => {
+    const name = stu.name || `Student ${i+1}`;
+    const text = getPublishedText(stu) || stu.ordered.map(s => applyRaw(resolveKey(s, stu), name, PR[stu.pronoun])).join(' ') || '(No comment)';
+    return `${name}\n${'─'.repeat(50)}\n${text}`;
+  }).join('\n\n');
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([out], {type:'text/plain'})), download: 'report-comments-s1-2026.txt' });
+  a.click();
+  showToast('Exported!');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── LIVE INPUT ────────────────────────────────────────────────────
+document.getElementById('studentName').addEventListener('input', () => {
+  cur().name = document.getElementById('studentName').value.trim();
+  if (currentView === 'publish') renderPublish(); else render();
+});
+document.getElementById('pronounSet').addEventListener('change', () => {
+  cur().pronoun = document.getElementById('pronounSet').value;
+  if (currentView === 'publish') renderPublish(); else render();
+});
+document.getElementById('yearSet').addEventListener('change', () => {
+  cur().year = document.getElementById('yearSet').value;
+  if (currentView === 'publish') renderPublish(); else render();
+});
+
+
+
+// ── PERSISTENCE ───────────────────────────────────────────────────
+
+// ── CLOUD SYNC (Cloudflare KV) ────────────────────────────────────
+
+function getCloudUser() {
+  return (lsGet('rcb_cloud_user', '') || '').trim().toLowerCase();
+}
+function getCloudPin() {
+  return (lsGet('rcb_cloud_pin', '') || '').trim();
+}
+function setCloudUser(u) {
+  lsSet('rcb_cloud_user', u.trim().toLowerCase());
+}
+function setCloudPin(p) {
+  lsSet('rcb_cloud_pin', p.trim());
+}
+// Cloud token = username:pin (pin is required)
+function getCloudToken() {
+  const user = getCloudUser();
+  const pin  = getCloudPin();
+  if (!user || !pin) return null;
+  return user + ':' + pin;
+}
+
+
+// ── ADMIN PANEL ───────────────────────────────────────────────────
+
+function toggleAdminPanel() {
+  const overlay = document.getElementById('adminOverlay');
+  if (!overlay) return;
+  const isOpen = overlay.style.display === 'flex';
+  overlay.style.display = isOpen ? 'none' : 'flex';
+  if (!isOpen) {
+    // Reset to login screen if not authed
+    if (!_adminAuthed) {
+      document.getElementById('adminLoginScreen').style.display = 'flex';
+      document.getElementById('adminAccountsScreen').style.display = 'none';
+      document.getElementById('adminLoginError').style.display = 'none';
+      setTimeout(() => document.getElementById('adminKeyInput').focus(), 100);
+    } else {
+      adminRefresh();
+    }
+  }
+}
+
+function closeAdminPanel() {
+  const overlay = document.getElementById('adminOverlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+async function adminLogin() {
+  const keyEl = document.getElementById('adminKeyInput');
+  const errEl = document.getElementById('adminLoginError');
+  const key = keyEl ? keyEl.value.trim() : '';
+  errEl.style.display = 'none';
+
+  if (!key) { errEl.textContent = 'Please enter the admin key.'; errEl.style.display = 'block'; return; }
+
+  // Test the key by calling the admin endpoint
+  try {
+    const res = await fetch(CLOUD_WORKER + '/admin/accounts', {
+      method: 'GET',
+      headers: { 'X-Admin-Key': key }
+    });
+    if (res.status === 401) {
+      errEl.textContent = 'Incorrect admin key.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!res.ok) {
+      errEl.textContent = 'Server error — try again.';
+      errEl.style.display = 'block';
+      return;
+    }
+    // Authenticated
+    _adminAuthed = true;
+    _adminKey = key;
+    document.getElementById('adminLoginScreen').style.display = 'none';
+    document.getElementById('adminAccountsScreen').style.display = 'flex';
+    adminRefresh();
+  } catch(e) {
+    errEl.textContent = 'Could not reach server — check your connection.';
+    errEl.style.display = 'block';
+  }
+}
+
+function adminLogout() {
+  _adminAuthed = false;
+  _adminKey = '';
+  document.getElementById('adminAccountsScreen').style.display = 'none';
+  document.getElementById('adminLoginScreen').style.display = 'flex';
+  document.getElementById('adminKeyInput').value = '';
+}
+
+async function adminRefresh() {
+  const loadEl  = document.getElementById('adminLoading');
+  const tableWrap = document.getElementById('adminTableWrap');
+  const emptyEl = document.getElementById('adminEmpty');
+  const countEl = document.getElementById('adminAccountCount');
+  const tbody   = document.getElementById('adminTableBody');
+
+  loadEl.style.display = 'block';
+  tableWrap.style.display = 'none';
+  emptyEl.style.display = 'none';
+
+  try {
+    const res = await fetch(CLOUD_WORKER + '/admin/accounts', {
+      method: 'GET',
+      headers: { 'X-Admin-Key': _adminKey }
+    });
+    if (!res.ok) { loadEl.textContent = 'Error loading accounts.'; return; }
+    const data = await res.json();
+    loadEl.style.display = 'none';
+
+    if (!data.accounts || data.accounts.length === 0) {
+      emptyEl.style.display = 'block';
+      countEl.textContent = 'No accounts yet.';
+      return;
+    }
+
+    countEl.textContent = data.total + ' account' + (data.total !== 1 ? 's' : '');
+    tbody.innerHTML = '';
+
+    data.accounts.forEach(acc => {
+      const isCurrentUser = acc.username === getCloudUser();
+      const lastSaved = acc.lastSaved && acc.lastSaved !== 'unknown'
+        ? new Date(acc.lastSaved).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })
+        : 'Never';
+
+      const tr = document.createElement('tr');
+      tr.style.cssText = 'border-bottom:1px solid var(--border);' +
+        (isCurrentUser ? 'background:rgba(96,165,250,0.06);' : '');
+
+      tr.innerHTML = `
+        <td style="padding:10px 16px;color:var(--t0);font-weight:${isCurrentUser ? '600' : '400'}">
+          ${acc.username}${isCurrentUser ? ' <span style="font-size:10px;color:var(--blue);font-weight:500">(you)</span>' : ''}
+        </td>
+        <td style="padding:10px 16px;color:var(--t2)">${lastSaved}</td>
+        <td style="padding:10px 16px;text-align:center;color:var(--t1)">${acc.students}</td>
+        <td style="padding:10px 16px;text-align:right">
+          ${isCurrentUser
+            ? '<span style="font-size:11px;color:var(--t3)">—</span>'
+            : `<button onclick="adminDeleteAccount('${acc.key}','${acc.username}')"
+                style="font-family:var(--font);font-size:11px;padding:3px 10px;border-radius:var(--r-sm);border:1px solid var(--red,#f87171);background:none;color:var(--red,#f87171);cursor:pointer">
+                Delete
+              </button>`
+          }
+        </td>`;
+      tbody.appendChild(tr);
+    });
+
+    tableWrap.style.display = 'block';
+  } catch(e) {
+    loadEl.textContent = 'Error: ' + e.message;
+  }
+}
+
+async function adminDeleteAccount(key, username) {
+  if (!confirm('Delete account "' + username + '"? This cannot be undone. Their session data will be permanently removed.')) return;
+  try {
+    const res = await fetch(CLOUD_WORKER + '/admin/accounts/' + encodeURIComponent(key), {
+      method: 'DELETE',
+      headers: { 'X-Admin-Key': _adminKey }
+    });
+    if (res.ok) {
+      showToast('"' + username + '" deleted.');
+      adminRefresh();
+    } else {
+      showToast('Could not delete account.');
+    }
+  } catch(e) {
+    showToast('Error: ' + e.message);
+  }
+}
+
+// Show/hide admin button based on cloud sign-in status
+function updateAdminButtonVisibility() {
+  const btn = document.getElementById('adminBtn');
+  if (!btn) return;
+  // Admin button only shows if the user is signed in with cloud
+  // (so it's not visible to non-cloud users)
+  btn.style.display = getCloudToken() ? 'flex' : 'none';
+}
+
+function updateCloudStatus() {
+  const user = getCloudUser();
+  const pin  = getCloudPin();
+  const signedInEl  = document.getElementById('cloudSignedIn');
+  const signedOutEl = document.getElementById('cloudSignedOut');
+  const nameEl      = document.getElementById('cloudSignedInName');
+  const statusEl    = document.getElementById('cloudSignedInStatus');
+  if (!signedInEl || !signedOutEl) return;
+  if (user && pin) {
+    signedInEl.style.display  = 'block';
+    signedOutEl.style.display = 'none';
+    if (nameEl)   nameEl.textContent   = user;
+    if (statusEl) statusEl.textContent = '● Signed in — syncing automatically';
+  } else {
+    signedInEl.style.display  = 'none';
+    signedOutEl.style.display = 'block';
+  }
+  updateAdminButtonVisibility();
+}
+
+function cloudShowAuthError(msg) {
+  const el = document.getElementById('cloudAuthError');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+
+function cloudGetInputs() {
+  const userEl = document.getElementById('cloudUserInput');
+  const pinEl  = document.getElementById('cloudPinInput');
+  const user = (userEl ? userEl.value.trim().toLowerCase() : '');
+  const pin  = (pinEl  ? pinEl.value.trim()  : '');
+  return { user, pin, userEl, pinEl };
+}
+
+function cloudValidateInputs() {
+  const { user, pin, pinEl } = cloudGetInputs();
+  cloudShowAuthError('');
+  if (!user || user.length < 2) {
+    cloudShowAuthError('Username must be at least 2 characters.');
+    return false;
+  }
+  if (!/^[a-z0-9_\-]+$/.test(user)) {
+    cloudShowAuthError('Username can only contain letters, numbers, hyphens and underscores.');
+    return false;
+  }
+  if (!pin || pin.length < 4) {
+    cloudShowAuthError('PIN must be at least 4 characters.');
+    if (pinEl) pinEl.focus();
+    return false;
+  }
+  return true;
+}
+
+async function cloudSignIn() {
+  if (!cloudValidateInputs()) return;
+  const { user, pin } = cloudGetInputs();
+  const btn = document.querySelector('#cloudSignedOut .settings-action-btn.green');
+  if (btn) { btn.textContent = 'Signing in…'; btn.disabled = true; }
+  // Set credentials temporarily and try to load
+  setCloudUser(user);
+  setCloudPin(pin);
+  const loaded = await cloudLoad(false);
+  if (btn) { btn.textContent = 'Sign in'; btn.disabled = false; }
+  if (loaded) {
+    updateCloudStatus();
+    toggleSettings();
+    showToast('Signed in as ' + user + ' — session loaded.');
+  } else {
+    // Could be wrong PIN (existing account) or no account yet
+    // Try a test GET to distinguish
+    const token = getCloudToken();
+    try {
+      const res = await fetch(CLOUD_WORKER + '/session', {
+        method: 'GET',
+        headers: { 'X-User-Token': token }
+      });
+      const data = await res.json();
+      if (data.found) {
+        // Credentials are valid but local is newer — signed in OK
+        updateCloudStatus();
+        toggleSettings();
+        showToast('Signed in as ' + user + '. Local session is up to date.');
+      } else {
+        // No account found for these credentials
+        cloudShowAuthError('No account found with these credentials. Check your username and PIN, or create a new account.');
+        setCloudUser('');
+        setCloudPin('');
+      }
+    } catch(e) {
+      cloudShowAuthError('Could not reach server — check your internet connection.');
+      setCloudUser('');
+      setCloudPin('');
+    }
+  }
+}
+
+async function cloudCreateAccount() {
+  if (!cloudValidateInputs()) return;
+  const { user, pin } = cloudGetInputs();
+  const btn = document.querySelector('#cloudSignedOut .settings-action-btn:not(.green)');
+  if (btn) { btn.textContent = 'Creating…'; btn.disabled = true; }
+  // Check if account already exists
+  setCloudUser(user);
+  setCloudPin(pin);
+  const token = getCloudToken();
+  try {
+    const checkRes = await fetch(CLOUD_WORKER + '/session', {
+      method: 'GET',
+      headers: { 'X-User-Token': token }
+    });
+    const checkData = await checkRes.json();
+    if (checkData.found) {
+      // Account already exists — treat as sign in instead
+      if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
+      cloudShowAuthError('An account with these credentials already exists. Use Sign in instead.');
+      setCloudUser('');
+      setCloudPin('');
+      return;
+    }
+    // New account — save current session to cloud
+    await cloudSave(false);
+    if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
+    updateCloudStatus();
+    toggleSettings();
+    const hasData = students && students.some(s => s.name || (s.ordered && s.ordered.length) || (s.engOrdered && s.engOrdered.length));
+    if (hasData) {
+      showToast('Account created for ' + user + '. Your session is syncing to cloud.');
+    } else {
+      showToast('Account created for ' + user + '. Import your session file to sync your data.');
+    }
+  } catch(e) {
+    if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
+    cloudShowAuthError('Could not reach server — check your internet connection.');
+    setCloudUser('');
+    setCloudPin('');
+  }
+}
+
+function cloudSignOut() {
+  if (!confirm('Sign out? Your session data stays safely in the cloud and will reload next time you sign in.')) return;
+  setCloudUser('');
+  setCloudPin('');
+  window.location.replace('https://jasefreters.github.io/commentbuilder/index.html');
+}
+
+function cloudShowChangeCredentials() {
+  // Show the sign-out/sign-in form pre-filled with current username
+  const user = getCloudUser();
+  setCloudUser('');
+  setCloudPin('');
+  updateCloudStatus();
+  const userEl = document.getElementById('cloudUserInput');
+  if (userEl) userEl.value = user;
+  const detailEl = document.getElementById('cloudSyncDetail');
+  if (detailEl) detailEl.textContent = 'Enter your new username and PIN, then sign in or create a new account.';
+}
+
+// Keep saveCloudUser as alias for backwards compat (used nowhere now but safe to keep)
+function saveCloudUser() { cloudSignIn(); }
+
+async function cloudSave(manual = false) {
+  const token = getCloudToken();
+  if (!token) return;
+  const session = { students, currentIdx, totalStudents, savedAt: new Date().toISOString() };
+  try {
+    const res = await fetch(CLOUD_WORKER + '/session', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-User-Token': token },
+      body: JSON.stringify(session),
+    });
+    if (res.ok) {
+      if (manual) {
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        showToast('Synced to cloud (' + time + ')');
+      }
+    } else {
+      if (manual) showToast('Cloud sync failed — check your connection.');
+    }
+  } catch(e) {
+    if (manual) showToast('Cloud sync failed — check your connection.');
+  }
+}
+
+async function cloudLoad(showPrompt = false) {
+  const token = getCloudToken();
+  if (!token) return false;
+  try {
+    const res = await fetch(CLOUD_WORKER + '/session', {
+      method: 'GET',
+      headers: { 'X-User-Token': token },
+    });
+    if (!res.ok) return false;
+    const data = await res.json();
+    if (!data.found || !data.session) {
+      if (showPrompt) showToast('No cloud data found — starting fresh.');
+      return false;
+    }
+    const saved = data.session;
+    // Always apply cloud session when explicitly loading —
+    // the user chose to sign in, so cloud is the source of truth
+    _applyPersistedState(saved);
+    idbSet('rcb_session', saved);
+    lsSet('rcb_session', saved);
+    loadCur();
+    render();
+    updateProgress();
+    loadTheme();
+    const _savedSubj = lsGet('rcb_subject', 'general');
+    if (_savedSubj !== 'general') setSubject(_savedSubj);
+    const _savedSem = lsGet('rcb_semester', 1);
+    if (_savedSem === 2) setSemester(2);
+    if (showPrompt) {
+      const stuCount = (saved.students || []).length;
+      const time = new Date(saved.savedAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
+      showToast('Session loaded — ' + stuCount + ' student' + (stuCount !== 1 ? 's' : '') + ' (saved ' + time + ')');
+    }
+    return true;
+  } catch(e) {
+    return false;
+  }
+}
+
+// Throttled cloud save — fires at most once per 15 seconds
+function scheduledCloudSave() {
+  if (!getCloudUser()) return;
+  if (_cloudSaveTimer) return; // already scheduled
+  _cloudSaveTimer = setTimeout(() => {
+    _cloudSaveTimer = null;
+    cloudSave(false);
+  }, 15000);
+}
+
+function lsGet(k, def) { try { const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : def; } catch { return def; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+
+// ── INDEXEDDB STORAGE ─────────────────────────────────────────────
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    if (_db) { resolve(_db); return; }
+    const req = indexedDB.open(DB_NAME, DB_VER);
+    req.onupgradeneeded = e => e.target.result.createObjectStore(STORE);
+    req.onsuccess = e => { _db = e.target.result; resolve(_db); };
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function idbSet(key, value) {
+  return openDB().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).put(value, key);
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  })).catch(() => lsSet(key, value)); // fall back to localStorage
+}
+
+function idbGet(key) {
+  return openDB().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readonly');
+    const req = tx.objectStore(STORE).get(key);
+    req.onsuccess = () => resolve(req.result ?? null);
+    req.onerror = () => reject(req.error);
+  })).catch(() => lsGet(key, null)); // fall back to localStorage
+}
+
+// ── SAVE INDICATOR ────────────────────────────────────────────────
+function setSaveState(state, label) {
+  const dot = document.getElementById('saveDot');
+  const lbl = document.getElementById('saveLabel');
+  if (dot) dot.className = 'save-dot' + (state ? ' ' + state : '');
+  if (lbl) lbl.textContent = label;
+}
+
+
+
 // ── MERGE RULES (Option 3) ────────────────────────────────────────
 // Pre-defined combinations of strands that produce better merged sentences.
 // Each rule: { strands: [...], grade: 'A'|'B'|'C'|'D'|'E'|'any', merged: '...' }
@@ -6106,8 +8073,6 @@ function getActiveMergeRules() {
     });
   });
 }
-
-let _pendingMergeSuggestion = null; // currently shown suggestion
 
 function autoSave() {
   // Show saving state
@@ -7543,6 +9508,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.3.1</div>
+<div class="version-badge">v3.3.2</div>
 </body>
 </html>
