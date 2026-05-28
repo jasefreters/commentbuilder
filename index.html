@@ -542,6 +542,10 @@
       <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"/>
     </svg>
   </button>
+  <!-- Admin button — only visible when cloud sync is active -->
+  <button class="settings-btn" id="adminBtn" onclick="toggleAdminPanel()" title="Admin" style="display:none;opacity:0.6;font-size:11px;font-weight:600;letter-spacing:.04em;padding:0 8px;width:auto">
+    ADMIN
+  </button>
 </header>
 
 <!-- Settings panel -->
@@ -662,6 +666,7 @@
       <div class="out-editable" id="outEditable" contenteditable="true"
            data-placeholder="Select sentences from the centre to build this student’s comment, or type here directly…"
            oninput="onDraftInput()" onkeydown="onDraftKeydown(event)"></div>
+      <div id="mergeSuggestionBanner" style="display:none;background:var(--bg-2);border-top:1px solid var(--border);padding:8px 1.1rem;flex-shrink:0"></div>
       <div class="draft-edit-bar" id="draftEditBar">
         <button class="draft-reset-btn" onclick="resetDraft()">Reset</button>
         <div class="draft-edit-label">Editing draft…</div>
@@ -722,6 +727,10 @@
       <button class="btn btn-purple" id="checkBtn" onclick="runCheck()" style="width:auto">
         <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5M8 11v.4"/></svg>
         Check for issues
+      </button>
+      <button class="btn btn-ghost" id="polishBtn" onclick="runPolish()" style="width:auto" title="AI-powered flow and cohesion rewrite">
+        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h8M8 4l4 4-4 4"/><path d="M2 4l1.5 1.5L2 7"/></svg>
+        Polish
       </button>
       <button class="btn btn-green" onclick="copyPublished()" style="width:auto">
         <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>
@@ -3882,6 +3891,100 @@ function updateWc(text) {
   bar.className = words > 200 ? 'wc-bar over' : 'wc-bar';
 }
 
+
+function renderMergeSuggestions() {
+  const banner = document.getElementById('mergeSuggestionBanner');
+  if (!banner) return;
+  if (currentSubject === 'general') { banner.style.display = 'none'; return; }
+
+  const rules = getActiveMergeRules();
+  if (!rules.length) { banner.style.display = 'none'; return; }
+
+  banner.style.display = 'block';
+  banner.innerHTML = '';
+
+  rules.forEach((rule, ri) => {
+    const name = cur().name || '[Name]';
+    const p = PR[cur().pronoun];
+    const yr = cur().year || '';
+    const counter = { value: 0 };
+    const resolved = applyAlternation(rule.merged, name, p, counter, yr);
+
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'margin-bottom:' + (ri < rules.length - 1 ? '8px' : '0') + ';';
+
+    wrap.innerHTML = `
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        <span style="font-size:10px;font-weight:600;color:var(--amber);text-transform:uppercase;letter-spacing:.06em">✦ Flow suggestion</span>
+        <span style="font-size:10px;color:var(--t2)">${rule.strands.join(' + ')}</span>
+      </div>
+      <div style="font-size:13px;color:var(--t1);line-height:1.6;font-style:italic;margin-bottom:6px">"${resolved}"</div>
+      <div style="display:flex;gap:6px;align-items:flex-start">
+        <textarea id="mergeSugEdit_${ri}" style="flex:1;font-family:var(--font);font-size:12.5px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--t0);padding:5px 8px;resize:vertical;min-height:42px;line-height:1.5;outline:none">${resolved}</textarea>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <button onclick="acceptMergeSuggestion(${ri})" style="font-family:var(--font);font-size:11px;padding:4px 10px;border-radius:var(--r-sm);border:none;background:var(--green);color:#fff;cursor:pointer;white-space:nowrap">✓ Accept</button>
+          <button onclick="dismissMergeSuggestion(${ri})" style="font-family:var(--font);font-size:11px;padding:4px 10px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t2);cursor:pointer;white-space:nowrap">✕ Dismiss</button>
+        </div>
+      </div>`;
+    banner.appendChild(wrap);
+  });
+}
+
+let _dismissedMerges = []; // track dismissed rules so they don't re-appear
+
+function acceptMergeSuggestion(ruleIdx) {
+  const rules = getActiveMergeRules();
+  const rule = rules[ruleIdx];
+  if (!rule) return;
+  const textarea = document.getElementById('mergeSugEdit_' + ruleIdx);
+  const text = textarea ? textarea.value.trim() : '';
+  if (!text) return;
+
+  // Append the merged sentence to the draft
+  const draftKey = currentSubject === 'english' ? 'engDraft' : 'mathDraft';
+  const pubKey   = currentSubject === 'english' ? 'pubEditEnglish' : 'pubEditMaths';
+  const existing = cur()[draftKey] || getSubjDraft() || '';
+  cur()[draftKey] = existing.trimEnd() + (existing ? ' ' : '') + text;
+  cur()[pubKey] = null;
+
+  // Dismiss this rule
+  _dismissedMerges.push(JSON.stringify(rule.strands));
+
+  renderOut();
+  autoSave();
+  showToast('Merged sentence added to draft.');
+}
+
+function dismissMergeSuggestion(ruleIdx) {
+  const rules = getActiveMergeRules();
+  const rule = rules[ruleIdx];
+  if (rule) _dismissedMerges.push(JSON.stringify(rule.strands));
+  renderOut();
+}
+
+// Reset dismissed merges when sentences change
+const _origGetActiveMergeRules = getActiveMergeRules;
+function getActiveMergeRules() {
+  const rules = MERGE_RULES[currentSubject] || [];
+  const sel = getSubjSelected();
+  const grades = currentSubject === 'english'
+    ? (cur().engGrades || {})
+    : (cur().mathGrades || {});
+  return rules.filter(rule => {
+    if (_dismissedMerges.includes(JSON.stringify(rule.strands))) return false;
+    const allSelected = rule.strands.every(strand => {
+      const strandSel = sel[strand];
+      return strandSel && strandSel.length > 0;
+    });
+    if (!allSelected) return false;
+    if (rule.grade === 'any') return true;
+    return rule.strands.some(strand => {
+      const g = normaliseGradeVal(grades[strand]);
+      return g.includes(rule.grade);
+    });
+  });
+}
+
 function renderOut() {
   const el = document.getElementById('outEditable');
   const editBar = document.getElementById('draftEditBar');
@@ -3890,6 +3993,7 @@ function renderOut() {
 
   // Update subject tab indicators
   updateSubjTabIndicators();
+  renderMergeSuggestions();
 
   // For English/Maths, show their draft + FD
   if (currentSubject !== 'general') {
@@ -4274,6 +4378,131 @@ function promptApiKey() {
   const existing = getApiKey();
   document.getElementById('apiKeyInput').value = existing;
   document.getElementById('apiKeyModal').style.display = 'flex';
+}
+
+
+// ── POLISH COMMENT (Option 4) ─────────────────────────────────────
+async function runPolish() {
+  if (currentSubject === 'general') {
+    showToast('Polish is available for English and Maths comments.');
+    return;
+  }
+  const text = getPublishedPaneText();
+  if (!text || text.trim().length < 20) {
+    showToast('Nothing to polish — build your comment first.');
+    return;
+  }
+
+  // Show modal with original text and loading state
+  const modal = document.getElementById('polishModal');
+  const origEl = document.getElementById('polishOriginal');
+  const sugEl  = document.getElementById('polishSuggestion');
+  const statusEl = document.getElementById('polishStatus');
+  const acceptBtn = document.getElementById('polishAcceptBtn');
+
+  origEl.textContent = text;
+  sugEl.value = '';
+  statusEl.textContent = 'Generating suggestion…';
+  acceptBtn.disabled = true;
+  modal.style.display = 'flex';
+
+  const btn = document.getElementById('polishBtn');
+  if (btn) { btn.textContent = 'Polishing…'; btn.disabled = true; }
+
+  const subjectName = currentSubject === 'english' ? 'English' : 'Mathematics';
+  const studentName = cur().name || 'the student';
+
+  try {
+    const apiKey = lsGet('rcb_api_key', '');
+    const workerUrl = lsGet('rcb_worker_url', '');
+    const endpoint = workerUrl ? workerUrl + '/api/anthropic' : 'https://api.anthropic.com/v1/messages';
+
+    const headers = { 'Content-Type': 'application/json' };
+    if (!workerUrl && apiKey) headers['x-api-key'] = apiKey;
+    if (!workerUrl && apiKey) headers['anthropic-version'] = '2023-06-01';
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `You are helping a primary school teacher improve the flow and cohesion of a student report comment for ${subjectName}.
+
+The comment was built by selecting individual sentences from a sentence bank, so it can feel disjointed. Your job is to rewrite it so it reads as one naturally flowing paragraph, while:
+- Keeping ALL the same content and meaning — do not add or remove information
+- Merging sentences that cover related ideas into single, smooth sentences
+- Varying the sentence openers (avoid starting every sentence with the student's name)
+- Maintaining present tense throughout
+- Keeping Future Directions lines (lines starting with *) exactly as they are — do not modify them
+- Keeping the same overall tone — warm, professional, appropriate for a school report
+- The student's name is ${studentName}
+
+Return ONLY the rewritten comment. No explanation, no preamble, no quotation marks around it.
+
+Comment to rewrite:
+${text}`
+        }]
+      })
+    });
+
+    const data = await response.json();
+    const suggestion = data.content && data.content[0] && data.content[0].text
+      ? data.content[0].text.trim()
+      : '';
+
+    if (suggestion) {
+      sugEl.value = suggestion;
+      statusEl.textContent = 'Edit the suggestion above if needed, then click Accept & replace.';
+      acceptBtn.disabled = false;
+    } else {
+      statusEl.textContent = 'Could not generate a suggestion. Check your API key in settings.';
+    }
+  } catch(e) {
+    statusEl.textContent = 'Error: ' + e.message;
+  } finally {
+    if (btn) { btn.textContent = 'Polish'; btn.disabled = false; }
+  }
+}
+
+function closePolishModal() {
+  const modal = document.getElementById('polishModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function acceptPolish() {
+  const sugEl = document.getElementById('polishSuggestion');
+  if (!sugEl || !sugEl.value.trim()) return;
+  const newText = sugEl.value.trim();
+
+  // Update the publish pane content directly
+  const pubContent = document.getElementById('pubContent');
+  if (pubContent) {
+    // Parse the polished text into the same span structure
+    const paras = newText.split(/\n\n+/).filter(Boolean);
+    pubContent.innerHTML = paras.map((para, pi) => {
+      if (para.trim().startsWith('*')) {
+        const lines = para.split('\n').filter(l => l.trim());
+        return `<p class="pub-para fd-para">${lines.map(l =>
+          `<span data-pi="${pi}" data-si="0" class="fd-line">${l.trim()}</span>`
+        ).join('<br>')}</p>`;
+      }
+      const sentences = para.match(/[^.!?]+[.!?]+\s*/g) || [para];
+      return `<p class="pub-para">${sentences.map((s, si) =>
+        `<span data-pi="${pi}" data-si="${si}">${s.trim()}</span>`
+      ).join(' ')}</p>`;
+    }).join('');
+
+    // Save to pubEdit cache
+    saveCur();
+    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
+  }
+
+  closePolishModal();
+  showToast('Comment polished and updated.');
+  autoSave();
 }
 
 async function runCheck() {
@@ -5183,6 +5412,168 @@ function getCloudToken() {
   return user + ':' + pin;
 }
 
+
+// ── ADMIN PANEL ───────────────────────────────────────────────────
+let _adminAuthed = false;
+let _adminKey = '';
+
+function toggleAdminPanel() {
+  const overlay = document.getElementById('adminOverlay');
+  if (!overlay) return;
+  const isOpen = overlay.style.display === 'flex';
+  overlay.style.display = isOpen ? 'none' : 'flex';
+  if (!isOpen) {
+    // Reset to login screen if not authed
+    if (!_adminAuthed) {
+      document.getElementById('adminLoginScreen').style.display = 'flex';
+      document.getElementById('adminAccountsScreen').style.display = 'none';
+      document.getElementById('adminLoginError').style.display = 'none';
+      setTimeout(() => document.getElementById('adminKeyInput').focus(), 100);
+    } else {
+      adminRefresh();
+    }
+  }
+}
+
+function closeAdminPanel() {
+  const overlay = document.getElementById('adminOverlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+async function adminLogin() {
+  const keyEl = document.getElementById('adminKeyInput');
+  const errEl = document.getElementById('adminLoginError');
+  const key = keyEl ? keyEl.value.trim() : '';
+  errEl.style.display = 'none';
+
+  if (!key) { errEl.textContent = 'Please enter the admin key.'; errEl.style.display = 'block'; return; }
+
+  // Test the key by calling the admin endpoint
+  try {
+    const res = await fetch(CLOUD_WORKER + '/admin/accounts', {
+      method: 'GET',
+      headers: { 'X-Admin-Key': key }
+    });
+    if (res.status === 401) {
+      errEl.textContent = 'Incorrect admin key.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!res.ok) {
+      errEl.textContent = 'Server error — try again.';
+      errEl.style.display = 'block';
+      return;
+    }
+    // Authenticated
+    _adminAuthed = true;
+    _adminKey = key;
+    document.getElementById('adminLoginScreen').style.display = 'none';
+    document.getElementById('adminAccountsScreen').style.display = 'flex';
+    adminRefresh();
+  } catch(e) {
+    errEl.textContent = 'Could not reach server — check your connection.';
+    errEl.style.display = 'block';
+  }
+}
+
+function adminLogout() {
+  _adminAuthed = false;
+  _adminKey = '';
+  document.getElementById('adminAccountsScreen').style.display = 'none';
+  document.getElementById('adminLoginScreen').style.display = 'flex';
+  document.getElementById('adminKeyInput').value = '';
+}
+
+async function adminRefresh() {
+  const loadEl  = document.getElementById('adminLoading');
+  const tableWrap = document.getElementById('adminTableWrap');
+  const emptyEl = document.getElementById('adminEmpty');
+  const countEl = document.getElementById('adminAccountCount');
+  const tbody   = document.getElementById('adminTableBody');
+
+  loadEl.style.display = 'block';
+  tableWrap.style.display = 'none';
+  emptyEl.style.display = 'none';
+
+  try {
+    const res = await fetch(CLOUD_WORKER + '/admin/accounts', {
+      method: 'GET',
+      headers: { 'X-Admin-Key': _adminKey }
+    });
+    if (!res.ok) { loadEl.textContent = 'Error loading accounts.'; return; }
+    const data = await res.json();
+    loadEl.style.display = 'none';
+
+    if (!data.accounts || data.accounts.length === 0) {
+      emptyEl.style.display = 'block';
+      countEl.textContent = 'No accounts yet.';
+      return;
+    }
+
+    countEl.textContent = data.total + ' account' + (data.total !== 1 ? 's' : '');
+    tbody.innerHTML = '';
+
+    data.accounts.forEach(acc => {
+      const isCurrentUser = acc.username === getCloudUser();
+      const lastSaved = acc.lastSaved && acc.lastSaved !== 'unknown'
+        ? new Date(acc.lastSaved).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })
+        : 'Never';
+
+      const tr = document.createElement('tr');
+      tr.style.cssText = 'border-bottom:1px solid var(--border);' +
+        (isCurrentUser ? 'background:rgba(96,165,250,0.06);' : '');
+
+      tr.innerHTML = `
+        <td style="padding:10px 16px;color:var(--t0);font-weight:${isCurrentUser ? '600' : '400'}">
+          ${acc.username}${isCurrentUser ? ' <span style="font-size:10px;color:var(--blue);font-weight:500">(you)</span>' : ''}
+        </td>
+        <td style="padding:10px 16px;color:var(--t2)">${lastSaved}</td>
+        <td style="padding:10px 16px;text-align:center;color:var(--t1)">${acc.students}</td>
+        <td style="padding:10px 16px;text-align:right">
+          ${isCurrentUser
+            ? '<span style="font-size:11px;color:var(--t3)">—</span>'
+            : `<button onclick="adminDeleteAccount('${acc.key}','${acc.username}')"
+                style="font-family:var(--font);font-size:11px;padding:3px 10px;border-radius:var(--r-sm);border:1px solid var(--red,#f87171);background:none;color:var(--red,#f87171);cursor:pointer">
+                Delete
+              </button>`
+          }
+        </td>`;
+      tbody.appendChild(tr);
+    });
+
+    tableWrap.style.display = 'block';
+  } catch(e) {
+    loadEl.textContent = 'Error: ' + e.message;
+  }
+}
+
+async function adminDeleteAccount(key, username) {
+  if (!confirm('Delete account "' + username + '"? This cannot be undone. Their session data will be permanently removed.')) return;
+  try {
+    const res = await fetch(CLOUD_WORKER + '/admin/accounts/' + encodeURIComponent(key), {
+      method: 'DELETE',
+      headers: { 'X-Admin-Key': _adminKey }
+    });
+    if (res.ok) {
+      showToast('"' + username + '" deleted.');
+      adminRefresh();
+    } else {
+      showToast('Could not delete account.');
+    }
+  } catch(e) {
+    showToast('Error: ' + e.message);
+  }
+}
+
+// Show/hide admin button based on cloud sign-in status
+function updateAdminButtonVisibility() {
+  const btn = document.getElementById('adminBtn');
+  if (!btn) return;
+  // Admin button only shows if the user is signed in with cloud
+  // (so it's not visible to non-cloud users)
+  btn.style.display = getCloudToken() ? 'flex' : 'none';
+}
+
 function updateCloudStatus() {
   const user = getCloudUser();
   const pin  = getCloudPin();
@@ -5200,6 +5591,7 @@ function updateCloudStatus() {
     signedInEl.style.display  = 'none';
     signedOutEl.style.display = 'block';
   }
+  updateAdminButtonVisibility();
 }
 
 function cloudShowAuthError(msg) {
@@ -5461,6 +5853,156 @@ function setSaveState(state, label) {
 }
 
 let _publishedSinceLastBackup = false;
+
+
+// ── MERGE RULES (Option 3) ────────────────────────────────────────
+// Pre-defined combinations of strands that produce better merged sentences.
+// Each rule: { strands: [...], grade: 'A'|'B'|'C'|'D'|'E'|'any', merged: '...' }
+// When ALL listed strands have selected sentences at the matching grade,
+// the suggestion chip appears in the draft pane.
+const MERGE_RULES = {
+  english: [
+    {
+      strands: ['Two-Dimensional Spatial Structure', 'Three-Dimensional Spatial Structure'],
+      grade: 'C',
+      merged: '{{S}} names and describes the features of two-dimensional shapes and three-dimensional objects.'
+    },
+    {
+      strands: ['Two-Dimensional Spatial Structure', 'Three-Dimensional Spatial Structure'],
+      grade: 'D',
+      merged: '{{S}} identifies and names common two-dimensional shapes and three-dimensional objects.'
+    },
+    {
+      strands: ['Spelling & Grammar', 'Creating Written Texts'],
+      grade: 'C',
+      merged: '{{S}} organises ideas logically, applies familiar spelling patterns and uses correct punctuation in {{pos}} writing.'
+    },
+    {
+      strands: ['Spelling & Grammar', 'Creating Written Texts'],
+      grade: 'D',
+      merged: '{{S}} writes simple sentences using basic punctuation and is beginning to organise ideas clearly.'
+    },
+    {
+      strands: ['Reading Comprehension', 'Vocabulary'],
+      grade: 'B',
+      merged: '{{S}} comprehends a range of texts and draws on a varied vocabulary to demonstrate understanding.'
+    },
+    {
+      strands: ['Reading Comprehension', 'Vocabulary'],
+      grade: 'C',
+      merged: '{{S}} identifies key ideas when reading and applies known vocabulary to enhance {{pos}} writing.'
+    },
+    {
+      strands: ['Oral Language & Communication', 'Creating Written Texts'],
+      grade: 'C',
+      merged: '{{S}} participates positively in discussions and is able to translate {{pos}} ideas into organised written texts.'
+    },
+    {
+      strands: ['Understanding and Responding to Literature', 'Creating Written Texts'],
+      grade: 'C',
+      merged: '{{S}} identifies themes in narratives and applies them when creating {{pos}} own texts.'
+    },
+    {
+      strands: ['Understanding and Responding to Literature', 'Creating Written Texts'],
+      grade: 'B',
+      merged: '{{S}} identifies themes in narratives, connects with key ideas and applies this understanding when creating texts.'
+    },
+  ],
+  maths: [
+    {
+      strands: ['Two-Dimensional Spatial Structure', 'Three-Dimensional Spatial Structure'],
+      grade: 'C',
+      merged: '{{S}} names and describes the features of two-dimensional shapes and three-dimensional objects.'
+    },
+    {
+      strands: ['Two-Dimensional Spatial Structure', 'Three-Dimensional Spatial Structure'],
+      grade: 'D',
+      merged: '{{S}} identifies and names common two-dimensional shapes and three-dimensional objects.'
+    },
+    {
+      strands: ['Two-Dimensional Spatial Structure', 'Three-Dimensional Spatial Structure'],
+      grade: 'B',
+      merged: '{{S}} classifies two-dimensional shapes and connects three-dimensional objects with their two-dimensional representations.'
+    },
+    {
+      strands: ['Additive Relations', 'Multiplicative Relations'],
+      grade: 'C',
+      merged: '{{S}} applies strategies to solve addition and subtraction problems and recalls multiplication facts to support calculations.'
+    },
+    {
+      strands: ['Additive Relations', 'Multiplicative Relations'],
+      grade: 'D',
+      merged: '{{S}} solves addition and subtraction problems and recalls some multiplication facts to support calculations.'
+    },
+    {
+      strands: ['Additive Relations', 'Multiplicative Relations'],
+      grade: 'B',
+      merged: '{{S}} applies known strategies to solve addition and subtraction problems and multiplies 2- and 3-digit numbers.'
+    },
+    {
+      strands: ['Data', 'Chance'],
+      grade: 'C',
+      merged: '{{S}} interprets information from tables and column graphs and identifies possible outcomes of events using everyday language.'
+    },
+    {
+      strands: ['Data', 'Chance'],
+      grade: 'D',
+      merged: '{{S}} reads information from tables and column graphs and identifies possible outcomes of events.'
+    },
+    {
+      strands: ['Data', 'Chance'],
+      grade: 'B',
+      merged: '{{S}} interprets data from tables and graphs and describes the likelihood of outcomes in chance experiments.'
+    },
+    {
+      strands: ['Geometric Measure', 'Non-Spatial Measure'],
+      grade: 'C',
+      merged: '{{S}} calculates the perimeter of common shapes and uses appropriate units to measure mass and capacity.'
+    },
+    {
+      strands: ['Geometric Measure', 'Non-Spatial Measure'],
+      grade: 'B',
+      merged: '{{S}} calculates the perimeter of two-dimensional shapes and solves problems involving capacity and mass.'
+    },
+    {
+      strands: ['Represents Numbers', 'Additive Relations'],
+      grade: 'C',
+      merged: '{{S}} uses place value to read and represent numbers and applies different strategies to solve addition and subtraction problems.'
+    },
+    {
+      strands: ['Represents Numbers', 'Additive Relations'],
+      grade: 'D',
+      merged: '{{S}} uses place value to work with numbers and solves addition and subtraction problems using familiar strategies.'
+    },
+  ]
+};
+
+// Check if any merge rules apply to the current selection
+function getActiveMergeRules() {
+  if (currentSubject === 'general') return [];
+  const rules = MERGE_RULES[currentSubject] || [];
+  const sel = getSubjSelected();
+  const grades = currentSubject === 'english'
+    ? (cur().engGrades || {})
+    : (cur().mathGrades || {});
+
+  return rules.filter(rule => {
+    // All strands in the rule must have at least one selected sentence
+    const allSelected = rule.strands.every(strand => {
+      const strandSel = sel[strand];
+      return strandSel && strandSel.length > 0;
+    });
+    if (!allSelected) return false;
+    // Grade must match (check if any of the rule's strands has the matching grade)
+    if (rule.grade === 'any') return true;
+    return rule.strands.some(strand => {
+      const g = normaliseGradeVal(grades[strand]);
+      return g.includes(rule.grade);
+    });
+  });
+}
+
+let _pendingMergeSuggestion = null; // currently shown suggestion
 
 function autoSave() {
   // Show saving state
@@ -6800,6 +7342,87 @@ document.addEventListener('mousemove', e => {
 loadPersistedState();
 loadTheme();
 </script>
-<div class="version-badge">v3.2.1</div>
+<!-- POLISH MODAL -->
+<div id="polishModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-lg);width:100%;max-width:680px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--t0)">Polish comment</div>
+        <div style="font-size:11px;color:var(--t2);margin-top:2px">AI suggestion — edit before accepting</div>
+      </div>
+      <button onclick="closePolishModal()" style="font-family:var(--font);font-size:18px;background:none;border:none;color:var(--t2);cursor:pointer;padding:4px 8px;line-height:1">✕</button>
+    </div>
+    <div style="padding:16px 20px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Original</div>
+        <div id="polishOriginal" style="font-size:13.5px;line-height:1.8;color:var(--t2);background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;white-space:pre-wrap"></div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Suggested rewrite — edit as needed</div>
+        <textarea id="polishSuggestion" style="font-family:var(--font);font-size:13.5px;line-height:1.8;color:var(--t0);background:var(--bg-3);border:1px solid var(--blue);border-radius:var(--r-sm);padding:10px 12px;width:100%;box-sizing:border-box;resize:vertical;min-height:140px;outline:none"></textarea>
+      </div>
+      <div id="polishStatus" style="font-size:12px;color:var(--t2);font-style:italic"></div>
+    </div>
+    <div style="padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0">
+      <button onclick="closePolishModal()" style="font-family:var(--font);font-size:13px;padding:6px 16px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer">Dismiss</button>
+      <button id="polishAcceptBtn" onclick="acceptPolish()" style="font-family:var(--font);font-size:13px;padding:6px 16px;border-radius:var(--r-sm);border:none;background:var(--blue);color:#fff;cursor:pointer;font-weight:500">✓ Accept &amp; replace</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:10000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-lg);width:100%;max-width:700px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden">
+
+    <!-- Header -->
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--t0)">Admin Panel</div>
+        <div style="font-size:11px;color:var(--t2);margin-top:2px">Report Comment Builder — Cloud Accounts</div>
+      </div>
+      <button onclick="closeAdminPanel()" style="font-family:var(--font);font-size:18px;background:none;border:none;color:var(--t2);cursor:pointer;padding:4px 8px">✕</button>
+    </div>
+
+    <!-- Login screen -->
+    <div id="adminLoginScreen" style="padding:24px 20px;display:flex;flex-direction:column;gap:12px;align-items:center">
+      <div style="font-size:13px;color:var(--t1);text-align:center;max-width:320px;line-height:1.6">Enter your admin key to access account management.</div>
+      <input id="adminKeyInput" type="password" placeholder="Admin key" autocomplete="off"
+        style="font-family:var(--font);font-size:14px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--t0);padding:8px 12px;outline:none;width:100%;max-width:280px;box-sizing:border-box;text-align:center"
+        onkeydown="if(event.key==='Enter')adminLogin()"/>
+      <div id="adminLoginError" style="font-size:12px;color:var(--red,#f87171);display:none"></div>
+      <button onclick="adminLogin()" style="font-family:var(--font);font-size:13px;padding:8px 24px;border-radius:var(--r-sm);border:none;background:var(--blue);color:#fff;cursor:pointer;font-weight:500">Sign in</button>
+    </div>
+
+    <!-- Accounts screen (hidden until logged in) -->
+    <div id="adminAccountsScreen" style="display:none;flex:1;flex-direction:column;overflow:hidden">
+      <!-- Toolbar -->
+      <div style="padding:10px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0">
+        <span id="adminAccountCount" style="font-size:13px;color:var(--t1);flex:1"></span>
+        <button onclick="adminRefresh()" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer">↻ Refresh</button>
+        <button onclick="adminLogout()" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t2);cursor:pointer">Sign out</button>
+      </div>
+      <!-- Loading state -->
+      <div id="adminLoading" style="padding:32px;text-align:center;color:var(--t2);font-size:13px">Loading accounts…</div>
+      <!-- Table -->
+      <div id="adminTableWrap" style="display:none;overflow-y:auto;flex:1">
+        <table style="width:100%;border-collapse:collapse;font-size:13px">
+          <thead>
+            <tr style="background:var(--bg-2);border-bottom:1px solid var(--border)">
+              <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Username</th>
+              <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Last synced</th>
+              <th style="padding:10px 16px;text-align:center;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Students</th>
+              <th style="padding:10px 16px;text-align:right;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+      </div>
+      <div id="adminEmpty" style="display:none;padding:32px;text-align:center;color:var(--t2);font-size:13px">No accounts found.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="version-badge">v3.2.3</div>
 </body>
 </html>
