@@ -4439,17 +4439,12 @@ STRICT RULES:
 - Do not touch Future Directions lines (lines starting with *)
 - If no good merges exist, return an empty array
 
-Return ONLY a valid JSON array. No explanation, no markdown. Format:
-[
-  {
-    "original1": "exact text of first sentence",
-    "original2": "exact text of second sentence",
-    "merged": "the combined sentence (max 17 words)",
-    "reason": "brief reason e.g. both about spelling accuracy"
-  }
-]
+You MUST return ONLY a raw JSON array — no markdown, no backticks, no explanation before or after, nothing except the JSON itself.
 
-If no suitable merges found, return: []
+Format exactly like this:
+[{"original1":"exact first sentence","original2":"exact second sentence","merged":"combined sentence max 17 words","reason":"brief reason"}]
+
+If no suitable merges exist, return exactly: []
 
 Comment to review:
 ${text}`
@@ -4466,13 +4461,23 @@ ${text}`
       return;
     }
 
-    // Parse the JSON array of merge suggestions
+    // Parse the JSON array of merge suggestions — handle any wrapping
     let suggestions = [];
     try {
-      const cleaned = raw.replace(/^```json\s*|^```\s*|```\s*$/gm, '').trim();
+      // Strip markdown code fences, leading/trailing text
+      let cleaned = raw
+        .replace(/```json\s*/gi, '')
+        .replace(/```\s*/g, '')
+        .trim();
+      // Extract just the JSON array if there's surrounding text
+      const arrMatch = cleaned.match(/\[.*\]/s);
+      if (arrMatch) cleaned = arrMatch[0];
       suggestions = JSON.parse(cleaned);
+      if (!Array.isArray(suggestions)) suggestions = [];
     } catch(e) {
-      statusEl.textContent = 'Could not parse suggestions. Try again.';
+      // If still can't parse, show raw for debugging and offer retry
+      console.error('Polish parse error:', e, 'Raw:', raw);
+      statusEl.textContent = 'Could not parse suggestions — try clicking Polish again.';
       return;
     }
 
@@ -5116,6 +5121,51 @@ function renderSubjOpts(grid) {
       grid.appendChild(btn);
     });
   });
+
+  // Show custom sentences added for this category (persisted on student object)
+  const customKey = currentSubject === 'english' ? 'engCustom' : 'mathCustom';
+  const customSents = (cur()[customKey] && cur()[customKey][currentTab]) || [];
+  if (customSents.length) {
+    const cdiv = document.createElement('div');
+    cdiv.className = 'grade-divider';
+    cdiv.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label" style="color:var(--blue);border-color:var(--blue)">✎ My sentences</span><div class="grade-divider-line"></div>`;
+    grid.appendChild(cdiv);
+    customSents.forEach((s, ci) => {
+      const displayed = applyRaw(s, name, p, yr);
+      const isSel = (sel[currentTab] || []).includes(s);
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:stretch;gap:4px';
+      const btn = document.createElement('button');
+      btn.className = 'opt' + (isSel ? ' sel' : '');
+      btn.style.flex = '1';
+      btn.textContent = displayed;
+      btn.onclick = () => toggleSubjOpt(currentTab, s);
+      row.appendChild(btn);
+      // Delete button
+      const del = document.createElement('button');
+      del.style.cssText = 'font-size:11px;color:var(--t2);background:none;border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;padding:0 8px;flex-shrink:0;transition:color .1s';
+      del.textContent = '✕';
+      del.title = 'Remove this custom sentence';
+      del.onmouseenter = () => del.style.color = 'var(--red)';
+      del.onmouseleave = () => del.style.color = '';
+      del.onclick = () => {
+        cur()[customKey][currentTab].splice(ci, 1);
+        // Also remove from selected/ordered if present
+        const selArr = sel[currentTab] || [];
+        const sIdx = selArr.indexOf(s);
+        if (sIdx !== -1) selArr.splice(sIdx, 1);
+        const ord = getSubjOrdered();
+        const oIdx = ord.indexOf(s);
+        if (oIdx !== -1) ord.splice(oIdx, 1);
+        setSubjSelected(sel);
+        setSubjOrdered(ord);
+        autoSave();
+        render();
+      };
+      row.appendChild(del);
+      grid.appendChild(row);
+    });
+  }
 }
 
 function addSubjCustomSentence() {
@@ -5123,7 +5173,7 @@ function addSubjCustomSentence() {
   if (!ta) return;
   const text = ta.value.trim();
   if (!text) { showToast('Please type a sentence first.'); return; }
-  // Add to current subject ordered list
+  // Add to current subject ordered list and save to student data
   const ord = getSubjOrdered();
   const sel = getSubjSelected();
   ord.push(text);
@@ -5131,8 +5181,18 @@ function addSubjCustomSentence() {
   sel[currentTab].push(text);
   setSubjSelected(sel);
   setSubjOrdered(ord);
+  // Also save to custom bank on student so it persists and renders in the sentence panel
+  const draftKey = currentSubject === 'english' ? 'engCustom' : 'mathCustom';
+  if (!cur()[draftKey]) cur()[draftKey] = {};
+  if (!cur()[draftKey][currentTab]) cur()[draftKey][currentTab] = [];
+  cur()[draftKey][currentTab].push(text);
   ta.value = '';
+  // Invalidate publish cache since new sentence added
+  if (currentSubject === 'english') { cur().pubEditEnglish = null; }
+  if (currentSubject === 'maths') { cur().pubEditMaths = null; }
+  autoSave();
   render();
+  showToast('Sentence added and saved.');
 }
 
 function addCustomSentence() {
@@ -5152,7 +5212,9 @@ function addCustomSentence() {
   cur().ordered.push(key);
   cur().published = false;
   ta.value = '';
+  autoSave();
   render();
+  showToast('Sentence added and saved.');
 }
 
 function toggleCustomOpt(cat, idx) {
@@ -6413,17 +6475,12 @@ STRICT RULES:
 - Do not touch Future Directions lines (lines starting with *)
 - If no good merges exist, return an empty array
 
-Return ONLY a valid JSON array. No explanation, no markdown. Format:
-[
-  {
-    "original1": "exact text of first sentence",
-    "original2": "exact text of second sentence",
-    "merged": "the combined sentence (max 17 words)",
-    "reason": "brief reason e.g. both about spelling accuracy"
-  }
-]
+You MUST return ONLY a raw JSON array — no markdown, no backticks, no explanation before or after, nothing except the JSON itself.
 
-If no suitable merges found, return: []
+Format exactly like this:
+[{"original1":"exact first sentence","original2":"exact second sentence","merged":"combined sentence max 17 words","reason":"brief reason"}]
+
+If no suitable merges exist, return exactly: []
 
 Comment to review:
 ${text}`
@@ -6440,13 +6497,23 @@ ${text}`
       return;
     }
 
-    // Parse the JSON array of merge suggestions
+    // Parse the JSON array of merge suggestions — handle any wrapping
     let suggestions = [];
     try {
-      const cleaned = raw.replace(/^```json\s*|^```\s*|```\s*$/gm, '').trim();
+      // Strip markdown code fences, leading/trailing text
+      let cleaned = raw
+        .replace(/```json\s*/gi, '')
+        .replace(/```\s*/g, '')
+        .trim();
+      // Extract just the JSON array if there's surrounding text
+      const arrMatch = cleaned.match(/\[.*\]/s);
+      if (arrMatch) cleaned = arrMatch[0];
       suggestions = JSON.parse(cleaned);
+      if (!Array.isArray(suggestions)) suggestions = [];
     } catch(e) {
-      statusEl.textContent = 'Could not parse suggestions. Try again.';
+      // If still can't parse, show raw for debugging and offer retry
+      console.error('Polish parse error:', e, 'Raw:', raw);
+      statusEl.textContent = 'Could not parse suggestions — try clicking Polish again.';
       return;
     }
 
@@ -7088,6 +7155,51 @@ function renderSubjOpts(grid) {
       grid.appendChild(btn);
     });
   });
+
+  // Show custom sentences added for this category (persisted on student object)
+  const customKey = currentSubject === 'english' ? 'engCustom' : 'mathCustom';
+  const customSents = (cur()[customKey] && cur()[customKey][currentTab]) || [];
+  if (customSents.length) {
+    const cdiv = document.createElement('div');
+    cdiv.className = 'grade-divider';
+    cdiv.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label" style="color:var(--blue);border-color:var(--blue)">✎ My sentences</span><div class="grade-divider-line"></div>`;
+    grid.appendChild(cdiv);
+    customSents.forEach((s, ci) => {
+      const displayed = applyRaw(s, name, p, yr);
+      const isSel = (sel[currentTab] || []).includes(s);
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:stretch;gap:4px';
+      const btn = document.createElement('button');
+      btn.className = 'opt' + (isSel ? ' sel' : '');
+      btn.style.flex = '1';
+      btn.textContent = displayed;
+      btn.onclick = () => toggleSubjOpt(currentTab, s);
+      row.appendChild(btn);
+      // Delete button
+      const del = document.createElement('button');
+      del.style.cssText = 'font-size:11px;color:var(--t2);background:none;border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;padding:0 8px;flex-shrink:0;transition:color .1s';
+      del.textContent = '✕';
+      del.title = 'Remove this custom sentence';
+      del.onmouseenter = () => del.style.color = 'var(--red)';
+      del.onmouseleave = () => del.style.color = '';
+      del.onclick = () => {
+        cur()[customKey][currentTab].splice(ci, 1);
+        // Also remove from selected/ordered if present
+        const selArr = sel[currentTab] || [];
+        const sIdx = selArr.indexOf(s);
+        if (sIdx !== -1) selArr.splice(sIdx, 1);
+        const ord = getSubjOrdered();
+        const oIdx = ord.indexOf(s);
+        if (oIdx !== -1) ord.splice(oIdx, 1);
+        setSubjSelected(sel);
+        setSubjOrdered(ord);
+        autoSave();
+        render();
+      };
+      row.appendChild(del);
+      grid.appendChild(row);
+    });
+  }
 }
 
 function addSubjCustomSentence() {
@@ -7095,7 +7207,7 @@ function addSubjCustomSentence() {
   if (!ta) return;
   const text = ta.value.trim();
   if (!text) { showToast('Please type a sentence first.'); return; }
-  // Add to current subject ordered list
+  // Add to current subject ordered list and save to student data
   const ord = getSubjOrdered();
   const sel = getSubjSelected();
   ord.push(text);
@@ -7103,8 +7215,18 @@ function addSubjCustomSentence() {
   sel[currentTab].push(text);
   setSubjSelected(sel);
   setSubjOrdered(ord);
+  // Also save to custom bank on student so it persists and renders in the sentence panel
+  const draftKey = currentSubject === 'english' ? 'engCustom' : 'mathCustom';
+  if (!cur()[draftKey]) cur()[draftKey] = {};
+  if (!cur()[draftKey][currentTab]) cur()[draftKey][currentTab] = [];
+  cur()[draftKey][currentTab].push(text);
   ta.value = '';
+  // Invalidate publish cache since new sentence added
+  if (currentSubject === 'english') { cur().pubEditEnglish = null; }
+  if (currentSubject === 'maths') { cur().pubEditMaths = null; }
+  autoSave();
   render();
+  showToast('Sentence added and saved.');
 }
 
 function addCustomSentence() {
@@ -7124,7 +7246,9 @@ function addCustomSentence() {
   cur().ordered.push(key);
   cur().published = false;
   ta.value = '';
+  autoSave();
   render();
+  showToast('Sentence added and saved.');
 }
 
 function toggleCustomOpt(cat, idx) {
@@ -9508,6 +9632,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.3.2</div>
+<div class="version-badge">v3.3.4</div>
 </body>
 </html>
