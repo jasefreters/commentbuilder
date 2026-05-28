@@ -5714,11 +5714,10 @@ async function cloudCreateAccount() {
 }
 
 function cloudSignOut() {
-  if (!confirm('Sign out of cloud sync? Your local session data stays on this device.')) return;
+  if (!confirm('Sign out? Your session data stays safely in the cloud and will reload next time you sign in.')) return;
   setCloudUser('');
   setCloudPin('');
-  updateCloudStatus();
-  showToast('Signed out of cloud sync.');
+  window.location.replace('https://jasefreters.github.io/commentbuilder/index.html');
 }
 
 function cloudShowChangeCredentials() {
@@ -7435,6 +7434,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.2.4</div>
+<div class="version-badge">v3.2.5</div>
 </body>
 </html>
