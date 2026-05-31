@@ -144,6 +144,8 @@
   .swatch { width: 14px; height: 3px; border-radius: 1px; }
   .swatch.d { background: var(--amber); }
   .swatch.c { background: var(--red); }
+  .swatch.sp { background: #f87171; }
+  .swatch.gr { background: #60a5fa; }
   .ok-msg { color: var(--green); display: flex; align-items: center; gap: 6px; font-size: 13px; }
 
   /* Toast */
@@ -286,6 +288,8 @@
   .f-alt { cursor: pointer; background: rgba(96,165,250,0.13); border-bottom: 1.5px solid var(--blue); border-radius: 2px; cursor: help; }
   .swatch.a { background: var(--blue); }
   .f-tense { cursor: pointer; background: rgba(167,139,250,0.15); border-bottom: 1.5px solid #a78bfa; border-radius: 2px; cursor: help; }
+  .f-spell { cursor: help; border-bottom: 2px dotted #f87171; border-radius: 2px; }
+  .f-grammar { cursor: help; border-bottom: 2px dotted #60a5fa; border-radius: 2px; }
   .swatch.t { background: #a78bfa; }
 
   /* API KEY MODAL */
@@ -742,6 +746,8 @@
         <div class="leg"><div class="swatch c"></div><span>Contradiction</span></div>
         <div class="leg"><div class="swatch a"></div><span>Alternation</span></div>
         <div class="leg"><div class="swatch t"></div><span>Tense</span></div>
+        <div class="leg"><div class="swatch sp"></div><span>Spelling</span></div>
+        <div class="leg"><div class="swatch gr"></div><span>Grammar</span></div>
       </div>
     </div>
   </div>
@@ -1547,7 +1553,10 @@ function toggleSubjOpt(cat, s) {
     const p    = PR[cur().pronoun];
     const yr   = cur().year || '';
     // Count existing name/pronoun openers to continue alternation correctly
-    const openerCount = (existing.match(/^[A-Z][a-z]+\s|^(He|She|They)\s/gm) || []).length;
+    // Only count actual name or pronoun sentence starters, not all capitals
+    const nameEsc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const openerRegex = new RegExp('^(' + nameEsc + '|' + [p.N, p.S, p.n, p.s].filter(Boolean).join('|') + ')\\b', 'gm');
+    const openerCount = (existing.match(openerRegex) || []).length;
     const counter = { value: openerCount };
     const resolved = applyAlternation(s, name, p, counter, yr);
     if (isAdding) {
@@ -1566,8 +1575,10 @@ function toggleSubjOpt(cat, s) {
     cur()[pubKey + '_fdHash'] = null;
   }
   _draftDirty = false; // sentence selection change — not a manual draft edit
-  if (currentSubject === 'english') cur().engDraftEdited = false;
-  if (currentSubject === 'maths') cur().mathDraftEdited = false;
+  // Clear engDraft/mathDraft when not manually edited so getSubjDraft
+  // always rebuilds from engOrdered with fresh correct alternation
+  if (currentSubject === 'english') { cur().engDraftEdited = false; cur().engDraft = null; }
+  if (currentSubject === 'maths') { cur().mathDraftEdited = false; cur().mathDraft = null; }
 
   render();
   autoSave();
@@ -1578,16 +1589,21 @@ function getSubjDraft() {
   const p = PR[cur().pronoun];
   const yr = cur().year || '';
   if (currentSubject === 'english') {
-    // Only use stored engDraft if teacher manually edited it
+    // Only use stored engDraft if teacher explicitly edited it — otherwise always rebuild
     if (cur().engDraftEdited && cur().engDraft) return cur().engDraft;
-    // Rebuild from engOrdered with fresh alternation
+    // Rebuild from engOrdered with a fresh counter starting at 0
+    // This guarantees perfect Name→Pronoun→Name alternation every time
     const counter = { value: 0 };
-    return (cur().engOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    const sentences = (cur().engOrdered || []);
+    if (!sentences.length) return '';
+    return sentences.map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
   }
   if (currentSubject === 'maths') {
     if (cur().mathDraftEdited && cur().mathDraft) return cur().mathDraft;
     const counter = { value: 0 };
-    return (cur().mathOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    const sentences = (cur().mathOrdered || []);
+    if (!sentences.length) return '';
+    return sentences.map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
   }
   return null;
 }
@@ -4148,11 +4164,13 @@ async function runCheck() {
           content: `You are a school report comment reviewer for an Australian primary school teacher. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma. Carefully read the following student report comment and identify any:
 1. SIMILAR sentences — two sentences that express the same idea, even if worded differently
 2. CONTRADICTIONS — two sentences that say conflicting things (e.g. works independently vs needs support)
-3. TENSE errors — sentences written in a different tense to the rest of the comment. School report comments should be consistently in present tense OR consistently in past tense throughout. Flag any sentence that breaks this consistency.
-4. FUTURE DIRECTION CONTRADICTIONS — a future direction (lines starting with *) that contradicts a strength already described in the comment body (e.g. the comment praises the student's spelling accuracy but a future direction targets spelling improvement)
+3. TENSE errors — sentences not in present tense. School report comments should be in present tense throughout.
+4. FUTURE DIRECTION CONTRADICTIONS — a future direction (lines starting with *) that contradicts a strength already described in the comment body
+5. SPELLING errors — misspelled words. Use Australian English (e.g. 'recognise', 'colour', 'organise'). Only flag clear errors, not style choices.
+6. GRAMMAR errors — clear grammatical mistakes such as wrong subject-verb agreement, missing articles, or obviously awkward phrasing.
 
 Return ONLY valid JSON, no markdown, no explanation:
-{"issues":[{"type":"similar"|"contradiction"|"tense","sentences":["exact text of sentence"],"reason":"brief label max 8 words"}]}
+{"issues":[{"type":"similar"|"contradiction"|"tense"|"fd_contradiction"|"spelling"|"grammar","sentences":["exact sentence OR the specific misspelled/incorrect word"],"reason":"brief label max 6 words","suggestion":"corrected word or phrase (for spelling/grammar only)"}]}
 
 If no issues found, return: {"issues":[]}
 
@@ -4220,7 +4238,10 @@ async function fetchFixSuggestion(span, issue, suggestionEl, actionsEl) {
     similar: 'two sentences express the same idea',
     contradiction: 'two sentences contradict each other',
     alternation: 'two consecutive sentences use the same subject opener (should alternate name/pronoun)',
-    tense: 'a sentence uses a different tense to the rest of the comment'
+    tense: 'a sentence is not in present tense',
+    fd_contradiction: 'a future direction contradicts a stated strength',
+    spelling: issue.suggestion ? `"${issue.sentences[0]}" appears to be misspelled — suggested: "${issue.suggestion}"` : 'a word appears to be misspelled',
+    grammar: issue.suggestion ? `grammatical issue — suggested: "${issue.suggestion}"` : 'a grammatical issue was detected'
   };
 
   try {
@@ -4720,12 +4741,14 @@ function resetDraft() {
   if (currentSubject === 'english') {
     cur().engDraft = null;
     cur().engDraftEdited = false;
-    cur().pubEditEnglish = null;
+    cur().pubEditEnglish = null; cur().pubEditEnglish_fdHash = null; cur().pubEditEnglish_subject = null;
+    _draftDirty = true;
     showToast('Draft reset to selected sentences.');
   } else if (currentSubject === 'maths') {
     cur().mathDraft = null;
     cur().mathDraftEdited = false;
-    cur().pubEditMaths = null;
+    cur().pubEditMaths = null; cur().pubEditMaths_fdHash = null; cur().pubEditMaths_subject = null;
+    _draftDirty = true;
     showToast('Draft reset to selected sentences.');
   } else {
     cur().draftOverride = null;
@@ -5259,11 +5282,13 @@ async function runCheck() {
           content: `You are a school report comment reviewer for an Australian primary school teacher. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma. Carefully read the following student report comment and identify any:
 1. SIMILAR sentences — two sentences that express the same idea, even if worded differently
 2. CONTRADICTIONS — two sentences that say conflicting things (e.g. works independently vs needs support)
-3. TENSE errors — sentences written in a different tense to the rest of the comment. School report comments should be consistently in present tense OR consistently in past tense throughout. Flag any sentence that breaks this consistency.
-4. FUTURE DIRECTION CONTRADICTIONS — a future direction (lines starting with *) that contradicts a strength already described in the comment body (e.g. the comment praises the student's spelling accuracy but a future direction targets spelling improvement)
+3. TENSE errors — sentences not in present tense. School report comments should be in present tense throughout.
+4. FUTURE DIRECTION CONTRADICTIONS — a future direction (lines starting with *) that contradicts a strength already described in the comment body
+5. SPELLING errors — misspelled words. Use Australian English (e.g. 'recognise', 'colour', 'organise'). Only flag clear errors, not style choices.
+6. GRAMMAR errors — clear grammatical mistakes such as wrong subject-verb agreement, missing articles, or obviously awkward phrasing.
 
 Return ONLY valid JSON, no markdown, no explanation:
-{"issues":[{"type":"similar"|"contradiction"|"tense","sentences":["exact text of sentence"],"reason":"brief label max 8 words"}]}
+{"issues":[{"type":"similar"|"contradiction"|"tense"|"fd_contradiction"|"spelling"|"grammar","sentences":["exact sentence OR the specific misspelled/incorrect word"],"reason":"brief label max 6 words","suggestion":"corrected word or phrase (for spelling/grammar only)"}]}
 
 If no issues found, return: {"issues":[]}
 
@@ -5316,20 +5341,65 @@ ${text}`
 // Store flagged issues so we can show fix suggestions on click
 function closeFix() { document.getElementById('fixDropdown').style.display = 'none'; }
 
+function applyWordFix(word, replacement) {
+  // Replace a specific word in the publish pane with the corrected version
+  const pubContent = document.getElementById('pubContent');
+  if (!pubContent) return;
+  const spans = pubContent.querySelectorAll('span, mark');
+  spans.forEach(s => {
+    if (s.textContent.trim().toLowerCase() === word.toLowerCase() ||
+        s.innerHTML.includes(word)) {
+      // Replace the inner mark/span with plain text of the replacement
+      const parent = s.parentNode;
+      const textNode = document.createTextNode(replacement);
+      parent.replaceChild(textNode, s);
+    }
+  });
+  // Also do a text-level replace as fallback
+  pubContent.innerHTML = pubContent.innerHTML.replace(
+    new RegExp('\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\b', 'g'),
+    replacement
+  );
+  closeFix();
+  savePublishEdits();
+  showToast('Fix applied.');
+}
+
 function applyFlags(issues) {
   _flaggedIssues = issues;
   const allSpans = Array.from(document.querySelectorAll('#pubContent span[data-si]'));
   issues.forEach((issue, issueIdx) => {
-    const cls = issue.type === 'contradiction' ? 'f-contra' : issue.type === 'alternation' ? 'f-alt' : issue.type === 'tense' ? 'f-tense' : 'f-dup';
+    const isSpellGrammar = issue.type === 'spelling' || issue.type === 'grammar';
+    const cls = issue.type === 'contradiction' || issue.type === 'fd_contradiction' ? 'f-contra'
+              : issue.type === 'tense'       ? 'f-tense'
+              : issue.type === 'alternation' ? 'f-alt'
+              : issue.type === 'spelling'    ? 'f-spell'
+              : issue.type === 'grammar'     ? 'f-grammar'
+              : 'f-dup';
+
     issue.sentences.forEach(target => {
       const trimmed = target.trim();
       allSpans.forEach(span => {
-        if (span.textContent.trim() === trimmed ||
-            (trimmed.length > 20 && span.textContent.includes(trimmed.slice(0, 30)))) {
-          span.className = cls;
-          span.title = 'Click for fix suggestion';
-          span.dataset.issueIdx = issueIdx;
-          span.onclick = (e) => { e.stopPropagation(); openFixDropdown(e, span, issue); };
+        const spanText = span.textContent.trim();
+        if (isSpellGrammar) {
+          // Word-level: highlight just the flagged word within the span
+          const escapedTarget = trimmed.replace(/[.*+?^${}()|[\\\]]/g, '\\$&');
+          const re = new RegExp('(?:^|\\b)(' + escapedTarget + ')(?:\\b|$)', 'gi');
+          if (re.test(spanText)) {
+            const tip = issue.suggestion ? `Suggestion: ${issue.suggestion}` : issue.reason;
+            span.innerHTML = spanText.replace(re,
+              `<span class="${cls}" title="${tip}" data-issue-idx="${issueIdx}"
+                onclick="event.stopPropagation();openFixDropdown(event,this,_flaggedIssues[${issueIdx}])">$1</span>`);
+          }
+        } else {
+          // Sentence-level: highlight the whole span
+          if (spanText === trimmed ||
+              (trimmed.length > 20 && spanText.includes(trimmed.slice(0, 30)))) {
+            span.className = cls;
+            span.title = 'Click for fix suggestion';
+            span.dataset.issueIdx = issueIdx;
+            span.onclick = (e) => { e.stopPropagation(); openFixDropdown(e, span, issue); };
+          }
         }
       });
     });
@@ -5364,7 +5434,7 @@ function openFixDropdown(event, span, issue) {
   dd.style.visibility = 'visible';
 
   // Set badge
-  const typeLabels = { similar: 'Similar', contradiction: 'Contradiction', alternation: 'Alternation', tense: 'Tense' };
+  const typeLabels = { similar: 'Similar idea', contradiction: 'Contradiction', alternation: 'Alternation', tense: 'Tense', fd_contradiction: 'FD Contradiction', spelling: 'Spelling', grammar: 'Grammar' };
   badge.textContent = typeLabels[issue.type] || issue.type;
   badge.className = 'fix-type-badge ' + issue.type;
   reason.textContent = issue.reason;
@@ -5373,8 +5443,16 @@ function openFixDropdown(event, span, issue) {
   suggestion.innerHTML = '<div class="fix-loading"><div class="spinner"></div><span>Getting fix suggestion…</span></div>';
   actions.innerHTML = '<button class="fix-btn" onclick="closeFix()">Dismiss</button>';
 
-  // Fetch AI fix suggestion
-  fetchFixSuggestion(span, issue, suggestion, actions);
+  // For spelling/grammar with a suggestion already provided, show it immediately
+  if ((issue.type === 'spelling' || issue.type === 'grammar') && issue.suggestion) {
+    suggestion.innerHTML = `<div class="fix-suggestion">${issue.suggestion}</div>`;
+    window._pendingFix = { action: 'replace', pi: span.dataset ? span.dataset.pi : '', si: span.dataset ? span.dataset.si : '', replacement: issue.suggestion, word: issue.sentences[0] };
+    actions.innerHTML = `
+      <button class="fix-btn" onclick="closeFix()">Dismiss</button>
+      <button class="fix-btn primary" onclick="applyWordFix('${issue.sentences[0].replace(/'/g,"\'")}','${issue.suggestion.replace(/'/g,"\'")}')">✓ Apply fix</button>`;
+  } else {
+    fetchFixSuggestion(span, issue, suggestion, actions);
+  }
 }
 
 async function fetchFixSuggestion(span, issue, suggestionEl, actionsEl) {
@@ -5384,7 +5462,10 @@ async function fetchFixSuggestion(span, issue, suggestionEl, actionsEl) {
     similar: 'two sentences express the same idea',
     contradiction: 'two sentences contradict each other',
     alternation: 'two consecutive sentences use the same subject opener (should alternate name/pronoun)',
-    tense: 'a sentence uses a different tense to the rest of the comment'
+    tense: 'a sentence is not in present tense',
+    fd_contradiction: 'a future direction contradicts a stated strength',
+    spelling: issue.suggestion ? `"${issue.sentences[0]}" appears to be misspelled — suggested: "${issue.suggestion}"` : 'a word appears to be misspelled',
+    grammar: issue.suggestion ? `grammatical issue — suggested: "${issue.suggestion}"` : 'a grammatical issue was detected'
   };
 
   try {
@@ -8308,6 +8389,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.5.0</div>
+<div class="version-badge">v3.5.2</div>
 </body>
 </html>
