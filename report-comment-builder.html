@@ -5476,12 +5476,16 @@ function applyFlagFix(action, pi, si, replacement) {
 
 // ── VIEW ─────────────────────────────────────────────────────────
 function flushDraftPane() {
-  // Force-sync the draft pane content to engDraft/mathDraft/draftOverride
-  // before leaving Build view — catches the click-before-blur race condition
+  // Only sync outEditable if it is currently FOCUSED (user is actively editing).
+  // If not focused, onblur already fired and saved the content — reading
+  // outEditable when it's not focused risks capturing stale content from a
+  // previous subject render (the activeElement guard in renderOut means
+  // outEditable isn't updated when the user has focus there).
   const el = document.getElementById('outEditable');
-  if (!el) return;
+  if (!el || document.activeElement !== el) return;
+
   const text = el.innerText;
-  if (currentSubject === 'english' && (cur().engDraftEdited || text.trim())) {
+  if (currentSubject === 'english') {
     const stripped = stripFDFromDraftText(text);
     if (stripped !== cur().engDraft) {
       cur().engDraft = stripped;
@@ -5490,7 +5494,7 @@ function flushDraftPane() {
       cur().pubEditEnglish_fdHash = null;
       _draftDirty = true;
     }
-  } else if (currentSubject === 'maths' && (cur().mathDraftEdited || text.trim())) {
+  } else if (currentSubject === 'maths') {
     const stripped = stripFDFromDraftText(text);
     if (stripped !== cur().mathDraft) {
       cur().mathDraft = stripped;
@@ -8304,6 +8308,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.4.6</div>
+<div class="version-badge">v3.4.7</div>
 </body>
 </html>
