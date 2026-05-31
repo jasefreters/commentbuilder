@@ -1374,16 +1374,20 @@ function getPublishedText(stu) {
 let currentSubject = 'general'; // 'general' | 'english' | 'maths'
 
 function setSubject(subj) {
+  // Save publish edits for the CURRENT subject BEFORE changing currentSubject
+  // (savePublishEdits/saveCur use currentSubject to determine which key to write to)
+  if (currentView === 'publish') savePublishEdits();
+
   currentSubject = subj;
   _showGradeEntry = false;
   _showAllStrands = false;
   lsSet('rcb_subject', subj);
-  // Only clear the OTHER subjects' caches to prevent cross-subject bleed
-  // Never clear the cache for the subject we're switching TO — that would lose edits
+  // Clear the destination subject's cache so we always see fresh content when switching
+  // Also clear other subjects to prevent cross-subject bleed
   if (cur()) {
-    if (subj !== 'general') { cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null; }
-    if (subj !== 'english') { cur().pubEditEnglish = null; cur().pubEditEnglish_fdHash = null; }
-    if (subj !== 'maths')   { cur().pubEditMaths   = null; cur().pubEditMaths_fdHash   = null; }
+    cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null;
+    cur().pubEditEnglish = null; cur().pubEditEnglish_fdHash = null;
+    cur().pubEditMaths   = null; cur().pubEditMaths_fdHash   = null;
   }
 
   // Update header buttons
@@ -1404,18 +1408,8 @@ function setSubject(subj) {
   } else {
     currentTab = CATS[0];
   }
-  // Stay in whatever view we're in — if Publish, save current edits then re-render
+  // Stay in whatever view we're in — if Publish, re-render for new subject
   if (currentView === 'publish') {
-    saveCur(); // save edits for the subject we're leaving
-    // Clear the destination subject's cache so renderPublish shows fresh content
-    // (without this, the old cached HTML for that subject would be restored instead)
-    if (cur()) {
-      const destKey = subj === 'english' ? 'pubEditEnglish'
-                    : subj === 'maths'   ? 'pubEditMaths'
-                    : 'pubEditGeneral';
-      cur()[destKey] = null;
-      cur()[destKey + '_fdHash'] = null;
-    }
     renderPublish();
   } else {
     if (currentView !== 'build') setView('build');
@@ -8278,6 +8272,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.4.4</div>
+<div class="version-badge">v3.4.5</div>
 </body>
 </html>
