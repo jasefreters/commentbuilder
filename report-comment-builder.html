@@ -1230,6 +1230,10 @@ function applyAlternation(raw, name, p, counter, year) {
       return applyRaw(forced, name, p, year);
     }
   }
+  // Failsafe: if sentence is already resolved (starts with name or pronoun),
+  // still increment counter so subsequent sentences alternate correctly
+  if (name && raw.startsWith(name + ' ')) counter.value++;
+  else if (raw.startsWith(p.N + ' ') || raw.startsWith(p.S + ' ')) counter.value++;
   return applyRaw(raw, name, p, year);
 }
 
@@ -1402,7 +1406,16 @@ function setSubject(subj) {
   }
   // Stay in whatever view we're in — if Publish, save current edits then re-render
   if (currentView === 'publish') {
-    saveCur(); // save any publish edits before switching subject
+    saveCur(); // save edits for the subject we're leaving
+    // Clear the destination subject's cache so renderPublish shows fresh content
+    // (without this, the old cached HTML for that subject would be restored instead)
+    if (cur()) {
+      const destKey = subj === 'english' ? 'pubEditEnglish'
+                    : subj === 'maths'   ? 'pubEditMaths'
+                    : 'pubEditGeneral';
+      cur()[destKey] = null;
+      cur()[destKey + '_fdHash'] = null;
+    }
     renderPublish();
   } else {
     if (currentView !== 'build') setView('build');
@@ -1559,6 +1572,8 @@ function toggleSubjOpt(cat, s) {
     cur()[pubKey + '_fdHash'] = null;
   }
   _draftDirty = false; // sentence selection change — not a manual draft edit
+  if (currentSubject === 'english') cur().engDraftEdited = false;
+  if (currentSubject === 'maths') cur().mathDraftEdited = false;
 
   render();
   autoSave();
@@ -1569,13 +1584,14 @@ function getSubjDraft() {
   const p = PR[cur().pronoun];
   const yr = cur().year || '';
   if (currentSubject === 'english') {
-    if (cur().engDraft) return cur().engDraft;
-    // Single shared counter so alternation is consistent across all sentences
+    // Only use stored engDraft if teacher manually edited it
+    if (cur().engDraftEdited && cur().engDraft) return cur().engDraft;
+    // Rebuild from engOrdered with fresh alternation
     const counter = { value: 0 };
     return (cur().engOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
   }
   if (currentSubject === 'maths') {
-    if (cur().mathDraft) return cur().mathDraft;
+    if (cur().mathDraftEdited && cur().mathDraft) return cur().mathDraft;
     const counter = { value: 0 };
     return (cur().mathOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
   }
@@ -4637,6 +4653,7 @@ function onDraftInput() {
   const text = el.innerText;
   if (currentSubject === 'english') {
     cur().engDraft = stripFDFromDraftText(text);
+    cur().engDraftEdited = true; // teacher manually edited — preserve verbatim
     cur().pubEditEnglish = null;
     cur().pubEditEnglish_fdHash = null;
     _draftDirty = true;
@@ -4653,6 +4670,7 @@ function onDraftInput() {
     bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
   } else if (currentSubject === 'maths') {
     cur().mathDraft = stripFDFromDraftText(text);
+    cur().mathDraftEdited = true; // teacher manually edited — preserve verbatim
     cur().pubEditMaths = null;
     cur().pubEditMaths_fdHash = null;
     _draftDirty = true;
@@ -4705,10 +4723,12 @@ function doneDraft() {
 function resetDraft() {
   if (currentSubject === 'english') {
     cur().engDraft = null;
+    cur().engDraftEdited = false;
     cur().pubEditEnglish = null;
     showToast('Draft reset to selected sentences.');
   } else if (currentSubject === 'maths') {
     cur().mathDraft = null;
+    cur().mathDraftEdited = false;
     cur().pubEditMaths = null;
     showToast('Draft reset to selected sentences.');
   } else {
@@ -4812,10 +4832,14 @@ function getSubjectPublishText(stu, subj) {
     const p = PR[stu.pronoun];
     const yr = stu.year || '';
     const counter = { value: 0 };
-    // Always strip FD lines from draft in case old data has them baked in
-    const rawDraft = stu.engDraft ? stripFDLines(stu.engDraft) : '';
-    const bodyText = rawDraft || (stu.engOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
-    // Always read FD fresh from engFD — never rely on it being in the draft
+    let bodyText;
+    if (stu.engDraftEdited && stu.engDraft) {
+      // Teacher manually edited the draft — preserve their text verbatim
+      bodyText = stripFDLines(stu.engDraft);
+    } else {
+      // Always rebuild from engOrdered so alternation is always fresh and correct
+      bodyText = (stu.engOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    }
     const fdText = getFDTextForStu(stu, 'english');
     return [bodyText, fdText].filter(Boolean).join('\n\n');
   }
@@ -4824,8 +4848,14 @@ function getSubjectPublishText(stu, subj) {
     const p = PR[stu.pronoun];
     const yr = stu.year || '';
     const counter = { value: 0 };
-    const rawDraft = stu.mathDraft ? stripFDLines(stu.mathDraft) : '';
-    const bodyText = rawDraft || (stu.mathOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    let bodyText;
+    if (stu.mathDraftEdited && stu.mathDraft) {
+      // Teacher manually edited the draft — preserve their text verbatim
+      bodyText = stripFDLines(stu.mathDraft);
+    } else {
+      // Always rebuild from mathOrdered so alternation is always fresh and correct
+      bodyText = (stu.mathOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    }
     const fdText = getFDTextForStu(stu, 'maths');
     return [bodyText, fdText].filter(Boolean).join('\n\n');
   }
@@ -8248,6 +8278,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.4.1</div>
+<div class="version-badge">v3.4.4</div>
 </body>
 </html>
