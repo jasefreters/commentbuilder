@@ -5496,6 +5496,14 @@ function setView(v) {
   if (currentView === 'build') flushDraftPane(); // sync draft pane before leaving Build
   if (currentView === 'publish') savePublishEdits(); // save publish edits before leaving
   saveCur();
+  // If coming from Build, force a fresh publish render — never restore stale cache
+  if (currentView === 'build' && v === 'publish') {
+    if (cur()) {
+      cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null; cur().pubEditGeneral_subject = null;
+      cur().pubEditEnglish = null; cur().pubEditEnglish_fdHash = null; cur().pubEditEnglish_subject = null;
+      cur().pubEditMaths   = null; cur().pubEditMaths_fdHash   = null; cur().pubEditMaths_subject   = null;
+    }
+  }
   currentView = v;
   document.getElementById('buildView').classList.toggle('hidden', v !== 'build');
   document.getElementById('pubView').classList.toggle('active', v === 'publish');
@@ -8295,6 +8303,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.4.8</div>
+<div class="version-badge">v3.4.9</div>
 </body>
 </html>
