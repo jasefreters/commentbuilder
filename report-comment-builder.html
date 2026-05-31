@@ -665,7 +665,7 @@
       </div>
       <div class="out-editable" id="outEditable" contenteditable="true"
            data-placeholder="Select sentences from the centre to build this student’s comment, or type here directly…"
-           oninput="onDraftInput()" onkeydown="onDraftKeydown(event)"></div>
+           onblur="onDraftInput()" oninput="onDraftInput()" onkeydown="onDraftKeydown(event)"></div>
       <div class="draft-edit-bar" id="draftEditBar">
         <button class="draft-reset-btn" onclick="resetDraft()">Reset</button>
         <div class="draft-edit-label">Editing draft…</div>
@@ -5475,7 +5475,39 @@ function applyFlagFix(action, pi, si, replacement) {
 }
 
 // ── VIEW ─────────────────────────────────────────────────────────
+function flushDraftPane() {
+  // Force-sync the draft pane content to engDraft/mathDraft/draftOverride
+  // before leaving Build view — catches the click-before-blur race condition
+  const el = document.getElementById('outEditable');
+  if (!el) return;
+  const text = el.innerText;
+  if (currentSubject === 'english' && (cur().engDraftEdited || text.trim())) {
+    const stripped = stripFDFromDraftText(text);
+    if (stripped !== cur().engDraft) {
+      cur().engDraft = stripped;
+      cur().engDraftEdited = true;
+      cur().pubEditEnglish = null;
+      cur().pubEditEnglish_fdHash = null;
+      _draftDirty = true;
+    }
+  } else if (currentSubject === 'maths' && (cur().mathDraftEdited || text.trim())) {
+    const stripped = stripFDFromDraftText(text);
+    if (stripped !== cur().mathDraft) {
+      cur().mathDraft = stripped;
+      cur().mathDraftEdited = true;
+      cur().pubEditMaths = null;
+      cur().pubEditMaths_fdHash = null;
+      _draftDirty = true;
+    }
+  } else if (currentSubject === 'general') {
+    if (cur().draftOverride !== null && cur().draftOverride !== undefined) {
+      cur().draftOverride = text || null;
+    }
+  }
+}
+
 function setView(v) {
+  if (currentView === 'build') flushDraftPane(); // sync draft pane before leaving Build
   if (currentView === 'publish') savePublishEdits(); // save publish edits before leaving
   saveCur();
   currentView = v;
@@ -8272,6 +8304,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.4.5</div>
+<div class="version-badge">v3.4.6</div>
 </body>
 </html>
