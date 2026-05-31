@@ -6225,7 +6225,6 @@ function savePublishEdits() {
   const pubEl = document.getElementById('pubContent');
   const hasPara = pubEl && pubEl.querySelector('.pub-para');
   if (!hasPara) return;
-  // Store subject tag inside the cache — verified on restore, immune to timing bugs
   const subj = currentSubject;
   const key = subj === 'english' ? 'pubEditEnglish'
             : subj === 'maths'   ? 'pubEditMaths'
@@ -6233,11 +6232,10 @@ function savePublishEdits() {
   const fdArr = subj === 'english' ? (students[currentIdx].engFD || [])
               : subj === 'maths'   ? (students[currentIdx].mathFD || [])
               : [];
-  const hash = subj + '|' + JSON.stringify(fdArr);
   students[currentIdx][key] = pubEl.innerHTML;
-  students[currentIdx][key + '_fdHash'] = hash;
-  // Extra safety: tag the cache with the subject it belongs to
+  students[currentIdx][key + '_fdHash'] = subj + '|' + JSON.stringify(fdArr);
   students[currentIdx][key + '_subject'] = subj;
+  autoSave(); // persist to IndexedDB and cloud so edits survive navigation
 }
 
 function saveStudent() { saveCur(); showToast(`Saved ${cur().name||'student'}!`); render(); }
@@ -8307,6 +8305,19 @@ document.addEventListener('mousemove', e => {
 // loadPersistedState is async (IndexedDB) — it calls render() itself
 loadPersistedState();
 loadTheme();
+
+// Auto-save publish edits whenever pubContent DOM changes (synonyms, Polish, fixes)
+(function() {
+  const pubEl = document.getElementById('pubContent');
+  if (!pubEl || typeof MutationObserver === 'undefined') return;
+  let _pubSaveTimer = null;
+  const obs = new MutationObserver(() => {
+    if (currentView !== 'publish' || _draftDirty) return;
+    clearTimeout(_pubSaveTimer);
+    _pubSaveTimer = setTimeout(() => savePublishEdits(), 300);
+  });
+  obs.observe(pubEl, { childList: true, subtree: true, characterData: true });
+})();
 </script>
 <!-- POLISH MODAL -->
 <div id="polishModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px">
@@ -8389,6 +8400,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.5.2</div>
+<div class="version-badge">v3.5.3</div>
 </body>
 </html>
