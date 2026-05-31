@@ -5494,10 +5494,16 @@ function loadCur() { document.getElementById('studentName').value = cur().name||
 function saveStudent() { saveCur(); showToast(`Saved ${cur().name||'student'}!`); render(); }
 
 function copyDraft() {
+  // Always try to read from the live publish pane first (captures all edits)
+  // Fall back to rebuilding from data only if pane is not rendered
+  const liveText = getPublishedPaneText();
+  if (liveText) {
+    navigator.clipboard.writeText(liveText).then(() => showToast('Copied!'));
+    return;
+  }
+  // Pane not rendered — rebuild from data
   let text;
-  if (currentSubject === 'english') {
-    text = getSubjectPublishText(cur());
-  } else if (currentSubject === 'maths') {
+  if (currentSubject !== 'general') {
     text = getSubjectPublishText(cur());
   } else {
     text = cur().draftOverride !== null && cur().draftOverride !== undefined
@@ -5509,43 +5515,52 @@ function copyDraft() {
 }
 
 function getPublishedPaneText() {
-  // Read the live publish pane content (includes all edits, synonym swaps etc.)
+  // Read the live publish pane DOM — captures ALL edits regardless of subject.
   const el = document.getElementById('pubContent');
-  if (!el) return null;
-  // Convert the HTML back to clean plain text:
-  // - fd-para blocks: each fd-line becomes "* text" on its own line
-  // - pub-para blocks: sentences joined with spaces, then paragraphs with double newline
+  if (!el || !el.innerHTML.trim()) return null;
+
   const paras = el.querySelectorAll('.pub-para');
-  if (!paras.length) return el.innerText.trim() || null;
-  const parts = Array.from(paras).map(para => {
-    if (para.classList.contains('fd-para')) {
-      return Array.from(para.querySelectorAll('.fd-line'))
-        .map(l => l.textContent.trim()) // text already contains "* " from getFDTextForStu
-        .join('\n');
-    }
-    return Array.from(para.querySelectorAll('span'))
-      .map(s => s.textContent.trim())
-      .filter(Boolean)
-      .join(' ');
-  }).filter(Boolean);
-  return parts.join('\n\n') || null;
+  if (paras.length) {
+    // Standard rendered publish — read para by para
+    const parts = Array.from(paras).map(para => {
+      if (para.classList.contains('fd-para')) {
+        // FD lines — text already contains "* " prefix
+        return Array.from(para.querySelectorAll('.fd-line'))
+          .map(l => l.textContent.trim())
+          .filter(Boolean)
+          .join('\n');
+      }
+      // Regular paragraph — collect all span text
+      const spans = para.querySelectorAll('span');
+      if (spans.length) {
+        return Array.from(spans)
+          .map(s => s.textContent.trim())
+          .filter(Boolean)
+          .join(' ');
+      }
+      // No spans — fallback to innerText of the para
+      return para.innerText.trim();
+    }).filter(Boolean);
+    return parts.join('\n\n') || null;
+  }
+
+  // No .pub-para elements — fallback to raw innerText (handles edge cases)
+  return el.innerText.trim() || null;
 }
 
 function copyPublished() {
-  // For English/Maths always use getSubjectPublishText which guarantees FD is included
-  if (currentSubject !== 'general') {
-    const text = getSubjectPublishText(cur());
-    if (!text) { showToast('Nothing to copy.'); return; }
-    navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
-    return;
-  }
-  // General: read from live publish pane to capture synonym edits etc.
+  // Always read from the live publish pane DOM first —
+  // this captures every edit: synonym swaps, Polish rewrites, manual changes.
+  // getPublishedPaneText() works for ALL subjects (General, English, Maths).
   const liveText = getPublishedPaneText();
   if (liveText) {
     navigator.clipboard.writeText(liveText).then(() => showToast('Copied!'));
     return;
   }
-  const text = getPublishedText(cur());
+  // Fallback: pane not rendered — rebuild from stored data
+  const text = currentSubject !== 'general'
+    ? getSubjectPublishText(cur())
+    : getPublishedText(cur());
   if (!text) { showToast('Nothing to copy.'); return; }
   navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
 }
@@ -7552,10 +7567,16 @@ function loadCur() { document.getElementById('studentName').value = cur().name||
 function saveStudent() { saveCur(); showToast(`Saved ${cur().name||'student'}!`); render(); }
 
 function copyDraft() {
+  // Always try to read from the live publish pane first (captures all edits)
+  // Fall back to rebuilding from data only if pane is not rendered
+  const liveText = getPublishedPaneText();
+  if (liveText) {
+    navigator.clipboard.writeText(liveText).then(() => showToast('Copied!'));
+    return;
+  }
+  // Pane not rendered — rebuild from data
   let text;
-  if (currentSubject === 'english') {
-    text = getSubjectPublishText(cur());
-  } else if (currentSubject === 'maths') {
+  if (currentSubject !== 'general') {
     text = getSubjectPublishText(cur());
   } else {
     text = cur().draftOverride !== null && cur().draftOverride !== undefined
@@ -7567,43 +7588,52 @@ function copyDraft() {
 }
 
 function getPublishedPaneText() {
-  // Read the live publish pane content (includes all edits, synonym swaps etc.)
+  // Read the live publish pane DOM — captures ALL edits regardless of subject.
   const el = document.getElementById('pubContent');
-  if (!el) return null;
-  // Convert the HTML back to clean plain text:
-  // - fd-para blocks: each fd-line becomes "* text" on its own line
-  // - pub-para blocks: sentences joined with spaces, then paragraphs with double newline
+  if (!el || !el.innerHTML.trim()) return null;
+
   const paras = el.querySelectorAll('.pub-para');
-  if (!paras.length) return el.innerText.trim() || null;
-  const parts = Array.from(paras).map(para => {
-    if (para.classList.contains('fd-para')) {
-      return Array.from(para.querySelectorAll('.fd-line'))
-        .map(l => l.textContent.trim()) // text already contains "* " from getFDTextForStu
-        .join('\n');
-    }
-    return Array.from(para.querySelectorAll('span'))
-      .map(s => s.textContent.trim())
-      .filter(Boolean)
-      .join(' ');
-  }).filter(Boolean);
-  return parts.join('\n\n') || null;
+  if (paras.length) {
+    // Standard rendered publish — read para by para
+    const parts = Array.from(paras).map(para => {
+      if (para.classList.contains('fd-para')) {
+        // FD lines — text already contains "* " prefix
+        return Array.from(para.querySelectorAll('.fd-line'))
+          .map(l => l.textContent.trim())
+          .filter(Boolean)
+          .join('\n');
+      }
+      // Regular paragraph — collect all span text
+      const spans = para.querySelectorAll('span');
+      if (spans.length) {
+        return Array.from(spans)
+          .map(s => s.textContent.trim())
+          .filter(Boolean)
+          .join(' ');
+      }
+      // No spans — fallback to innerText of the para
+      return para.innerText.trim();
+    }).filter(Boolean);
+    return parts.join('\n\n') || null;
+  }
+
+  // No .pub-para elements — fallback to raw innerText (handles edge cases)
+  return el.innerText.trim() || null;
 }
 
 function copyPublished() {
-  // For English/Maths always use getSubjectPublishText which guarantees FD is included
-  if (currentSubject !== 'general') {
-    const text = getSubjectPublishText(cur());
-    if (!text) { showToast('Nothing to copy.'); return; }
-    navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
-    return;
-  }
-  // General: read from live publish pane to capture synonym edits etc.
+  // Always read from the live publish pane DOM first —
+  // this captures every edit: synonym swaps, Polish rewrites, manual changes.
+  // getPublishedPaneText() works for ALL subjects (General, English, Maths).
   const liveText = getPublishedPaneText();
   if (liveText) {
     navigator.clipboard.writeText(liveText).then(() => showToast('Copied!'));
     return;
   }
-  const text = getPublishedText(cur());
+  // Fallback: pane not rendered — rebuild from stored data
+  const text = currentSubject !== 'general'
+    ? getSubjectPublishText(cur())
+    : getPublishedText(cur());
   if (!text) { showToast('Nothing to copy.'); return; }
   navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
 }
@@ -9683,6 +9713,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.3.7</div>
+<div class="version-badge">v3.3.8</div>
 </body>
 </html>
