@@ -4680,6 +4680,8 @@ function onDraftInput() {
     bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
   } else {
     cur().draftOverride = text || null;
+    cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null; cur().pubEditGeneral_subject = null;
+    _draftDirty = true; // general draft edited
     updateWc(text);
     const editBar = document.getElementById('draftEditBar');
     editBar.className = cur().draftOverride ? 'draft-edit-bar visible' : 'draft-edit-bar';
@@ -5496,8 +5498,10 @@ function setView(v) {
   if (currentView === 'build') flushDraftPane(); // sync draft pane before leaving Build
   if (currentView === 'publish') savePublishEdits(); // save publish edits before leaving
   saveCur();
-  // If coming from Build, force a fresh publish render — never restore stale cache
-  if (currentView === 'build' && v === 'publish') {
+  // If coming from Build, only clear the publish cache if content actually changed
+  // (_draftDirty = sentences toggled or draft edited since last publish render)
+  // If nothing changed, preserve synonym/Polish edits made in Publish
+  if (currentView === 'build' && v === 'publish' && _draftDirty) {
     if (cur()) {
       cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null; cur().pubEditGeneral_subject = null;
       cur().pubEditEnglish = null; cur().pubEditEnglish_fdHash = null; cur().pubEditEnglish_subject = null;
@@ -5539,7 +5543,8 @@ function toggleOpt(cat, s) {
     }
   }
   cur().published = false;
-  cur().pubEditGeneral = null; // clear stale publish edit
+  cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null; cur().pubEditGeneral_subject = null;
+  _draftDirty = true; // general sentence changed — rebuild publish
   render();
 }
 
@@ -8303,6 +8308,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.4.9</div>
+<div class="version-badge">v3.5.0</div>
 </body>
 </html>
