@@ -1385,9 +1385,9 @@ function setSubject(subj) {
   // Clear the destination subject's cache so we always see fresh content when switching
   // Also clear other subjects to prevent cross-subject bleed
   if (cur()) {
-    cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null;
-    cur().pubEditEnglish = null; cur().pubEditEnglish_fdHash = null;
-    cur().pubEditMaths   = null; cur().pubEditMaths_fdHash   = null;
+    cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null; cur().pubEditGeneral_subject = null;
+    cur().pubEditEnglish = null; cur().pubEditEnglish_fdHash = null; cur().pubEditEnglish_subject = null;
+    cur().pubEditMaths   = null; cur().pubEditMaths_fdHash   = null; cur().pubEditMaths_subject   = null;
   }
 
   // Update header buttons
@@ -4911,37 +4911,19 @@ function renderPublish() {
     renderSubject === 'english' ? (stu.engFD || []) :
     renderSubject === 'maths'   ? (stu.mathFD || []) : []
   );
-  if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash) {
-    // Cache is valid — FD + subject match
+  const pubEditSubjKey = pubEditKey + '_subject';
+  // Triple-check: key name, FD hash, AND stored subject tag must all match
+  const cacheSubjectOk = !stu[pubEditSubjKey] || stu[pubEditSubjKey] === renderSubject;
+  if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash && cacheSubjectOk) {
+    // Cache is valid — subject, FD, and content all verified
     content.innerHTML = stu[pubEditKey];
     setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
     return;
-  } else if (stu[pubEditKey] && stu[pubEditFDKey] !== currentFDHash) {
-    // FD changed — update the cached HTML to swap in the new FD block
-    // rather than discarding the whole cache and losing manual edits
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(stu[pubEditKey], 'text/html');
-    // Remove existing FD para if present
-    doc.querySelectorAll('.fd-para').forEach(el => el.remove());
-    // Append new FD if any
-    const fdArr = renderSubject === 'english' ? (stu.engFD || []) : (stu.mathFD || []);
-    if (fdArr.length) {
-      const fdText = getFDTextForStu(stu, renderSubject);
-      const fdLines = fdText.split('\n').filter(l => l.trim());
-      const fdPara = doc.createElement('p');
-      fdPara.className = 'pub-para fd-para';
-      fdPara.innerHTML = fdLines.map((l, i) =>
-        `<span data-pi="fd" data-si="${i}" class="fd-line">${l.trim()}</span>`
-      ).join('<br>');
-      doc.body.appendChild(fdPara);
-    }
-    // Save updated cache with new FD hash
-    stu[pubEditKey] = doc.body.innerHTML;
-    stu[pubEditFDKey] = currentFDHash;
-    content.innerHTML = stu[pubEditKey];
-    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
-    return;
+  } else if (stu[pubEditKey] && (!cacheSubjectOk || stu[pubEditFDKey] !== currentFDHash)) {
+    // Cache belongs to wrong subject or FD changed — discard entirely
+    stu[pubEditKey] = null; stu[pubEditFDKey] = null; stu[pubEditSubjKey] = null;
   }
+
 
   // Draft has been incorporated into publish — clear dirty flag
   _draftDirty = false;
@@ -6124,18 +6106,18 @@ function saveCur() {
   // Skip if draft was edited but publish hasn't re-rendered — would cache stale content
   if (currentView === 'publish' && !_draftDirty) {
     const pubEl = document.getElementById('pubContent');
-    // Only save if pubContent has real para content (not just an empty/error state)
     const hasPara = pubEl && pubEl.querySelector('.pub-para');
     if (hasPara) {
-      const key = currentSubject === 'english' ? 'pubEditEnglish'
-                : currentSubject === 'maths'   ? 'pubEditMaths'
+      const subj = currentSubject;
+      const key = subj === 'english' ? 'pubEditEnglish'
+                : subj === 'maths'   ? 'pubEditMaths'
                 : 'pubEditGeneral';
-      students[currentIdx][key] = pubEl.innerHTML;
-      const fdHashKey = key + '_fdHash';
-      const fdArr = currentSubject === 'english' ? (students[currentIdx].engFD || [])
-                  : currentSubject === 'maths'   ? (students[currentIdx].mathFD || [])
+      const fdArr = subj === 'english' ? (students[currentIdx].engFD || [])
+                  : subj === 'maths'   ? (students[currentIdx].mathFD || [])
                   : [];
-      students[currentIdx][fdHashKey] = currentSubject + '|' + JSON.stringify(fdArr);
+      students[currentIdx][key] = pubEl.innerHTML;
+      students[currentIdx][key + '_fdHash'] = subj + '|' + JSON.stringify(fdArr);
+      students[currentIdx][key + '_subject'] = subj;
       autoSave();
     }
   }
@@ -6145,18 +6127,23 @@ function loadCur() { document.getElementById('studentName').value = cur().name||
 // Explicitly save any edits made in the publish pane
 // Call this before any navigation that might lose publish view content
 function savePublishEdits() {
-  if (_draftDirty) return; // draft changed since last render — don't cache stale content
+  if (_draftDirty) return;
   const pubEl = document.getElementById('pubContent');
   const hasPara = pubEl && pubEl.querySelector('.pub-para');
   if (!hasPara) return;
-  const key = currentSubject === 'english' ? 'pubEditEnglish'
-            : currentSubject === 'maths'   ? 'pubEditMaths'
+  // Store subject tag inside the cache — verified on restore, immune to timing bugs
+  const subj = currentSubject;
+  const key = subj === 'english' ? 'pubEditEnglish'
+            : subj === 'maths'   ? 'pubEditMaths'
             : 'pubEditGeneral';
-  students[currentIdx][key] = pubEl.innerHTML;
-  const fdArr = currentSubject === 'english' ? (students[currentIdx].engFD || [])
-              : currentSubject === 'maths'   ? (students[currentIdx].mathFD || [])
+  const fdArr = subj === 'english' ? (students[currentIdx].engFD || [])
+              : subj === 'maths'   ? (students[currentIdx].mathFD || [])
               : [];
-  students[currentIdx][key + '_fdHash'] = currentSubject + '|' + JSON.stringify(fdArr);
+  const hash = subj + '|' + JSON.stringify(fdArr);
+  students[currentIdx][key] = pubEl.innerHTML;
+  students[currentIdx][key + '_fdHash'] = hash;
+  // Extra safety: tag the cache with the subject it belongs to
+  students[currentIdx][key + '_subject'] = subj;
 }
 
 function saveStudent() { saveCur(); showToast(`Saved ${cur().name||'student'}!`); render(); }
@@ -8308,6 +8295,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.4.7</div>
+<div class="version-badge">v3.4.8</div>
 </body>
 </html>
