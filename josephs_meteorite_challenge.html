@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Joseph's Meteorite Challenge</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:'Segoe UI',sans-serif}
+#gc{position:relative;width:480px;height:640px;overflow:hidden;background:linear-gradient(180deg,#020010,#0d0030 60%,#030820);border:2px solid #5533ff;border-radius:12px}
+.star{position:absolute;background:#fff;border-radius:50%;animation:tw 2s infinite alternate}
+@keyframes tw{from{opacity:.1}to{opacity:.9}}
+/* HUD */
+#hud{position:absolute;inset:0 0 auto 0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:rgba(0,0,0,.6);border-bottom:1px solid #5533ff55}
+.hpts{font-size:21px;font-weight:700;color:#fff;text-shadow:0 0 10px #aa88ff}
+.hpts small{font-size:12px;font-weight:400;color:#cc99ff}
+.hmid{font-size:12px;color:#88aaff;text-align:center;line-height:1.5}
+.hset{font-size:12px;color:#ffcc66;text-align:right;line-height:1.5}
+/* Scoreboard */
+#sb{position:absolute;top:54px;right:14px;z-index:20;background:rgba(0,0,0,.65);border:1px solid #5533ff44;border-radius:8px;padding:8px 12px;min-width:88px}
+#sb h4{font-size:10px;color:#8866cc;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.sr{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#ccaaff;padding:2px 0;border-bottom:1px solid #ffffff11}
+.sr:last-child{border-bottom:none}
+.sv{color:#fff;font-weight:600}
+/* Blast zone */
+#bz{position:absolute;left:50%;bottom:105px;transform:translateX(-50%);width:90px;height:90px;border-radius:50%;border:3px solid #5533ff;z-index:10}
+#bz.open{border-color:#ffff00;box-shadow:0 0 22px #ffff00}
+#bz.bad{border-color:#ff2222;box-shadow:0 0 22px #ff2222}
+/* Dog */
+#dog{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:80px;height:80px;z-index:15}
+/* Meteorite */
+#met{position:absolute;z-index:12;pointer-events:none}
+/* Feedback */
+#fb{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);font-size:30px;font-weight:700;z-index:30;pointer-events:none;opacity:0;text-shadow:0 0 16px currentColor}
+#tri{position:absolute;top:58px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:700;color:#ffcc00;z-index:30;letter-spacing:1px;opacity:0}
+/* Screens */
+.scr{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center}
+#ss{background:rgba(2,0,14,.97)}
+#gs{background:rgba(14,0,2,.97)}
+#ws{background:rgba(0,2,14,.97)}
+.scr h1{font-size:24px;font-weight:800;color:#cc99ff;text-shadow:0 0 20px #8855ff;margin-bottom:8px}
+.scr h2{font-size:17px;color:#ff6688;margin-bottom:14px}
+.scr p{font-size:13px;color:#aaaacc;line-height:1.8;margin-bottom:7px}
+.hl{color:#ffcc66;font-weight:600}
+.btn{margin-top:18px;padding:13px 38px;background:linear-gradient(135deg,#5533ff,#cc33ff);color:#fff;border:none;border-radius:30px;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:1px}
+.particle{position:absolute;border-radius:50%;pointer-events:none;z-index:25}
+</style>
+</head>
+<body>
+<div id="gc">
+  <div id="hud">
+    <div class="hpts">⭐ <span id="hsc">0</span> <small>/ 126</small></div>
+    <div class="hmid">BIP BIP BIP BOOM<br><span id="htl" style="font-size:11px">TEMPO ×1.0</span></div>
+    <div class="hset">SET <span id="hst">1</span><br><span id="hstc" style="color:#aaa;font-size:11px">0/10</span></div>
+  </div>
+  <div id="sb">
+    <h4>Score</h4>
+    <div class="sr"><span>Points</span><span class="sv" id="sbp">0</span></div>
+    <div class="sr"><span>Set</span><span class="sv" id="sbs">1</span></div>
+    <div class="sr"><span>Best</span><span class="sv" id="sbb">0</span></div>
+  </div>
+  <div id="bz"></div>
+  <svg id="dog" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="40" cy="55" rx="18" ry="13" fill="#7B4F2E"/>
+    <ellipse cx="40" cy="35" rx="14" ry="13" fill="#8B5A32"/>
+    <ellipse cx="40" cy="42" rx="7" ry="5" fill="#7B4F2E"/>
+    <ellipse cx="40" cy="40" rx="3" ry="2" fill="#2a1a0e"/>
+    <ellipse cx="34" cy="32" rx="4" ry="4.5" fill="white"/>
+    <ellipse cx="46" cy="32" rx="4" ry="4.5" fill="white"/>
+    <circle cx="34" cy="33" r="2.5" fill="#222"/>
+    <circle cx="46" cy="33" r="2.5" fill="#222"/>
+    <circle cx="35" cy="32" r=".8" fill="white"/>
+    <circle cx="47" cy="32" r=".8" fill="white"/>
+    <polygon points="27,28 22,14 34,22" fill="#6B3F22"/>
+    <polygon points="53,28 58,14 46,22" fill="#6B3F22"/>
+    <polygon points="28,27 24,17 33,22" fill="#c0856e"/>
+    <polygon points="52,27 56,17 47,22" fill="#c0856e"/>
+    <path d="M56,52 Q70,42 68,35" stroke="#7B4F2E" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <rect x="26" y="63" width="6" height="12" rx="3" fill="#7B4F2E"/>
+    <rect x="36" y="63" width="6" height="12" rx="3" fill="#7B4F2E"/>
+    <rect x="46" y="63" width="6" height="12" rx="3" fill="#7B4F2E"/>
+    <ellipse cx="29" cy="38" rx="4" ry="2.5" fill="#ff8888" opacity=".5"/>
+    <ellipse cx="51" cy="38" rx="4" ry="2.5" fill="#ff8888" opacity=".5"/>
+    <rect x="44" y="45" width="20" height="6" rx="3" fill="#334488"/>
+    <rect x="62" y="44" width="8" height="8" rx="2" fill="#5566cc"/>
+    <circle cx="69" cy="48" r="3" fill="#88aaff"/>
+  </svg>
+  <div id="met"></div>
+  <div id="fb"></div>
+  <div id="tri"></div>
+
+  <!-- START SCREEN -->
+  <div class="scr" id="ss">
+    <h1>🌠 Joseph's Meteorite Challenge</h1>
+    <h2>Blast 'em to the beat!</h2>
+    <p>Meteorites fall from the top.<br>
+    Press <span class="hl">SPACE</span> or <span class="hl">tap the screen</span> when the circle glows <span class="hl">yellow!</span></p>
+    <p>Every <span class="hl">10th rock</span> is a boss — hit it <span class="hl">3 times</span> for <span class="hl">+5 pts</span>.<br>
+    Hit too early or miss = game over.<br>
+    Reach <span class="hl">126 points</span> to win! 🐶</p>
+    <button class="btn" id="btnStart">🚀 START</button>
+  </div>
+
+  <!-- GAME OVER SCREEN -->
+  <div class="scr" id="gs" style="display:none">
+    <div style="font-size:60px;margin-bottom:10px">💥</div>
+    <h1 style="color:#ff4466">BLASTED!</h1>
+    <h2>That one got through...</h2>
+    <p id="goMsg" style="font-size:18px;color:#fff"></p>
+    <p>Restart from <span class="hl">10 points</span></p>
+    <button class="btn" id="btnRetry">🔁 TRY AGAIN</button>
+  </div>
+
+  <!-- WIN SCREEN -->
+  <div class="scr" id="ws" style="display:none">
+    <div style="font-size:54px;margin-bottom:8px">🎆</div>
+    <h1 style="color:#ffffaa">CHAMPION!</h1>
+    <h2 style="color:#66ffcc">126 Meteorites Blasted!</h2>
+    <p style="font-size:15px;color:#fff">Joseph, you obliterated every last space rock! 🐶🌠</p>
+    <button class="btn" id="btnWin">🌟 PLAY AGAIN</button>
+  </div>
+</div>
+
+<script>
+// ─── Elements ───────────────────────────────────────────
+const gc   = document.getElementById('gc');
+const bz   = document.getElementById('bz');
+const met  = document.getElementById('met');
+const fb   = document.getElementById('fb');
+const triEl= document.getElementById('tri');
+
+// ─── Stars ──────────────────────────────────────────────
+for(let i=0;i<55;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const z=Math.random()*2+.5;
+  s.style.cssText=`width:${z}px;height:${z}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*2}s;animation-duration:${1.5+Math.random()*2}s`;
+  gc.appendChild(s);
+}
+
+// ─── Game state ──────────────────────────────────────────
+// phase: 'idle' | 'waiting' | 'falling' | 'inzone' | 'dead'
+let phase    = 'idle';
+let score    = 0;
+let set      = 1;
+let setCount = 0;
+let best     = 0;
+let isBoss   = false;
+let triHits  = 0;
+let metCX    = 240;   // horizontal centre of meteorite
+let metCY    = -40;   // vertical centre of meteorite
+let metSize  = 40;
+
+// Timing
+let rafId     = null;
+let fallStart = 0;    // timestamp when fall began
+let fallDur   = 1800; // ms for meteorite to reach zone centre
+
+// Zone geometry (fixed layout)
+const GC_H    = 640;
+const BZ_BOT  = 105;          // bottom CSS offset
+const BZ_SIZE = 90;
+const ZONE_CY = GC_H - BZ_BOT - BZ_SIZE/2;  // = 490
+
+function tempo(){ return 1+(set-1)*0.09; }
+function getFallDur(){ return Math.round(1800/tempo()); }
+
+// ─── HUD ────────────────────────────────────────────────
+function updateHUD(){
+  document.getElementById('hsc').textContent  = score;
+  document.getElementById('hst').textContent  = set;
+  document.getElementById('hstc').textContent = setCount+'/10';
+  document.getElementById('htl').textContent  = 'TEMPO ×'+tempo().toFixed(2);
+  document.getElementById('sbp').textContent  = score;
+  document.getElementById('sbs').textContent  = set;
+  document.getElementById('sbb').textContent  = best;
+}
+
+// ─── Screen helpers ──────────────────────────────────────
+function showScreen(id){
+  ['ss','gs','ws'].forEach(s=>{
+    document.getElementById(s).style.display = (s===id)?'flex':'none';
+  });
+}
+
+// ─── Button wiring (use onclick on buttons, NOT gc click) ─
+document.getElementById('btnStart').onclick = e=>{
+  e.stopPropagation();
+  showScreen(null);
+  initGame(0,1,0);
+};
+document.getElementById('btnRetry').onclick = e=>{
+  e.stopPropagation();
+  showScreen(null);
+  initGame(10,1,0);
+};
+document.getElementById('btnWin').onclick = e=>{
+  e.stopPropagation();
+  showScreen(null);
+  initGame(0,1,0);
+};
+
+// ─── Init ────────────────────────────────────────────────
+function initGame(sc,st,stc){
+  score=sc; set=st; setCount=stc;
+  bz.className='';
+  met.style.display='none';
+  updateHUD();
+  phase='waiting';
+  setTimeout(scheduleNext,2000);
+}
+
+// ─── Spawn next meteorite ────────────────────────────────
+function scheduleNext(){
+  if(phase==='dead') return;
+  // advance set counter
+  setCount++;
+  if(setCount>10){ set++; setCount=1; }
+  isBoss  = (setCount%10===0);
+  triHits = 0;
+  metSize = isBoss ? 52 : 32+Math.floor(Math.random()*16);
+  metCX   = 80+Math.floor(Math.random()*300);
+  metCY   = -metSize/2;
+
+  met.innerHTML = makeSVG(metSize,isBoss);
+  met.style.cssText=`display:block;position:absolute;width:${metSize}px;height:${metSize}px;`
+    +`left:${metCX-metSize/2}px;top:${metCY-metSize/2}px;pointer-events:none;`;
+
+  fallDur  = getFallDur();
+  fallStart= performance.now();
+  phase    = 'falling';
+  updateHUD();
+  if(rafId) cancelAnimationFrame(rafId);
+  rafId = requestAnimationFrame(loop);
+}
+
+// ─── Animation loop ──────────────────────────────────────
+function loop(now){
+  if(phase!=='falling' && phase!=='inzone') return;
+
+  const elapsed = now - fallStart;
+  const t       = Math.min(elapsed/fallDur, 1);  // 0→1
+  metCY = -metSize/2 + (ZONE_CY - (-metSize/2)) * t;
+  met.style.top = (metCY - metSize/2)+'px';
+
+  const dist = Math.abs(metCY - ZONE_CY);
+
+  if(dist < 36){
+    // In zone
+    if(phase==='falling'){
+      phase='inzone';
+      bz.className='open';
+    }
+  } else if(phase==='inzone'){
+    // Passed through zone without being hit
+    phase='dead';
+    triggerMiss();
+    return;
+  }
+
+  // Fell off screen without entering zone (shouldn't happen but safety)
+  if(metCY > GC_H+60){
+    phase='dead';
+    triggerMiss();
+    return;
+  }
+
+  rafId = requestAnimationFrame(loop);
+}
+
+// ─── Make meteorite SVG ──────────────────────────────────
+function makeSVG(sz,boss){
+  const cols=['#cc4422','#884422','#aa5533','#cc7744'];
+  const col = boss?'#ff5500':cols[Math.floor(Math.random()*4)];
+  const glow= boss?'drop-shadow(0 0 9px #ff7700)':'drop-shadow(0 0 5px #ff4400)';
+  const dots= Array.from({length:5},()=>`<circle cx="${3+Math.random()*(sz-6)}" cy="${3+Math.random()*(sz-6)}" r="${.5+Math.random()*2}" fill="rgba(0,0,0,.35)"/>`).join('');
+  const lbl = boss?`<text x="${sz/2}" y="${sz/2+5}" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">×3</text>`:'';
+  return `<svg viewBox="0 0 ${sz} ${sz}" width="${sz}" height="${sz}" style="filter:${glow}">
+    <ellipse cx="${sz/2}" cy="${sz/2}" rx="${sz*.44}" ry="${sz*.39}" fill="${col}"/>
+    <ellipse cx="${sz*.34}" cy="${sz*.34}" rx="${sz*.12}" ry="${sz*.09}" fill="rgba(255,255,255,.22)"/>
+    ${dots}${lbl}</svg>`;
+}
+
+// ─── Blast input ─────────────────────────────────────────
+// ONLY fire when a meteorite is actively in play
+function onBlast(){
+  if(phase==='inzone'){
+    goodHit();
+  } else if(phase==='falling'){
+    // Hit too early
+    phase='dead';
+    triggerMiss();
+  }
+  // phase==='idle'|'waiting'|'dead' → do nothing
+}
+
+// Space bar
+document.addEventListener('keydown', e=>{
+  if(e.code==='Space'){ e.preventDefault(); onBlast(); }
+});
+
+// Tap / click on game canvas — but NOT on buttons
+gc.addEventListener('click', e=>{
+  if(e.target.classList.contains('btn')) return;
+  onBlast();
+});
+gc.addEventListener('touchstart', e=>{
+  if(e.target.classList.contains('btn')) return;
+  e.preventDefault();
+  onBlast();
+},{passive:false});
+
+// ─── Good hit ────────────────────────────────────────────
+function goodHit(){
+  if(isBoss){
+    triHits++;
+    showTri(triHits);
+    particles(metCX, ZONE_CY, '#ff8800');
+    if(triHits>=3){
+      score+=5; if(score>best)best=score;
+      flash('+5 BOSS!','#ffcc00');
+      afterHit();
+    }
+  } else {
+    score+=1; if(score>best)best=score;
+    flash('+1','#88ffaa');
+    particles(metCX, ZONE_CY, '#88ccff');
+    afterHit();
+  }
+  updateHUD();
+}
+
+function afterHit(){
+  if(rafId) cancelAnimationFrame(rafId);
+  met.style.display='none';
+  bz.className='';
+  if(score>=126){ phase='idle'; setTimeout(triggerWin,400); return; }
+  phase='waiting';
+  setTimeout(scheduleNext,500);
+}
+
+// ─── Miss / Win ───────────────────────────────────────────
+function triggerMiss(){
+  if(rafId) cancelAnimationFrame(rafId);
+  bz.className='bad';
+  flash('MISS!','#ff2233');
+  explosion(metCX, metCY);
+  setTimeout(()=>{
+    if(score>best)best=score;
+    document.getElementById('goMsg').textContent='Score: '+score+' pts';
+    met.style.display='none';
+    bz.className='';
+    phase='idle';
+    showScreen('gs');
+  },1200);
+}
+
+function triggerWin(){
+  met.style.display='none';
+  showScreen('ws');
+  launchFireworks();
+}
+
+// ─── Visual effects ───────────────────────────────────────
+function flash(txt,col){
+  fb.textContent=txt; fb.style.color=col; fb.style.opacity=1;
+  fb.style.fontSize='32px'; fb.style.transition='';
+  setTimeout(()=>{
+    fb.style.transition='opacity .5s,font-size .5s';
+    fb.style.opacity=0; fb.style.fontSize='20px';
+  },400);
+}
+
+function showTri(n){
+  triEl.textContent='HIT ×'+n+(n===3?' 💥':'');
+  triEl.style.opacity=1;
+  setTimeout(()=>triEl.style.opacity=0, 600);
+}
+
+function particles(x,y,col){
+  for(let i=0;i<10;i++){
+    const p=document.createElement('div'); p.className='particle';
+    const sz=4+Math.random()*5, a=Math.random()*Math.PI*2, sp=50+Math.random()*80;
+    p.style.cssText=`width:${sz}px;height:${sz}px;background:${col};left:${x}px;top:${y}px;position:absolute;transition:all .6s ease-out;`;
+    gc.appendChild(p);
+    setTimeout(()=>{ p.style.transform=`translate(${Math.cos(a)*sp}px,${Math.sin(a)*sp}px)`;p.style.opacity=0; },10);
+    setTimeout(()=>p.remove(),700);
+  }
+}
+
+function explosion(x,y){
+  const cols=['#ff2200','#ff8800','#ffff00','#ff4466'];
+  for(let i=0;i<22;i++){
+    const p=document.createElement('div'); p.className='particle';
+    const a=(i/22)*Math.PI*2, sp=55+Math.random()*110;
+    p.style.cssText=`width:${6+Math.random()*9}px;height:${6+Math.random()*9}px;background:${cols[i%4]};left:${x}px;top:${y}px;border-radius:50%;position:absolute;transition:all .8s ease-out;z-index:25;`;
+    gc.appendChild(p);
+    setTimeout(()=>{ p.style.transform=`translate(${Math.cos(a)*sp}px,${Math.sin(a)*sp}px) scale(.1)`;p.style.opacity=0; },10);
+    setTimeout(()=>p.remove(),900);
+  }
+}
+
+function launchFireworks(){
+  const cols=['#ff88ff','#88ffff','#ffff88','#ff8888','#88ff88','#8888ff'];
+  let n=0;
+  const iv=setInterval(()=>{
+    if(n++>20){clearInterval(iv);return;}
+    const x=60+Math.random()*360, y=60+Math.random()*300;
+    for(let i=0;i<16;i++){
+      const p=document.createElement('div'); p.className='particle';
+      const a=(i/16)*Math.PI*2, sp=50+Math.random()*90;
+      p.style.cssText=`width:${4+Math.random()*6}px;height:${4+Math.random()*6}px;background:${cols[i%6]};left:${x}px;top:${y}px;border-radius:50%;position:absolute;transition:all .8s ease-out;z-index:40;`;
+      gc.appendChild(p);
+      setTimeout(()=>{ p.style.transform=`translate(${Math.cos(a)*sp}px,${Math.sin(a)*sp}px)`;p.style.opacity=0; },10);
+      setTimeout(()=>p.remove(),900);
+    }
+  },250);
+}
+
+updateHUD();
+</script>
+</body>
+</html>
