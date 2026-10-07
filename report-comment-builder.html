@@ -947,15 +947,15 @@ const RAW = {
     "{{N}} is an enthusiastic and curious student whose enquiring mind results in active classroom participation.",
     "{{N}} is a confident and ambitious student who is eager to learn and develop {{pos}} understanding across all areas.",
     "{{N}} is a courteous, thoughtful and considerate student who has developed positive friendships this semester.",
-    "{{N}} is a kind and caring student who consistently shows genuine care for {{pos}} friends and classmates.",
+    "{{N}} is a kind and caring student who shows genuine care for {{pos}} friends and classmates.",
     "{{N}} is a positive student who enters the classroom each morning with a smile.",
     "{{N}} is cheerful and consistently demonstrates an enthusiastic attitude towards learning and classroom activities.",
     "{{N}} is a thoughtful student who displays a positive attitude to school and regularly shows genuine care for {{pos}} friends.",
-    "{{N}} is a sensible and respectful student who consistently makes thoughtful and positive behaviour choices in the classroom.",
+    "{{N}} is a sensible and respectful student who makes thoughtful and positive behaviour choices in the classroom.",
     "{{N}} is well-mannered and kind, engaging in all learning experiences with a willingness to increase {{pos}} knowledge.",
     "{{N}} is a kind and responsible student who consistently demonstrates Ambarvale All Star behaviour.",
     "{{N}} is a polite and energetic member of our class.",
-    "{{N}} enters the classroom each day with a smile and ready to face new experiences.",
+    "{{N}} enters the classroom each day with a smile, ready to face new experiences.",
     "{{N}} approaches school life with a positive attitude and demonstrates resilience when faced with challenges.",
     "{{N}} is a well-mannered and independent learner who is popular with {{pos}} peers due to {{pos}} good sense of fun.",
     "{{N}} is a quiet and hard-working student who attempts to complete challenges independently.",
@@ -976,7 +976,7 @@ const RAW = {
     "{{S}} perseveres and shows dedication to learning across all subjects, always striving to achieve {{pos}} personal best.",
     "{{S}} is attentive and shows great focus in all subjects, striving to achieve {{pos}} personal best.",
     "{{N}} has a mature and positive attitude to learning and applies {{r}} diligently to all class tasks.",
-    "{{S}} listens carefully to instructions and uses feedback to improve the quality of {{pos}} work.",
+    "{{S}} listens to instructions and uses feedback to improve the quality of {{pos}} work.",
     "{{N}} consistently demonstrates persistence when acquiring new skills and thoughtfully refines techniques to enhance performance.",
     "{{S}} demonstrates a positive attitude towards learning and applies {{r}} to tasks to the best of {{pos}} ability.",
     "{{S}} usually maintains focus and commitment to {{pos}} learning across most learning areas.",
@@ -1058,11 +1058,11 @@ const RAW = {
     "The high number of absences this semester has impacted {{pos}} learning and {{s}} is encouraged to attend school regularly and on time.",
   ],
   "Semester KLAs": [
-    "{{N}} has shown strong engagement in Science and Technology this semester, engaging in activities and research on weather and climate, the body's major organ systems and how to design and conduct scientific experiments.",
-    "{{N}} has shown strong interest in History this semester where {{s}} has developed their understanding of how and why Australia became a nation and the influences that significant individuals and migrant groups have had on Australian society.",
-    "{{N}} has shown strong enthusiasm and creativity in Creative Arts this semester, exploring how the elements of Dance and Music can be used to express emotion and communicate ideas across a range of cultural contexts.",
-    "{{N}} has shown strong engagement in Health this semester, developing an understanding of personal identity, the factors that influence health choices and strategies to support {{pos}} own wellbeing.",
-    "{{N}} has participated positively in Physical Education this semester, demonstrating fair play, inclusive behaviour and a willingness to engage in a range of games and physical activities from diverse cultural backgrounds.",
+    "During Science, {{N}} has completed activities on climate, the body's organ systems and conducting scientific experiments.",
+    "{{N}} has shown strong interest in History this semester where {{s}} has developed {{pos}} understanding of how and why Australia became a nation. {{S}} also researched the influences that significant individuals and migrant groups have had on Australian society.",
+    "{{N}} has shown strong enthusiasm and creativity in Creative Arts this semester, exploring the elements of Dance and Music. {{S}} learned how these can be used to express emotion and communicate ideas across a range of cultural contexts.",
+    "During Health, {{N}} has developed an understanding of identity, the factors that affect health choices and strategies to support {{pos}} own wellbeing.",
+    "{{N}} has participated positively in Physical Education, demonstrating fair play and a willingness to engage in a variety of physical activities.",
   ],
   "Interests & Passions": [
     "{{S}} approaches Creative Arts with enthusiasm, applying techniques learnt to elevate the quality and craft of {{pos}} work.",
@@ -1111,13 +1111,13 @@ const RAW = {
   ],
   "Closing Statement": [
     "{{N}} has demonstrated outstanding effort this semester. I congratulate {{o}} on {{pos}} progress and look forward to seeing {{pos}} continued growth in Semester 2.",
-    "{{N}} has shown excellent commitment this semester. {{S}} has been a joy to teach, and I look forward to seeing {{o}} continue to grow and embrace new opportunities in Semester 2.",
+    "{{N}} has shown excellent commitment this semester. {{S}} has been a joy to teach and I look forward to seeing {{o}} continue to grow and embrace new opportunities in Semester 2.",
     "{{S}} has shown excellent dedication this semester. I look forward to supporting {{n}}'s continued growth and success in Semester 2.",
     "It has been rewarding to witness {{N}}'s growth and development. I look forward to seeing {{pos}} continued success and progress next semester!",
     "{{N}} has shown a pleasing dedication to {{pos}} studies. {{S}} has been a pleasure to teach this semester. I encourage {{N}} to continue giving {{pos}} best in Semester 2.",
     "{{N}} has made a valuable contribution to our class, and I look forward to teaching {{o}} in Semester 2.",
-    "It has been a pleasure to teach {{N}}, and I look forward to a successful Semester 2.",
-    "{{S}} has been a joy to teach, and I hope {{N}} continues to embrace new opportunities with enthusiasm in Semester 2!",
+    "It has been a pleasure to teach {{N}} and I look forward to a successful Semester 2.",
+    "{{S}} has been a joy to teach and I hope {{N}} continues to embrace new opportunities with enthusiasm in Semester 2!",
     "I have enjoyed getting to know {{N}} and look forward to teaching {{o}} in Semester 2.",
     "{{N}} is to be congratulated on a great start to Stage 3. I look forward to seeing {{pos}} learning progress throughout the remainder of the year.",
     "{{N}} is to be commended for a successful start to the year. I look forward to observing {{pos}} continued development and achievements.",
@@ -2113,101 +2113,87 @@ function _getFDText_unused() {
 // ── RENDER: BUILD ─────────────────────────────────────────────────
 
 // ── SEMESTER 2 ────────────────────────────────────────────────────
+// ── SEMESTER STATE (v3.5.5) ───────────────────────────────────────
+// INVARIANT: for EVERY student, the "live" fields (ordered, selected, engOrdered, published, pubEditGeneral …)
+// always hold the CURRENT semester's data. s1*/s2* hold the other semester's copy (written whenever
+// you leave a semester). The session records which semester is live ("semester"), so a reload never has
+// to guess. Names of the stored copies are unchanged from earlier versions (s1Ordered, s2Ordered, engS1Ordered …).
+const SEM_FIELDS = [
+  // [live field,         S1 copy,                  S2 copy,                  blank]
+  ['ordered',            's1Ordered',              's2Ordered',              () => []],
+  ['selected',           's1Selected',             's2Selected',             () => ({})],
+  ['draftOverride',      's1DraftOverride',        's2DraftOverride',        () => null],
+  ['editedCat',          's1EditedCat',            's2EditedCat',            () => null],
+  ['orderedAfterEdit',   's1OrderedAfterEdit',     's2OrderedAfterEdit',     () => []],
+  ['orderedAtDone',      's1OrderedAtDone',        's2OrderedAtDone',        () => []],
+  ['engSelected',        'engS1Selected',          'engS2Selected',          () => ({})],
+  ['engOrdered',         'engS1Ordered',           'engS2Ordered',           () => []],
+  ['engGrades',          'engS1Grades',            'engS2Grades',            () => ({})],
+  ['engDraft',           'engS1Draft',             'engS2Draft',             () => null],
+  ['engFD',              'engS1FD',                'engS2FD',                () => []],
+  ['mathSelected',       'mathS1Selected',         'mathS2Selected',         () => ({})],
+  ['mathOrdered',        'mathS1Ordered',          'mathS2Ordered',          () => []],
+  ['mathGrades',         'mathS1Grades',           'mathS2Grades',           () => ({})],
+  ['mathDraft',          'mathS1Draft',            'mathS2Draft',            () => null],
+  ['mathFD',             'mathS1FD',               'mathS2FD',               () => []],
+  ['published',          's1Published',            's2Published',            () => false],
+  ['engPublished',       'engS1Published',         'engS2Published',         () => false],
+  ['mathPublished',      'mathS1Published',        'mathS2Published',        () => false],
+  ['confettiShown',      's1ConfettiShown',        's2ConfettiShown',        () => false],
+  ['pubEditGeneral',          's1PubEditGeneral',          's2PubEditGeneral',          () => null],
+  ['pubEditGeneral_fdHash',   's1PubEditGeneral_fdHash',   's2PubEditGeneral_fdHash',   () => null],
+  ['pubEditGeneral_subject',  's1PubEditGeneral_subject',  's2PubEditGeneral_subject',  () => null],
+  ['pubEditEnglish',          's1PubEditEnglish',          's2PubEditEnglish',          () => null],
+  ['pubEditEnglish_fdHash',   's1PubEditEnglish_fdHash',   's2PubEditEnglish_fdHash',   () => null],
+  ['pubEditEnglish_subject',  's1PubEditEnglish_subject',  's2PubEditEnglish_subject',  () => null],
+  ['pubEditMaths',            's1PubEditMaths',            's2PubEditMaths',            () => null],
+  ['pubEditMaths_fdHash',     's1PubEditMaths_fdHash',     's2PubEditMaths_fdHash',     () => null],
+  ['pubEditMaths_subject',    's1PubEditMaths_subject',    's2PubEditMaths_subject',    () => null],
+];
+function _semClone(v) { return (v === undefined || v === null) ? v : JSON.parse(JSON.stringify(v)); }
+function semStash(stu, sem) {            // live -> stored copy for semester `sem`
+  SEM_FIELDS.forEach(f => { stu[sem === 1 ? f[1] : f[2]] = _semClone(stu[f[0]]); });
+}
+function semLoad(stu, sem) {             // stored copy for semester `sem` -> live (blank if none yet)
+  SEM_FIELDS.forEach(f => {
+    const v = stu[sem === 1 ? f[1] : f[2]];
+    stu[f[0]] = (v === undefined || v === null) ? f[3]() : _semClone(v);
+  });
+}
+function _paintSemesterUI() {
+  document.getElementById('semS1').className = 'sem-btn' + (currentSemester === 1 ? ' active s1' : '');
+  document.getElementById('semS2').className = 'sem-btn' + (currentSemester === 2 ? ' active s2' : '');
+  document.getElementById('s2Banner').className = currentSemester === 2 ? 's2-banner visible' : 's2-banner';
+  lsSet('rcb_semester', currentSemester);
+}
 function setSemester(n) {
-  saveCur();
-  if (n === 2 && currentSemester === 1) {
-    // Switching TO S2 — snapshot S1 state for all students, load S2 state (blank)
+  if (n !== 1 && n !== 2) return;
+  saveCur();          // flush name/pronoun/year, draft edits and publish-pane edits into the live fields
+  if (n !== currentSemester) {
+    const from = currentSemester;
     students.forEach(stu => {
-      if (!stu.s1Ordered) {
-        stu.s1Comment  = getPublishedText(stu) || buildDraftTextForStu(stu);
-        stu.s1Ordered  = (stu.ordered  || []).slice();
-        stu.s1Selected = JSON.parse(JSON.stringify(stu.selected || {}));
-      }
-      // Snapshot English/Maths S1 state once
-      if (!stu.engS1Snapped) {
-        stu.engS1Snapped   = true;
-        stu.engS1Selected  = JSON.parse(JSON.stringify(stu.engSelected || {}));
-        stu.engS1Ordered   = (stu.engOrdered  || []).slice();
-        stu.engS1Grades    = JSON.parse(JSON.stringify(stu.engGrades   || {}));
-        stu.engS1Draft     = stu.engDraft || null;
-        stu.engS1FD        = (stu.engFD || []).slice();
-        stu.mathS1Selected = JSON.parse(JSON.stringify(stu.mathSelected || {}));
-        stu.mathS1Ordered  = (stu.mathOrdered  || []).slice();
-        stu.mathS1Grades   = JSON.parse(JSON.stringify(stu.mathGrades   || {}));
-        stu.mathS1Draft    = stu.mathDraft || null;
-        stu.mathS1FD       = (stu.mathFD || []).slice();
-      }
+      // S1 comment text (used to rank S2 sentences) is rebuilt each time we leave S1, so late S1 edits are kept
+      if (from === 1) stu.s1Comment = getPublishedText(stu) || buildDraftTextForStu(stu);
+      semStash(stu, from);
+      semLoad(stu, n);
     });
-    // Load S2 state for current student (blank if first time)
-    cur().ordered          = cur().s2Ordered        || [];
-    cur().selected         = cur().s2Selected       || {};
-    cur().draftOverride    = cur().s2DraftOverride  || null;
-    cur().editedCat        = cur().s2EditedCat      || null;
-    cur().orderedAfterEdit = cur().s2OrderedAfterEdit || [];
-    cur().orderedAtDone    = cur().s2OrderedAtDone  || [];
-    // English S2
-    cur().engSelected = cur().engS2Selected || {};
-    cur().engOrdered  = cur().engS2Ordered  || [];
-    cur().engGrades   = cur().engS2Grades   || {};
-    cur().engDraft    = cur().engS2Draft    || null;
-    cur().engFD       = cur().engS2FD       || [];
-    // Maths S2
-    cur().mathSelected = cur().mathS2Selected || {};
-    cur().mathOrdered  = cur().mathS2Ordered  || [];
-    cur().mathGrades   = cur().mathS2Grades   || {};
-    cur().mathDraft    = cur().mathS2Draft    || null;
-    cur().mathFD       = cur().mathS2FD       || [];
+    currentSemester = n;
   }
-  if (n === 1 && currentSemester === 2) {
-    // Switching TO S1 — save S2 state, restore S1 state
-    cur().s2Ordered          = (cur().ordered          || []).slice();
-    cur().s2Selected         = JSON.parse(JSON.stringify(cur().selected || {}));
-    cur().s2DraftOverride    = cur().draftOverride  || null;
-    cur().s2EditedCat        = cur().editedCat      || null;
-    cur().s2OrderedAfterEdit = (cur().orderedAfterEdit || []).slice();
-    cur().s2OrderedAtDone    = (cur().orderedAtDone    || []).slice();
-    // Save English/Maths S2 state before reverting
-    cur().engS2Selected = JSON.parse(JSON.stringify(cur().engSelected || {}));
-    cur().engS2Ordered  = (cur().engOrdered  || []).slice();
-    cur().engS2Grades   = JSON.parse(JSON.stringify(cur().engGrades   || {}));
-    cur().engS2Draft    = cur().engDraft || null;
-    cur().engS2FD       = (cur().engFD || []).slice();
-    cur().mathS2Selected = JSON.parse(JSON.stringify(cur().mathSelected || {}));
-    cur().mathS2Ordered  = (cur().mathOrdered  || []).slice();
-    cur().mathS2Grades   = JSON.parse(JSON.stringify(cur().mathGrades   || {}));
-    cur().mathS2Draft    = cur().mathDraft || null;
-    cur().mathS2FD       = (cur().mathFD || []).slice();
-    // Restore S1 General
-    cur().ordered          = (cur().s1Ordered  || []).slice();
-    cur().selected         = JSON.parse(JSON.stringify(cur().s1Selected || {}));
-    cur().draftOverride    = null;
-    cur().editedCat        = null;
-    cur().orderedAfterEdit = [];
-    cur().orderedAtDone    = [];
-    // Restore S1 English/Maths from snapshots taken when we first switched to S2
-    cur().engSelected  = JSON.parse(JSON.stringify(cur().engS1Selected  || {}));
-    cur().engOrdered   = (cur().engS1Ordered  || []).slice();
-    cur().engGrades    = JSON.parse(JSON.stringify(cur().engS1Grades    || {}));
-    cur().engDraft     = cur().engS1Draft  || null;
-    cur().engFD        = (cur().engS1FD    || []).slice();
-    cur().mathSelected = JSON.parse(JSON.stringify(cur().mathS1Selected || {}));
-    cur().mathOrdered  = (cur().mathS1Ordered || []).slice();
-    cur().mathGrades   = JSON.parse(JSON.stringify(cur().mathS1Grades   || {}));
-    cur().mathDraft    = cur().mathS1Draft || null;
-    cur().mathFD       = (cur().mathS1FD   || []).slice();
-    // Clear any stale publish-view caches so they rebuild from restored state
-    cur().pubEditEnglish = null;
-    cur().pubEditMaths   = null;
-    cur().pubEditGeneral = null;
-  }
-
-  currentSemester = n;
-  document.getElementById('semS1').className = 'sem-btn' + (n === 1 ? ' active s1' : '');
-  document.getElementById('semS2').className = 'sem-btn' + (n === 2 ? ' active s2' : '');
-  document.getElementById('s2Banner').className = n === 2 ? 's2-banner visible' : 's2-banner';
-  lsSet('rcb_semester', n);
+  _paintSemesterUI();
   render();
   if (n === 2 && !cur().s2RankOrder) rankForS2();
+}
+// Called after a saved session has been applied (startup, cloud sign-in, local fallback)
+function _applySemesterAfterLoad(saved) {
+  if (saved && (saved.semester === 1 || saved.semester === 2)) {
+    // Live fields already hold this semester's data (see invariant) — just show it.
+    _paintSemesterUI();
+    if (currentSemester === 2 && !cur().s2RankOrder && cur().s1Comment) rankForS2();
+    return;
+  }
+  // Legacy session (saved by v3.5.4 or earlier, no "semester" recorded): live fields are treated as S1.
+  if (lsGet('rcb_semester', 1) === 2) setSemester(2);
+  else _paintSemesterUI();
 }
 
 // Helper: get category for a sentence key
@@ -2229,8 +2215,32 @@ function buildDraftTextForStu(stu) {
 }
 
 // Get S1-used sentence keys for a student
+// Sentences reworded in v3.5.6 (Semester 1 audit). Semester 1 selections are stored as the old wording,
+// so map them to the new wording when deciding what was "used in Semester 1".
+const S1_SENTENCE_ALIASES = {
+  "{{N}} has shown strong interest in History this semester where {{s}} has developed their understanding of how and why Australia became a nation and the influences that significant individuals and migrant groups have had on Australian society.": "{{N}} has shown strong interest in History this semester where {{s}} has developed {{pos}} understanding of how and why Australia became a nation. {{S}} also researched the influences that significant individuals and migrant groups have had on Australian society.",
+  "{{N}} has shown strong engagement in Science and Technology this semester, engaging in activities and research on weather and climate, the body's major organ systems and how to design and conduct scientific experiments.": "During Science, {{N}} has completed activities on climate, the body's organ systems and conducting scientific experiments.",
+  "{{N}} has shown strong engagement in Health this semester, developing an understanding of personal identity, the factors that influence health choices and strategies to support {{pos}} own wellbeing.": "During Health, {{N}} has developed an understanding of identity, the factors that affect health choices and strategies to support {{pos}} own wellbeing.",
+  "{{N}} has shown strong enthusiasm and creativity in Creative Arts this semester, exploring how the elements of Dance and Music can be used to express emotion and communicate ideas across a range of cultural contexts.": "{{N}} has shown strong enthusiasm and creativity in Creative Arts this semester, exploring the elements of Dance and Music. {{S}} learned how these can be used to express emotion and communicate ideas across a range of cultural contexts.",
+  "{{N}} has participated positively in Physical Education this semester, demonstrating fair play, inclusive behaviour and a willingness to engage in a range of games and physical activities from diverse cultural backgrounds.": "{{N}} has participated positively in Physical Education, demonstrating fair play and a willingness to engage in a variety of physical activities.",
+  "{{S}} listens carefully to instructions and uses feedback to improve the quality of {{pos}} work.": "{{S}} listens to instructions and uses feedback to improve the quality of {{pos}} work.",
+  "{{N}} is a kind and caring student who consistently shows genuine care for {{pos}} friends and classmates.": "{{N}} is a kind and caring student who shows genuine care for {{pos}} friends and classmates.",
+  "{{N}} is a sensible and respectful student who consistently makes thoughtful and positive behaviour choices in the classroom.": "{{N}} is a sensible and respectful student who makes thoughtful and positive behaviour choices in the classroom.",
+  "{{N}} enters the classroom each day with a smile and ready to face new experiences.": "{{N}} enters the classroom each day with a smile, ready to face new experiences.",
+  "It has been a pleasure to teach {{N}}, and I look forward to a successful Semester 2.": "It has been a pleasure to teach {{N}} and I look forward to a successful Semester 2.",
+  "{{N}} has shown excellent commitment this semester. {{S}} has been a joy to teach, and I look forward to seeing {{o}} continue to grow and embrace new opportunities in Semester 2.": "{{N}} has shown excellent commitment this semester. {{S}} has been a joy to teach and I look forward to seeing {{o}} continue to grow and embrace new opportunities in Semester 2.",
+  "{{S}} has been a joy to teach, and I hope {{N}} continues to embrace new opportunities with enthusiasm in Semester 2!": "{{S}} has been a joy to teach and I hope {{N}} continues to embrace new opportunities with enthusiasm in Semester 2!",
+  "{{N}} is developing foundational English skills with growing confidence.": "{{N}} is developing basic English skills with growing confidence.",
+  "{{S}} writes with a clear and legible handwriting style and types accurately using the keyboard.": "{{S}} writes with a clear and legible handwriting style and types accurately using a keyboard.",
+  "{{S}} uses basic punctuation correctly, including capital letters, full stops, question marks and exclamation marks.": "{{S}} uses basic punctuation correctly, including capital letters, full stops, question and exclamation marks.",
+  "{{S}} reads with confidence and uses context and skimming strategies to identify key ideas, locate details and understand unfamiliar words.": "{{S}} reads with confidence and uses skimming strategies to identify key ideas, locate details and understand unfamiliar words.",
+  "{{S}} reads simple and predictable texts with growing confidence and identifies key ideas to support comprehension.": "{{S}} reads predictable texts with growing confidence and identifies key ideas to support comprehension.",
+  "{{S}} is developing greater consistency in letter size and spacing and uses the keyboard with increasing accuracy when creating digital texts.": "{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts."
+};
 function getS1UsedKeys(stu) {
-  return new Set(stu.s1Ordered || []);
+  const keys = new Set(stu.s1Ordered || []);
+  (stu.s1Ordered || []).forEach(k => { if (S1_SENTENCE_ALIASES[k]) keys.add(S1_SENTENCE_ALIASES[k]); });
+  return keys;
 }
 
 // Rank sentences for S2 using AI
@@ -2410,7 +2420,7 @@ const ENGLISH_BANK = {
       "{{N}} concentrates during English lessons and has shown some growth this semester."
     ],
     "E": [
-      "{{N}} is developing foundational English skills with growing confidence.",
+      "{{N}} is developing basic English skills with growing confidence.",
       "{{N}} has made limited progress in English.",
       "{{N}} has made minimal progress in English.",
       "{{N}} is developing {{pos}} understanding of key English concepts."
@@ -2485,12 +2495,12 @@ const ENGLISH_BANK = {
       "{{S}} uses reading strategies to comprehend more complex texts.",
       "{{S}} reads and comprehends digital texts and advertisements, identifying main ideas in a range of materials.",
       "{{S}} identifies key ideas and supporting details when reading.",
-      "{{S}} reads with confidence and uses context and skimming strategies to identify key ideas, locate details and understand unfamiliar words.",
+      "{{S}} reads with confidence and uses skimming strategies to identify key ideas, locate details and understand unfamiliar words.",
       "{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts."
     ],
     "D": [
       "{{S}} identifies main ideas and is beginning to recognise how language features help build meaning.",
-      "{{S}} reads simple and predictable texts with growing confidence and identifies key ideas to support comprehension.",
+      "{{S}} reads predictable texts with growing confidence and identifies key ideas to support comprehension.",
       "{{S}} reads simple texts with support and is working towards identifying key information and following the main ideas.",
       "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.",
       "{{S}} understands simple, predictable texts."
@@ -2558,10 +2568,12 @@ const ENGLISH_BANK = {
       "{{S}} organises ideas into paragraphs using basic connectives to sequence events and information.",
       "{{S}} writes simple, cohesive paragraphs and is learning to use connectives and sentence structures to organise ideas effectively.",
       "{{S}} organises ideas logically and uses familiar vocabulary with increasing accuracy, adding detail to enhance {{pos}} texts.",
+      "{{S}} presents ideas in a logical order and uses familiar vocabulary with increasing accuracy, adding detail to enhance {{pos}} texts.",
       "{{S}} presents ideas in a logical order with growing accuracy.",
       "{{S}} uses a range of punctuation for different purposes and selects appropriate tenses to suit different writing tasks.",
       "{{S}} organises {{pos}} ideas into paragraphs and is learning to include topic sentences.",
-      "{{S}} constructs simple and compound sentences and organises ideas logically."
+      "{{S}} constructs simple and compound sentences and organises ideas logically.",
+      "{{S}} constructs simple and compound sentences and presents ideas in a logical order."
     ],
     "D": [
       "{{S}} is developing skills in structuring and editing persuasive texts.",
@@ -2598,7 +2610,7 @@ const ENGLISH_BANK = {
       "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy.",
       "{{S}} applies familiar spelling patterns with developing accuracy.",
       "{{S}} applies some spelling patterns and general rules when writing.",
-      "{{S}} uses basic punctuation correctly, including capital letters, full stops, question marks and exclamation marks.",
+      "{{S}} uses basic punctuation correctly, including capital letters, full stops, question and exclamation marks.",
       "{{S}} is developing an understanding of how commas and apostrophes are used in writing.",
       "{{S}} selects appropriate tenses to suit different writing tasks."
     ],
@@ -2621,8 +2633,8 @@ const ENGLISH_BANK = {
   "Handwriting & Digital Transcription": {
     "A": ["{{S}} writes with a legible and fluent handwriting style for extended periods and navigates the keyboard efficiently when typing words, numbers and punctuation.", "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation.", "{{S}} types accurately and presents ideas clearly in digital formats."],
     "B": ["{{S}} writes with a fluent, legible handwriting style and navigates the keyboard efficiently when typing.", "{{S}} presents written work neatly and maintains consistent letter formation.", "{{S}} uses the keyboard efficiently when creating digital texts.", "{{S}} writes neatly with consistent letter formation and layout."],
-    "C": ["{{S}} writes with a clear and legible handwriting style and types accurately using the keyboard.", "{{S}} presents written work neatly and communicates ideas clearly when typing.", "{{S}} uses the keyboard efficiently when publishing {{pos}} texts digitally.", "{{S}} maintains a fluent handwriting style and types efficiently using the keyboard.", "{{S}} forms letters correctly and maintains appropriate spacing when writing."],
-    "D": ["{{S}} is developing greater consistency in letter size and spacing and uses the keyboard with increasing accuracy when creating digital texts.", "{{S}} presents written and digital work neatly, demonstrating a consistent and legible handwriting style.", "{{S}} joins letters when writing familiar words and uses keyboard skills to type efficiently."],
+    "C": ["{{S}} writes with a clear and legible handwriting style and types accurately using a keyboard.", "{{S}} presents written work neatly and communicates ideas clearly when typing.", "{{S}} uses the keyboard efficiently when publishing {{pos}} texts digitally.", "{{S}} maintains a fluent handwriting style and types efficiently using the keyboard.", "{{S}} forms letters correctly and maintains appropriate spacing when writing."],
+    "D": ["{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts.", "{{S}} presents written and digital work neatly, demonstrating a consistent and legible handwriting style.", "{{S}} joins letters when writing familiar words and uses keyboard skills to type efficiently."],
     "E": ["{{S}} forms most letters correctly on the line and uses appropriate spacing between words.", "{{S}} joins letters when writing familiar words and uses technology appropriately when creating texts.", "{{S}} is learning to maintain consistent spacing between words.", "{{S}} is learning to form letters correctly and write on the line."],
   },
   "Understanding and Responding to Literature": {
@@ -2645,6 +2657,7 @@ const ENGLISH_BANK = {
       "{{S}} identifies themes in narratives and applies them when creating {{pos}} own texts.",
       "{{S}} explores how language can evoke emotions in poems.",
       "{{S}} describes the structure of persuasive texts and discusses how language can be used to evoke emotion.",
+      "{{S}} recognises how persuasive texts are structured and discusses how language can be used to evoke emotion.",
       "{{S}} identifies how characters are developed through their traits and actions.",
       "{{S}} identifies main ideas in narratives and uses these when creating original texts."
     ],
@@ -2695,13 +2708,15 @@ const MATHS_BANK = {
   "Below Expectations": {
     "E": [
       "{{S}} is working significantly below stage expectations and is demonstrating progress in Mathematics that aligns with Year [X] expectations.",
+      "{{S}} is working significantly below stage expectations and is demonstrating progress in Mathematics that aligns with Year [X] outcomes.",
       "{{S}} is working significantly below stage expectations in Mathematics and is building {{pos}} foundational skills with teacher support.",
       "{{S}} is working significantly below stage expectations and is continuing to build {{pos}} confidence and Mathematics skills."
     ],
     "D": [
       "{{S}} is working below stage expectations in Mathematics and is continuing to develop key skills with guidance.",
       "{{S}} is working towards achieving stage expectations in Mathematics and is making steady progress.",
-      "{{S}} is working below stage expectations and is building {{pos}} Mathematics skills in line with Year [X] learning outcomes."
+      "{{S}} is working below stage expectations and is building {{pos}} Mathematics skills in line with Year [X] learning outcomes.",
+      "{{S}} is working below stage expectations and is building {{pos}} Mathematics skills that align with Year [X] outcomes."
     ]
   },
   "Represents Numbers": {
@@ -4011,214 +4026,9 @@ let _pendingCheck = false;
 
 
 // ── POLISH COMMENT (Option 4) ─────────────────────────────────────
-async function runPolish() {
-  if (currentSubject === 'general') {
-    showToast('Polish is available for English and Maths comments.');
-    return;
-  }
-  const text = getPublishedPaneText();
-  if (!text || text.trim().length < 20) {
-    showToast('Nothing to polish — build your comment first.');
-    return;
-  }
 
-  // Show modal with original text and loading state
-  const modal = document.getElementById('polishModal');
-  const origEl = document.getElementById('polishOriginal');
-  const sugEl  = document.getElementById('polishSuggestion');
-  const statusEl = document.getElementById('polishStatus');
-  const acceptBtn = document.getElementById('polishAcceptBtn');
 
-  origEl.textContent = text;
-  sugEl.value = '';
-  sugEl.style.display = 'none';
-  acceptBtn.style.display = 'none';
-  statusEl.innerHTML = '';
-  statusEl.textContent = 'Analysing sentences…';
-  modal.style.display = 'flex';
 
-  const btn = document.getElementById('polishBtn');
-  if (btn) { btn.textContent = 'Polishing…'; btn.disabled = true; }
-
-  const subjectName = currentSubject === 'english' ? 'English' : 'Mathematics';
-  const studentName = cur().name || 'the student';
-
-  try {
-    const response = await anthropicFetch({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: `You are reviewing a primary school ${subjectName} report comment for a student named ${studentName}.
-
-Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma.
-
-The comment is made up of individual sentences selected from a bank. Your job is to identify pairs of ADJACENT sentences that cover closely related content and could be naturally combined into one shorter, cleaner sentence.
-
-STRICT RULES:
-- Only suggest merging sentences that are directly ADJACENT to each other in the comment
-- Only merge sentences that cover the same specific skill or a very closely related skill within the same strand (e.g. two sentences both about spelling, or two sentences both about reading comprehension strategies)
-- NEVER merge sentences from different strands (e.g. do not combine an oral language sentence with a reading sentence — these are assessed separately)
-- The merged sentence MUST be 17 words or fewer
-- The merged sentence must stay in present tense
-- Do not change the meaning — only improve flow
-- Do not touch Future Directions lines (lines starting with *)
-- If no good merges exist, return an empty array
-
-You MUST return ONLY a raw JSON array — no markdown, no backticks, no explanation before or after, nothing except the JSON itself.
-
-Format exactly like this:
-[{"original1":"exact first sentence","original2":"exact second sentence","merged":"combined sentence max 17 words","reason":"brief reason"}]
-
-If no suitable merges exist, return exactly: []
-
-Comment to review:
-${text}`
-        }]
-      });
-
-    const data = await response.json();
-    const raw = data.content && data.content[0] && data.content[0].text
-      ? data.content[0].text.trim()
-      : '';
-
-    if (!raw) {
-      statusEl.textContent = 'Could not generate a suggestion. Check your API key in settings.';
-      return;
-    }
-
-    // Parse the JSON array of merge suggestions — handle any wrapping
-    let suggestions = [];
-    try {
-      // Strip markdown code fences, leading/trailing text
-      let cleaned = raw
-        .replace(/```json\s*/gi, '')
-        .replace(/```\s*/g, '')
-        .trim();
-      // Extract just the JSON array if there's surrounding text
-      const arrMatch = cleaned.match(/\[.*\]/s);
-      if (arrMatch) cleaned = arrMatch[0];
-      suggestions = JSON.parse(cleaned);
-      if (!Array.isArray(suggestions)) suggestions = [];
-    } catch(e) {
-      // If still can't parse, show raw for debugging and offer retry
-      console.error('Polish parse error:', e, 'Raw:', raw);
-      statusEl.textContent = 'Could not parse suggestions — try clicking Polish again.';
-      return;
-    }
-
-    if (!Array.isArray(suggestions) || suggestions.length === 0) {
-      sugEl.style.display = 'none';
-      acceptBtn.style.display = 'none';
-      statusEl.textContent = '✓ No merge suggestions — the comment already flows well.';
-      return;
-    }
-
-    // Store suggestions for individual acceptance
-    window._polishSuggestions = suggestions;
-    window._polishOriginalText = text;
-
-    // Render suggestions as individual cards
-    const suggestionsHtml = suggestions.map((s, i) => `
-      <div id="polishSug_${i}" style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:10px;">
-        <div style="font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">
-          Suggestion ${suggestions.length > 1 ? i + 1 : ''} — ${s.reason || 'Flow improvement'}
-        </div>
-        <div style="font-size:12px;color:var(--t2);margin-bottom:4px;text-decoration:line-through;line-height:1.6">${s.original1}</div>
-        <div style="font-size:12px;color:var(--t2);margin-bottom:8px;text-decoration:line-through;line-height:1.6">${s.original2}</div>
-        <textarea id="polishSugEdit_${i}" style="font-family:var(--font);font-size:13px;width:100%;box-sizing:border-box;background:var(--bg-3);border:1px solid var(--blue);border-radius:var(--r-sm);color:var(--t0);padding:7px 10px;resize:vertical;min-height:52px;outline:none;line-height:1.6">${s.merged}</textarea>
-        <div style="display:flex;gap:6px;margin-top:8px;justify-content:flex-end">
-          <button onclick="dismissPolishSuggestion(${i})" style="font-family:var(--font);font-size:12px;padding:4px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t2);cursor:pointer">Dismiss</button>
-          <button onclick="acceptPolishSuggestion(${i})" style="font-family:var(--font);font-size:12px;padding:5px 14px;border-radius:var(--r-sm);border:none;background:var(--blue);color:#fff;cursor:pointer;font-weight:500">✓ Accept</button>
-        </div>
-      </div>`).join('');
-
-    sugEl.style.display = 'none'; // hide old single textarea
-    acceptBtn.style.display = 'none'; // hide old accept button
-    statusEl.innerHTML = suggestionsHtml;
-  } catch(e) {
-    statusEl.textContent = 'Error: ' + e.message;
-  } finally {
-    if (btn) { btn.textContent = 'Polish'; btn.disabled = false; }
-  }
-}
-
-async function runCheck() {
-  // Use subject-appropriate text for English/Maths
-  const text = (currentSubject !== 'general') ? getSubjectPublishText(cur()) : getPublishedText(cur());
-  if (!text.trim()) { showToast('Nothing to check.'); return; }
-
-  const btn = document.getElementById('checkBtn');
-  const status = document.getElementById('checkStatus');
-  btn.disabled = true;
-  document.querySelectorAll('#pubContent span').forEach(s => { s.className = ''; s.title = ''; s.innerHTML = s.textContent; });
-  document.getElementById('flagLegend').style.display = 'none';
-  status.innerHTML = '<div class="check-status"><div class="spinner"></div><span>Analysing comment…</span></div>';
-
-  try {
-    const res = await anthropicFetch({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: `You are a school report comment reviewer for an Australian primary school teacher. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma. Carefully read the following student report comment and identify any:
-1. SIMILAR sentences — two sentences that express the same idea, even if worded differently
-2. CONTRADICTIONS — two sentences that say conflicting things (e.g. works independently vs needs support)
-3. TENSE errors — sentences not in present tense. School report comments should be in present tense throughout.
-4. FUTURE DIRECTION CONTRADICTIONS — a future direction (lines starting with *) that contradicts a strength already described in the comment body
-5. SPELLING errors — misspelled words. Use Australian English (e.g. 'recognise', 'colour', 'organise'). Only flag clear errors, not style choices.
-6. GRAMMAR errors — clear grammatical mistakes such as wrong subject-verb agreement, missing articles, or obviously awkward phrasing.
-
-Return ONLY valid JSON, no markdown, no explanation:
-{"issues":[{"type":"similar"|"contradiction"|"tense"|"fd_contradiction"|"spelling"|"grammar","sentences":["exact sentence OR the specific misspelled/incorrect word"],"reason":"brief label max 6 words","suggestion":"corrected word or phrase (for spelling/grammar only)"}]}
-
-If no issues found, return: {"issues":[]}
-
-Comment:
-${text}`
-        }]
-      });
-
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      const errType = errData?.error?.type || '';
-      if (res.status === 401 || res.status === 403 || errType === 'authentication_error') {
-        btn.disabled = false;
-        status.innerHTML = '<span style="font-size:13px;color:var(--red)">API key invalid — click API key button to update it</span>';
-      } else {
-        btn.disabled = false;
-        status.innerHTML = `<span style="font-size:13px;color:var(--red)">Error ${res.status}: ${errData?.error?.message || 'Unknown error'}</span>`;
-      }
-      return;
-    }
-
-    const data = await res.json();
-    const raw = (data.content?.find(b => b.type === 'text')?.text || '{"issues":[]}').replace(/```json|```/g, '').trim();
-    const result = JSON.parse(raw);
-    btn.disabled = false;
-    if (!result.issues?.length) {
-      status.innerHTML = '<div class="ok-msg"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l3 3 7-7"/></svg> No issues found</div>';
-    } else {
-      applyFlags(result.issues);
-      status.innerHTML = `<span style="font-size:13px;color:var(--t1)">${result.issues.length} issue${result.issues.length > 1 ? 's' : ''} flagged</span>`;
-      document.getElementById('flagLegend').style.display = 'flex';
-    }
-    setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
-  } catch(e) {
-    btn.disabled = false;
-    if (e.message === 'CORS_FILE') {
-      status.innerHTML = '';
-      showLocalServerGuide();
-    } else if (e.message === 'CORS_HOSTED' || e.message === 'PROXY_FAIL') {
-      status.innerHTML = '<span style="font-size:13px;color:var(--red)">Connection failed — check Worker URL is correct</span>';
-    } else if (!getApiKey()) {
-      _pendingCheck = true;
-      promptApiKey();
-    } else {
-      status.innerHTML = `<span style="font-size:13px;color:var(--red)">Error: ${e.message}</span>`;
-    }
-  }
-}
 
 // Store flagged issues so we can show fix suggestions on click
 let _flaggedIssues = [];
@@ -4231,61 +4041,7 @@ document.addEventListener('click', e => {
   }
 });
 
-async function fetchFixSuggestion(span, issue, suggestionEl, actionsEl) {
-  const fullComment = document.getElementById('pubContent').textContent;
-  const sentences = issue.sentences.join(' / ');
-  const typeDescriptions = {
-    similar: 'two sentences express the same idea',
-    contradiction: 'two sentences contradict each other',
-    alternation: 'two consecutive sentences use the same subject opener (should alternate name/pronoun)',
-    tense: 'a sentence is not in present tense',
-    fd_contradiction: 'a future direction contradicts a stated strength',
-    spelling: issue.suggestion ? `"${issue.sentences[0]}" appears to be misspelled — suggested: "${issue.suggestion}"` : 'a word appears to be misspelled',
-    grammar: issue.suggestion ? `grammatical issue — suggested: "${issue.suggestion}"` : 'a grammatical issue was detected'
-  };
 
-  try {
-    const res = await anthropicFetch({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 300,
-      messages: [{
-        role: 'user',
-        content: `You are helping an Australian primary school teacher fix an issue in a student report comment. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma.
-
-Issue type: ${issue.type} — ${typeDescriptions[issue.type] || issue.reason}
-Reason: ${issue.reason}
-Problematic sentence(s): "${sentences}"
-Full comment context: "${fullComment.slice(0, 500)}"
-
-Provide a single concrete fix: either a rewritten version of the problematic sentence, or a brief instruction like "Remove this sentence" or "Combine with the previous sentence".
-
-Keep language simple and parent-friendly. Return ONLY the suggested fix as plain text, no explanation, no quotes.`
-      }]
-    });
-
-    if (!res.ok) throw new Error('API ' + res.status);
-    const data = await res.json();
-    const fix = (data.content?.find(b => b.type === 'text')?.text || '').trim();
-    if (!fix) throw new Error('empty');
-
-    suggestionEl.innerHTML = `<div class="fix-suggestion">${fix}</div>`;
-
-    // Store fix safely and render buttons
-    const isRemoval = /^remove|^delete|^omit/i.test(fix);
-    window._pendingFix = { action: isRemoval ? 'remove' : 'replace', pi: span.dataset.pi, si: span.dataset.si, replacement: fix };
-    actionsEl.innerHTML = `
-      <button class="fix-btn" onclick="closeFix()">Dismiss</button>
-      <button class="fix-btn apply" onclick="applyPendingFix()">${isRemoval ? 'Remove sentence' : 'Apply fix'}</button>`;
-
-  } catch(e) {
-    if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED') {
-      suggestionEl.innerHTML = '<div class="fix-suggestion" style="color:var(--t2)">AI fix requires Worker setup — see Worker URL button in toolbar.</div>';
-    } else {
-      suggestionEl.innerHTML = '<div class="fix-suggestion" style="color:var(--t2)">Could not fetch suggestion — try Check for Issues again first.</div>';
-    }
-    actionsEl.innerHTML = '<button class="fix-btn" onclick="closeFix()">Dismiss</button>';
-  }
-}
 
 // ── VIEW ─────────────────────────────────────────────────────────
 
@@ -4327,272 +4083,22 @@ let _cloudSavePending = false;
 let _adminAuthed = false;
 let _adminKey = '';
 
-async function adminLogin() {
-  const keyEl = document.getElementById('adminKeyInput');
-  const errEl = document.getElementById('adminLoginError');
-  const key = keyEl ? keyEl.value.trim() : '';
-  errEl.style.display = 'none';
 
-  if (!key) { errEl.textContent = 'Please enter the admin key.'; errEl.style.display = 'block'; return; }
 
-  // Test the key by calling the admin endpoint
-  try {
-    const res = await fetch(CLOUD_WORKER + '/admin/accounts', {
-      method: 'GET',
-      headers: { 'X-Admin-Key': key }
-    });
-    if (res.status === 401) {
-      errEl.textContent = 'Incorrect admin key.';
-      errEl.style.display = 'block';
-      return;
-    }
-    if (!res.ok) {
-      errEl.textContent = 'Server error — try again.';
-      errEl.style.display = 'block';
-      return;
-    }
-    // Authenticated
-    _adminAuthed = true;
-    _adminKey = key;
-    document.getElementById('adminLoginScreen').style.display = 'none';
-    document.getElementById('adminAccountsScreen').style.display = 'flex';
-    adminRefresh();
-  } catch(e) {
-    errEl.textContent = 'Could not reach server — check your connection.';
-    errEl.style.display = 'block';
-  }
-}
 
-async function adminRefresh() {
-  const loadEl  = document.getElementById('adminLoading');
-  const tableWrap = document.getElementById('adminTableWrap');
-  const emptyEl = document.getElementById('adminEmpty');
-  const countEl = document.getElementById('adminAccountCount');
-  const tbody   = document.getElementById('adminTableBody');
 
-  loadEl.style.display = 'block';
-  tableWrap.style.display = 'none';
-  emptyEl.style.display = 'none';
 
-  try {
-    const res = await fetch(CLOUD_WORKER + '/admin/accounts', {
-      method: 'GET',
-      headers: { 'X-Admin-Key': _adminKey }
-    });
-    if (!res.ok) { loadEl.textContent = 'Error loading accounts.'; return; }
-    const data = await res.json();
-    loadEl.style.display = 'none';
-
-    if (!data.accounts || data.accounts.length === 0) {
-      emptyEl.style.display = 'block';
-      countEl.textContent = 'No accounts yet.';
-      return;
-    }
-
-    countEl.textContent = data.total + ' account' + (data.total !== 1 ? 's' : '');
-    tbody.innerHTML = '';
-
-    data.accounts.forEach(acc => {
-      const isCurrentUser = acc.username === getCloudUser();
-      const lastSaved = acc.lastSaved && acc.lastSaved !== 'unknown'
-        ? new Date(acc.lastSaved).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })
-        : 'Never';
-
-      const tr = document.createElement('tr');
-      tr.style.cssText = 'border-bottom:1px solid var(--border);' +
-        (isCurrentUser ? 'background:rgba(96,165,250,0.06);' : '');
-
-      tr.innerHTML = `
-        <td style="padding:10px 16px;color:var(--t0);font-weight:${isCurrentUser ? '600' : '400'}">
-          ${acc.username}${isCurrentUser ? ' <span style="font-size:10px;color:var(--blue);font-weight:500">(you)</span>' : ''}
-        </td>
-        <td style="padding:10px 16px;color:var(--t2)">${lastSaved}</td>
-        <td style="padding:10px 16px;text-align:center;color:var(--t1)">${acc.students}</td>
-        <td style="padding:10px 16px;text-align:right">
-          ${isCurrentUser
-            ? '<span style="font-size:11px;color:var(--t3)">—</span>'
-            : `<button onclick="adminDeleteAccount('${acc.key}','${acc.username}')"
-                style="font-family:var(--font);font-size:11px;padding:3px 10px;border-radius:var(--r-sm);border:1px solid var(--red,#f87171);background:none;color:var(--red,#f87171);cursor:pointer">
-                Delete
-              </button>`
-          }
-        </td>`;
-      tbody.appendChild(tr);
-    });
-
-    tableWrap.style.display = 'block';
-  } catch(e) {
-    loadEl.textContent = 'Error: ' + e.message;
-  }
-}
-
-async function adminDeleteAccount(key, username) {
-  if (!confirm('Delete account "' + username + '"? This cannot be undone. Their session data will be permanently removed.')) return;
-  try {
-    const res = await fetch(CLOUD_WORKER + '/admin/accounts/' + encodeURIComponent(key), {
-      method: 'DELETE',
-      headers: { 'X-Admin-Key': _adminKey }
-    });
-    if (res.ok) {
-      showToast('"' + username + '" deleted.');
-      adminRefresh();
-    } else {
-      showToast('Could not delete account.');
-    }
-  } catch(e) {
-    showToast('Error: ' + e.message);
-  }
-}
 
 // Show/hide admin button based on cloud sign-in status
 
-async function cloudSignIn() {
-  if (!cloudValidateInputs()) return;
-  const { user, pin } = cloudGetInputs();
-  const btn = document.querySelector('#cloudSignedOut .settings-action-btn.green');
-  if (btn) { btn.textContent = 'Signing in…'; btn.disabled = true; }
-  // Set credentials temporarily and try to load
-  setCloudUser(user);
-  setCloudPin(pin);
-  const loaded = await cloudLoad(false);
-  if (btn) { btn.textContent = 'Sign in'; btn.disabled = false; }
-  if (loaded) {
-    updateCloudStatus();
-    toggleSettings();
-    showToast('Signed in as ' + user + ' — session loaded.');
-  } else {
-    // Could be wrong PIN (existing account) or no account yet
-    // Try a test GET to distinguish
-    const token = getCloudToken();
-    try {
-      const res = await fetch(CLOUD_WORKER + '/session', {
-        method: 'GET',
-        headers: { 'X-User-Token': token }
-      });
-      const data = await res.json();
-      if (data.found) {
-        // Credentials are valid but local is newer — signed in OK
-        updateCloudStatus();
-        toggleSettings();
-        showToast('Signed in as ' + user + '. Local session is up to date.');
-      } else {
-        // No account found for these credentials
-        cloudShowAuthError('No account found with these credentials. Check your username and PIN, or create a new account.');
-        setCloudUser('');
-        setCloudPin('');
-      }
-    } catch(e) {
-      cloudShowAuthError('Could not reach server — check your internet connection.');
-      setCloudUser('');
-      setCloudPin('');
-    }
-  }
-}
 
-async function cloudCreateAccount() {
-  if (!cloudValidateInputs()) return;
-  const { user, pin } = cloudGetInputs();
-  const btn = document.querySelector('#cloudSignedOut .settings-action-btn:not(.green)');
-  if (btn) { btn.textContent = 'Creating…'; btn.disabled = true; }
-  // Check if account already exists
-  setCloudUser(user);
-  setCloudPin(pin);
-  const token = getCloudToken();
-  try {
-    const checkRes = await fetch(CLOUD_WORKER + '/session', {
-      method: 'GET',
-      headers: { 'X-User-Token': token }
-    });
-    const checkData = await checkRes.json();
-    if (checkData.found) {
-      // Account already exists — treat as sign in instead
-      if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
-      cloudShowAuthError('An account with these credentials already exists. Use Sign in instead.');
-      setCloudUser('');
-      setCloudPin('');
-      return;
-    }
-    // New account — save current session to cloud
-    await cloudSave(false);
-    if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
-    updateCloudStatus();
-    toggleSettings();
-    const hasData = students && students.some(s => s.name || (s.ordered && s.ordered.length) || (s.engOrdered && s.engOrdered.length));
-    if (hasData) {
-      showToast('Account created for ' + user + '. Your session is syncing to cloud.');
-    } else {
-      showToast('Account created for ' + user + '. Import your session file to sync your data.');
-    }
-  } catch(e) {
-    if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
-    cloudShowAuthError('Could not reach server — check your internet connection.');
-    setCloudUser('');
-    setCloudPin('');
-  }
-}
+
+
 
 // Keep saveCloudUser as alias for backwards compat (used nowhere now but safe to keep)
-async function cloudSave(manual = false) {
-  const token = getCloudToken();
-  if (!token) return;
-  const session = { students, currentIdx, totalStudents, savedAt: new Date().toISOString() };
-  try {
-    const res = await fetch(CLOUD_WORKER + '/session', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'X-User-Token': token },
-      body: JSON.stringify(session),
-    });
-    if (res.ok) {
-      if (manual) {
-        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        showToast('Synced to cloud (' + time + ')');
-      }
-    } else {
-      if (manual) showToast('Cloud sync failed — check your connection.');
-    }
-  } catch(e) {
-    if (manual) showToast('Cloud sync failed — check your connection.');
-  }
-}
 
-async function cloudLoad(showPrompt = false) {
-  const token = getCloudToken();
-  if (!token) return false;
-  try {
-    const res = await fetch(CLOUD_WORKER + '/session', {
-      method: 'GET',
-      headers: { 'X-User-Token': token },
-    });
-    if (!res.ok) return false;
-    const data = await res.json();
-    if (!data.found || !data.session) {
-      if (showPrompt) showToast('No cloud data found — starting fresh.');
-      return false;
-    }
-    const saved = data.session;
-    // Always apply cloud session when explicitly loading —
-    // the user chose to sign in, so cloud is the source of truth
-    _applyPersistedState(saved);
-    idbSet('rcb_session', saved);
-    lsSet('rcb_session', saved);
-    loadCur();
-    render();
-    updateProgress();
-    loadTheme();
-    const _savedSubj = lsGet('rcb_subject', 'general');
-    if (_savedSubj !== 'general') setSubject(_savedSubj);
-    const _savedSem = lsGet('rcb_semester', 1);
-    if (_savedSem === 2) setSemester(2);
-    if (showPrompt) {
-      const stuCount = (saved.students || []).length;
-      const time = new Date(saved.savedAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
-      showToast('Session loaded — ' + stuCount + ' student' + (stuCount !== 1 ? 's' : '') + ' (saved ' + time + ')');
-    }
-    return true;
-  } catch(e) {
-    return false;
-  }
-}
+
+
 
 // Throttled cloud save — fires at most once per 15 seconds
 // ── INDEXEDDB STORAGE ─────────────────────────────────────────────
@@ -4897,7 +4403,7 @@ function renderPublish() {
   // prevents any async/event timing from changing it mid-render
   const renderSubject = currentSubject;
   const subjLabel = renderSubject === 'english' ? ' — English' : renderSubject === 'maths' ? ' — Mathematics' : '';
-  document.getElementById('pubName').textContent = `${name} — Semester 1 2026${subjLabel}`;
+  document.getElementById('pubName').textContent = `${name} — Semester ${currentSemester} 2026${subjLabel}`;
   document.getElementById('checkStatus').innerHTML = '';
   document.getElementById('flagLegend').style.display = 'none';
   document.getElementById('checkBtn').disabled = false;
@@ -6120,27 +5626,6 @@ function newStudentFromPublish() {
 }
 function switchStu(i) {
   savePublishEdits(); // save any publish pane edits before switching students
-  // Before switching, save the current S2 state back into s2* fields
-  if (currentSemester === 2) {
-    const ci = currentIdx;
-    students[ci].s2Ordered          = (students[ci].ordered          || []).slice();
-    students[ci].s2Selected         = JSON.parse(JSON.stringify(students[ci].selected || {}));
-    students[ci].s2DraftOverride    = students[ci].draftOverride  || null;
-    students[ci].s2EditedCat        = students[ci].editedCat      || null;
-    students[ci].s2OrderedAfterEdit = (students[ci].orderedAfterEdit || []).slice();
-    students[ci].s2OrderedAtDone    = (students[ci].orderedAtDone    || []).slice();
-    // Save English/Maths S2 state for outgoing student
-    students[ci].engS2Selected = JSON.parse(JSON.stringify(students[ci].engSelected || {}));
-    students[ci].engS2Ordered  = (students[ci].engOrdered || []).slice();
-    students[ci].engS2Grades   = JSON.parse(JSON.stringify(students[ci].engGrades || {}));
-    students[ci].engS2Draft    = students[ci].engDraft || null;
-    students[ci].engS2FD       = (students[ci].engFD || []).slice();
-    students[ci].mathS2Selected = JSON.parse(JSON.stringify(students[ci].mathSelected || {}));
-    students[ci].mathS2Ordered  = (students[ci].mathOrdered || []).slice();
-    students[ci].mathS2Grades   = JSON.parse(JSON.stringify(students[ci].mathGrades || {}));
-    students[ci].mathS2Draft    = students[ci].mathDraft || null;
-    students[ci].mathS2FD       = (students[ci].mathFD || []).slice();
-  }
   saveCur();
   currentIdx = i;
   // Reset currentTab to the first category of whichever subject is active
@@ -6148,26 +5633,7 @@ function switchStu(i) {
   else if (currentSubject === 'maths') currentTab = MATHS_CATS[0];
   else currentTab = CATS[0];
   loadCur();
-  // Load the correct semester state for the new student
-  if (currentSemester === 2) {
-    cur().ordered          = cur().s2Ordered        || [];
-    cur().selected         = cur().s2Selected       || {};
-    cur().draftOverride    = cur().s2DraftOverride  || null;
-    cur().editedCat        = cur().s2EditedCat      || null;
-    cur().orderedAfterEdit = cur().s2OrderedAfterEdit || [];
-    cur().orderedAtDone    = cur().s2OrderedAtDone  || [];
-    // Load English/Maths S2 state for incoming student
-    cur().engSelected = cur().engS2Selected || {};
-    cur().engOrdered  = cur().engS2Ordered  || [];
-    cur().engGrades   = cur().engS2Grades   || {};
-    cur().engDraft    = cur().engS2Draft    || null;
-    cur().engFD       = cur().engS2FD       || [];
-    cur().mathSelected = cur().mathS2Selected || {};
-    cur().mathOrdered  = cur().mathS2Ordered  || [];
-    cur().mathGrades   = cur().mathS2Grades   || {};
-    cur().mathDraft    = cur().mathS2Draft    || null;
-    cur().mathFD       = cur().mathS2FD       || [];
-  }
+  // (v3.5.5) every student's live fields already hold the current semester — nothing to swap here
   if (currentView === 'publish') renderPublish();
   else render();
   if (currentSemester === 2 && !cur().s2RankOrder && cur().s1Comment) rankForS2();
@@ -6694,7 +6160,25 @@ function saveCloudUser() { cloudSignIn(); }
 async function cloudSave(manual = false) {
   const token = getCloudToken();
   if (!token) return;
-  const session = { students, currentIdx, totalStudents, savedAt: new Date().toISOString() };
+  if (!_stateLoaded) return;
+  if (_cloudUnverified) {
+    // Startup could not read the cloud copy. Do not overwrite it blind: only save if the cloud has nothing newer.
+    try {
+      const chk = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: { 'X-User-Token': token } });
+      if (!chk.ok) { if (manual) showToast('Cloud sync paused — cannot reach the cloud copy.'); return; }
+      const cd = await chk.json();
+      if (cd.found && cd.session && (cd.session.students || []).length) {
+        const cloudAt = Date.parse(cd.session.savedAt || 0) || 0;
+        const mine = Date.parse(_loadedSavedAt || 0) || 0;
+        if (cloudAt > mine) {
+          if (manual) showToast('Cloud has newer data than this device — reload the page to sync.');
+          return;   // keep the cloud copy untouched
+        }
+      }
+      _cloudUnverified = false;
+    } catch (e) { if (manual) showToast('Cloud sync paused — cannot reach the cloud copy.'); return; }
+  }
+  const session = buildSession();
   try {
     const res = await fetch(CLOUD_WORKER + '/session', {
       method: 'PUT',
@@ -6740,8 +6224,9 @@ async function cloudLoad(showPrompt = false) {
     loadTheme();
     const _savedSubj = lsGet('rcb_subject', 'general');
     if (_savedSubj !== 'general') setSubject(_savedSubj);
-    const _savedSem = lsGet('rcb_semester', 1);
-    if (_savedSem === 2) setSemester(2);
+    _applySemesterAfterLoad(saved);
+    _stateLoaded = true;
+    _cloudUnverified = false;
     if (showPrompt) {
       const stuCount = (saved.students || []).length;
       const time = new Date(saved.savedAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
@@ -6953,10 +6438,18 @@ function getActiveMergeRules() {
   });
 }
 
+let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
+let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
+let _loadedSavedAt = null;       // savedAt of the session this device loaded
+function buildSession() {
+  return { students, currentIdx, totalStudents, semester: currentSemester, savedAt: new Date().toISOString() };
+}
 function autoSave() {
+  // Never write until the saved session has been read — otherwise the blank start-up page overwrites it (v3.5.5)
+  if (!_stateLoaded) return;
   // Show saving state
   setSaveState('saving', 'Saving…');
-  const session = { students, currentIdx, totalStudents, savedAt: new Date().toISOString() };
+  const session = buildSession();
   // Save to both IndexedDB (primary) and localStorage (fallback)
   idbSet('rcb_session', session)
     .then(() => lsSet('rcb_session', session))
@@ -6988,14 +6481,17 @@ function loadPersistedState() {
       if (loaded) {
         setSaveState('saved', 'Loaded from cloud');
       } else {
-        // Nothing in cloud yet (new account) — use local data
+        // Nothing in cloud yet (new account), or the cloud could not be read — use local data,
+        // but do not let this device overwrite a cloud copy it never saw (checked in cloudSave)
         setSaveState('saved', '');
+        _cloudUnverified = true;
         loadFromLocal();
       }
       updateCloudStatus();
     }).catch(() => {
       // Cloud unreachable — fall back to local
       setSaveState('saved', 'Offline — using local data');
+      _cloudUnverified = true;
       loadFromLocal();
       updateCloudStatus();
     });
@@ -7016,8 +6512,7 @@ function loadFromLocal() {
       loadTheme();
       const _savedSubj = lsGet('rcb_subject', 'general');
       if (_savedSubj !== 'general') setSubject(_savedSubj);
-      const _savedSem = lsGet('rcb_semester', 1);
-      if (_savedSem === 2) setSemester(2);
+      _applySemesterAfterLoad(saved);
     }
   }).catch(() => {
     const saved = lsGet('rcb_session', null);
@@ -7025,13 +6520,19 @@ function loadFromLocal() {
       _applyPersistedState(saved);
       loadCur();
       render();
+      _applySemesterAfterLoad(saved);
     }
-  });
+  }).finally(() => { _stateLoaded = true; });
 }
 
 function _applyPersistedState(saved) {
-  const saved_ls = lsGet('rcb_session', null);
   if (!saved) return;
+  _loadedSavedAt = saved.savedAt || null;
+  if (saved.semester === 1 || saved.semester === 2) currentSemester = saved.semester;
+  else {
+    currentSemester = 1;                                  // legacy session: live fields are S1
+    if (!lsGet('rcb_session_pre355', null)) lsSet('rcb_session_pre355', saved);   // one-time safety copy of the old-format session
+  }
   if (saved && saved.students && saved.students.length) {
     students = saved.students.map(s => {
       const stu = Object.assign(
@@ -7558,6 +7059,8 @@ function launchFinaleConfetti() {
 // ── SESSION EXPORT / IMPORT ───────────────────────────────────────
 
 function autoBackup() {
+  // Off by default (it downloads a .json file on every first publish). Enable with: localStorage.setItem('rcb_autobackup','true')
+  if (!lsGet('rcb_autobackup', false)) return;
   saveCur();
   const session = {
     version: 1,
@@ -7566,7 +7069,7 @@ function autoBackup() {
     students,
     streak: getStreakData(),
     badges: getEarnedBadges(),
-    myName: getMyName(),
+    semester: currentSemester,
   };
   const json = JSON.stringify(session, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
@@ -7587,6 +7090,7 @@ function exportSession() {
     students,
     streak: getStreakData(),
     badges: getEarnedBadges(),
+    semester: currentSemester,
   };
   const json = JSON.stringify(session, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
@@ -7626,6 +7130,9 @@ function importSession() {
           return stu;
         });
         currentIdx = 0;
+        currentSemester = (session.semester === 2) ? 2 : 1;   // files without "semester" are S1 (older versions)
+        _paintSemesterUI();
+        _cloudUnverified = false;                              // an explicit import is the user's choice of source of truth
 
         // Restore class size
         if (session.totalStudents) totalStudents = session.totalStudents;
@@ -8400,6 +7907,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.5.3</div>
+<div class="version-badge">v3.5.6</div>
 </body>
 </html>
