@@ -5,37 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Report Comment Builder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
+    /* v3.6.0: light by default. The dark palette lives under html.dark below. */
+    --bg-0: #F2F4F7; --bg-1: #FFFFFF; --bg-2: #F6F8FA; --bg-3: #EAEEF3; --bg-4: #DDE3EA;
+    --border: #DDE3EA; --border-h: #9AA8B6;
+    --t0: #14202B; --t1: #3C4B59; --t2: #566676;
+    --green: #17724A; --green-bg: #DDF1E6; --green-bd: #A9D8BE; --green-hv: #CDE9D9;
+    --red: #B42318; --red-bg: #FDE8E6; --red-bd: #F3B5AF;
+    --amber: #946000; --amber-bg: #FBEFCF; --amber-bg2: #FBEFCF; --amber-bd: #E8CF8E; --amber-fg: #704400; --amber-line: #C98200;
+    --purple: #53288A; --purple-bg: #ECE6F8; --purple-bd: #CDBEEA; --purple-hv: #E1D8F4;
+    --blue: #0F5C8E; --blue-bg: #E3EFF8; --blue-border: #B7D3E8;
+    --accent: #0F5C8E; --accent-bg: #E3EFF8; --accent-bd: #B7D3E8; --on-accent: #FFFFFF;
+    --done: #1E8A55; --on-done: #FFFFFF; --on-green: #0F5A33; --on-green-chip: #0F5A33;
+    --chip-pos-bg: #DDF1E6; --chip-pos-fg: #0F5A33; --chip-ave-bg: #FBEFCF; --chip-ave-fg: #704400; --chip-dev-bg: #ECE6F8; --chip-dev-fg: #53288A;
+    --gA: #15803d; --gB: #1d4ed8; --gC: #a16207; --gD: #c2410c; --gE: #b91c1c;
+    --shadow-pop: 0 8px 28px rgba(20,32,43,.18);
+    --r-sm: 6px; --r-md: 10px; --r-lg: 14px;
+    --font: 'Public Sans', system-ui, sans-serif; --serif: 'Newsreader', Georgia, serif; --mono: 'DM Mono', monospace;
+  }
+  /* DARK MODE (opt-in from Settings) */
+  html.dark {
     --bg-0: #0a0a0a; --bg-1: #111; --bg-2: #1a1a1a; --bg-3: #222; --bg-4: #2a2a2a;
     --border: #2e2e2e; --border-h: #444;
-    --t0: #f0f0f0; --t1: #aaa; --t2: #555;
-    --green: #4ade80; --green-bg: #0f2318; --green-bd: #1a4028;
-    --red: #f87171; --red-bg: #2a1010;
-    --amber: #fbbf24; --amber-bg: rgba(251,191,36,0.12);
-    --purple: #c084fc; --purple-bg: #1a0a28;
+    --t0: #f0f0f0; --t1: #aaa; --t2: #8a8a8a;
+    --green: #4ade80; --green-bg: #0f2318; --green-bd: #1a4028; --green-hv: #142e1e;
+    --red: #f87171; --red-bg: #2a1010; --red-bd: #4a1010;
+    --amber: #fbbf24; --amber-bg: rgba(251,191,36,0.12); --amber-bg2: #2a1f00; --amber-bd: #3a2a00; --amber-fg: #fbbf24; --amber-line: #fbbf24;
+    --purple: #c084fc; --purple-bg: #1a0a28; --purple-bd: #3a1a4a; --purple-hv: #220a34;
     --blue: #60a5fa; --blue-bg: #0a1628; --blue-border: #1a2e4a;
-    --r-sm: 6px; --r-md: 10px; --r-lg: 14px;
-    --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
-  }
-  /* LIGHT MODE */
-  html.light {
-    --bg-0: #f0f0f0; --bg-1: #ffffff; --bg-2: #e8e8e8; --bg-3: #dedede; --bg-4: #d0d0d0;
-    --border: #ccc; --border-h: #999;
-    --t0: #0a0a0a; --t1: #2a2a2a; --t2: #555;
-    --green: #16a34a; --green-bg: #dcfce7; --green-bd: #bbf7d0;
-    --red: #dc2626; --red-bg: #fee2e2;
-    --amber: #d97706; --amber-bg: rgba(217,119,6,0.1);
-    --purple: #9333ea; --purple-bg: #f3e8ff;
-    --blue: #2563eb; --blue-bg: #eff6ff; --blue-border: #bfdbfe;
+    --accent: #60a5fa; --accent-bg: #0a1628; --accent-bd: #1a2e4a; --on-accent: #06121f;
+    --done: #4ade80; --on-done: #052e16; --on-green: #a7f3c0; --on-green-chip: #4ade80;
+    --chip-pos-bg: #0f2318; --chip-pos-fg: #4ade80; --chip-ave-bg: #2a1f00; --chip-ave-fg: #fbbf24; --chip-dev-bg: #1d1330; --chip-dev-fg: #c4a5f5;
+    --gA: #22c55e; --gB: #60a5fa; --gC: #fbbf24; --gD: #fb923c; --gE: #f87171;
+    --shadow-pop: 0 8px 28px rgba(0,0,0,0.45);
   }
   /* THEME TOGGLE */
   .theme-toggle { display: flex; align-items: center; gap: 6px; cursor: pointer; }
   .theme-toggle-track { width: 36px; height: 20px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 999px; position: relative; transition: background .2s; flex-shrink: 0; }
   .theme-toggle-thumb { position: absolute; top: 3px; left: 3px; width: 12px; height: 12px; border-radius: 50%; background: var(--t2); transition: left .2s, background .2s; }
-  html.light .theme-toggle-track { background: var(--green-bg); border-color: var(--green-bd); }
-  html.light .theme-toggle-thumb { left: 19px; background: var(--green); }
+  html.dark .theme-toggle-track { background: var(--green-bg); border-color: var(--green-bd); }
+  html.dark .theme-toggle-thumb { left: 19px; background: var(--green); }
   .theme-toggle-label { font-size: 11px; color: var(--t2); white-space: nowrap; }
   html { height: 100%; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -48,9 +59,6 @@
   .view-toggle { display: flex; background: var(--bg-3); border: 1px solid var(--border); border-radius: 999px; padding: 3px; gap: 2px; }
   .vbtn { font-family: var(--font); font-size: 12px; padding: 4px 16px; border-radius: 999px; border: none; background: none; color: var(--t1); cursor: pointer; transition: all .15s; white-space: nowrap; }
   .vbtn.active { background: var(--bg-0); color: var(--t0); font-weight: 500; }
-  .student-pill { display: flex; align-items: center; gap: 6px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 999px; padding: 4px 4px 4px 14px; }
-  .student-pill input { background: none; border: none; outline: none; color: var(--t0); font-family: var(--font); font-size: 13px; width: 130px; }
-  .student-pill input::placeholder { color: var(--t2); }
   .pron-sel { background: var(--bg-3); border: 1px solid var(--border); border-radius: 999px; color: var(--t1); font-family: var(--font); font-size: 12px; padding: 4px 10px; outline: none; cursor: pointer; }
 
   /* MAIN AREA */
@@ -69,7 +77,7 @@
   .cat-name { flex: 1; }
   .cat-count { font-size: 10px; font-family: var(--mono); background: var(--green-bg); color: var(--green); border-radius: 999px; padding: 1px 6px; display: none; }
   .cat-btn.has-sel .cat-count { display: block; }
-  .cat-count.edited { background: #2a1f00; color: var(--amber); }
+  .cat-count.edited { background: var(--amber-bg2); color: var(--amber); }
   .cat-div { height: 1px; background: var(--border); margin: 6px 1rem; }
 
   /* Centre */
@@ -80,7 +88,7 @@
   .opts { display: flex; flex-direction: column; gap: 5px; }
   .opt { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--r-md); padding: 11px 14px; font-size: 14px; line-height: 1.7; color: var(--t1); cursor: pointer; text-align: left; font-family: var(--font); transition: border-color .12s, background .12s, color .12s; width: 100%; }
   .opt:hover { border-color: var(--border-h); background: var(--bg-2); color: var(--t0); }
-  .opt.sel { border-color: var(--green-bd); background: var(--green-bg); color: #a7f3c0; }
+  .opt.sel { border-color: var(--green-bd); background: var(--green-bg); color: var(--on-green); }
   .opt.sel:hover { border-color: var(--green); }
 
   /* Right panel */
@@ -89,24 +97,11 @@
   .p-head { padding: .9rem 1.1rem .7rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
   .p-title { font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); }
   .wc { font-size: 11px; font-family: var(--mono); color: var(--t2); background: var(--bg-3); padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); transition: all .2s; }
-  .wc.over { color: var(--red); background: var(--red-bg); border-color: #4a1010; }
+  .wc.over { color: var(--red); background: var(--red-bg); border-color: var(--red-bd); }
   .wc-bar-wrap { height: 2px; background: var(--bg-3); }
   .wc-bar { height: 2px; background: var(--green); transition: width .3s, background .3s; width: 0; }
   .wc-bar.over { background: var(--red); }
-  .stu-bar { display: flex; gap: 5px; padding: .6rem 1.1rem; border-bottom: 1px solid var(--border); overflow-x: auto; align-items: center; flex-shrink: 0; }
-  .stu-chip { white-space: nowrap; font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-2); color: var(--t1); cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all .1s; }
-  .stu-chip:hover { border-color: var(--border-h); color: var(--t0); }
-  .stu-chip.active { border-color: var(--border-h); background: var(--bg-3); color: var(--t0); font-weight: 500; }
-  .stu-chip.pub::after { content: ' ✓'; color: var(--green); font-size: 10px; }
-  .rm-stu { color: var(--t2); font-size: 13px; border: none; background: none; cursor: pointer; padding: 0 1px; font-family: var(--font); line-height: 1; }
-  .rm-stu:hover { color: var(--red); }
-  .add-stu { white-space: nowrap; font-size: 12px; padding: 3px 10px; border-radius: 999px; border: 1px dashed var(--border); background: none; color: var(--t2); cursor: pointer; font-family: var(--font); transition: all .1s; }
-  .add-stu:hover { border-color: var(--border-h); color: var(--t1); }
 
-  .out-scroll { flex: 1; overflow-y: auto; padding: 1.1rem; min-height: 0; }
-  .out-empty { color: var(--t2); font-size: 13px; line-height: 1.7; font-style: italic; }
-  .out-sent { display: inline; font-size: 15px; line-height: 1.9; color: var(--t0); cursor: pointer; border-radius: 3px; padding: 1px 2px; transition: background .1s, color .1s; }
-  .out-sent:hover { background: var(--red-bg); color: var(--red); }
 
   .p-actions { padding: .9rem 1.1rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
   .btn { font-family: var(--font); font-size: 13px; padding: 8px 14px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t0); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all .12s; width: 100%; }
@@ -117,9 +112,9 @@
   .btn-ghost { background: none; color: var(--t1); }
   .btn-ghost:hover { background: var(--bg-2); color: var(--t0); }
   .btn-green { background: var(--green-bg); border-color: var(--green-bd); color: var(--green); font-weight: 500; }
-  .btn-green:hover { background: #142e1e; border-color: var(--green); }
-  .btn-purple { background: var(--purple-bg); border-color: #3a1a4a; color: var(--purple); font-weight: 500; }
-  .btn-purple:hover { background: #220a34; border-color: var(--purple); }
+  .btn-green:hover { background: var(--green-hv); border-color: var(--green); }
+  .btn-purple { background: var(--purple-bg); border-color: var(--purple-bd); color: var(--purple); font-weight: 500; }
+  .btn-purple:hover { background: var(--purple-hv); border-color: var(--purple); }
 
   /* PUBLISH VIEW */
   .pub-view { display: none; flex-direction: column; flex: 1; min-height: 0; }
@@ -203,7 +198,7 @@
   .badge.earned .badge-icon { opacity: 1; filter: none; }
   .badge-icon { font-size: 22px; filter: grayscale(1); opacity: .3; transition: all .3s; flex-shrink: 0; }
   .badge-name { font-size: 13px; font-weight: 500; color: var(--t1); }
-  .badge.earned .badge-name { color: #a7f3c0; }
+  .badge.earned .badge-name { color: var(--on-green); }
   .badge-text { flex: 1; }
   .badge-desc { font-size: 11px; color: var(--t2); margin-top: 2px; }
   .badge-tooltip { display: none; }
@@ -219,10 +214,10 @@
   .custom-textarea::placeholder { color: var(--t2); }
   .custom-row { display: flex; gap: 8px; margin-top: 8px; align-items: flex-start; }
   .custom-add-btn { font-family: var(--font); font-size: 12px; padding: 7px 14px; border-radius: var(--r-sm); border: 1px solid var(--green-bd); background: var(--green-bg); color: var(--green); cursor: pointer; white-space: nowrap; transition: all .12s; flex-shrink: 0; }
-  .custom-add-btn:hover { border-color: var(--green); background: #142e1e; }
+  .custom-add-btn:hover { border-color: var(--green); background: var(--green-hv); }
   .custom-hint { font-size: 11px; color: var(--t2); line-height: 1.5; padding-top: 2px; }
   .opt.custom { border-style: dashed; border-color: var(--border-h); color: var(--t0); }
-  .opt.custom.sel { border-color: var(--green); border-style: dashed; background: var(--green-bg); color: #a7f3c0; }
+  .opt.custom.sel { border-color: var(--green); border-style: dashed; background: var(--green-bg); color: var(--on-green); }
   .opt.custom::before { content: '✏ '; font-size: 11px; opacity: .5; }
 
   /* SESSION BUTTONS */
@@ -243,8 +238,8 @@
   .tier-divider-line { flex: 1; height: 1px; background: var(--border); }
   .tier-divider-label { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; padding: 2px 8px; border-radius: 999px; border: 1px solid; }
   .tier-divider-label.strong { color: #4ade80; border-color: var(--green-bd); background: var(--green-bg); }
-  .tier-divider-label.average { color: #fbbf24; border-color: #3a2a00; background: #2a1f00; }
-  .tier-divider-label.developing { color: #f87171; border-color: #4a1010; background: #2a1010; }
+  .tier-divider-label.average { color: #fbbf24; border-color: var(--amber-bd); background: var(--amber-bg2); }
+  .tier-divider-label.developing { color: #f87171; border-color: var(--red-bd); background: #2a1010; }
   .tier-legend { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
   .tier-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--t2); }
   .tier-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
@@ -260,25 +255,24 @@
   .draft-edit-bar.visible { display: flex; }
   .draft-edit-label { font-size: 11px; color: var(--t2); }
   .draft-done-btn { font-family: var(--font); font-size: 12px; font-weight: 500; padding: 5px 16px; border-radius: var(--r-sm); border: 1px solid var(--green-bd); background: var(--green-bg); color: var(--green); cursor: pointer; white-space: nowrap; }
-  .draft-done-btn:hover { border-color: var(--green); background: #142e1e; }
+  .draft-done-btn:hover { border-color: var(--green); background: var(--green-hv); }
   .draft-reset-btn { font-family: var(--font); font-size: 11px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); background: none; color: var(--t2); cursor: pointer; white-space: nowrap; }
   .draft-reset-btn:hover { border-color: var(--border-h); color: var(--t1); }
-  .out-scroll { display: none; } /* replaced by editable div */
 
   /* CUSTOM TIER SELECTOR */
   .tier-sel-row { display: flex; gap: 6px; margin-top: 8px; margin-bottom: 2px; }
   .tier-sel-btn { font-family: var(--font); font-size: 11px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border); background: none; color: var(--t2); cursor: pointer; transition: all .12s; }
   .tier-sel-btn:hover { border-color: var(--border-h); color: var(--t1); }
   .tier-sel-btn.active-strong { border-color: var(--green-bd); background: var(--green-bg); color: var(--green); }
-  .tier-sel-btn.active-average { border-color: #3a2a00; background: #2a1f00; color: var(--amber); }
-  .tier-sel-btn.active-developing { border-color: #4a1010; background: #2a1010; color: var(--red); }
+  .tier-sel-btn.active-average { border-color: var(--amber-bd); background: var(--amber-bg2); color: var(--amber); }
+  .tier-sel-btn.active-developing { border-color: var(--red-bd); background: #2a1010; color: var(--red); }
 
   /* CUSTOM SENTENCE DELETE */
   .opt-custom-wrap { position: relative; display: flex; align-items: stretch; gap: 0; }
   .opt-custom-wrap .opt { flex: 1; border-radius: var(--r-md) 0 0 var(--r-md); border-right: none; }
   .opt-custom-wrap .opt.sel { border-right: none; }
   .opt-delete-btn { flex-shrink: 0; width: 32px; display: flex; align-items: center; justify-content: center; background: var(--bg-1); border: 1px solid var(--border); border-left: none; border-radius: 0 var(--r-md) var(--r-md) 0; cursor: pointer; color: var(--t2); font-size: 14px; transition: all .12s; }
-  .opt-delete-btn:hover { background: var(--red-bg); color: var(--red); border-color: #4a1010; }
+  .opt-delete-btn:hover { background: var(--red-bg); color: var(--red); border-color: var(--red-bd); }
 
   /* SPORT SUB-GROUP DIVIDERS */
   .sport-divider { display: flex; align-items: center; gap: 8px; margin: 10px 0 4px; }
@@ -306,8 +300,8 @@
   .modal-btn { font-family: var(--font); font-size: 13px; padding: 8px 16px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t0); cursor: pointer; }
   .modal-btn:hover { background: var(--bg-4); }
   .modal-btn.primary { background: var(--green-bg); border-color: var(--green-bd); color: var(--green); font-weight: 500; }
-  .modal-btn.primary:hover { background: #142e1e; border-color: var(--green); }
-  .modal-btn.danger { color: var(--red); border-color: #4a1010; background: var(--red-bg); }
+  .modal-btn.primary:hover { background: var(--green-hv); border-color: var(--green); }
+  .modal-btn.danger { color: var(--red); border-color: var(--red-bd); background: var(--red-bg); }
   .modal-btn.danger:hover { border-color: var(--red); }
 
   /* BADGE NOTIFICATION */
@@ -322,9 +316,9 @@
 
   /* DUPLICATE WORD HIGHLIGHT */
   mark.dup-word { background: rgba(251,191,36,0.2); color: inherit; border-radius: 2px; padding: 0 2px; border-bottom: 1.5px solid var(--amber); cursor: pointer; position: relative; transition: background .1s, outline .1s; }
-  html.light mark.dup-word { background: rgba(217,119,6,0.12); }
+  html:not(.dark) mark.dup-word { background: rgba(217,119,6,0.12); }
   mark.dup-word.dup-active { background: rgba(251,191,36,0.55) !important; outline: 2px solid var(--amber); outline-offset: 1px; border-radius: 3px; color: #000; font-weight: 500; }
-  html.light mark.dup-word.dup-active { color: #000; }
+  html:not(.dark) mark.dup-word.dup-active { color: #000; }
   mark.dup-word.dup-peer { background: rgba(251,191,36,0.38) !important; outline: 1.5px dashed var(--amber); outline-offset: 1px; border-radius: 3px; }
   /* HOVER TOOLTIP PANEL */
   .dup-tooltip { position: fixed; background: var(--bg-1); border: 1px solid var(--amber); border-radius: var(--r-md); box-shadow: 0 6px 24px rgba(0,0,0,0.4); z-index: 899; padding: 10px 14px; min-width: 200px; max-width: 300px; pointer-events: auto; }
@@ -376,13 +370,13 @@
   .s2-banner-label { font-size: 12px; color: var(--green); font-weight: 500; display: flex; align-items: center; gap: 6px; }
   .s2-banner-note { font-size: 11px; color: var(--t2); }
   .s2-rank-btn { font-family: var(--font); font-size: 12px; padding: 5px 14px; border-radius: var(--r-sm); border: 1px solid var(--green-bd); background: var(--green-bg); color: var(--green); cursor: pointer; font-weight: 500; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
-  .s2-rank-btn:hover { border-color: var(--green); background: #142e1e; }
+  .s2-rank-btn:hover { border-color: var(--green); background: var(--green-hv); }
   .s2-rank-btn:disabled { opacity: .5; cursor: not-allowed; }
 
   /* S1-USED SENTENCES IN BANK */
   .opt.s1-used { border-left: 3px solid #f87171; background: rgba(248,113,113,0.08); color: var(--t2); cursor: not-allowed; pointer-events: none; }
   .opt.s1-used:hover { background: rgba(248,113,113,0.08); }
-  html.light .opt.s1-used { background: rgba(220,38,38,0.06); }
+  html:not(.dark) .opt.s1-used { background: rgba(220,38,38,0.06); }
   .s2-rank-label { font-size: 10px; font-family: var(--mono); color: var(--blue); background: var(--blue-bg); border-radius: 999px; padding: 1px 7px; margin-left: 6px; flex-shrink: 0; }
   .s2-cat-ranked { font-size: 10px; color: var(--green); margin-left: 4px; }
 
@@ -418,11 +412,6 @@
   .fix-loading { padding: 12px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--t1); }
 
   /* SUBJECT SWITCHER */
-  .subject-toggle { display: flex; background: var(--bg-3); border: 1px solid var(--border); border-radius: 999px; padding: 3px; gap: 2px; flex-shrink: 0; }
-  .subject-btn { font-family: var(--font); font-size: 12px; padding: 4px 12px; border-radius: 999px; border: none; background: none; color: var(--t1); cursor: pointer; transition: all .15s; white-space: nowrap; font-weight: 500; }
-  .subject-btn.active { background: var(--bg-1); color: var(--t0); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-  .subject-btn.active.english { color: #60a5fa; }
-  .subject-btn.active.maths { color: #a78bfa; }
 
   /* GRADE SELECTOR */
   .grade-sel-wrap { display: flex; align-items: center; gap: 6px; padding: 8px 12px 4px; border-bottom: 1px solid var(--border); flex-shrink: 0; flex-wrap: wrap; }
@@ -451,7 +440,7 @@
   .grade-divider-label.D { color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.1); }
   .grade-divider-label.E { color: #f87171; border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.1); }
   .opt.grade-selected { border-color: var(--blue); background: rgba(96,165,250,0.08); }
-  html.light .opt.grade-selected { background: rgba(96,165,250,0.06); }
+  html:not(.dark) .opt.grade-selected { background: rgba(96,165,250,0.06); }
 
   /* SUBJECT CHIP TABS */
   .stu-subj-tabs { display: flex; gap: 3px; border-bottom: 1px solid var(--border); padding: 0 1.1rem 0; flex-shrink: 0; background: var(--bg-1); }
@@ -495,61 +484,330 @@
   .settings-action-btn:hover { background: var(--bg-4); border-color: var(--border-h); }
   .settings-action-btn.green { border-color: var(--green-bd); color: var(--green); background: var(--green-bg); }
   .settings-action-btn.green:hover { border-color: var(--green); }
+
+  /* ═══════════════════════════════════════════════════════════════
+     v3.6.0 LAYOUT — workbench + class board (replaces the v3.5 layout)
+     ═══════════════════════════════════════════════════════════════ */
+  body { font-family: var(--font); font-size: 15px; -webkit-font-smoothing: antialiased; }
+  button, input, select, textarea { font-family: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* Top bar */
+  header { height: 60px; padding: 0 20px; gap: 16px; justify-content: flex-start; }
+  .logo { font-size: 14px; font-weight: 700; letter-spacing: .06em; }
+  .sem-toggle, .view-toggle { background: var(--bg-3); padding: 3px; }
+  .sem-btn, .vbtn { font-size: 13px; font-weight: 600; padding: 6px 14px; min-height: 32px; color: var(--t2); }
+  .vbtn.active, .sem-btn.active.s1 { background: var(--bg-1); color: var(--t0); box-shadow: 0 1px 2px rgba(20,32,43,.15); }
+  .sem-btn.active.s2 { background: var(--accent); color: var(--on-accent); }
+  .bank-search { flex: 1 1 200px; max-width: 420px; min-width: 120px; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; background: var(--bg-0); border: 1px solid var(--border); border-radius: 10px; color: var(--t2); }
+  .bank-search:focus-within { border-color: var(--accent); }
+  .bank-search input { flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font-size: 14px; color: var(--t0); }
+  .bank-search input::placeholder { color: var(--t2); }
+  .hdr-right { margin-left: auto; display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  .save-indicator { font-family: var(--font); font-size: 13px; color: var(--t2); gap: 8px; }
+  .save-dot { width: 8px; height: 8px; }
+  .save-dot.saved { background: var(--done); }
+  .progress-wrap { gap: 10px; }
+  .progress-track { width: 96px; height: 6px; border: 0; background: var(--bg-4); }
+  .progress-fill { background: var(--amber-line); }
+  .progress-fill.english { background: var(--accent); }
+  .progress-fill.maths { background: var(--purple); }
+  .progress-fill.done { background: var(--done) !important; }
+  .progress-label { font-family: var(--font); font-size: 13px; font-weight: 600; }
+  .progress-label.done b { color: var(--done); }
+  .settings-btn { width: 40px; height: 40px; border-radius: 10px; background: var(--bg-1); color: var(--t0); }
+  .settings-panel { top: 60px; box-shadow: var(--shadow-pop); }
+  .syn-dropdown, .fix-dropdown, .dup-tooltip, .badge-notif-card { box-shadow: var(--shadow-pop); }
+  .toast { background: var(--t0); color: var(--bg-1); border-color: var(--t0); }
+
+  /* Build view: class rail | sentence bank | draft */
+  .build-view { grid-template-columns: 264px minmax(0, 1fr) clamp(320px, 32vw, 440px); grid-template-rows: minmax(0, 1fr); }
+  .class-rail { border-right: 1px solid var(--border); background: var(--bg-1); overflow-y: auto; padding: 16px 12px 20px; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+  .rail-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 4px; }
+  .rail-title { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); }
+  .rail-add { min-height: 34px; padding: 0 12px; border: 1px solid var(--border); background: var(--bg-1); border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--t0); cursor: pointer; white-space: nowrap; }
+  .rail-add:hover { border-color: var(--border-h); }
+  .rail-key { display: flex; gap: 12px; padding: 0 4px; font-size: 12px; color: var(--t2); }
+  .rail-key b { color: var(--t0); }
+  .rail-list { display: flex; flex-direction: column; gap: 4px; }
+  .rail-row { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 46px; padding: 5px 8px; border-radius: 10px; border: 1px solid transparent; background: none; text-align: left; font-size: 14px; color: var(--t0); cursor: pointer; }
+  .rail-row:hover { background: var(--bg-2); }
+  .rail-row.active { background: var(--accent-bg); border-color: var(--accent-bd); }
+  .rail-av { width: 30px; height: 30px; border-radius: 50%; background: var(--bg-3); display: grid; place-items: center; font-size: 12px; font-weight: 700; color: var(--t1); flex: none; }
+  .rail-name { flex: 1; min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rail-name.unnamed { color: var(--t2); font-weight: 500; font-style: italic; }
+  .rail-dots { display: flex; gap: 4px; }
+  .rdot { width: 20px; height: 20px; border-radius: 50%; box-sizing: border-box; display: grid; place-items: center; font-size: 10px; font-weight: 700; border: 1.5px solid var(--border-h); color: var(--t2); }
+  .rdot.draft { background: var(--amber-bg); border: 1.5px dashed var(--amber-line); color: var(--amber-fg); }
+  .rdot.done { background: var(--done); border-color: var(--done); color: var(--on-done); }
+  .rail-more { padding: 4px 8px; font-size: 13px; color: var(--t2); }
+
+  .centre { display: flex; flex-direction: column; overflow: hidden; padding: 0; background: var(--bg-0); min-height: 0; min-width: 0; }
+  .c-top { flex-shrink: 0; padding: 18px 24px 0; display: flex; flex-direction: column; gap: 14px; }
+  .c-student { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .c-name { font-size: 28px; line-height: 1.15; font-weight: 700; color: var(--t0); background: transparent; border: 0; border-bottom: 2px solid transparent; outline: none; padding: 2px 0; width: 260px; max-width: 100%; min-width: 120px; }
+  .c-name:hover, .c-name:focus { border-bottom-color: var(--border-h); }
+  .c-name::placeholder { color: var(--t2); font-weight: 600; }
+  .pron-sel { min-height: 36px; padding: 0 12px; font-size: 13px; font-weight: 600; color: var(--t0); background: var(--bg-1); border: 1px solid var(--border); border-radius: 8px; }
+  .c-nav { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--t2); white-space: nowrap; }
+  .icon-btn { width: 40px; height: 40px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-1); color: var(--t0); display: grid; place-items: center; cursor: pointer; flex: none; }
+  .icon-btn:hover:not(:disabled) { border-color: var(--border-h); }
+  .icon-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* subject tabs */
+  .stu-subj-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); padding: 0; background: none; }
+  .stu-subj-tab { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; font-size: 15px; font-weight: 600; color: var(--t2); border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; background: none; }
+  .stu-subj-tab:hover { color: var(--t0); }
+  .stu-subj-tab.active, .stu-subj-tab.active.english, .stu-subj-tab.active.maths { color: var(--t0); font-weight: 700; border-bottom-color: var(--accent); }
+  .stu-subj-tab.has-content::after { content: none; }
+  .st-badge { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--bg-3); color: var(--t2); }
+  .st-badge.draft { background: var(--amber-bg); color: var(--amber-fg); }
+  .st-badge.done { background: var(--green-bg); color: var(--on-green-chip); }
+
+  /* category chips (the old sidebar) */
+  .sidebar { border: 0; background: none; overflow: visible; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-height: 0; }
+  .sidebar .s-label { display: none; }
+  .cat-btn { width: auto; display: inline-flex; align-items: center; justify-content: flex-start; gap: 8px; min-height: 38px; padding: 0 14px !important; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-1); color: var(--t0); font-size: 14px; font-weight: 600; }
+  .cat-btn:hover { border-color: var(--border-h); background: var(--bg-1); color: var(--t0); }
+  .cat-btn.active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+  .cat-name { flex: none; }
+  .cat-count { display: none; font-family: var(--font); font-size: 12px; font-weight: 700; padding: 1px 7px; background: var(--green-bg); color: var(--on-green-chip); border-radius: 999px; }
+  .cat-btn.has-sel .cat-count { display: inline-block; }
+  .cat-count.edited { background: var(--amber-bg); color: var(--amber-fg); }
+  .cat-btn.active .cat-count { background: rgba(255,255,255,.22); color: var(--on-accent); }
+  html.dark .cat-btn.active .cat-count { background: rgba(0,0,0,.22); }
+  .cat-div { width: 1px; height: 22px; margin: 0 4px; background: var(--border-h); }
+  .sidebar.searching .cat-btn { opacity: .55; }
+
+  /* tools row */
+  .c-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding-bottom: 12px; }
+  .seg { display: flex; padding: 3px; background: var(--bg-3); border-radius: 10px; }
+  .seg button { border: 0; border-radius: 8px; min-height: 34px; padding: 0 14px; font-size: 13px; font-weight: 600; background: transparent; color: var(--t0); cursor: pointer; }
+  .seg button.on { background: var(--accent); color: var(--on-accent); }
+  .btn-dashed { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border: 1px dashed var(--border-h); border-radius: 10px; background: transparent; font-size: 14px; font-weight: 600; color: var(--t0); cursor: pointer; }
+  .btn-dashed:hover, .btn-dashed[aria-expanded="true"] { background: var(--bg-1); }
+  .c-hint { margin-left: auto; font-size: 13px; color: var(--t2); }
+  .c-tools.no-tiers .tier-seg, .c-tools.tools-off .tier-seg, body:not([data-subject="general"]) .tier-seg { display: none; }
+  .c-tools.tools-off .btn-dashed, .c-tools.tools-off .c-hint { display: none; }
+  .c-scroll { flex: 1; overflow-y: auto; padding: 4px 24px 32px; min-height: 0; }
+  .c-header { margin-bottom: 10px; }
+  .c-title { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); }
+
+  /* sentence cards */
+  .opts { gap: 8px; }
+  .opt { display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 11px 16px; border: 1.5px solid var(--border); border-left-width: 1.5px; border-radius: 12px; font-size: 15.5px; line-height: 1.5; color: var(--t0); background: var(--bg-1); }
+  .opt:hover { border-color: var(--border-h); background: var(--bg-1); color: var(--t0); }
+  .opt::after { content: '+'; flex: none; margin-left: auto; width: 30px; height: 30px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid var(--border-h); display: grid; place-items: center; font-size: 20px; font-weight: 500; line-height: 1; color: var(--t2); }
+  .opt.sel { border-color: var(--done); background: var(--green-bg); color: var(--t0); }
+  .opt.sel:hover { border-color: var(--done); }
+  .opt.sel::after { content: '✓'; background: var(--done); border-color: var(--done); color: var(--on-done); font-size: 16px; font-weight: 700; }
+  .opt.tier-strong::before, .opt.tier-average::before, .opt.tier-developing::before { flex: none; width: 88px; text-align: center; font-size: 12px; font-weight: 700; padding: 4px 0; border-radius: 6px; }
+  .opt.tier-strong::before { content: 'Positive'; background: var(--chip-pos-bg); color: var(--chip-pos-fg); }
+  .opt.tier-average::before { content: 'Average'; background: var(--chip-ave-bg); color: var(--chip-ave-fg); }
+  .opt.tier-developing::before { content: 'Developing'; background: var(--chip-dev-bg); color: var(--chip-dev-fg); }
+  .opt.tier-strong, .opt.tier-average, .opt.tier-developing { border-left: 1.5px solid var(--border); }
+  .opt.tier-strong.sel, .opt.tier-average.sel, .opt.tier-developing.sel { border-color: var(--done); }
+  .opts:not(.tiered) .opt::before { display: none; }
+  .opt.custom { border-style: dashed; color: var(--t0); }
+  .opt.custom.sel { border-style: dashed; border-color: var(--done); background: var(--green-bg); color: var(--t0); }
+  .opt.s1-used { background: var(--red-bg); border-color: var(--red-bd); border-left: 1.5px solid var(--red-bd); color: var(--t2); opacity: .85; }
+  .opt.s1-used:hover { background: var(--red-bg); }
+  .opt.s1-used::after { content: 'Used in S1'; width: auto; height: auto; border: 0; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 700; background: var(--red-bg); color: var(--red); }
+  .opt-body { flex: 1; min-width: 0; text-align: left; }
+  .opt-cat { display: block; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); margin-bottom: 2px; }
+  .opt-custom-wrap .opt { border-radius: 12px 0 0 12px; }
+  .opt-delete-btn { width: 40px; border-radius: 0 12px 12px 0; border-width: 1.5px; background: var(--bg-1); }
+  .opts[data-tier="strong"] .opt:not(.tier-strong), .opts[data-tier="strong"] .opt-custom-wrap:not(.tw-strong),
+  .opts[data-tier="average"] .opt:not(.tier-average), .opts[data-tier="average"] .opt-custom-wrap:not(.tw-average),
+  .opts[data-tier="developing"] .opt:not(.tier-developing), .opts[data-tier="developing"] .opt-custom-wrap:not(.tw-developing) { display: none; }
+  .opts:not([data-tier="all"]) .tier-divider { display: none; }
+  .opts-empty { padding: 28px 8px; text-align: center; color: var(--t2); font-size: 14px; }
+  .opts-note { font-size: 13px; color: var(--t2); padding: 4px 2px; }
+  .tier-divider-label.strong { color: var(--chip-pos-fg); border-color: transparent; background: var(--chip-pos-bg); }
+  .tier-divider-label.average { color: var(--chip-ave-fg); border-color: transparent; background: var(--chip-ave-bg); }
+  .tier-divider-label.developing { color: var(--chip-dev-fg); border-color: transparent; background: var(--chip-dev-bg); }
+  .tier-dot.strong { background: var(--chip-pos-fg); } .tier-dot.average { background: var(--chip-ave-fg); } .tier-dot.developing { background: var(--chip-dev-fg); }
+  .tier-sel-btn.active-strong { border-color: transparent; background: var(--chip-pos-bg); color: var(--chip-pos-fg); }
+  .tier-sel-btn.active-average { border-color: transparent; background: var(--chip-ave-bg); color: var(--chip-ave-fg); }
+  .tier-sel-btn.active-developing { border-color: transparent; background: var(--chip-dev-bg); color: var(--chip-dev-fg); }
+  .custom-wrap { margin: 0 0 8px; background: var(--bg-1); }
+  .custom-textarea { font-size: 14px; }
+
+  /* grade colours (English / Maths) follow the theme */
+  .grade-btn.active-A, .grade-pill.sel-A { border-color: var(--gA); color: var(--gA); background: color-mix(in srgb, var(--gA) 12%, transparent); }
+  .grade-btn.active-B, .grade-pill.sel-B { border-color: var(--gB); color: var(--gB); background: color-mix(in srgb, var(--gB) 12%, transparent); }
+  .grade-btn.active-C, .grade-pill.sel-C { border-color: var(--gC); color: var(--gC); background: color-mix(in srgb, var(--gC) 14%, transparent); }
+  .grade-btn.active-D, .grade-pill.sel-D { border-color: var(--gD); color: var(--gD); background: color-mix(in srgb, var(--gD) 12%, transparent); }
+  .grade-btn.active-E, .grade-pill.sel-E { border-color: var(--gE); color: var(--gE); background: color-mix(in srgb, var(--gE) 12%, transparent); }
+  .grade-divider-label.A { color: var(--gA); border-color: color-mix(in srgb, var(--gA) 35%, transparent); background: color-mix(in srgb, var(--gA) 10%, transparent); }
+  .grade-divider-label.B { color: var(--gB); border-color: color-mix(in srgb, var(--gB) 35%, transparent); background: color-mix(in srgb, var(--gB) 10%, transparent); }
+  .grade-divider-label.C { color: var(--gC); border-color: color-mix(in srgb, var(--gC) 35%, transparent); background: color-mix(in srgb, var(--gC) 12%, transparent); }
+  .grade-divider-label.D { color: var(--gD); border-color: color-mix(in srgb, var(--gD) 35%, transparent); background: color-mix(in srgb, var(--gD) 10%, transparent); }
+  .grade-divider-label.E { color: var(--gE); border-color: color-mix(in srgb, var(--gE) 35%, transparent); background: color-mix(in srgb, var(--gE) 10%, transparent); }
+  .grade-indicator.A { background: var(--gA); } .grade-indicator.B { background: var(--gB); } .grade-indicator.C { background: var(--gC); } .grade-indicator.D { background: var(--gD); } .grade-indicator.E { background: var(--gE); }
+
+  /* draft pane */
+  .panel { border-left: 0; background: var(--bg-0); padding: 18px 20px 18px 0; gap: 14px; overflow-y: auto; }
+  .draft-card { background: var(--bg-1); border: 1px solid var(--border); border-radius: 14px; display: flex; flex-direction: column; flex: 1 1 auto; min-height: 320px; overflow: hidden; }
+  .p-head { padding: 16px 20px 12px; border-bottom: 0; gap: 10px; }
+  .p-title { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--t2); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wc { font-family: var(--font); font-size: 13px; font-weight: 600; color: var(--t0); background: none; border: 0; padding: 0; white-space: nowrap; }
+  .wc.over { color: var(--red); background: none; }
+  .wc-bar-wrap { height: 6px; background: var(--bg-3); margin: 0 20px; border-radius: 3px; overflow: hidden; }
+  .wc-bar { height: 6px; background: var(--accent); }
+  .wc-bar.over { background: var(--red); }
+  .out-editable { font-family: var(--serif); font-size: 18px; line-height: 1.65; padding: 18px 20px; min-height: 140px; caret-color: var(--accent); }
+  .out-editable:empty::before { font-family: var(--font); font-size: 14px; line-height: 1.6; }
+  .draft-edit-bar { background: var(--bg-2); padding: 7px 20px; }
+  .draft-meta { padding: 0 20px 14px; font-size: 13px; color: var(--t2); flex-shrink: 0; }
+  .checks { padding: 14px 20px 16px; border-top: 1px solid var(--bg-3); display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+  .checks-title { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); }
+  .checks-hint { font-size: 14px; color: var(--t1); line-height: 1.5; }
+  .checks-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-sec { min-height: 44px; padding: 0 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-1); font-size: 14px; font-weight: 600; color: var(--t0); cursor: pointer; }
+  .btn-sec:hover { border-color: var(--border-h); }
+  .p-actions { border-top: 0; padding: 0; gap: 10px; position: relative; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; width: 100%; border: 0; border-radius: 12px; background: var(--accent); color: var(--on-accent); font-size: 16px; font-weight: 700; cursor: pointer; }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .act-row { display: flex; gap: 10px; }
+  .act-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--bg-1); font-size: 14px; font-weight: 700; color: var(--t0); cursor: pointer; white-space: nowrap; }
+  .act-btn:hover { border-color: var(--border-h); }
+  .act-btn.on { background: var(--green-bg); border-color: var(--done); color: var(--on-green-chip); }
+  .act-btn.icon { flex: none; width: 48px; }
+  .more-menu { position: absolute; right: 0; bottom: 100%; margin-bottom: 8px; min-width: 200px; background: var(--bg-1); border: 1px solid var(--border-h); border-radius: 12px; box-shadow: var(--shadow-pop); padding: 6px; z-index: 50; display: none; }
+  .more-menu.open { display: block; }
+  .more-menu button { display: block; width: 100%; text-align: left; padding: 10px 12px; border: 0; background: none; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--t0); cursor: pointer; }
+  .more-menu button:hover { background: var(--bg-2); }
+  .more-menu button.danger { color: var(--red); }
+
+  /* review (publish) view */
+  .pub-para { font-family: var(--serif); font-size: 19px; line-height: 1.7; }
+  .pub-subj { display: inline-flex; margin-bottom: 1.25rem; }
+  .pub-bar { padding: .9rem 1.5rem; }
+  .btn-green { color: var(--on-green-chip); }
+  .btn-green:hover { background: var(--green-hv); }
+  .btn { min-height: 40px; font-weight: 600; }
+
+  /* CLASS BOARD */
+  .stats-view { background: var(--bg-0); }
+  .board-wrap { max-width: 1376px; padding: 28px 32px 48px; display: flex; flex-direction: column; gap: 24px; }
+  .board-head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px 24px; }
+  .board-head h1 { font-size: 30px; line-height: 1.15; font-weight: 700; }
+  .board-sub { font-size: 14px; color: var(--t2); margin-top: 6px; }
+  .board-actions { margin-left: auto; display: flex; flex-wrap: wrap; gap: 10px; }
+  .board-actions .btn-primary { width: auto; min-height: 44px; padding: 0 18px; font-size: 14px; border-radius: 10px; }
+  .board-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .board-card { background: var(--bg-1); border: 1px solid var(--border); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .bc-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .bc-label { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); }
+  .bc-togo { font-size: 13px; color: var(--t2); }
+  .bc-num { display: flex; align-items: baseline; gap: 8px; }
+  .bc-num b { font-size: 36px; line-height: 1; font-weight: 700; }
+  .bc-num span { font-size: 16px; color: var(--t2); }
+  .bc-bar { height: 8px; border-radius: 4px; background: var(--bg-3); overflow: hidden; display: flex; }
+  .bc-bar i { display: block; height: 100%; }
+  .bc-bar .d { background: var(--done); } .bc-bar .p { background: var(--amber-line); }
+  .bc-key { display: flex; gap: 16px; font-size: 12px; color: var(--t2); }
+  .bc-key span { display: flex; align-items: center; gap: 6px; }
+  .bc-key i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .board-table { background: var(--bg-1); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .board-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 16px 20px; border-bottom: 1px solid var(--bg-3); }
+  .board-find { margin-left: auto; display: flex; align-items: center; gap: 10px; width: 280px; max-width: 100%; height: 44px; padding: 0 14px; background: var(--bg-0); border: 1px solid var(--border); border-radius: 10px; color: var(--t2); }
+  .board-find input { flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font-size: 14px; color: var(--t0); }
+  .board-scroll { overflow-x: auto; }
+  .board-inner { min-width: 820px; }
+  .board-grid { display: grid; grid-template-columns: minmax(180px, 1.4fr) repeat(3, minmax(130px, 1fr)) 80px 84px; align-items: center; gap: 12px; padding: 8px 20px; }
+  .board-grid.head { padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--bg-3); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); }
+  .board-grid.row { min-height: 56px; border-bottom: 1px solid var(--bg-3); font-size: 14px; cursor: pointer; }
+  .board-grid.row:hover { background: var(--bg-2); }
+  .board-grid.row.current { background: var(--accent-bg); }
+  .bg-name { display: flex; align-items: center; gap: 12px; font-weight: 600; min-width: 0; }
+  .bg-name span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 12px 0 10px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+  .pill.done { background: var(--chip-pos-bg); color: var(--chip-pos-fg); }
+  .pill.draft { background: var(--chip-ave-bg); color: var(--chip-ave-fg); }
+  .pill.none { background: var(--bg-3); color: var(--t2); }
+  .bg-open { font-weight: 700; color: var(--accent); background: none; border: 0; min-height: 44px; text-align: left; cursor: pointer; font-size: 14px; }
+  .board-foot { padding: 14px 20px; font-size: 13px; color: var(--t2); }
+  .board-empty { padding: 28px 20px; text-align: center; color: var(--t2); font-size: 14px; }
+  .board-extras { display: flex; flex-direction: column; gap: 12px; }
+  .board-extras summary { cursor: pointer; font-size: 14px; font-weight: 600; color: var(--t1); min-height: 32px; }
+  .stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin-bottom: 1.25rem; }
+  .stat-card { padding: 1rem 1.25rem; }
+  .stat-card-val { font-family: var(--font); font-size: 28px; font-weight: 700; }
+  .badge.earned .badge-name { color: var(--on-green-chip); }
+
+  /* ── NARROW WINDOWS: class list moves above, bank + comment stay side by side ── */
+  body[data-subject="maths"] .cat-btn { min-height: 34px; font-size: 13px; padding: 0 12px !important; }
+  .sidebar > div:not(.cat-div):not(.s-label) { flex: 0 0 auto; padding: 0 2px 0 10px !important; margin: 0 !important; color: var(--t2) !important; font-size: 11px !important; }
+  .version-badge { right: auto; left: 12px; }
+  @media (max-width: 1180px) {
+    .progress-track { display: none; }
+    .save-indicator #saveLabel { display: none; }
+    .logo { font-size: 13px; }
+  }
+  @media (max-width: 1080px) {
+    .logo, .c-nav #stuPos, .version-badge { display: none; }
+    .build-view { grid-template-columns: minmax(0, 1fr) clamp(300px, 38vw, 400px); grid-template-rows: auto minmax(0, 1fr); }
+    .class-rail { grid-column: 1 / -1; flex-direction: row; align-items: center; overflow-x: auto; overflow-y: hidden; border-right: 0; border-bottom: 1px solid var(--border); padding: 8px 12px; gap: 10px; }
+    .rail-key, .rail-more { display: none; }
+    .rail-head { flex: none; }
+    .rail-list { flex-direction: row; flex: none; }
+    .rail-row { width: auto; flex: none; min-height: 40px; }
+    .c-top { padding: 14px 16px 0; } .c-scroll { padding: 4px 16px 24px; }
+    .panel { padding: 14px 16px 14px 0; }
+    .c-name { font-size: 24px; width: 200px; }
+    .opt::before { width: 76px !important; }
+    .board-cards { grid-template-columns: 1fr; }
+    .bank-search { max-width: 260px; }
+  }
+  @media (max-width: 860px) {
+    .view-toggle .vbtn { padding: 6px 10px; }
+    .bank-search { display: none; }
+    .c-nav #stuPos { display: none; }
+  }
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">Comment Builder</div>
-  <div class="subject-toggle">
-    <button class="subject-btn active" id="subjGeneral" onclick="setSubject('general')">General</button>
-    <button class="subject-btn" id="subjEnglish" onclick="setSubject('english')">English</button>
-    <button class="subject-btn" id="subjMaths" onclick="setSubject('maths')">Maths</button>
+  <div class="sem-toggle" role="group" aria-label="Semester">
+    <button class="sem-btn active s1" id="semS1" onclick="setSemester(1)">Semester 1</button>
+    <button class="sem-btn s2" id="semS2" onclick="setSemester(2)">Semester 2</button>
   </div>
-  <div class="sem-toggle">
-    <button class="sem-btn active s1" id="semS1" onclick="setSemester(1)">S1</button>
-    <button class="sem-btn s2" id="semS2" onclick="setSemester(2)">S2</button>
-  </div>
-  <div class="view-toggle">
+  <div class="view-toggle" role="group" aria-label="View">
     <button class="vbtn active" id="vBuild" onclick="setView('build')">Build</button>
-    <button class="vbtn" id="vPublish" onclick="setView('publish')">Publish</button>
-    <button class="vbtn" id="vStats" onclick="setView('stats')">Stats</button>
+    <button class="vbtn" id="vPublish" onclick="setView('publish')" title="Read the finished comment, check it and polish it">Review</button>
+    <button class="vbtn" id="vStats" onclick="setView('stats')">Class board</button>
   </div>
-  <div class="save-indicator" id="saveIndicator" title="Auto-save status">
-    <div class="save-dot" id="saveDot"></div>
-    <span id="saveLabel">Not saved</span>
+  <label class="bank-search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="sr-only">Search the sentence bank</span>
+    <input type="search" id="bankSearch" placeholder="Search every sentence in the bank" autocomplete="off" oninput="onBankSearch()">
+  </label>
+  <div class="hdr-right">
+    <div class="save-indicator" id="saveIndicator" title="Auto-save status">
+      <div class="save-dot" id="saveDot"></div>
+      <span id="saveLabel">Not saved</span>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel" onclick="editClassSize()" title="Click to change class size" style="cursor:pointer"><b>0</b> / <span id="classTotal">22</span> done ✎</div>
+    </div>
+    <!-- Settings button -->
+    <button class="settings-btn" id="settingsBtn" onclick="toggleSettings()" title="Settings" aria-label="Settings">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="8" cy="8" r="2.5"/>
+        <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"/>
+      </svg>
+    </button>
+    <!-- Admin button — only visible when cloud sync is active -->
+    <button class="settings-btn" id="adminBtn" onclick="toggleAdminPanel()" title="Admin" style="display:none;opacity:0.6;font-size:11px;font-weight:600;letter-spacing:.04em;padding:0 8px;width:auto">
+      ADMIN
+    </button>
   </div>
-  <div class="progress-wrap">
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-label" id="progressLabel" onclick="editClassSize()" title="Click to change class size" style="cursor:pointer"><b>0</b> / <span id="classTotal">22</span> done ✎</div>
-  </div>
-  <div class="student-pill">
-    <input type="text" id="studentName" placeholder="Student name…" autocomplete="off">
-    <select class="pron-sel" id="pronounSet">
-      <option value="he">He / His</option>
-      <option value="she">She / Her</option>
-    </select>
-    <select class="pron-sel" id="yearSet" title="Student year level">
-      <option value="">Yr</option>
-      <option value="1">Y1</option>
-      <option value="2">Y2</option>
-      <option value="3">Y3</option>
-      <option value="4">Y4</option>
-      <option value="5">Y5</option>
-      <option value="6">Y6</option>
-    </select>
-  </div>
-  <!-- Settings button -->
-  <button class="settings-btn" id="settingsBtn" onclick="toggleSettings()" title="Settings">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-      <circle cx="8" cy="8" r="2.5"/>
-      <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"/>
-    </svg>
-  </button>
-  <!-- Admin button — only visible when cloud sync is active -->
-  <button class="settings-btn" id="adminBtn" onclick="toggleAdminPanel()" title="Admin" style="display:none;opacity:0.6;font-size:11px;font-weight:600;letter-spacing:.04em;padding:0 8px;width:auto">
-    ADMIN
-  </button>
 </header>
 
 <!-- Settings panel -->
@@ -560,7 +818,7 @@
       <span class="settings-row-label">Theme</span>
       <div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
         <div class="theme-toggle-track"><div class="theme-toggle-thumb"></div></div>
-        <span class="theme-toggle-label" id="themeLabel">Dark</span>
+        <span class="theme-toggle-label" id="themeLabel">Light</span>
       </div>
     </div>
   </div>
@@ -644,60 +902,105 @@
   </div>
 </div>
 <div class="build-view" id="buildView">
-    <nav class="sidebar" id="sidebar"></nav>
+    <!-- Class rail -->
+    <nav class="class-rail" id="classRail" aria-label="Students"></nav>
+
+    <!-- Sentence bank -->
     <main class="centre">
-      <div class="c-header">
-        <div class="c-title" id="cTitle"></div>
-        <div class="c-hint">Click to add · click again to remove</div>
+      <div class="c-top">
+        <div class="c-student">
+          <input type="text" class="c-name" id="studentName" placeholder="Student name…" autocomplete="off" aria-label="Student name">
+          <select class="pron-sel" id="pronounSet" aria-label="Pronouns">
+            <option value="he">He / His</option>
+            <option value="she">She / Her</option>
+          </select>
+          <select class="pron-sel" id="yearSet" title="Student year level" aria-label="Year level">
+            <option value="">Yr</option>
+            <option value="1">Year 1</option>
+            <option value="2">Year 2</option>
+            <option value="3">Year 3</option>
+            <option value="4">Year 4</option>
+            <option value="5">Year 5</option>
+            <option value="6">Year 6</option>
+          </select>
+          <div class="c-nav">
+            <span id="stuPos"></span>
+            <button class="icon-btn" id="stuPrevBtn" onclick="stepStu(-1)" aria-label="Previous student" title="Previous student"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+            <button class="icon-btn" id="stuNextBtn" onclick="stepStu(1)" aria-label="Next student" title="Next student"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+          </div>
+        </div>
+        <div class="stu-subj-tabs" id="stuSubjTabs" role="tablist" aria-label="Subject">
+          <button class="stu-subj-tab active" id="tabGeneral" role="tab" onclick="setSubject('general')">General</button>
+          <button class="stu-subj-tab english" id="tabEnglish" role="tab" onclick="setSubject('english')">English</button>
+          <button class="stu-subj-tab maths" id="tabMaths" role="tab" onclick="setSubject('maths')">Maths</button>
+        </div>
+        <nav class="sidebar" id="sidebar" aria-label="Category"></nav>
+        <div class="c-tools" id="cTools">
+          <div class="seg tier-seg" id="tierSeg" role="group" aria-label="Filter by level">
+            <button data-tier="all" class="on" onclick="setTierFilter('all')">All</button>
+            <button data-tier="strong" onclick="setTierFilter('strong')">Positive</button>
+            <button data-tier="average" onclick="setTierFilter('average')">Average</button>
+            <button data-tier="developing" onclick="setTierFilter('developing')">Developing</button>
+          </div>
+          <button class="btn-dashed" id="composerBtn" onclick="toggleComposer()" aria-expanded="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Write your own sentence</button>
+          <div class="c-hint">Click a sentence to add it. Click again to remove it.</div>
+        </div>
       </div>
-      <div class="grade-sel-wrap" id="gradeSelWrap" style="display:none"></div>
-  <div class="opts" id="optsGrid"></div>
+      <div class="c-scroll">
+        <div class="c-header">
+          <div class="c-title" id="cTitle"></div>
+        </div>
+        <div class="grade-sel-wrap" id="gradeSelWrap" style="display:none"></div>
+        <div class="opts" id="optsGrid"></div>
+      </div>
     </main>
-    <aside class="panel">
-      <div class="p-top">
-        <div class="p-head">
-          <div class="p-title">Draft</div>
-          <div class="wc" id="wcBadge">0 / 200</div>
+
+    <!-- Draft pane: always beside the bank -->
+    <aside class="panel" aria-label="Draft comment">
+      <section class="draft-card">
+        <div class="p-top">
+          <div class="p-head">
+            <div class="p-title" id="draftTitle">Draft</div>
+            <div class="wc" id="wcBadge">0 / 200</div>
+          </div>
+          <div class="wc-bar-wrap"><div class="wc-bar" id="wcBar"></div></div>
         </div>
-        <div class="wc-bar-wrap"><div class="wc-bar" id="wcBar"></div></div>
-        <div class="stu-bar" id="stuBar"></div>
-      </div>
-      <div class="stu-subj-tabs" id="stuSubjTabs">
-        <button class="stu-subj-tab active" id="tabGeneral" onclick="setSubject('general')">General</button>
-        <button class="stu-subj-tab english" id="tabEnglish" onclick="setSubject('english')">English</button>
-        <button class="stu-subj-tab maths" id="tabMaths" onclick="setSubject('maths')">Maths</button>
-      </div>
-      <div class="out-editable" id="outEditable" contenteditable="true"
-           data-placeholder="Select sentences from the centre to build this student’s comment, or type here directly…"
-           onblur="onDraftInput()" oninput="onDraftInput()" onkeydown="onDraftKeydown(event)"></div>
-      <div class="draft-edit-bar" id="draftEditBar">
-        <button class="draft-reset-btn" onclick="resetDraft()">Reset</button>
-        <div class="draft-edit-label">Editing draft…</div>
-        <button class="draft-done-btn" onclick="doneDraft()">Done ✓</button>
-      </div>
+        <div class="out-editable" id="outEditable" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Draft comment"
+             data-placeholder="Pick sentences from the bank to build this student’s comment, or type here directly…"
+             onblur="onDraftInput()" oninput="onDraftInput()" onkeydown="onDraftKeydown(event)"></div>
+        <div class="draft-edit-bar" id="draftEditBar">
+          <button class="draft-reset-btn" onclick="resetDraft()">Reset</button>
+          <div class="draft-edit-label">Editing draft…</div>
+          <button class="draft-done-btn" onclick="doneDraft()">Done ✓</button>
+        </div>
+        <div class="draft-meta" id="draftMeta"></div>
+        <div class="checks">
+          <div class="checks-title">Checks</div>
+          <div class="checks-hint">Spelling, repeated words, tense and flow are checked in Review.</div>
+          <div class="checks-row">
+            <button class="btn-sec" onclick="reviewAndCheck()">Check for issues</button>
+            <button class="btn-sec" onclick="reviewAndPolish()" title="AI-powered flow and cohesion rewrite">Polish</button>
+          </div>
+        </div>
+      </section>
       <div class="p-actions">
-        <button class="btn btn-green" onclick="setView('publish')">
-          <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 10V3m0 7l-3-3m3 3l3-3"/><path d="M3 13h10"/></svg>
-          Publish comment
+        <button class="btn-primary" onclick="copyComment()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+          Copy comment
         </button>
-        <div class="btn-row">
-          <button class="btn btn-ghost" onclick="saveStudent()">
-            <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 5l-4-3H4a1 1 0 00-1 1v9a1 1 0 001 1h8a1 1 0 001-1V5z"/><path d="M9 2v4H5"/><rect x="5" y="9" width="6" height="4" rx=".5"/></svg>
-            Save
-          </button>
-          <button class="btn btn-ghost" onclick="clearCurrent()">
-            <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l10 10M13 3L3 13"/></svg>
-            Clear
+        <div class="act-row">
+          <button class="act-btn" id="doneBtn" onclick="toggleDone()" aria-pressed="false">Mark as done</button>
+          <button class="act-btn" id="nextStuBtn" onclick="nextStudent()">Next student</button>
+          <button class="act-btn icon" id="moreBtn" onclick="toggleMoreMenu(event)" aria-label="More: save, clear, export all, delete student" aria-haspopup="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
           </button>
         </div>
-        <button class="btn btn-ghost" onclick="copyDraft()">
-          <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M3 11V3a1 1 0 011-1h8"/></svg>
-          Copy draft
-        </button>
-        <button class="btn btn-ghost" id="exportBtn" onclick="exportAll()" style="display:none">
-          <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M5 5h6M5 11h3"/></svg>
-          Export all (.txt)
-        </button>
+        <div class="more-menu" id="moreMenu" role="menu">
+          <button role="menuitem" onclick="closeMoreMenu(); saveStudent()">Save student</button>
+          <button role="menuitem" onclick="closeMoreMenu(); clearCurrent()">Clear this comment</button>
+          <button role="menuitem" id="exportBtn" onclick="closeMoreMenu(); exportAll()" style="display:none">Export all (.txt)</button>
+          <button role="menuitem" class="danger" id="deleteStuBtn" onclick="closeMoreMenu(); removeStu(currentIdx)">Delete student</button>
+        </div>
       </div>
     </aside>
   </div>
@@ -706,6 +1009,11 @@
   <div class="pub-view" id="pubView">
     <div class="pub-scroll">
       <div class="pub-wrap">
+        <div class="seg pub-subj" id="pubSubj" role="group" aria-label="Subject">
+          <button data-pubsubj="general" class="on" onclick="setSubject('general')">General</button>
+          <button data-pubsubj="english" onclick="setSubject('english')">English</button>
+          <button data-pubsubj="maths" onclick="setSubject('maths')">Maths</button>
+        </div>
         <div class="pub-name" id="pubName"></div>
         <div id="pubContent"></div>
       </div>
@@ -752,18 +1060,44 @@
     </div>
   </div>
 
-  <!-- STATS -->
+  <!-- CLASS BOARD -->
   <div class="stats-view" id="statsView">
-    <div class="stats-wrap">
+    <div class="stats-wrap board-wrap">
 
-      <!-- KEY STATS -->
-      <div class="stats-grid" id="statsGrid"></div>
-
-      <!-- BADGES -->
-      <div class="stats-section">
-        <div class="stats-section-title">Badges</div>
-        <div id="badgesGrid"></div>
+      <div class="board-head">
+        <div>
+          <h1>Class board</h1>
+          <div class="board-sub" id="boardSub"></div>
+        </div>
+        <div class="board-actions">
+          <button class="btn-sec" onclick="exportAll()">Export all (.txt)</button>
+          <button class="btn-primary" onclick="copyAllFinished()">Copy all finished comments</button>
+        </div>
       </div>
+
+      <div class="board-cards" id="boardCards"></div>
+
+      <section class="board-table" aria-label="Students">
+        <div class="board-toolbar">
+          <div class="seg" id="boardSeg" role="group" aria-label="Filter"></div>
+          <label class="board-find">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <span class="sr-only">Find a student</span>
+            <input type="search" id="boardFind" placeholder="Find a student" autocomplete="off" oninput="onBoardFind()">
+          </label>
+        </div>
+        <div class="board-scroll"><div class="board-inner">
+          <div class="board-grid head"><div>Student</div><div>General</div><div>English</div><div>Maths</div><div>Words</div><div></div></div>
+          <div id="boardRows"></div>
+        </div></div>
+        <div class="board-foot" id="boardFoot"></div>
+      </section>
+
+      <details class="board-extras">
+        <summary>Streaks, word counts and badges</summary>
+        <div class="stats-grid" id="statsGrid"></div>
+        <div id="badgesGrid"></div>
+      </details>
 
     </div>
   </div>
@@ -1396,10 +1730,8 @@ function setSubject(subj) {
     cur().pubEditMaths   = null; cur().pubEditMaths_fdHash   = null; cur().pubEditMaths_subject   = null;
   }
 
-  // Update header buttons
-  document.getElementById('subjGeneral').className = 'subject-btn' + (subj === 'general' ? ' active' : '');
-  document.getElementById('subjEnglish').className = 'subject-btn' + (subj === 'english' ? ' active english' : '');
-  document.getElementById('subjMaths').className = 'subject-btn' + (subj === 'maths' ? ' active maths' : '');
+  clearBankSearch();
+  syncPubSubj(); // Review-view subject switch
 
   // Update panel tabs
   document.getElementById('tabGeneral').className = 'stu-subj-tab' + (subj === 'general' ? ' active' : '');
@@ -1607,21 +1939,6 @@ function getSubjDraft() {
   }
   return null;
 }
-
-function updateSubjTabIndicators() {
-  const engTab = document.getElementById('tabEnglish');
-  const mathTab = document.getElementById('tabMaths');
-  if (engTab) {
-    const hasEng = (cur().engOrdered || []).length > 0;
-    engTab.className = 'stu-subj-tab english' + (currentSubject === 'english' ? ' active' : '') + (hasEng ? ' has-content' : '');
-  }
-  if (mathTab) {
-    const hasMath = (cur().mathOrdered || []).length > 0;
-    mathTab.className = 'stu-subj-tab maths' + (currentSubject === 'maths' ? ' active' : '') + (hasMath ? ' has-content' : '');
-  }
-}
-
-
 
 // ── GRADE ENTRY SCREEN ───────────────────────────────────────────
 let _showGradeEntry = false;
@@ -3599,6 +3916,7 @@ const FD_DEFAULT_STAGE = 'Stage 3';
 
 function render() {
   autoSave();
+  document.body.dataset.subject = currentSubject;
   renderSidebar();
   renderOpts();
   renderOut();
@@ -3621,7 +3939,7 @@ function renderSidebar() {
     introBtn.className = 'cat-btn' + (currentTab === 'Introduction' ? ' active' : '') + (introCount ? ' has-sel' : '');
     const introGradeHtml = gradeDotsHtml(getCurGrade('Introduction'));
     introBtn.innerHTML = `<span class="cat-name">Introduction</span>${introGradeHtml}${introCount ? `<span class="cat-count">${introCount}</span>` : ''}`;
-    introBtn.onclick = () => { currentTab = 'Introduction'; render(); };
+    introBtn.onclick = () => { clearBankSearch(); currentTab = 'Introduction'; render(); };
     el.appendChild(introBtn);
 
     // Below Expectations
@@ -3631,7 +3949,7 @@ function renderSidebar() {
     const beGrades = getCurGrade('Below Expectations');
     const beGradeHtml = (beGrades||[]).slice(0,2).map(g => `<span class="grade-indicator ${g}"></span>`).join('');
     beBtn.innerHTML = `<span class="cat-name">Below Expectations</span>${beGradeHtml}${beCount ? `<span class="cat-count">${beCount}</span>` : ''}`;
-    beBtn.onclick = () => { currentTab = 'Below Expectations'; render(); };
+    beBtn.onclick = () => { clearBankSearch(); currentTab = 'Below Expectations'; render(); };
     el.appendChild(beBtn);
 
     // Strand group headings + sub-strand buttons
@@ -3649,7 +3967,7 @@ function renderSidebar() {
         btn.className = 'cat-btn' + (cat === currentTab ? ' active' : '') + (count ? ' has-sel' : '');
         btn.style.paddingLeft = '1.5rem';
         btn.innerHTML = `<span class="cat-name">${cat}</span>${gradeHtml}${count ? `<span class="cat-count">${count}</span>` : ''}`;
-        btn.onclick = () => { currentTab = cat; render(); };
+        btn.onclick = () => { clearBankSearch(); currentTab = cat; render(); };
         el.appendChild(btn);
       });
     });
@@ -3660,7 +3978,7 @@ function renderSidebar() {
     const fdBtn = document.createElement('button');
     fdBtn.className = 'cat-btn' + (currentTab === 'Future Directions' ? ' active' : '') + (fdCount ? ' has-sel' : '');
     fdBtn.innerHTML = `<span class="cat-name">Future Directions</span>${fdCount ? `<span class="cat-count">${fdCount}</span>` : ''}`;
-    fdBtn.onclick = () => { currentTab = 'Future Directions'; render(); };
+    fdBtn.onclick = () => { clearBankSearch(); currentTab = 'Future Directions'; render(); };
     el.appendChild(fdBtn);
     return;
   }
@@ -3687,7 +4005,7 @@ function renderSidebar() {
     }
     const gradeHtml = isSubject ? gradeDotsHtml(getCurGrade(cat)) : '';
     btn.innerHTML = `<span class="cat-name">${cat}</span>${gradeHtml}${badgeHtml}`;
-    btn.onclick = () => { currentTab = cat; render(); };
+    btn.onclick = () => { clearBankSearch(); currentTab = cat; render(); };
     el.appendChild(btn);
   });
 }
@@ -3742,9 +4060,13 @@ function renderOpts() {
 
   // For English/Maths, use the subject bank
   if (currentSubject !== 'general') {
+    paintBankTools(grid, false);
     renderSubjOpts(grid);
+    applySubjSearch(grid);
     return;
   }
+  // General: search runs across every category
+  if (_bankQuery) { paintBankTools(grid, true); renderBankSearch(grid); return; }
 
   // Custom input box — at the top
   const wrap = document.createElement('div');
@@ -3761,7 +4083,7 @@ function renderOpts() {
       <button class="custom-add-btn" onclick="addCustomSentence()">+ Add to comment</button>
       <div class="custom-hint">Use {{First-name}}, {{He-she}}, {{His-her}}, {{him-her}} as placeholders.</div>
     </div>`;
-  grid.appendChild(wrap);
+  if (_composerOpen) grid.appendChild(wrap);
 
   // Custom sentences already added for this category — grouped by tier
   const customs = (cur().custom || {})[currentTab] || [];
@@ -3779,6 +4101,7 @@ function renderOpts() {
 
   // Pre-approved sentences with tier colouring and dividers
   const bounds = TIER_BOUNDARIES[currentTab] || { average: null, developing: null };
+  paintBankTools(grid, bounds.average !== null);
   const isS2 = currentSemester === 2;
   const s1Keys = isS2 ? getS1UsedKeys(cur()) : new Set();
   const rankOrder = isS2 && cur().s2RankOrder && cur().s2RankOrder[currentTab]
@@ -3834,7 +4157,7 @@ function renderOpts() {
       const key = '__custom__' + currentTab + '__' + i;
       const isSel = (cur().selected[currentTab] || []).includes(key);
       const wrap = document.createElement('div');
-      wrap.className = 'opt-custom-wrap';
+      wrap.className = 'opt-custom-wrap tw-' + tier;
       const btn = document.createElement('button');
       btn.className = 'opt custom tier-' + tier + (isSel ? ' sel' : '');
       btn.textContent = isSel ? applyFC(s, key) : applyFC(s);
@@ -4214,6 +4537,7 @@ function onDraftInput() {
     editBar.className = cur().draftOverride ? 'draft-edit-bar visible' : 'draft-edit-bar';
   }
   autoSave();
+  updateDraftMeta();
 }
 
 function onDraftKeydown(e) {
@@ -4271,25 +4595,373 @@ function resetDraft() {
 }
 
 function renderStuBar() {
-  const bar = document.getElementById('stuBar');
-  bar.innerHTML = '';
-  students.forEach((stu, i) => {
-    const chip = document.createElement('div');
-    chip.className = 'stu-chip' + (i === currentIdx ? ' active' : '') + (stu.published ? ' pub' : '');
-    chip.innerHTML = `<span onclick="switchStu(${i})">${stu.name || ('Student ' + (i+1))}</span>`;
-    if (students.length > 1) {
-      const rm = document.createElement('button');
-      rm.className = 'rm-stu'; rm.textContent = '×';
-      rm.onclick = e => { e.stopPropagation(); removeStu(i); };
-      chip.appendChild(rm);
-    }
-    bar.appendChild(chip);
+  // v3.6.0: the student chips became the class rail (left); this keeps the old call sites working.
+  renderClassRail();
+  paintStudentChrome();
+}
+
+// ── v3.6.0 · CLASS RAIL, DRAFT PANE, CLASS BOARD ─────────────────────────
+let _tierFilter = 'all';
+let _composerOpen = false;
+let _bankQuery = '';
+let _boardFilter = 'all';
+let _boardQuery = '';
+let _railLastIdx = -1;
+
+function escHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+const STATE_LABEL = { done: 'Done', draft: 'Draft', none: 'Not started' };
+// 'done' | 'draft' | 'none' for one subject of one student
+function subjState(stu, subj) {
+  if (subj === 'english') return stu.engPublished ? 'done' : ((stu.engOrdered || []).length ? 'draft' : 'none');
+  if (subj === 'maths') return stu.mathPublished ? 'done' : ((stu.mathOrdered || []).length ? 'draft' : 'none');
+  return stu.published ? 'done' : (((stu.ordered || []).length || stu.draftOverride) ? 'draft' : 'none');
+}
+function stuLabel(stu, i) { return (stu.name && stu.name.trim()) || ('Student ' + (i + 1)); }
+function stuInitials(stu, i) {
+  const n = (stu.name || '').trim();
+  if (!n) return String(i + 1);
+  const parts = n.split(/\s+/);
+  return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
+}
+
+function renderClassRail() {
+  const el = document.getElementById('classRail');
+  if (!el) return;
+  const rows = students.map((stu, i) => {
+    const dots = [['G', 'general'], ['E', 'english'], ['M', 'maths']].map(([l, s]) => {
+      const st = subjState(stu, s);
+      return `<span class="rdot ${st}" title="${s.charAt(0).toUpperCase() + s.slice(1)}: ${STATE_LABEL[st]}">${l}</span>`;
+    }).join('');
+    const named = !!(stu.name && stu.name.trim());
+    return `<button class="rail-row${i === currentIdx ? ' active' : ''}" onclick="switchStu(${i})"${i === currentIdx ? ' aria-current="true"' : ''}>` +
+      `<span class="rail-av">${escHtml(stuInitials(stu, i))}</span>` +
+      `<span class="rail-name${named ? '' : ' unnamed'}">${escHtml(stuLabel(stu, i))}</span>` +
+      `<span class="rail-dots">${dots}</span></button>`;
+  }).join('');
+  const toAdd = totalStudents - students.length;
+  el.innerHTML =
+    `<div class="rail-head"><div class="rail-title">Class · ${students.length} student${students.length === 1 ? '' : 's'}</div>` +
+    `<button class="rail-add" onclick="addStuFromRail()">+ Add</button></div>` +
+    `<div class="rail-key"><span><b>G</b> General</span><span><b>E</b> English</span><span><b>M</b> Maths</span></div>` +
+    `<div class="rail-list">${rows}</div>` +
+    (toAdd > 0 ? `<div class="rail-more">${toAdd} more to add</div>` : '');
+  if (_railLastIdx !== currentIdx) {
+    _railLastIdx = currentIdx;
+    const active = el.querySelector('.rail-row.active');
+    if (active && active.scrollIntoView) active.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+}
+
+function addStuFromRail() {
+  addStu();
+  const n = document.getElementById('studentName');
+  if (n) n.focus();
+}
+
+// Keeps the student name header, subject tabs, draft title, done button and counters in step
+function paintStudentChrome() {
+  const stu = cur();
+  if (!stu) return;
+  document.body.dataset.subject = currentSubject;
+  const pos = document.getElementById('stuPos');
+  if (pos) pos.textContent = `Student ${currentIdx + 1} of ${students.length}`;
+  const prev = document.getElementById('stuPrevBtn'), next = document.getElementById('stuNextBtn');
+  if (prev) prev.disabled = currentIdx === 0;
+  if (next) next.disabled = currentIdx >= students.length - 1;
+  const subjName = { general: 'General', english: 'English', maths: 'Maths' }[currentSubject] || 'General';
+  const t = document.getElementById('draftTitle');
+  if (t) t.textContent = `${subjName} comment · ${(stu.name && stu.name.trim()) || 'new student'}`;
+  const done = subjState(stu, currentSubject) === 'done';
+  const db = document.getElementById('doneBtn');
+  if (db) {
+    db.classList.toggle('on', done);
+    db.setAttribute('aria-pressed', done ? 'true' : 'false');
+    db.textContent = done ? '✓ Done' : 'Mark as done';
+  }
+  const nb = document.getElementById('nextStuBtn');
+  if (nb) nb.textContent = currentIdx >= students.length - 1 ? 'New student' : 'Next student';
+  const ex = document.getElementById('exportBtn');
+  if (ex) ex.style.display = (students.length > 1 || cur().ordered.length) ? 'block' : 'none';
+  const del = document.getElementById('deleteStuBtn');
+  if (del) del.style.display = students.length > 1 ? 'block' : 'none';
+  updateDraftMeta();
+}
+
+function updateDraftMeta() {
+  const el = document.getElementById('outEditable'), meta = document.getElementById('draftMeta');
+  if (!el || !meta) return;
+  const text = (el.innerText || '').trim();
+  const n = text ? (text.match(/[^.!?]+[.!?]+/g) || [text]).length : 0;
+  meta.textContent = n + (n === 1 ? ' sentence' : ' sentences');
+}
+
+function stepStu(dir) {
+  const i = currentIdx + dir;
+  if (i < 0 || i >= students.length) return;
+  switchStu(i);
+}
+function nextStudent() {
+  if (currentIdx < students.length - 1) { switchStu(currentIdx + 1); return; }
+  addStuFromRail();
+}
+
+function toggleDone() {
+  const stu = cur();
+  const subj = currentSubject;
+  const key = subj === 'english' ? 'engPublished' : subj === 'maths' ? 'mathPublished' : 'published';
+  const was = !!stu[key];
+  if (!was && subjState(stu, subj) === 'none') { showToast('Add some sentences first.'); return; }
+  flushDraftPane();
+  stu[key] = !was;
+  if (!was) {
+    touchStreak();
+    autoBackup();
+    if (subj === 'general' && !stu.confettiShown) { stu.confettiShown = true; launchConfetti(); }
+  }
+  autoSave();
+  updateProgress();
+  renderStuBar();
+  renderOut();
+}
+
+function toggleMoreMenu(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('moreMenu').classList.toggle('open');
+}
+function closeMoreMenu() { const m = document.getElementById('moreMenu'); if (m) m.classList.remove('open'); }
+document.addEventListener('click', e => {
+  const m = document.getElementById('moreMenu');
+  if (m && m.classList.contains('open') && !m.contains(e.target)) m.classList.remove('open');
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMoreMenu(); });
+
+// Subject tabs carry a state badge (Done / Draft / Not started)
+function updateSubjTabIndicators() {
+  if (!cur()) return;
+  [['general', 'tabGeneral', 'General', ''], ['english', 'tabEnglish', 'English', ' english'], ['maths', 'tabMaths', 'Maths', ' maths']].forEach(([subj, id, label, cls]) => {
+    const tab = document.getElementById(id);
+    if (!tab) return;
+    const st = subjState(cur(), subj);
+    tab.className = 'stu-subj-tab' + cls + (currentSubject === subj ? ' active' : '');
+    tab.innerHTML = label + `<span class="st-badge ${st}">${STATE_LABEL[st]}</span>`;
+    tab.setAttribute('aria-selected', currentSubject === subj ? 'true' : 'false');
   });
-  const add = document.createElement('button');
-  add.className = 'add-stu'; add.textContent = '+ New student'; add.onclick = addStu;
-  bar.appendChild(add);
-  document.getElementById('exportBtn').style.display =
-    (students.length > 1 || cur().ordered.length) ? '' : 'none';
+}
+
+// ── Sentence bank tools: tier filter, composer, search ───────────────────
+function setTierFilter(t) {
+  _tierFilter = t;
+  const grid = document.getElementById('optsGrid');
+  if (grid) grid.dataset.tier = t;
+  document.querySelectorAll('#tierSeg button').forEach(b => b.classList.toggle('on', b.dataset.tier === t));
+}
+function toggleComposer() {
+  _composerOpen = !_composerOpen;
+  renderOpts();
+  if (_composerOpen) { const ta = document.getElementById('customInput'); if (ta) { ta.focus(); ta.scrollIntoView({ block: 'nearest' }); } }
+}
+// Called by renderOpts: syncs the tool row with what is on screen
+function paintBankTools(grid, hasTiers) {
+  const tools = document.getElementById('cTools');
+  const off = currentSubject !== 'general' && (currentTab === 'Future Directions' || _showGradeEntry || _showAllStrands);
+  if (tools) { tools.classList.toggle('no-tiers', !hasTiers); tools.classList.toggle('tools-off', off); }
+  grid.classList.toggle('tiered', !!hasTiers);
+  const tier = hasTiers ? _tierFilter : 'all';
+  grid.dataset.tier = tier;
+  document.querySelectorAll('#tierSeg button').forEach(b => b.classList.toggle('on', b.dataset.tier === _tierFilter));
+  const cb = document.getElementById('composerBtn');
+  if (cb) cb.setAttribute('aria-expanded', _composerOpen ? 'true' : 'false');
+  const sb = document.getElementById('bankSearch');
+  if (sb) sb.placeholder = currentSubject === 'general' ? 'Search every sentence in the bank' : 'Search sentences in this category';
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar) sidebar.classList.toggle('searching', !!_bankQuery && currentSubject === 'general');
+}
+function onBankSearch() {
+  _bankQuery = (document.getElementById('bankSearch').value || '').trim();
+  if (currentView !== 'build') { setView('build'); return; }
+  renderOpts();
+}
+function clearBankSearch() {
+  if (!_bankQuery) return;
+  _bankQuery = '';
+  const i = document.getElementById('bankSearch');
+  if (i) i.value = '';
+}
+
+// General: search every sentence in every category
+function renderBankSearch(grid) {
+  document.getElementById('cTitle').textContent = _bankQuery.length < 2 ? 'Search' : `Search results for “${_bankQuery}”`;
+  if (_bankQuery.length < 2) {
+    grid.innerHTML = '<div class="opts-empty">Keep typing to search all categories.</div>';
+    return;
+  }
+  const q = _bankQuery.toLowerCase();
+  const isS2 = currentSemester === 2;
+  const s1Keys = isS2 ? getS1UsedKeys(cur()) : new Set();
+  const LIMIT = 60;
+  let found = 0, shown = 0;
+  CATS.forEach(cat => {
+    const bounds = TIER_BOUNDARIES[cat] || { average: null, developing: null };
+    (RAW[cat] || []).forEach((s, origIdx) => {
+      const isSel = (cur().selected[cat] || []).includes(s);
+      const text = isSel ? applyFC(s, s) : applyFC(s);
+      if (!(text.toLowerCase().includes(q) || cat.toLowerCase().includes(q))) return;
+      found++;
+      if (shown >= LIMIT) return;
+      shown++;
+      const tier = bounds.average === null ? 'strong' : origIdx < bounds.average ? 'strong' : (bounds.developing === null || origIdx < bounds.developing) ? 'average' : 'developing';
+      const isS1Used = isS2 && s1Keys.has(s);
+      const btn = document.createElement('button');
+      btn.className = 'opt tier-' + tier + (isSel ? ' sel' : '') + (isS1Used ? ' s1-used' : '');
+      btn.innerHTML = `<span class="opt-body"><span class="opt-cat">${escHtml(cat)}</span>${escHtml(text)}</span>`;
+      if (isS1Used) btn.title = 'Used in Semester 1'; else btn.onclick = () => toggleOpt(cat, s);
+      grid.appendChild(btn);
+    });
+  });
+  if (!found) grid.innerHTML = `<div class="opts-empty">No sentences match “${escHtml(_bankQuery)}”.</div>`;
+  else if (found > shown) {
+    const n = document.createElement('div'); n.className = 'opts-note';
+    n.textContent = `Showing the first ${shown} of ${found} matches. Keep typing to narrow it down.`;
+    grid.appendChild(n);
+  }
+}
+// English / Maths: filter the sentences already on screen
+function applySubjSearch(grid) {
+  if (!_bankQuery) return;
+  const q = _bankQuery.toLowerCase();
+  let any = false;
+  grid.querySelectorAll('.opt').forEach(b => {
+    const hit = (b.textContent || '').toLowerCase().includes(q);
+    const holder = b.closest('.opt-custom-wrap') || (b.parentElement !== grid ? b.parentElement : b);
+    holder.style.display = hit ? '' : 'none';
+    if (hit) any = true;
+  });
+  grid.querySelectorAll('.grade-divider, .custom-wrap').forEach(d => { d.style.display = 'none'; });
+  if (!any) { const n = document.createElement('div'); n.className = 'opts-empty'; n.textContent = `No sentences in this category match “${_bankQuery}”.`; grid.appendChild(n); }
+}
+
+// ── Draft pane actions ──────────────────────────────────────────────────
+// Word-for-word what Review shows: cached Review edits if any, else rebuilt from the data
+function paneTextFromEl(el) {
+  if (!el || !el.innerHTML.trim()) return null;
+  const paras = el.querySelectorAll('.pub-para');
+  if (paras.length) {
+    const parts = Array.from(paras).map(para => {
+      if (para.classList.contains('fd-para')) {
+        return Array.from(para.querySelectorAll('.fd-line')).map(l => l.textContent.trim()).filter(Boolean).join('\n');
+      }
+      const spans = para.querySelectorAll('span');
+      if (spans.length) return Array.from(spans).map(s => s.textContent.trim()).filter(Boolean).join(' ');
+      return para.innerText.trim();
+    }).filter(Boolean);
+    return parts.join('\n\n') || null;
+  }
+  return el.innerText.trim() || null;
+}
+function getFinalCommentText(stu, subj) {
+  const s = subj || 'general';
+  const key = s === 'english' ? 'pubEditEnglish' : s === 'maths' ? 'pubEditMaths' : 'pubEditGeneral';
+  const fdArr = s === 'english' ? (stu.engFD || []) : s === 'maths' ? (stu.mathFD || []) : [];
+  const hash = s + '|' + JSON.stringify(fdArr);
+  if (stu[key] && stu[key + '_fdHash'] === hash && (!stu[key + '_subject'] || stu[key + '_subject'] === s) && (!stu.name || stu[key].includes(stu.name))) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = stu[key];
+    const t = paneTextFromEl(tmp);
+    if (t) return t;
+  }
+  const raw = getSubjectPublishText(stu, s);
+  if (!raw || !raw.trim()) return '';
+  if (s !== 'general') return raw;
+  const name = stu.name || '[Name]', p = PR[stu.pronoun];
+  return raw.split(/\n\n/).filter(x => x.trim()).map(para => fixAlternation(para, name, p).text).join('\n\n');
+}
+function copyComment() {
+  saveCur();
+  flushDraftPane();
+  const text = getFinalCommentText(cur(), currentSubject);
+  if (!text) { showToast('Nothing to copy yet.'); return; }
+  navigator.clipboard.writeText(text).then(() => showToast('Comment copied'), () => showToast('Could not copy. Try again.'));
+}
+function reviewAndCheck() { setView('publish'); runCheck(); }
+function reviewAndPolish() { setView('publish'); runPolish(); }
+
+// ── Class board ─────────────────────────────────────────────────────────
+function countWords(t) { return (t || '').trim().split(/\s+/).filter(Boolean).length; }
+function boardWords(stu) {
+  let n = 0;
+  ['general', 'english', 'maths'].forEach(s => { if (subjState(stu, s) !== 'none') n += countWords(getFinalCommentText(stu, s)); });
+  return n;
+}
+function setBoardFilter(f) { _boardFilter = f; renderBoard(); }
+function onBoardFind() { _boardQuery = (document.getElementById('boardFind').value || '').trim().toLowerCase(); renderBoard(); }
+function openFromBoard(i) {
+  const go = () => { if (i !== currentIdx) switchStu(i); };
+  setView('build');
+  go();
+}
+function copyAllFinished() {
+  saveCur();
+  const out = [];
+  students.forEach((stu, i) => {
+    const parts = [];
+    [['general', 'General'], ['english', 'English'], ['maths', 'Maths']].forEach(([s, label]) => {
+      if (subjState(stu, s) !== 'done') return;
+      const t = getFinalCommentText(stu, s);
+      if (t) parts.push((s === 'general' ? '' : label + '\n') + t);
+    });
+    if (parts.length) out.push(stuLabel(stu, i) + '\n' + parts.join('\n\n'));
+  });
+  if (!out.length) { showToast('No finished comments yet. Mark a comment as done first.'); return; }
+  navigator.clipboard.writeText(out.join('\n\n────────────────\n\n')).then(() => showToast(`Copied ${out.length} student${out.length === 1 ? '' : 's'}`), () => showToast('Could not copy. Try again.'));
+}
+function renderBoard() {
+  const N = Math.max(totalStudents, students.length);
+  const subjects = [['general', 'General'], ['english', 'English'], ['maths', 'Maths']];
+  const counts = {};
+  subjects.forEach(([s]) => { counts[s] = { done: 0, draft: 0 }; students.forEach(stu => { const st = subjState(stu, s); if (st !== 'none') counts[s][st]++; }); });
+  const fullyDone = students.filter(stu => subjects.every(([s]) => subjState(stu, s) === 'done')).length;
+  const sub = document.getElementById('boardSub');
+  if (sub) sub.textContent = `Semester ${currentSemester} 2026 · ${students.length} student${students.length === 1 ? '' : 's'} added · class of ${N} · ${fullyDone} fully complete`;
+  const cards = document.getElementById('boardCards');
+  if (cards) cards.innerHTML = subjects.map(([s, label]) => {
+    const c = counts[s];
+    const dPct = Math.min(100, (c.done / N) * 100), pPct = Math.min(100 - dPct, (c.draft / N) * 100);
+    return `<section class="board-card"><div class="bc-top"><div class="bc-label">${label}</div><div class="bc-togo">${Math.max(0, N - c.done)} to go</div></div>` +
+      `<div class="bc-num"><b>${c.done}</b><span>of ${N} done</span></div>` +
+      `<div class="bc-bar" role="img" aria-label="${c.done} done, ${c.draft} in progress, of ${N}"><i class="d" style="width:${dPct}%"></i><i class="p" style="width:${pPct}%"></i></div>` +
+      `<div class="bc-key"><span><i style="background:var(--done)"></i>Done</span><span><i style="background:var(--amber-line)"></i>In progress ${c.draft}</span></div></section>`;
+  }).join('');
+  // filter
+  const gDone = students.filter(s => subjState(s, 'general') === 'done').length;
+  const opts = [['all', 'All ' + students.length], ['todo', 'General to do ' + (students.length - gDone)], ['done', 'General done ' + gDone]];
+  const seg = document.getElementById('boardSeg');
+  if (seg) seg.innerHTML = opts.map(([k, l]) => `<button class="${_boardFilter === k ? 'on' : ''}" onclick="setBoardFilter('${k}')">${l}</button>`).join('');
+  const rowsEl = document.getElementById('boardRows');
+  if (!rowsEl) return;
+  const list = students.map((stu, i) => ({ stu, i })).filter(({ stu, i }) => {
+    const g = subjState(stu, 'general') === 'done';
+    if (_boardFilter === 'todo' && g) return false;
+    if (_boardFilter === 'done' && !g) return false;
+    if (_boardQuery && !stuLabel(stu, i).toLowerCase().includes(_boardQuery)) return false;
+    return true;
+  });
+  const icon = { done: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+    draft: '<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>',
+    none: '<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>' };
+  rowsEl.innerHTML = list.length ? list.map(({ stu, i }) => {
+    const cells = subjects.map(([s]) => { const st = subjState(stu, s); return `<div><span class="pill ${st}">${icon[st]}${STATE_LABEL[st]}</span></div>`; }).join('');
+    return `<div class="board-grid row${i === currentIdx ? ' current' : ''}" onclick="openFromBoard(${i})">` +
+      `<div class="bg-name"><span class="rail-av">${escHtml(stuInitials(stu, i))}</span><span>${escHtml(stuLabel(stu, i))}</span></div>${cells}` +
+      `<div>${boardWords(stu) || '–'}</div><div><button class="bg-open" onclick="event.stopPropagation(); openFromBoard(${i})">Open</button></div></div>`;
+  }).join('') : `<div class="board-empty">${students.length ? 'No students match.' : 'No students yet.'}</div>`;
+  const foot = document.getElementById('boardFoot');
+  if (foot) foot.textContent = `Showing ${list.length} of ${students.length} students`;
+}
+
+function syncPubSubj() {
+  document.querySelectorAll('#pubSubj button').forEach(b => b.classList.toggle('on', b.dataset.pubsubj === currentSubject));
 }
 
 // ── RENDER: PUBLISH ───────────────────────────────────────────────
@@ -4444,7 +5116,10 @@ function renderPublish() {
   );
   const pubEditSubjKey = pubEditKey + '_subject';
   // Triple-check: key name, FD hash, AND stored subject tag must all match
-  const cacheSubjectOk = !stu[pubEditSubjKey] || stu[pubEditSubjKey] === renderSubject;
+  // v3.6.0: a cache that never mentions this student by name belongs to someone else (an older bug could
+  // copy one student's Review pane onto another). Drop it so the comment is rebuilt from the sentences.
+  const cacheSubjectOk = (!stu[pubEditSubjKey] || stu[pubEditSubjKey] === renderSubject)
+    && (!stu.name || !stu[pubEditKey] || stu[pubEditKey].includes(stu.name));
   if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash && cacheSubjectOk) {
     // Cache is valid — subject, FD, and content all verified
     content.innerHTML = stu[pubEditKey];
@@ -5085,6 +5760,8 @@ function setView(v) {
   if (currentView === 'build') flushDraftPane(); // sync draft pane before leaving Build
   if (currentView === 'publish') savePublishEdits(); // save publish edits before leaving
   saveCur();
+  // v3.6.0: never leave a finished Review pane behind. A stale pane could otherwise be cached onto a different student.
+  if (currentView === 'publish' && v !== 'publish') { const _pc = document.getElementById('pubContent'); if (_pc) _pc.innerHTML = ''; }
   // If coming from Build, only clear the publish cache if content actually changed
   // (_draftDirty = sentences toggled or draft edited since last publish render)
   // If nothing changed, preserve synonym/Polish edits made in Publish
@@ -5103,7 +5780,7 @@ function setView(v) {
   document.getElementById('vPublish').classList.toggle('active', v === 'publish');
   document.getElementById('vStats').classList.toggle('active', v === 'stats');
   if (v === 'build') { loadCur(); render(); }
-  if (v === 'publish') renderPublish();
+  if (v === 'publish') { syncPubSubj(); renderPublish(); }
   if (v === 'stats') renderStats();
 }
 
@@ -5344,7 +6021,7 @@ function renderSubjOpts(grid) {
     <div class="custom-row">
       <button class="custom-add-btn" onclick="addSubjCustomSentence()">+ Add to comment</button>
     </div>`;
-  grid.appendChild(wrap);
+  if (_composerOpen) grid.appendChild(wrap);
 
   // If grades selected, show those; if none selected show all grades
   const hasGrades = selectedGrades && selectedGrades.length > 0;
@@ -5727,9 +6404,8 @@ function copyDraft() {
   navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
 }
 
-function getPublishedPaneText() {
-  // Read the live publish pane DOM — captures ALL edits regardless of subject.
-  const el = document.getElementById('pubContent');
+function getPublishedPaneText() { return paneTextFromEl(document.getElementById('pubContent')); }
+function _unusedPaneTextLegacy(el) {
   if (!el || !el.innerHTML.trim()) return null;
 
   const paras = el.querySelectorAll('.pub-para');
@@ -6814,6 +7490,7 @@ function checkBadges(done, total, streak) {
   }
 }
 function renderStats() {
+  renderBoard();
   const done = students.filter(s => s.published).length;
   const engDone = students.filter(s => s.engPublished).length;
   const mathDone = students.filter(s => s.mathPublished).length;
@@ -6836,12 +7513,12 @@ function renderStats() {
       <div class="stat-card-sub">${completion}% complete — ${remaining} remaining</div>
     </div>
     <div class="stat-card">
-      <div class="stat-card-val" style="color:#60a5fa">${engDone}</div>
+      <div class="stat-card-val" style="color:var(--blue)">${engDone}</div>
       <div class="stat-card-label">English Done</div>
       <div class="stat-card-sub">of ${totalStudents} students</div>
     </div>
     <div class="stat-card">
-      <div class="stat-card-val" style="color:#a78bfa">${mathDone}</div>
+      <div class="stat-card-val" style="color:var(--purple)">${mathDone}</div>
       <div class="stat-card-label">Maths Done</div>
       <div class="stat-card-sub">of ${totalStudents} students</div>
     </div>
@@ -7167,17 +7844,17 @@ function importSession() {
 
 // ── THEME ────────────────────────────────────────────────────────
 function toggleTheme() {
-  const isLight = document.documentElement.classList.toggle('light');
-  document.getElementById('themeLabel').textContent = isLight ? 'Light' : 'Dark';
-  lsSet('rcb_theme', isLight ? 'light' : 'dark');
+  const isDark = document.documentElement.classList.toggle('dark');
+  document.getElementById('themeLabel').textContent = isDark ? 'Dark' : 'Light';
+  lsSet('rcb_theme', isDark ? 'dark' : 'light');
 }
 function loadTheme() {
-  const saved = lsGet('rcb_theme', 'dark');
-  if (saved === 'light') {
-    document.documentElement.classList.add('light');
-    const lbl = document.getElementById('themeLabel');
-    if (lbl) lbl.textContent = 'Light';
-  }
+  // v3.6.0: light is the default; only an explicit earlier choice of dark keeps the dark theme
+  const saved = lsGet('rcb_theme', 'light');
+  const isDark = saved === 'dark';
+  document.documentElement.classList.toggle('dark', isDark);
+  const lbl = document.getElementById('themeLabel');
+  if (lbl) lbl.textContent = isDark ? 'Dark' : 'Light';
 }
 
 // ── DUPLICATE WORD HIGHLIGHTER ───────────────────────────────────
@@ -7907,6 +8584,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.5.6</div>
+<div class="version-badge">v3.6.0</div>
 </body>
 </html>
