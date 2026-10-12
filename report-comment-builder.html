@@ -859,6 +859,7 @@
       .c-nav #stuPos { display: none; }
   }
 
+  .m-stu, .m-name-hint, .custom-close { display: none; }
   /* ══ v3.9.0 PHONE LAYOUT (screens 700px wide or less). Nothing here applies on a computer or tablet. ══ */
   #mTabs { display: none; }
   @media (max-width: 700px) {
@@ -905,6 +906,22 @@
     .c-student { gap: 8px; }
     .pron-sel { min-height: 44px; font-size: 16px; }
     .c-nav { margin-left: auto; }
+
+    /* v3.9.3: more room for the sentences. The student row (name, pronoun, year) moves to the top of the Draft tab,
+       the arrows go (the student strip does that job), and "Write your own sentence" becomes the first card in the bank. */
+    .c-nav { display: none; }
+    .m-stu { display: block; padding: 0 2px 8px; }
+    .m-stu .c-student { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 8px; }
+    .m-stu .c-name { grid-column: 1 / -1; font-size: 22px; min-height: 44px; }
+    .m-stu .pron-sel { width: 100%; min-width: 0; }
+    .m-name-hint { display: none; align-self: flex-start; min-height: 40px; padding: 0 14px; border: 1px solid var(--amber-line); border-radius: 10px; background: var(--amber-bg); color: var(--t0); font-size: 14px; font-weight: 600; }
+    body[data-noname] .m-name-hint { display: inline-flex; align-items: center; }
+    #composerBtn { display: none; }
+    .opt-write { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 52px; padding: 10px 14px; border: 1.5px dashed var(--border-h); border-radius: 12px; background: transparent; color: var(--t1); font-family: var(--font); font-size: 16px; font-weight: 600; text-align: left; cursor: pointer; }
+    .opt-write:active { background: var(--bg-1); }
+    .custom-label { display: flex; align-items: center; justify-content: space-between; }
+    .custom-row { flex-wrap: wrap; } .custom-hint { flex: 1 1 100%; }
+    .custom-close { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin: -8px -8px -8px 0; border: 0; background: transparent; color: var(--t2); font-size: 16px; cursor: pointer; }
     .icon-btn { width: 44px; height: 44px; }
     .stu-subj-tab { flex: 1; justify-content: center; gap: 6px; padding: 0 6px; min-height: 46px; font-size: 14px; }
     .st-badge:not(.draft):not(.done) { display: none; }
@@ -1099,6 +1116,7 @@
     <!-- Sentence bank -->
     <main class="centre">
       <div class="c-top">
+        <button type="button" class="m-name-hint" id="mNameHint" onclick="goNameField()">Add the student’s name</button>
         <div class="c-student">
           <input type="text" class="c-name" id="studentName" placeholder="Student name…" autocomplete="off" aria-label="Student name">
           <select class="pron-sel" id="pronounSet" aria-label="Pronouns">
@@ -1149,6 +1167,7 @@
 
     <!-- Draft pane: always beside the bank -->
     <aside class="panel" aria-label="Draft comment">
+      <div class="m-stu" id="mStu"></div>
       <section class="draft-card">
         <div class="p-top">
           <div class="p-head">
@@ -1819,7 +1838,17 @@ function theyAgree(t) {
   if (t.indexOf('{{S}}') < 0 && t.indexOf('{{s}}') < 0) return t;
   return t.replace(/(\{\{[Ss]\}\})((?:[^.!?{]|\{\{(?:O|o|Pos|pos|r)\}\})*)/g, (m, tok, tail) => tok + _agreeTail(tail, true));
 }
+// v3.9.3: the "Write your own sentence" box tells teachers to type {{First-name}}, {{He-she}}, {{His-her}}, {{him-her}}, but only {{N}} / {{S}} / {{Pos}} / {{o}} were ever filled in.
+const _FRIENDLY_TOK = { 'first-name': 'N', 'he-she': 'S', 'his-her': 'Pos', 'him-her': 'o', 'himself-herself': 'r', 'her-his': 'Pos' };
+function friendlyTokens(t) {
+  if (typeof t !== 'string' || t.indexOf('{{') === -1) return t;
+  return t.replace(/\{\{\s*(first-name|he-she|his-her|him-her|himself-herself|her-his)\s*\}\}/gi, (m, k) => {
+    const tok = _FRIENDLY_TOK[k.toLowerCase()], lower = k[0] === k[0].toLowerCase();
+    return '{{' + (lower && tok !== 'o' && tok !== 'r' ? tok.charAt(0).toLowerCase() + tok.slice(1) : tok) + '}}';
+  });
+}
 function applyRaw(text, name, p, year) {
+  text = friendlyTokens(text);
   const n = name || '[Name]';
   const yr = year !== undefined ? year : getYear();
   const yearLabel = yr ? 'Year ' + yr : 'Year [X]';
@@ -1839,6 +1868,7 @@ function applyRaw(text, name, p, year) {
 // which is sentence number (length + 1). Odd positions (1st, 3rd...) use the name,
 // even positions (2nd, 4th...) use the subject pronoun.
 function applyFC(raw, existingKey) {
+  raw = friendlyTokens(raw);
   const name = getName() || '[Name]';
   const p = getPron();
   // Determine which position this sentence would occupy
@@ -1882,6 +1912,7 @@ function applyFC(raw, existingKey) {
 // Sentences that don't start with {{N}} or {{S}} (e.g. "In Science,…"
 // or "I would now like to…") are rendered as-is and do NOT advance the counter.
 function applyAlternation(raw, name, p, counter, year) {
+  raw = friendlyTokens(raw);
   // v3.8.6: "{{N}}'s English proficiency..." takes the name turn as "Aisha's", or the pronoun turn as "Her" (never "She's").
   if (/^\{\{N\}\}['\u2019]s\b/.test(raw)) {
     const useName = counter.value % 2 === 0;
@@ -4424,7 +4455,7 @@ function _renderOptsCore() {
   const wrap = document.createElement('div');
   wrap.className = 'custom-wrap';
   wrap.innerHTML = `
-    <div class="custom-label">Write your own sentence</div>
+    <div class="custom-label"><span>Write your own sentence</span><button type="button" class="custom-close" onclick="toggleComposer()" aria-label="Close">✕</button></div>
     <textarea class="custom-textarea" id="customInput" placeholder="Type a custom sentence… Use {{First-name}}, {{He-she}}, {{His-her}}, {{him-her}} as placeholders."></textarea>
     <div class="tier-sel-row">
       <button class="tier-sel-btn active-strong" id="tierBtnStrong" onclick="setCustomTier('strong')">Positive</button>
@@ -4436,7 +4467,7 @@ function _renderOptsCore() {
       <button class="custom-add-btn mine" onclick="addCustomSentence(true)" title="Adds it to this comment and keeps it in the bank for every student">+ Add &amp; save to my bank</button>
       <div class="custom-hint">Use {{First-name}}, {{He-she}}, {{His-her}}, {{him-her}} as placeholders.</div>
     </div>`;
-  if (_composerOpen) grid.appendChild(wrap);
+  if (_composerOpen) grid.appendChild(wrap); else addWriteCard(grid);
 
   // Custom sentences already added for this category — grouped by tier
   if (syncMyBank(cur(), currentTab)) autoSave();
@@ -5038,6 +5069,7 @@ function renderClassRail() {
 
 function addStuFromRail() {
   addStu();
+  if (isPhone()) setMTab('draft');   // v3.9.3: the name field is on the Draft tab on a phone
   const n = document.getElementById('studentName');
   if (n) n.focus();
 }
@@ -5046,6 +5078,7 @@ function addStuFromRail() {
 function paintStudentChrome() {
   const stu = cur();
   if (!stu) return;
+  document.body.toggleAttribute('data-noname', !(stu.name || '').trim());
   document.body.dataset.subject = currentSubject;
   const pos = document.getElementById('stuPos');
   if (pos) pos.textContent = `Student ${currentIdx + 1} of ${students.length}`;
@@ -5141,6 +5174,30 @@ function setTierFilter(t) {
   if (grid) grid.dataset.tier = t;
   document.querySelectorAll('#tierSeg button').forEach(b => b.classList.toggle('on', b.dataset.tier === t));
 }
+// v3.9.3 (phone only): "Write your own sentence" is the first card in the bank instead of a row of its own
+const isPhone = () => !!(window.matchMedia && window.matchMedia('(max-width: 700px)').matches);
+function addWriteCard(grid) {
+  if (!isPhone()) return;
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'opt-write';
+  b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Write your own sentence</span>';
+  b.onclick = toggleComposer;
+  grid.appendChild(b);
+}
+// phone: the name, pronoun and year row lives at the top of the Draft tab
+function goNameField() { setMTab('draft'); const n = document.getElementById('studentName'); if (n) n.focus(); }
+(function () {
+  if (!window.matchMedia) return;
+  const mq = window.matchMedia('(max-width: 700px)');
+  const place = () => {
+    const row = document.querySelector('.c-student'), host = document.getElementById('mStu'), top = document.querySelector('.c-top');
+    if (!row || !host || !top) return;
+    if (mq.matches) { if (row.parentNode !== host) host.appendChild(row); }
+    else if (row.parentNode !== top) { const hint = document.getElementById('mNameHint'); top.insertBefore(row, hint ? hint.nextSibling : top.firstChild); }
+  };
+  place();
+  (mq.addEventListener ? mq.addEventListener.bind(mq, 'change') : mq.addListener.bind(mq))(() => { place(); try { renderOpts(); } catch (e) {} });
+})();
 function toggleComposer() {
   _composerOpen = !_composerOpen;
   renderOpts();
@@ -6595,7 +6652,7 @@ function renderSubjOpts(grid) {
   const wrap = document.createElement('div');
   wrap.className = 'custom-wrap';
   wrap.innerHTML = `
-    <div class="custom-label">Write your own sentence</div>
+    <div class="custom-label"><span>Write your own sentence</span><button type="button" class="custom-close" onclick="toggleComposer()" aria-label="Close">✕</button></div>
     <textarea class="custom-textarea" id="customInput" placeholder="Type a custom sentence…"></textarea>
     <div class="tier-sel-row">
       <button class="tier-sel-btn active-strong" id="tierBtnStrong" onclick="setCustomTier('strong')">A/B</button>
@@ -6606,7 +6663,7 @@ function renderSubjOpts(grid) {
       <button class="custom-add-btn" onclick="addSubjCustomSentence()">+ Add to comment</button>
       <button class="custom-add-btn" onclick="addSubjCustomSentence(true)" title="Add to this comment and keep it in your bank for every student">+ Add &amp; save to my bank</button>
     </div>`;
-  if (_composerOpen) grid.appendChild(wrap);
+  if (_composerOpen) grid.appendChild(wrap); else addWriteCard(grid);
 
   // If grades selected, show those; if none selected show all grades
   const hasGrades = selectedGrades && selectedGrades.length > 0;
@@ -7760,7 +7817,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.9.2';
+const APP_VERSION = 'v3.9.3';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10232,6 +10289,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.9.2</div>
+<div class="version-badge">v3.9.3</div>
 </body>
 </html>
