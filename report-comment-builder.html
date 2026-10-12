@@ -1655,6 +1655,7 @@ function applyFC(raw, existingKey) {
 
   // Only swap the OPENER token (first {{N}} or {{S}} in the sentence)
   // All subsequent tokens in the same sentence apply normally
+  if (/^\{\{N\}\}['\u2019]s\b/.test(raw)) return applyRaw(useNameOpener ? raw : raw.replace(/^\{\{N\}\}['\u2019]s\b/, '{{Pos}}'), name, p);
   const startsN = raw.startsWith('{{N}}');
   const startsS = raw.startsWith('{{S}}');
 
@@ -1681,6 +1682,12 @@ function applyFC(raw, existingKey) {
 // Sentences that don't start with {{N}} or {{S}} (e.g. "In Science,…"
 // or "I would now like to…") are rendered as-is and do NOT advance the counter.
 function applyAlternation(raw, name, p, counter, year) {
+  // v3.8.6: "{{N}}'s English proficiency..." takes the name turn as "Aisha's", or the pronoun turn as "Her" (never "She's").
+  if (/^\{\{N\}\}['\u2019]s\b/.test(raw)) {
+    const useName = counter.value % 2 === 0;
+    counter.value++;
+    return applyRaw(useName ? raw : raw.replace(/^\{\{N\}\}['\u2019]s\b/, '{{Pos}}'), name, p, year);
+  }
   const startsN = raw.startsWith('{{N}}');
   const startsS = raw.startsWith('{{S}}');
   if (startsN || startsS) {
@@ -2055,14 +2062,14 @@ function getSubjDraft() {
     const counter = { value: 0 };
     const sentences = (cur().engOrdered || []);
     if (!sentences.length) return '';
-    return sentences.map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    return enforceAltText(cur(), sentences.map(s => applyAlternation(resolveKey(s, cur()), name, p, counter, yr)).join(' '));
   }
   if (currentSubject === 'maths') {
     if (cur().mathDraftEdited && cur().mathDraft) return cur().mathDraft;
     const counter = { value: 0 };
     const sentences = (cur().mathOrdered || []);
     if (!sentences.length) return '';
-    return sentences.map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
+    return enforceAltText(cur(), sentences.map(s => applyAlternation(s, name, p, counter, yr)).join(' '));
   }
   return null;
 }
@@ -4402,7 +4409,7 @@ function buildDraftText() {
     return editedText + ' ' + postText;
   }
 
-  return cur().ordered.map(s => applyAlternation(resolveKey(s, cur()), name, p, counter, yr)).join(' ');
+  return enforceAltText(cur(), cur().ordered.map(s => applyAlternation(resolveKey(s, cur()), name, p, counter, yr)).join(' '));
 }
 
 function updateWc(text) {
@@ -4966,7 +4973,7 @@ function getFinalCommentText(stu, subj) {
     const tmp = document.createElement('div');
     tmp.innerHTML = stu[key];
     const t = paneTextFromEl(tmp);
-    if (t) return t;
+    if (t) return enforceAltText(stu, t);
   }
   return getBuiltCommentText(stu, s);
 }
@@ -5064,44 +5071,91 @@ function syncPubSubj() {
 // ── RENDER: PUBLISH ───────────────────────────────────────────────
 // Auto-fix name/pronoun alternation in a block of text.
 // Returns { text, fixes } where fixes is an array of sentences that were corrected.
+// v3.8.6: name / pronoun alternation is enforced on the WHOLE comment, whatever put the text there (sentence bank,
+// Review edits, cached Review, copy and export). The subject of each sentence is the first name or pronoun after any
+// opening phrase ("During Health, Aisha has...", "In Drama, she has..."). Subjects must run Name, pronoun, Name, pronoun...
+// Sentences with no name or pronoun as subject ("This support has helped...") are left alone and do not count.
+// A possessive subject swaps too: "Aisha's English proficiency..." <-> "Her English proficiency..." (never "She's").
+function _altSubject(sent, name, p) {
+  const lead = sent.match(/^\s*/)[0].length;
+  const body = sent.slice(lead);
+  const forms = [p.S, p.s, p.Pos, p.pos].filter((v, i, a) => v && a.indexOf(v) === i).map(escapeRegex).join('|');
+  const re = new RegExp('^((?:[^,.!?]{1,100},\\s+){0,3})(' + escapeRegex(name) + "(?:['\u2019]s)?|" + forms + ")(?![\\w'\u2019-])");
+  const m = body.match(re);
+  if (!m) return null;
+  const tok = m[2];
+  const isName = tok.toLowerCase().startsWith(String(name).toLowerCase());
+  const isPos = !isName && (tok === p.Pos || tok === p.pos) && tok !== p.S && tok !== p.s;
+  const poss = isPos || (isName && /['\u2019]s$/i.test(tok) && tok.length > String(name).length);
+  const start = lead + m[1].length;
+  return { role: isName ? 'name' : 'pron', poss, atStart: m[1] === '', start, end: start + tok.length };
+}
+function _altPlan(sents, name, p) {
+  const out = []; let expect = 'name';
+  sents.forEach((s, i) => {
+    // Comments saved by an older version may hold "She's English proficiency ..."; put the name back.
+    const hm = s.match(/^(\s*)(He|She|They)['\u2019]s (?=English proficiency)/);
+    if (hm) { out.push({ i, start: hm[1].length, end: hm[1].length + hm[2].length, rep: name }); expect = 'pron'; return; }
+    const sub = _altSubject(s, name, p); if (!sub) return;
+    if (sub.role !== expect) {
+      const rep = expect === 'name'
+        ? (sub.poss ? name + "'s" : name)
+        : (sub.poss ? (sub.atStart ? p.Pos : p.pos) : (sub.atStart ? p.S : p.s));
+      out.push({ i, start: sub.start, end: sub.end, rep });
+    }
+    expect = expect === 'name' ? 'pron' : 'name';
+  });
+  return out;
+}
+const _SENT_RE = /[^.!?]+[.!?]+\s*|[^.!?]+$/g;
+// Text version. Returns { text, fixes } where fixes lists each sentence that was corrected.
 function fixAlternation(text, name, p) {
   if (!text || !text.trim()) return { text, fixes: [] };
-  // Split into sentences
-  const sentenceRegex = /[^.!?]+[.!?]+\s*/g;
-  const sentences = [];
-  let match;
-  while ((match = sentenceRegex.exec(text)) !== null) sentences.push(match[0]);
-  if (!sentences.length) return { text, fixes: [] };
-
-  const fixes = [];
-  let counter = 0; // 0=even→name, 1=odd→pronoun
-  const fixed = sentences.map(sent => {
-    const trimmed = sent.trim();
-    // Detect opener type
-    const namePattern = new RegExp('^' + escapeRegex(name) + '\\b', 'i');
-    const pronounPattern = new RegExp('^(' + [p.S, p.s].join('|') + ')\\b');
-    const isNameOpener = namePattern.test(trimmed);
-    const isPronounOpener = pronounPattern.test(trimmed) && !isNameOpener;
-
-    if (isNameOpener || isPronounOpener) {
-      const shouldUseName = counter % 2 === 0;
-      counter++;
-      if (shouldUseName && isPronounOpener) {
-        // Should be name but is pronoun — swap first word to name
-        const corrected = trimmed.replace(/^(He|She|They)\b/, name);
-        if (corrected !== trimmed) fixes.push({ original: trimmed, corrected });
-        return corrected + (sent.endsWith(' ') ? ' ' : '');
-      } else if (!shouldUseName && isNameOpener) {
-        // Should be pronoun but is name — swap name to subject pronoun
-        const corrected = trimmed.replace(new RegExp('^' + escapeRegex(name) + '\\b', 'i'), p.S);
-        if (corrected !== trimmed) fixes.push({ original: trimmed, corrected });
-        return corrected + (sent.endsWith(' ') ? ' ' : '');
-      }
-    }
-    return sent;
+  name = name || '[Name]';
+  const parts = text.split(/(\n+)/);
+  const recs = [];                                  // every sentence of every non-FD block, in order
+  const blocks = parts.map((part, bi) => {
+    if (/^\n+$/.test(part) || !part.trim() || part.trim().startsWith('* ')) return { raw: part };
+    const sents = part.match(_SENT_RE) || [part];
+    sents.forEach((t, si) => recs.push({ bi, si, t }));
+    return { sents };
   });
-
-  return { text: fixed.join(''), fixes };
+  const plan = _altPlan(recs.map(r => r.t), name, p);
+  const fixes = [];
+  plan.forEach(a => {
+    const r = recs[a.i];
+    const fixed = r.t.slice(0, a.start) + a.rep + r.t.slice(a.end);
+    fixes.push({ original: r.t.trim(), corrected: fixed.trim() });
+    r.t = fixed;
+  });
+  recs.forEach(r => { blocks[r.bi].sents[r.si] = r.t; });
+  return { text: blocks.map(b => b.raw !== undefined ? b.raw : b.sents.join('')).join(''), fixes };
+}
+// Same rule applied to the Review pane itself (keeps highlights and cursor-free edits in place). Returns the number of fixes.
+function enforceAlternationDOM(root) {
+  const stu = cur(); if (!root || !stu) return 0;
+  const name = stu.name || '[Name]', p = PR[stu.pronoun]; if (!p) return 0;
+  const spans = Array.from(root.querySelectorAll('span[data-si]')).filter(x => !x.classList.contains('fd-line'));
+  if (!spans.length) return 0;
+  const plan = _altPlan(spans.map(x => x.textContent), name, p);
+  plan.forEach(a => {
+    const span = spans[a.i];
+    const walker = document.createTreeWalker(span, NodeFilter.SHOW_TEXT);
+    let node, base = 0, placed = false;
+    while ((node = walker.nextNode())) {
+      const len = node.nodeValue.length, ns = base, ne = base + len; base = ne;
+      if (ne <= a.start || ns >= a.end) continue;
+      const from = Math.max(a.start, ns) - ns, to = Math.min(a.end, ne) - ns;
+      node.nodeValue = node.nodeValue.slice(0, from) + (placed ? '' : a.rep) + node.nodeValue.slice(to);
+      placed = true;
+    }
+  });
+  return plan.length;
+}
+function enforceAltText(stu, text) {
+  if (!text || !stu) return text;
+  const p = PR[stu.pronoun]; if (!p) return text;
+  return fixAlternation(text, stu.name || '[Name]', p).text;
 }
 
 function escapeRegex(str) {
@@ -5187,14 +5241,9 @@ function renderPublish() {
   }
 
   // Auto-fix alternation per paragraph (general comments only)
-  const paragraphs = publishedText.split(/\n\n/).filter(p => p.trim());
-  const allFixes = [];
-  const fixedParas = paragraphs.map(para => {
-    if (renderSubject !== 'general') return para; // skip alternation fix for Eng/Maths
-    const { text: fixed, fixes } = fixAlternation(para, name, p);
-    allFixes.push(...fixes);
-    return fixed;
-  });
+  const _altRes = fixAlternation(publishedText, name, p);   // v3.8.6: whole comment, every subject
+  const allFixes = _altRes.fixes.slice();
+  const fixedParas = _altRes.text.split(/\n\n/).filter(p => p.trim());
 
   if (allFixes.length) {
     document.getElementById('checkStatus').innerHTML =
@@ -5221,6 +5270,8 @@ function renderPublish() {
   if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash && cacheSubjectOk) {
     // Cache is valid — subject, FD, and content all verified
     content.innerHTML = stu[pubEditKey];
+    { const _n = enforceAlternationDOM(content);
+      if (_n) document.getElementById('checkStatus').innerHTML = `<span style="font-size:12px;color:var(--blue)">✓ ${_n} alternation error${_n > 1 ? 's' : ''} auto-corrected</span>`; }
     setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
     return;
   } else if (stu[pubEditKey] && (!cacheSubjectOk || stu[pubEditFDKey] !== currentFDHash)) {
@@ -6482,6 +6533,7 @@ function savePublishEdits() {
   const fdArr = subj === 'english' ? (students[currentIdx].engFD || [])
               : subj === 'maths'   ? (students[currentIdx].mathFD || [])
               : [];
+  enforceAlternationDOM(pubEl);   // v3.8.6: never save a pane that breaks name / pronoun alternation
   students[currentIdx][key] = pubEl.innerHTML;
   students[currentIdx][key + '_fdHash'] = subj + '|' + JSON.stringify(fdArr);
   students[currentIdx][key + '_subject'] = subj;
@@ -6512,7 +6564,7 @@ function copyDraft() {
   navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
 }
 
-function getPublishedPaneText() { return paneTextFromEl(document.getElementById('pubContent')); }
+function getPublishedPaneText() { const el = document.getElementById('pubContent'); enforceAlternationDOM(el); return paneTextFromEl(el); }
 function _unusedPaneTextLegacy(el) {
   if (!el || !el.innerHTML.trim()) return null;
 
@@ -8738,9 +8790,8 @@ function getBuiltCommentText(stu, subj) {
   const s = subj || 'general';
   const raw = getSubjectPublishText(stu, s);
   if (!raw || !raw.trim()) return '';
-  if (s !== 'general') return raw;
   const name = stu.name || '[Name]', p = PR[stu.pronoun];
-  return raw.split(/\n\n/).filter(x => x.trim()).map(para => fixAlternation(para, name, p).text).join('\n\n');
+  return fixAlternation(raw, name, p).text;
 }
 // Called when a comment is finished or left: compare the built text with the final text and remember the swaps.
 function learnFromCurrent(quiet) {
@@ -9564,6 +9615,14 @@ function exportCsv() {
 }
 
 // loadPersistedState is async (IndexedDB) — it calls render() itself
+// v3.8.6: when the teacher leaves the Review pane after editing it, put name / pronoun alternation right again.
+document.addEventListener('focusout', e => {
+  const pc = document.getElementById('pubContent');
+  if (!pc || !e.target || !(e.target === pc || pc.contains(e.target))) return;
+  if (!cur() || currentView !== 'publish') return;
+  const n = enforceAlternationDOM(pc);
+  if (n) { showToast(n === 1 ? 'Name and pronoun alternation corrected in 1 sentence.' : 'Name and pronoun alternation corrected in ' + n + ' sentences.'); setTimeout(() => { try { highlightTenseIssues(); } catch (x) {} }, 30); }
+});
 loadPersistedState();
 loadTheme();
 
@@ -9661,6 +9720,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.8.5</div>
+<div class="version-badge">v3.8.6</div>
 </body>
 </html>
