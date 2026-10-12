@@ -402,6 +402,7 @@
   .notes-text { width: 100%; box-sizing: border-box; margin-top: 8px; font-family: var(--font); font-size: 13.5px; line-height: 1.45; padding: 8px 10px; border: 1px solid var(--border-h); border-radius: var(--r-md); background: var(--bg-1); color: var(--t0); resize: vertical; }
   .notes-text:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
   .opt.mine { border-left: 3px solid var(--accent); }
+  .wc-tag { margin-left: 8px; font-size: 10px; font-weight: 700; letter-spacing: .02em; color: var(--t0); background: var(--amber-bg, #FFF4D6); border: 1px solid var(--amber-line, #E9C46A); border-radius: 999px; padding: 1px 7px; vertical-align: middle; white-space: nowrap; }
   .mine-tag { margin-left: 8px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); background: var(--accent-bg); border: 1px solid var(--accent-bd); border-radius: 999px; padding: 1px 7px; vertical-align: middle; }
   .mine-cat { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--t2); margin-right: 4px; }
   .custom-add-btn.mine { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-bd); }
@@ -4178,7 +4179,8 @@ const TIER_BOUNDARIES = {
   'Closing Statement': { average: 6, developing: null },
 };
 
-function renderOpts() {
+function renderOpts() { _renderOptsCore(); markLongOpts(); }
+function _renderOptsCore() {
   document.getElementById('cTitle').textContent = currentTab;
   const grid = document.getElementById('optsGrid');
   grid.innerHTML = '';
@@ -9187,7 +9189,7 @@ function setLongLimit(v) {
   const n = parseInt(v, 10);
   if (!(n >= 5 && n <= 100)) { showToast('Enter a sentence length between 5 and 100 words.'); renderToolSettings(); return; }
   lsSet('rcb_longsent', String(n));
-  updateSentChip();
+  updateSentChip(); markLongOpts();
   if (currentView === 'publish') renderReviewInfo();
 }
 // Split a comment into sentences (a full stop inside a number such as 3.5 does not end one) and count the words in each.
@@ -9198,6 +9200,17 @@ function longSentences(text) {
 }
 // The amber chip beside the word count in the draft pane
 let _lsCursor = 0;
+// v3.8.3: a small word count on every bank sentence longer than the limit
+function markLongOpts() {
+  const grid = document.getElementById('optsGrid'); if (!grid) return;
+  const lim = getLongLimit();
+  grid.querySelectorAll('button.opt').forEach(btn => {
+    const old = btn.querySelector('.wc-tag'); if (old) old.remove();
+    const c = btn.cloneNode(true); c.querySelectorAll('span').forEach(x => x.remove());
+    const n = _wordCount(c.textContent);
+    if (n > lim) { const t = document.createElement('span'); t.className = 'wc-tag'; t.textContent = n + ' words'; t.title = 'Longer than ' + lim + ' words. The limit is in Settings.'; btn.appendChild(t); }
+  });
+}
 function updateSentChip() {
   const chip = document.getElementById('lsBadge'), el = document.getElementById('outEditable');
   if (!chip || !el) return;
@@ -9635,6 +9648,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.8.2</div>
+<div class="version-badge">v3.8.3</div>
 </body>
 </html>
