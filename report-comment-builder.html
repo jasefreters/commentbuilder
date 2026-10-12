@@ -390,6 +390,8 @@
   .rv-tone b.tb-strong { color: var(--green); } .rv-tone b.tb-average { color: var(--t0); } .rv-tone b.tb-developing { color: #8B5CF6; }
   .rv-flag { font-size: 13px; color: var(--t0); background: var(--amber-bg, #FFF4D6); border: 1px solid var(--amber-line, #E9C46A); border-radius: var(--r-md); padding: 7px 10px; margin-top: 8px; }
   .rv-note { font-size: 13px; color: var(--t1); border-left: 3px solid var(--accent); padding: 4px 10px; margin-top: 8px; background: var(--accent-bg); border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+  .ls-chip { font-family: var(--font); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--amber-line, #E9C46A); background: var(--amber-bg, #FFF4D6); color: var(--t0); cursor: pointer; white-space: nowrap; }
+  .ls-chip:hover { filter: brightness(.97); }
   #pubContent span[data-long="1"] { text-decoration: underline dotted var(--amber-line, #D99A00); text-decoration-thickness: 2px; text-underline-offset: 4px; }
   .notes-card { margin: 8px 16px 0; border-top: 1px solid var(--border); padding-top: 8px; }
   .notes-card summary { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--t2); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; }
@@ -1042,6 +1044,7 @@
           <div class="p-head">
             <div class="p-title" id="draftTitle">Draft</div>
             <div class="wc" id="wcBadge">0 / 200</div>
+            <button class="ls-chip" id="lsBadge" type="button" style="display:none" onclick="showNextLongSentence()"></button>
           </div>
           <div class="wc-bar-wrap"><div class="wc-bar" id="wcBar"></div></div>
         </div>
@@ -1984,7 +1987,8 @@ function toggleSubjOpt(cat, s) {
   // - Removing a sentence: remove it from the existing draft text (best-effort)
   const draftKey  = currentSubject === 'english' ? 'engDraft'  : 'mathDraft';
   const pubKey    = currentSubject === 'english' ? 'pubEditEnglish' : 'pubEditMaths';
-  const existing  = cur()[draftKey];
+  const editedKey = currentSubject === 'english' ? 'engDraftEdited' : 'mathDraftEdited';
+  const existing  = cur()[editedKey] ? cur()[draftKey] : null;   // v3.8.1: only a hand-edited draft is kept
 
   if (existing) {
     const name = cur().name || '[Name]';
@@ -2015,8 +2019,11 @@ function toggleSubjOpt(cat, s) {
   _draftDirty = false; // sentence selection change — not a manual draft edit
   // Clear engDraft/mathDraft when not manually edited so getSubjDraft
   // always rebuilds from engOrdered with fresh correct alternation
-  if (currentSubject === 'english') { cur().engDraftEdited = false; cur().engDraft = null; }
-  if (currentSubject === 'maths') { cur().mathDraftEdited = false; cur().mathDraft = null; }
+  // v3.8.1: a hand-edited draft keeps the teacher's edits; the clicked sentence was added to or taken out of it above.
+  if (!existing || !cur()[draftKey]) {
+    if (currentSubject === 'english') { cur().engDraftEdited = false; cur().engDraft = null; }
+    if (currentSubject === 'maths') { cur().mathDraftEdited = false; cur().mathDraft = null; }
+  }
 
   render();
   autoSave();
@@ -4569,7 +4576,8 @@ let _saveTimer = null;
 let _publishedSinceLastBackup = false;
 
 
-function renderOut() {
+function renderOut() { _renderOutCore(); updateSentChip(); }
+function _renderOutCore() {
   const el = document.getElementById('outEditable');
   const editBar = document.getElementById('draftEditBar');
   const badge = document.getElementById('wcBadge');
@@ -4610,6 +4618,11 @@ function renderOut() {
   }
 
   editBar.className = hasOverride ? 'draft-edit-bar visible' : 'draft-edit-bar';
+}
+
+// v3.8.1: this was called while typing in the English/Maths draft but never defined, so every edit there stopped part-way.
+function parseFDFromDraftText(text) {
+  return String(text || '').split('\n').map(l => l.trim()).filter(l => /^\*\s+\S/.test(l)).map(l => l.replace(/^\*\s+/, '').trim());
 }
 
 function stripFDFromDraftText(text) {
@@ -4673,6 +4686,7 @@ function onDraftInput() {
   }
   autoSave();
   updateDraftMeta();
+  updateSentChip();
 }
 
 function onDraftKeydown(e) {
@@ -5854,30 +5868,56 @@ function setView(v) {
 }
 
 // ── INTERACTIONS ──────────────────────────────────────────────────
+// v3.8.1 · one place for "a general sentence was added or removed", so the draft pane and the Review page always follow.
+function genInvalidate() {
+  const stu = cur();
+  stu.published = false;
+  stu.pubEditGeneral = null; stu.pubEditGeneral_fdHash = null; stu.pubEditGeneral_subject = null;
+  _draftDirty = true;
+}
+// If the teacher has typed in the draft pane, the typed text is what shows. Keep a clicked sentence in step with it.
+function syncGeneralOverride(key, adding) {
+  const stu = cur();
+  const ex = stu.draftOverride;
+  if (ex === null || ex === undefined || ex === '') return;
+  const name = stu.name || '[Name]', p = PR[stu.pronoun], yr = stu.year || '';
+  const raw = resolveKey(key, stu);
+  if (adding) {
+    const nameEsc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const openerRegex = new RegExp('^(' + nameEsc + '|' + [p.N, p.S, p.n, p.s].filter(Boolean).join('|') + ')\\b', 'gm');
+    const counter = { value: (ex.match(openerRegex) || []).length };
+    stu.draftOverride = ex.trimEnd() + ' ' + applyAlternation(raw, name, p, counter, yr);
+  } else {
+    let out = ex;
+    for (const start of [0, 1]) {
+      const r = applyAlternation(raw, name, p, { value: start }, yr);
+      const i = out.indexOf(r);
+      if (i !== -1) { out = (out.slice(0, i) + out.slice(i + r.length)).replace(/ {2,}/g, ' ').trim(); break; }
+    }
+    stu.draftOverride = out || null;
+  }
+}
+function genAddKey(cat, key) {
+  const stu = cur();
+  if (!stu.selected[cat]) stu.selected[cat] = [];
+  stu.selected[cat].push(key);
+  stu.ordered.push(key);
+  if (stu.editedCat) { if (!stu.orderedAfterEdit) stu.orderedAfterEdit = []; stu.orderedAfterEdit.push(key); }
+  syncGeneralOverride(key, true);
+  genInvalidate();
+}
+function genRemoveKey(cat, key) {
+  const stu = cur();
+  if (stu.selected[cat]) stu.selected[cat] = stu.selected[cat].filter(k => k !== key);
+  const oi = stu.ordered.indexOf(key); if (oi !== -1) stu.ordered.splice(oi, 1);
+  if (stu.orderedAfterEdit) { const pi = stu.orderedAfterEdit.indexOf(key); if (pi !== -1) stu.orderedAfterEdit.splice(pi, 1); }
+  syncGeneralOverride(key, false);
+  genInvalidate();
+}
+
 function toggleOpt(cat, s) {
   if (!cur().selected[cat]) cur().selected[cat] = [];
-  const idx = cur().selected[cat].indexOf(s);
-  if (idx === -1) {
-    cur().selected[cat].push(s);
-    cur().ordered.push(s);
-    // If in post-edit mode, also track in orderedAfterEdit
-    if (cur().editedCat) {
-      if (!cur().orderedAfterEdit) cur().orderedAfterEdit = [];
-      cur().orderedAfterEdit.push(s);
-    }
-  } else {
-    cur().selected[cat].splice(idx, 1);
-    const oi = cur().ordered.indexOf(s);
-    if (oi !== -1) cur().ordered.splice(oi, 1);
-    // Also remove from post-edit list if present
-    if (cur().orderedAfterEdit) {
-      const pi = cur().orderedAfterEdit.indexOf(s);
-      if (pi !== -1) cur().orderedAfterEdit.splice(pi, 1);
-    }
-  }
-  cur().published = false;
-  cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null; cur().pubEditGeneral_subject = null;
-  _draftDirty = true; // general sentence changed — rebuild publish
+  if (cur().selected[cat].indexOf(s) === -1) genAddKey(cat, s); else genRemoveKey(cat, s);
   render();
 }
 
@@ -6089,6 +6129,7 @@ function renderSubjOpts(grid) {
     </div>
     <div class="custom-row">
       <button class="custom-add-btn" onclick="addSubjCustomSentence()">+ Add to comment</button>
+      <button class="custom-add-btn" onclick="addSubjCustomSentence(true)" title="Add to this comment and keep it in your bank for every student">+ Add &amp; save to my bank</button>
     </div>`;
   if (_composerOpen) grid.appendChild(wrap);
 
@@ -6126,6 +6167,8 @@ function renderSubjOpts(grid) {
 
   // Show custom sentences added for this category (persisted on student object)
   const customKey = currentSubject === 'english' ? 'engCustom' : 'mathCustom';
+  if (syncMyBankSubj(cur(), currentSubject, currentTab)) autoSave();
+  const _mk = mineKey(currentTab);
   const customSents = (cur()[customKey] && cur()[customKey][currentTab]) || [];
   if (customSents.length) {
     const cdiv = document.createElement('div');
@@ -6142,25 +6185,22 @@ function renderSubjOpts(grid) {
       btn.style.flex = '1';
       btn.textContent = displayed;
       btn.onclick = () => toggleSubjOpt(currentTab, s);
+      if (isMineSentence(_mk, s)) { btn.classList.add('mine'); const tag = document.createElement('span'); tag.className = 'mine-tag'; tag.textContent = 'Mine'; btn.appendChild(tag); }
       row.appendChild(btn);
       // Delete button
       const del = document.createElement('button');
       del.style.cssText = 'font-size:11px;color:var(--t2);background:none;border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;padding:0 8px;flex-shrink:0;transition:color .1s';
       del.textContent = '✕';
-      del.title = 'Remove this custom sentence';
+      del.title = isMineSentence(_mk, s) ? 'Remove from my bank (every student)' : 'Remove this custom sentence';
       del.onmouseenter = () => del.style.color = 'var(--red)';
       del.onmouseleave = () => del.style.color = '';
       del.onclick = () => {
-        cur()[customKey][currentTab].splice(ci, 1);
-        // Also remove from selected/ordered if present
-        const selArr = sel[currentTab] || [];
-        const sIdx = selArr.indexOf(s);
-        if (sIdx !== -1) selArr.splice(sIdx, 1);
-        const ord = getSubjOrdered();
-        const oIdx = ord.indexOf(s);
-        if (oIdx !== -1) ord.splice(oIdx, 1);
-        setSubjSelected(sel);
-        setSubjOrdered(ord);
+        const _m = (myBank[_mk] || []).find(x => x.text === s);
+        if (_m && !confirm('Remove this saved sentence from your bank for every student?')) return;
+        if ((sel[currentTab] || []).includes(s)) toggleSubjOpt(currentTab, s);   // takes it out of the draft and Review too
+        if (_m) removeFromMyBank(_mk, _m.id);
+        const _arr = cur()[customKey][currentTab], _i = _arr ? _arr.indexOf(s) : -1;
+        if (_i !== -1) _arr.splice(_i, 1);
         autoSave();
         render();
       };
@@ -6170,31 +6210,28 @@ function renderSubjOpts(grid) {
   }
 }
 
-function addSubjCustomSentence() {
+function addSubjCustomSentence(saveToBank) {
   const ta = document.getElementById('customInput');
   if (!ta) return;
-  const text = ta.value.trim();
+  let text = ta.value.trim();
   if (!text) { showToast('Please type a sentence first.'); return; }
-  // Add to current subject ordered list and save to student data
-  const ord = getSubjOrdered();
-  const sel = getSubjSelected();
-  ord.push(text);
-  if (!sel[currentTab]) sel[currentTab] = [];
-  sel[currentTab].push(text);
-  setSubjSelected(sel);
-  setSubjOrdered(ord);
-  // Also save to custom bank on student so it persists and renders in the sentence panel
+  if (saveToBank) {
+    text = templatise(text, cur().name, getPron());
+    const mk = mineKey(currentTab);
+    if (!myBank[mk]) myBank[mk] = [];
+    if (!myBank[mk].some(x => x.text === text)) myBank[mk].push({ id: Math.random().toString(36).slice(2, 10), text, tier: 'strong' });
+  }
+  // Save to the student's own list so it persists and shows in the sentence panel
   const draftKey = currentSubject === 'english' ? 'engCustom' : 'mathCustom';
   if (!cur()[draftKey]) cur()[draftKey] = {};
   if (!cur()[draftKey][currentTab]) cur()[draftKey][currentTab] = [];
-  cur()[draftKey][currentTab].push(text);
+  if (!cur()[draftKey][currentTab].includes(text)) cur()[draftKey][currentTab].push(text);
   ta.value = '';
-  // Invalidate publish cache since new sentence added
-  if (currentSubject === 'english') { cur().pubEditEnglish = null; }
-  if (currentSubject === 'maths') { cur().pubEditMaths = null; }
-  autoSave();
-  render();
-  showToast('Sentence added and saved.');
+  // Add it to the comment the same way a click does, so a hand-edited draft and Review both follow
+  const sel = getSubjSelected();
+  if ((sel[currentTab] || []).includes(text)) { render(); }
+  else toggleSubjOpt(currentTab, text);
+  showToast(saveToBank ? 'Added, and saved to your bank for every student.' : 'Sentence added and saved.');
 }
 
 function addCustomSentence(saveToBank) {
@@ -6214,10 +6251,7 @@ function addCustomSentence(saveToBank) {
   cur().custom[currentTab].push(text);
   cur().customTiers[currentTab].push(_customTierSelected);
   const key = '__custom__' + currentTab + '__' + (cur().custom[currentTab].length - 1);
-  if (!cur().selected[currentTab]) cur().selected[currentTab] = [];
-  cur().selected[currentTab].push(key);
-  cur().ordered.push(key);
-  cur().published = false;
+  genAddKey(currentTab, key);
   ta.value = '';
   autoSave();
   render();
@@ -6227,24 +6261,7 @@ function addCustomSentence(saveToBank) {
 function toggleCustomOpt(cat, idx) {
   const key = '__custom__' + cat + '__' + idx;
   if (!cur().selected[cat]) cur().selected[cat] = [];
-  const si = cur().selected[cat].indexOf(key);
-  if (si === -1) {
-    cur().selected[cat].push(key);
-    cur().ordered.push(key);
-    if (cur().editedCat) {
-      if (!cur().orderedAfterEdit) cur().orderedAfterEdit = [];
-      cur().orderedAfterEdit.push(key);
-    }
-  } else {
-    cur().selected[cat].splice(si, 1);
-    const oi = cur().ordered.indexOf(key);
-    if (oi !== -1) cur().ordered.splice(oi, 1);
-    if (cur().orderedAfterEdit) {
-      const pi = cur().orderedAfterEdit.indexOf(key);
-      if (pi !== -1) cur().orderedAfterEdit.splice(pi, 1);
-    }
-  }
-  cur().published = false;
+  if (cur().selected[cat].indexOf(key) === -1) genAddKey(cat, key); else genRemoveKey(cat, key);
   render();
 }
 
@@ -6254,10 +6271,8 @@ function deleteCustomSentence(cat, idx) {
   { const _t = cur().custom[cat][idx], _m = (myBank[cat] || []).find(x => x.text === _t);
     if (_m) { if (!confirm('Remove this saved sentence from your bank for every student?')) return; removeFromMyBank(cat, _m.id); if (!cur().custom[cat] || cur().custom[cat][idx] !== _t) { render(); return; } } }
 
-  // Remove from selected and ordered (and orderedAfterEdit)
-  if (cur().selected[cat]) cur().selected[cat] = cur().selected[cat].filter(k => k !== key);
-  cur().ordered = cur().ordered.filter(k => k !== key);
-  if (cur().orderedAfterEdit) cur().orderedAfterEdit = cur().orderedAfterEdit.filter(k => k !== key);
+  // Remove from selected and ordered (and orderedAfterEdit), and out of a hand-edited draft
+  if (cur().ordered.indexOf(key) !== -1) genRemoveKey(cat, key); else genInvalidate();
 
   // Remove from custom array and customTiers — splice so indices stay consistent
   // We null the entry rather than splice to preserve other indices in ordered/selected
@@ -9157,10 +9172,7 @@ function addContinuedS1() {
   stu.custom[cat].push(tpl);
   stu.customTiers[cat].push(tier);
   const key = '__custom__' + cat + '__' + (stu.custom[cat].length - 1);
-  if (!stu.selected[cat]) stu.selected[cat] = [];
-  stu.selected[cat].push(key);
-  stu.ordered.push(key);
-  stu.published = false;
+  genAddKey(cat, key);
   closeContinueS1();
   autoSave();
   render();
@@ -9169,7 +9181,53 @@ function addContinuedS1() {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeContinueS1(); });
 
 // ══ v3.8.0 · REVIEW CHECKS: LENGTH, LONG SENTENCES, TONE ACROSS SUBJECTS, NOTES ════════════════
-const LONG_SENTENCE_WORDS = 35;
+const LONG_SENTENCE_WORDS = 35;   // default; Settings can change it
+function getLongLimit() { const n = parseInt(lsGet('rcb_longsent', String(LONG_SENTENCE_WORDS)), 10); return n >= 15 && n <= 100 ? n : LONG_SENTENCE_WORDS; }
+function setLongLimit(v) {
+  const n = parseInt(v, 10);
+  if (!(n >= 15 && n <= 100)) { showToast('Enter a sentence length between 15 and 100 words.'); renderToolSettings(); return; }
+  lsSet('rcb_longsent', String(n));
+  updateSentChip();
+  if (currentView === 'publish') renderReviewInfo();
+}
+// Split a comment into sentences (a full stop inside a number such as 3.5 does not end one) and count the words in each.
+function splitSentences(text) { return (String(text || '').match(/[^\s][\s\S]*?(?:[.!?]+["')\]]*(?=\s|$)|$)/g) || []).map(x => x.trim()).filter(Boolean); }
+function longSentences(text) {
+  const lim = getLongLimit();
+  return splitSentences(text).filter(t => !/^\*\s/.test(t)).map(t => ({ text: t, n: _wordCount(t) })).filter(x => x.n > lim);
+}
+// The amber chip beside the word count in the draft pane
+let _lsCursor = 0;
+function updateSentChip() {
+  const chip = document.getElementById('lsBadge'), el = document.getElementById('outEditable');
+  if (!chip || !el) return;
+  const long = longSentences(el.innerText || '');
+  if (!long.length) { chip.style.display = 'none'; _lsCursor = 0; return; }
+  const longest = Math.max(...long.map(x => x.n));
+  chip.textContent = long.length + ' long sentence' + (long.length > 1 ? 's' : '') + ' · longest ' + longest;
+  chip.title = 'Sentences over ' + getLongLimit() + ' words. Click to jump to the next one. The limit is in Settings.';
+  chip.style.display = '';
+}
+// Select the next long sentence in the draft pane so it can be shortened
+function showNextLongSentence() {
+  const el = document.getElementById('outEditable'); if (!el) return;
+  const long = longSentences(el.innerText || ''); if (!long.length) return;
+  const target = long[_lsCursor % long.length]; _lsCursor++;
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  let node, base = 0; const want = (el.textContent || '').indexOf(target.text);
+  if (want < 0) { showToast(target.n + ' words: ' + target.text.slice(0, 60) + '…'); return; }
+  while ((node = walker.nextNode())) {
+    const len = node.nodeValue.length;
+    if (want < base + len) {
+      const r = document.createRange(); const a = want - base;
+      r.setStart(node, a); r.setEnd(node, Math.min(len, a + target.text.length));
+      el.focus(); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      break;
+    }
+    base += len;
+  }
+  showToast('This sentence is ' + target.n + ' words. Try splitting it.');
+}
 function getWordLimit() { const n = parseInt(lsGet('rcb_wordlimit', '200'), 10); return n >= 20 && n <= 2000 ? n : 200; }
 function setWordLimit(v) {
   const n = parseInt(v, 10);
@@ -9257,13 +9315,13 @@ function renderReviewInfo() {
   let total = 0, longest = 0, longN = 0;
   spans.forEach(sp => {
     const n = _wordCount(sp.textContent); total += n; longest = Math.max(longest, n);
-    const isLong = n > LONG_SENTENCE_WORDS && !sp.classList.contains('fd-line');
-    if (isLong) { longN++; sp.dataset.long = '1'; sp.title = `${n} words. Consider splitting this sentence.`; }
-    else if (sp.dataset.long) { delete sp.dataset.long; if (sp.title && /words\. Consider splitting/.test(sp.title)) sp.removeAttribute('title'); }
+    const isLong = n > getLongLimit() && !sp.classList.contains('fd-line');
+    if (isLong) { longN++; sp.dataset.long = '1'; sp.title = `${n} words (limit ${getLongLimit()}). Consider splitting this sentence.`; }
+    else if (sp.dataset.long) { delete sp.dataset.long; if (sp.title && /Consider splitting this sentence/.test(sp.title)) sp.removeAttribute('title'); }
   });
   const cls = total > limit ? 'over' : total >= limit * 0.9 ? 'near' : 'ok';
   let h = `<div class="rv-row"><span class="rv-chip ${cls}" title="Word limit is set in Settings">${total} / ${limit} words${total > limit ? ` (${total - limit} over)` : ''}</span>`;
-  h += longN ? `<span class="rv-chip near" title="Sentences over ${LONG_SENTENCE_WORDS} words are underlined below">${longN} long sentence${longN > 1 ? 's' : ''} (longest ${longest} words)</span>` : `<span class="rv-chip ok">Sentence length fine</span>`;
+  h += longN ? `<span class="rv-chip near" title="Sentences over ${getLongLimit()} words are underlined below. Change the limit in Settings.">${longN} long sentence${longN > 1 ? 's' : ''} (longest ${longest} words)</span>` : `<span class="rv-chip ok">Sentence length fine</span>`;
   h += '</div>';
   const t = toneReport(cur());
   const shown = ['general', 'english', 'maths'].filter(s => t.bands[s]);
@@ -9310,6 +9368,16 @@ function normaliseMyBank(m) {
   return out;
 }
 function isMineSentence(cat, text) { return (myBank[cat] || []).some(x => x.text === text); }
+// v3.8.0: English and Maths sentences share the bank too. General categories keep their plain name; the others are "english::Vocabulary" / "maths::Data".
+function mineKey(cat, subj) { subj = subj || currentSubject; return subj === 'general' || !subj ? cat : subj + '::' + cat; }
+function syncMyBankSubj(stu, subj, cat) {
+  const list = myBank[mineKey(cat, subj)]; if (!list || !list.length || !stu) return false;
+  const ck = subj === 'english' ? 'engCustom' : 'mathCustom';
+  if (!stu[ck]) stu[ck] = {}; if (!stu[ck][cat]) stu[ck][cat] = [];
+  let changed = false;
+  list.forEach(x => { if (!stu[ck][cat].includes(x.text) && !(stu.myBankGone || []).includes(x.id)) { stu[ck][cat].push(x.text); changed = true; } });
+  return changed;
+}
 // Make sure every saved sentence for this category is in the student's own list (added at the end so indices stay stable)
 function syncMyBank(stu, cat) {
   const list = myBank[cat]; if (!list || !list.length || !stu) return false;
@@ -9324,8 +9392,17 @@ function syncMyBank(stu, cat) {
 function removeFromMyBank(cat, id) {
   const list = myBank[cat] || []; const e = list.find(x => x.id === id); if (!e) return;
   myBank[cat] = list.filter(x => x.id !== id); if (!myBank[cat].length) delete myBank[cat];
+  const m = /^(english|maths)::(.*)$/.exec(cat);
   // drop the unselected copies the other students hold
   students.forEach(stu => {
+    if (m) {
+      const ck = m[1] === 'english' ? 'engCustom' : 'mathCustom', sk = m[1] === 'english' ? 'engSelected' : 'mathSelected';
+      const arr = stu[ck] && stu[ck][m[2]]; if (!arr) return;
+      const idx = arr.indexOf(e.text); if (idx < 0) return;
+      if (((stu[sk] || {})[m[2]] || []).includes(e.text)) return;   // already in a comment: leave it
+      arr.splice(idx, 1);
+      return;
+    }
     const arr = stu.custom && stu.custom[cat]; if (!arr) return;
     const idx = arr.indexOf(e.text); if (idx < 0) return;
     const key = '__custom__' + cat + '__' + idx;
@@ -9354,9 +9431,10 @@ function renderToolSettings() {
   const box = document.getElementById('toolSettings'); if (!box) return;
   const cats = Object.keys(myBank);
   let h = `<div class="settings-row"><span class="settings-row-label">Word limit per comment</span><input class="settings-num" id="wordLimitInput" type="number" min="20" max="2000" value="${getWordLimit()}" onchange="setWordLimit(this.value)"></div>`;
+  h += `<div class="settings-row"><span class="settings-row-label">Flag sentences longer than (words)</span><input class="settings-num" id="longLimitInput" type="number" min="15" max="100" value="${getLongLimit()}" onchange="setLongLimit(this.value)"></div>`;
   h += `<div class="settings-section-label" style="margin-top:10px">My saved sentences</div>`;
   if (!cats.length) h += `<div class="style-empty">Write your own sentence in the bank and choose “Add &amp; save to my bank”. It will then be available for every student.</div>`;
-  else h += '<div class="style-list">' + cats.map(c => myBank[c].map(x => `<div class="style-item"><span class="style-pair"><span class="mine-cat">${escHtml(c)}</span> ${escHtml(applyRaw(x.text, '[Name]', PR.she))}</span><button class="style-x" title="Remove from my bank" onclick="removeMineFromSettings('${escHtml(c).replace(/'/g, '&#39;')}','${x.id}')">✕</button></div>`).join('')).join('') + '</div>';
+  else h += '<div class="style-list">' + cats.map(c => myBank[c].map(x => `<div class="style-item"><span class="style-pair"><span class="mine-cat">${escHtml(c.replace('::', ' · ').replace(/^english/, 'English').replace(/^maths/, 'Maths'))}</span> ${escHtml(applyRaw(x.text, '[Name]', PR.she))}</span><button class="style-x" title="Remove from my bank" onclick="removeMineFromSettings('${escHtml(c).replace(/'/g, '&#39;')}','${x.id}')">✕</button></div>`).join('')).join('') + '</div>';
   box.innerHTML = h;
 }
 function removeMineFromSettings(cat, id) { removeFromMyBank(cat.replace(/&#39;/g, "'"), id); renderToolSettings(); if (currentView === 'build') render(); showToast('Removed from your bank'); }
@@ -9557,6 +9635,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.8.0</div>
+<div class="version-badge">v3.8.1</div>
 </body>
 </html>
