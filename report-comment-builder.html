@@ -1401,6 +1401,11 @@ const RAW = {
     "{{N}} has shown strong enthusiasm and creativity in Creative Arts this semester, exploring the elements of Dance and Music. {{S}} learned how these can be used to express emotion and communicate ideas across a range of cultural contexts.",
     "During Health, {{N}} has developed an understanding of identity, the factors that affect health choices and strategies to support {{pos}} own wellbeing.",
     "{{N}} has participated positively in Physical Education, demonstrating fair play and a willingness to engage in a variety of physical activities.",
+    // Semester 2 KLAs (shown in Semester 2 only; the five above are Semester 1 only — see SEM_ONLY)
+    "{{N}} has shown strong engagement in Science and Technology, building and testing electrical circuits, investigating which materials conduct electricity and comparing the environmental impacts of renewable and non-renewable energy sources.",
+    "{{N}} has shown strong interest in Geography, reading maps and climate graphs, exploring how people rely on environments around the world for food and materials and investigating how communities in Australia manage floods and bushfires.",
+    "{{N}} has shown strong enthusiasm and creativity in Creative Arts, using techniques to create artworks for the class Art Show and bringing characters to life through scriptwriting and performance in Drama.",
+    "{{N}} has shown a thoughtful approach to Health, exploring respectful relationships, strategies for staying safe and how healthy eating and positive friendships support {{pos}} wellbeing.",
   ],
   "Interests & Passions": [
     "{{S}} approaches Creative Arts with enthusiasm, applying techniques learnt to elevate the quality and craft of {{pos}} work.",
@@ -1485,6 +1490,20 @@ const PARA_GROUPS = [
 // Build lookup: raw sentence → its category
 const SENT_CAT = {};
 CATS.forEach(cat => RAW[cat].forEach(s => { SENT_CAT[s] = cat; }));
+
+// Sentences that belong to one semester only. Both sets stay in RAW so finished comments, categories and
+// the S1 "used" locks keep working; the sentence bank just hides the other semester's set.
+const SEM_ONLY = { 1: new Set(), 2: new Set() };
+(function () {
+  const k = RAW["Semester KLAs"];
+  k.slice(0, 5).forEach(s => SEM_ONLY[1].add(s));
+  k.slice(5, 9).forEach(s => SEM_ONLY[2].add(s));
+})();
+// true when sentence s may be offered in the given semester's bank
+function inSemester(s, sem) {
+  const other = (sem || currentSemester) === 1 ? 2 : 1;
+  return !SEM_ONLY[other].has(s);
+}
 
 // ── STATE ─────────────────────────────────────────────────────────
 let currentView = 'build';
@@ -2619,6 +2638,7 @@ function rankForS2() {
   const rankOrder = {};
   CATS.forEach(cat => {
     const eligible = (RAW[cat] || [])
+      .filter(s => inSemester(s))
       .map((s, i) => {
         const applied = applyRaw(s, stu.name || 'Student', PR[stu.pronoun], stu.year || '');
         return { key: s, idx: i, score: scoreS2Sentence(applied, s1Words) };
@@ -2660,7 +2680,7 @@ async function rankForS2AI() {
   const sentenceList = [];
   CATS.forEach(cat => {
     (RAW[cat] || []).forEach((s, i) => {
-      if (!s1Keys.has(s)) {
+      if (!s1Keys.has(s) && inSemester(s)) {
         const applied = applyRaw(s, stu.name || 'Student', PR[stu.pronoun], stu.year || '');
         sentenceList.push({ cat, idx: i, key: s, text: applied });
       }
@@ -4141,7 +4161,9 @@ function renderOpts() {
   // the ORIGINAL RAW index for correct tier assignment regardless of S2 reordering
   let rawSentences = RAW[currentTab] || [];
   // Wrap each sentence with its original index
-  let sentenceObjs = rawSentences.map((s, origIdx) => ({ s, origIdx }));
+  let sentenceObjs = rawSentences.map((s, origIdx) => ({ s, origIdx }))
+    // other semester's sentences are hidden, unless one is already in this draft (so it can still be removed)
+    .filter(o => inSemester(o.s) || (cur().selected[currentTab] || []).includes(o.s));
 
   if (isS2 && rankOrder) {
     // S1-used sentences go to TOP (as reference), then ranked S2 suggestions, then unranked
@@ -4836,6 +4858,7 @@ function renderBankSearch(grid) {
     const bounds = TIER_BOUNDARIES[cat] || { average: null, developing: null };
     (RAW[cat] || []).forEach((s, origIdx) => {
       const isSel = (cur().selected[cat] || []).includes(s);
+      if (!inSemester(s) && !isSel) return;
       const text = isSel ? applyFC(s, s) : applyFC(s);
       if (!(text.toLowerCase().includes(q) || cat.toLowerCase().includes(q))) return;
       found++;
@@ -8614,6 +8637,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.6.0</div>
+<div class="version-badge">v3.6.1</div>
 </body>
 </html>
