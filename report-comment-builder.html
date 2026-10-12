@@ -1546,7 +1546,7 @@ const RAW = {
     "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. To support {{pos}} English language development, {{s}} has engaged in additional modelling and guided practice activities. {{N}} has gained greater confidence in speaking and expressing ideas more clearly in discussions.",
     "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. {{S}} has benefited from modelling and guided practice activities, which have supported {{pos}} language development. {{N}} has shown increased confidence when articulating ideas and is using a wider vocabulary.",
     "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. To support {{pos}} English language development, {{s}} has participated in peer interaction activities that promote language development. This support has led to a noticeable improvement in the vocabulary {{s}} uses during conversations.",
-    // Added 12 Oct (v3.8.5): Term 3 / Term 4 wording that refers to Semester 2 topics. Shown in Semester 2 only (see SEM_ONLY).
+    // Added 12 Oct (v3.8.5): Term 3 / Term 4 wording. Shown in Semester 2 only until v3.8.9, now in both semesters (five of the six name Semester 2 topics such as circuits, Geography and Drama).
     "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Beginning phase. {{S}} has worked with a teacher in a small group to learn key words and phrases, using pictures and hands-on activities to build understanding. {{N}} is beginning to use these words when sharing ideas with a partner, particularly during practical tasks such as building circuits in Science.",
     "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. During writing lessons, {{s}} has been shown how to choose more specific words using word banks and examples. As a result, {{N}}'s written explanations, such as those in Science, are now clearer and more accurate.",
     "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. {{S}} has been given regular opportunities to rehearse what {{s}} wants to say with a partner before sharing with the class. This has helped {{o}} speak up more confidently and explain {{pos}} thinking in full sentences.",
@@ -1569,6 +1569,20 @@ const RAW = {
     "{{N}} has shown commitment throughout the semester. I look forward to teaching {{o}} in Semester 2!",
     "I look forward to seeing {{pos}} continued growth and success next semester!",
     "I commend {{N}} on a successful semester and look forward to seeing further academic and social growth this year.",
+    // Added 12 Oct (v3.8.9): end-of-year closers for Semester 2. The first 3 are for Year 6, the next 2 for Year 5, the rest for either.
+    "{{N}} should be congratulated on a successful final year of primary school. I wish {{o}} every success for 2027 as {{s}} begins high school.",
+    "{{S}} should be commended for the effort shown this year. I wish {{o}} all the best as {{s}} transitions to high school next year.",
+    "It has been a pleasure to teach {{N}} this year. I wish {{o}} every success in high school.",
+    "{{N}} has shown excellent dedication this year. I wish {{o}} all the best as {{s}} moves into Year 6.",
+    "{{S}} should be congratulated on a productive year. I look forward to {{pos}} continued success in Year 6.",
+    "{{N}} should be congratulated on a productive year. I wish {{o}} all the best for 2027.",
+    "{{S}} has shown excellent effort this year in both academic and extracurricular activities. I wish {{o}} all the best for 2027.",
+    "It has been a pleasure to teach {{N}} this year. I wish {{o}} every success for 2027.",
+    "{{N}} has contributed positively to our class this year. I wish {{o}} every success in the years ahead.",
+    "It has been rewarding to witness {{N}}'s growth this year. I wish {{o}} all the best for the future.",
+    "{{N}} has been a joy to teach this year. I hope {{s}} continues to embrace new opportunities with enthusiasm.",
+    "{{N}} consistently displays the attributes of an Ambarvale All Star. I wish {{o}} every success for 2027.",
+    "{{N}} should be proud of the growth {{s}} has achieved this year. I wish {{o}} all the best for 2027.",
   ]
 };
 
@@ -1596,16 +1610,29 @@ CATS.forEach(cat => RAW[cat].forEach(s => { SENT_CAT[s] = cat; }));
 // Sentences that belong to one semester only. Both sets stay in RAW so finished comments, categories and
 // the S1 "used" locks keep working; the sentence bank just hides the other semester's set.
 const SEM_ONLY = { 1: new Set(), 2: new Set() };
+// v3.8.9: some closers only suit one year group. A student with no year set sees all of them.
+const YEAR_ONLY = { 5: new Set(), 6: new Set() };
+const STRONG_FORCED = new Set();   // sentences that are always positive, whatever their position in the bank
 (function () {
   const k = RAW["Semester KLAs"];
   k.slice(0, 5).forEach(s => SEM_ONLY[1].add(s));
   k.slice(5, 13).forEach(s => SEM_ONLY[2].add(s));
-  RAW["EAL/D"].slice(6, 12).forEach(s => SEM_ONLY[2].add(s));
+  // v3.8.9: the six newer EAL/D comments are now offered in Semester 1 as well
+  const c = RAW["Closing Statement"];
+  c.slice(0, 14).forEach(s => SEM_ONLY[1].add(s));    // the original closers all look ahead to Semester 2 or the start of the year
+  c.slice(14).forEach(s => SEM_ONLY[2].add(s));       // the end-of-year closers
+  c.slice(14, 17).forEach(s => YEAR_ONLY[6].add(s));
+  c.slice(17, 19).forEach(s => YEAR_ONLY[5].add(s));
+  c.slice(14).forEach(s => STRONG_FORCED.add(s));
 })();
 // true when sentence s may be offered in the given semester's bank
 function inSemester(s, sem) {
   const other = (sem || currentSemester) === 1 ? 2 : 1;
-  return !SEM_ONLY[other].has(s);
+  if (SEM_ONLY[other].has(s)) return false;
+  const yr = (typeof cur === 'function' && cur()) ? String(cur().year || '') : '';
+  if (yr === '5' && YEAR_ONLY[6].has(s)) return false;
+  if (yr === '6' && YEAR_ONLY[5].has(s)) return false;
+  return true;
 }
 
 // ── STATE ─────────────────────────────────────────────────────────
@@ -4289,6 +4316,7 @@ function _renderOptsCore() {
   // Tier is always based on ORIGINAL index in RAW, not display position
   function tierFor(origIdx) {
     if (bounds.average === null) return 'strong';
+    if (STRONG_FORCED.has(rawSentences[origIdx])) return 'strong';
     if (origIdx < bounds.average) return 'strong';
     if (bounds.developing === null || origIdx < bounds.developing) return 'average';
     return 'developing';
@@ -9217,7 +9245,7 @@ function templatise(text, name, pronounSet) {
 function _tierOfRaw(cat, s) {
   const b = (typeof TIER_BOUNDARIES !== 'undefined' && TIER_BOUNDARIES[cat]) || { average: null, developing: null };
   const i = (RAW[cat] || []).indexOf(s);
-  if (b.average === null || i < 0) return 'strong';
+  if (b.average === null || i < 0 || STRONG_FORCED.has(s)) return 'strong';
   return i < b.average ? 'strong' : (b.developing === null || i < b.developing) ? 'average' : 'developing';
 }
 
@@ -9378,7 +9406,7 @@ function structuralBand(stu, subj) {
       const cat = SENT_CAT[k]; if (!cat) return;
       const b = TIER_BOUNDARIES[cat]; if (!b || b.average === null) return;
       const i = RAW[cat].indexOf(k); if (i < 0) return;
-      const t = i < b.average ? 'strong' : (b.developing === null || i < b.developing) ? 'average' : 'developing';
+      const t = STRONG_FORCED.has(k) ? 'strong' : i < b.average ? 'strong' : (b.developing === null || i < b.developing) ? 'average' : 'developing';
       pts.push(t === 'strong' ? 4.5 : t === 'average' ? 3 : 1.5);
     });
     return pts.length ? bandFromScore(pts.reduce((a, b) => a + b, 0) / pts.length) : null;
@@ -9771,6 +9799,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.8.8</div>
+<div class="version-badge">v3.8.9</div>
 </body>
 </html>
