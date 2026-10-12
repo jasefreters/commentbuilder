@@ -394,6 +394,7 @@
   .rv-note { font-size: 13px; color: var(--t1); border-left: 3px solid var(--accent); padding: 4px 10px; margin-top: 8px; background: var(--accent-bg); border-radius: 0 var(--r-sm) var(--r-sm) 0; }
   .ls-chip { font-family: var(--font); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--amber-line, #E9C46A); background: var(--amber-bg, #FFF4D6); color: var(--t0); cursor: pointer; white-space: nowrap; }
   .ls-chip:hover { filter: brightness(.97); }
+  #pubContent span[data-ph="1"] { background: var(--red-bg, rgba(220,38,38,.14)); box-shadow: 0 0 0 1px var(--red, #c0392b); border-radius: 3px; }
   #pubContent span[data-long="1"] { text-decoration: underline dotted var(--amber-line, #D99A00); text-decoration-thickness: 2px; text-underline-offset: 4px; }
   .notes-card { margin: 8px 16px 0; border-top: 1px solid var(--border); padding-top: 8px; }
   .notes-card summary { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--t2); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; }
@@ -405,6 +406,7 @@
   .notes-text:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
   .opt.mine { border-left: 3px solid var(--accent); }
   .wc-tag { margin-left: 8px; font-size: 10px; font-weight: 700; letter-spacing: .02em; color: var(--t0); background: var(--amber-bg, #FFF4D6); border: 1px solid var(--amber-line, #E9C46A); border-radius: 999px; padding: 1px 7px; vertical-align: middle; white-space: nowrap; }
+  .term-tag { margin-left: 8px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--t1); background: var(--bg-3); border: 1px solid var(--border-h); border-radius: 999px; padding: 1px 8px; vertical-align: middle; white-space: nowrap; }
   .mine-tag { margin-left: 8px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); background: var(--accent-bg); border: 1px solid var(--accent-bd); border-radius: 999px; padding: 1px 7px; vertical-align: middle; }
   .mine-cat { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--t2); margin-right: 4px; }
   .custom-add-btn.mine { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-bd); }
@@ -686,6 +688,9 @@
   .opt.sel { border-color: var(--done); background: var(--green-bg); color: var(--t0); }
   .opt.sel:hover { border-color: var(--done); }
   .opt.sel::after { content: '✓'; background: var(--done); border-color: var(--done); color: var(--on-done); font-size: 16px; font-weight: 700; }
+  .opt.sel.edited { border-color: var(--amber-line); background: var(--amber-bg); }
+  .opt.sel.edited:hover { border-color: var(--amber-line); }
+  .opt.sel.edited::after { content: '\270E'; background: var(--amber-line); border-color: var(--amber-line); color: #fff; font-size: 15px; }
   .opt.tier-strong::before, .opt.tier-average::before, .opt.tier-developing::before { flex: none; width: 88px; text-align: center; font-size: 12px; font-weight: 700; padding: 4px 0; border-radius: 6px; }
   .opt.tier-strong::before { content: 'Positive'; background: var(--chip-pos-bg); color: var(--chip-pos-fg); }
   .opt.tier-average::before { content: 'Average'; background: var(--chip-ave-bg); color: var(--chip-ave-fg); }
@@ -1099,6 +1104,7 @@
           <select class="pron-sel" id="pronounSet" aria-label="Pronouns">
             <option value="he">He / His</option>
             <option value="she">She / Her</option>
+            <option value="they">They / Their</option>
           </select>
           <select class="pron-sel" id="yearSet" title="Student year level" aria-label="Year level">
             <option value="">Yr</option>
@@ -1721,8 +1727,10 @@ const SEM_ONLY = { 1: new Set(), 2: new Set() };
 // v3.8.9: some closers only suit one year group. A student with no year set sees all of them.
 const YEAR_ONLY = { 5: new Set(), 6: new Set() };
 const STRONG_FORCED = new Set();   // sentences that are always positive, whatever their position in the bank
+const TERM_TAG = new Map();        // v3.9.2: which term each Semester 2 KLA sentence covers (shown as a small tag in the bank)
 (function () {
   const k = RAW["Semester KLAs"];
+  k.slice(5, 13).forEach((s, i) => TERM_TAG.set(s, i % 2 === 0 ? 'Term 3' : 'Term 4'));
   k.slice(0, 5).forEach(s => SEM_ONLY[1].add(s));
   k.slice(5, 13).forEach(s => SEM_ONLY[2].add(s));
   // v3.8.9: the six newer EAL/D comments are now offered in Semester 1 as well
@@ -1757,10 +1765,65 @@ const getPron = () => PR[document.getElementById('pronounSet').value];
 // ── APPLY PLACEHOLDERS ────────────────────────────────────────────
 function getYear() { return document.getElementById('yearSet') ? document.getElementById('yearSet').value : ''; }
 
+// ── v3.9.2 · They / their: the verb that follows "they" is plural ("They have", "They use", "They are") ──
+const _THEY_IRR = { is:'are', has:'have', was:'were', does:'do', "isn't":"aren't", "hasn't":"haven't", "doesn't":"don't", "wasn't":"weren't" };
+const _THEY_IRR_REV = { are:'is', have:'has', were:'was', do:'does', "aren't":"isn't", "haven't":"hasn't", "don't":"doesn't", "weren't":"wasn't" };
+const _AGREE_ADV = '(?:[A-Za-z]+ly|also|always|never|often|usually|still|just|even|now|then|sometimes|generally|already)';
+const _AGREE_NOTVERB = /^(only|early|family|likely|apply|reply|supply|rely|and|but|or|the|a|an|his|her|their|its|this|that|these|those|should|could|would|can|will|must|may|might|shall)$/i;
+let _THEY_V = null;   // verbs the banks use after a subject, so "uses X and applies Y" is recognised
+function _theyVerbs() {
+  if (_THEY_V) return _THEY_V;
+  const plural = new Set(), toSing = new Map();
+  const add = w => { w = w.toLowerCase(); if (!/s$/.test(w) || /(ss|us|is)$/.test(w) || w.length < 3 || _THEY_IRR[w]) return; const b = _theyBase(w); plural.add(w); toSing.set(b, w); };
+  const re = new RegExp('\\{\\{[Ss]\\}\\}(?:\\s+' + _AGREE_ADV + ')*\\s+([a-z]+s)\\b', 'g');
+  const walk = o => {
+    if (typeof o === 'string') { let m; re.lastIndex = 0; while ((m = re.exec(o))) add(m[1]); }
+    else if (Array.isArray(o)) o.forEach(walk);
+    else if (o && typeof o === 'object') Object.values(o).forEach(walk);
+  };
+  // verbs the banks only ever use after "and" / a comma (never straight after the subject)
+  ('analyses attempts benefits builds classifies collects communicates compares comprehends connects constructs continues converts counts creates demonstrates describes discusses displays divides drafts draws edits evaluates explains explores finds identifies includes incorporates inspires interprets justifies labels listens maintains makes matches measures multiplies names navigates orders organises participates plots presents quantifies reads recalls recognises records represents revises rounds selects separates shares shows simplifies solves stays strives structures subtracts supports types understands uses works writes applies').split(' ').forEach(add);
+  try { [RAW, ENGLISH_BANK, MATHS_BANK].forEach(walk); } catch (e) { return { plural, toSing }; }   // banks not ready yet: do not cache
+  return (_THEY_V = { plural, toSing });
+}
+function _theyBase(w) {                       // uses → use, identifies → identify, approaches → approach
+  if (/ies$/.test(w) && w.length > 4) return w.slice(0, -3) + 'y';
+  if (/(ss|sh|ch|x|o)es$/.test(w)) return w.slice(0, -2);
+  if (/es$/.test(w)) return w.slice(0, -1);
+  return w.slice(0, -1);
+}
+function _keepCase(from, to) { return from[0] !== from[0].toLowerCase() ? to[0].toUpperCase() + to.slice(1) : to; }
+function _verbForm(w, plural, first) {
+  const lw = w.toLowerCase();
+  if (_AGREE_NOTVERB.test(lw)) return w;
+  const V = _theyVerbs();
+  if (plural) {
+    if (_THEY_IRR[lw]) return _keepCase(w, _THEY_IRR[lw]);
+    if (!/s$/.test(lw) || /(ss|us|is)$/.test(lw) || lw.length < 3) return w;
+    return (first || V.plural.has(lw)) ? _keepCase(w, _theyBase(lw)) : w;
+  }
+  if (_THEY_IRR_REV[lw]) return _keepCase(w, _THEY_IRR_REV[lw]);
+  const s = V.toSing.get(lw);
+  return s ? _keepCase(w, s) : w;
+}
+// tail = the text after the subject. Fixes the first verb, then any verbs joined to it by "and / but / or / a comma".
+function _agreeTail(tail, plural) {
+  const m = tail.match(new RegExp('^((?:\\s+' + _AGREE_ADV + ')*\\s+)([A-Za-z\']+)'));
+  if (!m) return tail;
+  const head = m[1] + _verbForm(m[2], plural, true);
+  const rest = tail.slice(m[0].length).replace(new RegExp('(\\b(?:and|but|or)\\s+|,\\s+(?:and\\s+)?)((?:' + _AGREE_ADV + '\\s+)*)([A-Za-z\']+)', 'g'), (mm, conj, adv, w) => conj + adv + _verbForm(w, plural, false));
+  return head + rest;
+}
+// Template version, run before the placeholders are filled. Only the {{S}} / {{s}} clauses change; a name keeps its singular verb.
+function theyAgree(t) {
+  if (t.indexOf('{{S}}') < 0 && t.indexOf('{{s}}') < 0) return t;
+  return t.replace(/(\{\{[Ss]\}\})((?:[^.!?{]|\{\{(?:O|o|Pos|pos|r)\}\})*)/g, (m, tok, tail) => tok + _agreeTail(tail, true));
+}
 function applyRaw(text, name, p, year) {
   const n = name || '[Name]';
   const yr = year !== undefined ? year : getYear();
   const yearLabel = yr ? 'Year ' + yr : 'Year [X]';
+  if (p && p.S === 'They') text = theyAgree(text);   // v3.9.2
   return text
     .replace(/\{\{N\}\}/g, n)
     .replace(/\{\{n\}\}/g, n)   // v3.8.7: was lower-cased ("aisha has missed"); a name keeps its capital
@@ -2163,9 +2226,10 @@ function toggleSubjOpt(cat, s) {
       // Append the new sentence to the existing manual draft
       cur()[draftKey] = existing.trimEnd() + ' ' + resolved;
     } else {
-      // Remove the sentence from the draft (strip it wherever it appears)
+      // Remove the sentence from the draft (strip it wherever it appears; a reworded copy is found by its match)
       const escaped = resolved.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      cur()[draftKey] = existing.replace(new RegExp('\\s*' + escaped, 'g'), '').trim() || null;
+      const stripped = existing.replace(new RegExp('\\s*' + escaped, 'g'), '').trim();
+      cur()[draftKey] = (stripped !== existing.trim() ? stripped : removeKeyFromText(existing, s, cur())) || null;
     }
     cur()[pubKey] = null; // draft changed — rebuild publish
     cur()[pubKey + '_fdHash'] = null;
@@ -4330,6 +4394,7 @@ const TIER_BOUNDARIES = {
 
 function renderOpts() { _renderOptsCore(); markLongOpts(); }
 function _renderOptsCore() {
+  _edSet = editedKeySet(cur(), currentSubject);   // v3.9.2: sentences the teacher has reworded in the draft
   document.getElementById('cTitle').textContent = currentTab;
   const grid = document.getElementById('optsGrid');
   grid.innerHTML = '';
@@ -4453,6 +4518,7 @@ function _renderOptsCore() {
       const btn = document.createElement('button');
       btn.className = 'opt custom tier-' + tier + (isSel ? ' sel' : '');
       btn.textContent = isSel ? applyFC(s, key) : applyFC(s);
+      if (isSel && _edSet.has(key)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
       if (isMineSentence(currentTab, s)) { btn.classList.add('mine'); const tag = document.createElement('span'); tag.className = 'mine-tag'; tag.textContent = 'Mine'; btn.appendChild(tag); }
       btn.onclick = () => toggleCustomOpt(currentTab, i);
       const delBtn = document.createElement('button');
@@ -4500,8 +4566,10 @@ function _renderOptsCore() {
     const btn = document.createElement('button');
     btn.className = 'opt tier-' + tier + (isSel ? ' sel' : '') + (isS1Used ? ' s1-used' : '');
     btn.textContent = isSel ? applyFC(s, s) : applyFC(s);
+    if (isSel && _edSet.has(s)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
     if (!isS1Used) btn.onclick = () => toggleOpt(currentTab, s);
     if (isS1Used) { btn.title = 'Used in Semester 1. Click to continue it in Semester 2.'; btn.onclick = () => openContinueS1(currentTab, s); }
+    if (TERM_TAG.has(s) && currentTab === 'Semester KLAs') { const tt = document.createElement('span'); tt.className = 'term-tag'; tt.textContent = TERM_TAG.get(s); btn.appendChild(tt); }
     grid.appendChild(btn);
   });
 
@@ -4670,17 +4738,30 @@ let _customTierSelected = 'strong';
 
 // Resolve a sentence key — handles both raw and custom sentences
 
+// v3.9.2: choosing the year level fills any "Year [X]" already sitting in a saved Review pane or hand-edited draft (nothing else is touched)
+function fillYearPlaceholder(stu) {
+  if (!stu || !stu.year) return;
+  const rep = v => typeof v === 'string' && v.indexOf('Year [X]') !== -1 ? v.split('Year [X]').join('Year ' + stu.year) : v;
+  ['pubEditGeneral', 'pubEditEnglish', 'pubEditMaths', 'draftOverride', 'engDraft', 'mathDraft'].forEach(k => { if (stu[k]) stu[k] = rep(stu[k]); });
+}
+// v3.9.2: a changed pronoun makes every saved Review pane out of date; they are rebuilt from the chosen sentences
+function dropStaleReviewCopies(stu) {
+  ['pubEditGeneral', 'pubEditEnglish', 'pubEditMaths'].forEach(k => { stu[k] = null; stu[k + '_fdHash'] = null; stu[k + '_subject'] = null; });
+}
 // ── LIVE INPUT ────────────────────────────────────────────────────
 document.getElementById('studentName').addEventListener('input', () => {
   cur().name = document.getElementById('studentName').value.trim();
   if (currentView === 'publish') renderPublish(); else render();
 });
 document.getElementById('pronounSet').addEventListener('change', () => {
+  const was = cur().pronoun;
   cur().pronoun = document.getElementById('pronounSet').value;
+  if (was !== cur().pronoun) dropStaleReviewCopies(cur());
   if (currentView === 'publish') renderPublish(); else render();
 });
 document.getElementById('yearSet').addEventListener('change', () => {
   cur().year = document.getElementById('yearSet').value;
+  fillYearPlaceholder(cur());
   if (currentView === 'publish') renderPublish(); else render();
 });
 
@@ -4839,6 +4920,7 @@ function onDraftInput() {
   autoSave();
   updateDraftMeta();
   updateSentChip();
+  scheduleReconcile(cur(), currentSubject, currentSubject === 'general' ? text : stripFDFromDraftText(text));
 }
 
 function onDraftKeydown(e) {
@@ -5269,7 +5351,19 @@ function _altPlan(sents, name, p) {
       out.push({ i, warn: true, from: ref.tok, want: expect, note: "This sentence is meant to use " + (expect === 'name' ? 'the name' : 'a pronoun') + " here but “" + ref.tok + "” can't be swapped automatically. Please reword it." });
       expect = flip(ref.role); return;
     }
-    out.push({ i, start: ref.start, end: ref.end, rep: _altReplacement(ref, expect, name, p), from: ref.tok });
+    let start = ref.start, end = ref.end, rep = _altReplacement(ref, expect, name, p);
+    // v3.9.2: with They / their, the verb follows the swap ("Alex has shown" <-> "They have shown")
+    if (p.S === 'They' && ref.kind === 'subj') {
+      const clause = s.slice(ref.end).match(/^[^.!?]*/)[0];
+      const fixed = _agreeTail(clause, expect === 'pron');
+      if (fixed !== clause) {
+        const oldT = s.slice(ref.start, ref.end + clause.length), newT = rep + fixed;
+        let pre = 0; while (pre < oldT.length && pre < newT.length && oldT[pre] === newT[pre]) pre++;
+        let suf = 0; while (suf < oldT.length - pre && suf < newT.length - pre && oldT[oldT.length - 1 - suf] === newT[newT.length - 1 - suf]) suf++;
+        start = ref.start + pre; end = ref.start + oldT.length - suf; rep = newT.slice(pre, newT.length - suf);
+      }
+    }
+    out.push({ i, start, end, rep, from: ref.tok, to: _altReplacement(ref, expect, name, p) });
     expect = flip(expect);
   });
   return out;
@@ -5319,7 +5413,7 @@ function enforceAlternationDOM(root) {
       placed = true;
     }
     // v3.8.7: show the teacher exactly what was changed
-    const note = 'Changed \u201c' + a.from + '\u201d to \u201c' + a.rep + '\u201d to keep name and pronoun alternation.';
+    const note = 'Changed \u201c' + a.from + '\u201d to \u201c' + (a.to || a.rep) + '\u201d to keep name and pronoun alternation.';
     span.dataset.alt = 'fixed'; span.dataset.altNote = note; span.title = note;
     n++;
   });
@@ -6129,14 +6223,153 @@ function syncGeneralOverride(key, adding) {
     const counter = { value: (ex.match(openerRegex) || []).length };
     stu.draftOverride = ex.trimEnd() + ' ' + applyAlternation(raw, name, p, counter, yr);
   } else {
-    let out = ex;
-    for (const start of [0, 1]) {
-      const r = applyAlternation(raw, name, p, { value: start }, yr);
-      const i = out.indexOf(r);
-      if (i !== -1) { out = (out.slice(0, i) + out.slice(i + r.length)).replace(/ {2,}/g, ' ').trim(); break; }
-    }
-    stu.draftOverride = out || null;
+    stu.draftOverride = removeKeyFromText(ex, key, stu) || null;
   }
+}
+// ── v3.9.2 · the draft pane and the sentence bank stay in step ─────────────
+// Edit a sentence in the draft  → its bank entry turns yellow (still selected).
+// Delete a sentence in the draft → its bank entry is unselected. The teacher's text is never touched.
+var _edSet = new Set();                       // bank sentences (raw text/keys) that are yellow right now
+let _reconTimer = null;
+const _SYNC_PRON = new Set(['he','she','they','his','her','hers','their','theirs','him','them','himself','herself','themselves']);
+function _syncToks(t, stu) {
+  let s = String(t || '').toLowerCase().replace(/[‘’]/g, "'");
+  const nm = String((stu && stu.name) || '[Name]').trim().toLowerCase();
+  if (nm) s = s.replace(new RegExp('(?<![a-z0-9])' + nm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![a-z0-9])', 'g'), ' x ');
+  return (s.match(/[a-z0-9']+/g) || []).map(w => w.replace(/^'+|'+$/g, '')).filter(Boolean).map(w => _SYNC_PRON.has(w) ? 'x' : w);
+}
+function _lcsLen(a, b) {
+  const m = a.length, n = b.length;
+  if (!m || !n) return 0;
+  let prev = new Array(n + 1).fill(0);
+  for (let i = 1; i <= m; i++) {
+    const cur = new Array(n + 1).fill(0);
+    for (let j = 1; j <= n; j++) cur[j] = a[i - 1] === b[j - 1] ? prev[j - 1] + 1 : Math.max(prev[j], cur[j - 1]);
+    prev = cur;
+  }
+  return prev[n];
+}
+// Best run of draft sentences for one bank sentence. blocked[i] = sentence already taken by an unchanged match.
+function _bestWindow2(it, stoks, blocked) {
+  const a = _bestWindow(it.ct, it.k, stoks, blocked);
+  if (!it.ct2) return a;
+  const b = _bestWindow(it.ct2, it.k, stoks, blocked);
+  return b.score > a.score ? b : a;
+}
+function _bestWindow(ct, k, stoks, blocked) {
+  let best = { score: 0, from: -1, to: -1 };
+  for (let len = Math.max(1, k - 1); len <= k + 1; len++) {
+    for (let i = 0; i + len <= stoks.length; i++) {
+      if (blocked) { let hit = false; for (let q = i; q < i + len; q++) if (blocked[q]) { hit = true; break; } if (hit) continue; }
+      const toks = [].concat(...stoks.slice(i, i + len));
+      const sc = (ct.length + toks.length) ? 2 * _lcsLen(ct, toks) / (ct.length + toks.length) : 0;
+      if (sc > best.score) best = { score: sc, from: i, to: i + len };
+    }
+  }
+  return best;
+}
+const SYNC_SAME = 0.9999, SYNC_EDITED = 0.5;
+// text = the teacher's hand-edited draft. Returns Map key → { status: 'same'|'edited'|'gone', from, to }
+function _draftMatches(stu, subj, keys, text) {
+  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = stu.year || '';
+  const sents = splitSentences(text), stoks = sents.map(s => _syncToks(s, stu));
+  const items = [];
+  keys.forEach(key => {
+    const raw = resolveKey(key, stu);
+    if (!raw) return;
+    const cand = applyAlternation(raw, name, p, { value: 0 }, yr);
+    const alt = p.S === 'They' ? applyAlternation(raw, name, p, { value: 1 }, yr) : null;   // They / Name changes the verb too
+    items.push({ key, ct: _syncToks(cand, stu), ct2: alt && alt !== cand ? _syncToks(alt, stu) : null, k: Math.max(1, splitSentences(cand).length) });
+  });
+  const out = new Map(), blocked = new Array(sents.length).fill(false);
+  items.forEach(it => { it.b = _bestWindow2(it, stoks, null); if (it.b.score >= SYNC_SAME) { for (let q = it.b.from; q < it.b.to; q++) blocked[q] = true; out.set(it.key, { status: 'same', from: it.b.from, to: it.b.to }); } });
+  items.forEach(it => {
+    if (out.has(it.key)) return;
+    const b = _bestWindow2(it, stoks, blocked);
+    out.set(it.key, b.score >= SYNC_EDITED ? { status: 'edited', from: b.from, to: b.to } : { status: 'gone' });
+  });
+  return out;
+}
+function _subjKeys(stu, subj) {
+  return (subj === 'english' ? stu.engOrdered : subj === 'maths' ? stu.mathOrdered : stu.ordered) || [];
+}
+// The text the teacher has typed over, or null when the draft is just built from the clicked sentences.
+function _handDraft(stu, subj) {
+  if (subj === 'english') return (stu.engDraftEdited && stu.engDraft) ? stu.engDraft : null;
+  if (subj === 'maths') return (stu.mathDraftEdited && stu.mathDraft) ? stu.mathDraft : null;
+  if (stu.draftOverride) return stu.draftOverride;
+  if (stu.editedCat && stu.custom && stu.custom['__edited__'] && stu.custom['__edited__'][0]) return stu === cur() ? buildDraftText() : stu.custom['__edited__'][0];
+  return null;
+}
+function editedKeySet(stu, subj) {
+  const set = new Set();
+  try {
+    const text = _handDraft(stu, subj);
+    if (!text) return set;
+    _draftMatches(stu, subj, _subjKeys(stu, subj), text).forEach((v, k) => { if (v.status === 'edited') set.add(k); });
+  } catch (e) { /* never let the yellow marker break the bank */ }
+  return set;
+}
+// Drop a bank sentence from the selection only. The draft text is left exactly as the teacher wrote it.
+function _unselectKeys(stu, subj, gone) {
+  const drop = new Set(gone);
+  if (subj === 'english' || subj === 'maths') {
+    const sk = subj === 'english' ? 'engSelected' : 'mathSelected', ok = subj === 'english' ? 'engOrdered' : 'mathOrdered';
+    const sel = stu[sk] || {};
+    Object.keys(sel).forEach(c => { sel[c] = (sel[c] || []).filter(k => !drop.has(k)); });
+    stu[ok] = (stu[ok] || []).filter(k => !drop.has(k));
+    if (subj === 'english') { stu.pubEditEnglish = null; stu.pubEditEnglish_fdHash = null; } else { stu.pubEditMaths = null; stu.pubEditMaths_fdHash = null; }
+  } else {
+    const sel = stu.selected || {};
+    Object.keys(sel).forEach(c => { sel[c] = (sel[c] || []).filter(k => !drop.has(k)); });
+    stu.ordered = (stu.ordered || []).filter(k => !drop.has(k));
+    if (stu.orderedAfterEdit) stu.orderedAfterEdit = stu.orderedAfterEdit.filter(k => !drop.has(k));
+    if (stu.orderedAtDone) stu.orderedAtDone = stu.orderedAtDone.filter(k => !drop.has(k));
+    stu.published = false;
+    stu.pubEditGeneral = null; stu.pubEditGeneral_fdHash = null; stu.pubEditGeneral_subject = null;
+  }
+}
+// Run after the teacher pauses. `snap` is what was typed; the saved draft wins if a bank click has changed it since.
+function reconcileDraft(stu, subj, snap, sig) {
+  _reconTimer = null;
+  if (!students.includes(stu)) return;
+  const keys = _subjKeys(stu, subj).slice();
+  const live = _handDraft(stu, subj);
+  let text = live;
+  if (!text) {
+    // an emptied pane: only treat as "everything removed" if no bank click has happened since
+    if (String(snap || '').trim() === '' && keys.join('|') === sig) text = '';
+    else return;
+  }
+  let gone = [];
+  if (text === '') gone = keys;
+  else {
+    const m = _draftMatches(stu, subj, keys, text);
+    gone = keys.filter(k => m.has(k) && m.get(k).status === 'gone');
+  }
+  if (gone.length) _unselectKeys(stu, subj, gone);
+  autoSave();
+  if (stu === cur() && subj === currentSubject) { renderOpts(); renderSidebar(); updateSentChip(); }
+}
+function scheduleReconcile(stu, subj, snap) {
+  if (_reconTimer) clearTimeout(_reconTimer);
+  const sig = _subjKeys(stu, subj).join('|');
+  const empty = String(snap || '').trim() === '';
+  _reconTimer = setTimeout(() => reconcileDraft(stu, subj, snap, sig), empty ? 2500 : 800);
+}
+// Clicking a yellow sentence to take it out: remove the teacher's reworded version from the draft too.
+function removeKeyFromText(text, key, stu) {
+  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = stu.year || '';
+  const raw = resolveKey(key, stu);
+  for (const start of [0, 1]) {
+    const r = applyAlternation(raw, name, p, { value: start }, yr);
+    const i = text.indexOf(r);
+    if (i !== -1) return (text.slice(0, i) + text.slice(i + r.length)).replace(/ {2,}/g, ' ').trim();
+  }
+  const sents = splitSentences(text);
+  const m = _draftMatches(stu, null, [key], text).get(key);
+  if (m && m.status !== 'gone') return sents.filter((_, i) => i < m.from || i >= m.to).join(' ');
+  return text;
 }
 function genAddKey(cat, key) {
   const stu = cur();
@@ -6289,6 +6522,7 @@ function renderAllStrandsView(grid) {
       btn.className = 'opt' + (isSel ? ' sel' : '');
       btn.style.cssText = 'font-size:12px;';
       btn.textContent = displayed;
+      if (isSel && _edSet.has(s)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
       btn.onclick = () => {
         // Use toggleSubjOpt which handles state + calls render() + autoSave()
         // But first we need to temporarily set currentTab to this cat
@@ -6401,6 +6635,7 @@ function renderSubjOpts(grid) {
       const btn = document.createElement('button');
       btn.className = 'opt' + (isSel ? ' sel' : '');
       btn.textContent = displayed;
+      if (isSel && _edSet.has(s)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
       btn.onclick = () => toggleSubjOpt(currentTab, s);
       grid.appendChild(btn);
     });
@@ -6425,6 +6660,7 @@ function renderSubjOpts(grid) {
       btn.className = 'opt' + (isSel ? ' sel' : '');
       btn.style.flex = '1';
       btn.textContent = displayed;
+      if (isSel && _edSet.has(s)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
       btn.onclick = () => toggleSubjOpt(currentTab, s);
       if (isMineSentence(_mk, s)) { btn.classList.add('mine'); const tag = document.createElement('span'); tag.className = 'mine-tag'; tag.textContent = 'Mine'; btn.appendChild(tag); }
       row.appendChild(btn);
@@ -6813,11 +7049,14 @@ document.getElementById('studentName').addEventListener('input', () => {
   if (currentView === 'publish') renderPublish(); else render();
 });
 document.getElementById('pronounSet').addEventListener('change', () => {
+  const was = cur().pronoun;
   cur().pronoun = document.getElementById('pronounSet').value;
+  if (was !== cur().pronoun) dropStaleReviewCopies(cur());
   if (currentView === 'publish') renderPublish(); else render();
 });
 document.getElementById('yearSet').addEventListener('change', () => {
   cur().year = document.getElementById('yearSet').value;
+  fillYearPlaceholder(cur());
   if (currentView === 'publish') renderPublish(); else render();
 });
 
@@ -7521,7 +7760,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.9.1';
+const APP_VERSION = 'v3.9.2';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9644,8 +9883,16 @@ function renderReviewInfo() {
     if (isLong) { longN++; sp.dataset.long = '1'; sp.title = `${n} words (limit ${getLongLimit()}). Consider splitting this sentence.`; }
     else if (sp.dataset.long) { delete sp.dataset.long; if (sp.title && /Consider splitting this sentence/.test(sp.title)) sp.removeAttribute('title'); }
   });
+  // v3.9.2: placeholders that were never filled in ("Year [X]", "[Name]", a stray {{S}})
+  const phFound = [];
+  spans.forEach(sp => {
+    const f = sp.textContent.match(/\[[^\]\n]{1,40}\]|\{\{[^}\n]*\}\}/g);
+    if (f) { f.forEach(x => { if (!phFound.includes(x)) phFound.push(x); }); sp.dataset.ph = '1'; if (!sp.title) sp.title = 'Unfinished: replace the part in square brackets.'; }
+    else if (sp.dataset.ph) { delete sp.dataset.ph; if (sp.title === 'Unfinished: replace the part in square brackets.') sp.removeAttribute('title'); }
+  });
   const cls = total > limit ? 'over' : total >= limit * 0.9 ? 'near' : 'ok';
   let h = `<div class="rv-row"><span class="rv-chip ${cls}" title="Word limit is set in Settings">${total} / ${limit} words${total > limit ? ` (${total - limit} over)` : ''}</span>`;
+  if (phFound.length) h += `<span class="rv-chip over" title="Replace each bracketed part before you export">Unfinished: ${phFound.map(escHtml).join(' ')}</span>`;
   h += longN ? `<span class="rv-chip near" title="Sentences over ${getLongLimit()} words are underlined below. Change the limit in Settings.">${longN} long sentence${longN > 1 ? 's' : ''} (longest ${longest} words)</span>` : `<span class="rv-chip ok">Sentence length fine</span>`;
   h += '</div>';
   const t = toneReport(cur());
@@ -9655,6 +9902,13 @@ function renderReviewInfo() {
     h += `<div class="rv-tone">Tone across subjects: ${shown.map(s => `${L[s]} <b class="tb-${t.bands[s]}">${TONE_LABEL[t.bands[s]]}</b>`).join(' · ')}</div>`;
   }
   t.issues.forEach(i => { h += `<div class="rv-flag">⚠ ${escHtml(i.text)}</div>`; });
+  if (phFound.length) {
+    const hints = [];
+    if (phFound.some(x => /^\[X\]$/.test(x))) hints.push('[X] is the year level. Choose it in the Yr box above the draft.');
+    if (phFound.some(x => /^\[Name\]$/i.test(x))) hints.push('[Name] needs the student\u2019s name.');
+    h += `<div class="rv-flag" style="border-color:var(--red);background:var(--red-bg)">\u26a0 This comment still has ${phFound.length > 1 ? 'unfinished parts' : 'an unfinished part'}: ${phFound.map(x => '<b>' + escHtml(x) + '</b>').join(', ')}. ${hints.map(escHtml).join(' ') || 'Replace the part in square brackets with the right wording.'} (highlighted in red below)</div>`;
+  }
+
   { const nf = pub.querySelectorAll('span[data-alt="fixed"]').length, nw = pub.querySelectorAll('span[data-alt="warn"]').length;
     if (nf) h += `<div class="rv-flag" style="border-color:var(--blue);background:var(--blue-bg)">\u2713 ${nf} name / pronoun alternation change${nf > 1 ? 's' : ''} made in this comment (highlighted in blue). Hover a highlight to see what changed.</div>`;
     if (nw) h += `<div class="rv-flag">\u26a0 ${nw} sentence${nw > 1 ? 's' : ''} break name / pronoun alternation and cannot be fixed automatically (highlighted in orange).</div>`; }
@@ -9978,6 +10232,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.9.1</div>
+<div class="version-badge">v3.9.2</div>
 </body>
 </html>
