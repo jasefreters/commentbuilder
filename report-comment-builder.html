@@ -825,6 +825,10 @@
   /* ── NARROW WINDOWS: class list moves above, bank + comment stay side by side ── */
   .sidebar > div:not(.cat-div):not(.s-label) { white-space: nowrap; flex: 0 0 auto; padding: 0 2px 0 10px !important; margin: 0 !important; color: var(--t2) !important; font-size: 11px !important; }
   .version-badge { right: auto; left: 12px; }
+  #syncBanner { position: fixed; left: 50%; bottom: 16px; transform: translate(-50%, 24px); z-index: 1000; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: min(640px, calc(100vw - 24px)); padding: 10px 14px; background: var(--bg-4); color: var(--t0); border: 1px solid var(--amber-line); border-radius: 12px; box-shadow: 0 8px 28px rgba(0,0,0,.25); font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+  #syncBanner.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+  #syncBanner .sb-btn { font: inherit; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-h); background: var(--bg-2); color: var(--t0); cursor: pointer; }
+  #syncBanner .sb-go { background: var(--amber-line); border-color: transparent; color: #1a1305; }
   @media (max-width: 1400px) { .c-hint, .c-nav #stuPos { display: none; } .c-name { width: 200px; } }
   @media (max-width: 1180px) {
     .progress-track { display: none; }
@@ -848,6 +852,103 @@
   @media (max-width: 860px) {
     .view-toggle .vbtn { padding: 6px 10px; }
       .c-nav #stuPos { display: none; }
+  }
+
+  /* ══ v3.9.0 PHONE LAYOUT (screens 700px wide or less). Nothing here applies on a computer or tablet. ══ */
+  #mTabs { display: none; }
+  @media (max-width: 700px) {
+    html, body { overflow-x: hidden; }
+    body { font-size: 15px; }
+    /* top bar: two rows (semester + settings, then Build / Review / Class board) */
+    header { height: auto; flex-wrap: wrap; padding: 8px 10px; gap: 8px; justify-content: space-between; }
+    .logo, .version-badge, .progress-track { display: none; }
+    .sem-toggle { order: 1; flex: 1 1 auto; }
+    .sem-toggle .sem-btn { flex: 1; min-height: 40px; padding: 6px 8px; }
+    .hdr-right { order: 2; gap: 8px; margin-left: 0; }
+    .save-indicator #saveLabel { display: none; }
+    .progress-label { font-size: 12px; white-space: nowrap; }
+    .settings-btn { width: 44px; height: 44px; }
+    .view-toggle { order: 3; flex: 1 1 100%; }
+    .view-toggle .vbtn { flex: 1; min-height: 40px; padding: 6px 4px; font-size: 14px; }
+    .settings-panel { position: fixed; top: 124px; left: 8px; right: 8px; width: auto; max-height: calc(100vh - 136px); overflow-y: auto; }
+    .syn-dropdown, .fix-dropdown { left: 8px !important; right: 8px !important; width: auto !important; max-width: none; }
+    .toast { white-space: normal; max-width: calc(100vw - 24px); text-align: center; border-radius: 14px; }
+    #syncBanner { bottom: 76px; }
+
+    /* Build: students strip on top, then ONE of the sentence bank or the draft, switched by the bottom tabs */
+    .build-view { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; }
+    .class-rail { padding: 6px 10px; gap: 8px; border-bottom: 1px solid var(--border); }
+    .rail-row { min-height: 44px; }
+    .rail-head .rail-title { display: none; }
+    .rail-add { min-height: 44px; }
+    .build-view .centre { grid-row: 2; grid-column: 1; }
+    .build-view .panel { grid-row: 2; grid-column: 1; border-left: 0; padding: 8px 10px 10px; }
+    body[data-mtab="draft"] .build-view .centre { display: none; }
+    body:not([data-mtab="draft"]) .build-view .panel { display: none; }
+    #mTabs { display: flex; grid-row: 3; grid-column: 1; gap: 6px; padding: 6px 10px calc(6px + env(safe-area-inset-bottom)); border-top: 1px solid var(--border); background: var(--bg-1); }
+    #mTabs button { flex: 1; min-height: 46px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-1); color: var(--t1); font-size: 15px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    #mTabs button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+    #mTabs .mt-count { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--bg-3); color: var(--t1); }
+    #mTabs button[aria-pressed="true"] .mt-count { background: rgba(255,255,255,.25); color: inherit; }
+    #mTabs .mt-count.bump { animation: mtBump .4s ease; }
+    @keyframes mtBump { 0% { transform: scale(1); } 40% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+    /* student header, tabs, categories, tools */
+    .c-top { padding: 10px 12px 0; gap: 8px; }
+    .c-scroll { padding: 4px 12px 24px; }
+    .c-name { font-size: 24px; width: 100%; min-width: 0; }
+    .c-student { gap: 8px; }
+    .pron-sel { min-height: 44px; font-size: 16px; }
+    .c-nav { margin-left: auto; }
+    .icon-btn { width: 44px; height: 44px; }
+    .stu-subj-tab { flex: 1; justify-content: center; gap: 6px; padding: 0 6px; min-height: 46px; font-size: 14px; }
+    .st-badge:not(.draft):not(.done) { display: none; }
+    .cat-btn { min-height: 44px; }
+    .c-tools { gap: 8px; }
+    .c-hint { display: none; }
+    .tier-seg { overflow-x: auto; max-width: 100%; }
+    .seg button { min-height: 40px; padding: 0 12px; white-space: nowrap; }
+    .btn-dashed { min-height: 44px; }
+
+    /* sentence cards: the level label becomes a colour bar so the sentence gets the width */
+    .opt { min-height: 56px; padding: 10px 12px; gap: 10px; font-size: 16px; }
+    .opt.tier-strong::before, .opt.tier-average::before, .opt.tier-developing::before { content: '' !important; width: 6px !important; min-width: 6px; height: auto; align-self: stretch; padding: 0 !important; border-radius: 3px; }
+    .opt.tier-strong::before { background: var(--chip-pos-fg); } .opt.tier-average::before { background: var(--chip-ave-fg); } .opt.tier-developing::before { background: var(--chip-dev-fg); }
+    .opt::after { width: 34px; height: 34px; }
+    .opt-delete-btn { width: 44px; }
+
+    /* draft */
+    .draft-card { min-height: 0; flex: 1 1 auto; }
+    .p-head { flex-wrap: wrap; justify-content: flex-start; gap: 6px 10px; padding: 12px 14px 8px; }
+    .p-title { overflow: visible; text-overflow: clip; white-space: normal; }
+    .out-editable { font-size: 17px; padding: 14px; min-height: 120px; }
+    .p-actions { gap: 8px; padding-top: 8px; }
+    .act-row { gap: 8px; } .act-row .act-btn { min-height: 46px; }
+    .btn-primary, .btn-sec { min-height: 46px; }
+    .notes-text, .custom-textarea, textarea, input[type="text"], input[type="search"], input[type="number"], input[type="password"], select { font-size: 16px; }
+    .more-menu { right: 0; left: auto; }
+    .more-menu button { padding: 14px 12px; }
+
+    /* Review */
+    .pub-wrap { padding: 16px 14px 24px; }
+    #pubContent { font-size: 17px; }
+    .pub-bar { padding: 8px 10px calc(8px + env(safe-area-inset-bottom)); gap: 8px; }
+    .pub-bar .btn { min-height: 44px; flex: 1 1 calc(33.3% - 8px); justify-content: center; padding: 0 6px; font-size: 13px; }
+    .pub-bar .btn-green:last-of-type { flex-basis: 100%; }
+    #checkStatus, .flag-legend { flex: 1 1 100%; }
+
+    /* Class board */
+    .board-wrap, .stats-wrap { padding-left: 12px !important; padding-right: 12px !important; }
+    .board-head h1 { font-size: 24px; }
+    .board-actions { margin-left: 0; width: 100%; }
+    .board-actions .btn-sec, .board-actions .btn-primary { flex: 1 1 calc(50% - 10px); min-height: 44px; justify-content: center; }
+    .board-actions .btn-primary { flex-basis: 100%; }
+    .board-cards { grid-template-columns: 1fr; }
+    .board-toolbar { flex-wrap: wrap; gap: 8px; }
+    .board-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .board-inner { min-width: 640px; }
+    .board-grid.row { min-height: 52px; }
+    .modal, .s1-modal { max-width: calc(100vw - 16px); }
   }
 </style>
 </head>
@@ -1093,6 +1194,12 @@
         </div>
       </div>
     </aside>
+
+    <!-- Phone only (hidden by CSS on wider screens): switch between the sentence bank and the draft -->
+    <nav id="mTabs" aria-label="Sentences or draft">
+      <button type="button" id="mTabBank" aria-pressed="true" onclick="setMTab('bank')">Sentences</button>
+      <button type="button" id="mTabDraft" aria-pressed="false" onclick="setMTab('draft')">Draft <span class="mt-count" id="mTabCount">0</span></button>
+    </nav>
   </div>
 
   <!-- PUBLISH -->
@@ -7083,6 +7190,7 @@ async function cloudSave(manual = false) {
     } catch (e) { if (manual) showToast('Cloud sync paused — cannot reach the cloud copy.'); return; }
   }
   const session = buildSession();
+  const _startedAt = Date.now(); _lastCloudTry = _startedAt;
   try {
     const res = await fetch(CLOUD_WORKER + '/session', {
       method: 'PUT',
@@ -7090,6 +7198,7 @@ async function cloudSave(manual = false) {
       body: JSON.stringify(session),
     });
     if (res.ok) {
+      if (_lastChangeAt <= _startedAt) { _dirtySince = null; hideSyncBanner(true); }   // v3.9.0: nothing newer than what the cloud now holds
       if (manual) {
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         showToast('Synced to cloud (' + time + ')');
@@ -7120,6 +7229,7 @@ async function cloudLoad(showPrompt = false) {
     // Always apply cloud session when explicitly loading —
     // the user chose to sign in, so cloud is the source of truth
     _applyPersistedState(saved);
+    _dirtySince = null; hideSyncBanner(false);   // v3.9.0: this device now matches the cloud
     idbSet('rcb_session', saved);
     lsSet('rcb_session', saved);
     loadCur();
@@ -7143,6 +7253,64 @@ async function cloudLoad(showPrompt = false) {
 }
 
 // Throttled cloud save — fires at most once per 15 seconds
+
+// ══ v3.9.0 · PHONE HELPERS (no effect on a computer: the tab bar is hidden there) ═══════════════
+function setMTab(t) {
+  document.body.setAttribute('data-mtab', t === 'draft' ? 'draft' : 'bank');
+  const bk = document.getElementById('mTabBank'), dr = document.getElementById('mTabDraft');
+  if (bk) bk.setAttribute('aria-pressed', t === 'draft' ? 'false' : 'true');
+  if (dr) dr.setAttribute('aria-pressed', t === 'draft' ? 'true' : 'false');
+  if (t === 'draft') { const o = document.getElementById('outEditable'); if (o) o.scrollTop = 0; }
+}
+(function () {
+  const wc = document.getElementById('wcBadge'), cnt = document.getElementById('mTabCount');
+  if (!wc || !cnt) return;
+  let last = '';
+  const sync = () => {
+    const n = (wc.textContent || '').split('/')[0].trim() || '0';
+    if (n !== last) { cnt.textContent = n + (n === '1' ? ' word' : ' words'); if (last) { cnt.classList.remove('bump'); void cnt.offsetWidth; cnt.classList.add('bump'); } last = n; }
+  };
+  new MutationObserver(sync).observe(wc, { childList: true, characterData: true, subtree: true });
+  sync();
+})();
+// On a touch screen there is no hover, so tapping a flagged sentence in Review shows its note (the text a mouse user sees on hover).
+document.addEventListener('click', e => {
+  if (!window.matchMedia || !window.matchMedia('(hover: none)').matches) return;
+  const el = e.target.closest && e.target.closest('#pubContent span[title], #pubContent mark[title], #pubContent u[title]');
+  if (el && el.getAttribute('title')) showToast(el.getAttribute('title'));
+});
+
+function showSyncBanner() {
+  let b = document.getElementById('syncBanner');
+  if (!b) {
+    b = document.createElement('div');
+    b.id = 'syncBanner'; b.setAttribute('role', 'alert');
+    b.innerHTML = '<span class="sb-msg">Your changes have not reached the cloud for over 2 minutes. Download a backup so nothing is lost.</span>' +
+      '<button class="sb-btn sb-go" type="button">Download backup</button><button class="sb-btn sb-no" type="button">Dismiss</button>';
+    b.querySelector('.sb-go').onclick = () => { exportSession(); hideSyncBanner(false); };
+    b.querySelector('.sb-no').onclick = () => hideSyncBanner(false);
+    document.body.appendChild(b);
+  }
+  b.classList.add('show'); _lastBannerAt = Date.now();
+}
+function hideSyncBanner(recovered) {
+  const b = document.getElementById('syncBanner');
+  if (b && b.classList.contains('show')) {
+    b.classList.remove('show');
+    if (recovered) showToast('Back in sync with the cloud.');
+  }
+}
+// Every 30 seconds: while changes are unconfirmed, retry the cloud save, and after 2 minutes offer the backup (at most every 10 minutes,
+// and not if a backup was downloaded after the last change).
+function syncWatch() {
+  if (!_stateLoaded || !getCloudToken() || _dirtySince === null) return;
+  const now = Date.now();
+  if (now - _lastCloudTry >= 30000 && !_cloudSaveTimer) cloudSave(false);
+  if (now - _dirtySince >= 120000 && now - _lastBannerAt >= 600000 && _lastChangeAt > _lastExportAt) showSyncBanner();
+}
+setInterval(syncWatch, 30000);
+window.addEventListener('online', () => { if (_dirtySince !== null && getCloudToken()) cloudSave(false); });
+
 function scheduledCloudSave() {
   if (!getCloudUser()) return;
   if (_cloudSaveTimer) return; // already scheduled
@@ -7342,15 +7510,59 @@ function getActiveMergeRules() {
   });
 }
 
+// v3.9.0 sync watch: when a signed-in teacher's changes have not reached the cloud for 2 minutes, offer a backup download
+let _dirtySince = null;       // time of the oldest change the cloud has not confirmed (null = in sync)
+let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
+const APP_VERSION = 'v3.9.0';
+// v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
+// the session, so cloud sync and the backup file carry them too.
+function getSettingsBlob() {
+  const fd = {};
+  ['english', 'maths'].forEach(k => { try { fd[k] = JSON.parse(lsGet('rcb_customFD_' + k, '{}')) || {}; } catch (e) { fd[k] = {}; } });
+  return { customFD: fd, longSent: getLongLimit(), wordLimit: getWordLimit() };
+}
+// Custom Future Directions lines are merged (never replaced), so lines typed on this device are never lost.
+function applySettingsBlob(b) {
+  if (!b || typeof b !== 'object') return;
+  try {
+    if (b.customFD && typeof b.customFD === 'object') {
+      ['english', 'maths'].forEach(k => {
+        const incoming = b.customFD[k];
+        if (!incoming || typeof incoming !== 'object') return;
+        let have = {}; try { have = JSON.parse(lsGet('rcb_customFD_' + k, '{}')) || {}; } catch (e) {}
+        Object.keys(incoming).forEach(strand => {
+          if (!incoming[strand] || typeof incoming[strand] !== 'object') return;
+          have[strand] = have[strand] || {};
+          Object.keys(incoming[strand]).forEach(stage => {
+            const list = Array.isArray(incoming[strand][stage]) ? incoming[strand][stage] : [];
+            const cur0 = Array.isArray(have[strand][stage]) ? have[strand][stage] : [];
+            list.forEach(t => { if (cur0.indexOf(t) === -1) cur0.push(t); });
+            if (cur0.length) have[strand][stage] = cur0;
+          });
+        });
+        lsSet('rcb_customFD_' + k, JSON.stringify(have));
+      });
+    }
+    if (b.longSent >= 5 && b.longSent <= 100) lsSet('rcb_longsent', String(b.longSent));
+    if (b.wordLimit >= 20 && b.wordLimit <= 2000) lsSet('rcb_wordlimit', String(b.wordLimit));
+  } catch (e) { console.error('settings restore', e); }
+}
 function buildSession() {
-  return { students, currentIdx, totalStudents, semester: currentSemester, styleMemory, myBank, savedAt: new Date().toISOString() };
+  return { students, currentIdx, totalStudents, semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob(), savedAt: new Date().toISOString() };
+}
+// The backup file: everything in the session plus streak and badges, and the app version that wrote it.
+function buildBackup() {
+  saveCur();
+  return { version: 1, appVersion: APP_VERSION, exportedAt: new Date().toISOString(), totalStudents, students, streak: getStreakData(), badges: getEarnedBadges(),
+           semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob() };
 }
 function autoSave() {
   // Never write until the saved session has been read — otherwise the blank start-up page overwrites it (v3.5.5)
   if (!_stateLoaded) return;
+  _lastChangeAt = Date.now(); if (_dirtySince === null) _dirtySince = _lastChangeAt;   // v3.9.0
   // Show saving state
   setSaveState('saving', 'Saving…');
   const session = buildSession();
@@ -7459,6 +7671,7 @@ function _applyPersistedState(saved) {
   if (saved && saved.totalStudents) totalStudents = saved.totalStudents;
   if (saved && saved.styleMemory) { styleMemory = normaliseStyleMemory(saved.styleMemory); _sugIndex = null; }   // v3.7.0
   if (saved && saved.myBank) myBank = normaliseMyBank(saved.myBank);   // v3.8.0
+  if (saved && saved.settings) applySettingsBlob(saved.settings);   // v3.9.0
 }
 
 // ── STREAK ────────────────────────────────────────────────────────
@@ -7970,48 +8183,23 @@ function launchFinaleConfetti() {
 function autoBackup() {
   // Off by default (it downloads a .json file on every first publish). Enable with: localStorage.setItem('rcb_autobackup','true')
   if (!lsGet('rcb_autobackup', false)) return;
-  saveCur();
-  const session = {
-    version: 1,
-    exportedAt: new Date().toISOString(),
-    totalStudents,
-    students,
-    streak: getStreakData(),
-    badges: getEarnedBadges(),
-    semester: currentSemester,
-    styleMemory,
-    myBank,
-  };
-  const json = JSON.stringify(session, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-  const a = Object.assign(document.createElement('a'), {
-    href: URL.createObjectURL(blob),
-    download: 'rcb-backup-' + new Date().toISOString().slice(0, 10) + '.json'
-  });
-  a.click();
+  _downloadBackup('rcb-backup-');
   showToast('Backup saved!');
 }
 
-function exportSession() {
-  saveCur();
-  const session = {
-    version: 1,
-    exportedAt: new Date().toISOString(),
-    totalStudents,
-    students,
-    streak: getStreakData(),
-    badges: getEarnedBadges(),
-    semester: currentSemester,
-    styleMemory,
-    myBank,
-  };
-  const json = JSON.stringify(session, null, 2);
+function _downloadBackup(prefix) {
+  const json = JSON.stringify(buildBackup(), null, 2);
   const blob = new Blob([json], { type: 'application/json' });
   const a = Object.assign(document.createElement('a'), {
     href: URL.createObjectURL(blob),
-    download: 'report-builder-session-' + new Date().toISOString().slice(0,10) + '.json'
+    download: prefix + new Date().toISOString().slice(0, 10) + '.json'
   });
   a.click();
+}
+
+function exportSession() {
+  _downloadBackup('report-builder-session-');
+  _lastExportAt = Date.now();
   showToast('Session exported!');
 }
 
@@ -8026,32 +8214,17 @@ function importSession() {
     reader.onload = ev => {
       try {
         const session = JSON.parse(ev.target.result);
-        if (!session.version || !session.students) throw new Error('Invalid session file.');
+        if (!session.version || !Array.isArray(session.students) || !session.students.length) throw new Error('Invalid session file.');
 
-        // Restore students — normalise engGrades/mathGrades from old
-        // string format (e.g. {Reading:"B"}) to new array format ({Reading:["B"]})
-        students = session.students.map(stu => {
-          ['engGrades', 'mathGrades'].forEach(key => {
-            if (stu[key]) {
-              Object.keys(stu[key]).forEach(cat => {
-                if (typeof stu[key][cat] === 'string') {
-                  stu[key][cat] = stu[key][cat] ? [stu[key][cat]] : [];
-                }
-              });
-            }
-          });
-          return stu;
-        });
+        // v3.9.0: keep a copy of what is in the app now, in case the wrong file was chosen
+        try { lsSet('rcb_session_preimport', buildSession()); } catch (e) {}
+        // Same loading path as a saved session: fills in fields an older file lacks, restores semester, style memory, my bank and settings
+        _applyPersistedState(Object.assign({}, session, { currentIdx: 0 }));
         currentIdx = 0;
-        currentSemester = (session.semester === 2) ? 2 : 1;   // files without "semester" are S1 (older versions)
+        if (!(session.semester === 1 || session.semester === 2)) currentSemester = 1;   // files without "semester" are S1 (older versions)
         _paintSemesterUI();
         _cloudUnverified = false;                              // an explicit import is the user's choice of source of truth
-
-        // Restore class size
-        if (session.totalStudents) totalStudents = session.totalStudents;
-
-        if (session.styleMemory) { styleMemory = normaliseStyleMemory(session.styleMemory); _sugIndex = null; }
-        if (session.myBank) myBank = normaliseMyBank(session.myBank);
+        _dirtySince = Date.now();
 
         // Restore streak
         if (session.streak) saveStreakData(session.streak);
@@ -9800,6 +9973,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.8.10</div>
+<div class="version-badge">v3.9.0</div>
 </body>
 </html>
