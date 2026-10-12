@@ -353,6 +353,60 @@
   .style-x:hover { color: var(--red); }
   .style-clear { font-family: var(--font); font-size: 11px; color: var(--t2); background: none; border: none; cursor: pointer; text-decoration: underline; padding: 6px 0 0; }
 
+
+  /* v3.8.0 CONTINUE A SEMESTER 1 SENTENCE */
+  .opt.s1-used { cursor: pointer; opacity: 1; }
+  .opt.s1-used:hover { filter: brightness(0.97); border-color: var(--red); }
+  .opt.s1-used::after { content: 'Used in S1 · Continue'; }
+  .s1m-back { position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 9000; display: none; align-items: center; justify-content: center; padding: 16px; }
+  .s1m-card { background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-lg); width: 100%; max-width: 620px; max-height: 92vh; overflow-y: auto; padding: 18px 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.35); font-family: var(--font); }
+  .s1m-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .s1m-title { font-size: 17px; font-weight: 600; color: var(--t0); }
+  .s1m-sub { font-size: 12.5px; color: var(--t2); margin-top: 2px; }
+  .s1m-x { background: none; border: none; font-size: 24px; line-height: 1; color: var(--t2); cursor: pointer; padding: 0 4px; }
+  .s1m-lbl { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--t2); margin: 14px 0 6px; }
+  .s1m-hint { text-transform: none; letter-spacing: 0; font-weight: 400; margin-left: 6px; }
+  .s1m-orig { background: var(--red-bg); border: 1px solid var(--red-bd); border-radius: var(--r-md); padding: 10px 12px; color: var(--t1); font-size: 14px; line-height: 1.5; }
+  .s1m-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .s1m-chips.lead { margin-top: 6px; }
+  .s1m-chip { font-family: var(--font); font-size: 13px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border-h); background: var(--bg-2); color: var(--t0); cursor: pointer; }
+  .s1m-chip:hover { background: var(--bg-3); }
+  .s1m-chip.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .s1m-chip.off { opacity: .4; }
+  .s1m-text { width: 100%; box-sizing: border-box; font-family: var(--font); font-size: 15px; line-height: 1.5; padding: 10px 12px; border: 1px solid var(--border-h); border-radius: var(--r-md); background: var(--bg-1); color: var(--t0); resize: vertical; }
+  .s1m-text:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .s1m-note { font-size: 12.5px; color: var(--t2); min-height: 18px; margin-top: 6px; }
+  .s1m-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+
+
+  /* v3.8.0 REVIEW CHECKS, NOTES, SAVED SENTENCES, EXPORT */
+  .pub-checks { margin: 0 0 14px; font-family: var(--font); }
+  .rv-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .rv-chip { font-size: 12.5px; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-2); color: var(--t1); }
+  .rv-chip.ok { background: var(--green-bg); border-color: var(--green-bd); color: var(--green); }
+  .rv-chip.near { background: var(--amber-bg, #FFF4D6); border-color: var(--amber-line, #E9C46A); color: var(--t0); }
+  .rv-chip.over { background: var(--red-bg); border-color: var(--red-bd); color: var(--red); }
+  .rv-tone { font-size: 13px; color: var(--t1); margin-top: 8px; }
+  .rv-tone b.tb-strong { color: var(--green); } .rv-tone b.tb-average { color: var(--t0); } .rv-tone b.tb-developing { color: #8B5CF6; }
+  .rv-flag { font-size: 13px; color: var(--t0); background: var(--amber-bg, #FFF4D6); border: 1px solid var(--amber-line, #E9C46A); border-radius: var(--r-md); padding: 7px 10px; margin-top: 8px; }
+  .rv-note { font-size: 13px; color: var(--t1); border-left: 3px solid var(--accent); padding: 4px 10px; margin-top: 8px; background: var(--accent-bg); border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+  #pubContent span[data-long="1"] { text-decoration: underline dotted var(--amber-line, #D99A00); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .notes-card { margin: 8px 16px 0; border-top: 1px solid var(--border); padding-top: 8px; }
+  .notes-card summary { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--t2); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; }
+  .notes-card summary::-webkit-details-marker { display: none; }
+  .notes-card summary::before { content: '▸'; font-size: 10px; } .notes-card[open] summary::before { content: '▾'; }
+  .notes-dot, .rail-note { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+  .rail-note { margin-left: 5px; vertical-align: middle; }
+  .notes-text { width: 100%; box-sizing: border-box; margin-top: 8px; font-family: var(--font); font-size: 13.5px; line-height: 1.45; padding: 8px 10px; border: 1px solid var(--border-h); border-radius: var(--r-md); background: var(--bg-1); color: var(--t0); resize: vertical; }
+  .notes-text:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .opt.mine { border-left: 3px solid var(--accent); }
+  .mine-tag { margin-left: 8px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); background: var(--accent-bg); border: 1px solid var(--accent-bd); border-radius: 999px; padding: 1px 7px; vertical-align: middle; }
+  .mine-cat { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--t2); margin-right: 4px; }
+  .custom-add-btn.mine { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-bd); }
+  .settings-num { width: 78px; font-family: var(--font); font-size: 13px; padding: 5px 8px; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--bg-3); color: var(--t0); }
+  .export-drafts { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--t1); cursor: pointer; margin-right: 4px; }
+  .tone-warn { margin-left: 8px; font-size: 11px; font-weight: 700; color: #8A5A00; background: var(--amber-bg, #FFF4D6); border: 1px solid var(--amber-line, #E9C46A); border-radius: 999px; padding: 1px 8px; }
+
   /* SYNONYM DROPDOWN */
   .syn-dropdown { position: fixed; background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-md); box-shadow: 0 8px 28px rgba(0,0,0,0.45); z-index: 900; width: 340px; overflow: visible; }
   .syn-tabs { display: flex; border-bottom: 1px solid var(--border); overflow: hidden; border-radius: var(--r-md) var(--r-md) 0 0; }
@@ -400,7 +454,7 @@
   .s2-rank-btn:disabled { opacity: .5; cursor: not-allowed; }
 
   /* S1-USED SENTENCES IN BANK */
-  .opt.s1-used { border-left: 3px solid #f87171; background: rgba(248,113,113,0.08); color: var(--t2); cursor: not-allowed; pointer-events: none; }
+  .opt.s1-used { border-left: 3px solid #f87171; background: rgba(248,113,113,0.08); color: var(--t2); cursor: pointer; }
   .opt.s1-used:hover { background: rgba(248,113,113,0.08); }
   html:not(.dark) .opt.s1-used { background: rgba(220,38,38,0.06); }
   .s2-rank-label { font-size: 10px; font-family: var(--mono); color: var(--blue); background: var(--blue-bg); border-radius: 999px; padding: 1px 7px; margin-left: 6px; flex-shrink: 0; }
@@ -845,6 +899,10 @@
     <div id="styleSettings"></div>
   </div>
   <div class="settings-section">
+    <div class="settings-section-label">Comment length</div>
+    <div id="toolSettings"></div>
+  </div>
+  <div class="settings-section">
     <div class="settings-section-label">Cloud Sync</div>
     <!-- Signed-in state -->
     <div id="cloudSignedIn" style="display:none">
@@ -996,6 +1054,10 @@
           <button class="draft-done-btn" onclick="doneDraft()">Done ✓</button>
         </div>
         <div class="draft-meta" id="draftMeta"></div>
+        <details class="notes-card" id="notesCard">
+          <summary>Private notes <span class="notes-dot" id="notesDot" style="display:none"></span></summary>
+          <textarea id="stuNotes" class="notes-text" rows="3" placeholder="Only you see this. It is never part of the comment. e.g. mention the Art Show." oninput="onNotesInput()"></textarea>
+        </details>
         <div class="checks">
           <div class="checks-title">Checks</div>
           <div class="checks-hint">Spelling, repeated words, tense and flow are checked in Review.</div>
@@ -1037,6 +1099,7 @@
           <button data-pubsubj="maths" onclick="setSubject('maths')">Maths</button>
         </div>
         <div class="pub-name" id="pubName"></div>
+        <div class="pub-checks" id="pubChecks"></div>
         <div id="pubContent"></div>
       </div>
     </div>
@@ -1092,7 +1155,10 @@
           <div class="board-sub" id="boardSub"></div>
         </div>
         <div class="board-actions">
-          <button class="btn-sec" onclick="exportAll()">Export all (.txt)</button>
+          <label class="export-drafts" title="Also export comments that are not marked done"><input type="checkbox" id="exportDrafts"> Include drafts</label>
+          <button class="btn-sec" onclick="exportWord()" title="One student per page">Export Word</button>
+          <button class="btn-sec" onclick="exportCsv()" title="One row per student">Export CSV</button>
+          <button class="btn-sec" onclick="exportAll()">Export text</button>
           <button class="btn-primary" onclick="copyAllFinished()">Copy all finished comments</button>
         </div>
       </div>
@@ -4144,11 +4210,13 @@ function renderOpts() {
     </div>
     <div class="custom-row">
       <button class="custom-add-btn" onclick="addCustomSentence()">+ Add to comment</button>
+      <button class="custom-add-btn mine" onclick="addCustomSentence(true)" title="Adds it to this comment and keeps it in the bank for every student">+ Add &amp; save to my bank</button>
       <div class="custom-hint">Use {{First-name}}, {{He-she}}, {{His-her}}, {{him-her}} as placeholders.</div>
     </div>`;
   if (_composerOpen) grid.appendChild(wrap);
 
   // Custom sentences already added for this category — grouped by tier
+  if (syncMyBank(cur(), currentTab)) autoSave();
   const customs = (cur().custom || {})[currentTab] || [];
   const customTiers = (cur().customTiers || {})[currentTab] || [];
   // Group custom sentences into tiers so they appear under the right divider
@@ -4226,10 +4294,11 @@ function renderOpts() {
       const btn = document.createElement('button');
       btn.className = 'opt custom tier-' + tier + (isSel ? ' sel' : '');
       btn.textContent = isSel ? applyFC(s, key) : applyFC(s);
+      if (isMineSentence(currentTab, s)) { btn.classList.add('mine'); const tag = document.createElement('span'); tag.className = 'mine-tag'; tag.textContent = 'Mine'; btn.appendChild(tag); }
       btn.onclick = () => toggleCustomOpt(currentTab, i);
       const delBtn = document.createElement('button');
       delBtn.className = 'opt-delete-btn';
-      delBtn.title = 'Remove from bank';
+      delBtn.title = isMineSentence(currentTab, s) ? 'Remove from my bank (every student)' : 'Remove from bank';
       delBtn.innerHTML = '&times;';
       delBtn.onclick = (e) => { e.stopPropagation(); deleteCustomSentence(currentTab, i); };
       wrap.appendChild(btn);
@@ -4273,7 +4342,7 @@ function renderOpts() {
     btn.className = 'opt tier-' + tier + (isSel ? ' sel' : '') + (isS1Used ? ' s1-used' : '');
     btn.textContent = isSel ? applyFC(s, s) : applyFC(s);
     if (!isS1Used) btn.onclick = () => toggleOpt(currentTab, s);
-    if (isS1Used) btn.title = 'Used in Semester 1';
+    if (isS1Used) { btn.title = 'Used in Semester 1. Click to continue it in Semester 2.'; btn.onclick = () => openContinueS1(currentTab, s); }
     grid.appendChild(btn);
   });
 
@@ -4318,10 +4387,11 @@ function updateWc(text) {
   const badge = document.getElementById('wcBadge');
   const bar = document.getElementById('wcBar');
   const words = text.trim().split(/\s+/).filter(Boolean).length;
-  badge.textContent = words + ' / 200';
-  badge.className = words > 200 ? 'wc over' : 'wc';
-  bar.style.width = Math.min(100, words / 2) + '%';
-  bar.className = words > 200 ? 'wc-bar over' : 'wc-bar';
+  const lim = getWordLimit();
+  badge.textContent = words + ' / ' + lim;
+  badge.className = words > lim ? 'wc over' : 'wc';
+  bar.style.width = Math.min(100, words / lim * 100) + '%';
+  bar.className = words > lim ? 'wc-bar over' : 'wc-bar';
 }
 
 
@@ -4701,7 +4771,7 @@ function renderClassRail() {
     const named = !!(stu.name && stu.name.trim());
     return `<button class="rail-row${i === currentIdx ? ' active' : ''}" onclick="switchStu(${i})"${i === currentIdx ? ' aria-current="true"' : ''}>` +
       `<span class="rail-av">${escHtml(stuInitials(stu, i))}</span>` +
-      `<span class="rail-name${named ? '' : ' unnamed'}">${escHtml(stuLabel(stu, i))}</span>` +
+      `<span class="rail-name${named ? '' : ' unnamed'}">${escHtml(stuLabel(stu, i))}${(stu.notes || '').trim() ? ' <span class="rail-note" title="Has a private note"></span>' : ''}</span>` +
       `<span class="rail-dots">${dots}</span></button>`;
   }).join('');
   const toAdd = totalStudents - students.length;
@@ -4751,6 +4821,7 @@ function paintStudentChrome() {
   const del = document.getElementById('deleteStuBtn');
   if (del) del.style.display = students.length > 1 ? 'block' : 'none';
   updateDraftMeta();
+  paintNotes();
 }
 
 function updateDraftMeta() {
@@ -4929,7 +5000,9 @@ function renderBoard() {
   }).join('');
   // filter
   const gDone = students.filter(s => subjState(s, 'general') === 'done').length;
+  const toneN = students.filter(st => toneReport(st).issues.length).length;
   const opts = [['all', 'All ' + students.length], ['todo', 'General to do ' + (students.length - gDone)], ['done', 'General done ' + gDone]];
+  if (toneN || _boardFilter === 'tone') opts.push(['tone', 'Tone check ' + toneN]);
   const seg = document.getElementById('boardSeg');
   if (seg) seg.innerHTML = opts.map(([k, l]) => `<button class="${_boardFilter === k ? 'on' : ''}" onclick="setBoardFilter('${k}')">${l}</button>`).join('');
   const rowsEl = document.getElementById('boardRows');
@@ -4938,6 +5011,7 @@ function renderBoard() {
     const g = subjState(stu, 'general') === 'done';
     if (_boardFilter === 'todo' && g) return false;
     if (_boardFilter === 'done' && !g) return false;
+    if (_boardFilter === 'tone' && !toneReport(stu).issues.length) return false;
     if (_boardQuery && !stuLabel(stu, i).toLowerCase().includes(_boardQuery)) return false;
     return true;
   });
@@ -4947,7 +5021,7 @@ function renderBoard() {
   rowsEl.innerHTML = list.length ? list.map(({ stu, i }) => {
     const cells = subjects.map(([s]) => { const st = subjState(stu, s); return `<div><span class="pill ${st}">${icon[st]}${STATE_LABEL[st]}</span></div>`; }).join('');
     return `<div class="board-grid row${i === currentIdx ? ' current' : ''}" onclick="openFromBoard(${i})">` +
-      `<div class="bg-name"><span class="rail-av">${escHtml(stuInitials(stu, i))}</span><span>${escHtml(stuLabel(stu, i))}</span></div>${cells}` +
+      `<div class="bg-name"><span class="rail-av">${escHtml(stuInitials(stu, i))}</span><span>${escHtml(stuLabel(stu, i))}</span>${(() => { const ti = toneReport(stu).issues; return ti.length ? `<span class="tone-warn" title="${escHtml(ti.map(x => x.text).join(' '))}">⚠ Tone</span>` : ''; })()}</div>${cells}` +
       `<div>${boardWords(stu) || '–'}</div><div><button class="bg-open" onclick="event.stopPropagation(); openFromBoard(${i})">Open</button></div></div>`;
   }).join('') : `<div class="board-empty">${students.length ? 'No students match.' : 'No students yet.'}</div>`;
   const foot = document.getElementById('boardFoot');
@@ -5074,6 +5148,7 @@ function renderPublish() {
   document.getElementById('flagLegend').style.display = 'none';
   document.getElementById('checkBtn').disabled = false;
   updatePubNavBtns();
+  { const _pcx = document.getElementById('pubChecks'); if (_pcx) _pcx.innerHTML = ''; }
 
   let publishedText = getSubjectPublishText(stu, renderSubject);
   const content = document.getElementById('pubContent');
@@ -6122,11 +6197,16 @@ function addSubjCustomSentence() {
   showToast('Sentence added and saved.');
 }
 
-function addCustomSentence() {
+function addCustomSentence(saveToBank) {
   const ta = document.getElementById('customInput');
   if (!ta) return;
-  const text = ta.value.trim();
+  let text = ta.value.trim();
   if (!text) { showToast('Please type a sentence first.'); return; }
+  if (saveToBank) {
+    text = templatise(text, cur().name, getPron());
+    if (!myBank[currentTab]) myBank[currentTab] = [];
+    if (!myBank[currentTab].some(x => x.text === text)) myBank[currentTab].push({ id: Math.random().toString(36).slice(2, 10), text, tier: _customTierSelected });
+  }
   if (!cur().custom) cur().custom = {};
   if (!cur().customTiers) cur().customTiers = {};
   if (!cur().custom[currentTab]) cur().custom[currentTab] = [];
@@ -6141,7 +6221,7 @@ function addCustomSentence() {
   ta.value = '';
   autoSave();
   render();
-  showToast('Sentence added and saved.');
+  showToast(saveToBank ? 'Added, and saved to your bank for every student.' : 'Sentence added and saved.');
 }
 
 function toggleCustomOpt(cat, idx) {
@@ -6171,6 +6251,8 @@ function toggleCustomOpt(cat, idx) {
 function deleteCustomSentence(cat, idx) {
   const key = '__custom__' + cat + '__' + idx;
   if (!cur().custom || !cur().custom[cat]) return;
+  { const _t = cur().custom[cat][idx], _m = (myBank[cat] || []).find(x => x.text === _t);
+    if (_m) { if (!confirm('Remove this saved sentence from your bank for every student?')) return; removeFromMyBank(cat, _m.id); if (!cur().custom[cat] || cur().custom[cat][idx] !== _t) { render(); return; } } }
 
   // Remove from selected and ordered (and orderedAfterEdit)
   if (cur().selected[cat]) cur().selected[cat] = cur().selected[cat].filter(k => k !== key);
@@ -7114,7 +7196,7 @@ let _stateLoaded = false;        // true once the initial load (cloud / IndexedD
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
 function buildSession() {
-  return { students, currentIdx, totalStudents, semester: currentSemester, styleMemory, savedAt: new Date().toISOString() };
+  return { students, currentIdx, totalStudents, semester: currentSemester, styleMemory, myBank, savedAt: new Date().toISOString() };
 }
 function autoSave() {
   // Never write until the saved session has been read — otherwise the blank start-up page overwrites it (v3.5.5)
@@ -7226,6 +7308,7 @@ function _applyPersistedState(saved) {
   }
   if (saved && saved.totalStudents) totalStudents = saved.totalStudents;
   if (saved && saved.styleMemory) { styleMemory = normaliseStyleMemory(saved.styleMemory); _sugIndex = null; }   // v3.7.0
+  if (saved && saved.myBank) myBank = normaliseMyBank(saved.myBank);   // v3.8.0
 }
 
 // ── STREAK ────────────────────────────────────────────────────────
@@ -7362,6 +7445,7 @@ async function saveProxyUrl() {
 
 function toggleSettings() {
   renderStyleSettings();
+  renderToolSettings();
   const panel = document.getElementById('settingsPanel');
   const btn = document.getElementById('settingsBtn');
   const isOpen = panel.style.display !== 'none';
@@ -7746,6 +7830,7 @@ function autoBackup() {
     badges: getEarnedBadges(),
     semester: currentSemester,
     styleMemory,
+    myBank,
   };
   const json = JSON.stringify(session, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
@@ -7768,6 +7853,7 @@ function exportSession() {
     badges: getEarnedBadges(),
     semester: currentSemester,
     styleMemory,
+    myBank,
   };
   const json = JSON.stringify(session, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
@@ -7815,6 +7901,7 @@ function importSession() {
         if (session.totalStudents) totalStudents = session.totalStudents;
 
         if (session.styleMemory) { styleMemory = normaliseStyleMemory(session.styleMemory); _sugIndex = null; }
+        if (session.myBank) myBank = normaliseMyBank(session.myBank);
 
         // Restore streak
         if (session.streak) saveStreakData(session.streak);
@@ -7946,7 +8033,8 @@ function detectSentenceTense(sentence) {
 
 function highlightTenseIssues() {
   _highlightTenseCore();
-  highlightStyleSuggestions();   // v3.7.0: runs after the repeat and tense passes, every time they run
+  highlightStyleSuggestions();
+  renderReviewInfo();   // v3.8.0: length, long sentences, tone   // v3.7.0: runs after the repeat and tense passes, every time they run
 }
 function _highlightTenseCore() {
   const pubContent = document.getElementById('pubContent');
@@ -8877,6 +8965,500 @@ function clearStyleMemory() {
   if (currentView === 'publish') highlightStyleSuggestions();
 }
 
+// ══ v3.8.0 · CONTINUE A SEMESTER 1 SENTENCE ═══════════════════════════════
+// Clicking a greyed-out "Used in S1" sentence opens a panel. Pick a starter ("continues to…", "has grown in…")
+// and the sentence is reworked by rule (no AI); the result can be edited before it is added to the comment.
+const _IRR_PP = { shown:'show', given:'give', taken:'take', grown:'grow', begun:'begin', made:'make', done:'do', known:'know', written:'write', chosen:'choose', seen:'see', gone:'go', become:'become', come:'come', found:'find', built:'build', held:'hold', kept:'keep', led:'lead', read:'read', said:'say', taught:'teach', thought:'think', understood:'understand', brought:'bring', spoken:'speak', drawn:'draw', worn:'wear', run:'run', set:'set', put:'put', shone:'shine', won:'win', met:'meet', sent:'send', spent:'spend', lost:'lose', felt:'feel', left:'leave', meant:'mean', sung:'sing', swum:'swim', thrown:'throw', caught:'catch', bought:'buy', fallen:'fall', risen:'rise', stood:'stand', sought:'seek', got:'get', had:'have', been:'be', did:'do', went:'go', saw:'see', took:'take', gave:'give', knew:'know', grew:'grow', began:'begin', wrote:'write', chose:'choose', spoke:'speak', drew:'draw', wore:'wear', ran:'run', came:'come' };
+const _IRR_BASE_PP = { show:'shown', give:'given', take:'taken', grow:'grown', begin:'begun', make:'made', do:'done', know:'known', write:'written', choose:'chosen', see:'seen', go:'gone', become:'become', come:'come', find:'found', build:'built', hold:'held', keep:'kept', lead:'led', read:'read', say:'said', teach:'taught', think:'thought', understand:'understood', bring:'brought', speak:'spoken', draw:'drawn', wear:'worn', run:'run', set:'set', put:'put', win:'won', meet:'met', send:'sent', spend:'spent', lose:'lost', feel:'felt', leave:'left', mean:'meant', sing:'sung', swim:'swum', throw:'thrown', catch:'caught', buy:'bought', fall:'fallen', rise:'risen', stand:'stood', seek:'sought', get:'got', have:'had', be:'been', shine:'shone' };
+const _DOUBLE_ING = new Set(['begin', 'run', 'stop', 'plan', 'get', 'set', 'put', 'sit', 'swim', 'win', 'commit', 'prefer', 'submit', 'admit', 'permit', 'occur', 'refer', 'shop', 'drop', 'chat', 'hug', 'jog', 'cut', 'forget', 'regret', 'rob', 'slip', 'step', 'trap', 'wrap', 'zip']);
+let _bankVocab = null;
+function bankVocab() {
+  if (_bankVocab) return _bankVocab;
+  _bankVocab = new Set();
+  const add = t => (String(t).toLowerCase().match(/[a-z]+/g) || []).forEach(w => _bankVocab.add(w));
+  try { Object.keys(RAW).forEach(c => (RAW[c] || []).forEach(add)); } catch (e) {}
+  return _bankVocab;
+}
+function verbBaseFromS(w) {
+  if (w === 'has') return 'have'; if (w === 'does') return 'do'; if (w === 'goes') return 'go'; if (w === 'is') return 'be';
+  if (/[^aeiou]ies$/.test(w)) return w.slice(0, -3) + 'y';
+  if (/(ss|x|ch|sh|z)es$/.test(w)) return w.slice(0, -2);
+  return w.slice(0, -1);
+}
+function verbBaseFromEd(w) {
+  if (_IRR_PP[w]) return _IRR_PP[w];
+  if (/[^aeiou]ied$/.test(w)) return w.slice(0, -3) + 'y';
+  const A = w.slice(0, -2), B = w.slice(0, -1), V = bankVocab();
+  const cands = [B, A];
+  if (/(.)\1$/.test(A)) cands.push(A.slice(0, -1));
+  const hit = cands.find(c => V.has(c) || V.has(c + 's'));
+  if (hit) return hit;
+  if (/(at|iz|is|ov|ur|ag|ak|ir|uc|ud|ug|ul|um|ut|or|id|iv|ib|ec|ic|ol|it)$/.test(A) && !/(ork|ist|rit|ait|oit)$/.test(A)) return B;
+  return A;
+}
+function verbBaseFromIng(w) {
+  const stem = w.slice(0, -3), V = bankVocab();
+  const cands = [stem, stem + 'e']; if (/(.)\1$/.test(stem)) cands.push(stem.slice(0, -1));
+  const hit = cands.find(c => V.has(c) || V.has(c + 's'));
+  if (hit) return hit;
+  if (/(at|iz|is|ov|ur|ag|ak|ir|uc|ud|ug|ul|um|ut|id|iv|ib|ec|ic|it)$/.test(stem)) return stem + 'e';
+  return cands[0];
+}
+function verbIng(b) {
+  if (b === 'be') return 'being'; if (/ie$/.test(b)) return b.slice(0, -2) + 'ying';
+  if (_DOUBLE_ING.has(b)) return b + b.slice(-1) + 'ing';
+  if (/[^eoy]e$/.test(b) || /[^aeiou]ue$/.test(b)) return b.slice(0, -1) + 'ing';
+  return b + 'ing';
+}
+function verbPP(b) {
+  if (_IRR_BASE_PP[b]) return _IRR_BASE_PP[b];
+  return typeof _edForm === 'function' ? _edForm(b) : b + 'ed';
+}
+function _lowerFirstUnlessName(text, name) {
+  if (name && text.startsWith(name)) return text;
+  return /^(I|I'm|I’m)\b/.test(text) ? text : text.charAt(0).toLowerCase() + text.slice(1);
+}
+// Splits a resolved sentence into prefix / subject / adverb / verb / rest. Returns null when the pattern is not recognised.
+function parseS1Sentence(text, name, pronounSet) {
+  text = (text || '').trim();
+  const subjects = [name, pronounSet.S, 'They'].filter(Boolean).map(x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const subjRe = '(' + subjects.join('|') + ')';
+  let prefix = '', body = text;
+  const pm = /^([^,]{1,70}),\s+(.*)$/.exec(text);
+  if (pm && new RegExp('^' + subjRe + '\\b').test(pm[2])) { prefix = pm[1] + ', '; body = pm[2]; }
+  const m = new RegExp('^' + subjRe + '\\s+(.*)$').exec(body);
+  if (!m) return null;
+  const subj = m[1]; let rest = m[2];
+  const plural = subj.toLowerCase() === 'they' || pronounSet.S === 'They';
+  let adv = '';
+  const am = /^((?:\w+ly|always|never|often|also|sometimes|still|generally|usually))\s+(.*)$/.exec(rest);
+  if (am && !/^(only|early|family|likely|apply|reply|supply|rely)$/i.test(am[1])) { adv = am[1] + ' '; rest = am[2]; }
+  const vm = /^([A-Za-z']+)(.*)$/.exec(rest);
+  if (!vm) return null;
+  const w = vm[1].toLowerCase(); rest = vm[2];
+  let kind, base;
+  if (w === 'has' || w === 'have') {
+    const pm2 = /^\s+(\w+ly\s+)?([a-z]+)(.*)$/.exec(rest);
+    if (!pm2) return null;
+    if (pm2[1]) adv = adv || pm2[1];
+    if (_IRR_PP[pm2[2]] || (/ed$/.test(pm2[2]) && pm2[2].length > 3)) { kind = 'perfect'; base = verbBaseFromEd(pm2[2]); rest = pm2[3]; if (pm2[2] === 'been') base = 'be'; }
+    else { kind = 'present'; base = 'have'; rest = (pm2[1] ? ' ' + pm2[1].trim() : '') + ' ' + pm2[2] + pm2[3]; rest = rest.replace(/^\s+/, ' '); }
+  } else if (w === 'is' || w === 'are') {
+    const pm2 = /^\s+(\w+ly\s+)?([a-z]+ing)\b(.*)$/.exec(rest);
+    if (pm2 && !/^(during|morning|evening|something|nothing|everything|king|ring|thing|spring)$/.test(pm2[2])) { if (pm2[1]) adv = adv || pm2[1]; kind = 'progressive'; base = verbBaseFromIng(pm2[2]); rest = pm2[3]; }
+    else { kind = 'copula'; base = 'be'; }
+  } else if (/^(was|were|had|can|could|will|would|should|must|may|might|did|does)$/.test(w) && w !== 'does') {
+    return null;
+  } else if (plural && /^[a-z]+$/.test(w) && !/ed$/.test(w)) {
+    kind = 'present'; base = w;
+  } else if (/ed$/.test(w) && w.length > 3) {
+    kind = 'past'; base = verbBaseFromEd(w);
+  } else if (/s$/.test(w) && !/ss$/.test(w) && w.length > 2) {
+    kind = 'present'; base = verbBaseFromS(w);
+  } else return null;
+  return { prefix, subj, plural, adv, kind, base, rest };
+}
+const S1_STARTERS = [
+  { id: 'continues', label: 'continues to…', verb: true, build: p => `${p.prefix}${p.subj} ${p.adv}${p.plural ? 'continue' : 'continues'} to ${p.base}${p.rest}` },
+  { id: 'hascontinued', label: 'has continued to…', verb: true, build: p => `${p.prefix}${p.subj} ${p.plural ? 'have' : 'has'} ${p.adv}continued to ${p.base}${p.rest}` },
+  { id: 'grown', label: 'has grown in…', verb: true, noCopula: true, build: p => `${p.prefix}${p.subj} ${p.plural ? 'have' : 'has'} ${p.adv}grown in ${verbIng(p.base)}${p.rest}` },
+  { id: 'grownInto', label: 'has grown into…', verb: true, onlyCopulaA: true, build: p => `${p.prefix}${p.subj} ${p.plural ? 'have' : 'has'} ${p.adv}grown into${p.rest}` },
+  { id: 'builtOn', label: 'has built on this by…', verb: true, noCopula: true, build: p => `${p.prefix}${p.subj} ${p.plural ? 'have' : 'has'} ${p.adv}built on this by ${verbIng(p.base)}${p.rest}` },
+  { id: 'now', label: 'is now…', verb: true, noCopula: true, build: p => `${p.prefix}${p.subj} ${p.plural ? 'are' : 'is'} now ${p.adv}${verbIng(p.base)}${p.rest}` },
+  { id: 'further', label: 'has further…', verb: true, noCopula: true, build: p => `${p.prefix}${p.subj} ${p.plural ? 'have' : 'has'} ${p.adv}further ${verbPP(p.base)}${p.rest}` },
+  { id: 'lead1', label: 'Building on a strong start,', lead: true, text: 'Building on a strong start to the year,' },
+  { id: 'lead2', label: 'Since Semester 1,', lead: true, text: 'Since Semester 1,' },
+  { id: 'lead3', label: 'This semester,', lead: true, text: 'This semester,' },
+];
+function applyS1Starter(id, original, name, pronounSet) {
+  const st = S1_STARTERS.find(s => s.id === id); if (!st) return original;
+  const parsed = parseS1Sentence(original, name, pronounSet);
+  if (st.lead) {
+    if (parsed && parsed.prefix) return original;      // already has its own opening phrase
+    return st.text + ' ' + _lowerFirstUnlessName(original, name);
+  }
+  if (!parsed) return null;
+  if (st.noCopula && parsed.kind === 'copula') return null;
+  if (st.onlyCopulaA && !(parsed.kind === 'copula' && /^\s+an?\s/i.test(parsed.rest))) return null;
+  return st.build(parsed);
+}
+// Turn a resolved sentence back into a template so it follows the student's name and pronouns
+function templatise(text, name, pronounSet) {
+  let t = String(text || '').trim();
+  if (name) t = t.replace(new RegExp('\\b' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'g'), '{{N}}');
+  const p = pronounSet;
+  const swap = (word, tok) => { if (word) t = t.replace(new RegExp('\\b' + word + '\\b', 'g'), tok); };
+  swap(p.S, '{{S}}'); swap(p.s, '{{s}}'); swap(p.r, '{{r}}'); swap(p.Pos, '{{Pos}}'); swap(p.pos, '{{pos}}');
+  if (p.o !== p.pos) { swap(p.O, '{{O}}'); swap(p.o, '{{o}}'); }
+  return t;
+}
+function _tierOfRaw(cat, s) {
+  const b = (typeof TIER_BOUNDARIES !== 'undefined' && TIER_BOUNDARIES[cat]) || { average: null, developing: null };
+  const i = (RAW[cat] || []).indexOf(s);
+  if (b.average === null || i < 0) return 'strong';
+  return i < b.average ? 'strong' : (b.developing === null || i < b.developing) ? 'average' : 'developing';
+}
+
+let _s1m = null;   // { cat, s, tier }
+function closeContinueS1() { const m = document.getElementById('s1Modal'); if (m) m.style.display = 'none'; _s1m = null; }
+function openContinueS1(cat, s) {
+  const stu = cur(); if (!stu) return;
+  _s1m = { cat, s, tier: _tierOfRaw(cat, s) };
+  let m = document.getElementById('s1Modal');
+  if (!m) {
+    m = document.createElement('div'); m.id = 's1Modal'; m.className = 's1m-back';
+    m.addEventListener('mousedown', e => { if (e.target === m) closeContinueS1(); });
+    document.body.appendChild(m);
+  }
+  const name = getName() || '[Name]', pr = getPron();
+  const original = applyRaw(s, name, pr).trim();
+  const keep = starter => `<button class="s1m-chip" data-id="${starter.id}" onclick="pickS1Starter('${starter.id}')">${escHtml(starter.label)}</button>`;
+  m.innerHTML = `<div class="s1m-card" role="dialog" aria-modal="true" aria-label="Continue this sentence in Semester 2">
+    <div class="s1m-head"><div><div class="s1m-title">Continue this in Semester 2</div><div class="s1m-sub">Used in Semester 1. Choose how it should read now.</div></div><button class="s1m-x" onclick="closeContinueS1()" aria-label="Close">&times;</button></div>
+    <div class="s1m-lbl">Semester 1 wording</div><div class="s1m-orig" id="s1mOrig"></div>
+    <div class="s1m-lbl">Start it with</div>
+    <div class="s1m-chips">${S1_STARTERS.filter(x => !x.lead).map(keep).join('')}</div>
+    <div class="s1m-chips lead">${S1_STARTERS.filter(x => x.lead).map(keep).join('')}</div>
+    <div class="s1m-lbl">Semester 2 version <span class="s1m-hint">Edit it freely. Choosing a starter replaces this text.</span></div>
+    <textarea class="s1m-text" id="s1mText" rows="4" spellcheck="true"></textarea>
+    <div class="s1m-note" id="s1mNote"></div>
+    <div class="s1m-actions"><button class="btn-sec" onclick="closeContinueS1()">Cancel</button><button class="btn-primary" onclick="addContinuedS1()">Add to comment</button></div>
+  </div>`;
+  document.getElementById('s1mOrig').textContent = original;
+  m.style.display = 'flex';
+  const first = S1_STARTERS.find(x => !x.lead && applyS1Starter(x.id, original, name, pr));
+  // chips that cannot be applied to this sentence are dimmed
+  S1_STARTERS.forEach(x => { const b = m.querySelector(`[data-id="${x.id}"]`); if (b && !x.lead && !applyS1Starter(x.id, original, name, pr)) b.classList.add('off'); });
+  if (first) pickS1Starter(first.id); else { document.getElementById('s1mText').value = original; document.getElementById('s1mNote').textContent = 'This sentence is not in a pattern the starters can rework. Edit it by hand, or try a “Since Semester 1,” opener.'; }
+  setTimeout(() => { const t = document.getElementById('s1mText'); if (t) t.focus(); }, 30);
+}
+function pickS1Starter(id) {
+  if (!_s1m) return;
+  const name = getName() || '[Name]', pr = getPron();
+  const original = applyRaw(_s1m.s, name, pr).trim();
+  const out = applyS1Starter(id, original, name, pr);
+  const note = document.getElementById('s1mNote');
+  if (out == null) { note.textContent = 'That starter does not fit this sentence. Try another, or edit the text.'; return; }
+  document.getElementById('s1mText').value = out;
+  note.textContent = 'Check that the rest of the sentence still reads well, then edit if needed.';
+  document.querySelectorAll('#s1Modal .s1m-chip').forEach(b => b.classList.toggle('on', b.dataset.id === id));
+}
+function addContinuedS1() {
+  if (!_s1m) return;
+  const raw = (document.getElementById('s1mText').value || '').trim();
+  if (!raw) { showToast('Please write the sentence first.'); return; }
+  const { cat, tier } = _s1m;
+  const stu = cur();
+  const tpl = templatise(raw, stu.name, getPron());
+  if (!stu.custom) stu.custom = {};
+  if (!stu.customTiers) stu.customTiers = {};
+  if (!stu.custom[cat]) stu.custom[cat] = [];
+  if (!stu.customTiers[cat]) stu.customTiers[cat] = [];
+  stu.custom[cat].push(tpl);
+  stu.customTiers[cat].push(tier);
+  const key = '__custom__' + cat + '__' + (stu.custom[cat].length - 1);
+  if (!stu.selected[cat]) stu.selected[cat] = [];
+  stu.selected[cat].push(key);
+  stu.ordered.push(key);
+  stu.published = false;
+  closeContinueS1();
+  autoSave();
+  render();
+  showToast('Added to the comment');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeContinueS1(); });
+
+// ══ v3.8.0 · REVIEW CHECKS: LENGTH, LONG SENTENCES, TONE ACROSS SUBJECTS, NOTES ════════════════
+const LONG_SENTENCE_WORDS = 35;
+function getWordLimit() { const n = parseInt(lsGet('rcb_wordlimit', '200'), 10); return n >= 20 && n <= 2000 ? n : 200; }
+function setWordLimit(v) {
+  const n = parseInt(v, 10);
+  if (!(n >= 20 && n <= 2000)) { showToast('Enter a limit between 20 and 2000 words.'); renderToolSettings(); return; }
+  lsSet('rcb_wordlimit', String(n));
+  if (cur()) { try { updateWc(document.getElementById('outEditable').innerText || ''); } catch (e) {} }
+  if (currentView === 'publish') renderReviewInfo();
+}
+const _wordCount = t => (String(t || '').trim().match(/\S+/g) || []).length;
+
+// ── tone ────────────────────────────────────────────────────────────────
+const TONE_LABEL = { strong: 'Positive', average: 'Average', developing: 'Developing' };
+const TONE_RANK = { developing: 1, average: 2, strong: 3 };
+const _GRADE_PTS = { A: 5, B: 4, C: 3, D: 2, E: 1 };
+function bandFromScore(x) { return x >= 3.75 ? 'strong' : x >= 2.5 ? 'average' : 'developing'; }
+// The band the chosen sentences or grades say, not the wording
+function structuralBand(stu, subj) {
+  if (subjState(stu, subj) === 'none') return null;
+  if (subj === 'general') {
+    const pts = [];
+    (stu.ordered || []).forEach(k => {
+      if (k.startsWith('__custom__')) {
+        const parts = k.split('__'), cat = parts.slice(2, parts.length - 1).join('__'), idx = parseInt(parts[parts.length - 1], 10);
+        const b = (typeof TIER_BOUNDARIES !== 'undefined' && TIER_BOUNDARIES[cat]) || {};
+        if (b.average === null || b.average === undefined) return;
+        const t = stu.customTiers && stu.customTiers[cat] && stu.customTiers[cat][idx];
+        if (t) pts.push(t === 'strong' ? 4.5 : t === 'average' ? 3 : 1.5);
+        return;
+      }
+      const cat = SENT_CAT[k]; if (!cat) return;
+      const b = TIER_BOUNDARIES[cat]; if (!b || b.average === null) return;
+      const i = RAW[cat].indexOf(k); if (i < 0) return;
+      const t = i < b.average ? 'strong' : (b.developing === null || i < b.developing) ? 'average' : 'developing';
+      pts.push(t === 'strong' ? 4.5 : t === 'average' ? 3 : 1.5);
+    });
+    return pts.length ? bandFromScore(pts.reduce((a, b) => a + b, 0) / pts.length) : null;
+  }
+  const g = subj === 'english' ? stu.engGrades : stu.mathGrades;
+  const pts = [];
+  Object.keys(g || {}).forEach(c => (Array.isArray(g[c]) ? g[c] : [g[c]]).forEach(l => { const v = _GRADE_PTS[String(l || '').toUpperCase().trim()]; if (v) pts.push(v); }));
+  return pts.length ? bandFromScore(pts.reduce((a, b) => a + b, 0) / pts.length) : null;
+}
+const _TONE_POS = /\b(outstanding|exceptional|exemplary|excellent|remarkable|impressive|highly|consistently|thoroughly|exceeds|advanced|superb|fantastic|exceptionally)\b/gi;
+const _TONE_NEG = /\b(developing|beginning to|with support|with assistance|needs to|need to|difficulty|difficulties|limited|below|struggles?|struggled|not yet|still learning|working towards|encouraged to|inconsistent|lacks?|absences)\b/gi;
+function wordingBand(text) {
+  const pos = (String(text || '').match(_TONE_POS) || []).length, neg = (String(text || '').match(_TONE_NEG) || []).length;
+  if (neg >= 1 && pos === 0) return 'developing';
+  if (pos >= 2 && neg === 0) return 'strong';
+  return null;
+}
+function toneReport(stu) {
+  const out = { bands: {}, issues: [] };
+  ['general', 'english', 'maths'].forEach(s => { out.bands[s] = structuralBand(stu, s); });
+  const name = (stu.name || '').trim() || 'This student';
+  const present = ['general', 'english', 'maths'].filter(s => out.bands[s]);
+  const L = { general: 'General', english: 'English', maths: 'Maths' };
+  for (let i = 0; i < present.length; i++) for (let j = i + 1; j < present.length; j++) {
+    const a = present[i], b = present[j];
+    if (Math.abs(TONE_RANK[out.bands[a]] - TONE_RANK[out.bands[b]]) >= 2) {
+      const hi = TONE_RANK[out.bands[a]] > TONE_RANK[out.bands[b]] ? a : b, lo = hi === a ? b : a;
+      out.issues.push({ kind: 'across', text: `${L[hi]} reads ${TONE_LABEL[out.bands[hi]].toLowerCase()}, but ${L[lo]} is ${TONE_LABEL[out.bands[lo]].toLowerCase()}. Check the two fit together.` });
+    }
+  }
+  present.forEach(s => {
+    let text = '';
+    try { text = getFinalCommentText(stu, s) || ''; } catch (e) {}
+    const w = wordingBand(text), sb = out.bands[s];
+    if (w && sb && Math.abs(TONE_RANK[w] - TONE_RANK[sb]) >= 2) {
+      out.issues.push({ kind: 'wording', text: w === 'strong'
+        ? `The ${L[s]} wording is very positive, but the ${s === 'general' ? 'sentences chosen are mostly' : 'grades average'} ${TONE_LABEL[sb].toLowerCase()}.`
+        : `The ${L[s]} wording sounds concerned, but the ${s === 'general' ? 'sentences chosen are mostly' : 'grades average'} ${TONE_LABEL[sb].toLowerCase()}.` });
+    }
+  });
+  return out;
+}
+
+// ── Review strip: length, long sentences, tone, note ─────────────────────
+function renderReviewInfo() {
+  const box = document.getElementById('pubChecks');
+  const pub = document.getElementById('pubContent');
+  if (!box || !pub || !cur()) return;
+  const spans = Array.from(pub.querySelectorAll('span[data-si]'));
+  if (!spans.length) { box.innerHTML = ''; return; }
+  const limit = getWordLimit();
+  let total = 0, longest = 0, longN = 0;
+  spans.forEach(sp => {
+    const n = _wordCount(sp.textContent); total += n; longest = Math.max(longest, n);
+    const isLong = n > LONG_SENTENCE_WORDS && !sp.classList.contains('fd-line');
+    if (isLong) { longN++; sp.dataset.long = '1'; sp.title = `${n} words. Consider splitting this sentence.`; }
+    else if (sp.dataset.long) { delete sp.dataset.long; if (sp.title && /words\. Consider splitting/.test(sp.title)) sp.removeAttribute('title'); }
+  });
+  const cls = total > limit ? 'over' : total >= limit * 0.9 ? 'near' : 'ok';
+  let h = `<div class="rv-row"><span class="rv-chip ${cls}" title="Word limit is set in Settings">${total} / ${limit} words${total > limit ? ` (${total - limit} over)` : ''}</span>`;
+  h += longN ? `<span class="rv-chip near" title="Sentences over ${LONG_SENTENCE_WORDS} words are underlined below">${longN} long sentence${longN > 1 ? 's' : ''} (longest ${longest} words)</span>` : `<span class="rv-chip ok">Sentence length fine</span>`;
+  h += '</div>';
+  const t = toneReport(cur());
+  const shown = ['general', 'english', 'maths'].filter(s => t.bands[s]);
+  if (shown.length >= 2) {
+    const L = { general: 'General', english: 'English', maths: 'Maths' };
+    h += `<div class="rv-tone">Tone across subjects: ${shown.map(s => `${L[s]} <b class="tb-${t.bands[s]}">${TONE_LABEL[t.bands[s]]}</b>`).join(' · ')}</div>`;
+  }
+  t.issues.forEach(i => { h += `<div class="rv-flag">⚠ ${escHtml(i.text)}</div>`; });
+  const note = (cur().notes || '').trim();
+  if (note) h += `<div class="rv-note"><b>Your note:</b> ${escHtml(note)}</div>`;
+  box.innerHTML = h;
+}
+
+// ── private notes ────────────────────────────────────────────────────────
+let _notesTimer = null;
+function paintNotes() {
+  const ta = document.getElementById('stuNotes'); if (!ta || !cur()) return;
+  if (document.activeElement !== ta || ta.dataset.stu !== String(currentIdx)) ta.value = cur().notes || '';
+  ta.dataset.stu = String(currentIdx);
+  const has = !!(cur().notes || '').trim();
+  const dot = document.getElementById('notesDot'); if (dot) dot.style.display = has ? 'inline-block' : 'none';
+  const card = document.getElementById('notesCard');
+  if (card && has && !card._seen) { card.open = true; }
+  if (card) card._seen = true;
+}
+function onNotesInput() {
+  const ta = document.getElementById('stuNotes'); if (!ta || !cur()) return;
+  cur().notes = ta.value;
+  const dot = document.getElementById('notesDot'); if (dot) dot.style.display = ta.value.trim() ? 'inline-block' : 'none';
+  clearTimeout(_notesTimer);
+  _notesTimer = setTimeout(() => { autoSave(); renderClassRail(); }, 600);
+}
+
+// ══ v3.8.0 · MY SAVED SENTENCES ════════════════════════════════════════════
+let myBank = {};   // category -> [{ id, text, tier }]   (text uses {{N}} {{S}} {{pos}} placeholders)
+function normaliseMyBank(m) {
+  const out = {};
+  if (!m || typeof m !== 'object') return out;
+  Object.keys(m).forEach(cat => {
+    const arr = (Array.isArray(m[cat]) ? m[cat] : []).filter(x => x && typeof x.text === 'string' && x.text.trim())
+      .map(x => ({ id: String(x.id || Math.random().toString(36).slice(2, 10)), text: x.text, tier: ['strong', 'average', 'developing'].includes(x.tier) ? x.tier : 'strong' }));
+    if (arr.length) out[cat] = arr;
+  });
+  return out;
+}
+function isMineSentence(cat, text) { return (myBank[cat] || []).some(x => x.text === text); }
+// Make sure every saved sentence for this category is in the student's own list (added at the end so indices stay stable)
+function syncMyBank(stu, cat) {
+  const list = myBank[cat]; if (!list || !list.length || !stu) return false;
+  if (!stu.custom) stu.custom = {}; if (!stu.customTiers) stu.customTiers = {};
+  if (!stu.custom[cat]) stu.custom[cat] = []; if (!stu.customTiers[cat]) stu.customTiers[cat] = [];
+  let changed = false;
+  list.forEach(x => {
+    if (!stu.custom[cat].includes(x.text) && !(stu.myBankGone || []).includes(x.id)) { stu.custom[cat].push(x.text); stu.customTiers[cat].push(x.tier); changed = true; }
+  });
+  return changed;
+}
+function removeFromMyBank(cat, id) {
+  const list = myBank[cat] || []; const e = list.find(x => x.id === id); if (!e) return;
+  myBank[cat] = list.filter(x => x.id !== id); if (!myBank[cat].length) delete myBank[cat];
+  // drop the unselected copies the other students hold
+  students.forEach(stu => {
+    const arr = stu.custom && stu.custom[cat]; if (!arr) return;
+    const idx = arr.indexOf(e.text); if (idx < 0) return;
+    const key = '__custom__' + cat + '__' + idx;
+    if ((stu.selected[cat] || []).includes(key)) return;      // already in a comment: leave it
+    if (typeof _removeCustomIndex === 'function') _removeCustomIndex(stu, cat, idx);
+  });
+  autoSave();
+}
+function _removeCustomIndex(stu, cat, idx) {
+  const arr = stu.custom[cat], tiers = (stu.customTiers && stu.customTiers[cat]) || [];
+  const remap = {}; const nt = [], ntier = [];
+  arr.forEach((t, i) => { if (i !== idx) { remap[i] = nt.length; nt.push(t); ntier.push(tiers[i] || 'strong'); } });
+  stu.custom[cat] = nt; if (stu.customTiers) stu.customTiers[cat] = ntier;
+  const rk = k => {
+    if (!k.startsWith('__custom__')) return k;
+    const parts = k.split('__'), kc = parts.slice(2, parts.length - 1).join('__'), ki = parseInt(parts[parts.length - 1], 10);
+    if (kc !== cat) return k; if (remap[ki] === undefined) return null; return '__custom__' + cat + '__' + remap[ki];
+  };
+  stu.ordered = (stu.ordered || []).map(rk).filter(Boolean);
+  if (stu.selected[cat]) stu.selected[cat] = stu.selected[cat].map(rk).filter(Boolean);
+  if (stu.orderedAfterEdit) stu.orderedAfterEdit = stu.orderedAfterEdit.map(rk).filter(Boolean);
+}
+
+// ── settings panel pieces ────────────────────────────────────────────────
+function renderToolSettings() {
+  const box = document.getElementById('toolSettings'); if (!box) return;
+  const cats = Object.keys(myBank);
+  let h = `<div class="settings-row"><span class="settings-row-label">Word limit per comment</span><input class="settings-num" id="wordLimitInput" type="number" min="20" max="2000" value="${getWordLimit()}" onchange="setWordLimit(this.value)"></div>`;
+  h += `<div class="settings-section-label" style="margin-top:10px">My saved sentences</div>`;
+  if (!cats.length) h += `<div class="style-empty">Write your own sentence in the bank and choose “Add &amp; save to my bank”. It will then be available for every student.</div>`;
+  else h += '<div class="style-list">' + cats.map(c => myBank[c].map(x => `<div class="style-item"><span class="style-pair"><span class="mine-cat">${escHtml(c)}</span> ${escHtml(applyRaw(x.text, '[Name]', PR.she))}</span><button class="style-x" title="Remove from my bank" onclick="removeMineFromSettings('${escHtml(c).replace(/'/g, '&#39;')}','${x.id}')">✕</button></div>`).join('')).join('') + '</div>';
+  box.innerHTML = h;
+}
+function removeMineFromSettings(cat, id) { removeFromMyBank(cat.replace(/&#39;/g, "'"), id); renderToolSettings(); if (currentView === 'build') render(); showToast('Removed from your bank'); }
+
+// ══ v3.8.0 · EXPORT: WORD (.docx) AND CSV ═══════════════════════════════════
+let _CRC_T = null;
+function crc32(bytes) {
+  if (!_CRC_T) { _CRC_T = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; _CRC_T[n] = c >>> 0; } }
+  let c = 0xFFFFFFFF; for (let i = 0; i < bytes.length; i++) c = _CRC_T[(c ^ bytes[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0;
+}
+// Minimal ZIP writer (stored, no compression). Enough for a .docx.
+function makeZip(files) {
+  const enc = new TextEncoder(), parts = [], central = []; let offset = 0;
+  const d = new Date(), dt = ((d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)) & 0xFFFF, dd = (((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate()) & 0xFFFF;
+  files.forEach(f => {
+    const name = enc.encode(f.name), data = typeof f.data === 'string' ? enc.encode(f.data) : f.data, crc = crc32(data);
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(8, 0, true); lh.setUint16(10, dt, true); lh.setUint16(12, dd, true);
+    lh.setUint32(14, crc, true); lh.setUint32(18, data.length, true); lh.setUint32(22, data.length, true); lh.setUint16(26, name.length, true); lh.setUint16(28, 0, true);
+    parts.push(new Uint8Array(lh.buffer), name, data);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(10, 0, true); ch.setUint16(12, dt, true); ch.setUint16(14, dd, true);
+    ch.setUint32(16, crc, true); ch.setUint32(20, data.length, true); ch.setUint32(24, data.length, true); ch.setUint16(28, name.length, true); ch.setUint32(42, offset, true);
+    central.push(new Uint8Array(ch.buffer), name);
+    offset += 30 + name.length + data.length;
+  });
+  const cdSize = central.reduce((a, b) => a + b.length, 0);
+  const eo = new DataView(new ArrayBuffer(22));
+  eo.setUint32(0, 0x06054b50, true); eo.setUint16(8, files.length, true); eo.setUint16(10, files.length, true); eo.setUint32(12, cdSize, true); eo.setUint32(16, offset, true);
+  const all = [...parts, ...central, new Uint8Array(eo.buffer)], total = all.reduce((a, b) => a + b.length, 0), out = new Uint8Array(total);
+  let p = 0; all.forEach(a => { out.set(a, p); p += a.length; }); return out;
+}
+const _xe = t => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
+function _wp(text, style, opts) {
+  opts = opts || {};
+  const ppr = (style ? `<w:pStyle w:val="${style}"/>` : '') + (opts.pageBreakBefore ? '<w:pageBreakBefore/>' : '') + (opts.keepNext ? '<w:keepNext/>' : '');
+  return `<w:p>${ppr ? `<w:pPr>${ppr}</w:pPr>` : ''}<w:r><w:t xml:space="preserve">${_xe(text)}</w:t></w:r></w:p>`;
+}
+// Which students/subjects to export. Finished (Done) comments only, unless drafts are included.
+function exportRows(includeDrafts) {
+  saveCur();
+  const rows = [];
+  students.forEach((stu, i) => {
+    const row = { stu, label: stuLabel(stu, i), year: stu.year || '', general: '', english: '', maths: '' };
+    let any = false;
+    ['general', 'english', 'maths'].forEach(s => {
+      const st = subjState(stu, s);
+      if (st === 'done' || (includeDrafts && st === 'draft')) { const t = (getFinalCommentText(stu, s) || '').trim(); if (t) { row[s] = t; any = true; } }
+    });
+    if (any) rows.push(row);
+  });
+  return rows;
+}
+function buildDocx(rows, semester) {
+  const sem = 'Semester ' + semester + ' 2026';
+  let body = '';
+  rows.forEach((r, idx) => {
+    body += _wp(r.label, 'Heading1', { pageBreakBefore: idx > 0 });
+    body += _wp((r.year ? 'Year ' + r.year + ' · ' : '') + sem, 'Subtitle');
+    const block = (title, text) => {
+      if (!text) return;
+      if (title) body += _wp(title, 'Heading2', { keepNext: true });
+      text.split(/\n+/).map(x => x.trim()).filter(Boolean).forEach(line => { body += _wp(line, ''); });
+    };
+    block('', r.general); block('English', r.english); block('Mathematics', r.maths);
+  });
+  const W = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"';
+  const doc = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ${W}><w:body>${body}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>`;
+  const styles = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles ${W}><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" w:eastAsia="Calibri"/><w:sz w:val="22"/><w:szCs w:val="22"/><w:lang w:val="en-AU"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="160" w:line="300" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>`
+    + `<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style>`
+    + `<w:style w:type="paragraph" w:styleId="Heading1"><w:name w:val="heading 1"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="0" w:after="60"/><w:outlineLvl w:val="0"/></w:pPr><w:rPr><w:b/><w:sz w:val="36"/><w:szCs w:val="36"/></w:rPr></w:style>`
+    + `<w:style w:type="paragraph" w:styleId="Heading2"><w:name w:val="heading 2"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="240" w:after="80"/><w:outlineLvl w:val="1"/></w:pPr><w:rPr><w:b/><w:color w:val="1F4E79"/><w:sz w:val="26"/><w:szCs w:val="26"/></w:rPr></w:style>`
+    + `<w:style w:type="paragraph" w:styleId="Subtitle"><w:name w:val="Subtitle"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/><w:pPr><w:pBdr><w:bottom w:val="single" w:sz="6" w:space="6" w:color="BFBFBF"/></w:pBdr><w:spacing w:after="240"/></w:pPr><w:rPr><w:color w:val="595959"/></w:rPr></w:style></w:styles>`;
+  const ct = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>`;
+  const rels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`;
+  const drels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`;
+  return makeZip([{ name: '[Content_Types].xml', data: ct }, { name: '_rels/.rels', data: rels }, { name: 'word/document.xml', data: doc }, { name: 'word/_rels/document.xml.rels', data: drels }, { name: 'word/styles.xml', data: styles }]);
+}
+function csvCell(v) { v = String(v == null ? '' : v); return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+function buildCsv(rows, semester) {
+  const head = ['Student', 'Year', 'Semester', 'General', 'English', 'Maths'];
+  const lines = [head.map(csvCell).join(',')].concat(rows.map(r => [r.label, r.year, semester, r.general, r.english, r.maths].map(csvCell).join(',')));
+  return '﻿' + lines.join('\r\n') + '\r\n';
+}
+function _download(blob, filename) {
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: filename });
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+function _exportDrafts() { const c = document.getElementById('exportDrafts'); return !!(c && c.checked); }
+function exportWord() {
+  const rows = exportRows(_exportDrafts());
+  if (!rows.length) { showToast(_exportDrafts() ? 'No comments to export yet.' : 'No finished comments yet. Mark a comment as done first, or tick “Include drafts”.'); return; }
+  _download(new Blob([buildDocx(rows, currentSemester)], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }), `report-comments-s${currentSemester}-2026.docx`);
+  showToast(`Word file saved: ${rows.length} student${rows.length > 1 ? 's' : ''}`);
+}
+function exportCsv() {
+  const rows = exportRows(_exportDrafts());
+  if (!rows.length) { showToast(_exportDrafts() ? 'No comments to export yet.' : 'No finished comments yet. Mark a comment as done first, or tick “Include drafts”.'); return; }
+  _download(new Blob([buildCsv(rows, currentSemester)], { type: 'text/csv;charset=utf-8' }), `report-comments-s${currentSemester}-2026.csv`);
+  showToast(`CSV saved: ${rows.length} student${rows.length > 1 ? 's' : ''}`);
+}
+
 // loadPersistedState is async (IndexedDB) — it calls render() itself
 loadPersistedState();
 loadTheme();
@@ -8975,6 +9557,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.7.1</div>
+<div class="version-badge">v3.8.0</div>
 </body>
 </html>
