@@ -279,6 +279,8 @@
   .sport-divider-line { flex: 1; height: 1px; background: var(--border); }
   .sport-divider-label { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); white-space: nowrap; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
 
+  #pubContent span[data-alt="fixed"] { background: rgba(96,165,250,0.18); border-bottom: 2px solid var(--blue); border-radius: 2px; cursor: help; }
+  #pubContent span[data-alt="warn"] { background: rgba(245,158,11,0.18); border-bottom: 2px dashed #d97706; border-radius: 2px; cursor: help; }
   .f-alt { cursor: pointer; background: rgba(96,165,250,0.13); border-bottom: 1.5px solid var(--blue); border-radius: 2px; cursor: help; }
   .swatch.a { background: var(--blue); }
   .f-tense { cursor: pointer; background: rgba(167,139,250,0.15); border-bottom: 1.5px solid #a78bfa; border-radius: 2px; cursor: help; }
@@ -1626,7 +1628,7 @@ function applyRaw(text, name, p, year) {
   const yearLabel = yr ? 'Year ' + yr : 'Year [X]';
   return text
     .replace(/\{\{N\}\}/g, n)
-    .replace(/\{\{n\}\}/g, n.length ? n[0].toLowerCase() + n.slice(1) : n)
+    .replace(/\{\{n\}\}/g, n)   // v3.8.7: was lower-cased ("aisha has missed"); a name keeps its capital
     .replace(/\{\{S\}\}/g, p.S).replace(/\{\{s\}\}/g, p.s)
     .replace(/\{\{O\}\}/g, p.O).replace(/\{\{o\}\}/g, p.o)
     .replace(/\{\{Pos\}\}/g, p.Pos).replace(/\{\{pos\}\}/g, p.pos)
@@ -5076,34 +5078,71 @@ function syncPubSubj() {
 // opening phrase ("During Health, Aisha has...", "In Drama, she has..."). Subjects must run Name, pronoun, Name, pronoun...
 // Sentences with no name or pronoun as subject ("This support has helped...") are left alone and do not count.
 // A possessive subject swaps too: "Aisha's English proficiency..." <-> "Her English proficiency..." (never "She's").
-function _altSubject(sent, name, p) {
+const _ALT_OBJ_PRECEDERS = new Set(['helped','help','helps','helping','encouraged','encourage','encourages','supported','support','supports','supporting','allowed','allows','enabled','enables','taught','teach','teaches','asked','told','let','lets','made','makes','given','gave','give','gives','for','to','with','by','towards','toward','of','from','about','around','assisted','assisting','praised','challenged','motivated','inspired','reminded','guided','showed','join','joined','joining','than','like']);
+const _ALT_OBJ_FOLLOW = /^(to|in|with|for|on|and|as|by|from|at|of|about|into|through|that|when|so|up|than|if|or|but|while|during|after|before|which|who)\b/i;
+// Find the student reference that decides a sentence's turn. Prefer the subject (after any opening phrase);
+// otherwise the first mention of the name or a pronoun anywhere ("This support has helped her...").
+function _altRef(sent, name, p) {
   const lead = sent.match(/^\s*/)[0].length;
   const body = sent.slice(lead);
-  const forms = [p.S, p.s, p.Pos, p.pos].filter((v, i, a) => v && a.indexOf(v) === i).map(escapeRegex).join('|');
-  const re = new RegExp('^((?:[^,.!?]{1,100},\\s+){0,3})(' + escapeRegex(name) + "(?:['\u2019]s)?|" + forms + ")(?![\\w'\u2019-])");
-  const m = body.match(re);
-  if (!m) return null;
-  const tok = m[2];
-  const isName = tok.toLowerCase().startsWith(String(name).toLowerCase());
-  const isPos = !isName && (tok === p.Pos || tok === p.pos) && tok !== p.S && tok !== p.s;
-  const poss = isPos || (isName && /['\u2019]s$/i.test(tok) && tok.length > String(name).length);
-  const start = lead + m[1].length;
-  return { role: isName ? 'name' : 'pron', poss, atStart: m[1] === '', start, end: start + tok.length };
+  const lc = x => String(x || '').toLowerCase();
+  const kindOfPron = (tok, after) => {
+    const t = lc(tok);
+    if (t === lc(p.r)) return 'refl';
+    const isO = t === lc(p.o), isPos = t === lc(p.pos);
+    if (isO && isPos) return (!after.trim() || _ALT_OBJ_FOLLOW.test(after.trim()) || /^[.,;:!?]/.test(after.trim())) ? 'obj' : 'poss';
+    if (isPos) return 'poss';
+    if (isO) return 'obj';
+    return 'subj';
+  };
+  // 1. subject after an optional opening phrase
+  const forms = [p.S, p.s, p.Pos, p.pos].filter((v, k, a) => v && a.indexOf(v) === k).map(escapeRegex).join('|');
+  const re = new RegExp('^((?:[^,.!?]{1,100},\\s+){0,3})(' + escapeRegex(name) + "(?:['\\u2019]s)?|" + forms + ")(?![\\w'\\u2019-])");
+  let m = body.match(re);
+  if (m) {
+    const tok = m[2], start = lead + m[1].length;
+    const isName = tok.startsWith(name);
+    const poss = isName ? /['’]s$/i.test(tok) && tok.length > name.length : kindOfPron(tok, body.slice(m[1].length + tok.length)) === 'poss';
+    return { role: isName ? 'name' : 'pron', kind: poss ? 'poss' : 'subj', start, end: start + tok.length, atStart: start === lead, tok };
+  }
+  // 2. first mention anywhere
+  const pr = [p.S, p.s, p.O, p.o, p.Pos, p.pos, p.r].filter((v, k, a) => v && a.findIndex(y => lc(y) === lc(v)) === k).map(escapeRegex).join('|');
+  const rn = new RegExp('(^|[^\\w\'\\u2019-])(' + escapeRegex(name) + "(?:['\\u2019]s)?)(?![\\w'\\u2019-])", 'g');
+  const rp = new RegExp('(^|[^\\w\'\\u2019-])(' + pr + ")(?![\\w'\\u2019-])", 'gi');
+  rn.lastIndex = 0; rp.lastIndex = 0;
+  const mn = rn.exec(body), mp = rp.exec(body);
+  const pn = mn ? mn.index + mn[1].length : Infinity, pp = mp ? mp.index + mp[1].length : Infinity;
+  if (pn === Infinity && pp === Infinity) return null;
+  if (pn < pp) {
+    const tok = mn[2], poss = /['’]s$/i.test(tok) && tok.length > name.length;
+    const before = body.slice(0, pn).trim().split(/\s+/).pop().replace(/[^\w]/g, '').toLowerCase();
+    const kind = poss ? 'poss' : (_ALT_OBJ_PRECEDERS.has(before) ? 'obj' : 'subj');
+    return { role: 'name', kind, start: lead + pn, end: lead + pn + tok.length, atStart: pn === 0, tok };
+  }
+  const tok = mp[2];
+  return { role: 'pron', kind: kindOfPron(tok, body.slice(pp + tok.length)), start: lead + pp, end: lead + pp + tok.length, atStart: pp === 0, tok };
+}
+function _altReplacement(ref, toRole, name, p) {
+  if (toRole === 'name') return ref.kind === 'poss' ? name + "'s" : name;
+  if (ref.kind === 'poss') return ref.atStart ? p.Pos : p.pos;
+  if (ref.kind === 'obj') return p.o;
+  return ref.atStart ? p.S : p.s;
 }
 function _altPlan(sents, name, p) {
   const out = []; let expect = 'name';
+  const flip = r => r === 'name' ? 'pron' : 'name';
   sents.forEach((s, i) => {
     // Comments saved by an older version may hold "She's English proficiency ..."; put the name back.
-    const hm = s.match(/^(\s*)(He|She|They)['\u2019]s (?=English proficiency)/);
-    if (hm) { out.push({ i, start: hm[1].length, end: hm[1].length + hm[2].length, rep: name }); expect = 'pron'; return; }
-    const sub = _altSubject(s, name, p); if (!sub) return;
-    if (sub.role !== expect) {
-      const rep = expect === 'name'
-        ? (sub.poss ? name + "'s" : name)
-        : (sub.poss ? (sub.atStart ? p.Pos : p.pos) : (sub.atStart ? p.S : p.s));
-      out.push({ i, start: sub.start, end: sub.end, rep });
+    const hm = s.match(/^(\s*)(He|She|They)['’]s (?=English proficiency)/);
+    if (hm) { out.push({ i, start: hm[1].length, end: hm[1].length + hm[2].length, rep: name, from: hm[2] }); expect = 'pron'; return; }
+    const ref = _altRef(s, name, p); if (!ref) return;
+    if (ref.role === expect) { expect = flip(expect); return; }
+    if (ref.kind === 'refl') {
+      out.push({ i, warn: true, from: ref.tok, want: expect, note: "This sentence is meant to use " + (expect === 'name' ? 'the name' : 'a pronoun') + " here but “" + ref.tok + "” can't be swapped automatically. Please reword it." });
+      expect = flip(ref.role); return;
     }
-    expect = expect === 'name' ? 'pron' : 'name';
+    out.push({ i, start: ref.start, end: ref.end, rep: _altReplacement(ref, expect, name, p), from: ref.tok });
+    expect = flip(expect);
   });
   return out;
 }
@@ -5122,7 +5161,7 @@ function fixAlternation(text, name, p) {
   });
   const plan = _altPlan(recs.map(r => r.t), name, p);
   const fixes = [];
-  plan.forEach(a => {
+  plan.filter(a => !a.warn).forEach(a => {
     const r = recs[a.i];
     const fixed = r.t.slice(0, a.start) + a.rep + r.t.slice(a.end);
     fixes.push({ original: r.t.trim(), corrected: fixed.trim() });
@@ -5138,8 +5177,10 @@ function enforceAlternationDOM(root) {
   const spans = Array.from(root.querySelectorAll('span[data-si]')).filter(x => !x.classList.contains('fd-line'));
   if (!spans.length) return 0;
   const plan = _altPlan(spans.map(x => x.textContent), name, p);
+  let n = 0;
   plan.forEach(a => {
     const span = spans[a.i];
+    if (a.warn) { span.dataset.alt = 'warn'; span.dataset.altNote = a.note; span.title = a.note; return; }
     const walker = document.createTreeWalker(span, NodeFilter.SHOW_TEXT);
     let node, base = 0, placed = false;
     while ((node = walker.nextNode())) {
@@ -5149,9 +5190,15 @@ function enforceAlternationDOM(root) {
       node.nodeValue = node.nodeValue.slice(0, from) + (placed ? '' : a.rep) + node.nodeValue.slice(to);
       placed = true;
     }
+    // v3.8.7: show the teacher exactly what was changed
+    const note = 'Changed \u201c' + a.from + '\u201d to \u201c' + a.rep + '\u201d to keep name and pronoun alternation.';
+    span.dataset.alt = 'fixed'; span.dataset.altNote = note; span.title = note;
+    n++;
   });
-  return plan.length;
+  return n;
 }
+// Highlights are for the person looking at the pane; they are never saved with it.
+function stripAltMarks(html) { return String(html || '').replace(/ data-alt="[^"]*"/g, '').replace(/ data-alt-note="[^"]*"/g, ''); }
 function enforceAltText(stu, text) {
   if (!text || !stu) return text;
   const p = PR[stu.pronoun]; if (!p) return text;
@@ -6534,7 +6581,7 @@ function savePublishEdits() {
               : subj === 'maths'   ? (students[currentIdx].mathFD || [])
               : [];
   enforceAlternationDOM(pubEl);   // v3.8.6: never save a pane that breaks name / pronoun alternation
-  students[currentIdx][key] = pubEl.innerHTML;
+  students[currentIdx][key] = stripAltMarks(pubEl.innerHTML);
   students[currentIdx][key + '_fdHash'] = subj + '|' + JSON.stringify(fdArr);
   students[currentIdx][key + '_subject'] = subj;
   autoSave(); // persist to IndexedDB and cloud so edits survive navigation
@@ -8117,7 +8164,9 @@ function highlightTenseIssues() {
   _highlightTenseCore();
   highlightStyleSuggestions();
   renderReviewInfo();   // v3.8.0: length, long sentences, tone   // v3.7.0: runs after the repeat and tense passes, every time they run
+  restoreAltTitles();   // v3.8.7: the alternation note wins over the other tooltips on a highlighted sentence
 }
+function restoreAltTitles() { document.querySelectorAll('#pubContent span[data-alt]').forEach(x => { if (x.dataset.altNote) x.title = x.dataset.altNote; }); }
 function _highlightTenseCore() {
   const pubContent = document.getElementById('pubContent');
   if (!pubContent) return;
@@ -9407,6 +9456,9 @@ function renderReviewInfo() {
     h += `<div class="rv-tone">Tone across subjects: ${shown.map(s => `${L[s]} <b class="tb-${t.bands[s]}">${TONE_LABEL[t.bands[s]]}</b>`).join(' · ')}</div>`;
   }
   t.issues.forEach(i => { h += `<div class="rv-flag">⚠ ${escHtml(i.text)}</div>`; });
+  { const nf = pub.querySelectorAll('span[data-alt="fixed"]').length, nw = pub.querySelectorAll('span[data-alt="warn"]').length;
+    if (nf) h += `<div class="rv-flag" style="border-color:var(--blue);background:var(--blue-bg)">\u2713 ${nf} name / pronoun alternation change${nf > 1 ? 's' : ''} made in this comment (highlighted in blue). Hover a highlight to see what changed.</div>`;
+    if (nw) h += `<div class="rv-flag">\u26a0 ${nw} sentence${nw > 1 ? 's' : ''} break name / pronoun alternation and cannot be fixed automatically (highlighted in orange).</div>`; }
   const note = (cur().notes || '').trim();
   if (note) h += `<div class="rv-note"><b>Your note:</b> ${escHtml(note)}</div>`;
   box.innerHTML = h;
@@ -9616,6 +9668,13 @@ function exportCsv() {
 
 // loadPersistedState is async (IndexedDB) — it calls render() itself
 // v3.8.6: when the teacher leaves the Review pane after editing it, put name / pronoun alternation right again.
+document.addEventListener('input', e => {   // typing in a highlighted sentence clears its highlight; the check runs again when the pane loses focus
+  const pc = document.getElementById('pubContent');
+  if (!pc || !e.target || !pc.contains(e.target)) return;
+  const sel = window.getSelection(); let nd = sel && sel.anchorNode; nd = nd && (nd.nodeType === 1 ? nd : nd.parentElement);
+  const sp = nd && nd.closest ? nd.closest('span[data-alt]') : null;
+  if (sp) { delete sp.dataset.alt; delete sp.dataset.altNote; if (/name and pronoun alternation|meant to use/.test(sp.title)) sp.removeAttribute('title'); }
+});
 document.addEventListener('focusout', e => {
   const pc = document.getElementById('pubContent');
   if (!pc || !e.target || !(e.target === pc || pc.contains(e.target))) return;
@@ -9720,6 +9779,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.8.6</div>
+<div class="version-badge">v3.8.7</div>
 </body>
 </html>
