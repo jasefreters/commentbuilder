@@ -1544,6 +1544,13 @@ const RAW = {
     "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. To support {{pos}} English language development, {{s}} has engaged in additional modelling and guided practice activities. {{N}} has gained greater confidence in speaking and expressing ideas more clearly in discussions.",
     "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. {{S}} has benefited from modelling and guided practice activities, which have supported {{pos}} language development. {{N}} has shown increased confidence when articulating ideas and is using a wider vocabulary.",
     "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. To support {{pos}} English language development, {{s}} has participated in peer interaction activities that promote language development. This support has led to a noticeable improvement in the vocabulary {{s}} uses during conversations.",
+    // Added 12 Oct (v3.8.5): Term 3 / Term 4 wording that refers to Semester 2 topics. Shown in Semester 2 only (see SEM_ONLY).
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Beginning phase. {{S}} has worked with a teacher in a small group to learn key words and phrases, using pictures and hands-on activities to build understanding. {{N}} is beginning to use these words when sharing ideas with a partner, particularly during practical tasks such as building circuits in Science.",
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. During writing lessons, {{s}} has been shown how to choose more specific words using word banks and examples. As a result, {{N}}'s written explanations, such as those in Science, are now clearer and more accurate.",
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. {{S}} has been given regular opportunities to rehearse what {{s}} wants to say with a partner before sharing with the class. This has helped {{o}} speak up more confidently and explain {{pos}} thinking in full sentences.",
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. {{S}} has been supported to plan and organise {{pos}} ideas before speaking and writing, using sentence starters and planning templates. {{N}} now presents information more clearly and logically, as shown when sharing {{pos}} research in Geography.",
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. Through class discussions and reading about topics in Science, Geography and Health, {{s}} has been introduced to a broad range of new vocabulary. {{N}} is applying many of these words accurately when discussing and writing about what {{s}} has learnt.",
+    "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. {{S}} has regularly worked alongside classmates in group tasks such as Drama performances and design challenges, giving {{o}} many chances to practise everyday English. {{N}} is now joining conversations more readily and using a growing range of words to express {{pos}} ideas.",
   ],
   "Closing Statement": [
     "{{N}} has demonstrated outstanding effort this semester. I congratulate {{o}} on {{pos}} progress and look forward to seeing {{pos}} continued growth in Semester 2.",
@@ -1591,6 +1598,7 @@ const SEM_ONLY = { 1: new Set(), 2: new Set() };
   const k = RAW["Semester KLAs"];
   k.slice(0, 5).forEach(s => SEM_ONLY[1].add(s));
   k.slice(5, 13).forEach(s => SEM_ONLY[2].add(s));
+  RAW["EAL/D"].slice(6, 12).forEach(s => SEM_ONLY[2].add(s));
 })();
 // true when sentence s may be offered in the given semester's bank
 function inSemester(s, sem) {
@@ -9653,6 +9661,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.8.4</div>
+<div class="version-badge">v3.8.5</div>
 </body>
 </html>
