@@ -9181,11 +9181,11 @@ function addContinuedS1() {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeContinueS1(); });
 
 // ══ v3.8.0 · REVIEW CHECKS: LENGTH, LONG SENTENCES, TONE ACROSS SUBJECTS, NOTES ════════════════
-const LONG_SENTENCE_WORDS = 35;   // default; Settings can change it
-function getLongLimit() { const n = parseInt(lsGet('rcb_longsent', String(LONG_SENTENCE_WORDS)), 10); return n >= 15 && n <= 100 ? n : LONG_SENTENCE_WORDS; }
+const LONG_SENTENCE_WORDS = 15;   // default; Settings can change it
+function getLongLimit() { const n = parseInt(lsGet('rcb_longsent', String(LONG_SENTENCE_WORDS)), 10); return n >= 5 && n <= 100 ? n : LONG_SENTENCE_WORDS; }
 function setLongLimit(v) {
   const n = parseInt(v, 10);
-  if (!(n >= 15 && n <= 100)) { showToast('Enter a sentence length between 15 and 100 words.'); renderToolSettings(); return; }
+  if (!(n >= 5 && n <= 100)) { showToast('Enter a sentence length between 5 and 100 words.'); renderToolSettings(); return; }
   lsSet('rcb_longsent', String(n));
   updateSentChip();
   if (currentView === 'publish') renderReviewInfo();
@@ -9431,7 +9431,7 @@ function renderToolSettings() {
   const box = document.getElementById('toolSettings'); if (!box) return;
   const cats = Object.keys(myBank);
   let h = `<div class="settings-row"><span class="settings-row-label">Word limit per comment</span><input class="settings-num" id="wordLimitInput" type="number" min="20" max="2000" value="${getWordLimit()}" onchange="setWordLimit(this.value)"></div>`;
-  h += `<div class="settings-row"><span class="settings-row-label">Flag sentences longer than (words)</span><input class="settings-num" id="longLimitInput" type="number" min="15" max="100" value="${getLongLimit()}" onchange="setLongLimit(this.value)"></div>`;
+  h += `<div class="settings-row"><span class="settings-row-label">Flag sentences longer than (words)</span><input class="settings-num" id="longLimitInput" type="number" min="5" max="100" value="${getLongLimit()}" onchange="setLongLimit(this.value)"></div>`;
   h += `<div class="settings-section-label" style="margin-top:10px">My saved sentences</div>`;
   if (!cats.length) h += `<div class="style-empty">Write your own sentence in the bank and choose “Add &amp; save to my bank”. It will then be available for every student.</div>`;
   else h += '<div class="style-list">' + cats.map(c => myBank[c].map(x => `<div class="style-item"><span class="style-pair"><span class="mine-cat">${escHtml(c.replace('::', ' · ').replace(/^english/, 'English').replace(/^maths/, 'Maths'))}</span> ${escHtml(applyRaw(x.text, '[Name]', PR.she))}</span><button class="style-x" title="Remove from my bank" onclick="removeMineFromSettings('${escHtml(c).replace(/'/g, '&#39;')}','${x.id}')">✕</button></div>`).join('')).join('') + '</div>';
@@ -9635,6 +9635,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.8.1</div>
+<div class="version-badge">v3.8.2</div>
 </body>
 </html>
