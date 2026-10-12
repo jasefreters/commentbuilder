@@ -526,10 +526,6 @@
   .sem-btn, .vbtn { font-size: 13px; font-weight: 600; padding: 6px 14px; min-height: 32px; color: var(--t2); }
   .vbtn.active, .sem-btn.active.s1 { background: var(--bg-1); color: var(--t0); box-shadow: 0 1px 2px rgba(20,32,43,.15); }
   .sem-btn.active.s2 { background: var(--accent); color: var(--on-accent); }
-  .bank-search { flex: 1 1 200px; max-width: 420px; min-width: 120px; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; background: var(--bg-0); border: 1px solid var(--border); border-radius: 10px; color: var(--t2); }
-  .bank-search:focus-within { border-color: var(--accent); }
-  .bank-search input { flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font-size: 14px; color: var(--t0); }
-  .bank-search input::placeholder { color: var(--t2); }
   .hdr-right { margin-left: auto; display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
   .save-indicator { font-family: var(--font); font-size: 13px; color: var(--t2); gap: 8px; }
   .save-dot { width: 8px; height: 8px; }
@@ -608,7 +604,6 @@
   .cat-btn.active .cat-count { background: rgba(255,255,255,.22); color: var(--on-accent); }
   html.dark .cat-btn.active .cat-count { background: rgba(0,0,0,.22); }
   .cat-div { width: 1px; height: 22px; margin: 0 4px; background: var(--border-h); }
-  .sidebar.searching .cat-btn { opacity: .55; }
 
   /* tools row */
   .c-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-bottom: 10px; }
@@ -790,12 +785,10 @@
     .c-name { font-size: 24px; width: 200px; }
     .opt::before { width: 76px !important; }
     .board-cards { grid-template-columns: 1fr; }
-    .bank-search { max-width: 260px; }
-  }
+    }
   @media (max-width: 860px) {
     .view-toggle .vbtn { padding: 6px 10px; }
-    .bank-search { display: none; }
-    .c-nav #stuPos { display: none; }
+      .c-nav #stuPos { display: none; }
   }
 </style>
 </head>
@@ -812,11 +805,6 @@
     <button class="vbtn" id="vPublish" onclick="setView('publish')" title="Read the finished comment, check it and polish it">Review</button>
     <button class="vbtn" id="vStats" onclick="setView('stats')">Class board</button>
   </div>
-  <label class="bank-search">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-    <span class="sr-only">Search the sentence bank</span>
-    <input type="search" id="bankSearch" placeholder="Search every sentence in the bank" autocomplete="off" oninput="onBankSearch()">
-  </label>
   <div class="hdr-right">
     <div class="save-indicator" id="saveIndicator" title="Auto-save status">
       <div class="save-dot" id="saveDot"></div>
@@ -1783,7 +1771,6 @@ function setSubject(subj) {
     cur().pubEditMaths   = null; cur().pubEditMaths_fdHash   = null; cur().pubEditMaths_subject   = null;
   }
 
-  clearBankSearch();
   syncPubSubj(); // Review-view subject switch
 
   // Update panel tabs
@@ -4019,7 +4006,7 @@ function renderSidebar() {
     introBtn.className = 'cat-btn' + (currentTab === 'Introduction' ? ' active' : '') + (introCount ? ' has-sel' : '');
     const introGradeHtml = gradeDotsHtml(getCurGrade('Introduction'));
     introBtn.innerHTML = `<span class="cat-name">Introduction</span>${introGradeHtml}${introCount ? `<span class="cat-count">${introCount}</span>` : ''}`;
-    introBtn.onclick = () => { clearBankSearch(); currentTab = 'Introduction'; render(); };
+    introBtn.onclick = () => { currentTab = 'Introduction'; render(); };
     el.appendChild(introBtn);
 
     // Below Expectations
@@ -4029,7 +4016,7 @@ function renderSidebar() {
     const beGrades = getCurGrade('Below Expectations');
     const beGradeHtml = (beGrades||[]).slice(0,2).map(g => `<span class="grade-indicator ${g}"></span>`).join('');
     beBtn.innerHTML = `<span class="cat-name">Below Expectations</span>${beGradeHtml}${beCount ? `<span class="cat-count">${beCount}</span>` : ''}`;
-    beBtn.onclick = () => { clearBankSearch(); currentTab = 'Below Expectations'; render(); };
+    beBtn.onclick = () => { currentTab = 'Below Expectations'; render(); };
     el.appendChild(beBtn);
 
     // Strand group headings + sub-strand buttons
@@ -4047,7 +4034,7 @@ function renderSidebar() {
         btn.className = 'cat-btn' + (cat === currentTab ? ' active' : '') + (count ? ' has-sel' : '');
         btn.style.paddingLeft = '1.5rem';
         btn.innerHTML = `<span class="cat-name">${cat}</span>${gradeHtml}${count ? `<span class="cat-count">${count}</span>` : ''}`;
-        btn.onclick = () => { clearBankSearch(); currentTab = cat; render(); };
+        btn.onclick = () => { currentTab = cat; render(); };
         el.appendChild(btn);
       });
     });
@@ -4058,7 +4045,7 @@ function renderSidebar() {
     const fdBtn = document.createElement('button');
     fdBtn.className = 'cat-btn' + (currentTab === 'Future Directions' ? ' active' : '') + (fdCount ? ' has-sel' : '');
     fdBtn.innerHTML = `<span class="cat-name">Future Directions</span>${fdCount ? `<span class="cat-count">${fdCount}</span>` : ''}`;
-    fdBtn.onclick = () => { clearBankSearch(); currentTab = 'Future Directions'; render(); };
+    fdBtn.onclick = () => { currentTab = 'Future Directions'; render(); };
     el.appendChild(fdBtn);
     return;
   }
@@ -4085,7 +4072,7 @@ function renderSidebar() {
     }
     const gradeHtml = isSubject ? gradeDotsHtml(getCurGrade(cat)) : '';
     btn.innerHTML = `<span class="cat-name">${cat}</span>${gradeHtml}${badgeHtml}`;
-    btn.onclick = () => { clearBankSearch(); currentTab = cat; render(); };
+    btn.onclick = () => { currentTab = cat; render(); };
     el.appendChild(btn);
   });
 }
@@ -4142,12 +4129,8 @@ function renderOpts() {
   if (currentSubject !== 'general') {
     paintBankTools(grid, false);
     renderSubjOpts(grid);
-    applySubjSearch(grid);
     return;
   }
-  // General: search runs across every category
-  if (_bankQuery) { paintBankTools(grid, true); renderBankSearch(grid); return; }
-
   // Custom input box — at the top
   const wrap = document.createElement('div');
   wrap.className = 'custom-wrap';
@@ -4685,7 +4668,6 @@ function renderStuBar() {
 // ── v3.6.0 · CLASS RAIL, DRAFT PANE, CLASS BOARD ─────────────────────────
 let _tierFilter = 'all';
 let _composerOpen = false;
-let _bankQuery = '';
 let _boardFilter = 'all';
 let _boardQuery = '';
 let _railLastIdx = -1;
@@ -4856,76 +4838,7 @@ function paintBankTools(grid, hasTiers) {
   document.querySelectorAll('#tierSeg button').forEach(b => b.classList.toggle('on', b.dataset.tier === _tierFilter));
   const cb = document.getElementById('composerBtn');
   if (cb) cb.setAttribute('aria-expanded', _composerOpen ? 'true' : 'false');
-  const sb = document.getElementById('bankSearch');
-  if (sb) sb.placeholder = currentSubject === 'general' ? 'Search every sentence in the bank' : 'Search sentences in this category';
-  const sidebar = document.getElementById('sidebar');
-  if (sidebar) sidebar.classList.toggle('searching', !!_bankQuery && currentSubject === 'general');
 }
-function onBankSearch() {
-  _bankQuery = (document.getElementById('bankSearch').value || '').trim();
-  if (currentView !== 'build') { setView('build'); return; }
-  renderOpts();
-}
-function clearBankSearch() {
-  if (!_bankQuery) return;
-  _bankQuery = '';
-  const i = document.getElementById('bankSearch');
-  if (i) i.value = '';
-}
-
-// General: search every sentence in every category
-function renderBankSearch(grid) {
-  document.getElementById('cTitle').textContent = _bankQuery.length < 2 ? 'Search' : `Search results for “${_bankQuery}”`;
-  if (_bankQuery.length < 2) {
-    grid.innerHTML = '<div class="opts-empty">Keep typing to search all categories.</div>';
-    return;
-  }
-  const q = _bankQuery.toLowerCase();
-  const isS2 = currentSemester === 2;
-  const s1Keys = isS2 ? getS1UsedKeys(cur()) : new Set();
-  const LIMIT = 60;
-  let found = 0, shown = 0;
-  CATS.forEach(cat => {
-    const bounds = TIER_BOUNDARIES[cat] || { average: null, developing: null };
-    (RAW[cat] || []).forEach((s, origIdx) => {
-      const isSel = (cur().selected[cat] || []).includes(s);
-      if (!inSemester(s) && !isSel) return;
-      const text = isSel ? applyFC(s, s) : applyFC(s);
-      if (!(text.toLowerCase().includes(q) || cat.toLowerCase().includes(q))) return;
-      found++;
-      if (shown >= LIMIT) return;
-      shown++;
-      const tier = bounds.average === null ? 'strong' : origIdx < bounds.average ? 'strong' : (bounds.developing === null || origIdx < bounds.developing) ? 'average' : 'developing';
-      const isS1Used = isS2 && s1Keys.has(s);
-      const btn = document.createElement('button');
-      btn.className = 'opt tier-' + tier + (isSel ? ' sel' : '') + (isS1Used ? ' s1-used' : '');
-      btn.innerHTML = `<span class="opt-body"><span class="opt-cat">${escHtml(cat)}</span>${escHtml(text)}</span>`;
-      if (isS1Used) btn.title = 'Used in Semester 1'; else btn.onclick = () => toggleOpt(cat, s);
-      grid.appendChild(btn);
-    });
-  });
-  if (!found) grid.innerHTML = `<div class="opts-empty">No sentences match “${escHtml(_bankQuery)}”.</div>`;
-  else if (found > shown) {
-    const n = document.createElement('div'); n.className = 'opts-note';
-    n.textContent = `Showing the first ${shown} of ${found} matches. Keep typing to narrow it down.`;
-    grid.appendChild(n);
-  }
-}
-// English / Maths: filter the sentences already on screen
-function applySubjSearch(grid) {
-  if (!_bankQuery) return;
-  const q = _bankQuery.toLowerCase();
-  let any = false;
-  grid.querySelectorAll('.opt').forEach(b => {
-    const hit = (b.textContent || '').toLowerCase().includes(q);
-    const holder = b.closest('.opt-custom-wrap') || (b.parentElement !== grid ? b.parentElement : b);
-    holder.style.display = hit ? '' : 'none';
-    if (hit) any = true;
-  });
-  grid.querySelectorAll('.grade-divider, .custom-wrap').forEach(d => { d.style.display = 'none'; });
-  if (!any) { const n = document.createElement('div'); n.className = 'opts-empty'; n.textContent = `No sentences in this category match “${_bankQuery}”.`; grid.appendChild(n); }
-}
-
 // ── Draft pane actions ──────────────────────────────────────────────────
 // Word-for-word what Review shows: cached Review edits if any, else rebuilt from the data
 function paneTextFromEl(el) {
@@ -9062,6 +8975,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.7.0</div>
+<div class="version-badge">v3.7.1</div>
 </body>
 </html>
