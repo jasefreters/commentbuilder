@@ -1489,11 +1489,16 @@ const RAW = {
     "{{N}} has shown strong enthusiasm and creativity in Creative Arts this semester, exploring the elements of Dance and Music. {{S}} learned how these can be used to express emotion and communicate ideas across a range of cultural contexts.",
     "During Health, {{N}} has developed an understanding of identity, the factors that affect health choices and strategies to support {{pos}} own wellbeing.",
     "{{N}} has participated positively in Physical Education, demonstrating fair play and a willingness to engage in a variety of physical activities.",
-    // Semester 2 KLAs (shown in Semester 2 only; the five above are Semester 1 only — see SEM_ONLY)
-    "{{N}} has shown strong engagement in Science and Technology, building and testing electrical circuits, investigating which materials conduct electricity and comparing the environmental impacts of renewable and non-renewable energy sources.",
-    "{{N}} has shown strong interest in Geography, reading maps and climate graphs, exploring how people rely on environments around the world for food and materials and investigating how communities in Australia manage floods and bushfires.",
-    "{{N}} has shown strong enthusiasm and creativity in Creative Arts, using techniques to create artworks for the class Art Show and bringing characters to life through scriptwriting and performance in Drama.",
-    "{{N}} has shown a thoughtful approach to Health, exploring respectful relationships, strategies for staying safe and how healthy eating and positive friendships support {{pos}} wellbeing.",
+    // Semester 2 KLAs (shown in Semester 2 only; the five above are Semester 1 only — see SEM_ONLY). Eight sentences, two per KLA.
+    // Term 3 and Term 4 options for each KLA
+    "{{N}} has shown strong engagement in Science and Technology whilst building and testing electrical circuits. {{S}} has investigated which materials conduct electricity and used this knowledge to design an electrical safety game.",
+    "{{N}} has shown strong engagement in Science and Technology whilst learning about renewable and non-renewable energy sources. {{S}} has researched how generating electricity affects the environment and explored cleaner ways to power a community.",
+    "{{N}} has shown strong interest in Geography through reading maps and exploring how cities, towns and remote communities are organised and connected. {{S}} has also learnt how communities prepare for floods and bushfires and how Aboriginal Peoples have cared for Country using fire.",
+    "{{N}} has shown strong interest in Geography through comparing environments around the world, from tropical rainforests to polar regions. {{S}} has used maps and climate graphs to explore how people rely on these environments and how human activity has changed them.",
+    "{{N}} has shown strong enthusiasm and creativity in Creative Arts by planning, painting and refining a series of artworks inspired by place for the class Art Show. {{S}} has also explored how Aboriginal and Torres Strait Islander artists share culture and connection to Country through their art.",
+    "{{N}} has shown strong enthusiasm and creativity in Creative Arts by creating prints and sculptures that blend ideas from the past and the future. In Drama, {{s}} has written and performed scripts that bring characters to life.",
+    "{{N}} has shown a thoughtful approach to Health when learning about respectful relationships and how to recognise unsafe situations. {{S}} has developed strategies to keep {{r}} safe and to support others.",
+    "{{N}} has shown a thoughtful approach to Health when learning how to stay safe in the sun and around water. {{S}} has also explored how healthy eating, positive friendships and resolving conflict support {{pos}} wellbeing.",
   ],
   "Interests & Passions": [
     "{{S}} approaches Creative Arts with enthusiasm, applying techniques learnt to elevate the quality and craft of {{pos}} work.",
@@ -1585,7 +1590,7 @@ const SEM_ONLY = { 1: new Set(), 2: new Set() };
 (function () {
   const k = RAW["Semester KLAs"];
   k.slice(0, 5).forEach(s => SEM_ONLY[1].add(s));
-  k.slice(5, 9).forEach(s => SEM_ONLY[2].add(s));
+  k.slice(5, 13).forEach(s => SEM_ONLY[2].add(s));
 })();
 // true when sentence s may be offered in the given semester's bank
 function inSemester(s, sem) {
@@ -9648,6 +9653,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.8.3</div>
+<div class="version-badge">v3.8.4</div>
 </body>
 </html>
