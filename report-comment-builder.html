@@ -7291,6 +7291,10 @@ function showSyncBanner() {
     b.querySelector('.sb-no').onclick = () => hideSyncBanner(false);
     document.body.appendChild(b);
   }
+  const m = b.querySelector('.sb-msg');
+  if (m) m.textContent = _lastExportAt > 0
+    ? 'You have made changes since your last backup, and they still have not reached the cloud. Download a fresh backup.'
+    : 'Your changes have not reached the cloud for over 2 minutes. Download a backup so nothing is lost.';
   b.classList.add('show'); _lastBannerAt = Date.now();
 }
 function hideSyncBanner(recovered) {
@@ -7300,13 +7304,14 @@ function hideSyncBanner(recovered) {
     if (recovered) showToast('Back in sync with the cloud.');
   }
 }
-// Every 30 seconds: while changes are unconfirmed, retry the cloud save, and after 2 minutes offer the backup (at most every 10 minutes,
-// and not if a backup was downloaded after the last change).
+// Every 30 seconds: while changes are unconfirmed, retry the cloud save, and after 2 minutes offer the backup. While the cloud is still
+// out of reach the offer repeats every 5 minutes, unless a backup was downloaded after the last change.
+const SYNC_REMIND_MS = 5 * 60 * 1000;
 function syncWatch() {
   if (!_stateLoaded || !getCloudToken() || _dirtySince === null) return;
   const now = Date.now();
   if (now - _lastCloudTry >= 30000 && !_cloudSaveTimer) cloudSave(false);
-  if (now - _dirtySince >= 120000 && now - _lastBannerAt >= 600000 && _lastChangeAt > _lastExportAt) showSyncBanner();
+  if (now - _dirtySince >= 120000 && now - _lastBannerAt >= SYNC_REMIND_MS && _lastChangeAt > _lastExportAt) showSyncBanner();
 }
 setInterval(syncWatch, 30000);
 window.addEventListener('online', () => { if (_dirtySince !== null && getCloudToken()) cloudSave(false); });
@@ -7516,7 +7521,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.9.0';
+const APP_VERSION = 'v3.9.1';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9973,6 +9978,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.9.0</div>
+<div class="version-badge">v3.9.1</div>
 </body>
 </html>
