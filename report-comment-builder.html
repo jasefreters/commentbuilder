@@ -2234,15 +2234,21 @@ const SUBJ_ALIASES = {
  "{{S}} writes simple, well-connected paragraphs and is learning to use linking words and sentence structures to organise ideas effectively.": "{{S}} writes simple, cohesive paragraphs and is learning to use connectives and sentence structures to organise ideas effectively.",
  "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea.": "{{S}} organises {{pos}} ideas into paragraphs and is learning to include topic sentences.",
  "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with relevant detail.": "{{S}} plans and drafts writing effectively, producing cohesive paragraphs that develop ideas with relevant detail.",
- "{{S}} constructs simple sentences and sentences joined with words like 'and' or 'but', and organises ideas logically.": "{{S}} constructs simple and compound sentences and organises ideas logically."
+ "{{S}} constructs simple sentences and sentences joined with words like 'and' or 'but', and organises ideas logically.": "{{S}} constructs simple and compound sentences and organises ideas logically.",
+ "{{S}} uses {{pos}} knowledge of addition and subtraction to solve complex worded problems.": "{{S}} solves multi-step word problems involving addition and subtraction.",
+ "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles.": "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles and parallelograms.",
+ "{{S}} recognises how authors create characters and structure stories to engage the reader.": "{{S}} recognises how authors build characters and structure stories to engage the reader.",
+ "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with appropriate detail.": "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with relevant detail."
 };
-function subjHas(list, s) { list = list || []; return list.includes(s) || (SUBJ_ALIASES[s] !== undefined && list.includes(SUBJ_ALIASES[s])); }
+// follows the chain new -> older -> oldest and returns the form a student actually has selected (or null)
+function subjSelectedForm(list, s) { list = list || []; let x = s, n = 0; while (x !== undefined && n++ < 6) { if (list.includes(x)) return x; x = SUBJ_ALIASES[x]; } return null; }
+function subjHas(list, s) { return subjSelectedForm(list, s) !== null; }
 
 function toggleSubjOpt(cat, s) {
   const sel = getSubjSelected();
   const ord = getSubjOrdered();
   if (!sel[cat]) sel[cat] = [];
-  if (!sel[cat].includes(s) && SUBJ_ALIASES[s] !== undefined && sel[cat].includes(SUBJ_ALIASES[s])) s = SUBJ_ALIASES[s];
+  { const _f = subjSelectedForm(sel[cat], s); if (_f !== null) s = _f; }
   const idx = sel[cat].indexOf(s);
   const isAdding = idx === -1;
 
@@ -3114,7 +3120,6 @@ const ENGLISH_BANK = {
     ],
     "C": [
       "{{N}} has demonstrated a sound understanding of English concepts this semester.",
-      "{{N}} has demonstrated a sound understanding of concepts covered this semester and is beginning to apply these skills in familiar situations.",
       "{{N}} has improved {{pos}} knowledge of all concepts taught in English.",
       "{{N}} is making pleasing progress in {{pos}} understanding of all concepts taught in English.",
       "{{N}} concentrates well during English lessons.",
@@ -3134,60 +3139,46 @@ const ENGLISH_BANK = {
   },
   "Below Expectations": {
     "E": [
-      "{{S}} is working significantly below stage expectations and is demonstrating progress in English that aligns with Year [X] expectations.",
-      "{{S}} is working significantly below stage expectations in English and is building {{pos}} foundational skills with growing confidence.",
-      "{{S}} is working significantly below stage expectations and is developing {{pos}} English skills with teacher support."
+      "{{S}} is working significantly below stage expectations and is demonstrating progress in English that aligns with Year [X] expectations."
     ],
-    "D": [
-      "{{S}} is working below stage expectations in English and is continuing to develop key skills with teacher support.",
-      "{{S}} is working towards achieving stage expectations in English and continues to build understanding with guidance.",
-      "{{S}} is working below stage expectations and is making progress towards meeting key English outcomes."
-    ]
+    "D": []
   },
   "Oral Language & Communication": {
     "A": [
       "{{S}} delivered a thoughtful and well-organised prepared speech.",
       "{{S}} actively participates in class discussions, asking specific questions to clarify information and deepen {{pos}} understanding.",
       "{{S}} adjusts {{pos}} volume, pace and expression when reading aloud to suit the purpose and complexity of the text.",
-      "{{S}} actively listens to others, retelling and building on their ideas to enhance classroom discussions.",
       "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions."
     ],
     "B": [
       "{{S}} presented a thoughtful and well-organised prepared speech.",
       "{{S}} communicates clearly and uses appropriate language during class discussions.",
       "{{S}} actively participates in group discussions.",
-      "{{S}} appropriately adjusts {{pos}} volume and pace during class presentations to support audience engagement.",
-      "{{S}} experiments with {{pos}} volume and pace to support audience engagement during class presentations."
+      "{{S}} appropriately adjusts {{pos}} volume and pace during class presentations to support audience engagement."
     ],
     "C": [
       "{{S}} seeks clarification during discussions and uses this to build a clearer understanding of texts.",
       "{{S}} poses thoughtful questions to deepen interpretation and supports {{pos}} thinking with clear reasons.",
       "{{S}} participates positively in discussions and is becoming more confident when expressing opinions about texts.",
       "{{S}} participates positively in class discussions and shares ideas about characters, themes and author choices.",
-      "{{S}} uses appropriate language skills when interacting with others during class discussions.",
-      "{{S}} is developing confidence in clearly communicating {{pos}} ideas during class activities."
+      "{{S}} uses appropriate language skills when interacting with others during class discussions."
     ],
     "D": [
       "{{S}} is developing the ability to change {{pos}} volume and pace to support audience engagement during class presentations.",
       "{{S}} participates in class discussions and is learning to express ideas more clearly.",
-      "{{S}} asks clarifying questions and listens respectfully to peers.",
       "{{S}} asks specific questions to clarify information and listens attentively to the contributions of others."
     ],
     "E": [
       "{{S}} participates in class discussions with support and is learning to express ideas more clearly when speaking.",
-      "{{S}} listens to others and is beginning to respond appropriately in conversations.",
-      "{{S}} contributes to discussions with peers, sharing ideas and participates in conversations with partners by listening and responding appropriately."
+      "{{S}} listens to others and is beginning to respond appropriately in conversations."
     ]
   },
   "Reading Comprehension": {
     "A": [
-      "{{S}} regularly demonstrates flexibility in adjusting {{pos}} reading rate to suit the purpose and complexity of a text.",
       "{{S}} makes observations and supports them with evidence from the text to enhance {{pos}} understanding of stories and information.",
       "{{S}} reads with confidence and uses context, grammar knowledge and skimming strategies to locate information in moderately complex texts.",
       "{{S}} applies reading strategies to interpret complex texts and explains how these texts communicate meaning.",
-      "{{S}} reads and comprehends digital texts and advertisements, identifying key ideas in various materials.",
-      "{{S}} monitors {{pos}} understanding and recognises when meaning breaks down.",
-      "{{S}} comprehends digital texts and identifies key ideas across a variety of text types."
+      "{{S}} monitors {{pos}} understanding and recognises when meaning breaks down."
     ],
     "B": [
       "{{S}} explains how authors make deliberate choices to shape the reader's perception.",
@@ -3199,7 +3190,6 @@ const ENGLISH_BANK = {
     ],
     "C": [
       "{{S}} uses reading strategies to comprehend more complex texts.",
-      "{{S}} reads and comprehends digital texts and advertisements, identifying main ideas in a range of materials.",
       "{{S}} identifies key ideas and supporting details when reading.",
       "{{S}} reads with confidence and uses skimming strategies to identify key ideas, locate details and understand unfamiliar words.",
       "{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts."
@@ -3220,8 +3210,6 @@ const ENGLISH_BANK = {
   },
   "Vocabulary": {
     "A": [
-      "{{S}} selects vocabulary appropriate to audience and purpose.",
-      "{{S}} understands that words can have multiple meanings and can describe how authors use language choices to influence meaning and perspective.",
       "{{S}} recognises that words can have multiple meanings and applies this knowledge to understand and create texts.",
       "{{S}} explains how word choices can make writing entertaining or informative in both fiction and non-fiction texts.",
       "{{S}} selects words that persuade the reader and uses language that creates emotion in poetry."
@@ -3239,11 +3227,9 @@ const ENGLISH_BANK = {
       "{{S}} experiments with different styles and incorporates vocabulary drawn from other texts."
     ],
     "D": [
-      "{{S}} uses context clues to understand the meaning of unfamiliar words.",
       "{{S}} selects a basic vocabulary to enhance writing.",
       "{{S}} includes describing words to add detail and variety to writing.",
       "{{S}} uses a growing vocabulary to enhance {{pos}} writing.",
-      "{{S}} is developing {{pos}} vocabulary and is learning how word choices influence meaning.",
       "{{S}} recognises that words can have different meanings.",
       "{{S}} recognises that words can have different meanings and applies this understanding when reading."
     ],
@@ -3255,7 +3241,7 @@ const ENGLISH_BANK = {
   "Creating Written Texts": {
     "A": [
       "{{S}} experiments with narrative writing features, showcasing creativity and thoughtfulness.",
-      "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with relevant detail.",
+      "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with appropriate detail.",
       "{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader.",
       "{{S}} shows a strong understanding of how to plan, structure and revise persuasive texts.",
       "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types.",
@@ -3268,24 +3254,15 @@ const ENGLISH_BANK = {
       "{{S}} plans and organises information reports.",
       "{{S}} applies a variety of tenses to suit different writing tasks."
     ],
-    "C": [
-      "{{S}} organises ideas logically and uses familiar vocabulary with increasing accuracy, adding detail to enhance {{pos}} texts.",
-      "{{S}} presents ideas in a logical order with growing accuracy.",
-      "{{S}} uses a range of punctuation for different purposes and selects appropriate tenses to suit different writing tasks."
-    ],
+    "C": [],
     "D": [
       "{{S}} is developing skills in structuring and editing persuasive texts.",
       "{{S}} organises recounts and attempts informative texts with emerging control.",
       "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.",
-      "{{S}} includes describing words to add detail to {{pos}} writing.",
-      "{{S}} organises ideas into paragraphs using simple linking words to sequence events and information.",
-      "{{S}} writes simple, well-connected paragraphs and is learning to use linking words and sentence structures to organise ideas effectively.",
-      "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea.",
-      "{{S}} constructs simple sentences and sentences joined with words like 'and' or 'but', and organises ideas logically."
+      "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea."
     ],
     "E": [
       "{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks.",
-      "{{S}} plans, writes and edits factual texts with support.",
       "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing."
     ]
   },
@@ -3293,32 +3270,22 @@ const ENGLISH_BANK = {
     "A": [
       "{{S}} automatically uses strategies in a range of contexts to spell unfamiliar words.",
       "{{S}} identifies complex letter patterns and sounds when spelling and applies this knowledge to improve spelling accuracy.",
-      "{{S}} applies correct letter patterns and general rules when spelling words.",
-      "{{S}} recognises the purposes of a range of punctuation marks and uses them accurately in {{pos}} writing.",
-      "{{S}} uses a variety of sentence structures and applies complex punctuation, including colons, semicolons and dashes, accurately."
+      "{{S}} applies correct letter patterns and general rules when spelling words."
     ],
     "B": [
       "{{S}} applies spelling generalisations to spell most familiar and less common words correctly.",
       "{{S}} applies correct spelling patterns and general rules when writing.",
-      "{{S}} understands how punctuation marks such as commas, apostrophes and quotation marks are used for different purposes and applies these in {{pos}} writing.",
-      "{{S}} uses commas for different purposes in {{pos}} writing and demonstrates a growing understanding of sentence structure.",
       "{{S}} demonstrates an understanding of how different tenses and sentence types are used to suit different writing purposes.",
       "{{S}} has shown improvement in spelling by identifying letter patterns to support correct spelling."
     ],
     "C": [
       "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy.",
-      "{{S}} applies familiar spelling patterns with developing accuracy.",
       "{{S}} applies some spelling patterns and general rules when writing.",
       "{{S}} selects appropriate tenses to suit different writing tasks."
     ],
     "D": [
       "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words.",
-      "{{S}} applies some common spelling patterns when writing and is developing accuracy.",
-      "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.",
-      "{{S}} is learning how to use basic punctuation, including capital letters and full stops, in {{pos}} writing.",
-      "{{S}} uses common punctuation accurately and is developing {{pos}} understanding of grammar rules.",
-      "{{S}} uses basic punctuation correctly, including capital letters, full stops, question and exclamation marks.",
-      "{{S}} is developing an understanding of how commas and apostrophes are used in writing."
+      "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words."
     ],
     "E": [
       "{{S}} spells words with double letters and identifies the meaning of most words by recognising their spelling.",
@@ -3336,9 +3303,7 @@ const ENGLISH_BANK = {
     ],
     "B": [
       "{{S}} writes with a fluent, legible handwriting style and navigates the keyboard efficiently when typing.",
-      "{{S}} presents written work neatly and maintains consistent letter formation.",
-      "{{S}} uses the keyboard efficiently when creating digital texts.",
-      "{{S}} writes neatly with consistent letter formation and layout."
+      "{{S}} presents written work neatly and maintains consistent letter formation."
     ],
     "C": [
       "{{S}} writes with a clear and legible handwriting style and types accurately using a keyboard.",
@@ -3354,7 +3319,6 @@ const ENGLISH_BANK = {
     ],
     "E": [
       "{{S}} forms most letters correctly on the line and uses appropriate spacing between words.",
-      "{{S}} is learning to maintain consistent spacing between words.",
       "{{S}} is learning to form letters correctly and write on the line.",
       "{{S}} forms letters correctly and maintains appropriate spacing when writing."
     ]
@@ -3381,16 +3345,13 @@ const ENGLISH_BANK = {
       "{{S}} identifies main ideas in narratives and uses these when creating original texts."
     ],
     "D": [
-      "{{S}} recognises some words and phrases that influence a reader's opinion.",
       "{{S}} explains how characters are developed in stories and describes how authors can show different points of view.",
-      "{{S}} identifies words and phrases that are used to persuade the reader.",
-      "{{S}} recognises how authors develop characters and identifies features of different text types."
+      "{{S}} identifies words and phrases that are used to persuade the reader."
     ],
     "E": [
       "{{S}} describes features of fiction and non-fiction texts and how pictures and words contribute to meaning.",
-      "{{S}} recognises how authors build characters and structure stories to engage the reader.",
-      "{{S}} identifies how advertisements are organised and describes features of both fiction and non-fiction texts.",
-      "{{S}} reads imaginative and persuasive texts and understands how the words and pictures contribute to meaning."
+      "{{S}} recognises how authors create characters and structure stories to engage the reader.",
+      "{{S}} identifies how advertisements are organised and describes features of both fiction and non-fiction texts."
     ]
   },
 };
@@ -3425,16 +3386,9 @@ const MATHS_BANK = {
   "Below Expectations": {
     "E": [
       "{{S}} is working significantly below stage expectations and is demonstrating progress in Mathematics that aligns with Year [X] expectations.",
-      "{{S}} is working significantly below stage expectations and is demonstrating progress in Mathematics that aligns with Year [X] outcomes.",
-      "{{S}} is working significantly below stage expectations in Mathematics and is building {{pos}} foundational skills with teacher support.",
-      "{{S}} is working significantly below stage expectations and is continuing to build {{pos}} confidence and Mathematics skills."
+      "{{S}} is working significantly below stage expectations and is demonstrating progress in Mathematics that aligns with Year [X] outcomes."
     ],
-    "D": [
-      "{{S}} is working below stage expectations in Mathematics and is continuing to develop key skills with guidance.",
-      "{{S}} is working towards achieving stage expectations in Mathematics and is making steady progress.",
-      "{{S}} is working below stage expectations and is building {{pos}} Mathematics skills in line with Year [X] learning outcomes.",
-      "{{S}} is working below stage expectations and is building {{pos}} Mathematics skills that align with Year [X] outcomes."
-    ]
+    "D": []
   },
   "Represents Numbers": {
     "A": [
@@ -3445,7 +3399,6 @@ const MATHS_BANK = {
     ],
     "B": [
       "{{S}} works confidently with large numbers in the millions and applies place value to solve a range of problems.",
-      "{{S}} rounds numbers to estimate results and applies place value knowledge confidently.",
       "{{S}} compares and orders whole numbers and fractions and rounds decimals accurately."
     ],
     "C": [
@@ -3461,7 +3414,6 @@ const MATHS_BANK = {
       "{{S}} rounds numbers to estimate results and records numbers in different ways."
     ],
     "E": [
-      "{{S}} is developing {{pos}} understanding of place value and is working towards reading and writing numbers in different ways.",
       "{{S}} separates numbers into groups of tens and ones.",
       "{{S}} is learning to read and represent numbers in different ways and can order numbers up to four digits."
     ]
@@ -3472,16 +3424,14 @@ const MATHS_BANK = {
     ],
     "B": [
       "{{S}} applies known strategies to solve addition and subtraction problems.",
-      "{{S}} solves multi-step word problems involving addition and subtraction."
+      "{{S}} uses {{pos}} knowledge of addition and subtraction to solve complex worded problems."
     ],
     "C": [
-      "{{S}} applies different strategies to solve addition and subtraction problems.",
-      "{{S}} uses a range of strategies to solve addition and subtraction problems."
+      "{{S}} applies different strategies to solve addition and subtraction problems."
     ],
     "D": [
       "{{S}} uses known number facts and basic strategies to solve addition and subtraction problems.",
-      "{{S}} solves subtraction with three-digit numbers.",
-      "{{S}} is developing {{pos}} ability to solve addition and subtraction problems using a range of strategies."
+      "{{S}} solves subtraction with three-digit numbers."
     ],
     "E": []
   },
@@ -3493,20 +3443,15 @@ const MATHS_BANK = {
     ],
     "B": [
       "{{S}} multiplies 2- and 3-digit numbers by 2-digit numbers and represents and solves division problems with whole number remainders.",
-      "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders.",
-      "{{S}} works through calculations with several steps in the correct order."
+      "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders."
     ],
     "C": [
-      "{{S}} solves simple number problems that involve multiplying a number by itself.",
       "{{S}} creates number patterns using known multiplication facts.",
       "{{S}} generates number patterns using times tables.",
-      "{{S}} solves division problems with remainders and recalls multiplication facts to support calculations.",
-      "{{S}} solves multiplication problems and uses number facts to support calculations.",
       "{{S}} solves division problems with whole number remainders."
     ],
     "D": [
-      "{{S}} recalls some multiplication facts and uses them to support calculations.",
-      "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve division problems."
+      "{{S}} recalls some multiplication facts and uses them to support calculations."
     ],
     "E": [
       "{{S}} counts by twos, threes and fives to recognise simple division and creates equal groups to show multiplication.",
@@ -3525,14 +3470,11 @@ const MATHS_BANK = {
     ],
     "B": [
       "{{S}} works with fractions and decimals and identifies prime numbers.",
-      "{{S}} adds and subtracts fractions and compares and orders fractions such as one half, one third and one quarter.",
       "{{S}} demonstrates an understanding of the connection between common fractions, decimals and percentages."
     ],
     "C": [
       "{{S}} expresses common percentages as both fractions and decimals.",
-      "{{S}} finds fractions of amounts and records numbers as decimals.",
       "{{S}} works with fractions and decimals with growing accuracy.",
-      "{{S}} recognises and represents fractions and converts between fractions and decimals.",
       "{{S}} understands common fractions and writes them as decimals."
     ],
     "D": [
@@ -3541,7 +3483,6 @@ const MATHS_BANK = {
       "{{S}} recognises simple fractions such as halves and quarters and records numbers as decimals.",
       "{{S}} converts simple fractions to decimals.",
       "{{S}} represents fractions with halves, quarters and thirds.",
-      "{{S}} recognises fractions such as thirds and fifths and represents them on a number line.",
       "{{S}} accurately represents fractions on a number line.",
       "{{S}} writes tenths and hundredths as decimal numbers.",
       "{{S}} represents common fractions using models and number lines."
@@ -3558,13 +3499,11 @@ const MATHS_BANK = {
     "B": [
       "{{S}} identifies and plots points on a number plane.",
       "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor.",
-      "{{S}} measures length using appropriate units and converts between centimetres, metres and kilometres.",
-      "{{S}} measures angles with a protractor and identifies angles in shapes."
+      "{{S}} measures length using appropriate units and converts between centimetres, metres and kilometres."
     ],
     "C": [
       "{{S}} plots and labels points on a number plane.",
       "{{S}} uses hectares and square metres to solve area problems.",
-      "{{S}} calculates the perimeter of rectangles and identifies angles in shapes.",
       "{{S}} identifies and plots points in the first quadrant of a number plane.",
       "{{S}} calculates the perimeters of common two-dimensional shapes.",
       "{{S}} measures length, area and capacity using appropriate units.",
@@ -3572,7 +3511,6 @@ const MATHS_BANK = {
       "{{S}} uses metres and kilometres to estimate and measure distances."
     ],
     "D": [
-      "{{S}} calculates the perimeter of common shapes and identifies right angles.",
       "{{S}} identifies and plots points in the first quadrant of a number plane with support.",
       "{{S}} selects appropriate units of measurement to determine length.",
       "{{S}} identifies right angles in shapes.",
@@ -3586,12 +3524,11 @@ const MATHS_BANK = {
     "A": [
       "{{S}} calculates areas and matches three-dimensional objects with their two-dimensional drawings.",
       "{{S}} classifies triangles and quadrilaterals by their features.",
-      "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles and parallelograms."
+      "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles."
     ],
     "B": [
       "{{S}} calculates the area of two-dimensional shapes.",
-      "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations.",
-      "{{S}} recognises the features of two-dimensional shapes and identifies angles in triangles."
+      "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations."
     ],
     "C": [
       "{{S}} identifies and classifies triangles and quadrilaterals based on their properties.",
@@ -3600,20 +3537,16 @@ const MATHS_BANK = {
     "D": [
       "{{S}} classifies triangles and quadrilaterals based on their properties.",
       "{{S}} identifies and names common two-dimensional shapes.",
-      "{{S}} classifies triangles and quadrilaterals.",
-      "{{S}} measures the areas of rectangles using informal units."
+      "{{S}} classifies triangles and quadrilaterals."
     ],
     "E": []
   },
   "Three-Dimensional Spatial Structure": {
     "A": [
-      "{{S}} finds the volume of rectangular prisms and solves related problems.",
-      "{{S}} efficiently connects three-dimensional objects with their two-dimensional representations.",
-      "{{S}} compares features of prisms and pyramids and classifies them by their properties."
+      "{{S}} efficiently connects three-dimensional objects with their two-dimensional representations."
     ],
     "B": [
       "{{S}} compares and constructs three-dimensional objects such as prisms and pyramids.",
-      "{{S}} finds areas of shapes and solves problems involving volume.",
       "{{S}} connects three-dimensional objects with their two-dimensional representations."
     ],
     "C": [
@@ -3621,9 +3554,7 @@ const MATHS_BANK = {
       "{{S}} visualises and constructs prisms and pyramids."
     ],
     "D": [
-      "{{S}} identifies and names common three-dimensional objects.",
-      "{{S}} names and describes the features of common three-dimensional objects.",
-      "{{S}} names and describes the features of two- and three-dimensional shapes."
+      "{{S}} names and describes the features of common three-dimensional objects."
     ],
     "E": [
       "{{S}} compares basic three-dimensional objects and explains how to connect them with their two-dimensional representations.",
@@ -3634,9 +3565,7 @@ const MATHS_BANK = {
   },
   "Non-Spatial Measure": {
     "A": [
-      "{{S}} chooses appropriate units for measuring capacity and mass.",
-      "{{S}} selects appropriate units to measure capacity and mass and converts between units.",
-      "{{S}} converts between units of time and reads timetables accurately."
+      "{{S}} chooses appropriate units for measuring capacity and mass."
     ],
     "B": [
       "{{S}} solves problems involving capacity and mass.",
@@ -3645,9 +3574,7 @@ const MATHS_BANK = {
     "C": [
       "{{S}} measures weight, perimeter and area accurately.",
       "{{S}} solves problems involving time by converting between 12-hour and 24-hour formats.",
-      "{{S}} converts between units of measurement and interprets timetables using both 12- and 24-hour time.",
       "{{S}} measures mass using appropriate units.",
-      "{{S}} uses start and finish times to calculate the elapsed time of events.",
       "{{S}} converts between 12- and 24-hour time."
     ],
     "D": [
@@ -3659,8 +3586,7 @@ const MATHS_BANK = {
     ],
     "E": [
       "{{S}} represents money in different ways and counts collections of coins and notes in familiar situations.",
-      "{{S}} shows money values in different forms.",
-      "{{S}} measures and compares lengths using simple units."
+      "{{S}} shows money values in different forms."
     ]
   },
   "Data": {
@@ -3669,13 +3595,11 @@ const MATHS_BANK = {
       "{{S}} interprets information in tables and identifies important features of data displays.",
       "{{S}} chooses suitable graphs and timelines to display information, and collects and organises data effectively.",
       "{{S}} interprets data presented in tables and graphs.",
-      "{{S}} selects the most appropriate graphs to represent data and evaluates data displays.",
       "{{S}} constructs and interprets data displays where each symbol or bar stands for more than one."
     ],
     "B": [
       "{{S}} interprets data from tables, graphs and charts, and explains their key features.",
       "{{S}} interprets data from tables and column graphs.",
-      "{{S}} chooses suitable graphs to represent data and justifies {{pos}} choices.",
       "{{S}} interprets information from tables and column graphs and finds totals in data displays."
     ],
     "C": [
@@ -3698,17 +3622,14 @@ const MATHS_BANK = {
   },
   "Chance": {
     "A": [
-      "{{S}} compares what should happen with what actually happens in chance experiments.",
       "{{S}} describes the likelihood of events using probability language."
     ],
     "B": [
-      "{{S}} describes the likelihood of outcomes in chance experiments using appropriate language.",
-      "{{S}} compares what should happen with what actually happens and explains the results."
+      "{{S}} describes the likelihood of outcomes in chance experiments using appropriate language."
     ],
     "C": [
       "{{S}} describes the chance of events occurring using the terms equally likely, likely and unlikely.",
-      "{{S}} describes the likelihood of outcomes in chance experiments using everyday language.",
-      "{{S}} identifies possible outcomes of different events and uses everyday language to describe likelihood."
+      "{{S}} describes the likelihood of outcomes in chance experiments using everyday language."
     ],
     "D": [
       "{{S}} identifies likely outcomes from chance experiments.",
@@ -3716,7 +3637,6 @@ const MATHS_BANK = {
       "{{S}} describes outcomes in simple chance experiments."
     ],
     "E": [
-      "{{S}} identifies possible outcomes and describes events as more or less likely.",
       "{{S}} identifies possible outcomes of events and describes them as more or less likely to happen."
     ]
   }
@@ -7804,7 +7724,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.9.6';
+const APP_VERSION = 'v3.9.7';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10276,6 +10196,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.9.6</div>
+<div class="version-badge">v3.9.7</div>
 </body>
 </html>
