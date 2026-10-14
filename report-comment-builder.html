@@ -2216,10 +2216,33 @@ function setSubjOrdered(val) {
   else cur().ordered = val;
 }
 
+// v3.9.6: Maths/English sentences reworded in plainer language -> their old wording. A student who already picked the old wording
+// still sees the new one highlighted, and clicking it takes the old one out. Built comments are never changed.
+const SUBJ_ALIASES = {
+ "{{S}} uses letters to stand for unknown numbers and recognises numbers multiplied by themselves, such as 4 × 4.": "{{S}} uses letters to represent numbers in algebra and recognises square and cube numbers.",
+ "{{S}} uses letters to stand for unknown numbers when solving simple problems.": "{{S}} uses letters to represent numbers when solving simple algebraic problems.",
+ "{{S}} solves simple number problems that involve multiplying a number by itself.": "{{S}} solves simple equations that include finding square and cube numbers.",
+ "{{S}} multiplies and divides decimals accurately and works through calculations with several steps in the correct order.": "{{S}} multiplies and divides decimals accurately and applies the order of operations to solve problems.",
+ "{{S}} works through calculations with several steps in the correct order.": "{{S}} applies the order of operations to solve number problems.",
+ "{{S}} compares amounts using ratios, such as 2 to 3, and explains how they connect to fractions.": "{{S}} identifies and simplifies ratios and explains the connection with fractions.",
+ "{{S}} adds and subtracts fractions and compares and orders fractions such as one half, one third and one quarter.": "{{S}} adds and subtracts fractions and compares and orders common unit fractions.",
+ "{{S}} constructs and interprets data displays where each symbol or bar stands for more than one.": "{{S}} constructs and interprets data displays using many-to-one scales.",
+ "{{S}} compares what should happen with what actually happens in chance experiments.": "{{S}} compares expected probabilities with observed outcomes in chance experiments.",
+ "{{S}} compares what should happen with what actually happens and explains the results.": "{{S}} compares expected probabilities with observed frequencies and explains the results.",
+ "{{S}} generates number patterns using times tables.": "{{S}} generates number patterns using known multiples.",
+ "{{S}} organises ideas into paragraphs using simple linking words to sequence events and information.": "{{S}} organises ideas into paragraphs using basic connectives to sequence events and information.",
+ "{{S}} writes simple, well-connected paragraphs and is learning to use linking words and sentence structures to organise ideas effectively.": "{{S}} writes simple, cohesive paragraphs and is learning to use connectives and sentence structures to organise ideas effectively.",
+ "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea.": "{{S}} organises {{pos}} ideas into paragraphs and is learning to include topic sentences.",
+ "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with relevant detail.": "{{S}} plans and drafts writing effectively, producing cohesive paragraphs that develop ideas with relevant detail.",
+ "{{S}} constructs simple sentences and sentences joined with words like 'and' or 'but', and organises ideas logically.": "{{S}} constructs simple and compound sentences and organises ideas logically."
+};
+function subjHas(list, s) { list = list || []; return list.includes(s) || (SUBJ_ALIASES[s] !== undefined && list.includes(SUBJ_ALIASES[s])); }
+
 function toggleSubjOpt(cat, s) {
   const sel = getSubjSelected();
   const ord = getSubjOrdered();
   if (!sel[cat]) sel[cat] = [];
+  if (!sel[cat].includes(s) && SUBJ_ALIASES[s] !== undefined && sel[cat].includes(SUBJ_ALIASES[s])) s = SUBJ_ALIASES[s];
   const idx = sel[cat].indexOf(s);
   const isAdding = idx === -1;
 
@@ -3232,7 +3255,7 @@ const ENGLISH_BANK = {
   "Creating Written Texts": {
     "A": [
       "{{S}} experiments with narrative writing features, showcasing creativity and thoughtfulness.",
-      "{{S}} plans and drafts writing effectively, producing cohesive paragraphs that develop ideas with relevant detail.",
+      "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with relevant detail.",
       "{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader.",
       "{{S}} shows a strong understanding of how to plan, structure and revise persuasive texts.",
       "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types.",
@@ -3247,7 +3270,6 @@ const ENGLISH_BANK = {
     ],
     "C": [
       "{{S}} organises ideas logically and uses familiar vocabulary with increasing accuracy, adding detail to enhance {{pos}} texts.",
-      "{{S}} presents ideas in a logical order and uses familiar vocabulary with increasing accuracy, adding detail to enhance {{pos}} texts.",
       "{{S}} presents ideas in a logical order with growing accuracy.",
       "{{S}} uses a range of punctuation for different purposes and selects appropriate tenses to suit different writing tasks."
     ],
@@ -3256,11 +3278,10 @@ const ENGLISH_BANK = {
       "{{S}} organises recounts and attempts informative texts with emerging control.",
       "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.",
       "{{S}} includes describing words to add detail to {{pos}} writing.",
-      "{{S}} organises ideas into paragraphs using basic connectives to sequence events and information.",
-      "{{S}} writes simple, cohesive paragraphs and is learning to use connectives and sentence structures to organise ideas effectively.",
-      "{{S}} organises {{pos}} ideas into paragraphs and is learning to include topic sentences.",
-      "{{S}} constructs simple and compound sentences and organises ideas logically.",
-      "{{S}} constructs simple and compound sentences and presents ideas in a logical order."
+      "{{S}} organises ideas into paragraphs using simple linking words to sequence events and information.",
+      "{{S}} writes simple, well-connected paragraphs and is learning to use linking words and sentence structures to organise ideas effectively.",
+      "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea.",
+      "{{S}} constructs simple sentences and sentences joined with words like 'and' or 'but', and organises ideas logically."
     ],
     "E": [
       "{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks.",
@@ -3274,8 +3295,7 @@ const ENGLISH_BANK = {
       "{{S}} identifies complex letter patterns and sounds when spelling and applies this knowledge to improve spelling accuracy.",
       "{{S}} applies correct letter patterns and general rules when spelling words.",
       "{{S}} recognises the purposes of a range of punctuation marks and uses them accurately in {{pos}} writing.",
-      "{{S}} uses a variety of sentence structures and applies complex punctuation, including colons, semicolons and dashes, accurately.",
-      "{{S}} demonstrates a strong understanding of grammar by applying correct tense, subject-verb agreement and sentence structure across different text types."
+      "{{S}} uses a variety of sentence structures and applies complex punctuation, including colons, semicolons and dashes, accurately."
     ],
     "B": [
       "{{S}} applies spelling generalisations to spell most familiar and less common words correctly.",
@@ -3292,7 +3312,6 @@ const ENGLISH_BANK = {
       "{{S}} selects appropriate tenses to suit different writing tasks."
     ],
     "D": [
-      "{{S}} spells common contractions accurately.",
       "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words.",
       "{{S}} applies some common spelling patterns when writing and is developing accuracy.",
       "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.",
@@ -3342,7 +3361,6 @@ const ENGLISH_BANK = {
   },
   "Understanding and Responding to Literature": {
     "A": [
-      "{{S}} understands how narrative patterns set up the reader's expectations and recognises when these are unexpectedly changed.",
       "{{S}} explains how language in poetry can evoke emotion and shows creativity when developing ideas.",
       "{{S}} explores how language can evoke emotions in poems and creates poems with a clear, consistent theme.",
       "{{S}} analyses and creates poems with a clear focus and consistent theme, showing creativity and thoughtfulness.",
@@ -3350,7 +3368,6 @@ const ENGLISH_BANK = {
     ],
     "B": [
       "{{S}} identifies themes in narratives and connects with key ideas in a variety of stories.",
-      "{{S}} explains how authors use language to present different perspectives and analyses persuasive devices in texts.",
       "{{S}} understands how language can evoke emotion and identifies how characters are developed through their traits and actions.",
       "{{S}} identifies and applies themes in various texts."
     ],
@@ -3360,7 +3377,6 @@ const ENGLISH_BANK = {
       "{{S}} identifies themes in narratives and applies them when creating {{pos}} own texts.",
       "{{S}} explores how language can evoke emotions in poems.",
       "{{S}} describes the structure of persuasive texts and discusses how language can be used to evoke emotion.",
-      "{{S}} recognises how persuasive texts are structured and discusses how language can be used to evoke emotion.",
       "{{S}} identifies how characters are developed through their traits and actions.",
       "{{S}} identifies main ideas in narratives and uses these when creating original texts."
     ],
@@ -3430,12 +3446,10 @@ const MATHS_BANK = {
     "B": [
       "{{S}} works confidently with large numbers in the millions and applies place value to solve a range of problems.",
       "{{S}} rounds numbers to estimate results and applies place value knowledge confidently.",
-      "{{S}} compares and orders whole numbers and fractions and rounds decimals accurately.",
-      "{{S}} reads numbers in the millions and uses place value to separate, regroup and rename numbers."
+      "{{S}} compares and orders whole numbers and fractions and rounds decimals accurately."
     ],
     "C": [
       "{{S}} applies {{pos}} knowledge of place value to work confidently with large numbers.",
-      "{{S}} utilises place value knowledge to regroup and rename numbers.",
       "{{S}} works confidently with large numbers and applies place value to solve problems.",
       "{{S}} rounds whole numbers and decimals to estimate results.",
       "{{S}} reads and represents numbers using place value knowledge.",
@@ -3444,8 +3458,7 @@ const MATHS_BANK = {
     "D": [
       "{{S}} reads, writes, and interprets numbers in a variety of ways.",
       "{{S}} works with whole numbers and applies place value to solve problems.",
-      "{{S}} rounds numbers to estimate results and records numbers in different ways.",
-      "{{S}} uses rounding to estimate addition and subtraction problems and applies place value to separate, regroup and rename numbers."
+      "{{S}} rounds numbers to estimate results and records numbers in different ways."
     ],
     "E": [
       "{{S}} is developing {{pos}} understanding of place value and is working towards reading and writing numbers in different ways.",
@@ -3468,27 +3481,25 @@ const MATHS_BANK = {
     "D": [
       "{{S}} uses known number facts and basic strategies to solve addition and subtraction problems.",
       "{{S}} solves subtraction with three-digit numbers.",
-      "{{S}} is developing {{pos}} ability to solve addition and subtraction problems using a range of strategies.",
-      "{{S}} applies number facts to create equal number sentences."
+      "{{S}} is developing {{pos}} ability to solve addition and subtraction problems using a range of strategies."
     ],
     "E": []
   },
   "Multiplicative Relations": {
     "A": [
-      "{{S}} uses letters to represent numbers in algebra and recognises square and cube numbers.",
-      "{{S}} multiplies 2- and 3-digit numbers by 2-digit numbers and is proficient in multiplying and dividing decimals by powers of 10.",
-      "{{S}} multiplies and divides decimals accurately and applies the order of operations to solve problems.",
-      "{{S}} uses letters to represent numbers when solving simple algebraic problems."
+      "{{S}} uses letters to stand for unknown numbers and recognises numbers multiplied by themselves, such as 4 × 4.",
+      "{{S}} multiplies and divides decimals accurately and works through calculations with several steps in the correct order.",
+      "{{S}} uses letters to stand for unknown numbers when solving simple problems."
     ],
     "B": [
       "{{S}} multiplies 2- and 3-digit numbers by 2-digit numbers and represents and solves division problems with whole number remainders.",
       "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders.",
-      "{{S}} applies the order of operations to solve number problems."
+      "{{S}} works through calculations with several steps in the correct order."
     ],
     "C": [
-      "{{S}} solves simple equations that include finding square and cube numbers.",
+      "{{S}} solves simple number problems that involve multiplying a number by itself.",
       "{{S}} creates number patterns using known multiplication facts.",
-      "{{S}} generates number patterns using known multiples.",
+      "{{S}} generates number patterns using times tables.",
       "{{S}} solves division problems with remainders and recalls multiplication facts to support calculations.",
       "{{S}} solves multiplication problems and uses number facts to support calculations.",
       "{{S}} solves division problems with whole number remainders."
@@ -3508,14 +3519,13 @@ const MATHS_BANK = {
       "{{S}} adds, subtracts, multiplies and divides fractions.",
       "{{S}} compares and orders fractions, decimals and percentages and explains how they are related.",
       "{{S}} solves problems involving the multiplication and division of fractions.",
-      "{{S}} identifies and simplifies ratios and explains the connection with fractions.",
+      "{{S}} compares amounts using ratios, such as 2 to 3, and explains how they connect to fractions.",
       "{{S}} calculates percentage discounts and finds fractions of whole numbers.",
-      "{{S}} adds and subtracts simple fractions with accuracy.",
-      "{{S}} compares and orders fractions and decimals and uses letters to represent numbers when solving simple algebraic problems."
+      "{{S}} adds and subtracts simple fractions with accuracy."
     ],
     "B": [
       "{{S}} works with fractions and decimals and identifies prime numbers.",
-      "{{S}} adds and subtracts fractions and compares and orders common unit fractions.",
+      "{{S}} adds and subtracts fractions and compares and orders fractions such as one half, one third and one quarter.",
       "{{S}} demonstrates an understanding of the connection between common fractions, decimals and percentages."
     ],
     "C": [
@@ -3543,13 +3553,11 @@ const MATHS_BANK = {
   },
   "Geometric Measure": {
     "A": [
-      "{{S}} calculates the perimeter of two-dimensional shapes and precisely measures angles with a protractor.",
-      "{{S}} identifies and plots points in all four quadrants of a number plane."
+      "{{S}} calculates the perimeter of two-dimensional shapes and precisely measures angles with a protractor."
     ],
     "B": [
       "{{S}} identifies and plots points on a number plane.",
       "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor.",
-      "{{S}} plots points in all four quadrants of a number plane.",
       "{{S}} measures length using appropriate units and converts between centimetres, metres and kilometres.",
       "{{S}} measures angles with a protractor and identifies angles in shapes."
     ],
@@ -3662,7 +3670,7 @@ const MATHS_BANK = {
       "{{S}} chooses suitable graphs and timelines to display information, and collects and organises data effectively.",
       "{{S}} interprets data presented in tables and graphs.",
       "{{S}} selects the most appropriate graphs to represent data and evaluates data displays.",
-      "{{S}} constructs and interprets data displays using many-to-one scales."
+      "{{S}} constructs and interprets data displays where each symbol or bar stands for more than one."
     ],
     "B": [
       "{{S}} interprets data from tables, graphs and charts, and explains their key features.",
@@ -3690,13 +3698,12 @@ const MATHS_BANK = {
   },
   "Chance": {
     "A": [
-      "{{S}} compares expected probabilities with observed outcomes in chance experiments.",
-      "{{S}} describes the likelihood of events using probability language.",
-      "{{S}} conducts chance experiments and quantifies the probability."
+      "{{S}} compares what should happen with what actually happens in chance experiments.",
+      "{{S}} describes the likelihood of events using probability language."
     ],
     "B": [
       "{{S}} describes the likelihood of outcomes in chance experiments using appropriate language.",
-      "{{S}} compares expected probabilities with observed frequencies and explains the results."
+      "{{S}} compares what should happen with what actually happens and explains the results."
     ],
     "C": [
       "{{S}} describes the chance of events occurring using the terms equally likely, likely and unlikely.",
@@ -6554,7 +6561,7 @@ function renderAllStrandsView(grid) {
         grid.appendChild(gDiv);
       }
       const displayed = applyRaw(s, name, p, yr);
-      const isSel = (sel[cat] || []).includes(s);
+      const isSel = subjHas(sel[cat], s);
       const btn = document.createElement('button');
       btn.className = 'opt' + (isSel ? ' sel' : '');
       btn.style.cssText = 'font-size:12px;';
@@ -6668,7 +6675,7 @@ function renderSubjOpts(grid) {
 
     sents.forEach(s => {
       const displayed = applyRaw(s, name, p, yr);
-      const isSel = (sel[currentTab] || []).includes(s);
+      const isSel = subjHas(sel[currentTab], s);
       const btn = document.createElement('button');
       btn.className = 'opt' + (isSel ? ' sel' : '');
       btn.textContent = displayed;
@@ -7797,7 +7804,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.9.5';
+const APP_VERSION = 'v3.9.6';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10269,6 +10276,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.9.5</div>
+<div class="version-badge">v3.9.6</div>
 </body>
 </html>
