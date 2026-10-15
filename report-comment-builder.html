@@ -3204,7 +3204,6 @@ const ENGLISH_BANK = {
     "E": [
       "{{S}} reads predictable texts with guidance and draws basic connections to gain a clearer understanding of the stories.",
       "{{S}} reads simple, familiar texts and is building confidence in recognising high-frequency words.",
-      "{{S}} is working towards identifying the author's message and purpose.",
       "{{S}} comprehends predictable imaginative texts from the main character's perspective."
     ]
   },
@@ -3230,8 +3229,7 @@ const ENGLISH_BANK = {
       "{{S}} selects a basic vocabulary to enhance writing.",
       "{{S}} includes describing words to add detail and variety to writing.",
       "{{S}} uses a growing vocabulary to enhance {{pos}} writing.",
-      "{{S}} recognises that words can have different meanings.",
-      "{{S}} recognises that words can have different meanings and applies this understanding when reading."
+      "{{S}} recognises that words can have different meanings."
     ],
     "E": [
       "{{S}} uses basic descriptive language in {{pos}} writing.",
@@ -3275,7 +3273,6 @@ const ENGLISH_BANK = {
     "B": [
       "{{S}} applies spelling generalisations to spell most familiar and less common words correctly.",
       "{{S}} applies correct spelling patterns and general rules when writing.",
-      "{{S}} demonstrates an understanding of how different tenses and sentence types are used to suit different writing purposes.",
       "{{S}} has shown improvement in spelling by identifying letter patterns to support correct spelling."
     ],
     "C": [
@@ -7724,7 +7721,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.9.7';
+const APP_VERSION = 'v3.9.8';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10196,6 +10193,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.9.7</div>
+<div class="version-badge">v3.9.8</div>
 </body>
 </html>
