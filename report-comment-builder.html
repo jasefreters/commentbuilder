@@ -3732,6 +3732,15 @@ function yearSents(catSentences, g) {
   return { list: out, fallback: false };
 }
 function bankSentsForGrade(catSentences, g) { return yearSents(catSentences, g).list; }
+// v3.11.2: when no grade is set the strand shows every grade; with year grading on, each sentence goes under the tab this student's year gives it.
+// A sentence sits under the highest grade it fits. A syllabus-tagged sentence that fits no tab for this year is left out, exactly as it is when a grade is chosen; general (untagged) sentences stay under their stored grade.
+function yearAllGrades(catSentences) {
+  if (!yearGradingActive()) return catSentences;
+  const out = { A: [], B: [], C: [], D: [], E: [] }, placed = new Set();
+  GRADE_ORDER.forEach(g => { const r = yearSents(catSentences, g); if (r.fallback) return; r.list.forEach(s => { if (!placed.has(s)) { placed.add(s); out[g].push(s); } }); });
+  GRADE_ORDER.forEach(g => (catSentences[g] || []).forEach(s => { if (!placed.has(s) && !SENT_TAG[s]) { placed.add(s); out[g].push(s); } }));   // general sentences stay in their stored grade
+  return out;
+}
 function addSylTag(btn, s) {
   const lab = sylTagLabel(SENT_TAG[s]);
   if (!lab) return;
@@ -6749,7 +6758,7 @@ function renderAllStrandsView(grid) {
 
     // When showing all grades, use all grade sentences with dividers
     const allSents = !_filterByGrade
-      ? GRADE_ORDER.flatMap(g => (catSentences[g] || []).map(s => ({ s, g })))
+      ? (() => { const _ay = yearAllGrades(catSentences); return GRADE_ORDER.flatMap(g => (_ay[g] || []).map(s => ({ s, g }))); })()
       : sents.map(s => ({ s, g: gradeArr[0] || 'C' }));
 
     if (!allSents.length) {
@@ -6878,8 +6887,9 @@ function renderSubjOpts(grid) {
   }
 
   const _shownYr = new Set();
+  const _allYr = hasGrades ? null : yearAllGrades(catSentences);
   gradesToShow.forEach(grade => {
-    const _ys = hasGrades ? yearSents(catSentences, grade) : { list: catSentences[grade] || [], fallback: false };
+    const _ys = hasGrades ? yearSents(catSentences, grade) : { list: _allYr[grade] || [], fallback: false };
     const sents = _ys.list.filter(s => hasGrades ? !_shownYr.has(s) : true);
     if (hasGrades) sents.forEach(s => _shownYr.add(s));
     if (!sents.length) return;
@@ -8072,7 +8082,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.11.1';
+const APP_VERSION = 'v3.11.2';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10553,6 +10563,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.11.1</div>
+<div class="version-badge">v3.11.2</div>
 </body>
 </html>
