@@ -3728,9 +3728,15 @@ function yearSents(catSentences, g) {
   // v3.11.3: wording written for a higher grade than the tab its stage sits in ("works confidently...") is offered one grade up.
   // For example Stage 3 Part A sits at C for Year 5, so its A and B wording shows under B; Stage 2 sentences (stored D and E) are not lifted.
   const low = GRADE_ORDER[gi + 1], lowAllowed = new Set(low ? (YEAR_RULES[currentSemester + '|' + (currentSubject === 'maths' ? 'M' : 'E') + '|' + c.year + '|' + low] || []) : []);
+  // v3.11.3 (Jason: "don't remove it from the A, just include it"): a sentence also stays under the grade it is stored in whenever its stage sits at that grade or below.
+  const _rk = sj => GRADE_ORDER.map(x => new Set(YEAR_RULES[currentSemester + '|' + sj + '|' + c.year + '|' + x] || []));
+  const gAll = _rk(currentSubject === 'maths' ? 'M' : 'E');
   GRADE_ORDER.forEach((b, bi) => (catSentences[b] || []).forEach(s => {
     const t = SENT_TAG[s];
-    if (t && bi <= gi && lowAllowed.size && _tagSet(t).some(x => lowAllowed.has(x))) keep.add(s);
+    if (!t) return;
+    const ts = _tagSet(t);
+    if (bi <= gi && lowAllowed.size && ts.some(x => lowAllowed.has(x))) keep.add(s);
+    if (bi === gi && GRADE_ORDER.some((_, k) => k >= gi && ts.some(x => gAll[k].has(x)))) keep.add(s);
   }));
   const out = [];
   GRADE_ORDER.forEach(b => (catSentences[b] || []).forEach(s => {
