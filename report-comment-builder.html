@@ -831,6 +831,13 @@
   .sidebar > div:not(.cat-div):not(.s-label) { white-space: nowrap; flex: 0 0 auto; padding: 0 2px 0 10px !important; margin: 0 !important; color: var(--t2) !important; font-size: 11px !important; }
   .version-badge { right: auto; left: 12px; }
   #syncBanner { position: fixed; left: 50%; bottom: 16px; transform: translate(-50%, 24px); z-index: 1000; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: min(640px, calc(100vw - 24px)); padding: 10px 14px; background: var(--bg-4); color: var(--t0); border: 1px solid var(--amber-line); border-radius: 12px; box-shadow: 0 8px 28px rgba(0,0,0,.25); font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+  #conflictBanner { position: fixed; left: 50%; bottom: 16px; transform: translate(-50%, 24px); z-index: 1001; display: flex; flex-direction: column; gap: 8px; max-width: min(640px, calc(100vw - 24px)); padding: 12px 14px; background: var(--bg-4); color: var(--t0); border: 1px solid var(--amber-line); border-radius: 12px; box-shadow: 0 8px 28px rgba(0,0,0,.25); font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+  #conflictBanner.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+  #conflictBanner .cb-head { font-weight: 600; }
+  #conflictBanner .cb-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  #conflictBanner .cb-name { flex: 1 1 100px; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
+  #conflictBanner .sb-btn { font: inherit; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-h); background: var(--bg-2); color: var(--t0); cursor: pointer; }
+  #conflictBanner .sb-go { background: var(--amber-line); border-color: transparent; color: #1a1305; }
   #syncBanner.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
   #syncBanner .sb-btn { font: inherit; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-h); background: var(--bg-2); color: var(--t0); cursor: pointer; }
   #syncBanner .sb-go { background: var(--amber-line); border-color: transparent; color: #1a1305; }
@@ -880,6 +887,7 @@
     .syn-dropdown, .fix-dropdown { left: 8px !important; right: 8px !important; width: auto !important; max-width: none; }
     .toast { white-space: normal; max-width: calc(100vw - 24px); text-align: center; border-radius: 14px; }
     #syncBanner { bottom: 76px; }
+    #conflictBanner { bottom: 76px; }
 
     /* Build: students strip on top, then ONE of the sentence bank or the draft, switched by the bottom tabs */
     .build-view { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; }
@@ -4733,6 +4741,173 @@ let _adminKey = '';
 
 
 
+
+// ══ v3.10.0 · TWO DEVICES AT ONCE ═══════════════════════════════════════════════════════════════
+// Before this version each device saved its whole session over the cloud copy, so whichever device saved last won and the other
+// device's edits were lost. Now every student has an id (uid). This device remembers what the cloud held when it last synced
+// (_syncBase, only short fingerprints). Before saving, on opening and when you come back to the tab, it compares three copies:
+// what it synced last, what is on this device and what is in the cloud. A student changed on only one side takes that side's version,
+// a student added or removed on one side is added or removed, and a student changed on both sides keeps THIS device's version while
+// the other device's version is kept as a copy that you can swap to. Comments already built are never edited by the merge itself.
+let _syncBase = lsGet('rcb_syncbase', null);   // { at, st:{uid:hash}, sm, mb, ts } as of the last load or save
+let _syncBusy = false;
+let _conflicts = [];                           // [{ uid, name, cloud }] students changed on both devices
+function _canon(v) {
+  if (Array.isArray(v)) return '[' + v.map(_canon).join(',') + ']';
+  if (v && typeof v === 'object') return '{' + Object.keys(v).sort().map(k => JSON.stringify(k) + ':' + _canon(v[k])).join(',') + '}';
+  return JSON.stringify(v === undefined ? null : v);
+}
+function _hash(s) {   // cyrb53, a short fingerprint (not security)
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < s.length; i++) { const c = s.charCodeAt(i); h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677); }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+function _hs(s) { return _hash(_canon(_normStudent(s, 0))); }   // fingerprint of one student (defaults filled in, key order ignored)
+function _newUid() { return 'u' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-3); }
+function _ensureUids() { students.forEach(s => { if (!s.uid) s.uid = _newUid(); }); }
+function _snapshot(sess) {
+  const st = {};
+  (sess.students || []).forEach(s => { if (s.uid) st[s.uid] = _hs(s); });
+  return { at: sess.savedAt || null, st, sm: _hash(_canon(sess.styleMemory || null)), mb: _hash(_canon(sess.myBank || {})), ts: sess.totalStudents || 0 };
+}
+function _setSyncBase(b) { _syncBase = b; lsSet('rcb_syncbase', b); }
+// Three-way merge of the students and the shared lists. base = fingerprints, local/cloud = { students, styleMemory, myBank, totalStudents }
+function _mergeSessions(base, local, cloud) {
+  const conflicts = []; let changedLive = false, localChanged = false;
+  const cMap = new Map(cloud.students.map(s => [s.uid, s])), lMap = new Map(local.students.map(s => [s.uid, s]));
+  const out = [];
+  local.students.forEach(l => {
+    const c = cMap.get(l.uid), b = base.st[l.uid], lh = _hs(l);
+    if (c) {
+      const ch = _hs(c);
+      if (lh === ch) out.push(l);
+      else if (b === ch) { out.push(l); localChanged = true; }          // only this device changed it
+      else if (b === lh) { out.push(c); changedLive = true; }           // only the other device changed it
+      else { out.push(l); localChanged = true; conflicts.push({ uid: l.uid, name: l.name || 'A student', cloud: c }); }
+    } else if (b === undefined) { out.push(l); localChanged = true; }   // added on this device
+    else if (b === lh) { changedLive = true; }                          // removed on the other device, untouched here
+    else { out.push(l); localChanged = true; }                          // removed on the other device but changed here: keep
+  });
+  cloud.students.forEach(c => {
+    if (lMap.has(c.uid)) return;
+    const b = base.st[c.uid];
+    if (b === undefined) { out.push(c); changedLive = true; }           // added on the other device
+    else if (b === _hs(c)) { localChanged = true; }                     // removed here, untouched there: stays removed
+    else { out.push(c); changedLive = true; }                           // removed here but changed there: keep
+  });
+  const pick = (lv, cv, bh, h) => {
+    const lh = h(lv), ch = h(cv);
+    if (lh === ch) return { v: lv };
+    if (bh === ch) return { v: lv, mine: true };
+    if (bh === lh) return { v: cv, theirs: true };
+    return { v: lv, mine: true };
+  };
+  const sm = pick(local.styleMemory, cloud.styleMemory, base.sm, v => _hash(_canon(v || null)));
+  let myBank = local.myBank;
+  const mbH = v => _hash(_canon(v || {}));
+  const lmb = mbH(local.myBank), cmb = mbH(cloud.myBank);
+  if (lmb !== cmb) {
+    if (base.mb === lmb) { myBank = cloud.myBank; changedLive = true; }
+    else if (base.mb === cmb) { localChanged = true; }
+    else {   // both changed: keep everything either side saved
+      myBank = JSON.parse(JSON.stringify(local.myBank || {}));
+      Object.keys(cloud.myBank || {}).forEach(cat => {
+        const have = new Set((myBank[cat] || []).map(x => x.id));
+        (cloud.myBank[cat] || []).forEach(x => { if (!have.has(x.id)) { (myBank[cat] = myBank[cat] || []).push(x); } });
+      });
+      localChanged = true; changedLive = true;
+    }
+  }
+  if (sm.theirs) changedLive = true; if (sm.mine) localChanged = true;
+  const tsLocal = local.totalStudents, tsCloud = cloud.totalStudents;
+  const totalStudents = (tsLocal === base.ts) ? (tsCloud || tsLocal) : tsLocal;
+  if (totalStudents !== tsLocal) changedLive = true;
+  return { students: out, styleMemory: sm.v, myBank, totalStudents, conflicts, changedLive, localChanged };
+}
+// Folds the cloud copy `cs` into what is on screen. Returns { localChanged } (true when this device still has changes the cloud lacks).
+function _mergeIntoLive(cs) {
+  saveCur(); _ensureUids();
+  const curUid = students[currentIdx] && students[currentIdx].uid;
+  const cloud = { students: (cs.students || []).map((s, i) => _normStudent(s, i)), styleMemory: normaliseStyleMemory(cs.styleMemory), myBank: normaliseMyBank(cs.myBank), totalStudents: cs.totalStudents || 0 };
+  const local = { students, styleMemory, myBank, totalStudents };
+  const r = _mergeSessions(_syncBase, local, cloud);
+  if (r.changedLive || r.conflicts.length) {
+    if (r.conflicts.length) _stashConflictCopies(r.conflicts);
+    const wasName = curUid ? (students.find(s => s.uid === curUid) || {}).name : '';
+    students = r.students.length ? r.students : students;
+    styleMemory = r.styleMemory; myBank = r.myBank; totalStudents = r.totalStudents;
+    if (cs.settings) applySettingsBlob(cs.settings);
+    const at = students.findIndex(s => s.uid === curUid);
+    currentIdx = at >= 0 ? at : Math.min(currentIdx, students.length - 1);
+    loadCur(); render(); updateProgress();
+    const sess = buildSession(); idbSet('rcb_session', sess); lsSet('rcb_session', sess);
+    showToast('Updated with changes from your other device.');
+  }
+  if (r.conflicts.length) { r.conflicts.forEach(c => { _conflicts = _conflicts.filter(x => x.uid !== c.uid); _conflicts.push(c); }); showConflictBanner(); }
+  return { localChanged: r.localChanged || r.conflicts.length > 0, merged: r };
+}
+function _stashConflictCopies(list) {
+  try {
+    const old = lsGet('rcb_conflict_copies', []);
+    list.forEach(c => old.push({ at: new Date().toISOString(), uid: c.uid, name: c.name, student: c.cloud }));
+    lsSet('rcb_conflict_copies', old.slice(-6));
+  } catch (e) {}
+}
+function showConflictBanner() {
+  let b = document.getElementById('conflictBanner');
+  if (!b) { b = document.createElement('div'); b.id = 'conflictBanner'; b.setAttribute('role', 'alert'); document.body.appendChild(b); }
+  if (!_conflicts.length) { b.classList.remove('show'); return; }
+  b.innerHTML = '';
+  const head = document.createElement('div'); head.className = 'cb-head';
+  head.textContent = _conflicts.length === 1
+    ? 'This student was changed on another device too. This device\'s version was kept.'
+    : 'These students were changed on another device too. This device\'s versions were kept.';
+  b.appendChild(head);
+  _conflicts.forEach(c => {
+    const row = document.createElement('div'); row.className = 'cb-row';
+    const nm = document.createElement('span'); nm.className = 'cb-name'; nm.textContent = c.name; row.appendChild(nm);
+    const use = document.createElement('button'); use.type = 'button'; use.className = 'sb-btn sb-go'; use.textContent = 'Use the other device\'s version';
+    use.onclick = () => useOtherVersion(c.uid);
+    const keep = document.createElement('button'); keep.type = 'button'; keep.className = 'sb-btn'; keep.textContent = 'Keep this one';
+    keep.onclick = () => { _conflicts = _conflicts.filter(x => x.uid !== c.uid); showConflictBanner(); };
+    row.appendChild(use); row.appendChild(keep); b.appendChild(row);
+  });
+  b.classList.add('show');
+}
+function useOtherVersion(uid) {
+  const c = _conflicts.find(x => x.uid === uid); if (!c) return;
+  saveCur();
+  const i = students.findIndex(s => s.uid === uid);
+  if (i >= 0) { students[i] = _normStudent(c.cloud, i); if (i === currentIdx) loadCur(); render(); updateProgress(); autoSave(); }
+  _conflicts = _conflicts.filter(x => x.uid !== uid); showConflictBanner();
+}
+// Look at the cloud copy now; fold in anything another device saved. Safe to call often.
+async function cloudPull(manual) {
+  const token = getCloudToken();
+  if (!token || !_stateLoaded || _syncBusy || _cloudUnverified || !_syncBase) return;
+  _syncBusy = true;
+  try {
+    const res = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: { 'X-User-Token': token } });
+    if (!res.ok) return;
+    const d = await res.json();
+    if (!d.found || !d.session || !(d.session.students || []).length) return;
+    if (!d.session.savedAt || d.session.savedAt === _syncBase.at) return;     // nothing new in the cloud
+    // do not rewrite the draft under someone who is typing
+    const ae = document.activeElement;
+    if (!manual && ae && ae.isContentEditable && Date.now() - _lastChangeAt < 6000) return;
+    const r = _mergeIntoLive(d.session);
+    if (!r.localChanged) {   // this device now matches the cloud
+      _setSyncBase(_snapshot(Object.assign({}, buildSession(), { savedAt: d.session.savedAt })));
+      _dirtySince = null; hideSyncBanner(false);
+    } else { _lastChangeAt = Date.now(); if (_dirtySince === null) _dirtySince = _lastChangeAt; scheduledCloudSave(); }
+  } catch (e) {} finally { _syncBusy = false; }
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') cloudPull(false); });
+window.addEventListener('focus', () => cloudPull(false));
+setInterval(() => { if (document.visibilityState === 'visible' && _dirtySince === null) cloudPull(false); }, 60000);
+
 // Throttled cloud save — fires at most once per 15 seconds
 // ── INDEXEDDB STORAGE ─────────────────────────────────────────────
 let _db = null;
@@ -6794,7 +6969,7 @@ function clearCurrent() {
   render();
 }
 
-function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[], engSelected:{}, engOrdered:[], engGrades:{}, engDraft:null, engPublished:false, mathSelected:{}, mathOrdered:[], mathGrades:{}, mathDraft:null, mathPublished:false, engFD:[], mathFD:[], fdStage:'Stage 3', pubEditGeneral:null, pubEditEnglish:null, pubEditMaths:null, engS2Selected:{}, engS2Ordered:[], engS2Grades:{}, engS2Draft:null, mathS2Selected:{}, mathS2Ordered:[], mathS2Grades:{}, mathS2Draft:null, engS2FD:[], mathS2FD:[] }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
+function addStu() { saveCur(); const prevYear = students[currentIdx] ? students[currentIdx].year || '' : ''; students.push({ uid:_newUid(), name:'', pronoun:'he', year:prevYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[], engSelected:{}, engOrdered:[], engGrades:{}, engDraft:null, engPublished:false, mathSelected:{}, mathOrdered:[], mathGrades:{}, mathDraft:null, mathPublished:false, engFD:[], mathFD:[], fdStage:'Stage 3', pubEditGeneral:null, pubEditEnglish:null, pubEditMaths:null, engS2Selected:{}, engS2Ordered:[], engS2Grades:{}, engS2Draft:null, mathS2Selected:{}, mathS2Ordered:[], mathS2Grades:{}, mathS2Draft:null, engS2FD:[], mathS2FD:[] }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
 
 function pubNavStudent(dir) {
   savePublishEdits(); // save publish edits before navigating to another student
@@ -7350,6 +7525,7 @@ function cloudSignOut() {
   if (!confirm('Sign out? Your session data stays safely in the cloud and will reload next time you sign in.')) return;
   setCloudUser('');
   setCloudPin('');
+  _setSyncBase(null);   // v3.10.0: the next account starts clean
   window.location.replace('https://jasefreters.github.io/commentbuilder/index.html');
 }
 
@@ -7381,13 +7557,28 @@ async function cloudSave(manual = false) {
       if (cd.found && cd.session && (cd.session.students || []).length) {
         const cloudAt = Date.parse(cd.session.savedAt || 0) || 0;
         const mine = Date.parse(_loadedSavedAt || 0) || 0;
-        if (cloudAt > mine) {
+        if (cloudAt > mine && !_syncBase) {
           if (manual) showToast('Cloud has newer data than this device — reload the page to sync.');
           return;   // keep the cloud copy untouched
         }
       }
       _cloudUnverified = false;
     } catch (e) { if (manual) showToast('Cloud sync paused — cannot reach the cloud copy.'); return; }
+  }
+  if (_syncBusy) return;
+  _syncBusy = true;
+  try {
+  // v3.10.0: look at the cloud copy first. If another device saved since this one last synced, fold its changes in before saving.
+  if (_syncBase) {
+    try {
+      const chk = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: { 'X-User-Token': token } });
+      if (chk.ok) {
+        const cd = await chk.json();
+        if (cd.found && cd.session && (cd.session.students || []).length && cd.session.savedAt && cd.session.savedAt !== _syncBase.at) {
+          _mergeIntoLive(cd.session);
+        }
+      }
+    } catch (e) { /* cannot read the cloud copy: carry on and let the save below report it */ }
   }
   const session = buildSession();
   const _startedAt = Date.now(); _lastCloudTry = _startedAt;
@@ -7398,6 +7589,7 @@ async function cloudSave(manual = false) {
       body: JSON.stringify(session),
     });
     if (res.ok) {
+      _setSyncBase(_snapshot(session));
       if (_lastChangeAt <= _startedAt) { _dirtySince = null; hideSyncBanner(true); }   // v3.9.0: nothing newer than what the cloud now holds
       if (manual) {
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -7409,9 +7601,10 @@ async function cloudSave(manual = false) {
   } catch(e) {
     if (manual) showToast('Cloud sync failed — check your connection.');
   }
+  } finally { _syncBusy = false; }
 }
 
-async function cloudLoad(showPrompt = false) {
+async function cloudLoad(showPrompt = false, startup = false) {
   const token = getCloudToken();
   if (!token) return false;
   try {
@@ -7426,6 +7619,30 @@ async function cloudLoad(showPrompt = false) {
       return false;
     }
     const saved = data.session;
+    // v3.10.0: when the page opens, do not throw away changes this device has not yet sent. Merge them with the cloud copy.
+    if (startup && _syncBase && saved.students && saved.students.length) {
+      let localSaved = null;
+      try { localSaved = await idbGet('rcb_session'); } catch (e) {}
+      if (!localSaved) localSaved = lsGet('rcb_session', null);
+      if (localSaved && localSaved.students && localSaved.students.length) {
+        _applyPersistedState(localSaved);
+        _loadedSavedAt = saved.savedAt || null;
+        loadCur(); render(); updateProgress(); loadTheme();
+        const _subj0 = lsGet('rcb_subject', 'general');
+        if (_subj0 !== 'general') setSubject(_subj0);
+        _applySemesterAfterLoad(localSaved);
+        _stateLoaded = true; _cloudUnverified = false;
+        let lc = false;
+        if (saved.savedAt && saved.savedAt !== _syncBase.at) lc = _mergeIntoLive(saved).localChanged;
+        else {   // the cloud has not changed since this device last synced: any difference is unsent work on this device
+          const snap = _snapshot(buildSession());
+          lc = snap.sm !== _syncBase.sm || snap.mb !== _syncBase.mb || Object.keys(snap.st).length !== Object.keys(_syncBase.st).length || Object.keys(snap.st).some(k => snap.st[k] !== _syncBase.st[k]);
+        }
+        if (lc) { _lastChangeAt = Date.now(); if (_dirtySince === null) _dirtySince = _lastChangeAt; scheduledCloudSave(); }
+        else { _setSyncBase(_snapshot(Object.assign({}, buildSession(), { savedAt: saved.savedAt }))); _dirtySince = null; }
+        return true;
+      }
+    }
     // Always apply cloud session when explicitly loading —
     // the user chose to sign in, so cloud is the source of truth
     _applyPersistedState(saved);
@@ -7441,6 +7658,7 @@ async function cloudLoad(showPrompt = false) {
     _applySemesterAfterLoad(saved);
     _stateLoaded = true;
     _cloudUnverified = false;
+    _setSyncBase(_snapshot(Object.assign({}, buildSession(), { savedAt: saved.savedAt })));   // v3.10.0: remember what the cloud held
     if (showPrompt) {
       const stuCount = (saved.students || []).length;
       const time = new Date(saved.savedAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
@@ -7721,7 +7939,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.9.8';
+const APP_VERSION = 'v3.10.0';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -7756,6 +7974,7 @@ function applySettingsBlob(b) {
   } catch (e) { console.error('settings restore', e); }
 }
 function buildSession() {
+  _ensureUids();
   return { students, currentIdx, totalStudents, semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob(), savedAt: new Date().toISOString() };
 }
 // The backup file: everything in the session plus streak and badges, and the app version that wrote it.
@@ -7798,7 +8017,7 @@ function loadPersistedState() {
   if (cloudToken) {
     // Signed in — cloud is source of truth, always load from cloud on startup
     setSaveState('saving', 'Loading from cloud…');
-    cloudLoad(false).then(loaded => {
+    cloudLoad(false, true).then(loaded => {
       if (loaded) {
         setSaveState('saved', 'Loaded from cloud');
       } else {
@@ -7846,6 +8065,27 @@ function loadFromLocal() {
   }).finally(() => { _stateLoaded = true; });
 }
 
+
+// A student as stored, with every field filled in (defaults) and an id. Does not change the object passed in.
+function _normStudent(s, i) {
+  const stu = Object.assign(
+    { name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [], engSelected: {}, engOrdered: [], engGrades: {}, engDraft: null, engPublished: false, mathSelected: {}, mathOrdered: [], mathGrades: {}, mathDraft: null, mathPublished: false, engFD: [], mathFD: [], fdStage: 'Stage 3' }, s
+  );
+  // Normalise engGrades/mathGrades: old format stored single strings, new format uses arrays
+  ['engGrades', 'mathGrades'].forEach(key => {
+    if (stu[key]) {
+      stu[key] = Object.assign({}, stu[key]);
+      Object.keys(stu[key]).forEach(cat => {
+        if (typeof stu[key][cat] === 'string') {
+          stu[key][cat] = stu[key][cat] ? [stu[key][cat]] : [];
+        }
+      });
+    }
+  });
+  if (!stu.uid) stu.uid = 'L' + i;   // sessions saved before v3.10.0 have no ids: the position is the same on every device
+  return stu;
+}
+
 function _applyPersistedState(saved) {
   if (!saved) return;
   _loadedSavedAt = saved.savedAt || null;
@@ -7855,22 +8095,7 @@ function _applyPersistedState(saved) {
     if (!lsGet('rcb_session_pre355', null)) lsSet('rcb_session_pre355', saved);   // one-time safety copy of the old-format session
   }
   if (saved && saved.students && saved.students.length) {
-    students = saved.students.map(s => {
-      const stu = Object.assign(
-        { name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [], engSelected: {}, engOrdered: [], engGrades: {}, engDraft: null, engPublished: false, mathSelected: {}, mathOrdered: [], mathGrades: {}, mathDraft: null, mathPublished: false, engFD: [], mathFD: [], fdStage: 'Stage 3' }, s
-      );
-      // Normalise engGrades/mathGrades: old format stored single strings, new format uses arrays
-      ['engGrades', 'mathGrades'].forEach(key => {
-        if (stu[key]) {
-          Object.keys(stu[key]).forEach(cat => {
-            if (typeof stu[key][cat] === 'string') {
-              stu[key][cat] = stu[key][cat] ? [stu[key][cat]] : [];
-            }
-          });
-        }
-      });
-      return stu;
-    });
+    students = saved.students.map((s, i) => _normStudent(s, i));
     currentIdx = Math.min(saved.currentIdx || 0, students.length - 1);
   }
   if (saved && saved.totalStudents) totalStudents = saved.totalStudents;
@@ -8429,6 +8654,7 @@ function importSession() {
         if (!(session.semester === 1 || session.semester === 2)) currentSemester = 1;   // files without "semester" are S1 (older versions)
         _paintSemesterUI();
         _cloudUnverified = false;                              // an explicit import is the user's choice of source of truth
+        _setSyncBase(null);                                    // v3.10.0: ...so the next cloud save replaces the cloud copy instead of merging with it
         _dirtySince = Date.now();
 
         // Restore streak
@@ -10193,6 +10419,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.9.8</div>
+<div class="version-badge">v3.10.0</div>
 </body>
 </html>
