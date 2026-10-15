@@ -3725,6 +3725,13 @@ function yearSents(catSentences, g) {
   const best = {};
   cand.forEach(x => { if (best[x.t] === undefined || x.dist < best[x.t]) best[x.t] = x.dist; });
   const keep = new Set(cand.filter(x => x.dist === best[x.t]).map(x => x.s));
+  // v3.11.3: wording written for a higher grade than the tab its stage sits in ("works confidently...") is offered one grade up.
+  // For example Stage 3 Part A sits at C for Year 5, so its A and B wording shows under B; Stage 2 sentences (stored D and E) are not lifted.
+  const low = GRADE_ORDER[gi + 1], lowAllowed = new Set(low ? (YEAR_RULES[currentSemester + '|' + (currentSubject === 'maths' ? 'M' : 'E') + '|' + c.year + '|' + low] || []) : []);
+  GRADE_ORDER.forEach((b, bi) => (catSentences[b] || []).forEach(s => {
+    const t = SENT_TAG[s];
+    if (t && bi <= gi && lowAllowed.size && _tagSet(t).some(x => lowAllowed.has(x))) keep.add(s);
+  }));
   const out = [];
   GRADE_ORDER.forEach(b => (catSentences[b] || []).forEach(s => {
     if (SENT_TAG[s] ? keep.has(s) : b === g) out.push(s);   // untagged (general) sentences stay in their own grade
@@ -8082,7 +8089,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.11.2';
+const APP_VERSION = 'v3.11.3';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10563,6 +10570,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.11.2</div>
+<div class="version-badge">v3.11.3</div>
 </body>
 </html>
