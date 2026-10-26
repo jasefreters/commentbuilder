@@ -994,6 +994,39 @@
     .board-grid.row { min-height: 52px; }
     .modal, .s1-modal { max-width: calc(100vw - 16px); }
   }
+
+  /* ══ v3.13.0 SETTINGS WINDOW: centred, with tabs down the side (along the top on a phone) ══ */
+  .settings-overlay { position: fixed; inset: 0; z-index: 480; background: rgba(15,23,42,.45); display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .settings-overlay .settings-panel { position: relative; top: auto; right: auto; left: auto; width: min(760px, 100%); height: min(560px, calc(100vh - 48px)); max-height: none; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-lg); box-shadow: var(--shadow-pop); }
+  .sw-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .sw-title { font-size: 18px; font-weight: 700; color: var(--t0); }
+  .sw-close { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-1); color: var(--t1); font-size: 15px; cursor: pointer; }
+  .sw-close:hover { border-color: var(--border-h); color: var(--t0); }
+  .sw-body { flex: 1; min-height: 0; display: grid; grid-template-columns: 200px minmax(0, 1fr); }
+  .sw-tabs { display: flex; flex-direction: column; gap: 2px; padding: 12px 10px; border-right: 1px solid var(--border); background: var(--bg-2); overflow-y: auto; }
+  .sw-tab { text-align: left; min-height: 40px; padding: 0 12px; border: 0; border-radius: 8px; background: none; font-size: 14px; font-weight: 600; color: var(--t1); cursor: pointer; }
+  .sw-tab:hover { background: var(--bg-3); color: var(--t0); }
+  .sw-tab.on { background: var(--accent); color: var(--on-accent); }
+  .sw-content { overflow-y: auto; padding: 8px 12px 24px; }
+  .sw-pane { display: none; }
+  .sw-pane.on { display: block; }
+  .sw-pane-title { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); padding: 14px 14px 6px; }
+  .sw-note { font-size: 13px; color: var(--t2); line-height: 1.5; padding: 2px 14px 8px; }
+  .sw-help { display: block; font-size: 12px; color: var(--t2); margin-top: 2px; line-height: 1.4; }
+  .settings-overlay .settings-row { padding: 8px 14px; }
+  .settings-overlay .settings-row-label { font-size: 14px; color: var(--t0); }
+  .settings-overlay .settings-action-btn { font-size: 13px; padding: 7px 14px; }
+  .settings-overlay .style-list { max-height: none; margin: 4px 14px 0; }
+  .settings-overlay .style-empty { padding: 2px 14px 6px; font-size: 13px; }
+  .settings-overlay #cloudSignedOut input { font-size: 14px !important; padding: 8px 10px !important; }
+  @media (max-width: 700px) {
+    .settings-overlay { padding: 0; align-items: stretch; }
+    .settings-overlay .settings-panel { width: 100%; height: 100%; border-radius: 0; border: 0; }
+    .sw-body { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+    .sw-tabs { flex-direction: row; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--border); padding: 8px; }
+    .sw-tab { flex: none; white-space: nowrap; min-height: 44px; }
+    .sw-close { width: 44px; height: 44px; }
+  }
 </style>
 </head>
 <body>
@@ -1032,33 +1065,52 @@
   </div>
 </header>
 
-<!-- Settings panel -->
-<div class="settings-panel" id="settingsPanel" style="display:none">
-  <div class="settings-section">
-    <div class="settings-section-label">Appearance</div>
-    <div class="settings-row">
-      <span class="settings-row-label">Theme</span>
-      <div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
-        <div class="theme-toggle-track"><div class="theme-toggle-thumb"></div></div>
-        <span class="theme-toggle-label" id="themeLabel">Light</span>
-      </div>
-    </div>
+<!-- Settings window (v3.13.0: centred, grouped into tabs) -->
+<div class="settings-overlay" id="settingsOverlay" style="display:none">
+<div class="settings-panel" id="settingsPanel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+  <div class="sw-head">
+    <h2 class="sw-title" id="settingsTitle">Settings</h2>
+    <button class="sw-close" onclick="toggleSettings()" aria-label="Close settings" title="Close (Esc)">✕</button>
   </div>
-  <div class="settings-section">
-    <div class="settings-section-label">Writing style</div>
-    <div id="styleSettings"></div>
-  </div>
-  <div class="settings-section">
-    <div class="settings-section-label">Comment length</div>
-    <div id="toolSettings"></div>
-  </div>
-  <div class="settings-section">
-    <div class="settings-section-label">Year level</div>
-    <div class="settings-row" style="padding-top:0"><span style="font-size:11px;color:var(--t2);line-height:1.4">English and Maths comments are linked to a syllabus stage and follow the student's year and mark, with no switch to turn on. They carry no A to E grade. A student with no year shows no comments until a year is chosen.</span></div>
-  </div>
-  <div class="settings-section">
-    <div class="settings-section-label">Cloud Sync</div>
-    <!-- Signed-in state -->
+  <div class="sw-body">
+    <nav class="sw-tabs" role="tablist" aria-label="Settings groups">
+      <button class="sw-tab" role="tab" data-swtab="appearance" onclick="setSettingsTab('appearance')">Appearance</button>
+      <button class="sw-tab" role="tab" data-swtab="comments" onclick="setSettingsTab('comments')">Comments</button>
+      <button class="sw-tab" role="tab" data-swtab="mine" onclick="setSettingsTab('mine')">My sentences &amp; swaps</button>
+      <button class="sw-tab" role="tab" data-swtab="account" onclick="setSettingsTab('account')">Account &amp; sync</button>
+      <button class="sw-tab" role="tab" data-swtab="data" onclick="setSettingsTab('data')">Backup</button>
+      <button class="sw-tab" role="tab" data-swtab="ai" onclick="setSettingsTab('ai')">AI features</button>
+    </nav>
+    <div class="sw-content">
+
+      <section class="sw-pane" data-swpane="appearance" role="tabpanel">
+        <div class="sw-pane-title">Appearance</div>
+        <div class="settings-row">
+          <span class="settings-row-label">Theme<span class="sw-help">Light is easier to read in a bright classroom. Dark is gentler at night.</span></span>
+          <div class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+            <div class="theme-toggle-track"><div class="theme-toggle-thumb"></div></div>
+            <span class="theme-toggle-label" id="themeLabel">Light</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="sw-pane" data-swpane="comments" role="tabpanel">
+        <div class="sw-pane-title">Comment length</div>
+        <div id="toolSettings"></div>
+        <div class="sw-pane-title">Year level</div>
+        <div class="sw-note">English and Maths comments are linked to a syllabus stage and follow the student's year and mark, with no switch to turn on. They carry no A to E grade. A student with no year shows no comments until a year is chosen.</div>
+      </section>
+
+      <section class="sw-pane" data-swpane="mine" role="tabpanel">
+        <div class="sw-pane-title">My saved sentences</div>
+        <div id="mySentSettings"></div>
+        <div class="sw-pane-title">Word swaps learned from your edits</div>
+        <div id="styleSettings"></div>
+      </section>
+
+      <section class="sw-pane" data-swpane="account" role="tabpanel">
+        <div class="sw-pane-title">Cloud sync</div>
+        <!-- Signed-in state -->
     <div id="cloudSignedIn" style="display:none">
       <div class="settings-row">
         <div style="display:flex;flex-direction:column;gap:2px">
@@ -1092,31 +1144,38 @@
         </div>
       </div>
     </div>
-    <!-- hidden status span kept for JS compat -->
-    <span id="cloudSyncStatus" style="display:none"></span>
+        <span id="cloudSyncStatus" style="display:none"></span>
+      </section>
+
+      <section class="sw-pane" data-swpane="data" role="tabpanel">
+        <div class="sw-pane-title">Backup</div>
+        <div class="sw-note">Save a copy of every student and comment to a file, or load one back in. Handy before a big change or when moving to a new computer.</div>
+        <div class="settings-row">
+          <span class="settings-row-label">Export session</span>
+          <button class="settings-action-btn green" onclick="exportSession(); toggleSettings()">Export</button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-row-label">Import session</span>
+          <button class="settings-action-btn" onclick="importSession(); toggleSettings()">Import</button>
+        </div>
+      </section>
+
+      <section class="sw-pane" data-swpane="ai" role="tabpanel">
+        <div class="sw-pane-title">AI features</div>
+        <div class="sw-note">Polish, Check for issues and AI Re-rank need an Anthropic API key and a Worker URL.</div>
+        <div class="settings-row">
+          <span class="settings-row-label">API key</span>
+          <button class="settings-action-btn" onclick="promptApiKey(); toggleSettings()">Set key</button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-row-label">Worker URL</span>
+          <button class="settings-action-btn" onclick="showProxyGuide(); toggleSettings()">Set URL</button>
+        </div>
+      </section>
+
+    </div>
   </div>
-  <div class="settings-section">
-    <div class="settings-section-label">Session</div>
-    <div class="settings-row">
-      <span class="settings-row-label">Export session</span>
-      <button class="settings-action-btn green" onclick="exportSession(); toggleSettings()">Export</button>
-    </div>
-    <div class="settings-row">
-      <span class="settings-row-label">Import session</span>
-      <button class="settings-action-btn" onclick="importSession(); toggleSettings()">Import</button>
-    </div>
-  </div>
-  <div class="settings-section">
-    <div class="settings-section-label">AI Features</div>
-    <div class="settings-row">
-      <span class="settings-row-label">API key</span>
-      <button class="settings-action-btn" onclick="promptApiKey(); toggleSettings()">Set key</button>
-    </div>
-    <div class="settings-row">
-      <span class="settings-row-label">Worker URL</span>
-      <button class="settings-action-btn" onclick="showProxyGuide(); toggleSettings()">Set URL</button>
-    </div>
-  </div>
+</div>
 </div>
 
 <div class="main">
@@ -8408,7 +8467,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.12.9';
+const APP_VERSION = 'v3.13.0';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -8705,23 +8764,51 @@ async function saveProxyUrl() {
   }
 }
 
-function toggleSettings() {
+// v3.13.0: settings open in a centred window; the tab you last used opens again next time
+function setSettingsTab(tab) {
+  const tabs = ['appearance', 'comments', 'mine', 'account', 'data', 'ai'];
+  if (!tabs.includes(tab)) tab = 'appearance';
+  document.querySelectorAll('#settingsPanel .sw-tab').forEach(b => {
+    const on = b.dataset.swtab === tab;
+    b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1;
+  });
+  document.querySelectorAll('#settingsPanel .sw-pane').forEach(p => p.classList.toggle('on', p.dataset.swpane === tab));
+  const onBtn = document.querySelector('#settingsPanel .sw-tab.on');
+  if (onBtn) try { onBtn.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) {}
+  lsSet('rcb_settings_tab', tab);
+}
+function toggleSettings(tab) {
+  const ov = document.getElementById('settingsOverlay');
+  const btn = document.getElementById('settingsBtn');
+  const isOpen = ov.style.display !== 'none';
+  if (isOpen && typeof tab !== 'string') {
+    ov.style.display = 'none';
+    btn.className = 'settings-btn';
+    try { btn.focus(); } catch (e) {}
+    return;
+  }
   renderStyleSettings();
   renderToolSettings();
-  const panel = document.getElementById('settingsPanel');
-  const btn = document.getElementById('settingsBtn');
-  const isOpen = panel.style.display !== 'none';
-  panel.style.display = isOpen ? 'none' : 'block';
-  btn.className = 'settings-btn' + (isOpen ? '' : ' open');
+  setSettingsTab(typeof tab === 'string' ? tab : lsGet('rcb_settings_tab', 'appearance'));
+  ov.style.display = 'flex';
+  btn.className = 'settings-btn open';
+  const on = document.querySelector('#settingsPanel .sw-tab.on'); if (on) on.focus();
 }
 
-// Close settings panel when clicking outside
+// Close the settings window by clicking the dimmed background or pressing Esc
 document.addEventListener('click', e => {
-  const panel = document.getElementById('settingsPanel');
-  const btn = document.getElementById('settingsBtn');
-  if (panel && panel.style.display !== 'none' && !panel.contains(e.target) && !btn.contains(e.target)) {
-    panel.style.display = 'none';
-    btn.className = 'settings-btn';
+  const ov = document.getElementById('settingsOverlay');
+  if (ov && ov.style.display !== 'none' && e.target === ov) toggleSettings();
+});
+document.addEventListener('keydown', e => {
+  const ov = document.getElementById('settingsOverlay');
+  if (!ov || ov.style.display === 'none') return;
+  if (e.key === 'Escape') { toggleSettings(); return; }
+  // arrow keys move between tabs when a tab has focus
+  if ((e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') && e.target.classList && e.target.classList.contains('sw-tab')) {
+    const all = [...document.querySelectorAll('#settingsPanel .sw-tab')], i = all.indexOf(e.target);
+    const n = all[(i + ((e.key === 'ArrowDown' || e.key === 'ArrowRight') ? 1 : all.length - 1)) % all.length];
+    e.preventDefault(); n.click(); n.focus();
   }
 });
 
@@ -10680,10 +10767,12 @@ function renderToolSettings() {
   const cats = Object.keys(myBank);
   let h = `<div class="settings-row"><span class="settings-row-label">Word limit per comment</span><input class="settings-num" id="wordLimitInput" type="number" min="20" max="2000" value="${getWordLimit()}" onchange="setWordLimit(this.value)"></div>`;
   h += `<div class="settings-row"><span class="settings-row-label">Flag sentences longer than (words)</span><input class="settings-num" id="longLimitInput" type="number" min="5" max="100" value="${getLongLimit()}" onchange="setLongLimit(this.value)"></div>`;
-  h += `<div class="settings-section-label" style="margin-top:10px">My saved sentences</div>`;
+  box.innerHTML = h;
+  const mine = document.getElementById('mySentSettings'); if (!mine) return;
+  h = '';
   if (!cats.length) h += `<div class="style-empty">Write your own sentence in the bank and choose “Add &amp; save to my bank”. It will then be available for every student.</div>`;
   else h += '<div class="style-list">' + cats.map(c => myBank[c].map(x => `<div class="style-item"><span class="style-pair"><span class="mine-cat">${escHtml(c.replace('::', ' · ').replace(/^english/, 'English').replace(/^maths/, 'Maths'))}</span> ${escHtml(applyRaw(x.text, '[Name]', PR.she))}</span><button class="style-x" title="Remove from my bank" onclick="removeMineFromSettings('${escHtml(c).replace(/'/g, '&#39;')}','${x.id}')">✕</button></div>`).join('')).join('') + '</div>';
-  box.innerHTML = h;
+  mine.innerHTML = h;
 }
 function removeMineFromSettings(cat, id) { removeFromMyBank(cat.replace(/&#39;/g, "'"), id); renderToolSettings(); if (currentView === 'build') render(); showToast('Removed from your bank'); }
 
@@ -10898,6 +10987,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.12.9</div>
+<div class="version-badge">v3.13.0</div>
 </body>
 </html>
