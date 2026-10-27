@@ -1731,22 +1731,6 @@ const RAW = {
     "{{N}} is developing appropriate social skills and is learning to handle disagreements respectfully.",
     "{{N}} is developing {{pos}} ability to communicate how {{s}} is feeling to peers and staff to improve {{pos}} emotional regulation.",
   ],
-  "Leadership": [
-    "{{N}} is a confident natural leader who inspires classmates and leads by example.",
-    "As school captain, {{s}} excels in leadership roles and inspires peers by setting a positive example.",
-    "As a house captain, {{N}} diligently fulfils {{pos}} leadership responsibilities.",
-    "As vice-captain, {{N}} has diligently fulfilled {{pos}} leadership responsibilities.",
-    "{{N}} plays an active role in the Student Representative Council, completing {{pos}} responsibilities diligently and setting a strong example for others.",
-    "{{N}} is a valuable member of the Student Representative Council, where {{s}} diligently completes {{pos}} responsibilities.",
-    "{{N}} was elected by {{pos}} peers to represent the class on the Student Representative Council.",
-    "{{N}} embodies leadership qualities in {{pos}} role as a school prefect.",
-    "{{N}} takes on leadership roles in group activities, ensuring tasks are completed efficiently and supporting others as needed.",
-    "{{S}} accepts leadership roles in group tasks, ensuring that peers are included.",
-    "{{N}} is a responsible student who takes on leadership roles in group activities.",
-    "{{N}} demonstrates leadership qualities that inspire classmates in {{pos}} learning.",
-    "{{N}} is a role model to others and leads by example.",
-    "{{N}} shows initiative in the classroom, taking pride in helping with the daily routine and setting a positive example.",
-  ],
   "Independence": [
     "{{N}} displays a high level of independence, approaching tasks with confidence and persistence.",
     "{{N}} is capable and works independently on tasks, demonstrating confidence and initiative in managing responsibilities.",
@@ -1762,6 +1746,22 @@ const RAW = {
     "{{N}} is productive during independent work, however often requires reminders to stay on task and complete work in an appropriate timeframe.",
     "{{N}} is developing the confidence to request assistance while working independently or in a small group.",
     "{{S}} is learning to refrain from talking to {{pos}} friends at inappropriate times.",
+  ],
+  "Leadership": [
+    "{{N}} is a confident natural leader who inspires classmates and leads by example.",
+    "As school captain, {{s}} excels in leadership roles and inspires peers by setting a positive example.",
+    "As a house captain, {{N}} diligently fulfils {{pos}} leadership responsibilities.",
+    "As vice-captain, {{N}} has diligently fulfilled {{pos}} leadership responsibilities.",
+    "{{N}} plays an active role in the Student Representative Council, completing {{pos}} responsibilities diligently and setting a strong example for others.",
+    "{{N}} is a valuable member of the Student Representative Council, where {{s}} diligently completes {{pos}} responsibilities.",
+    "{{N}} was elected by {{pos}} peers to represent the class on the Student Representative Council.",
+    "{{N}} embodies leadership qualities in {{pos}} role as a school prefect.",
+    "{{N}} takes on leadership roles in group activities, ensuring tasks are completed efficiently and supporting others as needed.",
+    "{{S}} accepts leadership roles in group tasks, ensuring that peers are included.",
+    "{{N}} is a responsible student who takes on leadership roles in group activities.",
+    "{{N}} demonstrates leadership qualities that inspire classmates in {{pos}} learning.",
+    "{{N}} is a role model to others and leads by example.",
+    "{{N}} shows initiative in the classroom, taking pride in helping with the daily routine and setting a positive example.",
   ],
   "Attendance": [
     "{{N}}'s improved attendance this semester has given {{o}} increased opportunities to further develop {{pos}} knowledge and skills.",
@@ -2613,8 +2613,8 @@ function toggleSubjOpt(cat, s) {
     const counter = { value: openerCount };
     const resolved = applyAlternation(s, name, p, counter, yr);
     if (isAdding) {
-      // Append the new sentence to the existing manual draft
-      cur()[draftKey] = existing.trimEnd() + ' ' + resolved;
+      // Append the new sentence to the existing manual draft (v3.14.4: unless it is still there, moved or reworded)
+      if (!_inDraftAlready(cur(), currentSubject, s, existing)) cur()[draftKey] = existing.trimEnd() + ' ' + resolved;
     } else {
       // Remove the sentence from the draft (strip it wherever it appears; a reworded copy is found by its match)
       const escaped = resolved.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -7017,6 +7017,7 @@ function syncGeneralOverride(key, adding) {
   const name = stu.name || '[Name]', p = PR[stu.pronoun], yr = stu.year || '';
   const raw = resolveKey(key, stu);
   if (adding) {
+    if (_inDraftAlready(stu, 'general', key, ex)) return;   // v3.14.4: it is still in the text (moved or reworded): just link it again
     const nameEsc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const openerRegex = new RegExp('^(' + nameEsc + '|' + [p.N, p.S, p.n, p.s].filter(Boolean).join('|') + ')\\b', 'gm');
     const counter = { value: (ex.match(openerRegex) || []).length };
@@ -7146,9 +7147,57 @@ function reconcileDraft(stu, subj, snap, sig) {
     const m = _draftMatches(stu, subj, keys, text);
     gone = keys.filter(k => m.has(k) && m.get(k).status === 'gone');
   }
-  if (gone.length) _unselectKeys(stu, subj, gone);
+  if (gone.length) { _rememberDropped(stu, subj, gone); _unselectKeys(stu, subj, gone); }
+  if (text) _relinkDropped(stu, subj, text);   // v3.14.4
   autoSave();
   if (stu === cur() && subj === currentSubject) { renderOpts(); renderSidebar(); updateSentChip(); }
+}
+// v3.14.4: moving a sentence in the draft (cut, then paste) leaves it missing for a moment, and the pause unselected it.
+// Sentences taken out this way are remembered for a while; when the text shows them again they are selected again.
+const _dropped = new Map();   // student -> [{ subj, key, cat, at }]
+function _rememberDropped(stu, subj, keys) {
+  const list = (_dropped.get(stu) || []).filter(x => Date.now() - x.at < 15 * 60 * 1000);
+  keys.forEach(key => {
+    let cat = null;
+    if (subj === 'general') cat = catForKey(key);
+    else { const sel = (subj === 'english' ? stu.engSelected : stu.mathSelected) || {}; cat = Object.keys(sel).find(c => (sel[c] || []).includes(key)) || null; }
+    if (cat && !list.some(x => x.subj === subj && x.key === key)) list.push({ subj, key, cat, at: Date.now() });
+  });
+  _dropped.set(stu, list);
+}
+function _relinkDropped(stu, subj, text) {
+  const list = _dropped.get(stu); if (!list || !list.length) return;
+  const mine = list.filter(x => x.subj === subj && Date.now() - x.at < 15 * 60 * 1000);
+  if (!mine.length) return;
+  const back = mine.filter(x => { try { return _freeMatchScore(stu, subj, x.key, text) >= SYNC_EDITED; } catch (e) { return false; } });
+  if (!back.length) return;
+  back.forEach(x => {
+    if (subj === 'general') {
+      if (!stu.selected[x.cat]) stu.selected[x.cat] = [];
+      if (!stu.selected[x.cat].includes(x.key)) stu.selected[x.cat].push(x.key);
+      if (!stu.ordered.includes(x.key)) stu.ordered.push(x.key);
+      stu.pubEditGeneral = null; stu.pubEditGeneral_fdHash = null; stu.pubEditGeneral_subject = null;
+    } else {
+      const sk = subj === 'english' ? 'engSelected' : 'mathSelected', ok = subj === 'english' ? 'engOrdered' : 'mathOrdered';
+      if (!stu[sk]) stu[sk] = {}; if (!stu[sk][x.cat]) stu[sk][x.cat] = [];
+      if (!stu[sk][x.cat].includes(x.key)) stu[sk][x.cat].push(x.key);
+      if (!stu[ok]) stu[ok] = []; if (!stu[ok].includes(x.key)) stu[ok].push(x.key);
+    }
+  });
+  _dropped.set(stu, list.filter(x => !back.includes(x)));
+}
+// How well a sentence not yet selected matches text in the draft that no selected sentence already accounts for (0 to 1)
+function _freeMatchScore(stu, subj, key, text) {
+  const others = _subjKeys(stu, subj).filter(k => k !== key);
+  const sents = splitSentences(text), stoks = sents.map(x => _syncToks(x, stu)), blocked = new Array(sents.length).fill(false);
+  _draftMatches(stu, subj, others, text).forEach(v => { if (v.status !== 'gone') for (let q = v.from; q < v.to; q++) blocked[q] = true; });
+  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = stu.year || '';
+  const raw = resolveKey(key, stu); if (!raw) return 0;
+  const cand = applyAlternation(raw, name, p, { value: 0 }, yr), alt = p.S === 'They' ? applyAlternation(raw, name, p, { value: 1 }, yr) : null;
+  return _bestWindow2({ ct: _syncToks(cand, stu), ct2: alt && alt !== cand ? _syncToks(alt, stu) : null, k: Math.max(1, splitSentences(cand).length) }, stoks, blocked).score;
+}
+function _inDraftAlready(stu, subj, key, text) {
+  try { return _freeMatchScore(stu, subj, key, text) >= 0.75; } catch (e) { return false; }   // a close copy, not just a similar sentence
 }
 function scheduleReconcile(stu, subj, snap) {
   if (_reconTimer) clearTimeout(_reconTimer);
@@ -8665,7 +8714,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.14.3';
+const APP_VERSION = 'v3.14.4';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -11727,6 +11776,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.14.3</div>
+<div class="version-badge">v3.14.4</div>
 </body>
 </html>
