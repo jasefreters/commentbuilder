@@ -1038,6 +1038,8 @@
   .gr-table tr.gr-fill td { background: var(--accent-bg); border-bottom: 2px solid var(--accent-bd); }
   .gr-table tr.gr-fill .gr-sel { color: var(--accent); border-color: var(--accent-bd); width: auto; min-width: 72px; }
 
+  .opts .tier-divider.s1-head { display: flex !important; }
+
   /* v3.13.2 RECENT CHANGES */
   .rc-box { width: 600px; max-width: calc(100vw - 24px); max-height: calc(100vh - 48px); overflow-y: auto; gap: 16px; }
   .rc-ver { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); margin-bottom: 6px; }
@@ -3184,7 +3186,7 @@ function semLoad(stu, sem) {             // stored copy for semester `sem` -> li
 function _paintSemesterUI() {
   document.getElementById('semS1').className = 'sem-btn' + (currentSemester === 1 ? ' active s1' : '');
   document.getElementById('semS2').className = 'sem-btn' + (currentSemester === 2 ? ' active s2' : '');
-  document.getElementById('s2Banner').className = currentSemester === 2 ? 's2-banner visible' : 's2-banner';
+  document.getElementById('s2Banner').className = 's2-banner';   // v3.14.2: the Semester 2 banner is no longer shown
   lsSet('rcb_semester', currentSemester);
 }
 function setSemester(n) {
@@ -3202,7 +3204,6 @@ function setSemester(n) {
   }
   _paintSemesterUI();
   render();
-  if (n === 2 && !cur().s2RankOrder) rankForS2();
 }
 // Called after a saved session has been applied (startup, cloud sign-in, local fallback)
 function _applySemesterAfterLoad(saved) {
@@ -3210,7 +3211,6 @@ function _applySemesterAfterLoad(saved) {
   if (saved && (saved.semester === 1 || saved.semester === 2)) {
     // Live fields already hold this semester's data (see invariant) — just show it.
     _paintSemesterUI();
-    if (currentSemester === 2 && !cur().s2RankOrder && cur().s1Comment) rankForS2();
     return;
   }
   // Legacy session (saved by v3.5.4 or earlier, no "semester" recorded): live fields are treated as S1.
@@ -5027,17 +5027,9 @@ function _renderOptsCore() {
     // other semester's sentences are hidden, unless one is already in this draft (so it can still be removed)
     .filter(o => inSemester(o.s) || (cur().selected[currentTab] || []).includes(o.s));
 
-  if (isS2 && rankOrder) {
-    // S1-used sentences go to TOP (as reference), then ranked S2 suggestions, then unranked
-    const rankMap = {};
-    rankOrder.forEach(({ key, rank }) => { rankMap[key] = rank; });
-    const used = sentenceObjs.filter(o => s1Keys.has(o.s));
-    const ranked = sentenceObjs
-      .filter(o => !s1Keys.has(o.s) && rankMap[o.s] !== undefined)
-      .sort((a, b) => rankMap[a.s] - rankMap[b.s]);
-    const unranked = sentenceObjs.filter(o => !s1Keys.has(o.s) && rankMap[o.s] === undefined);
-    sentenceObjs = [...used, ...ranked, ...unranked];
-  } else if (isS2) {
+  // v3.14.2: no more Semester 2 ranking (it only scored how few words a sentence shared with Semester 1).
+  // The bank keeps its usual order, with the Semester 1 sentences in their own group at the top, as in English and Maths.
+  if (isS2) {
     // S1-used at top, rest below
     const used = sentenceObjs.filter(o => s1Keys.has(o.s));
     const notUsed = sentenceObjs.filter(o => !s1Keys.has(o.s));
@@ -5115,9 +5107,17 @@ function _renderOptsCore() {
     if (customsByGroup[label]) renderCustomsForTier('strong', customsByGroup[label]);
   }
 
+  let _usedHead = false;
   sentenceObjs.forEach(({ s, origIdx }, displayIdx) => {
     const tier = tierFor(origIdx); // always use original index for tier
-    if (tier !== lastTier) {
+    if (isS2 && s1Keys.has(s)) {
+      if (!_usedHead) {
+        _usedHead = true;
+        const sd = document.createElement('div'); sd.className = 'tier-divider s1-head'; sd.id = 's1UsedHeadGen';
+        sd.innerHTML = `<div class="tier-divider-line"></div><span class="tier-divider-label" style="color:var(--red);background:var(--red-bg);border-color:transparent">Used in Semester 1</span><div class="tier-divider-line"></div>`;
+        grid.appendChild(sd);
+      }
+    } else if (tier !== lastTier) {
       if (lastTier && !renderedTiers.has(lastTier)) {
         renderCustomsForTier(lastTier);
         renderedTiers.add(lastTier);
@@ -5126,7 +5126,7 @@ function _renderOptsCore() {
       lastTier = tier;
     }
     // Inject sport sub-group divider if needed (use origIdx for group lookup)
-    if (isSportCat) {
+    if (isSportCat && !(isS2 && s1Keys.has(s))) {
       const groupIdx = SPORT_GROUPS.findIndex(g => origIdx >= g.from && origIdx <= g.to);
       if (groupIdx !== currentSportGroup) {
         flushSportGroup(currentSportGroup);
@@ -7724,7 +7724,6 @@ function switchStu(i) {
   // (v3.5.5) every student's live fields already hold the current semester — nothing to swap here
   if (currentView === 'publish') renderPublish();
   else render();
-  if (currentSemester === 2 && !cur().s2RankOrder && cur().s1Comment) rankForS2();
 }
 function removeStu(i) {
   const name = students[i].name || ('Student ' + (i + 1));
@@ -8645,7 +8644,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.14.1';
+const APP_VERSION = 'v3.14.2';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -8949,6 +8948,9 @@ async function saveProxyUrl() {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.14.2', date: '27 October 2026', items: [
+    'In Semester 2 the General sentence bank keeps its usual Positive, Average and Developing order. Sentences used in Semester 1 sit in their own group at the top, as in English and Maths. The green Semester 2 banner is gone.',
+  ] },
   { v: 'v3.14.0', date: '27 October 2026', items: [
     'Class board has a new Grades button. Upload your grades spreadsheet (Excel or CSV) and each student’s English and Maths grades are chosen for you when you write their comments.',
     'In General, opening a student picks the Positive, Average or Developing filter that matches their grades, and each KLA comment shows that subject’s grade.',
@@ -11701,6 +11703,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.14.1</div>
+<div class="version-badge">v3.14.2</div>
 </body>
 </html>
