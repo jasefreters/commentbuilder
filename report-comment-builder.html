@@ -1011,6 +1011,30 @@
   .rc-older[open] > summary { margin-bottom: 12px; }
   .rc-older .rc-entries { display: flex; flex-direction: column; gap: 16px; }
 
+  /* v3.14.0 GRADES WINDOW */
+  .gr-box { width: 1040px; max-width: calc(100vw - 24px); max-height: calc(100vh - 32px); overflow-y: auto; gap: 14px; }
+  .gr-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .gr-bar .grow { flex: 1 1 auto; }
+  .gr-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-md); }
+  .gr-table { border-collapse: collapse; width: 100%; min-width: 860px; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .gr-table th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--t2); background: var(--bg-2); padding: 8px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .gr-table td { padding: 4px 8px; border-bottom: 1px solid var(--bg-3); vertical-align: middle; }
+  .gr-table tr:last-child td { border-bottom: 0; }
+  .gr-table input[type=text] { width: 100%; min-width: 70px; font: inherit; padding: 5px 7px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-1); color: var(--t0); }
+  .gr-sel { font: inherit; font-weight: 700; width: 58px; padding: 5px 4px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-1); color: var(--t2); text-align: center; }
+  .gr-sel.gA { color: var(--gA); border-color: var(--gA); background: color-mix(in srgb, var(--gA) 14%, var(--bg-1)); }
+  .gr-sel.gB { color: var(--gB); border-color: var(--gB); background: color-mix(in srgb, var(--gB) 14%, var(--bg-1)); }
+  .gr-sel.gC { color: var(--gC); border-color: var(--gC); background: color-mix(in srgb, var(--gC) 16%, var(--bg-1)); }
+  .gr-sel.gD { color: var(--gD); border-color: var(--gD); background: color-mix(in srgb, var(--gD) 14%, var(--bg-1)); }
+  .gr-sel.gE { color: var(--gE); border-color: var(--gE); background: color-mix(in srgb, var(--gE) 14%, var(--bg-1)); }
+  .gr-note { font-size: 13px; color: var(--t1); line-height: 1.5; }
+  .gr-prev { background: var(--accent-bg); border: 1px solid var(--accent-bd); border-radius: var(--r-md); padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+  .gr-prev select { font: inherit; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-1); color: var(--t0); max-width: 220px; }
+  .gr-new { color: var(--accent); font-weight: 600; }
+  .gr-chk { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--t1); }
+
+  .term-tag.gr-tag.gA { color: var(--gA); border-color: var(--gA); } .term-tag.gr-tag.gB { color: var(--gB); border-color: var(--gB); } .term-tag.gr-tag.gC { color: var(--gC); border-color: var(--gC); } .term-tag.gr-tag.gD { color: var(--gD); border-color: var(--gD); } .term-tag.gr-tag.gE { color: var(--gE); border-color: var(--gE); }
+
   /* v3.13.2 RECENT CHANGES */
   .rc-box { width: 600px; max-width: calc(100vw - 24px); max-height: calc(100vh - 48px); overflow-y: auto; gap: 16px; }
   .rc-ver { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); margin-bottom: 6px; }
@@ -1418,6 +1442,7 @@
           <label class="export-drafts" title="Also export comments that are not marked done"><input type="checkbox" id="exportDrafts"> Include drafts</label>
           <button class="btn-sec" onclick="exportWord()" title="One student per page">Export Word</button>
           <button class="btn-sec" onclick="exportCsv()" title="One row per student">Export CSV</button>
+          <button class="btn-sec" onclick="openGrades()" title="Upload, check and export each student's grades">Grades</button>
           <button class="btn-sec" onclick="exportAll()">Export text</button>
           <button class="btn-primary" onclick="copyAllFinished()">Copy all finished comments</button>
         </div>
@@ -3127,6 +3152,7 @@ const SEM_FIELDS = [
   ['mathGrades',         'mathS1Grades',           'mathS2Grades',           () => ({})],
   ['mathDraft',          'mathS1Draft',            'mathS2Draft',            () => null],
   ['mathFD',             'mathS1FD',               'mathS2FD',               () => []],
+  ['klaGrades',          's1KlaGrades',            's2KlaGrades',            () => ({})],   // v3.14.0: CAPA, Science, Health, PE, HSIE
   ['published',          's1Published',            's2Published',            () => false],
   ['engPublished',       'engS1Published',         'engS2Published',         () => false],
   ['mathPublished',      'mathS1Published',        'mathS2Published',        () => false],
@@ -4918,7 +4944,7 @@ const TIER_BOUNDARIES = {
   'Closing Statement': { average: 6, developing: null },
 };
 
-function renderOpts() { _renderOptsCore(); markLongOpts(); }
+function renderOpts() { try { applyGeneralLevel(); } catch (e) {} _renderOptsCore(); markLongOpts(); }   // v3.14.0: level from grades
 function _renderOptsCore() {
   if (currentSemester === 2) seedS2Grades(cur());
   _edSet = editedKeySet(cur(), currentSubject);   // v3.9.2: sentences the teacher has reworded in the draft
@@ -5115,6 +5141,7 @@ function _renderOptsCore() {
     if (!isS1Used) btn.onclick = () => toggleOpt(currentTab, s);
     if (isS1Used) { btn.title = 'Used in Semester 1. Click to continue it in Semester 2.'; btn.onclick = () => openContinueS1(currentTab, s); }
     if (TERM_TAG.has(s) && currentTab === 'Semester KLAs') { const tt = document.createElement('span'); tt.className = 'term-tag'; tt.textContent = TERM_TAG.get(s); btn.appendChild(tt); }
+    if (currentTab === 'Semester KLAs') { const kk = klaKeyForSentence(s), kg = kk && getStuGrade(cur(), kk); if (kg) { const gt = document.createElement('span'); gt.className = 'term-tag gr-tag g' + kg; gt.textContent = 'Grade ' + kg; gt.title = (grCols().find(c => c.k === kk) || {}).short + ' grade from the Grades window'; btn.appendChild(gt); } }   // v3.14.0
     grid.appendChild(btn);
   });
 
@@ -8614,7 +8641,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.13.3';
+const APP_VERSION = 'v3.14.0';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -8918,6 +8945,11 @@ async function saveProxyUrl() {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.14.0', date: '27 October 2026', items: [
+    'Class board has a new Grades button. Upload your grades spreadsheet (Excel or CSV) and each student’s English and Maths grades are chosen for you when you write their comments.',
+    'In General, opening a student picks the Positive, Average or Developing filter that matches their grades, and each KLA comment shows that subject’s grade.',
+    'You can check or change grades there, and export them to an Excel file with one row per student.',
+  ] },
   { v: 'v3.13.2', date: '27 October 2026', items: [
     'The second sentence of each Semester 2 KLA comment no longer says “has” (“Jax investigated…”), to match the Semester 1 KLA comments. You can update comments that use the old wording below.',
   ] },
@@ -11144,6 +11176,387 @@ function exportCsv() {
   showToast(`CSV saved: ${rows.length} student${rows.length > 1 ? 's' : ''}`);
 }
 
+// ══ v3.14.0 · GRADES: UPLOAD, CHECK, EXPORT ═════════════════════════════════
+// One grade per subject per student, for the semester on screen. English and Maths grades are put on the student's
+// strands, so the grade buttons in the sentence bank are already chosen. The other subjects are kept for the export.
+const GR_COLS = [
+  { k: 'english', head: 'Overall English', short: 'English', match: /english/i },
+  { k: 'maths', head: 'Overall Mathematics', short: 'Maths', match: /math/i },
+  { k: 'capa', head: 'Overall CAPA', short: 'CAPA', match: /capa|creative/i },
+  { k: 'science', head: 'Overall Science', short: 'Science', match: /science/i },
+  { k: 'health', head: 'Health', short: 'Health', match: /health/i },
+  { k: 'pe', head: 'PE', short: 'PE', match: /^(?:overall\s+)?(?:pe|p\.e\.?|physical(?: education)?)$/i },
+  { k: 'hsie', head: 'Geography', short: 'Geography', match: /geograph|history|hsie/i },
+];
+function grHsieLabel() { return currentSemester === 1 ? 'History' : 'Geography'; }
+function grCols() { return GR_COLS.map(c => c.k === 'hsie' ? Object.assign({}, c, { head: grHsieLabel(), short: grHsieLabel() }) : c); }
+const _GR_STRAND_SKIP = new Set(['Future Directions', 'Below Expectations']);
+function _grStrands(subj) { return (subj === 'english' ? ENGLISH_CATS : MATHS_CATS).filter(c => !_GR_STRAND_SKIP.has(c)); }
+function _grObj(stu, subj) {
+  const k = subj === 'english' ? 'engGrades' : 'mathGrades';
+  if (!stu[k] || typeof stu[k] !== 'object') stu[k] = {};
+  return stu[k];
+}
+// The student's grade for one subject: English and Maths come from the Introduction strand (or the strand grade most used)
+function getStuGrade(stu, k) {
+  if (k === 'english' || k === 'maths') {
+    const g = _grObj(stu, k);
+    const intro = normaliseGradeVal(g.Introduction).filter(x => GRADE_ORDER.includes(x));
+    if (intro.length) return intro[0];
+    const n = {}; _grStrands(k).forEach(c => normaliseGradeVal(g[c]).forEach(x => { if (GRADE_ORDER.includes(x)) n[x] = (n[x] || 0) + 1; }));
+    const best = Object.keys(n).sort((a, b) => n[b] - n[a] || GRADE_ORDER.indexOf(a) - GRADE_ORDER.indexOf(b))[0];
+    return best || '';
+  }
+  return (stu.klaGrades && stu.klaGrades[k]) || '';
+}
+// Sets a subject grade. For English and Maths: the Introduction strand always takes it, and so does every strand with no
+// grade yet (or only one filled in from Semester 1). Strands the teacher chose differently are kept unless replaceAll.
+function setStuGrade(stu, k, grade, replaceAll) {
+  grade = GRADE_ORDER.includes(grade) ? grade : '';
+  if (k === 'english' || k === 'maths') {
+    const g = _grObj(stu, k), pre = k === 'english' ? 'eng|' : 'math|';
+    const seeded = stu.s2GradeSeeded && typeof stu.s2GradeSeeded === 'object' ? stu.s2GradeSeeded : null;
+    _grStrands(k).forEach(cat => {
+      const had = normaliseGradeVal(g[cat]).length > 0;
+      const auto = seeded && seeded[pre + cat] === 'auto';
+      if (cat === 'Introduction' || !had || auto || replaceAll) {
+        if (grade) g[cat] = [grade]; else if (cat === 'Introduction' || replaceAll) delete g[cat];
+        if (seeded && currentSemester === 2) seeded[pre + cat] = true;
+      }
+    });
+    if (currentSemester === 2) { if (!seeded) stu.s2GradeSeeded = {}; _grStrands(k).forEach(cat => { stu.s2GradeSeeded[pre + cat] = true; }); }
+    // Below Expectations follows the Introduction grade, as when it is clicked in the bank
+    if (grade === 'E') g['Below Expectations'] = ['E'];
+    else if (grade === 'D') g['Below Expectations'] = ['D'];
+    else delete g['Below Expectations'];
+    return;
+  }
+  if (!stu.klaGrades || typeof stu.klaGrades !== 'object') stu.klaGrades = {};
+  if (grade) stu.klaGrades[k] = grade; else delete stu.klaGrades[k];
+}
+function _grSplitName(stu) {
+  const nm = (stu.name || '').trim();
+  if (stu.surname) return [nm, stu.surname];
+  const i = nm.indexOf(' ');
+  return i > 0 ? [nm.slice(0, i), nm.slice(i + 1)] : [nm, ''];
+}
+
+// ── the window ──────────────────────────────────────────────────────────
+let _grImport = null;   // rows waiting to be applied after an upload
+function openGrades() {
+  saveCur();
+  closeGrades();
+  const ov = document.createElement('div');
+  ov.className = 'modal-overlay'; ov.id = 'grOverlay';
+  ov.onclick = e => { if (e.target === ov) closeGrades(); };
+  ov.innerHTML = `<div class="modal-box gr-box" role="dialog" aria-modal="true" aria-labelledby="grTitle">
+    <div class="gr-bar"><div class="modal-title grow" id="grTitle">Grades · Semester ${currentSemester}</div>
+      <button class="modal-btn" onclick="document.getElementById('grFile').click()">Upload grades</button>
+      <button class="modal-btn primary" onclick="exportGradesXlsx()">Export to Excel</button>
+      <button class="modal-btn" onclick="closeGrades()" aria-label="Close">✕</button></div>
+    <input type="file" id="grFile" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden onchange="onGradesFile(this)">
+    <div class="gr-note">Upload a spreadsheet with First Name, Surname, Roll Class and a column for each subject (Overall English, Overall Mathematics, Overall CAPA, Science, Health, PE, Geography or History). English and Maths grades are chosen for you in the sentence bank: the Introduction strand and any strand with no grade yet. In General, the student's grades pick the Positive, Average or Developing filter when you open them (tap All to see everything), and each KLA comment shows that subject's grade. Changing a grade here does the same.</div>
+    <div id="grPreview"></div>
+    <div class="gr-scroll"><table class="gr-table" id="grTable"></table></div>
+  </div>`;
+  document.body.appendChild(ov);
+  paintGradesTable();
+}
+function closeGrades() { const ov = document.getElementById('grOverlay'); if (ov) ov.remove(); _grImport = null; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('grOverlay')) closeGrades(); });
+function _grSelHtml(i, k, g) {
+  return `<select class="gr-sel${g ? ' g' + g : ''}" aria-label="${escHtml(grCols().find(c => c.k === k).short)} grade" onchange="onGradeCell(${i},'${k}',this)"><option value="">–</option>${GRADE_ORDER.map(x => `<option${x === g ? ' selected' : ''}>${x}</option>`).join('')}</select>`;
+}
+function paintGradesTable() {
+  const t = document.getElementById('grTable'); if (!t) return;
+  const cols = grCols();
+  let h = '<thead><tr><th>First name</th><th>Surname</th><th>Roll class</th>' + cols.map(c => `<th>${escHtml(c.short)}</th>`).join('') + '<th title="Not exported">General level</th></tr></thead><tbody>';
+  if (!students.length) h += `<tr><td colspan="${4 + cols.length}">No students yet. Upload a spreadsheet to add them.</td></tr>`;
+  students.forEach((stu, i) => {
+    const [fn, sn] = _grSplitName(stu);
+    h += `<tr><td>${escHtml(fn || 'Student ' + (i + 1))}</td>` +
+      `<td><input type="text" value="${escHtml(stu.surname || (stu.name || '').includes(' ') ? sn : stu.surname || '')}" aria-label="Surname" onchange="onGradeText(${i},'surname',this.value)"></td>` +
+      `<td><input type="text" value="${escHtml(stu.rollClass || '')}" aria-label="Roll class" style="max-width:80px" onchange="onGradeText(${i},'rollClass',this.value)"></td>` +
+      cols.map(c => `<td>${_grSelHtml(i, c.k, getStuGrade(stu, c.k))}</td>`).join('') + `<td>${_genLevelSelHtml(i, stu)}</td></tr>`;
+  });
+  t.innerHTML = h + '</tbody>';
+}
+function onGradeCell(i, k, sel) {
+  const stu = students[i]; if (!stu) return;
+  setStuGrade(stu, k, sel.value, false);
+  sel.className = 'gr-sel' + (sel.value ? ' g' + sel.value : '');
+  if (i === currentIdx) _genLevelFor = null;
+  paintGradesTable();
+  if (i === currentIdx && currentView === 'build') render();
+  autoSave();
+}
+function onGradeText(i, field, v) {
+  const stu = students[i]; if (!stu) return;
+  v = String(v || '').trim();
+  if (field === 'surname' && !stu.surname && (stu.name || '').includes(' ')) stu.name = _grSplitName(stu)[0];   // "Jax Smith" becomes first name + surname
+  if (v) stu[field] = v; else delete stu[field];
+  autoSave(); renderClassRail && renderClassRail();
+}
+
+// ── reading the upload ──────────────────────────────────────────────────
+async function onGradesFile(input) {
+  const f = input.files && input.files[0]; input.value = '';
+  if (!f) return;
+  let rows;
+  try {
+    if (/\.csv$/i.test(f.name) || f.type === 'text/csv') rows = parseCsvRows(await f.text());
+    else if (/\.xlsx$/i.test(f.name)) rows = await readXlsxRows(new Uint8Array(await f.arrayBuffer()));
+    else { showToast('Choose an Excel (.xlsx) or CSV file.'); return; }
+  } catch (e) {
+    console.error('grades upload', e);
+    showToast(e && e.userMsg ? e.userMsg : 'That file could not be read. In Excel, choose File › Save As › CSV and upload that instead.');
+    return;
+  }
+  const parsed = gradesFromRows(rows);
+  if (!parsed.rows.length) { showToast(parsed.why || 'No students found in that file.'); return; }
+  _grImport = matchGradeRows(parsed.rows);
+  _grImport.cols = parsed.cols;
+  paintGradesPreview();
+}
+function parseCsvRows(text) {
+  text = text.replace(/^﻿/, '');
+  const out = []; let row = [], cell = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (q) { if (ch === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += ch; continue; }
+    if (ch === '"') q = true;
+    else if (ch === ',' || ch === '\t' || ch === ';') { row.push(cell); cell = ''; }
+    else if (ch === '\n' || ch === '\r') { if (ch === '\r' && text[i + 1] === '\n') i++; row.push(cell); out.push(row); row = []; cell = ''; }
+    else cell += ch;
+  }
+  if (cell !== '' || row.length) { row.push(cell); out.push(row); }
+  return out;
+}
+// Minimal .xlsx reader: the first worksheet as rows of text. Uses the browser's own unzip (DecompressionStream).
+async function readXlsxRows(bytes) {
+  const files = await _unzip(bytes, n => /^(xl\/workbook\.xml|xl\/_rels\/workbook\.xml\.rels|xl\/sharedStrings\.xml|xl\/worksheets\/[^/]+\.xml)$/.test(n));
+  const dp = new DOMParser(), xml = n => files[n] ? dp.parseFromString(files[n], 'application/xml') : null;
+  const els = (doc, tag) => doc ? Array.from(doc.getElementsByTagNameNS('*', tag)) : [];
+  // first sheet in the workbook, through its relationship
+  let sheetPath = null;
+  const wb = xml('xl/workbook.xml'), rels = xml('xl/_rels/workbook.xml.rels');
+  const first = els(wb, 'sheet')[0];
+  if (first && rels) {
+    const rid = first.getAttribute('r:id') || first.getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships', 'id');
+    const rel = els(rels, 'Relationship').find(r => r.getAttribute('Id') === rid);
+    if (rel) { const tg = rel.getAttribute('Target').replace(/^\/?(xl\/)?/, ''); sheetPath = 'xl/' + tg; }
+  }
+  if (!sheetPath || !files[sheetPath]) sheetPath = Object.keys(files).filter(n => n.startsWith('xl/worksheets/')).sort()[0];
+  if (!sheetPath) throw Object.assign(new Error('no sheet'), { userMsg: 'No worksheet found in that file.' });
+  const shared = els(xml('xl/sharedStrings.xml'), 'si').map(si => els(si, 't').map(t => t.textContent).join(''));
+  const rows = [];
+  els(xml(sheetPath), 'row').forEach(r => {
+    const ri = (parseInt(r.getAttribute('r'), 10) || rows.length + 1) - 1, row = [];
+    els(r, 'c').forEach((c, ci) => {
+      const ref = c.getAttribute('r') || '', letters = (ref.match(/^[A-Z]+/) || [''])[0];
+      const col = letters ? letters.split('').reduce((a, ch) => a * 26 + ch.charCodeAt(0) - 64, 0) - 1 : ci;
+      const t = c.getAttribute('t'), v = els(c, 'v')[0];
+      let val = '';
+      if (t === 's') val = shared[parseInt(v && v.textContent, 10)] || '';
+      else if (t === 'inlineStr') val = els(c, 't').map(x => x.textContent).join('');
+      else val = v ? v.textContent : '';
+      row[col] = val;
+    });
+    rows[ri] = Array.from(row, x => x == null ? '' : x);
+  });
+  return Array.from(rows, x => x || []);
+}
+async function _unzip(bytes, want) {
+  const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength), dec = new TextDecoder();
+  let eocd = -1;
+  for (let i = bytes.length - 22; i >= Math.max(0, bytes.length - 65557); i--) if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  if (eocd < 0) throw Object.assign(new Error('not zip'), { userMsg: 'That is not an Excel .xlsx file. Try saving it as CSV.' });
+  const n = dv.getUint16(eocd + 10, true); let p = dv.getUint32(eocd + 16, true);
+  const out = {};
+  for (let k = 0; k < n; k++) {
+    if (dv.getUint32(p, true) !== 0x02014b50) break;
+    const method = dv.getUint16(p + 10, true), csize = dv.getUint32(p + 20, true);
+    const nl = dv.getUint16(p + 28, true), el = dv.getUint16(p + 30, true), cl = dv.getUint16(p + 32, true), lo = dv.getUint32(p + 42, true);
+    const name = dec.decode(bytes.subarray(p + 46, p + 46 + nl));
+    p += 46 + nl + el + cl;
+    if (!want(name)) continue;
+    const ds = lo + 30 + dv.getUint16(lo + 26, true) + dv.getUint16(lo + 28, true), data = bytes.subarray(ds, ds + csize);
+    if (method === 0) out[name] = dec.decode(data);
+    else if (method === 8) {
+      if (typeof DecompressionStream === 'undefined') throw Object.assign(new Error('no inflate'), { userMsg: 'This browser cannot open .xlsx files. In Excel, save the file as CSV and upload that.' });
+      const st = new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+      out[name] = await new Response(st).text();
+    }
+  }
+  return out;
+}
+// Finds the header row and reads one record per student
+function gradesFromRows(rows) {
+  const norm = v => String(v == null ? '' : v).trim();
+  let hi = -1, map = null;
+  for (let r = 0; r < Math.min(rows.length, 15); r++) {
+    const row = (rows[r] || []).map(norm);
+    const m = { first: -1, surname: -1, roll: -1, full: -1 };
+    row.forEach((h, c) => {
+      if (/^first(\s*name)?$|^given/i.test(h)) m.first = c;
+      else if (/surname|last\s*name|family/i.test(h)) m.surname = c;
+      else if (/roll|class/i.test(h) && !/grade/i.test(h)) m.roll = c;
+      else if (/^(student|name|student name|full name)$/i.test(h)) m.full = c;
+    });
+    const subj = {};
+    GR_COLS.forEach(gc => { const c = row.findIndex((h, ci) => gc.match.test(h) && ![m.first, m.surname, m.roll, m.full].includes(ci)); if (c >= 0) subj[gc.k] = c; });
+    if ((m.first >= 0 || m.full >= 0) && Object.keys(subj).length) { hi = r; map = Object.assign(m, { subj }); break; }
+  }
+  if (hi < 0) return { rows: [], why: 'Could not find the headings. The first row needs First Name (or Student) and at least one subject such as Overall English.' };
+  const grade = v => { const x = norm(v).toUpperCase().replace(/[^A-E]/g, ''); return x.length === 1 ? x : ''; };
+  const out = [];
+  for (let r = hi + 1; r < rows.length; r++) {
+    const row = rows[r] || [];
+    let first = map.first >= 0 ? norm(row[map.first]) : '', sur = map.surname >= 0 ? norm(row[map.surname]) : '';
+    if (!first && map.full >= 0) { const full = norm(row[map.full]); const sp = full.indexOf(' '); first = sp > 0 ? full.slice(0, sp) : full; if (!sur && sp > 0) sur = full.slice(sp + 1); }
+    const grades = {}; Object.keys(map.subj).forEach(k => { const g = grade(row[map.subj[k]]); if (g) grades[k] = g; });
+    if (!first && !sur && !Object.keys(grades).length) continue;
+    out.push({ first, surname: sur, roll: map.roll >= 0 ? norm(row[map.roll]) : '', grades, line: r + 1 });
+  }
+  return { rows: out, cols: Object.keys(map.subj) };
+}
+// Pairs each spreadsheet row with a student: first name and surname, then first name alone. Unpaired rows become new students.
+function matchGradeRows(rows) {
+  const lc = s => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  const used = new Set();
+  rows.forEach(r => {
+    const f = lc(r.first), sn = lc(r.surname), full = lc(r.first + ' ' + r.surname);
+    const cands = students.map((st, i) => ({ st, i })).filter(({ st, i }) => !used.has(i) && f && (() => {
+      const [sf, ss] = _grSplitName(st).map(lc);
+      return lc(st.name) === full || (sf === f && (!ss || !sn || ss === sn));
+    })());
+    const best = cands.find(({ st }) => { const ss = lc(_grSplitName(st)[1]); return sn && ss === sn; }) || (cands.length === 1 ? cands[0] : cands[0]);
+    r.target = best ? best.i : (f || sn ? 'new' : 'skip');
+    if (best) used.add(best.i);
+  });
+  return { rows, replaceAll: false };
+}
+function paintGradesPreview() {
+  const box = document.getElementById('grPreview'); if (!box) return;
+  if (!_grImport) { box.innerHTML = ''; return; }
+  const cols = grCols().filter(c => _grImport.cols.includes(c.k));
+  const opts = sel => `<option value="new"${sel === 'new' ? ' selected' : ''}>Add as a new student</option><option value="skip"${sel === 'skip' ? ' selected' : ''}>Skip this row</option>` +
+    students.map((st, i) => `<option value="${i}"${sel === i ? ' selected' : ''}>${escHtml(stuLabel(st, i))}${st.surname ? ' ' + escHtml(st.surname) : ''}</option>`).join('');
+  const nNew = _grImport.rows.filter(r => r.target === 'new').length, nMatch = _grImport.rows.filter(r => typeof r.target === 'number').length;
+  box.innerHTML = `<div class="gr-prev"><div><b>${_grImport.rows.length} rows read.</b> ${nMatch} matched to your students${nNew ? `, ${nNew} will be added as new students` : ''}. Check the matches, then apply.</div>
+    <div class="gr-scroll"><table class="gr-table"><thead><tr><th>In the file</th><th>Goes to</th>${cols.map(c => `<th>${escHtml(c.short)}</th>`).join('')}</tr></thead><tbody>` +
+    _grImport.rows.map((r, ri) => `<tr><td>${escHtml((r.first + ' ' + r.surname).trim() || 'Row ' + r.line)}${r.roll ? ' · ' + escHtml(r.roll) : ''}</td>` +
+      `<td><select aria-label="Goes to" onchange="_grImport.rows[${ri}].target = /^\\d+$/.test(this.value) ? +this.value : this.value; paintGradesPreview()">${opts(r.target)}</select>${r.target === 'new' ? ' <span class="gr-new">New</span>' : ''}</td>` +
+      cols.map(c => `<td>${r.grades[c.k] ? `<span class="gr-sel g${r.grades[c.k]}" style="display:inline-block">${r.grades[c.k]}</span>` : '–'}</td>`).join('') + '</tr>').join('') +
+    `</tbody></table></div>
+    <label class="gr-chk"><input type="checkbox" id="grReplace"${_grImport.replaceAll ? ' checked' : ''} onchange="_grImport.replaceAll = this.checked"> Also replace English and Maths strand grades I have already chosen</label>
+    <div class="gr-bar"><button class="modal-btn primary" onclick="applyGradeImport()">Apply grades</button><button class="modal-btn" onclick="_grImport = null; paintGradesPreview()">Cancel</button></div></div>`;
+}
+function applyGradeImport() {
+  if (!_grImport) return;
+  saveCur();
+  let n = 0, added = 0;
+  _grImport.rows.forEach(r => {
+    if (r.target === 'skip') return;
+    let stu;
+    if (r.target === 'new') {
+      _addStuNow('');
+      stu = students[students.length - 1];
+      stu.name = r.first || r.surname; added++;
+    } else stu = students[r.target];
+    if (!stu) return;
+    if (r.surname && !stu.surname) { if ((stu.name || '').includes(' ') && _grSplitName(stu)[1].toLowerCase() === r.surname.toLowerCase()) stu.name = _grSplitName(stu)[0]; stu.surname = r.surname; }
+    if (r.roll) stu.rollClass = r.roll;
+    Object.keys(r.grades).forEach(k => setStuGrade(stu, k, r.grades[k], _grImport.replaceAll));
+    n++;
+  });
+  if (added && students.length > totalStudents) totalStudents = students.length;
+  _grImport = null; _genLevelFor = null;
+  loadCur(); render(); updateProgress(); autoSave();
+  if (currentView === 'stats') renderStats();
+  paintGradesPreview(); paintGradesTable();
+  showToast(`Grades applied for ${n} student${n === 1 ? '' : 's'}${added ? `, ${added} added` : ''}.`);
+}
+
+// ── export: one row per student, coloured like a marks book ────────────────
+const _GR_FILL = { A: ['1E7B45', 'FFFFFF'], B: ['00B050', '000000'], C: ['C6EFCE', '006100'], D: ['FFEB9C', '9C5700'], E: ['FFC7CE', '9C0006'] };
+function buildGradesXlsx() {
+  const cols = grCols();
+  const heads = ['First Name', 'Surname', 'Roll Class'].concat(cols.map(c => c.head));
+  const colL = i => { let s = ''; i++; while (i) { const m = (i - 1) % 26; s = String.fromCharCode(65 + m) + s; i = Math.floor((i - 1) / 26); } return s; };
+  const xf = { head: 1, text: 0 }; GRADE_ORDER.forEach((g, gi) => { xf[g] = 2 + gi; });
+  const cell = (r, c, v, s) => `<c r="${colL(c)}${r}" t="inlineStr"${s ? ` s="${s}"` : ''}><is><t xml:space="preserve">${_xe(v)}</t></is></c>`;
+  let rowsXml = `<row r="1">${heads.map((h, c) => cell(1, c, h, xf.head)).join('')}</row>`;
+  students.forEach((stu, i) => {
+    const r = i + 2, [fn, sn] = _grSplitName(stu);
+    let x = cell(r, 0, fn) + cell(r, 1, sn) + cell(r, 2, stu.rollClass || '');
+    cols.forEach((c, ci) => { const g = getStuGrade(stu, c.k); x += g ? cell(r, 3 + ci, g, xf[g]) : `<c r="${colL(3 + ci)}${r}"/>`; });
+    rowsXml += `<row r="${r}">${x}</row>`;
+  });
+  const widths = [16, 18, 11].concat(cols.map(c => Math.max(9, c.head.length + 3)));
+  const sheet = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>${widths.map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w}" customWidth="1"/>`).join('')}</cols><sheetData>${rowsXml}</sheetData></worksheet>`;
+  const fonts = `<font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font>` + GRADE_ORDER.map(g => `<font><sz val="11"/><color rgb="FF${_GR_FILL[g][1]}"/><name val="Calibri"/></font>`).join('');
+  const fills = `<fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>` + GRADE_ORDER.map(g => `<fill><patternFill patternType="solid"><fgColor rgb="FF${_GR_FILL[g][0]}"/><bgColor indexed="64"/></patternFill></fill>`).join('');
+  const xfs = `<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/>` +
+    GRADE_ORDER.map((g, gi) => `<xf numFmtId="0" fontId="${2 + gi}" fillId="${2 + gi}" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment horizontal="center"/></xf>`).join('');
+  const styles = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="${2 + GRADE_ORDER.length}">${fonts}</fonts><fills count="${2 + GRADE_ORDER.length}">${fills}</fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="${2 + GRADE_ORDER.length}">${xfs}</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`;
+  const wb = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Semester ${currentSemester} grades" sheetId="1" r:id="rId1"/></sheets></workbook>`;
+  const wbRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`;
+  const rels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`;
+  const ct = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>`;
+  return makeZip([{ name: '[Content_Types].xml', data: ct }, { name: '_rels/.rels', data: rels }, { name: 'xl/workbook.xml', data: wb }, { name: 'xl/_rels/workbook.xml.rels', data: wbRels }, { name: 'xl/styles.xml', data: styles }, { name: 'xl/worksheets/sheet1.xml', data: sheet }]);
+}
+function exportGradesXlsx() {
+  saveCur();
+  if (!students.length) { showToast('No students to export yet.'); return; }
+  _download(new Blob([buildGradesXlsx()], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), `grades-s${currentSemester}-2026.xlsx`);
+  showToast(`Excel file saved: ${students.length} student${students.length === 1 ? '' : 's'}`);
+}
+
+// ── General comments: the level the student's grades point to ────────────────
+// A teacher can set it in the Grades window; otherwise it comes from the student's grades (A–B Positive, C Average, D–E Developing on average).
+const GEN_LEVEL_LABEL = { strong: 'Positive', average: 'Average', developing: 'Developing' };
+function generalLevel(stu) {
+  if (!stu) return null;
+  if (stu.generalLevel && GEN_LEVEL_LABEL[stu.generalLevel]) return stu.generalLevel;
+  const pts = GR_COLS.map(c => getStuGrade(stu, c.k)).filter(Boolean).map(g => _GRADE_PTS[g]);
+  if (!pts.length) return null;
+  return bandFromScore(pts.reduce((a, b) => a + b, 0) / pts.length);
+}
+function _genLevelSelHtml(i, stu) {
+  const own = stu.generalLevel || '', auto = (() => { const o = stu.generalLevel; stu.generalLevel = null; const b = generalLevel(stu); stu.generalLevel = o; return b; })();
+  return `<select class="gr-sel" style="width:auto" aria-label="General comment level" onchange="onGenLevel(${i},this.value)" title="Which General filter opens for this student">` +
+    `<option value=""${!own ? ' selected' : ''}>${auto ? 'From grades: ' + GEN_LEVEL_LABEL[auto] : '–'}</option>` +
+    ['strong', 'average', 'developing'].map(t => `<option value="${t}"${own === t ? ' selected' : ''}>${GEN_LEVEL_LABEL[t]}</option>`).join('') + '</select>';
+}
+function onGenLevel(i, v) {
+  const stu = students[i]; if (!stu) return;
+  if (v) stu.generalLevel = v; else delete stu.generalLevel;
+  if (i === currentIdx) { _genLevelFor = null; applyGeneralLevel(); }
+  autoSave();
+}
+// When a student is opened in General, the Positive / Average / Developing filter starts at their level. The teacher can still change it.
+let _genLevelFor = null;
+function applyGeneralLevel() {
+  const stu = cur(); if (!stu || currentSubject !== 'general') return;
+  const id = stu.uid || currentIdx;
+  if (_genLevelFor === id) return;
+  _genLevelFor = id;
+  const lv = generalLevel(stu);
+  if (lv) { setTierFilter(lv); _genLevelSetByGrades = true; }
+  else if (_genLevelSetByGrades) { setTierFilter('all'); _genLevelSetByGrades = false; }   // a filter the teacher chose is left alone
+}
+let _genLevelSetByGrades = false;
+// Semester KLA sentences show the student's grade for that subject
+function klaKeyForSentence(s) {
+  if (/Science/.test(s)) return 'science';
+  if (/History|Geography/.test(s)) return 'hsie';
+  if (/Creative Arts|Drama/.test(s)) return 'capa';
+  if (/Physical Education/.test(s)) return 'pe';
+  if (/Health/.test(s)) return 'health';
+  return null;
+}
+
 // loadPersistedState is async (IndexedDB) — it calls render() itself
 // v3.8.6: when the teacher leaves the Review pane after editing it, put name / pronoun alternation right again.
 document.addEventListener('input', e => {   // typing in a highlighted sentence clears its highlight; the check runs again when the pane loses focus
@@ -11257,6 +11670,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.13.3</div>
+<div class="version-badge">v3.14.0</div>
 </body>
 </html>
