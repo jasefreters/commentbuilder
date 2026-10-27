@@ -8798,7 +8798,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.1';
+const APP_VERSION = 'v3.16.3';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10023,7 +10023,13 @@ const REPORT_WHITELIST = new Set([
 // Lightweight English stemmer — strips common prefixes/suffixes to find base form
 // Maps surface form → stem so "excellent" and "excellently" share the same stem
 function stem(word) {
-  const w = word.toLowerCase();
+  let w = word.toLowerCase();
+  // v3.16.3: plurals and "-s" verbs share their base word, so "relationship" matches "relationships" and "build" matches "builds"
+  if (w.length > 4) {
+    if (w.endsWith('ies')) w = w.slice(0, -3) + 'y';
+    else if (/(sh|ch|x|z|ss)es$/.test(w)) w = w.slice(0, -2);
+    else if (w.endsWith('s') && !/(ss|us|is)$/.test(w)) w = w.slice(0, -1);
+  }
   // Suffixes to try stripping, longest first
   const suffixes = [
     'istically','istically','fulness','lessness','iveness','ousness',
@@ -12239,6 +12245,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.1</div>
+<div class="version-badge">v3.16.3</div>
 </body>
 </html>
