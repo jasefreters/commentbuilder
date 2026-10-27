@@ -995,6 +995,11 @@
     .modal, .s1-modal { max-width: calc(100vw - 16px); }
   }
 
+  /* v3.13.1: choose the group a new sentence of your own goes under */
+  .grp-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; margin-bottom: 2px; }
+  .grp-lbl { font-size: 11px; font-weight: 600; color: var(--t2); margin-right: 2px; }
+  .tier-sel-btn.active-group { border-color: var(--accent-bd); background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+
   /* ══ v3.13.0 SETTINGS WINDOW: centred, with tabs down the side (along the top on a phone) ══ */
   .settings-overlay { position: fixed; inset: 0; z-index: 480; background: rgba(15,23,42,.45); display: flex; align-items: center; justify-content: center; padding: 24px; }
   .settings-overlay .settings-panel { position: relative; top: auto; right: auto; left: auto; width: min(760px, 100%); height: min(560px, calc(100vh - 48px)); max-height: none; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-lg); box-shadow: var(--shadow-pop); }
@@ -4839,16 +4844,17 @@ function _renderOptsCore() {
     return;
   }
   // Custom input box — at the top
+  const _catHasTiers = (TIER_BOUNDARIES[currentTab] || {}).average != null;   // v3.13.1: Positive / Average / Developing only where the bank uses them
   const wrap = document.createElement('div');
   wrap.className = 'custom-wrap';
   wrap.innerHTML = `
     <div class="custom-label"><span>Write your own sentence</span><button type="button" class="custom-close" onclick="toggleComposer()" aria-label="Close">✕</button></div>
     <textarea class="custom-textarea" id="customInput" placeholder="Type a custom sentence… Use {{First-name}}, {{He-she}}, {{His-her}}, {{him-her}} as placeholders."></textarea>
-    <div class="tier-sel-row">
-      <button class="tier-sel-btn active-strong" id="tierBtnStrong" onclick="setCustomTier('strong')">Positive</button>
-      <button class="tier-sel-btn" id="tierBtnAverage" onclick="setCustomTier('average')">Average</button>
-      <button class="tier-sel-btn" id="tierBtnDeveloping" onclick="setCustomTier('developing')">Developing</button>
-    </div>
+    ${_catHasTiers ? `<div class="tier-sel-row grp-row" role="group" aria-label="Group"><span class="grp-lbl">Place under:</span>
+      <button class="tier-sel-btn${_customTierSelected === 'strong' ? ' active-strong' : ''}" id="tierBtnStrong" onclick="setCustomTier('strong')">Positive</button>
+      <button class="tier-sel-btn${_customTierSelected === 'average' ? ' active-average' : ''}" id="tierBtnAverage" onclick="setCustomTier('average')">Average</button>
+      <button class="tier-sel-btn${_customTierSelected === 'developing' ? ' active-developing' : ''}" id="tierBtnDeveloping" onclick="setCustomTier('developing')">Developing</button>
+    </div>` : groupRowHtml()}
     <div class="custom-row">
       <button class="custom-add-btn" onclick="addCustomSentence()">+ Add to comment</button>
       <button class="custom-add-btn mine" onclick="addCustomSentence(true)" title="Adds it to this comment and keeps it in the bank for every student">+ Add &amp; save to my bank</button>
@@ -4919,16 +4925,21 @@ function _renderOptsCore() {
 
   // Build a map of custom sentences by tier for interleaving
   const customsByTier = { strong: [], average: [], developing: [] };
+  const customsByGroup = {};   // v3.13.1: Sport sentences placed under a chosen group
+  const _sportLabels = SPORT_GROUPS.map(g => g.label);
   customs.forEach((s, i) => {
+    if (s === null || s === undefined) return;
+    const g = currentTab === 'Sport & Extracurricular' ? getCustomGroup(cur(), currentTab, s) : null;
+    if (g && _sportLabels.includes(g)) { (customsByGroup[g] = customsByGroup[g] || []).push({ s, i }); return; }
     const t = customTiers[i] || 'strong';
-    customsByTier[t].push({ s, i });
+    (customsByTier[t] || customsByTier.strong).push({ s, i });
   });
 
   // Track which tiers have been rendered so we know when to inject custom sentences
   const renderedTiers = new Set();
 
-  function renderCustomsForTier(tier) {
-    customsByTier[tier].forEach(({ s, i }) => {
+  function renderCustomsForTier(tier, list) {
+    (list || customsByTier[tier]).forEach(({ s, i }) => {
       const key = '__custom__' + currentTab + '__' + i;
       const isSel = (cur().selected[currentTab] || []).includes(key);
       const wrap = document.createElement('div');
@@ -4960,6 +4971,15 @@ function _renderOptsCore() {
 
   const isSportCat = currentTab === 'Sport & Extracurricular';
   let currentSportGroup = -1;
+  const _flushedGroups = new Set();
+  // v3.13.1: a group's own sentences go straight after the bank sentences in that group
+  function flushSportGroup(gi) {
+    if (gi < 0) return;
+    const label = SPORT_GROUPS[gi].label;
+    if (_flushedGroups.has(label)) return;
+    _flushedGroups.add(label);
+    if (customsByGroup[label]) renderCustomsForTier('strong', customsByGroup[label]);
+  }
 
   sentenceObjs.forEach(({ s, origIdx }, displayIdx) => {
     const tier = tierFor(origIdx); // always use original index for tier
@@ -4975,6 +4995,7 @@ function _renderOptsCore() {
     if (isSportCat) {
       const groupIdx = SPORT_GROUPS.findIndex(g => origIdx >= g.from && origIdx <= g.to);
       if (groupIdx !== currentSportGroup) {
+        flushSportGroup(currentSportGroup);
         currentSportGroup = groupIdx;
         if (groupIdx !== -1) addSportDivider(SPORT_GROUPS[groupIdx].label);
       }
@@ -4991,6 +5012,14 @@ function _renderOptsCore() {
     grid.appendChild(btn);
   });
 
+  // v3.13.1: close the last Sport group, then any group whose only sentences are the teacher's own
+  if (isSportCat) {
+    flushSportGroup(currentSportGroup);
+    SPORT_GROUPS.forEach((g, gi) => {
+      if (!_flushedGroups.has(g.label) && customsByGroup[g.label]) { addSportDivider(g.label); flushSportGroup(gi); }
+    });
+    if (customsByTier.strong.length) addSportDivider('Your own sentences');   // ones written before groups could be chosen
+  }
   // After all pre-approved sentences, render custom sentences for the last tier
   if (lastTier && !renderedTiers.has(lastTier)) {
     renderCustomsForTier(lastTier);
@@ -7216,11 +7245,7 @@ function renderSubjOpts(grid) {
   wrap.innerHTML = `
     <div class="custom-label"><span>Write your own sentence</span><button type="button" class="custom-close" onclick="toggleComposer()" aria-label="Close">✕</button></div>
     <textarea class="custom-textarea" id="customInput" placeholder="Type a custom sentence…"></textarea>
-    <div class="tier-sel-row">
-      <button class="tier-sel-btn active-strong" id="tierBtnStrong" onclick="setCustomTier('strong')">A/B</button>
-      <button class="tier-sel-btn" id="tierBtnAverage" onclick="setCustomTier('average')">C</button>
-      <button class="tier-sel-btn" id="tierBtnDeveloping" onclick="setCustomTier('developing')">D/E</button>
-    </div>
+    ${groupRowHtml()}
     <div class="custom-row">
       <button class="custom-add-btn" onclick="addSubjCustomSentence()">+ Add to comment</button>
       <button class="custom-add-btn" onclick="addSubjCustomSentence(true)" title="Add to this comment and keep it in your bank for every student">+ Add &amp; save to my bank</button>
@@ -7271,48 +7296,12 @@ function renderSubjOpts(grid) {
       grid.appendChild(btn);
     });
   }
-  gradesToShow.forEach(grade => {
-    const _ys = hasGrades ? yearSents(catSentences, grade) : { list: _allYr[grade] || [], fallback: false };
-    const sents = _ys.list.filter(s => (hasGrades ? !_shownYr.has(s) : true) && !(_s1Picks.length && subjS1Used(currentTab, s)));
-    if (hasGrades) sents.forEach(s => _shownYr.add(s));
-    if (!sents.length) return;
-
-    // Always show grade dividers so user knows which grade each sentence belongs to
-    const div = document.createElement('div');
-    div.className = 'grade-divider';
-    div.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label ${grade}">${grade} — ${GRADE_LABELS[grade]}</span><div class="grade-divider-line"></div>`;
-    grid.appendChild(div);
-    if (_ys.fallback) {
-      const fb = document.createElement('div'); fb.className = 'yr-fallback';
-      fb.textContent = 'No comments written for this year level here yet, so the standard ' + grade + ' comments are shown.';
-      grid.appendChild(fb);
-    }
-
-    sents.forEach(s => {
-      const displayed = applyRaw(s, name, p, yr);
-      const isSel = subjHas(sel[currentTab], s);
-      const btn = document.createElement('button');
-      btn.className = 'opt' + (isSel ? ' sel' : '');
-      btn.textContent = displayed;
-      addSylTag(btn, s);
-      if (isSel && _edSet.has(s)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
-      markSubjS1Used(btn, currentTab, s, isSel);
-      btn.onclick = () => toggleSubjOpt(currentTab, s);
-      grid.appendChild(btn);
-    });
-  });
-
-  // Show custom sentences added for this category (persisted on student object)
+  // v3.13.1: the teacher's own sentences for this strand, and the card for one of them
   const customKey = currentSubject === 'english' ? 'engCustom' : 'mathCustom';
   if (syncMyBankSubj(cur(), currentSubject, currentTab)) autoSave();
   const _mk = mineKey(currentTab);
-  const customSents = (cur()[customKey] && cur()[customKey][currentTab]) || [];
-  if (customSents.length) {
-    const cdiv = document.createElement('div');
-    cdiv.className = 'grade-divider';
-    cdiv.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label" style="color:var(--blue);border-color:var(--blue)">✎ My sentences</span><div class="grade-divider-line"></div>`;
-    grid.appendChild(cdiv);
-    customSents.forEach((s, ci) => {
+  const customSents = ((cur()[customKey] && cur()[customKey][currentTab]) || []).filter(x => typeof x === 'string');
+  function makeSubjCustomRow(s) {
       const displayed = applyRaw(s, name, p, yr);
       const isSel = (sel[currentTab] || []).includes(s);
       const row = document.createElement('div');
@@ -7345,7 +7334,53 @@ function renderSubjOpts(grid) {
       };
       row.appendChild(del);
       grid.appendChild(row);
+  }
+  const _placedSubjEarly = new Set();
+  gradesToShow.forEach(grade => {
+    const _ys = hasGrades ? yearSents(catSentences, grade) : { list: _allYr[grade] || [], fallback: false };
+    const sents = _ys.list.filter(s => (hasGrades ? !_shownYr.has(s) : true) && !(_s1Picks.length && subjS1Used(currentTab, s)));
+    if (hasGrades) sents.forEach(s => _shownYr.add(s));
+    const _mineHere = customSents.filter(s => !_placedSubjEarly.has(s) && getCustomGroup(cur(), _mk, s) === grade);
+    if (!sents.length && !_mineHere.length) return;
+
+    // Always show grade dividers so user knows which grade each sentence belongs to
+    const div = document.createElement('div');
+    div.className = 'grade-divider';
+    div.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label ${grade}">${grade} — ${GRADE_LABELS[grade]}</span><div class="grade-divider-line"></div>`;
+    grid.appendChild(div);
+    if (_ys.fallback) {
+      const fb = document.createElement('div'); fb.className = 'yr-fallback';
+      fb.textContent = 'No comments written for this year level here yet, so the standard ' + grade + ' comments are shown.';
+      grid.appendChild(fb);
+    }
+
+    sents.forEach(s => {
+      const displayed = applyRaw(s, name, p, yr);
+      const isSel = subjHas(sel[currentTab], s);
+      const btn = document.createElement('button');
+      btn.className = 'opt' + (isSel ? ' sel' : '');
+      btn.textContent = displayed;
+      addSylTag(btn, s);
+      if (isSel && _edSet.has(s)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
+      markSubjS1Used(btn, currentTab, s, isSel);
+      btn.onclick = () => toggleSubjOpt(currentTab, s);
+      grid.appendChild(btn);
     });
+    _mineHere.forEach(s => { _placedSubjEarly.add(s); makeSubjCustomRow(s); });
+  });
+
+  // Show custom sentences added for this category (persisted on student object). v3.13.1: one placed under a grade
+  // shows in that grade's list while that grade is on screen; the rest stay under My sentences.
+  const _placedSubj = _placedSubjEarly;
+  if (customSents.length) {
+    const _left = customSents.filter(s => !_placedSubj.has(s));
+    if (_left.length) {
+    const cdiv = document.createElement('div');
+    cdiv.className = 'grade-divider';
+    cdiv.innerHTML = `<div class="grade-divider-line"></div><span class="grade-divider-label" style="color:var(--blue);border-color:var(--blue)">✎ My sentences</span><div class="grade-divider-line"></div>`;
+    grid.appendChild(cdiv);
+    _left.forEach(s => makeSubjCustomRow(s));
+    }
   }
 }
 
@@ -7354,12 +7389,14 @@ function addSubjCustomSentence(saveToBank) {
   if (!ta) return;
   let text = ta.value.trim();
   if (!text) { showToast('Please type a sentence first.'); return; }
+  const _grp = curGroupPick();   // v3.13.1: '' = My sentences
   if (saveToBank) {
     text = templatise(text, cur().name, getPron());
     const mk = mineKey(currentTab);
     if (!myBank[mk]) myBank[mk] = [];
-    if (!myBank[mk].some(x => x.text === text)) myBank[mk].push({ id: Math.random().toString(36).slice(2, 10), text, tier: 'strong' });
+    if (!myBank[mk].some(x => x.text === text)) myBank[mk].push({ id: Math.random().toString(36).slice(2, 10), text, tier: 'strong', group: _grp || undefined });
   }
+  if (_grp) setCustomGroup(cur(), mineKey(currentTab), text, _grp);
   // Save to the student's own list so it persists and shows in the sentence panel
   const draftKey = currentSubject === 'english' ? 'engCustom' : 'mathCustom';
   if (!cur()[draftKey]) cur()[draftKey] = {};
@@ -7378,17 +7415,20 @@ function addCustomSentence(saveToBank) {
   if (!ta) return;
   let text = ta.value.trim();
   if (!text) { showToast('Please type a sentence first.'); return; }
+  const _tier = (TIER_BOUNDARIES[currentTab] || {}).average != null ? _customTierSelected : 'strong';   // v3.13.1
+  const _grp = curGroupPick();
   if (saveToBank) {
     text = templatise(text, cur().name, getPron());
     if (!myBank[currentTab]) myBank[currentTab] = [];
-    if (!myBank[currentTab].some(x => x.text === text)) myBank[currentTab].push({ id: Math.random().toString(36).slice(2, 10), text, tier: _customTierSelected });
+    if (!myBank[currentTab].some(x => x.text === text)) myBank[currentTab].push({ id: Math.random().toString(36).slice(2, 10), text, tier: _tier, group: _grp || undefined });
   }
+  if (_grp) setCustomGroup(cur(), currentTab, text, _grp);
   if (!cur().custom) cur().custom = {};
   if (!cur().customTiers) cur().customTiers = {};
   if (!cur().custom[currentTab]) cur().custom[currentTab] = [];
   if (!cur().customTiers[currentTab]) cur().customTiers[currentTab] = [];
   cur().custom[currentTab].push(text);
-  cur().customTiers[currentTab].push(_customTierSelected);
+  cur().customTiers[currentTab].push(_tier);
   const key = '__custom__' + currentTab + '__' + (cur().custom[currentTab].length - 1);
   genAddKey(currentTab, key);
   ta.value = '';
@@ -8467,7 +8507,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.13.0';
+const APP_VERSION = 'v3.13.1';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10697,7 +10737,7 @@ function normaliseMyBank(m) {
   if (!m || typeof m !== 'object') return out;
   Object.keys(m).forEach(cat => {
     const arr = (Array.isArray(m[cat]) ? m[cat] : []).filter(x => x && typeof x.text === 'string' && x.text.trim())
-      .map(x => ({ id: String(x.id || Math.random().toString(36).slice(2, 10)), text: x.text, tier: ['strong', 'average', 'developing'].includes(x.tier) ? x.tier : 'strong' }));
+      .map(x => ({ id: String(x.id || Math.random().toString(36).slice(2, 10)), text: x.text, tier: ['strong', 'average', 'developing'].includes(x.tier) ? x.tier : 'strong', group: typeof x.group === 'string' && x.group ? x.group : undefined }));
     if (arr.length) out[cat] = arr;
   });
   return out;
@@ -10705,6 +10745,38 @@ function normaliseMyBank(m) {
 function isMineSentence(cat, text) { return (myBank[cat] || []).some(x => x.text === text); }
 // v3.8.0: English and Maths sentences share the bank too. General categories keep their plain name; the others are "english::Vocabulary" / "maths::Data".
 function mineKey(cat, subj) { subj = subj || currentSubject; return subj === 'general' || !subj ? cat : subj + '::' + cat; }
+// v3.13.1: the group a teacher's own sentence sits under (a Sport group, or a grade in English and Maths).
+// Kept per student by wording, so deleting or re-ordering sentences never mixes them up. A saved-bank sentence carries its group too.
+function getCustomGroup(stu, mk, text) {
+  const g = stu && stu.customGroups && stu.customGroups[mk] && stu.customGroups[mk][text];
+  if (g) return g;
+  const m = (myBank[mk] || []).find(x => x.text === text);
+  return (m && m.group) || null;
+}
+function setCustomGroup(stu, mk, text, group) {
+  if (!stu || !group) return;
+  if (!stu.customGroups || typeof stu.customGroups !== 'object') stu.customGroups = {};
+  if (!stu.customGroups[mk]) stu.customGroups[mk] = {};
+  stu.customGroups[mk][text] = group;
+}
+// the groups the composer offers for the category on screen (null = this category has no groups to choose)
+function composerGroups() {
+  if (currentSubject === 'general') return currentTab === 'Sport & Extracurricular' ? SPORT_GROUPS.map(g => g.label) : null;
+  return ['', ...GRADE_ORDER];   // '' = My sentences (the default, at the bottom)
+}
+const _groupPick = {};   // last group chosen in each category, so adding several in a row is quick
+function curGroupPick() {
+  const opts = composerGroups(); if (!opts) return null;
+  const v = _groupPick[mineKey(currentTab)];
+  return opts.includes(v) ? v : opts[0];
+}
+function pickCustomGroup(v) { _groupPick[mineKey(currentTab)] = v; document.querySelectorAll('#grpRow .tier-sel-btn').forEach(b => b.classList.toggle('active-group', b.dataset.grp === v)); }
+function groupRowHtml() {
+  const opts = composerGroups(); if (!opts) return '';
+  const pick = curGroupPick();
+  return '<div class="grp-row" id="grpRow" role="group" aria-label="Group"><span class="grp-lbl">Place under:</span>' + opts.map(o =>
+    `<button type="button" class="tier-sel-btn${o === pick ? ' active-group' : ''}" data-grp="${escHtml(o)}" onclick="pickCustomGroup(this.dataset.grp)">${o ? escHtml(currentSubject === 'general' ? o : o + ' — ' + GRADE_LABELS[o]) : 'My sentences'}</button>`).join('') + '</div>';
+}
 function syncMyBankSubj(stu, subj, cat) {
   const list = myBank[mineKey(cat, subj)]; if (!list || !list.length || !stu) return false;
   const ck = subj === 'english' ? 'engCustom' : 'mathCustom';
@@ -10987,6 +11059,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.13.0</div>
+<div class="version-badge">v3.13.1</div>
 </body>
 </html>
