@@ -1041,6 +1041,19 @@
 
   .opts .tier-divider.s1-head { display: flex !important; }
 
+  /* v3.15.0 SUGGEST A FEATURE */
+  .fb-form { display: flex; flex-direction: column; gap: 8px; padding: 4px 14px 8px; }
+  .fb-types { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fb-lbl { font-size: 13px; font-weight: 600; color: var(--t0); margin-top: 4px; }
+  .fb-input { font: inherit; font-size: 14px; padding: 8px 10px; border: 1px solid var(--border-h); border-radius: var(--r-md); background: var(--bg-1); color: var(--t0); }
+  .fb-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  .fb-status { font-size: 13px; color: var(--t1); }
+  .fb-status.ok { color: var(--green); font-weight: 600; }
+  .fb-status.err { color: var(--red); }
+  .fb-item { border: 1px solid var(--border); border-radius: var(--r-md); padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+  .fb-meta { font-size: 11px; color: var(--t2); display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  .fb-msg { white-space: pre-wrap; color: var(--t0); line-height: 1.5; }
+
   /* v3.13.2 RECENT CHANGES */
   .rc-box { width: 600px; max-width: calc(100vw - 24px); max-height: calc(100vh - 48px); overflow-y: auto; gap: 16px; }
   .rc-ver { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); margin-bottom: 6px; }
@@ -1140,6 +1153,7 @@
       <button class="sw-tab" role="tab" data-swtab="account" onclick="setSettingsTab('account')">Account &amp; sync</button>
       <button class="sw-tab" role="tab" data-swtab="data" onclick="setSettingsTab('data')">Backup</button>
       <button class="sw-tab" role="tab" data-swtab="ai" onclick="setSettingsTab('ai')">AI features</button>
+      <button class="sw-tab" role="tab" data-swtab="suggest" onclick="setSettingsTab('suggest')">Suggest a feature</button>
     </nav>
     <div class="sw-content">
 
@@ -1222,6 +1236,24 @@
         <div class="settings-row">
           <span class="settings-row-label">Import session</span>
           <button class="settings-action-btn" onclick="importSession(); toggleSettings()">Import</button>
+        </div>
+      </section>
+
+      <section class="sw-pane" data-swpane="suggest" role="tabpanel">
+        <div class="sw-pane-title">Suggest a feature</div>
+        <div class="sw-note">Have an idea, found something that isn't working, or think a sentence could be worded better? Send it here and it goes straight to the person who builds the app.</div>
+        <div class="fb-form">
+          <div class="fb-types" role="group" aria-label="What is it about">
+            <button type="button" class="tier-sel-btn active-group" data-fb="New feature" onclick="pickFbType(this)">New feature</button>
+            <button type="button" class="tier-sel-btn" data-fb="Something isn't working" onclick="pickFbType(this)">Something isn't working</button>
+            <button type="button" class="tier-sel-btn" data-fb="Sentence wording" onclick="pickFbType(this)">Sentence wording</button>
+          </div>
+          <label class="fb-lbl" for="fbMessage">Your suggestion</label>
+          <textarea id="fbMessage" class="notes-text" rows="5" maxlength="4000" placeholder="What would make the app better for you? If something isn't working, say what you did and what happened."></textarea>
+          <label class="fb-lbl" for="fbContact">Your name or email <span class="sw-help" style="display:inline">(optional, if you'd like a reply)</span></label>
+          <input id="fbContact" type="text" class="fb-input" maxlength="200" autocomplete="email">
+          <div class="fb-row"><button class="settings-action-btn green" id="fbSend" onclick="sendSuggestion()">Send suggestion</button><span id="fbStatus" class="fb-status" role="status"></span></div>
+          <div class="sw-help">No student names or comments are sent, only what you type here, the app version and your browser type.</div>
         </div>
       </section>
 
@@ -8733,7 +8765,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.14.5';
+const APP_VERSION = 'v3.15.0';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9031,12 +9063,61 @@ async function saveProxyUrl() {
   }
 }
 
+// ══ v3.15.0 · SUGGEST A FEATURE ═════════════════════════════════════════════
+// Sent to the app's own Cloudflare Worker (POST /feedback); read in the Admin panel under Suggestions.
+let _fbType = 'New feature';
+function pickFbType(b) { _fbType = b.dataset.fb; document.querySelectorAll('.fb-types .tier-sel-btn').forEach(x => x.classList.toggle('active-group', x === b)); }
+async function sendSuggestion() {
+  const ta = document.getElementById('fbMessage'), ct = document.getElementById('fbContact'), st = document.getElementById('fbStatus'), btn = document.getElementById('fbSend');
+  const message = (ta.value || '').trim();
+  if (message.length < 3) { st.className = 'fb-status err'; st.textContent = 'Type your suggestion first.'; ta.focus(); return; }
+  btn.disabled = true; st.className = 'fb-status'; st.textContent = 'Sending…';
+  const body = { type: _fbType, message, contact: (ct.value || '').trim(), user: getCloudUser() || '', version: APP_VERSION, ua: navigator.userAgent.slice(0, 200) };
+  try {
+    const res = await fetch(CLOUD_WORKER + '/feedback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (res.ok) { ta.value = ''; st.className = 'fb-status ok'; st.textContent = 'Thanks! Your suggestion has been sent.'; }
+    else if (res.status === 429) { st.className = 'fb-status err'; st.textContent = 'Lots of suggestions sent from here in the last hour. Please try again later.'; }
+    else throw new Error('HTTP ' + res.status);
+  } catch (e) {
+    st.className = 'fb-status err';
+    st.innerHTML = 'It could not be sent right now. Your text is still here, so try again later, or <button type="button" class="style-clear" onclick="copySuggestion()">copy it</button> to send another way.';
+  }
+  btn.disabled = false;
+}
+function copySuggestion() { const t = (document.getElementById('fbMessage') || {}).value || ''; navigator.clipboard.writeText(t).then(() => showToast('Copied'), () => showToast('Select the text and copy it')); }
+// Admin panel: read and clear suggestions
+async function adminShowSuggestions() {
+  const wrap = document.getElementById('adminFbWrap'), btn = document.getElementById('adminFbBtn');
+  const tableIds = ['adminTableWrap', 'adminEmpty', 'adminLoading'];
+  const showing = wrap.style.display === 'flex';
+  if (showing) { wrap.style.display = 'none'; btn.textContent = 'Suggestions'; adminRefresh(); return; }
+  tableIds.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+  wrap.style.display = 'flex'; btn.textContent = 'Accounts';
+  wrap.innerHTML = '<div style="color:var(--t2)">Loading suggestions…</div>';
+  try {
+    const res = await fetch(CLOUD_WORKER + '/admin/feedback', { headers: { 'X-Admin-Key': _adminKey } });
+    if (res.status === 404) { wrap.innerHTML = '<div style="color:var(--t2)">Suggestions are not switched on in the Worker yet.</div>'; return; }
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const items = ((await res.json()) || {}).items || [];
+    if (!items.length) { wrap.innerHTML = '<div style="color:var(--t2)">No suggestions yet.</div>'; return; }
+    wrap.innerHTML = `<div style="font-size:13px;color:var(--t1)">${items.length} suggestion${items.length === 1 ? '' : 's'}, newest first</div>` + items.map(x => `<div class="fb-item"><div class="fb-meta"><b>${escHtml(x.type || 'Suggestion')}</b><span>${escHtml(new Date(x.at).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }))}</span>${x.user ? `<span>Account: ${escHtml(x.user)}</span>` : ''}${x.contact ? `<span>Contact: ${escHtml(x.contact)}</span>` : ''}<span>${escHtml(x.version || '')}</span></div><div class="fb-msg">${escHtml(x.message)}</div><div><button class="style-clear" onclick="adminDeleteSuggestion('${encodeURIComponent(x.id)}')">Delete</button></div></div>`).join('');
+  } catch (e) { wrap.innerHTML = '<div style="color:var(--red)">Could not load suggestions. Try again.</div>'; }
+}
+async function adminDeleteSuggestion(id) {
+  if (!confirm('Delete this suggestion?')) return;
+  try { await fetch(CLOUD_WORKER + '/admin/feedback/' + id, { method: 'DELETE', headers: { 'X-Admin-Key': _adminKey } }); } catch (e) {}
+  const wrap = document.getElementById('adminFbWrap'); wrap.style.display = 'none'; adminShowSuggestions();
+}
+
 // ══ v3.13.2 · RECENT CHANGES ════════════════════════════════════════════════
 // Opens when the page loads if there is anything new since the teacher last closed it. Newest first.
 // Only changes a teacher would notice or need to act on go here: new features, things that moved, and sentence
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.15.0', date: '27 October 2026', items: [
+    'Settings has a new Suggest a feature tab. Send an idea, a problem or a wording change straight to the person who builds the app.',
+  ] },
   { v: 'v3.14.5', date: '27 October 2026', items: [
     'In Semester 2, a student with no Semester 2 grade for a strand uses their Semester 1 grade to choose sentences, marked “from Semester 1”. Entering or uploading a Semester 2 grade replaces it. Semester 1 grades are no longer copied into Semester 2.',
   ] },
@@ -9134,7 +9215,7 @@ window.addEventListener('load', () => setTimeout(scheduleRecentChanges, 2500));
 
 // v3.13.0: settings open in a centred window; the tab you last used opens again next time
 function setSettingsTab(tab) {
-  const tabs = ['appearance', 'comments', 'mine', 'account', 'data', 'ai'];
+  const tabs = ['appearance', 'comments', 'mine', 'account', 'data', 'ai', 'suggest'];
   if (!tabs.includes(tab)) tab = 'appearance';
   document.querySelectorAll('#settingsPanel .sw-tab').forEach(b => {
     const on = b.dataset.swtab === tab;
@@ -11771,6 +11852,7 @@ loadTheme();
       <!-- Toolbar -->
       <div style="padding:10px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0">
         <span id="adminAccountCount" style="font-size:13px;color:var(--t1);flex:1"></span>
+        <button onclick="adminShowSuggestions()" id="adminFbBtn" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--accent-bd);background:var(--accent-bg);color:var(--accent);cursor:pointer">Suggestions</button>
         <button onclick="adminRefresh()" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer">↻ Refresh</button>
         <button onclick="adminLogout()" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t2);cursor:pointer">Sign out</button>
       </div>
@@ -11791,11 +11873,12 @@ loadTheme();
         </table>
       </div>
       <div id="adminEmpty" style="display:none;padding:32px;text-align:center;color:var(--t2);font-size:13px">No accounts found.</div>
+      <div id="adminFbWrap" style="display:none;overflow-y:auto;flex:1;padding:14px 20px;flex-direction:column;gap:10px"></div>
     </div>
 
   </div>
 </div>
 
-<div class="version-badge">v3.14.5</div>
+<div class="version-badge">v3.15.0</div>
 </body>
 </html>
