@@ -1027,6 +1027,7 @@
   .gr-sel.gC { color: var(--gC); border-color: var(--gC); background: color-mix(in srgb, var(--gC) 16%, var(--bg-1)); }
   .gr-sel.gD { color: var(--gD); border-color: var(--gD); background: color-mix(in srgb, var(--gD) 14%, var(--bg-1)); }
   .gr-sel.gE { color: var(--gE); border-color: var(--gE); background: color-mix(in srgb, var(--gE) 14%, var(--bg-1)); }
+  .gr-sel { min-width: 58px; width: auto; }
   .gr-note { font-size: 13px; color: var(--t1); line-height: 1.5; }
   .gr-prev { background: var(--accent-bg); border: 1px solid var(--accent-bd); border-radius: var(--r-md); padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
   .gr-prev select { font: inherit; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-1); color: var(--t0); max-width: 220px; }
@@ -2358,8 +2359,7 @@ function getCurGrade(cat) {
   // Returns array of selected grades e.g. ['A','B'] or [] if none
   // Defensively handles old string format in case of un-migrated data
   let val;
-  if (currentSubject === 'english') val = (cur().engGrades || {})[cat];
-  else if (currentSubject === 'maths') val = (cur().mathGrades || {})[cat];
+  if (currentSubject === 'english' || currentSubject === 'maths') val = effGrades(cur(), currentSubject)[cat];   // v3.14.5
   if (!val) return [];
   if (typeof val === 'string') return val ? [val] : [];
   if (!Array.isArray(val)) return [];
@@ -2382,14 +2382,32 @@ function gradeDotsHtml(grades) {
   ).join('');
 }
 
+// v3.14.5: the grades used for choosing sentences. In Semester 2 a strand with no Semester 2 grade uses its Semester 1 grade.
+// Nothing is copied: the stored Semester 2 grades stay the teacher's own.
+function effGrades(stu, subj) {
+  const live = (subj === 'english' ? stu && stu.engGrades : stu && stu.mathGrades) || {};
+  if (currentSemester !== 2 || !stu) return live;
+  const s1 = (subj === 'english' ? stu.engS1Grades : stu.mathS1Grades) || {};
+  const out = Object.assign({}, live);
+  Object.keys(s1).forEach(c => { if (!normaliseGradeVal(out[c]).length && normaliseGradeVal(s1[c]).length) out[c] = normaliseGradeVal(s1[c]).slice(); });
+  return out;
+}
+function gradeFromS1(stu, subj, cat) {
+  if (currentSemester !== 2 || !stu) return false;
+  const live = (subj === 'english' ? stu.engGrades : stu.mathGrades) || {};
+  const s1 = (subj === 'english' ? stu.engS1Grades : stu.mathS1Grades) || {};
+  return !normaliseGradeVal(live[cat]).length && normaliseGradeVal(s1[cat]).length > 0;
+}
 function setCurGrade(cat, grade) {
   { const _f = cur().overallSet; if (_f) delete _f['s' + currentSemester + '|' + (currentSubject === 'english' ? 'eng|' : 'math|') + cat]; }   // v3.14.1: the teacher chose this strand
   // Toggle grade in/out of the array for this category
   const gradesObj = currentSubject === 'english'
     ? (cur().engGrades || (cur().engGrades = {}))
     : (cur().mathGrades || (cur().mathGrades = {}));
+  const _wasS1 = gradeFromS1(cur(), currentSubject, cat);   // v3.14.5: a Semester 1 grade shown as a stand-in
   if (!gradesObj[cat]) gradesObj[cat] = [];
   const arr = gradesObj[cat];
+  if (_wasS1) { arr.length = 0; arr.push(grade); if (cat === 'Introduction') { if (grade === 'E') gradesObj['Below Expectations'] = ['E']; else if (grade === 'D') gradesObj['Below Expectations'] = ['D']; else delete gradesObj['Below Expectations']; } renderOpts(); renderSidebar(); autoSave(); return; }
   // A grade filled in from Semester 1 is only a starting point: the first click changes it rather than adding a second grade
   { const _st = cur(), _k = (currentSubject === 'english' ? 'eng' : 'math') + '|' + cat;
     if (currentSemester === 2 && _st.s2GradeSeeded && _st.s2GradeSeeded[_k] === 'auto') {
@@ -3015,7 +3033,7 @@ function setFDStage(stage) {
 // Auto-suggest 2 FDs based on lowest strand grades
 function autoSuggestFD() {
   const fd = getFDBank();
-  const grades = currentSubject === 'english' ? (cur().engGrades || {}) : (cur().mathGrades || {});
+  const grades = effGrades(cur(), currentSubject);   // v3.14.5
   const stage = getFDStage();
   const gradeOrder = { E: 0, D: 1, C: 2, B: 3, A: 4 };
 
@@ -4982,7 +5000,8 @@ function _renderOptsCore() {
   if (currentSubject !== 'general') {
     gradeSel.style.display = (_showAllStrands || _showGradeEntry) ? 'none' : 'flex';
     const curGrades = getCurGrade(currentTab);
-    gradeSel.innerHTML = `<span class="grade-sel-label">Grade:</span>` +
+    const _fromS1 = gradeFromS1(cur(), currentSubject, currentTab);
+    gradeSel.innerHTML = `<span class="grade-sel-label"${_fromS1 ? ' title="No Semester 2 grade yet, so the Semester 1 grade is used. Click a grade to set the Semester 2 one."' : ''}>${_fromS1 ? 'Grade (from Semester 1):' : 'Grade:'}</span>` +
       GRADE_ORDER.map(g => {
         const active = (curGrades||[]).includes(g);
         return `<button class="grade-btn${active ? ' active-' + g : ''}" onclick="setCurGrade('${currentTab}','${g}')">${g} <span style="font-size:9px;opacity:.7">${GRADE_LABELS[g]}</span></button>`;
@@ -7262,7 +7281,7 @@ function renderAllStrandsView(grid) {
   const p = PR[cur().pronoun];
   const yr = cur().year || '';
   const isMaths = currentSubject === 'maths';
-  const grades = isMaths ? (cur().mathGrades || {}) : (cur().engGrades || {});
+  const grades = effGrades(cur(), isMaths ? 'maths' : 'english');   // v3.14.5
 
   // Header bar with filter toggle and edit grades button
   const header = document.createElement('div');
@@ -8714,7 +8733,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.14.4';
+const APP_VERSION = 'v3.14.5';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9018,8 +9037,8 @@ async function saveProxyUrl() {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
-  { v: 'v3.14.3', date: '27 October 2026', items: [
-    'Semester 2 English and Maths grades no longer start from the Semester 1 grades. Grades that were only copied across have been cleared, so enter or upload Semester 2 grades in the Grades window. Grades you chose yourself are kept.',
+  { v: 'v3.14.5', date: '27 October 2026', items: [
+    'In Semester 2, a student with no Semester 2 grade for a strand uses their Semester 1 grade to choose sentences, marked “from Semester 1”. Entering or uploading a Semester 2 grade replaces it. Semester 1 grades are no longer copied into Semester 2.',
   ] },
   { v: 'v3.14.2', date: '27 October 2026', items: [
     'In Semester 2 the General sentence bank keeps its usual Positive, Average and Developing order. Sentences used in Semester 1 sit in their own group at the top, as in English and Maths. The green Semester 2 banner is gone.',
@@ -10931,7 +10950,7 @@ function structuralBand(stu, subj) {
     });
     return pts.length ? bandFromScore(pts.reduce((a, b) => a + b, 0) / pts.length) : null;
   }
-  const g = subj === 'english' ? stu.engGrades : stu.mathGrades;
+  const g = effGrades(stu, subj);   // v3.14.5
   const pts = [];
   Object.keys(g || {}).forEach(c => (Array.isArray(g[c]) ? g[c] : [g[c]]).forEach(l => { const v = _GRADE_PTS[String(l || '').toUpperCase().trim()]; if (v) pts.push(v); }));
   return pts.length ? bandFromScore(pts.reduce((a, b) => a + b, 0) / pts.length) : null;
@@ -11277,9 +11296,9 @@ function _grObj(stu, subj) {
   return stu[k];
 }
 // The student's grade for one subject: English and Maths come from the Introduction strand (or the strand grade most used)
-function getStuGrade(stu, k) {
+function getStuGrade(stu, k, withS1) {
   if (k === 'english' || k === 'maths') {
-    const g = _grObj(stu, k);
+    const g = withS1 ? effGrades(stu, k) : _grObj(stu, k);
     const intro = normaliseGradeVal(g.Introduction).filter(x => GRADE_ORDER.includes(x));
     if (intro.length) return intro[0];
     const n = {}; _grStrands(k).forEach(c => normaliseGradeVal(g[c]).forEach(x => { if (GRADE_ORDER.includes(x)) n[x] = (n[x] || 0) + 1; }));
@@ -11347,7 +11366,8 @@ function openGrades() {
 function closeGrades() { const ov = document.getElementById('grOverlay'); if (ov) ov.remove(); _grImport = null; }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('grOverlay')) closeGrades(); });
 function _grSelHtml(i, k, g) {
-  return `<select class="gr-sel${g ? ' g' + g : ''}" aria-label="${escHtml(grCols().find(c => c.k === k).short)} grade" onchange="onGradeCell(${i},'${k}',this)"><option value="">–</option>${GRADE_ORDER.map(x => `<option${x === g ? ' selected' : ''}>${x}</option>`).join('')}</select>`;
+  const s1 = !g && (k === 'english' || k === 'maths') ? getStuGrade(students[i], k, true) : '';   // v3.14.5
+  return `<select class="gr-sel${g ? ' g' + g : ''}" aria-label="${escHtml(grCols().find(c => c.k === k).short)} grade" onchange="onGradeCell(${i},'${k}',this)"${s1 ? ` title="No Semester 2 grade yet. Comments use the Semester 1 grade (${s1}) until you choose one."` : ''}><option value="">${s1 ? 'S1: ' + s1 : '–'}</option>${GRADE_ORDER.map(x => `<option${x === g ? ' selected' : ''}>${x}</option>`).join('')}</select>`;
 }
 function paintGradesTable() {
   const t = document.getElementById('grTable'); if (!t) return;
@@ -11625,7 +11645,7 @@ const GEN_LEVEL_LABEL = { strong: 'Positive', average: 'Average', developing: 'D
 function generalLevel(stu) {
   if (!stu) return null;
   if (stu.generalLevel && GEN_LEVEL_LABEL[stu.generalLevel]) return stu.generalLevel;
-  const pts = GR_COLS.map(c => getStuGrade(stu, c.k)).filter(Boolean).map(g => _GRADE_PTS[g]);
+  const pts = GR_COLS.map(c => getStuGrade(stu, c.k, true)).filter(Boolean).map(g => _GRADE_PTS[g]);   // v3.14.5: Semester 1 stands in
   if (!pts.length) return null;
   return bandFromScore(pts.reduce((a, b) => a + b, 0) / pts.length);
 }
@@ -11776,6 +11796,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.14.4</div>
+<div class="version-badge">v3.14.5</div>
 </body>
 </html>
