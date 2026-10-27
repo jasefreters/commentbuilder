@@ -1000,6 +1000,20 @@
   .grp-lbl { font-size: 11px; font-weight: 600; color: var(--t2); margin-right: 2px; }
   .tier-sel-btn.active-group { border-color: var(--accent-bd); background: var(--accent-bg); color: var(--accent); font-weight: 600; }
 
+  /* v3.13.2 RECENT CHANGES */
+  .rc-box { width: 600px; max-width: calc(100vw - 24px); max-height: calc(100vh - 48px); overflow-y: auto; gap: 16px; }
+  .rc-ver { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); margin-bottom: 6px; }
+  .rc-list { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: var(--t0); line-height: 1.5; }
+  .rc-word { border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
+  .rc-row { padding: 9px 12px; border-top: 1px solid var(--border); font-size: 14px; line-height: 1.5; }
+  .rc-row:first-child { border-top: 0; }
+  .rc-lbl { display: block; font-size: 11px; font-weight: 700; color: var(--t2); letter-spacing: .04em; text-transform: uppercase; }
+  .rc-old { color: var(--red); background: var(--red-bg); text-decoration: line-through; border-radius: 3px; padding: 0 3px; }
+  .rc-new { color: var(--green); background: var(--green-bg); border-radius: 3px; padding: 0 3px; }
+  .rc-apply { background: var(--accent-bg); border: 1px solid var(--accent-bd); border-radius: var(--r-md); padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: var(--t0); }
+  .rc-apply .modal-btn { align-self: flex-start; }
+  .rc-done { color: var(--green); font-weight: 600; }
+
   /* ══ v3.13.0 SETTINGS WINDOW: centred, with tabs down the side (along the top on a phone) ══ */
   .settings-overlay { position: fixed; inset: 0; z-index: 480; background: rgba(15,23,42,.45); display: flex; align-items: center; justify-content: center; padding: 24px; }
   .settings-overlay .settings-panel { position: relative; top: auto; right: auto; left: auto; width: min(760px, 100%); height: min(560px, calc(100vh - 48px)); max-height: none; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-lg); box-shadow: var(--shadow-pop); }
@@ -1100,6 +1114,11 @@
       </section>
 
       <section class="sw-pane" data-swpane="comments" role="tabpanel">
+        <div class="sw-pane-title">Recent changes</div>
+        <div class="settings-row">
+          <span class="settings-row-label">What has changed in the app and the sentence bank<span class="sw-help">Also where you can update comments that still use older wording.</span></span>
+          <button class="settings-action-btn" onclick="toggleSettings(); openRecentChanges(true)">View</button>
+        </div>
         <div class="sw-pane-title">Comment length</div>
         <div id="toolSettings"></div>
         <div class="sw-pane-title">Year level</div>
@@ -1718,14 +1737,14 @@ const RAW = {
     "{{N}} has participated positively in Physical Education. {{S}} demonstrates fair play and a willingness to try a variety of physical activities.",
     // Semester 2 KLAs (shown in Semester 2 only; the five above are Semester 1 only — see SEM_ONLY). Eight sentences, two per KLA.
     // Term 3 and Term 4 options for each KLA
-    "{{N}} has shown strong engagement in Science and Technology whilst building and testing electrical circuits. {{S}} has investigated which materials conduct electricity and used this knowledge to design an electrical safety game.",
-    "{{N}} has shown strong engagement in Science and Technology whilst learning about renewable and non-renewable energy sources. {{S}} has researched how generating electricity affects the environment and explored cleaner ways to power a community.",
-    "{{N}} has shown strong interest in Geography through reading maps and exploring how cities, towns and remote communities are organised and connected. {{S}} has also learnt how communities prepare for floods and bushfires and how Aboriginal Peoples have cared for Country using fire.",
-    "{{N}} has shown strong interest in Geography through comparing environments around the world, from tropical rainforests to polar regions. {{S}} has used maps and climate graphs to explore how people rely on these environments and how human activity has changed them.",
-    "{{N}} has shown strong enthusiasm and creativity in Creative Arts by planning, painting and refining a series of artworks inspired by place for the class Art Show. {{S}} has also explored how Aboriginal and Torres Strait Islander artists share culture and connection to Country through their art.",
-    "{{N}} has shown strong enthusiasm and creativity in Creative Arts by creating prints and sculptures that blend ideas from the past and the future. In Drama, {{s}} has written and performed scripts that bring characters to life.",
-    "{{N}} has shown a thoughtful approach to Health when learning about respectful relationships and how to recognise unsafe situations. {{S}} has developed strategies to keep {{r}} safe and to support others.",
-    "{{N}} has shown a thoughtful approach to Health when learning how to stay safe in the sun and around water. {{S}} has also explored how healthy eating, positive friendships and resolving conflict support {{pos}} wellbeing.",
+    "{{N}} has shown strong engagement in Science and Technology whilst building and testing electrical circuits. {{S}} investigated which materials conduct electricity and used this knowledge to design an electrical safety game.",
+    "{{N}} has shown strong engagement in Science and Technology whilst learning about renewable and non-renewable energy sources. {{S}} researched how generating electricity affects the environment and explored cleaner ways to power a community.",
+    "{{N}} has shown strong interest in Geography through reading maps and exploring how cities, towns and remote communities are organised and connected. {{S}} also learnt how communities prepare for floods and bushfires and how Aboriginal Peoples have cared for Country using fire.",
+    "{{N}} has shown strong interest in Geography through comparing environments around the world, from tropical rainforests to polar regions. {{S}} used maps and climate graphs to explore how people rely on these environments and how human activity has changed them.",
+    "{{N}} has shown strong enthusiasm and creativity in Creative Arts by planning, painting and refining a series of artworks inspired by place for the class Art Show. {{S}} also explored how Aboriginal and Torres Strait Islander artists share culture and connection to Country through their art.",
+    "{{N}} has shown strong enthusiasm and creativity in Creative Arts by creating prints and sculptures that blend ideas from the past and the future. In Drama, {{s}} wrote and performed scripts that bring characters to life.",
+    "{{N}} has shown a thoughtful approach to Health when learning about respectful relationships and how to recognise unsafe situations. {{S}} developed strategies to keep {{r}} safe and to support others.",
+    "{{N}} has shown a thoughtful approach to Health when learning how to stay safe in the sun and around water. {{S}} also explored how healthy eating, positive friendships and resolving conflict support {{pos}} wellbeing.",
   ],
   "Interests & Passions": [
     "{{S}} approaches Creative Arts with enthusiasm, applying techniques learnt to elevate the quality and craft of {{pos}} work.",
@@ -1852,6 +1871,79 @@ const TERM_TAG = new Map();        // v3.9.2: which term each Semester 2 KLA sen
   c.slice(17, 19).forEach(s => YEAR_ONLY[5].add(s));
   c.slice(14).forEach(s => STRONG_FORCED.add(s));
 })();
+
+// ══ v3.13.2 · WORDING CHANGES ══════════════════════════════════════════════
+// Bank sentences that were reworded. A comment already built keeps the old wording until the teacher chooses
+// "Make these changes in my comments" in Recent changes. Each change: the old words -> the new words, as they read
+// once the sentence is filled in ("has" is matched as "have" too, for They / Their).
+const WORDING_CHANGES = [
+  { v: 'v3.13.2', cat: 'Semester KLAs', label: 'Science and Technology, Term 3', from: 'has investigated which materials conduct electricity', to: 'investigated which materials conduct electricity' },
+  { v: 'v3.13.2', cat: 'Semester KLAs', label: 'Science and Technology, Term 4', from: 'has researched how generating electricity', to: 'researched how generating electricity' },
+  { v: 'v3.13.2', cat: 'Semester KLAs', label: 'Geography, Term 3', from: 'has also learnt how communities prepare', to: 'also learnt how communities prepare' },
+  { v: 'v3.13.2', cat: 'Semester KLAs', label: 'Geography, Term 4', from: 'has used maps and climate graphs', to: 'used maps and climate graphs' },
+  { v: 'v3.13.2', cat: 'Semester KLAs', label: 'Creative Arts, Term 3', from: 'has also explored how Aboriginal and Torres Strait Islander artists', to: 'also explored how Aboriginal and Torres Strait Islander artists' },
+  { v: 'v3.13.2', cat: 'Semester KLAs', label: 'Creative Arts, Term 4', from: 'has written and performed scripts', to: 'wrote and performed scripts' },
+  { v: 'v3.13.2', cat: 'Semester KLAs', label: 'Health, Term 3', from: 'has developed strategies to keep', to: 'developed strategies to keep' },
+  { v: 'v3.13.2', cat: 'Semester KLAs', label: 'Health, Term 4', from: 'has also explored how healthy eating', to: 'also explored how healthy eating' },
+];
+WORDING_CHANGES.forEach(w => {
+  const esc = w.from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/^has\b/, '(?:has|have)');
+  w.re = new RegExp('\\b' + esc, 'g');
+  w.test = new RegExp('\\b' + esc);
+  // the bank sentence before and after, so a comment built with the old wording still belongs to its category
+  const now = (RAW[w.cat] || []).find(x => x.indexOf(w.to) !== -1);
+  if (now) { w.newKey = now; w.oldKey = now.replace(w.to, w.from); }
+});
+const GEN_OLD2NEW = {}, GEN_NEW2OLD = {};
+WORDING_CHANGES.forEach(w => { if (w.oldKey) { GEN_OLD2NEW[w.oldKey] = w.newKey; GEN_NEW2OLD[w.newKey] = w.oldKey; } });
+Object.keys(GEN_OLD2NEW).forEach(o => {
+  const n = GEN_OLD2NEW[o];
+  if (SENT_CAT[n]) SENT_CAT[o] = SENT_CAT[n];
+  if (SEM_ONLY[1].has(n)) SEM_ONLY[1].add(o);
+  if (SEM_ONLY[2].has(n)) SEM_ONLY[2].add(o);
+  if (TERM_TAG.has(n)) TERM_TAG.set(o, TERM_TAG.get(n));
+});
+// the form of bank sentence s this student has selected: the current wording, or the older one (or null)
+function genSelForm(cat, s, stu) {
+  const sel = ((stu || cur()).selected || {})[cat] || [];
+  if (sel.includes(s)) return s;
+  const o = GEN_NEW2OLD[s];
+  return o && sel.includes(o) ? o : null;
+}
+// every string held for a student (keys, drafts, Review edits, both semesters), old wording -> new
+function _rewordStrings(v, list) {
+  if (typeof v === 'string') { let t = v; list.forEach(w => { if (w.test.test(t)) t = t.replace(w.re, w.to); }); return t; }
+  if (Array.isArray(v)) return v.map(x => _rewordStrings(x, list));
+  if (v && typeof v === 'object') { Object.keys(v).forEach(k => { v[k] = _rewordStrings(v[k], list); }); return v; }
+  return v;
+}
+function _hasOldWording(v, list) {
+  if (typeof v === 'string') return list.some(w => w.test.test(v));
+  if (Array.isArray(v)) return v.some(x => _hasOldWording(x, list));
+  if (v && typeof v === 'object') return Object.keys(v).some(k => _hasOldWording(v[k], list));
+  return false;
+}
+// which changes each student still has, ignoring their private notes
+function studentsWithOldWording(list) {
+  list = list || WORDING_CHANGES;
+  return students.map((stu, i) => ({ i, stu, hits: list.filter(w => _hasOldWording(_stuForScan(stu), [w])) })).filter(x => x.hits.length);
+}
+function _stuForScan(stu) { const o = Object.assign({}, stu); delete o.notes; delete o.s1Comment; return o; }
+function applyWordingChanges(list) {
+  list = list || WORDING_CHANGES;
+  saveCur();
+  let n = 0;
+  students.forEach(stu => {
+    if (!_hasOldWording(_stuForScan(stu), list)) return;
+    Object.keys(stu).forEach(k => { if (k !== 'notes' && k !== 's1Comment') stu[k] = _rewordStrings(stu[k], list); });
+    n++;
+  });
+  loadCur();
+  render();
+  autoSave();
+  return n;
+}
+
 // true when sentence s may be offered in the given semester's bank
 function inSemester(s, sem) {
   const other = (sem || currentSemester) === 1 ? 2 : 1;
@@ -3073,6 +3165,7 @@ function setSemester(n) {
 }
 // Called after a saved session has been applied (startup, cloud sign-in, local fallback)
 function _applySemesterAfterLoad(saved) {
+  try { scheduleRecentChanges(); } catch (e) {}   // v3.13.2
   if (saved && (saved.semester === 1 || saved.semester === 2)) {
     // Live fields already hold this semester's data (see invariant) — just show it.
     _paintSemesterUI();
@@ -5000,12 +5093,14 @@ function _renderOptsCore() {
         if (groupIdx !== -1) addSportDivider(SPORT_GROUPS[groupIdx].label);
       }
     }
-    const isSel = (cur().selected[currentTab] || []).includes(s);
+    const _selForm = genSelForm(currentTab, s);   // v3.13.2: the older wording counts as this sentence
+    const isSel = _selForm !== null;
     const isS1Used = isS2 && s1Keys.has(s);
     const btn = document.createElement('button');
     btn.className = 'opt tier-' + tier + (isSel ? ' sel' : '') + (isS1Used ? ' s1-used' : '');
-    btn.textContent = isSel ? applyFC(s, s) : applyFC(s);
-    if (isSel && _edSet.has(s)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
+    btn.textContent = isSel ? applyFC(_selForm, _selForm) : applyFC(s);
+    if (isSel && _selForm !== s) btn.title = 'This comment uses the older wording. Recent changes (in Settings) can update it.';
+    if (isSel && _edSet.has(_selForm)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
     if (!isS1Used) btn.onclick = () => toggleOpt(currentTab, s);
     if (isS1Used) { btn.title = 'Used in Semester 1. Click to continue it in Semester 2.'; btn.onclick = () => openContinueS1(currentTab, s); }
     if (TERM_TAG.has(s) && currentTab === 'Semester KLAs') { const tt = document.createElement('span'); tt.className = 'term-tag'; tt.textContent = TERM_TAG.get(s); btn.appendChild(tt); }
@@ -7032,7 +7127,8 @@ function genRemoveKey(cat, key) {
 
 function toggleOpt(cat, s) {
   if (!cur().selected[cat]) cur().selected[cat] = [];
-  if (cur().selected[cat].indexOf(s) === -1) genAddKey(cat, s); else genRemoveKey(cat, s);
+  const f = genSelForm(cat, s);   // v3.13.2
+  if (f === null) genAddKey(cat, s); else genRemoveKey(cat, f);
   render();
 }
 
@@ -8507,7 +8603,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.13.1';
+const APP_VERSION = 'v3.13.2';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -8803,6 +8899,85 @@ async function saveProxyUrl() {
     showToast('Could not reach Worker URL — check it was deployed correctly.');
   }
 }
+
+// ══ v3.13.2 · RECENT CHANGES ════════════════════════════════════════════════
+// Opens when the page loads if there is anything new since this browser last closed it. Newest first.
+const RECENT_CHANGES = [
+  { v: 'v3.13.2', date: '27 October 2026', items: [
+    'The second sentence of each Semester 2 KLA comment no longer says “has” (“Jax investigated…”), to match the Semester 1 KLA comments.',
+    'This Recent changes window, which can also update comments that still use older wording. Find it again in Settings, under Comments.',
+  ] },
+  { v: 'v3.13.1', date: '27 October 2026', items: [
+    'When you write your own sentence, “Place under” lets you choose where it goes: a Sport group such as Touch Football, or a grade in English and Maths.',
+  ] },
+  { v: 'v3.13.0', date: '27 October 2026', items: [
+    'Settings open in a larger window with tabs: Appearance, Comments, My sentences, Account, Backup and AI features.',
+  ] },
+];
+function _verNum(v) { return String(v || '').replace(/^v/, '').split('.').map(n => parseInt(n, 10) || 0).reduce((a, n) => a * 1000 + n, 0); }
+function _studentsHaveWork() { return students.some(st => (st.name || '').trim() || (st.ordered || []).length || (st.s1Ordered || []).length || (st.s2Ordered || []).length || (st.engOrdered || []).length || (st.mathOrdered || []).length); }
+var _rcTimer = null, _rcShownThisLoad = false;
+function scheduleRecentChanges() {
+  if (_rcShownThisLoad) return;
+  clearTimeout(_rcTimer);
+  _rcTimer = setTimeout(maybeShowRecentChanges, 1500);   // waits for the cloud copy to arrive too
+}
+function maybeShowRecentChanges() {
+  if (_rcShownThisLoad) return;
+  const seen = lsGet('rcb_seenChanges', null);
+  if (!seen && !_studentsHaveWork()) { lsSet('rcb_seenChanges', APP_VERSION); return; }   // a new user: nothing has changed for them
+  if (seen && _verNum(seen) >= _verNum(RECENT_CHANGES[0].v)) return;
+  _rcShownThisLoad = true;
+  openRecentChanges(false);
+}
+function openRecentChanges(all) {
+  closeRecentChanges();
+  const seen = all ? null : lsGet('rcb_seenChanges', null);
+  const entries = RECENT_CHANGES.filter(e => !seen || _verNum(e.v) > _verNum(seen));
+  const wording = WORDING_CHANGES.filter(w => entries.some(e => e.v === w.v));
+  const wordAll = all ? WORDING_CHANGES : wording;
+  const ov = document.createElement('div');
+  ov.className = 'modal-overlay'; ov.id = 'rcOverlay';
+  ov.onclick = e => { if (e.target === ov) closeRecentChanges(true); };
+  let h = '<div class="modal-box rc-box" role="dialog" aria-modal="true" aria-labelledby="rcTitle"><div class="modal-title" id="rcTitle">Recent changes</div>';
+  entries.forEach(e => {
+    h += `<div><div class="rc-ver">${escHtml(e.v)} · ${escHtml(e.date)}</div><ul class="rc-list">${e.items.map(x => '<li>' + escHtml(x) + '</li>').join('')}</ul></div>`;
+  });
+  if (wordAll.length) {
+    h += '<div><div class="rc-ver">Wording changes in the sentence bank</div><div class="rc-word">' + wordAll.map(w =>
+      `<div class="rc-row"><span class="rc-lbl">${escHtml(w.label)}</span>…<span class="rc-old">${escHtml(w.from)}</span> → <span class="rc-new">${escHtml(w.to)}</span>…</div>`).join('') + '</div></div>';
+    h += '<div class="rc-apply" id="rcApply"></div>';
+  }
+  h += '<div class="modal-actions">' + (all ? '' : '<button class="modal-btn" onclick="closeRecentChanges(false)" title="Show this again next time the page opens">Remind me next time</button>') +
+       '<button class="modal-btn primary" onclick="closeRecentChanges(true)">Got it</button></div></div>';
+  ov.innerHTML = h;
+  document.body.appendChild(ov);
+  _paintRcApply(wordAll);
+  const b = ov.querySelector('.modal-btn.primary'); if (b) b.focus();
+}
+function _paintRcApply(list, doneCount) {
+  const box = document.getElementById('rcApply'); if (!box) return;
+  const hits = studentsWithOldWording(list);
+  if (doneCount) { box.innerHTML = `<span class="rc-done">Updated ${doneCount} student${doneCount === 1 ? '' : 's'}. Their drafts and finished comments now use the new wording.</span>`; return; }
+  if (!hits.length) { box.innerHTML = 'None of your comments use the old wording, so there is nothing to update.'; return; }
+  const names = hits.map(x => (x.stu.name || '').trim() || 'Student ' + (x.i + 1));
+  const shown = names.slice(0, 6).join(', ') + (names.length > 6 ? ' and ' + (names.length - 6) + ' more' : '');
+  box.innerHTML = `<div><b>${hits.length} student${hits.length === 1 ? '' : 's'}</b> still use${hits.length === 1 ? 's' : ''} the old wording in a draft or finished comment: ${escHtml(shown)}.</div>` +
+    `<div style="color:var(--t1);font-size:13px">Updating changes only the words shown above, in both semesters' drafts and finished comments. Everything else you wrote stays as it is.</div>` +
+    `<button class="modal-btn primary" id="rcApplyBtn">Make these changes in my comments</button>`;
+  document.getElementById('rcApplyBtn').onclick = () => {
+    const n = applyWordingChanges(list);
+    _paintRcApply(list, n);
+    if (n) showToast('Updated ' + n + ' student' + (n === 1 ? '' : 's') + '.');
+  };
+}
+function closeRecentChanges(markSeen) {
+  const ov = document.getElementById('rcOverlay'); if (!ov) return;
+  ov.remove();
+  if (markSeen) lsSet('rcb_seenChanges', APP_VERSION);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('rcOverlay')) closeRecentChanges(true); });
+window.addEventListener('load', () => setTimeout(scheduleRecentChanges, 2500));
 
 // v3.13.0: settings open in a centred window; the tab you last used opens again next time
 function setSettingsTab(tab) {
@@ -11059,6 +11234,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.13.1</div>
+<div class="version-badge">v3.13.2</div>
 </body>
 </html>
