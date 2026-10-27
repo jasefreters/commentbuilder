@@ -1035,6 +1035,9 @@
 
   .term-tag.gr-tag.gA { color: var(--gA); border-color: var(--gA); } .term-tag.gr-tag.gB { color: var(--gB); border-color: var(--gB); } .term-tag.gr-tag.gC { color: var(--gC); border-color: var(--gC); } .term-tag.gr-tag.gD { color: var(--gD); border-color: var(--gD); } .term-tag.gr-tag.gE { color: var(--gE); border-color: var(--gE); }
 
+  .gr-table tr.gr-fill td { background: var(--accent-bg); border-bottom: 2px solid var(--accent-bd); }
+  .gr-table tr.gr-fill .gr-sel { color: var(--accent); border-color: var(--accent-bd); width: auto; min-width: 72px; }
+
   /* v3.13.2 RECENT CHANGES */
   .rc-box { width: 600px; max-width: calc(100vw - 24px); max-height: calc(100vh - 48px); overflow-y: auto; gap: 16px; }
   .rc-ver { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); margin-bottom: 6px; }
@@ -2378,6 +2381,7 @@ function gradeDotsHtml(grades) {
 }
 
 function setCurGrade(cat, grade) {
+  { const _f = cur().overallSet; if (_f) delete _f['s' + currentSemester + '|' + (currentSubject === 'english' ? 'eng|' : 'math|') + cat]; }   // v3.14.1: the teacher chose this strand
   // Toggle grade in/out of the array for this category
   const gradesObj = currentSubject === 'english'
     ? (cur().engGrades || (cur().engGrades = {}))
@@ -8641,7 +8645,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.14.0';
+const APP_VERSION = 'v3.14.1';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -8948,7 +8952,7 @@ const RECENT_CHANGES = [
   { v: 'v3.14.0', date: '27 October 2026', items: [
     'Class board has a new Grades button. Upload your grades spreadsheet (Excel or CSV) and each student’s English and Maths grades are chosen for you when you write their comments.',
     'In General, opening a student picks the Positive, Average or Developing filter that matches their grades, and each KLA comment shows that subject’s grade.',
-    'You can check or change grades there, and export them to an Excel file with one row per student.',
+    'You can check or change grades there, fill a whole column for the class at once, and export them to an Excel file with one row per student.',
   ] },
   { v: 'v3.13.2', date: '27 October 2026', items: [
     'The second sentence of each Semester 2 KLA comment no longer says “has” (“Jax investigated…”), to match the Semester 1 KLA comments. You can update comments that use the old wording below.',
@@ -11216,11 +11220,14 @@ function setStuGrade(stu, k, grade, replaceAll) {
   if (k === 'english' || k === 'maths') {
     const g = _grObj(stu, k), pre = k === 'english' ? 'eng|' : 'math|';
     const seeded = stu.s2GradeSeeded && typeof stu.s2GradeSeeded === 'object' ? stu.s2GradeSeeded : null;
+    if (!stu.overallSet || typeof stu.overallSet !== 'object') stu.overallSet = {};
+    const fl = stu.overallSet, fk = cat => 's' + currentSemester + '|' + pre + cat;   // v3.14.1: strands that took the overall grade
     _grStrands(k).forEach(cat => {
       const had = normaliseGradeVal(g[cat]).length > 0;
       const auto = seeded && seeded[pre + cat] === 'auto';
-      if (cat === 'Introduction' || !had || auto || replaceAll) {
-        if (grade) g[cat] = [grade]; else if (cat === 'Introduction' || replaceAll) delete g[cat];
+      if (cat === 'Introduction' || !had || auto || replaceAll || fl[fk(cat)]) {
+        if (grade) { g[cat] = [grade]; fl[fk(cat)] = true; }
+        else { if (cat === 'Introduction' || replaceAll || fl[fk(cat)]) delete g[cat]; delete fl[fk(cat)]; }
         if (seeded && currentSemester === 2) seeded[pre + cat] = true;
       }
     });
@@ -11272,6 +11279,9 @@ function paintGradesTable() {
   const cols = grCols();
   let h = '<thead><tr><th>First name</th><th>Surname</th><th>Roll class</th>' + cols.map(c => `<th>${escHtml(c.short)}</th>`).join('') + '<th title="Not exported">General level</th></tr></thead><tbody>';
   if (!students.length) h += `<tr><td colspan="${4 + cols.length}">No students yet. Upload a spreadsheet to add them.</td></tr>`;
+  else h += `<tr class="gr-fill"><td colspan="3"><b>Whole class</b><span class="sw-help">Fill a column, then change the students it doesn't suit.</span></td>` +
+    cols.map(c => `<td><select class="gr-sel" aria-label="Set ${escHtml(c.short)} for the whole class" onchange="fillClassGrade('${c.k}', this)"><option value="">Fill…</option>${GRADE_ORDER.map(x => `<option>${x}</option>`).join('')}<option value="-">Clear</option></select></td>`).join('') +
+    `<td><select class="gr-sel" style="width:auto" aria-label="Set the General level for the whole class" onchange="fillClassGrade('general', this)"><option value="">Fill…</option><option value="strong">Positive</option><option value="average">Average</option><option value="developing">Developing</option><option value="-">From grades</option></select></td></tr>`;
   students.forEach((stu, i) => {
     const [fn, sn] = _grSplitName(stu);
     h += `<tr><td>${escHtml(fn || 'Student ' + (i + 1))}</td>` +
@@ -11280,6 +11290,27 @@ function paintGradesTable() {
       cols.map(c => `<td>${_grSelHtml(i, c.k, getStuGrade(stu, c.k))}</td>`).join('') + `<td>${_genLevelSelHtml(i, stu)}</td></tr>`;
   });
   t.innerHTML = h + '</tbody>';
+}
+// v3.14.1: one choice for every student; a student who already had something different is changed too, after a check
+function fillClassGrade(k, sel) {
+  const v = sel.value; sel.value = '';
+  if (!v) return;
+  const val = v === '-' ? '' : v;
+  const name = k === 'general' ? 'General level' : grCols().find(c => c.k === k).short;
+  const now = s => k === 'general' ? (s.generalLevel || '') : getStuGrade(s, k);
+  const differ = students.filter(s => now(s) && now(s) !== val).length;
+  const what = val ? (k === 'general' ? GEN_LEVEL_LABEL[val] : val) : (k === 'general' ? 'from grades' : 'blank');
+  if (differ && !confirm(`Set ${name} to ${what} for all ${students.length} students? ${differ} already ${differ === 1 ? 'has' : 'have'} something different, and will change too.`)) return;
+  saveCur();
+  students.forEach(s => {
+    if (k === 'general') { if (val) s.generalLevel = val; else delete s.generalLevel; }
+    else setStuGrade(s, k, val, false);
+  });
+  _genLevelFor = null;
+  paintGradesTable();
+  if (currentView === 'build') render();
+  autoSave();
+  showToast(`${name} set to ${what} for the whole class. Change any student below.`);
 }
 function onGradeCell(i, k, sel) {
   const stu = students[i]; if (!stu) return;
@@ -11670,6 +11701,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.14.0</div>
+<div class="version-badge">v3.14.1</div>
 </body>
 </html>
