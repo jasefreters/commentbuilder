@@ -8798,7 +8798,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.1';
+const APP_VERSION = 'v3.16.2';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10129,21 +10129,29 @@ function highlightDuplicateWords() {
   const stemCounts = {};   // stem → count
   const stemToWords = {};  // stem → Set of original surface forms
 
-  const fullText = spans.map(s => s.textContent).join(' ');
+  // v3.16.2: common report words (friendly, strong, classroom…) are still left alone when they are far apart,
+  // but flagged when they come back in the same sentence or the next one
+  const wlAt = {};   // stem → sentence numbers where a common word appears
   const wordRegex = /\b([a-zA-Z]{4,})\b/g;
   let m;
-  while ((m = wordRegex.exec(fullText)) !== null) {
-    const w = m[1].toLowerCase();
-    if (STOPWORDS.has(w) || REPORT_WHITELIST.has(w) || dynamicIgnore.has(w)) continue;
-    const s = stem(w);
-    if (s.length < 3) continue;
-    stemCounts[s] = (stemCounts[s] || 0) + 1;
-    if (!stemToWords[s]) stemToWords[s] = new Set();
-    stemToWords[s].add(w);
-  }
+  spans.forEach((sp, si) => {
+    wordRegex.lastIndex = 0;
+    const t = sp.textContent;
+    while ((m = wordRegex.exec(t)) !== null) {
+      const w = m[1].toLowerCase();
+      if (STOPWORDS.has(w) || dynamicIgnore.has(w)) continue;
+      const s = stem(w);
+      if (s.length < 3) continue;
+      if (REPORT_WHITELIST.has(w)) { (wlAt[s] = wlAt[s] || []).push(si); }
+      stemCounts[s] = (stemCounts[s] || 0) + 1;
+      if (!stemToWords[s]) stemToWords[s] = new Set();
+      stemToWords[s].add(w);
+    }
+  });
+  const closeWl = new Set(Object.keys(wlAt).filter(s => { const a = wlAt[s]; for (let i = 1; i < a.length; i++) if (a[i] - a[i - 1] <= 1) return true; return false; }));
 
-  // Flag stems used more than once
-  const repeatedStems = new Set(Object.keys(stemCounts).filter(s => stemCounts[s] > 1));
+  // Flag stems used more than once (a common word only when it is close to the last use)
+  const repeatedStems = new Set(Object.keys(stemCounts).filter(s => stemCounts[s] > 1 && (!wlAt[s] || closeWl.has(s))));
   if (!repeatedStems.size) return;
 
   // Build word → stem map for fast lookup during highlight
@@ -10157,7 +10165,7 @@ function highlightDuplicateWords() {
     const original = span.textContent;
     const highlighted = original.replace(/\b([a-zA-Z]{4,})\b/g, (match) => {
       const w = match.toLowerCase();
-      if (STOPWORDS.has(w) || REPORT_WHITELIST.has(w) || dynamicIgnore.has(w)) return match;
+      if (STOPWORDS.has(w) || dynamicIgnore.has(w)) return match;
       const s = wordStemMap[w];
       if (s && repeatedStems.has(s)) {
         const count = stemCounts[s];
@@ -11242,14 +11250,19 @@ function repeatedWordsIn(text, stu) {
   stu = stu || cur();
   const name = String((stu && stu.name) || '').toLowerCase(), pr = PR[(stu && stu.pronoun) || 'he'];
   const ignore = new Set([name, ...name.split(/[\s\-]+/), pr.S.toLowerCase(), pr.s, pr.O.toLowerCase(), pr.o, pr.Pos.toLowerCase(), pr.pos, pr.r].filter(Boolean));
-  const counts = {}, forms = {}, re = /\b([a-zA-Z]{4,})\b/g; let m;
-  while ((m = re.exec(String(text || '')))) {
-    const w = m[1].toLowerCase();
-    if (STOPWORDS.has(w) || REPORT_WHITELIST.has(w) || ignore.has(w)) continue;
-    const st = stem(w); if (st.length < 3) continue;
-    counts[st] = (counts[st] || 0) + 1; (forms[st] = forms[st] || new Set()).add(w);
-  }
-  return Object.keys(counts).filter(k => counts[k] > 1).map(k => ({ stem: k, n: counts[k], words: [...forms[k]] })).sort((a, b) => b.n - a.n);
+  const counts = {}, forms = {}, wlAt = {}, re = /\b([a-zA-Z]{4,})\b/g; let m;
+  splitSentences(String(text || '')).forEach((sent, si) => {
+    re.lastIndex = 0;
+    while ((m = re.exec(sent))) {
+      const w = m[1].toLowerCase();
+      if (STOPWORDS.has(w) || ignore.has(w)) continue;
+      const st = stem(w); if (st.length < 3) continue;
+      if (REPORT_WHITELIST.has(w)) (wlAt[st] = wlAt[st] || []).push(si);
+      counts[st] = (counts[st] || 0) + 1; (forms[st] = forms[st] || new Set()).add(w);
+    }
+  });
+  const close = k => { const a = wlAt[k]; if (!a) return true; for (let i = 1; i < a.length; i++) if (a[i] - a[i - 1] <= 1) return true; return false; };
+  return Object.keys(counts).filter(k => counts[k] > 1 && close(k)).map(k => ({ stem: k, n: counts[k], words: [...forms[k]] })).sort((a, b) => b.n - a.n);
 }
 let _repCursor = 0;
 function updateRepeatChip() {
@@ -12239,6 +12252,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.1</div>
+<div class="version-badge">v3.16.2</div>
 </body>
 </html>
