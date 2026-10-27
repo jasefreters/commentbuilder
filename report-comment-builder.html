@@ -2505,6 +2505,26 @@ function markSubjS1Used(btn, cat, s, isSel) {
 // v3.12.9 (Jason, 20 Oct, 10:38): Semester 2 starts every Maths and English strand at the grade it had in Semester 1.
 // It is copied once per strand, only where Semester 2 has no grade yet, so the teacher can change or clear it afterwards.
 function seedS2Grades(stu) {
+  return clearS1SeededGrades(stu);   // v3.14.3: Semester 2 grades are the teacher's own; nothing is copied from Semester 1 any more
+}
+// v3.14.3: takes away the Semester 2 strand grades that were only copied from Semester 1 and never touched,
+// in whichever copy holds Semester 2 (the live fields while Semester 2 is open). Grades the teacher chose stay.
+function clearS1SeededGrades(stu) {
+  const sd = stu && stu.s2GradeSeeded;
+  if (!sd || typeof sd !== 'object') return false;
+  let changed = false;
+  [['eng', 'engGrades', 'engS2Grades'], ['math', 'mathGrades', 'mathS2Grades']].forEach(([k, live, copy]) => {
+    const g = currentSemester === 2 ? stu[live] : stu[copy];
+    Object.keys(sd).forEach(key => {
+      if (sd[key] !== 'auto' || key.indexOf(k + '|') !== 0) return;
+      const cat = key.slice(k.length + 1);
+      if (g && g[cat]) delete g[cat];
+      delete sd[key]; changed = true;
+    });
+  });
+  return changed;
+}
+function _oldSeedS2Grades(stu) {
   if (currentSemester !== 2 || !stu) return false;
   let changed = false;
   if (!stu.s2GradeSeeded || typeof stu.s2GradeSeeded !== 'object') stu.s2GradeSeeded = {};
@@ -3208,6 +3228,7 @@ function setSemester(n) {
 // Called after a saved session has been applied (startup, cloud sign-in, local fallback)
 function _applySemesterAfterLoad(saved) {
   try { scheduleRecentChanges(); } catch (e) {}   // v3.13.2
+  try { let ch = false; students.forEach(st => { if (clearS1SeededGrades(st)) ch = true; }); if (ch) setTimeout(() => { try { render(); autoSave(); } catch (e) {} }, 0); } catch (e) {}   // v3.14.3
   if (saved && (saved.semester === 1 || saved.semester === 2)) {
     // Live fields already hold this semester's data (see invariant) — just show it.
     _paintSemesterUI();
@@ -8644,7 +8665,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.14.2';
+const APP_VERSION = 'v3.14.3';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -8948,6 +8969,9 @@ async function saveProxyUrl() {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.14.3', date: '27 October 2026', items: [
+    'Semester 2 English and Maths grades no longer start from the Semester 1 grades. Grades that were only copied across have been cleared, so enter or upload Semester 2 grades in the Grades window. Grades you chose yourself are kept.',
+  ] },
   { v: 'v3.14.2', date: '27 October 2026', items: [
     'In Semester 2 the General sentence bank keeps its usual Positive, Average and Developing order. Sentences used in Semester 1 sit in their own group at the top, as in English and Maths. The green Semester 2 banner is gone.',
   ] },
@@ -11279,17 +11303,17 @@ function _grSelHtml(i, k, g) {
 function paintGradesTable() {
   const t = document.getElementById('grTable'); if (!t) return;
   const cols = grCols();
-  let h = '<thead><tr><th>First name</th><th>Surname</th><th>Roll class</th>' + cols.map(c => `<th>${escHtml(c.short)}</th>`).join('') + '<th title="Not exported">General level</th></tr></thead><tbody>';
+  let h = '<thead><tr><th>First name</th><th>Surname</th><th>Roll class</th><th title="Not exported">General level</th>' + cols.map(c => `<th>${escHtml(c.short)}</th>`).join('') + '</tr></thead><tbody>';
   if (!students.length) h += `<tr><td colspan="${4 + cols.length}">No students yet. Upload a spreadsheet to add them.</td></tr>`;
   else h += `<tr class="gr-fill"><td colspan="3"><b>Whole class</b><span class="sw-help">Fill a column, then change the students it doesn't suit.</span></td>` +
-    cols.map(c => `<td><select class="gr-sel" aria-label="Set ${escHtml(c.short)} for the whole class" onchange="fillClassGrade('${c.k}', this)"><option value="">Fill…</option>${GRADE_ORDER.map(x => `<option>${x}</option>`).join('')}<option value="-">Clear</option></select></td>`).join('') +
-    `<td><select class="gr-sel" style="width:auto" aria-label="Set the General level for the whole class" onchange="fillClassGrade('general', this)"><option value="">Fill…</option><option value="strong">Positive</option><option value="average">Average</option><option value="developing">Developing</option><option value="-">From grades</option></select></td></tr>`;
+    `<td><select class="gr-sel" style="width:auto" aria-label="Set the General level for the whole class" onchange="fillClassGrade('general', this)"><option value="">Fill…</option><option value="strong">Positive</option><option value="average">Average</option><option value="developing">Developing</option><option value="-">From grades</option></select></td>` +
+    cols.map(c => `<td><select class="gr-sel" aria-label="Set ${escHtml(c.short)} for the whole class" onchange="fillClassGrade('${c.k}', this)"><option value="">Fill…</option>${GRADE_ORDER.map(x => `<option>${x}</option>`).join('')}<option value="-">Clear</option></select></td>`).join('') + '</tr>';
   students.forEach((stu, i) => {
     const [fn, sn] = _grSplitName(stu);
     h += `<tr><td>${escHtml(fn || 'Student ' + (i + 1))}</td>` +
       `<td><input type="text" value="${escHtml(stu.surname || (stu.name || '').includes(' ') ? sn : stu.surname || '')}" aria-label="Surname" onchange="onGradeText(${i},'surname',this.value)"></td>` +
       `<td><input type="text" value="${escHtml(stu.rollClass || '')}" aria-label="Roll class" style="max-width:80px" onchange="onGradeText(${i},'rollClass',this.value)"></td>` +
-      cols.map(c => `<td>${_grSelHtml(i, c.k, getStuGrade(stu, c.k))}</td>`).join('') + `<td>${_genLevelSelHtml(i, stu)}</td></tr>`;
+      `<td>${_genLevelSelHtml(i, stu)}</td>` + cols.map(c => `<td>${_grSelHtml(i, c.k, getStuGrade(stu, c.k))}</td>`).join('') + '</tr>';
   });
   t.innerHTML = h + '</tbody>';
 }
@@ -11703,6 +11727,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.14.2</div>
+<div class="version-badge">v3.14.3</div>
 </body>
 </html>
