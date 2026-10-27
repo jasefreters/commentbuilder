@@ -817,7 +817,7 @@
   .board-find input { flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font-size: 14px; color: var(--t0); }
   .board-scroll { overflow-x: auto; }
   .board-inner { min-width: 820px; }
-  .board-grid { display: grid; grid-template-columns: minmax(180px, 1.4fr) repeat(3, minmax(130px, 1fr)) 80px 84px; align-items: center; gap: 12px; padding: 8px 20px; }
+  .board-grid { display: grid; grid-template-columns: minmax(180px, 1.4fr) repeat(3, minmax(130px, 1fr)) 80px 140px; align-items: center; gap: 12px; padding: 8px 20px; }
   .board-grid.head { padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--bg-3); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); }
   .board-grid.row { min-height: 56px; border-bottom: 1px solid var(--bg-3); font-size: 14px; cursor: pointer; }
   .board-grid.row:hover { background: var(--bg-2); }
@@ -1041,6 +1041,28 @@
 
   .opts .tier-divider.s1-head { display: flex !important; }
 
+  /* v3.16.0 JARGON CHECK */
+  .jg-box { margin-top: 10px; border: 1px solid var(--amber-line, #E9C46A); background: var(--amber-bg, #FFF4D6); border-radius: var(--r-md); padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; color: var(--t0); }
+  .jg-box.jg-all { border-color: var(--accent-bd); background: var(--accent-bg); }
+  .jg-head { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--t1); }
+  .jg-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .jg-word { font-weight: 700; }
+  .jg-arrow { color: var(--t2); }
+  .jg-in { flex: 1 1 220px; min-width: 0; padding: 6px 9px; font-size: 13.5px; }
+  .jg-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* v3.16.0 HISTORY */
+  .bg-acts { display: flex; gap: 12px; }
+  .bg-hist { color: var(--t1); font-weight: 600; }
+  .hi-box { width: 720px; max-width: calc(100vw - 24px); max-height: calc(100vh - 32px); overflow-y: auto; gap: 12px; }
+  .hi-item { border: 1px solid var(--border); border-radius: var(--r-md); padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+  .hi-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+  .hi-when { font-weight: 700; color: var(--t0); font-size: 14px; }
+  .hi-why { font-size: 12px; color: var(--t2); }
+  .hi-wc { font-size: 12px; color: var(--t1); margin-left: auto; font-variant-numeric: tabular-nums; }
+  .hi-text { font-family: var(--serif); font-size: 15px; line-height: 1.55; color: var(--t0); white-space: pre-wrap; background: var(--bg-2); border-radius: var(--r-sm); padding: 8px 10px; }
+  .hi-sub { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--t2); }
+
   /* v3.15.0 SUGGEST A FEATURE */
   .fb-form { display: flex; flex-direction: column; gap: 8px; padding: 4px 14px 8px; }
   .fb-types { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -1052,6 +1074,9 @@
   .fb-status.err { color: var(--red); }
   .fb-item { border: 1px solid var(--border); border-radius: var(--r-md); padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
   .fb-meta { font-size: 11px; color: var(--t2); display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  .fb-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .04em; padding: 1px 7px; border-radius: 999px; background: var(--red); color: #fff; vertical-align: middle; }
+  .fb-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--red); margin-left: 4px; vertical-align: middle; }
+  .fb-item.fb-new { border-color: var(--accent-bd); background: var(--accent-bg); }
   .fb-msg { white-space: pre-wrap; color: var(--t0); line-height: 1.5; }
 
   /* v3.13.2 RECENT CHANGES */
@@ -1397,6 +1422,7 @@
         </div>
         <div class="more-menu" id="moreMenu" role="menu">
           <button role="menuitem" onclick="closeMoreMenu(); saveStudent()">Save student</button>
+          <button role="menuitem" onclick="closeMoreMenu(); openHistory(currentIdx)">History (restore an earlier version)</button>
           <button role="menuitem" onclick="closeMoreMenu(); clearCurrent()">Clear this comment</button>
           <button role="menuitem" id="exportBtn" onclick="closeMoreMenu(); exportAll()" style="display:none">Export all (.txt)</button>
           <button role="menuitem" class="danger" id="deleteStuBtn" onclick="closeMoreMenu(); removeStu(currentIdx)">Delete student</button>
@@ -2005,7 +2031,7 @@ function studentsWithOldWording(list) {
 function _stuForScan(stu) { const o = Object.assign({}, stu); delete o.notes; delete o.s1Comment; return o; }
 function applyWordingChanges(list) {
   list = list || WORDING_CHANGES;
-  saveCur();
+  snapshotAll('Before wording update');   // v3.16.0
   let n = 0;
   students.forEach(stu => {
     if (!_hasOldWording(_stuForScan(stu), list)) return;
@@ -5270,7 +5296,7 @@ function updateWc(text) {
   const badge = document.getElementById('wcBadge');
   const bar = document.getElementById('wcBar');
   const words = text.trim().split(/\s+/).filter(Boolean).length;
-  const lim = getWordLimit();
+  const lim = getSubjWordLimit(currentSubject);
   badge.textContent = words + ' / ' + lim;
   badge.className = words > lim ? 'wc over' : 'wc';
   bar.style.width = Math.min(100, words / lim * 100) + '%';
@@ -5650,12 +5676,13 @@ function _renderOutCore() {
     if (document.activeElement !== el) {
       el.innerText = fullText;
     }
-    // Word count with 125 limit
+    // Word count against the subject limit (Settings)
     const words = fullText.trim().split(/\s+/).filter(Boolean).length;
-    badge.textContent = `${words} / 125`;
-    badge.className = words > 125 ? 'wc over' : 'wc';
+    const _lim = getSubjWordLimit(currentSubject);
+    badge.textContent = `${words} / ${_lim}`;
+    badge.className = words > _lim ? 'wc over' : 'wc';
     bar.style.width = Math.min(100, (words / 1.25)) + '%';
-    bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
+    bar.className = words > _lim ? 'wc-bar over' : 'wc-bar';
     editBar.className = 'draft-edit-bar';
     return;
   }
@@ -5708,14 +5735,15 @@ function onDraftInput() {
     // Sync any FD lines the user typed in the pane back to engFD
     const _parsedEngFD = parseFDFromDraftText(text);
     if (_parsedEngFD.length > 0) cur().engFD = _parsedEngFD;
-    // 125 word limit for English
+    // word limit for this subject (Settings)
     const words = text.trim().split(/\s+/).filter(Boolean).length;
     const badge = document.getElementById('wcBadge');
     const bar = document.getElementById('wcBar');
-    badge.textContent = `${words} / 125`;
-    badge.className = words > 125 ? 'wc over' : 'wc';
+    const _lim = getSubjWordLimit(currentSubject);
+    badge.textContent = `${words} / ${_lim}`;
+    badge.className = words > _lim ? 'wc over' : 'wc';
     bar.style.width = Math.min(100, words / 1.25) + '%';
-    bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
+    bar.className = words > _lim ? 'wc-bar over' : 'wc-bar';
   } else if (currentSubject === 'maths') {
     cur().mathDraft = stripFDFromDraftText(text);
     cur().mathDraftEdited = true; // teacher manually edited — preserve verbatim
@@ -5728,10 +5756,11 @@ function onDraftInput() {
     const words = text.trim().split(/\s+/).filter(Boolean).length;
     const badge = document.getElementById('wcBadge');
     const bar = document.getElementById('wcBar');
-    badge.textContent = `${words} / 125`;
-    badge.className = words > 125 ? 'wc over' : 'wc';
+    const _lim = getSubjWordLimit(currentSubject);
+    badge.textContent = `${words} / ${_lim}`;
+    badge.className = words > _lim ? 'wc over' : 'wc';
     bar.style.width = Math.min(100, words / 1.25) + '%';
-    bar.className = words > 125 ? 'wc-bar over' : 'wc-bar';
+    bar.className = words > _lim ? 'wc-bar over' : 'wc-bar';
   } else {
     cur().draftOverride = text || null;
     cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null; cur().pubEditGeneral_subject = null;
@@ -5774,6 +5803,7 @@ function doneDraft() {
 }
 
 function resetDraft() {
+  try { saveCur(); snapshotStudent(cur(), 'Before reset', true); } catch (e) {}   // v3.16.0
   if (currentSubject === 'english') {
     cur().engDraft = null;
     cur().engDraftEdited = false;
@@ -6120,7 +6150,7 @@ function renderBoard() {
     const cells = subjects.map(([s]) => { const st = subjState(stu, s); return `<div><span class="pill ${st}">${icon[st]}${STATE_LABEL[st]}</span></div>`; }).join('');
     return `<div class="board-grid row${i === currentIdx ? ' current' : ''}" onclick="openFromBoard(${i})">` +
       `<div class="bg-name"><span class="rail-av">${escHtml(stuInitials(stu, i))}</span><span>${escHtml(stuLabelY(stu, i))}</span>${(() => { const ti = toneReport(stu).issues; return ti.length ? `<span class="tone-warn" title="${escHtml(ti.map(x => x.text).join(' '))}">⚠ Tone</span>` : ''; })()}</div>${cells}` +
-      `<div>${boardWords(stu) || '–'}</div><div><button class="bg-open" onclick="event.stopPropagation(); openFromBoard(${i})">Open</button></div></div>`;
+      `<div>${boardWords(stu) || '–'}</div><div class="bg-acts"><button class="bg-open" onclick="event.stopPropagation(); openFromBoard(${i})">Open</button><button class="bg-open bg-hist" onclick="event.stopPropagation(); openHistory(${i})" title="Earlier versions of this student's comments">History</button></div></div>`;
   }).join('') : `<div class="board-empty">${students.length ? 'No students match.' : 'No students yet.'}</div>`;
   const foot = document.getElementById('boardFoot');
   if (foot) foot.textContent = `Showing ${list.length} of ${students.length} students`;
@@ -7777,6 +7807,7 @@ function removeSent(i) {
 }
 
 function clearCurrent() {
+  saveCur(); snapshotStudent(cur(), 'Before clearing', true);   // v3.16.0
   if (currentSubject === 'english') {
     cur().engSelected = {}; cur().engOrdered = []; cur().engDraft = null; cur().engFD = [];
     showToast('English comment cleared.');
@@ -8119,6 +8150,7 @@ function adminLogout() {
 }
 
 async function adminRefresh() {
+  checkSuggestionCount();   // v3.16.0: the Suggestions button shows how many are new
   const loadEl  = document.getElementById('adminLoading');
   const tableWrap = document.getElementById('adminTableWrap');
   const emptyEl = document.getElementById('adminEmpty');
@@ -8765,13 +8797,13 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.15.0';
+const APP_VERSION = 'v3.16.0';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
   const fd = {};
   ['english', 'maths'].forEach(k => { try { fd[k] = JSON.parse(lsGet('rcb_customFD_' + k, '{}')) || {}; } catch (e) { fd[k] = {}; } });
-  return { customFD: fd, longSent: getLongLimit(), wordLimit: getWordLimit(), seenChanges: getSeenChanges() || undefined };
+  return { customFD: fd, longSent: getLongLimit(), wordLimit: getWordLimit(), wordLimitEng: getSubjWordLimit('english'), wordLimitMath: getSubjWordLimit('maths'), seenChanges: getSeenChanges() || undefined };
 }
 // Custom Future Directions lines are merged (never replaced), so lines typed on this device are never lost.
 function applySettingsBlob(b) {
@@ -8797,6 +8829,8 @@ function applySettingsBlob(b) {
     }
     if (b.longSent >= 5 && b.longSent <= 100) lsSet('rcb_longsent', String(b.longSent));
     if (b.wordLimit >= 20 && b.wordLimit <= 2000) lsSet('rcb_wordlimit', String(b.wordLimit));
+    if (b.wordLimitEng >= 20 && b.wordLimitEng <= 2000) lsSet('rcb_wordlimit_eng', String(b.wordLimitEng));
+    if (b.wordLimitMath >= 20 && b.wordLimitMath <= 2000) lsSet('rcb_wordlimit_math', String(b.wordLimitMath));
     if (typeof b.seenChanges === 'string' && /^v\d+\.\d+\.\d+$/.test(b.seenChanges) && (!_seenFromAccount || _verNum(b.seenChanges) > _verNum(_seenFromAccount))) _seenFromAccount = b.seenChanges;   // v3.13.3
   } catch (e) { console.error('settings restore', e); }
 }
@@ -8813,6 +8847,7 @@ function buildBackup() {
 function autoSave() {
   // Never write until the saved session has been read — otherwise the blank start-up page overwrites it (v3.5.5)
   if (!_stateLoaded) return;
+  try { snapshotStudent(cur(), 'Autosave', false); } catch (e) {}   // v3.16.0: history
   _lastChangeAt = Date.now(); if (_dirtySince === null) _dirtySince = _lastChangeAt;   // v3.9.0
   // Show saving state
   setSaveState('saving', 'Saving…');
@@ -9063,6 +9098,216 @@ async function saveProxyUrl() {
   }
 }
 
+// ══ v3.16.0 · JARGON CHECK ═════════════════════════════════════════════════
+// Words parents may not know. Review lists any in the comment with a plainer choice (which the teacher can edit).
+// Changing one offers the same change in every other comment that uses it.
+const JARGON = [
+  { term: 'inferences', re: 'inferences', plain: 'conclusions from clues in the text' },
+  { term: 'inference', re: 'inference', plain: 'reading between the lines' },
+  { term: 'infer', re: 'infers?|inferring', plain: 'work out' },
+  { term: 'decodable texts', re: 'decodable (?:texts|books|readers)', plain: 'books that match the sounds learnt' },
+  { term: 'segment and blend', re: 'segments? and blends?', plain: 'breaks words into sounds and joins them back together' },
+  { term: 'blends', re: 'blends', plain: 'joins sounds together' },
+  { term: 'cohesive', re: 'cohesive', plain: 'well-connected' },
+  { term: 'connectives', re: 'connectives', plain: 'linking words' },
+  { term: 'figurative language', re: 'figurative language', plain: 'descriptive language such as similes' },
+  { term: 'idioms', re: 'idioms', plain: 'common sayings' },
+  { term: 'metalanguage', re: 'metalanguage', plain: 'words for talking about language' },
+  { term: 'modality', re: 'modality', plain: 'how certain or strong words are' },
+  { term: 'multiplicative', re: 'multiplicative', plain: 'multiplication and division' },
+  { term: 'additive', re: 'additive', plain: 'addition and subtraction' },
+  { term: 'arrays', re: 'arrays', plain: 'rows and columns of objects' },
+  { term: 'many-to-one', re: 'many-to-one', plain: 'each symbol stands for more than one' },
+  { term: 'stage expectations', re: 'stage expectations', plain: 'the expected level for this year' },
+  { term: 'Stage 3', re: 'Stage 3', plain: 'Years 5 and 6' },
+  { term: 'outcomes', re: 'outcomes', plain: 'learning goals' },
+  { term: 'syllabus', re: 'syllabus', plain: 'curriculum' },
+  { term: 'EAL/D Learning Progression', re: 'EAL\\/D Learning Progression', plain: 'the scale teachers use to track learning English' },
+  { term: 'EAL/D', re: 'EAL\\/D', plain: 'learning English as an additional language' },
+  { term: 'explicit', re: 'explicit(?:ly)?', plain: 'clear, step-by-step' },
+  { term: 'scaffold', re: 'scaffold(?:s|ed|ing)?', plain: 'step-by-step support' },
+  { term: 'transcription', re: 'transcription', plain: 'handwriting and typing' },
+  { term: 'legible', re: 'legible', plain: 'easy to read' },
+  { term: 'skimming', re: 'skimming', plain: 'reading quickly for the main ideas' },
+  { term: 'high-frequency words', re: 'high-frequency words', plain: 'common words' },
+  { term: 'tracks print', re: 'tracks print', plain: 'follows the words with eyes or finger' },
+  { term: 'guided practice', re: 'guided practice', plain: 'practice with a teacher’s help' },
+  { term: 'modelling', re: 'modelling', plain: 'showing examples' },
+  { term: 'withdrawal sessions', re: 'withdrawal sessions', plain: 'small-group sessions outside the classroom' },
+  { term: 'emotional regulation', re: 'emotional regulation', plain: 'managing feelings' },
+  { term: 'metacognition', re: 'metacogniti(?:on|ve)', plain: 'thinking about how they learn' },
+];
+JARGON.forEach(j => { j.rx = new RegExp('(^|[^\\w-])(' + j.re + ')(?![\\w-])', 'gi'); });
+function _jgCase(from, to) { return /^[A-Z]/.test(from) && !/^[A-Z]{2}/.test(to) ? to.charAt(0).toUpperCase() + to.slice(1) : to; }
+// The terms in a piece of text, longest first, so "EAL/D Learning Progression" wins over "EAL/D"
+function jargonIn(text) {
+  const t = String(text || ''), found = [], taken = [];
+  JARGON.slice().sort((a, b) => b.term.length - a.term.length).forEach(j => {
+    j.rx.lastIndex = 0; let m, hit = null;
+    while ((m = j.rx.exec(t))) { const st = m.index + m[1].length, en = st + m[2].length; if (!taken.some(([a, b]) => st < b && en > a)) { taken.push([st, en]); hit = hit || m[2]; } }
+    if (hit) found.push({ j, word: hit });
+  });
+  return found;
+}
+function _jargonRe(word) { return new RegExp('(^|[^\\w-])(' + word.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&') + ')(?![\\w-])', 'gi'); }
+function _swapText(t, word, to) { return String(t).replace(_jargonRe(word), (m, pre, w) => pre + _jgCase(w, to)); }
+// Change the word in one student's comment for one subject: their Review edits and their draft
+function replaceInStudent(stu, subj, word, to) {
+  const re = _jargonRe(word), has = t => { re.lastIndex = 0; return typeof t === 'string' && re.test(t); };
+  let changed = false;
+  const pk = subj === 'english' ? 'pubEditEnglish' : subj === 'maths' ? 'pubEditMaths' : 'pubEditGeneral';
+  if (has(stu[pk])) { stu[pk] = _swapText(stu[pk], word, to); changed = true; }
+  if (subj === 'general') {
+    const t = getPublishedText(stu);
+    if (has(t)) { stu.draftOverride = _swapText(t, word, to); changed = true; }
+  } else {
+    const eng = subj === 'english', dk = eng ? 'engDraft' : 'mathDraft', ek = eng ? 'engDraftEdited' : 'mathDraftEdited', fk = eng ? 'engFD' : 'mathFD';
+    const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = stu.year || '', counter = { value: 0 };
+    const body = (stu[ek] && stu[dk]) ? stripFDLines(stu[dk]) : (stu[eng ? 'engOrdered' : 'mathOrdered'] || []).map(x => applyAlternation(resolveKey(x, stu), name, p, counter, yr)).join(' ');
+    if (has(body)) { stu[dk] = _swapText(body, word, to); stu[ek] = true; changed = true; }
+    if (Array.isArray(stu[fk]) && stu[fk].some(has)) { stu[fk] = stu[fk].map(x => has(x) ? _swapText(x, word, to) : x); changed = true; }
+  }
+  return changed;
+}
+// Who else still uses the word: [{ i, subj }], leaving out the comment on screen
+function jargonElsewhere(word) {
+  const out = [], re = _jargonRe(word);
+  students.forEach((stu, i) => ['general', 'english', 'maths'].forEach(subj => {
+    if (i === currentIdx && subj === currentSubject) return;
+    let t = ''; try { t = getFinalCommentText(stu, subj) || ''; } catch (e) {}
+    re.lastIndex = 0; if (re.test(t)) out.push({ i, subj });
+  }));
+  return out;
+}
+let _jgPending = null;   // the change just made, waiting for "change it everywhere"
+function renderJargonRow(pub) {
+  const text = Array.from(pub.querySelectorAll('span[data-si]')).map(x => x.textContent).join(' ');
+  const hits = jargonIn(text);
+  let h = '';
+  if (_jgPending) {
+    const others = jargonElsewhere(_jgPending.word);
+    if (others.length) {
+      const names = [...new Set(others.map(o => stuLabel(students[o.i], o.i)))];
+      h += `<div class="jg-box jg-all"><div>You changed <b>${escHtml(_jgPending.word)}</b> to <b>${escHtml(_jgPending.to)}</b>. It is also in <b>${others.length}</b> other comment${others.length === 1 ? '' : 's'} (${escHtml(names.slice(0, 6).join(', '))}${names.length > 6 ? ' and ' + (names.length - 6) + ' more' : ''}).</div>` +
+        `<div class="jg-acts"><button class="modal-btn primary" onclick="applyJargonEverywhere()">Change it in all ${others.length}</button><button class="modal-btn" onclick="_jgPending = null; renderReviewInfo()">Leave them</button></div></div>`;
+    } else _jgPending = null;
+  }
+  if (!hits.length) return h;
+  h += `<div class="jg-box"><div class="jg-head">Words parents may not know</div>` + hits.map((x, k) =>
+    `<div class="jg-row"><span class="jg-word">${escHtml(x.word)}</span><span class="jg-arrow">→</span><input type="text" id="jgTo${k}" class="fb-input jg-in" value="${escHtml(_jgCase(x.word, x.j.plain))}" aria-label="Plainer wording for ${escHtml(x.word)}"><button class="modal-btn" onclick="applyJargonHere(${k})">Change</button></div>`).join('') +
+    `<div class="sw-help">Edit the plainer wording if it doesn't fit the sentence, then press Change. Check the sentence still reads well afterwards.</div></div>`;
+  _jgHits = hits;
+  return h;
+}
+let _jgHits = [];
+function applyJargonHere(k) {
+  const x = _jgHits[k], inp = document.getElementById('jgTo' + k); if (!x || !inp) return;
+  const to = inp.value.trim(); if (!to) { inp.focus(); return; }
+  const pub = document.getElementById('pubContent'); if (!pub) return;
+  snapshotStudent(cur(), 'Before a jargon change', true);
+  const re = _jargonRe(x.word);
+  pub.querySelectorAll('span[data-si]').forEach(sp => {
+    const w = document.createTreeWalker(sp, NodeFilter.SHOW_TEXT); let n;
+    while ((n = w.nextNode())) { re.lastIndex = 0; if (re.test(n.nodeValue)) n.nodeValue = _swapText(n.nodeValue, x.word, to); }
+  });
+  savePublishEdits();
+  // the draft for this subject follows too, so the change is not lost if Review is rebuilt
+  replaceInStudent(cur(), currentSubject, x.word, to);
+  try { recordStyleSwap(x.word, to, cur(), currentSubject); } catch (e) {}
+  _jgPending = { word: x.word, to };
+  autoSave(); renderReviewInfo();
+  showToast('Changed “' + x.word + '” in this comment.');
+}
+function applyJargonEverywhere() {
+  if (!_jgPending) return;
+  const { word, to } = _jgPending, others = jargonElsewhere(word);
+  snapshotAll('Before changing “' + word + '” in every comment');
+  let n = 0;
+  others.forEach(o => { if (replaceInStudent(students[o.i], o.subj, word, to)) n++; });
+  _jgPending = null;
+  autoSave(); renderReviewInfo();
+  showToast(`Changed “${word}” in ${n} more comment${n === 1 ? '' : 's'}. Earlier versions are in History.`);
+}
+
+// ══ v3.16.0 · HISTORY ═══════════════════════════════════════════════════════
+// Earlier versions of each student's comments, kept in this browser (not synced). A new version is kept when the
+// comments have changed and the last one is more than 3 minutes old, and always just before clearing, resetting,
+// restoring, or a change made to many students at once. Up to 40 per student.
+const HIST_MAX = 40, HIST_GAP = 3 * 60 * 1000;
+var _hist = {}, _histChecked = {};
+try { idbGet('rcb_history').then(h => { if (h && typeof h === 'object') _hist = Object.assign(h, _hist); }).catch(() => {}); } catch (e) {}
+let _histSaveT = null;
+function _histPersist() { clearTimeout(_histSaveT); _histSaveT = setTimeout(() => { try { idbSet('rcb_history', _hist); } catch (e) {} }, 1500); }
+function _histTexts(stu) {
+  const o = {};
+  ['general', 'english', 'maths'].forEach(s => { try { o[s] = (getFinalCommentText(stu, s) || '').trim(); } catch (e) { o[s] = ''; } });
+  return o;
+}
+function snapshotStudent(stu, why, force) {
+  if (!stu || !_stateLoaded) return;
+  if (!stu.uid) _ensureUids();
+  if (!force) { const t = _histChecked[stu.uid] || 0; if (Date.now() - t < 20000) return; _histChecked[stu.uid] = Date.now(); }   // checked at most every 20 seconds while typing
+  const list = _hist[stu.uid] || (_hist[stu.uid] = []);
+  const texts = _histTexts(stu), sig = texts.general + '\u0001' + texts.english + '\u0001' + texts.maths;
+  if (!sig.replace(/\u0001/g, '').trim()) return;          // nothing written yet
+  const last = list[list.length - 1];
+  if (last && last.sig === sig) return;                     // no change since the last version
+  if (!force && last && Date.now() - last.at < HIST_GAP) return;
+  const data = JSON.parse(JSON.stringify(stu));
+  list.push({ at: Date.now(), why: why || 'Autosave', sig, texts, data, sem: currentSemester });
+  while (list.length > HIST_MAX) list.shift();
+  _histPersist();
+}
+function snapshotAll(why) { saveCur(); students.forEach(st => snapshotStudent(st, why, true)); }
+function _histWhen(t) {
+  const d = new Date(t), today = new Date();
+  const time = d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  if (d.toDateString() === today.toDateString()) return 'Today, ' + time;
+  const y = new Date(today); y.setDate(today.getDate() - 1);
+  if (d.toDateString() === y.toDateString()) return 'Yesterday, ' + time;
+  return d.toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' }) + ', ' + time;
+}
+function openHistory(i) {
+  saveCur();
+  const stu = students[i]; if (!stu) return;
+  if (!stu.uid) _ensureUids();
+  closeHistory();
+  const list = (_hist[stu.uid] || []).filter(h => (h.sem || 1) === currentSemester).slice().reverse();
+  const ov = document.createElement('div');
+  ov.className = 'modal-overlay'; ov.id = 'hiOverlay';
+  ov.onclick = e => { if (e.target === ov) closeHistory(); };
+  const L = { general: 'General', english: 'English', maths: 'Maths' };
+  const items = list.map((h, k) => {
+    const wc = ['general', 'english', 'maths'].map(s => `${L[s]} ${countWords(h.texts[s] || '')}`).join(' · ');
+    const body = ['general', 'english', 'maths'].filter(s => h.texts[s]).map(s => `<div class="hi-sub">${L[s]}</div><div class="hi-text">${escHtml(h.texts[s])}</div>`).join('');
+    return `<div class="hi-item"><div class="hi-top"><span class="hi-when">${escHtml(_histWhen(h.at))}</span><span class="hi-why">${escHtml(h.why || '')}</span><span class="hi-wc">${wc} words</span></div>` +
+      `<details><summary style="cursor:pointer;font-size:13px;color:var(--accent);font-weight:600">Show this version</summary><div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">${body}</div></details>` +
+      `<div><button class="modal-btn" onclick="restoreHistory(${i}, ${h.at})">Restore this version</button></div></div>`;
+  }).join('');
+  ov.innerHTML = `<div class="modal-box hi-box" role="dialog" aria-modal="true" aria-labelledby="hiTitle"><div class="gr-bar"><div class="modal-title grow" id="hiTitle">History · ${escHtml(stuLabel(stu, i))} · Semester ${currentSemester}</div><button class="modal-btn" onclick="closeHistory()" aria-label="Close">✕</button></div>` +
+    `<div class="gr-note">Earlier versions of this student's comments, newest first. Restoring puts back all three (General, English and Maths) as they were then; what you have now is kept here first, so you can switch back. History is kept in this browser only.</div>` +
+    (items || '<div class="gr-note">No earlier versions yet. They are kept as you work, every few minutes, and before you clear or reset a comment.</div>') + '</div>';
+  document.body.appendChild(ov);
+}
+function closeHistory() { const ov = document.getElementById('hiOverlay'); if (ov) ov.remove(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('hiOverlay')) closeHistory(); });
+function restoreHistory(i, at) {
+  const stu = students[i]; if (!stu) return;
+  const h = (_hist[stu.uid] || []).find(x => x.at === at); if (!h) return;
+  if (!confirm('Restore ' + stuLabel(stu, i) + '\u2019s comments to ' + _histWhen(at) + '? What you have now is kept in History first.')) return;
+  saveCur();
+  snapshotStudent(stu, 'Before restoring', true);
+  const uid = stu.uid, keep = { name: stu.name, pronoun: stu.pronoun, year: stu.year, surname: stu.surname, rollClass: stu.rollClass, notes: stu.notes };
+  Object.keys(stu).forEach(k => delete stu[k]);
+  Object.assign(stu, JSON.parse(JSON.stringify(h.data)), { uid });
+  Object.keys(keep).forEach(k => { if (keep[k] !== undefined && (stu[k] === undefined || stu[k] === '')) stu[k] = keep[k]; });
+  closeHistory();
+  if (i === currentIdx) loadCur();
+  render(); updateProgress(); autoSave();
+  if (currentView === 'stats') renderStats();
+  showToast('Restored to ' + _histWhen(at) + '.');
+}
+
 // ══ v3.15.0 · SUGGEST A FEATURE ═════════════════════════════════════════════
 // Sent to the app's own Cloudflare Worker (POST /feedback); read in the Admin panel under Suggestions.
 let _fbType = 'New feature';
@@ -9085,12 +9330,31 @@ async function sendSuggestion() {
   btn.disabled = false;
 }
 function copySuggestion() { const t = (document.getElementById('fbMessage') || {}).value || ''; navigator.clipboard.writeText(t).then(() => showToast('Copied'), () => showToast('Select the text and copy it')); }
+// v3.16.0: how many suggestions arrived since the admin last looked (remembered in this browser)
+function _fbSeen() { try { return new Set(JSON.parse(localStorage.getItem('rcb_fbSeen') || '[]')); } catch (e) { return new Set(); } }
+function _fbMarkSeen(ids) { try { localStorage.setItem('rcb_fbSeen', JSON.stringify(ids.slice(-500))); } catch (e) {} }
+function _paintFbBadge(n) {
+  const b = document.getElementById('adminFbBtn'), hb = document.getElementById('adminBtn');
+  if (b && b.textContent !== 'Accounts') b.innerHTML = 'Suggestions' + (n ? ` <span class="fb-badge">${n} new</span>` : '');
+  if (hb) { hb.innerHTML = 'ADMIN' + (n ? ' <span class="fb-dot" title="' + n + ' new suggestion' + (n === 1 ? '' : 's') + '"></span>' : ''); }
+}
+async function checkSuggestionCount() {
+  if (!_adminKey) return;
+  try {
+    const res = await fetch(CLOUD_WORKER + '/admin/feedback', { headers: { 'X-Admin-Key': _adminKey } });
+    if (!res.ok) return;
+    const items = ((await res.json()) || {}).items || [], seen = _fbSeen();
+    _paintFbBadge(items.filter(x => !seen.has(x.id)).length);
+  } catch (e) {}
+}
+// while signed in to the Admin panel, look for new suggestions every 2 minutes
+setInterval(() => { if (_adminKey && document.visibilityState === 'visible') { checkSuggestionCount(); const w = document.getElementById('adminFbWrap'); if (w && w.style.display === 'flex' && !w.dataset.busy) adminShowSuggestions(true); } }, 120000);
 // Admin panel: read and clear suggestions
-async function adminShowSuggestions() {
+async function adminShowSuggestions(stay) {
   const wrap = document.getElementById('adminFbWrap'), btn = document.getElementById('adminFbBtn');
   const tableIds = ['adminTableWrap', 'adminEmpty', 'adminLoading'];
   const showing = wrap.style.display === 'flex';
-  if (showing) { wrap.style.display = 'none'; btn.textContent = 'Suggestions'; adminRefresh(); return; }
+  if (showing && !stay) { wrap.style.display = 'none'; btn.textContent = 'Suggestions'; adminRefresh(); return; }
   tableIds.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
   wrap.style.display = 'flex'; btn.textContent = 'Accounts';
   wrap.innerHTML = '<div style="color:var(--t2)">Loading suggestions…</div>';
@@ -9099,8 +9363,10 @@ async function adminShowSuggestions() {
     if (res.status === 404) { wrap.innerHTML = '<div style="color:var(--t2)">Suggestions are not switched on in the Worker yet.</div>'; return; }
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const items = ((await res.json()) || {}).items || [];
+    const seen = _fbSeen();
+    _fbMarkSeen(items.map(x => x.id)); _paintFbBadge(0);
     if (!items.length) { wrap.innerHTML = '<div style="color:var(--t2)">No suggestions yet.</div>'; return; }
-    wrap.innerHTML = `<div style="font-size:13px;color:var(--t1)">${items.length} suggestion${items.length === 1 ? '' : 's'}, newest first</div>` + items.map(x => `<div class="fb-item"><div class="fb-meta"><b>${escHtml(x.type || 'Suggestion')}</b><span>${escHtml(new Date(x.at).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }))}</span>${x.user ? `<span>Account: ${escHtml(x.user)}</span>` : ''}${x.contact ? `<span>Contact: ${escHtml(x.contact)}</span>` : ''}<span>${escHtml(x.version || '')}</span></div><div class="fb-msg">${escHtml(x.message)}</div><div><button class="style-clear" onclick="adminDeleteSuggestion('${encodeURIComponent(x.id)}')">Delete</button></div></div>`).join('');
+    wrap.innerHTML = `<div style="font-size:13px;color:var(--t1)">${items.length} suggestion${items.length === 1 ? '' : 's'}, newest first · updates every 2 minutes</div>` + items.map(x => `<div class="fb-item${seen.has(x.id) ? '' : ' fb-new'}"><div class="fb-meta">${seen.has(x.id) ? '' : '<span class="fb-badge">New</span>'}<b>${escHtml(x.type || 'Suggestion')}</b><span>${escHtml(new Date(x.at).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }))}</span>${x.user ? `<span>Account: ${escHtml(x.user)}</span>` : ''}${x.contact ? `<span>Contact: ${escHtml(x.contact)}</span>` : ''}<span>${escHtml(x.version || '')}</span></div><div class="fb-msg">${escHtml(x.message)}</div><div><button class="style-clear" onclick="adminDeleteSuggestion('${encodeURIComponent(x.id)}')">Delete</button></div></div>`).join('');
   } catch (e) { wrap.innerHTML = '<div style="color:var(--red)">Could not load suggestions. Try again.</div>'; }
 }
 async function adminDeleteSuggestion(id) {
@@ -9115,6 +9381,12 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.0', date: '27 October 2026', items: [
+    'Review now lists words parents may not know (such as “inferences” or “connectives”) with a plainer choice. Change one, and you can make the same change in every other comment that uses it.',
+    'History: restore a student’s comments to an earlier version, from the draft’s ••• menu or the History button on the class board. Versions are kept as you work and before you clear or reset.',
+    'Settings › Comments now has separate word limits for General, English and Maths.',
+    'The Grades window has a Year column (with Whole class fill), and an uploaded spreadsheet can set each student’s year.',
+  ] },
   { v: 'v3.15.0', date: '27 October 2026', items: [
     'Settings has a new Suggest a feature tab. Send an idea, a problem or a wording change straight to the person who builds the app.',
   ] },
@@ -10995,6 +11267,19 @@ function showNextLongSentence() {
   showToast('This sentence is ' + target.n + ' words. Try splitting it.');
 }
 function getWordLimit() { const n = parseInt(lsGet('rcb_wordlimit', '200'), 10); return n >= 20 && n <= 2000 ? n : 200; }
+// v3.16.0: English and Maths have their own limits (125 words unless changed in Settings)
+function getSubjWordLimit(subj) {
+  if (subj === 'english' || subj === 'maths') { const n = parseInt(lsGet(subj === 'english' ? 'rcb_wordlimit_eng' : 'rcb_wordlimit_math', '125'), 10); return n >= 20 && n <= 2000 ? n : 125; }
+  return getWordLimit();
+}
+function setSubjWordLimit(subj, v) {
+  const n = parseInt(v, 10);
+  if (!(n >= 20 && n <= 2000)) { showToast('Enter a limit between 20 and 2000 words.'); renderToolSettings(); return; }
+  lsSet(subj === 'english' ? 'rcb_wordlimit_eng' : 'rcb_wordlimit_math', String(n));
+  try { if (currentView === 'build') renderOut(); } catch (e) {}
+  if (currentView === 'publish') renderReviewInfo();
+  autoSave();
+}
 function setWordLimit(v) {
   const n = parseInt(v, 10);
   if (!(n >= 20 && n <= 2000)) { showToast('Enter a limit between 20 and 2000 words.'); renderToolSettings(); return; }
@@ -11077,7 +11362,7 @@ function renderReviewInfo() {
   if (!box || !pub || !cur()) return;
   const spans = Array.from(pub.querySelectorAll('span[data-si]'));
   if (!spans.length) { box.innerHTML = ''; return; }
-  const limit = getWordLimit();
+  const limit = getSubjWordLimit(currentSubject);   // v3.16.0: each subject's own limit
   let total = 0, longest = 0, longN = 0;
   spans.forEach(sp => {
     const n = _wordCount(sp.textContent); total += n; longest = Math.max(longest, n);
@@ -11114,6 +11399,7 @@ function renderReviewInfo() {
   { const nf = pub.querySelectorAll('span[data-alt="fixed"]').length, nw = pub.querySelectorAll('span[data-alt="warn"]').length;
     if (nf) h += `<div class="rv-flag" style="border-color:var(--blue);background:var(--blue-bg)">\u2713 ${nf} name / pronoun alternation change${nf > 1 ? 's' : ''} made in this comment (highlighted in blue). Hover a highlight to see what changed.</div>`;
     if (nw) h += `<div class="rv-flag">\u26a0 ${nw} sentence${nw > 1 ? 's' : ''} break name / pronoun alternation and cannot be fixed automatically (highlighted in orange).</div>`; }
+  try { h += renderJargonRow(pub); } catch (e) { console.warn('jargon check', e); }   // v3.16.0
   const note = (cur().notes || '').trim();
   if (note) h += `<div class="rv-note"><b>Your note:</b> ${escHtml(note)}</div>`;
   box.innerHTML = h;
@@ -11246,7 +11532,9 @@ function _removeCustomIndex(stu, cat, idx) {
 function renderToolSettings() {
   const box = document.getElementById('toolSettings'); if (!box) return;
   const cats = Object.keys(myBank);
-  let h = `<div class="settings-row"><span class="settings-row-label">Word limit per comment</span><input class="settings-num" id="wordLimitInput" type="number" min="20" max="2000" value="${getWordLimit()}" onchange="setWordLimit(this.value)"></div>`;
+  let h = `<div class="settings-row"><span class="settings-row-label">General comment word limit</span><input class="settings-num" id="wordLimitInput" type="number" min="20" max="2000" value="${getWordLimit()}" onchange="setWordLimit(this.value)"></div>`;
+  h += `<div class="settings-row"><span class="settings-row-label">English comment word limit</span><input class="settings-num" id="wordLimitEng" type="number" min="20" max="2000" value="${getSubjWordLimit('english')}" onchange="setSubjWordLimit('english', this.value)"></div>`;
+  h += `<div class="settings-row"><span class="settings-row-label">Maths comment word limit</span><input class="settings-num" id="wordLimitMath" type="number" min="20" max="2000" value="${getSubjWordLimit('maths')}" onchange="setSubjWordLimit('maths', this.value)"></div>`;
   h += `<div class="settings-row"><span class="settings-row-label">Flag sentences longer than (words)</span><input class="settings-num" id="longLimitInput" type="number" min="5" max="100" value="${getLongLimit()}" onchange="setLongLimit(this.value)"></div>`;
   box.innerHTML = h;
   const mine = document.getElementById('mySentSettings'); if (!mine) return;
@@ -11437,7 +11725,7 @@ function openGrades() {
       <button class="modal-btn primary" onclick="exportGradesXlsx()">Export to Excel</button>
       <button class="modal-btn" onclick="closeGrades()" aria-label="Close">✕</button></div>
     <input type="file" id="grFile" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden onchange="onGradesFile(this)">
-    <div class="gr-note">Upload a spreadsheet with First Name, Surname, Roll Class and a column for each subject (Overall English, Overall Mathematics, Overall CAPA, Science, Health, PE, Geography or History). English and Maths grades are chosen for you in the sentence bank: the Introduction strand and any strand with no grade yet. In General, the student's grades pick the Positive, Average or Developing filter when you open them (tap All to see everything), and each KLA comment shows that subject's grade. Changing a grade here does the same.</div>
+    <div class="gr-note">Upload a spreadsheet with First Name, Surname, Roll Class (and Year, if you have it) and a column for each subject (Overall English, Overall Mathematics, Overall CAPA, Science, Health, PE, Geography or History). English and Maths grades are chosen for you in the sentence bank: the Introduction strand and any strand with no grade yet. In General, the student's grades pick the Positive, Average or Developing filter when you open them (tap All to see everything), and each KLA comment shows that subject's grade. Changing a grade here does the same.</div>
     <div id="grPreview"></div>
     <div class="gr-scroll"><table class="gr-table" id="grTable"></table></div>
   </div>`;
@@ -11453,9 +11741,10 @@ function _grSelHtml(i, k, g) {
 function paintGradesTable() {
   const t = document.getElementById('grTable'); if (!t) return;
   const cols = grCols();
-  let h = '<thead><tr><th>First name</th><th>Surname</th><th>Roll class</th><th title="Not exported">General level</th>' + cols.map(c => `<th>${escHtml(c.short)}</th>`).join('') + '</tr></thead><tbody>';
-  if (!students.length) h += `<tr><td colspan="${4 + cols.length}">No students yet. Upload a spreadsheet to add them.</td></tr>`;
+  let h = '<thead><tr><th>First name</th><th>Surname</th><th>Roll class</th><th>Year</th><th title="Not exported">General level</th>' + cols.map(c => `<th>${escHtml(c.short)}</th>`).join('') + '</tr></thead><tbody>';
+  if (!students.length) h += `<tr><td colspan="${5 + cols.length}">No students yet. Upload a spreadsheet to add them.</td></tr>`;
   else h += `<tr class="gr-fill"><td colspan="3"><b>Whole class</b><span class="sw-help">Fill a column, then change the students it doesn't suit.</span></td>` +
+    `<td><select class="gr-sel" style="width:auto" aria-label="Set the year for the whole class" onchange="fillClassGrade('year', this)"><option value="">Fill…</option>${_YEAR_OPTS.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></td>` +
     `<td><select class="gr-sel" style="width:auto" aria-label="Set the General level for the whole class" onchange="fillClassGrade('general', this)"><option value="">Fill…</option><option value="strong">Positive</option><option value="average">Average</option><option value="developing">Developing</option><option value="-">From grades</option></select></td>` +
     cols.map(c => `<td><select class="gr-sel" aria-label="Set ${escHtml(c.short)} for the whole class" onchange="fillClassGrade('${c.k}', this)"><option value="">Fill…</option>${GRADE_ORDER.map(x => `<option>${x}</option>`).join('')}<option value="-">Clear</option></select></td>`).join('') + '</tr>';
   students.forEach((stu, i) => {
@@ -11463,26 +11752,43 @@ function paintGradesTable() {
     h += `<tr><td>${escHtml(fn || 'Student ' + (i + 1))}</td>` +
       `<td><input type="text" value="${escHtml(stu.surname || (stu.name || '').includes(' ') ? sn : stu.surname || '')}" aria-label="Surname" onchange="onGradeText(${i},'surname',this.value)"></td>` +
       `<td><input type="text" value="${escHtml(stu.rollClass || '')}" aria-label="Roll class" style="max-width:80px" onchange="onGradeText(${i},'rollClass',this.value)"></td>` +
+      `<td><select class="gr-sel" style="width:auto" aria-label="Year" onchange="onGradeYear(${i}, this.value)"><option value="">–</option>${_YEAR_OPTS.map(([v, l]) => `<option value="${v}"${String(stu.year || '') === v ? ' selected' : ''}>${l}</option>`).join('')}</select></td>` +
       `<td>${_genLevelSelHtml(i, stu)}</td>` + cols.map(c => `<td>${_grSelHtml(i, c.k, getStuGrade(stu, c.k))}</td>`).join('') + '</tr>';
   });
   t.innerHTML = h + '</tbody>';
+}
+// v3.16.0: year level, set here one student at a time or for the whole class
+const _YEAR_OPTS = [['K', 'K'], ['1', 'Yr 1'], ['2', 'Yr 2'], ['3', 'Yr 3'], ['4', 'Yr 4'], ['5', 'Yr 5'], ['6', 'Yr 6']];
+function _parseYear(v) {
+  const t = String(v == null ? '' : v).trim();
+  if (/^(k|kindy|kindergarten)$/i.test(t)) return 'K';
+  const m = t.match(/^(?:year|yr|y)?\s*([1-6])$/i);
+  return m ? m[1] : '';
+}
+function onGradeYear(i, v) {
+  const stu = students[i]; if (!stu) return;
+  stu.year = v || '';
+  if (i === currentIdx) { loadCur(); render(); }
+  autoSave(); try { renderClassRail(); } catch (e) {}
 }
 // v3.14.1: one choice for every student; a student who already had something different is changed too, after a check
 function fillClassGrade(k, sel) {
   const v = sel.value; sel.value = '';
   if (!v) return;
   const val = v === '-' ? '' : v;
-  const name = k === 'general' ? 'General level' : grCols().find(c => c.k === k).short;
-  const now = s => k === 'general' ? (s.generalLevel || '') : getStuGrade(s, k);
+  const name = k === 'general' ? 'General level' : k === 'year' ? 'Year' : grCols().find(c => c.k === k).short;
+  const now = s => k === 'general' ? (s.generalLevel || '') : k === 'year' ? String(s.year || '') : getStuGrade(s, k);
   const differ = students.filter(s => now(s) && now(s) !== val).length;
-  const what = val ? (k === 'general' ? GEN_LEVEL_LABEL[val] : val) : (k === 'general' ? 'from grades' : 'blank');
+  const what = val ? (k === 'general' ? GEN_LEVEL_LABEL[val] : k === 'year' ? (val === 'K' ? 'Kindergarten' : 'Year ' + val) : val) : (k === 'general' ? 'from grades' : 'blank');
   if (differ && !confirm(`Set ${name} to ${what} for all ${students.length} students? ${differ} already ${differ === 1 ? 'has' : 'have'} something different, and will change too.`)) return;
   saveCur();
   students.forEach(s => {
     if (k === 'general') { if (val) s.generalLevel = val; else delete s.generalLevel; }
+    else if (k === 'year') s.year = val;
     else setStuGrade(s, k, val, false);
   });
   _genLevelFor = null;
+  if (k === 'year') { loadCur(); try { renderClassRail(); } catch (e) {} }
   paintGradesTable();
   if (currentView === 'build') render();
   autoSave();
@@ -11603,15 +11909,16 @@ function gradesFromRows(rows) {
   let hi = -1, map = null;
   for (let r = 0; r < Math.min(rows.length, 15); r++) {
     const row = (rows[r] || []).map(norm);
-    const m = { first: -1, surname: -1, roll: -1, full: -1 };
+    const m = { first: -1, surname: -1, roll: -1, full: -1, year: -1 };
     row.forEach((h, c) => {
       if (/^first(\s*name)?$|^given/i.test(h)) m.first = c;
       else if (/surname|last\s*name|family/i.test(h)) m.surname = c;
       else if (/roll|class/i.test(h) && !/grade/i.test(h)) m.roll = c;
+      else if (/^(year|yr|year level|school year|grade level)$/i.test(h)) m.year = c;   // v3.16.0
       else if (/^(student|name|student name|full name)$/i.test(h)) m.full = c;
     });
     const subj = {};
-    GR_COLS.forEach(gc => { const c = row.findIndex((h, ci) => gc.match.test(h) && ![m.first, m.surname, m.roll, m.full].includes(ci)); if (c >= 0) subj[gc.k] = c; });
+    GR_COLS.forEach(gc => { const c = row.findIndex((h, ci) => gc.match.test(h) && ![m.first, m.surname, m.roll, m.full, m.year].includes(ci)); if (c >= 0) subj[gc.k] = c; });
     if ((m.first >= 0 || m.full >= 0) && Object.keys(subj).length) { hi = r; map = Object.assign(m, { subj }); break; }
   }
   if (hi < 0) return { rows: [], why: 'Could not find the headings. The first row needs First Name (or Student) and at least one subject such as Overall English.' };
@@ -11623,7 +11930,11 @@ function gradesFromRows(rows) {
     if (!first && map.full >= 0) { const full = norm(row[map.full]); const sp = full.indexOf(' '); first = sp > 0 ? full.slice(0, sp) : full; if (!sur && sp > 0) sur = full.slice(sp + 1); }
     const grades = {}; Object.keys(map.subj).forEach(k => { const g = grade(row[map.subj[k]]); if (g) grades[k] = g; });
     if (!first && !sur && !Object.keys(grades).length) continue;
-    out.push({ first, surname: sur, roll: map.roll >= 0 ? norm(row[map.roll]) : '', grades, line: r + 1 });
+    const roll = map.roll >= 0 ? norm(row[map.roll]) : '';
+    // year: its own column, or a roll class that starts with one year ("5K", "6R"); a combined class ("5/6K") is left alone
+    let year = map.year >= 0 ? _parseYear(row[map.year]) : '';
+    if (!year) { const rm = roll.match(/^([1-6])(?![\/\d])/); if (rm) year = rm[1]; }
+    out.push({ first, surname: sur, roll, year, grades, line: r + 1 });
   }
   return { rows: out, cols: Object.keys(map.subj) };
 }
@@ -11652,7 +11963,7 @@ function paintGradesPreview() {
   const nNew = _grImport.rows.filter(r => r.target === 'new').length, nMatch = _grImport.rows.filter(r => typeof r.target === 'number').length;
   box.innerHTML = `<div class="gr-prev"><div><b>${_grImport.rows.length} rows read.</b> ${nMatch} matched to your students${nNew ? `, ${nNew} will be added as new students` : ''}. Check the matches, then apply.</div>
     <div class="gr-scroll"><table class="gr-table"><thead><tr><th>In the file</th><th>Goes to</th>${cols.map(c => `<th>${escHtml(c.short)}</th>`).join('')}</tr></thead><tbody>` +
-    _grImport.rows.map((r, ri) => `<tr><td>${escHtml((r.first + ' ' + r.surname).trim() || 'Row ' + r.line)}${r.roll ? ' · ' + escHtml(r.roll) : ''}</td>` +
+    _grImport.rows.map((r, ri) => `<tr><td>${escHtml((r.first + ' ' + r.surname).trim() || 'Row ' + r.line)}${r.roll ? ' · ' + escHtml(r.roll) : ''}${r.year ? ' · ' + (r.year === 'K' ? 'K' : 'Yr ' + r.year) : ''}</td>` +
       `<td><select aria-label="Goes to" onchange="_grImport.rows[${ri}].target = /^\\d+$/.test(this.value) ? +this.value : this.value; paintGradesPreview()">${opts(r.target)}</select>${r.target === 'new' ? ' <span class="gr-new">New</span>' : ''}</td>` +
       cols.map(c => `<td>${r.grades[c.k] ? `<span class="gr-sel g${r.grades[c.k]}" style="display:inline-block">${r.grades[c.k]}</span>` : '–'}</td>`).join('') + '</tr>').join('') +
     `</tbody></table></div>
@@ -11674,6 +11985,7 @@ function applyGradeImport() {
     if (!stu) return;
     if (r.surname && !stu.surname) { if ((stu.name || '').includes(' ') && _grSplitName(stu)[1].toLowerCase() === r.surname.toLowerCase()) stu.name = _grSplitName(stu)[0]; stu.surname = r.surname; }
     if (r.roll) stu.rollClass = r.roll;
+    if (r.year) stu.year = r.year;   // v3.16.0
     Object.keys(r.grades).forEach(k => setStuGrade(stu, k, r.grades[k], _grImport.replaceAll));
     n++;
   });
@@ -11879,6 +12191,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.15.0</div>
+<div class="version-badge">v3.16.0</div>
 </body>
 </html>
