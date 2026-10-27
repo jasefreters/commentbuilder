@@ -1383,6 +1383,7 @@
             <div class="p-title" id="draftTitle">Draft</div>
             <div class="wc" id="wcBadge">0 / 200</div>
             <button class="ls-chip" id="lsBadge" type="button" style="display:none" onclick="showNextLongSentence()"></button>
+            <button class="ls-chip" id="dupBadge" type="button" style="display:none" onclick="showNextRepeat()"></button>
           </div>
           <div class="wc-bar-wrap"><div class="wc-bar" id="wcBar"></div></div>
         </div>
@@ -8797,7 +8798,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.0';
+const APP_VERSION = 'v3.16.1';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -11236,7 +11237,54 @@ function markLongOpts() {
     if (n > lim) { const t = document.createElement('span'); t.className = 'wc-tag'; t.textContent = n + ' words'; t.title = 'Longer than ' + lim + ' words. The limit is in Settings.'; btn.appendChild(t); }
   });
 }
+// v3.16.1: words used more than once in the draft (same check as Review: same word or the same root, such as "kind" and "kindness")
+function repeatedWordsIn(text, stu) {
+  stu = stu || cur();
+  const name = String((stu && stu.name) || '').toLowerCase(), pr = PR[(stu && stu.pronoun) || 'he'];
+  const ignore = new Set([name, ...name.split(/[\s\-]+/), pr.S.toLowerCase(), pr.s, pr.O.toLowerCase(), pr.o, pr.Pos.toLowerCase(), pr.pos, pr.r].filter(Boolean));
+  const counts = {}, forms = {}, re = /\b([a-zA-Z]{4,})\b/g; let m;
+  while ((m = re.exec(String(text || '')))) {
+    const w = m[1].toLowerCase();
+    if (STOPWORDS.has(w) || REPORT_WHITELIST.has(w) || ignore.has(w)) continue;
+    const st = stem(w); if (st.length < 3) continue;
+    counts[st] = (counts[st] || 0) + 1; (forms[st] = forms[st] || new Set()).add(w);
+  }
+  return Object.keys(counts).filter(k => counts[k] > 1).map(k => ({ stem: k, n: counts[k], words: [...forms[k]] })).sort((a, b) => b.n - a.n);
+}
+let _repCursor = 0;
+function updateRepeatChip() {
+  const chip = document.getElementById('dupBadge'), el = document.getElementById('outEditable');
+  if (!chip || !el) return;
+  const reps = repeatedWordsIn(el.innerText || '');
+  if (!reps.length) { chip.style.display = 'none'; _repCursor = 0; return; }
+  const list = reps.map(r => r.words.join('/')).slice(0, 3).join(', ') + (reps.length > 3 ? '…' : '');
+  chip.textContent = reps.length + ' repeated word' + (reps.length > 1 ? 's' : '') + ': ' + list;
+  chip.title = 'Used more than once: ' + reps.map(r => r.words.join(' / ') + ' (' + r.n + ')').join(', ') + '. Click to highlight the next one. Review offers other words to use.';
+  chip.style.display = '';
+}
+// Select the next use of a repeated word in the draft pane
+function showNextRepeat() {
+  const el = document.getElementById('outEditable'); if (!el) return;
+  const text = el.textContent || '', reps = repeatedWordsIn(text); if (!reps.length) return;
+  const hits = [];
+  reps.forEach(r => { const rx = new RegExp('\\b(' + r.words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\\b', 'gi'); let m; while ((m = rx.exec(text))) hits.push({ at: m.index, len: m[0].length }); });
+  hits.sort((a, b) => a.at - b.at);
+  const h = hits[_repCursor % hits.length]; _repCursor++;
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let node, base = 0;
+  while ((node = walker.nextNode())) {
+    const len = node.nodeValue.length;
+    if (h.at < base + len) {
+      const r = document.createRange(), a = h.at - base;
+      r.setStart(node, a); r.setEnd(node, Math.min(len, a + h.len));
+      const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      const box = r.getBoundingClientRect(); if (box && (box.top < 0 || box.bottom > window.innerHeight)) node.parentElement.scrollIntoView({ block: 'center' });
+      return;
+    }
+    base += len;
+  }
+}
 function updateSentChip() {
+  try { updateRepeatChip(); } catch (e) {}   // v3.16.1
   const chip = document.getElementById('lsBadge'), el = document.getElementById('outEditable');
   if (!chip || !el) return;
   const long = longSentences(el.innerText || '');
@@ -12191,6 +12239,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.0</div>
+<div class="version-badge">v3.16.1</div>
 </body>
 </html>
