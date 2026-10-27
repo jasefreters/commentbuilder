@@ -1000,6 +1000,17 @@
   .grp-lbl { font-size: 11px; font-weight: 600; color: var(--t2); margin-right: 2px; }
   .tier-sel-btn.active-group { border-color: var(--accent-bd); background: var(--accent-bg); color: var(--accent); font-weight: 600; }
 
+  /* v3.13.3: the category chips' scrollbar follows the theme (grey on black in dark mode) */
+  .sidebar { scrollbar-color: var(--border-h) transparent; }
+  html.dark .sidebar { scrollbar-color: #4a4a4a #0a0a0a; }
+  html.dark .sidebar::-webkit-scrollbar-track { background: #0a0a0a; }
+  html.dark .sidebar::-webkit-scrollbar-thumb { background: #4a4a4a; }
+  html.dark ::-webkit-scrollbar-thumb { background: #3a3a3a; }
+  html.dark ::-webkit-scrollbar-thumb:hover { background: #555; }
+  .rc-older > summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--t1); min-height: 32px; display: flex; align-items: center; }
+  .rc-older[open] > summary { margin-bottom: 12px; }
+  .rc-older .rc-entries { display: flex; flex-direction: column; gap: 16px; }
+
   /* v3.13.2 RECENT CHANGES */
   .rc-box { width: 600px; max-width: calc(100vw - 24px); max-height: calc(100vh - 48px); overflow-y: auto; gap: 16px; }
   .rc-ver { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); margin-bottom: 6px; }
@@ -8603,13 +8614,13 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.13.2';
+const APP_VERSION = 'v3.13.3';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
   const fd = {};
   ['english', 'maths'].forEach(k => { try { fd[k] = JSON.parse(lsGet('rcb_customFD_' + k, '{}')) || {}; } catch (e) { fd[k] = {}; } });
-  return { customFD: fd, longSent: getLongLimit(), wordLimit: getWordLimit() };
+  return { customFD: fd, longSent: getLongLimit(), wordLimit: getWordLimit(), seenChanges: getSeenChanges() || undefined };
 }
 // Custom Future Directions lines are merged (never replaced), so lines typed on this device are never lost.
 function applySettingsBlob(b) {
@@ -8635,6 +8646,7 @@ function applySettingsBlob(b) {
     }
     if (b.longSent >= 5 && b.longSent <= 100) lsSet('rcb_longsent', String(b.longSent));
     if (b.wordLimit >= 20 && b.wordLimit <= 2000) lsSet('rcb_wordlimit', String(b.wordLimit));
+    if (typeof b.seenChanges === 'string' && /^v\d+\.\d+\.\d+$/.test(b.seenChanges) && (!_seenFromAccount || _verNum(b.seenChanges) > _verNum(_seenFromAccount))) _seenFromAccount = b.seenChanges;   // v3.13.3
   } catch (e) { console.error('settings restore', e); }
 }
 function buildSession() {
@@ -8901,11 +8913,13 @@ async function saveProxyUrl() {
 }
 
 // ══ v3.13.2 · RECENT CHANGES ════════════════════════════════════════════════
-// Opens when the page loads if there is anything new since this browser last closed it. Newest first.
+// Opens when the page loads if there is anything new since the teacher last closed it. Newest first.
+// Only changes a teacher would notice or need to act on go here: new features, things that moved, and sentence
+// wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
+// The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
   { v: 'v3.13.2', date: '27 October 2026', items: [
-    'The second sentence of each Semester 2 KLA comment no longer says “has” (“Jax investigated…”), to match the Semester 1 KLA comments.',
-    'This Recent changes window, which can also update comments that still use older wording. Find it again in Settings, under Comments.',
+    'The second sentence of each Semester 2 KLA comment no longer says “has” (“Jax investigated…”), to match the Semester 1 KLA comments. You can update comments that use the old wording below.',
   ] },
   { v: 'v3.13.1', date: '27 October 2026', items: [
     'When you write your own sentence, “Place under” lets you choose where it goes: a Sport group such as Touch Football, or a grade in English and Maths.',
@@ -8914,6 +8928,13 @@ const RECENT_CHANGES = [
     'Settings open in a larger window with tabs: Appearance, Comments, My sentences, Account, Backup and AI features.',
   ] },
 ];
+function getSeenChanges() {
+  const a = lsGet('rcb_seenChanges', null), b = _seenFromAccount;
+  if (!a) return b || null; if (!b) return a;
+  return _verNum(a) >= _verNum(b) ? a : b;
+}
+var _seenFromAccount;   // no initial value: a cloud load may already have set it
+function markChangesSeen() { lsSet('rcb_seenChanges', APP_VERSION); _seenFromAccount = APP_VERSION; try { autoSave(); } catch (e) {} }
 function _verNum(v) { return String(v || '').replace(/^v/, '').split('.').map(n => parseInt(n, 10) || 0).reduce((a, n) => a * 1000 + n, 0); }
 function _studentsHaveWork() { return students.some(st => (st.name || '').trim() || (st.ordered || []).length || (st.s1Ordered || []).length || (st.s2Ordered || []).length || (st.engOrdered || []).length || (st.mathOrdered || []).length); }
 var _rcTimer = null, _rcShownThisLoad = false;
@@ -8924,7 +8945,7 @@ function scheduleRecentChanges() {
 }
 function maybeShowRecentChanges() {
   if (_rcShownThisLoad) return;
-  const seen = lsGet('rcb_seenChanges', null);
+  const seen = getSeenChanges();
   if (!seen && !_studentsHaveWork()) { lsSet('rcb_seenChanges', APP_VERSION); return; }   // a new user: nothing has changed for them
   if (seen && _verNum(seen) >= _verNum(RECENT_CHANGES[0].v)) return;
   _rcShownThisLoad = true;
@@ -8932,7 +8953,7 @@ function maybeShowRecentChanges() {
 }
 function openRecentChanges(all) {
   closeRecentChanges();
-  const seen = all ? null : lsGet('rcb_seenChanges', null);
+  const seen = all ? null : getSeenChanges();
   const entries = RECENT_CHANGES.filter(e => !seen || _verNum(e.v) > _verNum(seen));
   const wording = WORDING_CHANGES.filter(w => entries.some(e => e.v === w.v));
   const wordAll = all ? WORDING_CHANGES : wording;
@@ -8940,9 +8961,11 @@ function openRecentChanges(all) {
   ov.className = 'modal-overlay'; ov.id = 'rcOverlay';
   ov.onclick = e => { if (e.target === ov) closeRecentChanges(true); };
   let h = '<div class="modal-box rc-box" role="dialog" aria-modal="true" aria-labelledby="rcTitle"><div class="modal-title" id="rcTitle">Recent changes</div>';
-  entries.forEach(e => {
-    h += `<div><div class="rc-ver">${escHtml(e.v)} · ${escHtml(e.date)}</div><ul class="rc-list">${e.items.map(x => '<li>' + escHtml(x) + '</li>').join('')}</ul></div>`;
-  });
+  // Everything since the teacher last looked, newest first. A long backlog shows the latest three, with the rest folded away underneath.
+  const entryHtml = e => `<div><div class="rc-ver">${escHtml(e.v)} · ${escHtml(e.date)}</div><ul class="rc-list">${e.items.map(x => '<li>' + escHtml(x) + '</li>').join('')}</ul></div>`;
+  if (!all && seen) h += `<div style="font-size:13px;color:var(--t2)">Changes since you last looked (${escHtml(seen)}).</div>`;
+  entries.slice(0, 3).forEach(e => { h += entryHtml(e); });
+  if (entries.length > 3) h += `<details class="rc-older"><summary>${entries.length - 3} earlier update${entries.length - 3 === 1 ? '' : 's'}</summary><div class="rc-entries">${entries.slice(3).map(entryHtml).join('')}</div></details>`;
   if (wordAll.length) {
     h += '<div><div class="rc-ver">Wording changes in the sentence bank</div><div class="rc-word">' + wordAll.map(w =>
       `<div class="rc-row"><span class="rc-lbl">${escHtml(w.label)}</span>…<span class="rc-old">${escHtml(w.from)}</span> → <span class="rc-new">${escHtml(w.to)}</span>…</div>`).join('') + '</div></div>';
@@ -8974,7 +8997,7 @@ function _paintRcApply(list, doneCount) {
 function closeRecentChanges(markSeen) {
   const ov = document.getElementById('rcOverlay'); if (!ov) return;
   ov.remove();
-  if (markSeen) lsSet('rcb_seenChanges', APP_VERSION);
+  if (markSeen) markChangesSeen();
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('rcOverlay')) closeRecentChanges(true); });
 window.addEventListener('load', () => setTimeout(scheduleRecentChanges, 2500));
@@ -11234,6 +11257,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.13.2</div>
+<div class="version-badge">v3.13.3</div>
 </body>
 </html>
