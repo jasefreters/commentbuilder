@@ -392,7 +392,7 @@
   .rv-tone b.tb-strong { color: var(--green); } .rv-tone b.tb-average { color: var(--t0); } .rv-tone b.tb-developing { color: #8B5CF6; }
   .rv-flag { font-size: 13px; color: var(--t0); background: var(--amber-bg, #FFF4D6); border: 1px solid var(--amber-line, #E9C46A); border-radius: var(--r-md); padding: 7px 10px; margin-top: 8px; }
   .rv-note { font-size: 13px; color: var(--t1); border-left: 3px solid var(--accent); padding: 4px 10px; margin-top: 8px; background: var(--accent-bg); border-radius: 0 var(--r-sm) var(--r-sm) 0; }
-  .ls-chip { font-family: var(--font); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--amber-line, #E9C46A); background: var(--amber-bg, #FFF4D6); color: var(--t0); cursor: pointer; white-space: nowrap; }
+  .ls-chip { font-family: var(--font); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--amber-line, #E9C46A); background: var(--amber-bg, #FFF4D6); color: var(--t0); cursor: pointer; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
   .ls-chip:hover { filter: brightness(.97); }
   #pubContent span[data-ph="1"] { background: var(--red-bg, rgba(220,38,38,.14)); box-shadow: 0 0 0 1px var(--red, #c0392b); border-radius: 3px; }
   #pubContent span[data-long="1"] { text-decoration: underline dotted var(--amber-line, #D99A00); text-decoration-thickness: 2px; text-underline-offset: 4px; }
@@ -750,7 +750,7 @@
   /* draft pane */
   .panel { border-left: 0; background: var(--bg-0); padding: 18px 20px 18px 0; gap: 14px; overflow-y: auto; }
   .draft-card { background: var(--bg-1); border: 1px solid var(--border); border-radius: 14px; display: flex; flex-direction: column; flex: 1 1 auto; min-height: 320px; overflow: hidden; }
-  .p-head { padding: 16px 20px 12px; border-bottom: 0; gap: 10px; }
+  .p-head { padding: 16px 20px 12px; border-bottom: 0; gap: 6px 10px; flex-wrap: wrap; justify-content: flex-start; }   /* v3.16.5: a long repeated-word note wraps to a second line instead of squeezing out the Draft title */
   .p-title { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--t2); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .wc { font-family: var(--font); font-size: 13px; font-weight: 600; color: var(--t0); background: none; border: 0; padding: 0; white-space: nowrap; }
   .wc.over { color: var(--red); background: none; }
@@ -8798,7 +8798,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.4';
+const APP_VERSION = 'v3.16.5';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9382,6 +9382,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.5', date: '30 October 2026', items: [
+    'The repeated-word check now catches words from the same root, such as “enthusiasm” and “enthusiastically”, “creativity” and “creatively”, or “participation” and “participated”. Review highlights them, and so does the repeated-word note beside the word count. Everyday report words such as “friendly”, “strong” and “classroom” are still left alone.',
+  ] },
   { v: 'v3.16.4', date: '30 October 2026', items: [
     'In the Grades window, the General level column is now called Personality level. It no longer picks a level from a student’s grades: it stays blank until you choose Positive, Average or Developing, for one student or the whole class.',
   ] },
@@ -10023,33 +10026,108 @@ const REPORT_WHITELIST = new Set([
   'approach','approaches','interest','interests','ideas','ideas','feedback',
 ]);
 
-// Lightweight English stemmer — strips common prefixes/suffixes to find base form
-// Maps surface form → stem so "excellent" and "excellently" share the same stem
-function stem(word) {
+// ── WORD FAMILIES (v3.16.5) ──────────────────────────────────────
+// Words from the same root count as one repeated word: enthusiasm / enthusiastic / enthusiastically,
+// creative / creativity, participate / participation / participated, confidence / confidently.
+// Used by the Review highlighter and the repeated-word chip in the draft pane, so both always agree.
+function famBase(word) {
+  // plurals and "-s" verbs share their base word ("relationships" = "relationship", "builds" = "build")
   let w = word.toLowerCase();
-  // v3.16.3: plurals and "-s" verbs share their base word, so "relationship" matches "relationships" and "build" matches "builds"
   if (w.length > 4) {
     if (w.endsWith('ies')) w = w.slice(0, -3) + 'y';
     else if (/(sh|ch|x|z|ss)es$/.test(w)) w = w.slice(0, -2);
     else if (w.endsWith('s') && !/(ss|us|is)$/.test(w)) w = w.slice(0, -1);
   }
-  // Suffixes to try stripping, longest first
-  const suffixes = [
-    'istically','istically','fulness','lessness','iveness','ousness',
-    'ational','tional','alize','alise','alism','alist',
-    'ically','fulness','ousness','iveness',
-    'ation','itions','itions','ments','ances','ences',
-    'edly','ingly','ingly','ness','ment','ment','ance','ence',
-    'able','ible','ible','ful','ful','less','less','ous','ous',
-    'ive','ive','ise','ize','ing','ing','ed','ed','ly','ly',
-    'er','est','al','al','ry','ry',
-  ];
-  for (const sfx of suffixes) {
-    if (w.length > sfx.length + 3 && w.endsWith(sfx)) {
-      return w.slice(0, w.length - sfx.length);
-    }
-  }
   return w;
+}
+// [ending, letters that must remain, flags]  flags: 1 = a dropped final "e" may come back (creat → create),
+// 2 = "i" may turn back into "y" (happi → happy), 4 = a first-step ending only (-ed, -ing, -er): never taken off a root already shortened
+const FAM_SFX = [
+  ['istically',4,1],['ically',4,1],['ational',4,1],['ization',4,1],['isation',4,1],
+  ['fulness',4,0],['lessness',4,0],['iveness',4,0],['ousness',4,0],
+  ['ation',4,1],['ition',4,1],['ingly',4,5],['edly',4,5],
+  ['ness',4,2],['ment',4,0],['ance',4,1],['ence',4,1],['able',4,1],['ible',4,1],['ship',4,0],['hood',4,0],
+  ['ful',4,0],['less',4,0],['ous',4,1],['ive',4,1],['ity',4,1],['ise',4,5],['ize',4,5],['ing',4,5],['ion',5,1],
+  ['ate',5,1],['ant',5,1],['ent',5,1],['ic',5,1],['al',5,1],['ed',4,7],
+  ['ly',4,2],['er',4,7],['or',5,5],['est',4,7],['ry',4,0],['y',6,0],
+];
+// endings that change shape: curiosity → curious, capability → capable, description → describe, enthusiasm → enthusiast
+const FAM_SWAP = [['osity','ous'],['bility','ble'],['iption','ibe'],['sion','de'],['uction','uce'],['anation','ain'],['asm','ast']];
+// irregular forms that share a base word
+const FAM_IRREG = { grew:'grow', grown:'grow', growth:'grow', shown:'show', wrote:'write', written:'write', spoke:'speak', spoken:'speak',
+  built:'build', taught:'teach', brought:'bring', began:'begin', begun:'begin', understood:'understand', chose:'choose', chosen:'choose',
+  drew:'draw', drawn:'draw', kept:'keep', thought:'think', learnt:'learn', caught:'catch', bought:'buy', gave:'give', given:'give',
+  took:'take', taken:'take', knew:'know', known:'know', swam:'swim', swum:'swim', sang:'sing', sung:'sing', sociable:'social' };
+// look-alikes that are not the same family: words starting with the first part never take the root
+const FAM_NOT = [['business','busy'],['number','numb'],['internal','intern'],['internation','intern'],['position','posit'],['positive','posit'],
+  ['competen','compet'],['career','care'],['compassion','compass'],['evening','even'],['mother','moth'],['corner','corn'],['country','count'],['digital','digit']];
+// [longer family, shorter look-alike]: the long-prefix rule below never joins a word of one to a word of the other
+const FAM_APART = [['confidential','confiden'],['committee','committ'],['stationary','station'],['stationery','station'],['international','internal'],
+  ['organism','organis'],['organism','organiz'],['emergence','emergen'],['compassion','compass'],['competen','compete']];
+const _famRootCache = new Map();
+function famRoots(w) {
+  let seen = _famRootCache.get(w); if (seen) return seen;
+  seen = new Set([w]);
+  const banned = FAM_NOT.filter(x => w.startsWith(x[0])).map(x => x[1]);
+  const ok = o => o.length >= 4 && !seen.has(o) && !banned.some(b => o === b || o === b + 'e');
+  let layer = [w];
+  if (FAM_IRREG[w]) { seen.add(FAM_IRREG[w]); layer.push(FAM_IRREG[w]); }
+  FAM_SWAP.forEach(([e, t]) => {
+    if (w.length - e.length >= 3 && w.endsWith(e) && (e !== 'sion' || /[aeiou]sion$/.test(w))) { const o = w.slice(0, -e.length) + t; if (ok(o)) { seen.add(o); layer.push(o); } }
+  });
+  for (let depth = 0; depth < 3 && layer.length; depth++) {
+    const next = [];
+    layer.forEach(c => FAM_SFX.forEach(([sfx, keep, fl]) => {
+      if (c.length - sfx.length < keep || !c.endsWith(sfx) || ((fl & 4) && depth > 0)) return;
+      const r = c.slice(0, c.length - sfx.length), outs = [r];
+      if (fl & 1) outs.push(r + 'e');
+      if (/([b-df-hj-np-tv-z])\1$/.test(r) && !/(ll|ss|ff|zz)$/.test(r)) outs.push(r.slice(0, -1));   // stopped → stop
+      if ((fl & 2) && r.endsWith('i')) outs.push(r.slice(0, -1) + 'y');                                    // happiness → happy
+      outs.forEach(o => { if (ok(o)) { seen.add(o); next.push(o); } });
+    }));
+    layer = next;
+  }
+  _famRootCache.set(w, seen);
+  return seen;
+}
+function famApart(a, b) {
+  return FAM_APART.some(([p, q]) => (a.startsWith(p) && !b.startsWith(p) && b.startsWith(q)) || (b.startsWith(p) && !a.startsWith(p) && a.startsWith(q)));
+}
+// two long words that begin the same way are one family (confidence / confidently): 7+ shared letters, at least 80% of the shorter word
+function famPrefix(a, b) {
+  let i = 0; const lim = Math.min(a.length, b.length);
+  while (i < lim && a[i] === b[i]) i++;
+  return i >= 7 && i >= 0.8 * lim && !famApart(a, b);
+}
+// Groups distinct lowercase words by family. Returns one group number per word.
+function famGroups(words) {
+  const ws = words.map(famBase), par = ws.map((_, i) => i);
+  const find = i => { while (par[i] !== i) { par[i] = par[par[i]]; i = par[i]; } return i; };
+  const join = (i, j) => { i = find(i); j = find(j); if (i !== j) par[i] = j; };
+  const owner = new Map();
+  ws.forEach((w, i) => famRoots(w).forEach(r => { if (owner.has(r)) join(i, owner.get(r)); else owner.set(r, i); }));
+  for (let i = 0; i < ws.length; i++) for (let j = i + 1; j < ws.length; j++) if (find(i) !== find(j) && ws[i] !== ws[j] && famPrefix(ws[i], ws[j])) join(i, j);
+  return ws.map((_, i) => find(i));
+}
+// The one repeated-word check. Returns the families used more than once, most-used first:
+// [{ stem: key, n: times used, words: [forms in the order they first appear] }], and keyOf: word → key.
+function repeatFamilies(text, ignore) {
+  const re = /\b([a-zA-Z]{4,})\b/g, seq = []; let m;
+  while ((m = re.exec(String(text || '')))) {
+    const w = m[1].toLowerCase();
+    if (STOPWORDS.has(w) || REPORT_WHITELIST.has(w) || (ignore && ignore.has(w))) continue;
+    seq.push(w);
+  }
+  const distinct = [...new Set(seq)], gid = famGroups(distinct), fam = {}, groupOf = {};
+  distinct.forEach((w, i) => { groupOf[w] = gid[i]; (fam[gid[i]] = fam[gid[i]] || { n: 0, words: [] }).words.push(w); });
+  seq.forEach(w => { fam[groupOf[w]].n++; });
+  const keyOf = {}, list = [];
+  Object.values(fam).forEach(f => {
+    const key = f.words.slice().sort((a, b) => a.length - b.length || (a < b ? -1 : 1))[0];
+    f.words.forEach(w => { keyOf[w] = key; });
+    if (f.n > 1) list.push({ stem: key, n: f.n, words: f.words });
+  });
+  return { list: list.sort((a, b) => b.n - a.n), keyOf };
 }
 
 
@@ -10134,32 +10212,16 @@ function highlightDuplicateWords() {
     pron.Pos.toLowerCase(), pron.pos, pron.r,
   ].filter(Boolean));
 
-  // Count stems across entire comment
-  const stemCounts = {};   // stem → count
-  const stemToWords = {};  // stem → Set of original surface forms
-
+  // v3.16.5: the same word-family check as the draft pane (enthusiasm / enthusiastically count as one word)
   const fullText = spans.map(s => s.textContent).join(' ');
-  const wordRegex = /\b([a-zA-Z]{4,})\b/g;
-  let m;
-  while ((m = wordRegex.exec(fullText)) !== null) {
-    const w = m[1].toLowerCase();
-    if (STOPWORDS.has(w) || REPORT_WHITELIST.has(w) || dynamicIgnore.has(w)) continue;
-    const s = stem(w);
-    if (s.length < 3) continue;
-    stemCounts[s] = (stemCounts[s] || 0) + 1;
-    if (!stemToWords[s]) stemToWords[s] = new Set();
-    stemToWords[s].add(w);
-  }
-
-  // Flag stems used more than once
-  const repeatedStems = new Set(Object.keys(stemCounts).filter(s => stemCounts[s] > 1));
-  if (!repeatedStems.size) return;
-
-  // Build word → stem map for fast lookup during highlight
-  const wordStemMap = {};
-  Object.keys(stemToWords).forEach(s => {
-    stemToWords[s].forEach(w => { wordStemMap[w] = s; });
+  const fam = repeatFamilies(fullText, dynamicIgnore);
+  if (!fam.list.length) return;
+  const stemCounts = {}, stemToWords = {}, wordStemMap = {};
+  fam.list.forEach(f => {
+    stemCounts[f.stem] = f.n; stemToWords[f.stem] = new Set(f.words);
+    f.words.forEach(w => { wordStemMap[w] = f.stem; });
   });
+  const repeatedStems = new Set(Object.keys(stemCounts));
 
   // Highlight in each span
   spans.forEach(span => {
@@ -11246,19 +11308,12 @@ function markLongOpts() {
     if (n > lim) { const t = document.createElement('span'); t.className = 'wc-tag'; t.textContent = n + ' words'; t.title = 'Longer than ' + lim + ' words. The limit is in Settings.'; btn.appendChild(t); }
   });
 }
-// v3.16.1: words used more than once in the draft (same check as Review: same word or the same root, such as "kind" and "kindness")
+// v3.16.1: words used more than once in the draft (same check as Review). v3.16.5: related words count too, such as "enthusiasm" and "enthusiastically"
 function repeatedWordsIn(text, stu) {
   stu = stu || cur();
   const name = String((stu && stu.name) || '').toLowerCase(), pr = PR[(stu && stu.pronoun) || 'he'];
   const ignore = new Set([name, ...name.split(/[\s\-]+/), pr.S.toLowerCase(), pr.s, pr.O.toLowerCase(), pr.o, pr.Pos.toLowerCase(), pr.pos, pr.r].filter(Boolean));
-  const counts = {}, forms = {}, re = /\b([a-zA-Z]{4,})\b/g; let m;
-  while ((m = re.exec(String(text || '')))) {
-    const w = m[1].toLowerCase();
-    if (STOPWORDS.has(w) || REPORT_WHITELIST.has(w) || ignore.has(w)) continue;
-    const st = stem(w); if (st.length < 3) continue;
-    counts[st] = (counts[st] || 0) + 1; (forms[st] = forms[st] || new Set()).add(w);
-  }
-  return Object.keys(counts).filter(k => counts[k] > 1).map(k => ({ stem: k, n: counts[k], words: [...forms[k]] })).sort((a, b) => b.n - a.n);
+  return repeatFamilies(text, ignore).list;
 }
 let _repCursor = 0;
 function updateRepeatChip() {
@@ -12244,6 +12299,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.4</div>
+<div class="version-badge">v3.16.5</div>
 </body>
 </html>
