@@ -5046,7 +5046,7 @@ const TIER_BOUNDARIES = {
   'Closing Statement': { average: 6, developing: null },
 };
 
-function renderOpts() { try { applyGeneralLevel(); } catch (e) {} _renderOptsCore(); markLongOpts(); }   // v3.14.0: level from grades
+function renderOpts() { try { applyGeneralLevel(); } catch (e) {} _renderOptsCore(); markLongOpts(); }   // v3.14.0: Personality level
 function _renderOptsCore() {
   if (currentSemester === 2) seedS2Grades(cur());
   _edSet = editedKeySet(cur(), currentSubject);   // v3.9.2: sentences the teacher has reworded in the draft
@@ -8798,7 +8798,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.3';
+const APP_VERSION = 'v3.16.4';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9382,6 +9382,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.4', date: '30 October 2026', items: [
+    'In the Grades window, the General level column is now called Personality level. It no longer picks a level from a student’s grades: it stays blank until you choose Positive, Average or Developing, for one student or the whole class.',
+  ] },
   { v: 'v3.16.0', date: '27 October 2026', items: [
     'Review now lists words parents may not know (such as “inferences” or “connectives”) with a plainer choice. Change one, and you can make the same change in every other comment that uses it.',
     'History: restore a student’s comments to an earlier version, from the draft’s ••• menu or the History button on the class board. Versions are kept as you work and before you clear or reset.',
@@ -11779,7 +11782,7 @@ function openGrades() {
       <button class="modal-btn primary" onclick="exportGradesXlsx()">Export to Excel</button>
       <button class="modal-btn" onclick="closeGrades()" aria-label="Close">✕</button></div>
     <input type="file" id="grFile" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden onchange="onGradesFile(this)">
-    <div class="gr-note">Upload a spreadsheet with First Name, Surname, Roll Class (and Year, if you have it) and a column for each subject (Overall English, Overall Mathematics, Overall CAPA, Science, Health, PE, Geography or History). English and Maths grades are chosen for you in the sentence bank: the Introduction strand and any strand with no grade yet. In General, the student's grades pick the Positive, Average or Developing filter when you open them (tap All to see everything), and each KLA comment shows that subject's grade. Changing a grade here does the same.</div>
+    <div class="gr-note">Upload a spreadsheet with First Name, Surname, Roll Class (and Year, if you have it) and a column for each subject (Overall English, Overall Mathematics, Overall CAPA, Science, Health, PE, Geography or History). English and Maths grades are chosen for you in the sentence bank: the Introduction strand and any strand with no grade yet. In General, the Personality level you choose for a student sets the Positive, Average or Developing filter when you open them (tap All to see everything), and each KLA comment shows that subject's grade.</div>
     <div id="grPreview"></div>
     <div class="gr-scroll"><table class="gr-table" id="grTable"></table></div>
   </div>`;
@@ -11795,11 +11798,11 @@ function _grSelHtml(i, k, g) {
 function paintGradesTable() {
   const t = document.getElementById('grTable'); if (!t) return;
   const cols = grCols();
-  let h = '<thead><tr><th>First name</th><th>Surname</th><th>Roll class</th><th>Year</th><th title="Not exported">General level</th>' + cols.map(c => `<th>${escHtml(c.short)}</th>`).join('') + '</tr></thead><tbody>';
+  let h = '<thead><tr><th>First name</th><th>Surname</th><th>Roll class</th><th>Year</th><th title="Opens the General comments at this level. Not exported.">Personality level</th>' + cols.map(c => `<th>${escHtml(c.short)}</th>`).join('') + '</tr></thead><tbody>';
   if (!students.length) h += `<tr><td colspan="${5 + cols.length}">No students yet. Upload a spreadsheet to add them.</td></tr>`;
   else h += `<tr class="gr-fill"><td colspan="3"><b>Whole class</b><span class="sw-help">Fill a column, then change the students it doesn't suit.</span></td>` +
     `<td><select class="gr-sel" style="width:auto" aria-label="Set the year for the whole class" onchange="fillClassGrade('year', this)"><option value="">Fill…</option>${_YEAR_OPTS.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></td>` +
-    `<td><select class="gr-sel" style="width:auto" aria-label="Set the General level for the whole class" onchange="fillClassGrade('general', this)"><option value="">Fill…</option><option value="strong">Positive</option><option value="average">Average</option><option value="developing">Developing</option><option value="-">From grades</option></select></td>` +
+    `<td><select class="gr-sel" style="width:auto" aria-label="Set the Personality level for the whole class" onchange="fillClassGrade('general', this)"><option value="">Fill…</option><option value="strong">Positive</option><option value="average">Average</option><option value="developing">Developing</option><option value="-">Clear</option></select></td>` +
     cols.map(c => `<td><select class="gr-sel" aria-label="Set ${escHtml(c.short)} for the whole class" onchange="fillClassGrade('${c.k}', this)"><option value="">Fill…</option>${GRADE_ORDER.map(x => `<option>${x}</option>`).join('')}<option value="-">Clear</option></select></td>`).join('') + '</tr>';
   students.forEach((stu, i) => {
     const [fn, sn] = _grSplitName(stu);
@@ -11830,10 +11833,10 @@ function fillClassGrade(k, sel) {
   const v = sel.value; sel.value = '';
   if (!v) return;
   const val = v === '-' ? '' : v;
-  const name = k === 'general' ? 'General level' : k === 'year' ? 'Year' : grCols().find(c => c.k === k).short;
+  const name = k === 'general' ? 'Personality level' : k === 'year' ? 'Year' : grCols().find(c => c.k === k).short;
   const now = s => k === 'general' ? (s.generalLevel || '') : k === 'year' ? String(s.year || '') : getStuGrade(s, k);
   const differ = students.filter(s => now(s) && now(s) !== val).length;
-  const what = val ? (k === 'general' ? GEN_LEVEL_LABEL[val] : k === 'year' ? (val === 'K' ? 'Kindergarten' : 'Year ' + val) : val) : (k === 'general' ? 'from grades' : 'blank');
+  const what = val ? (k === 'general' ? GEN_LEVEL_LABEL[val] : k === 'year' ? (val === 'K' ? 'Kindergarten' : 'Year ' + val) : val) : 'blank';
   if (differ && !confirm(`Set ${name} to ${what} for all ${students.length} students? ${differ} already ${differ === 1 ? 'has' : 'have'} something different, and will change too.`)) return;
   saveCur();
   students.forEach(s => {
@@ -12086,20 +12089,16 @@ function exportGradesXlsx() {
   showToast(`Excel file saved: ${students.length} student${students.length === 1 ? '' : 's'}`);
 }
 
-// ── General comments: the level the student's grades point to ────────────────
-// A teacher can set it in the Grades window; otherwise it comes from the student's grades (A–B Positive, C Average, D–E Developing on average).
+// ── General comments: the Personality level ──────────────────────────────────
+// v3.16.4: the level is only what the teacher sets in the Grades window (Positive, Average or Developing). It is no longer worked out from the student's grades.
 const GEN_LEVEL_LABEL = { strong: 'Positive', average: 'Average', developing: 'Developing' };
 function generalLevel(stu) {
-  if (!stu) return null;
-  if (stu.generalLevel && GEN_LEVEL_LABEL[stu.generalLevel]) return stu.generalLevel;
-  const pts = GR_COLS.map(c => getStuGrade(stu, c.k, true)).filter(Boolean).map(g => _GRADE_PTS[g]);   // v3.14.5: Semester 1 stands in
-  if (!pts.length) return null;
-  return bandFromScore(pts.reduce((a, b) => a + b, 0) / pts.length);
+  return stu && stu.generalLevel && GEN_LEVEL_LABEL[stu.generalLevel] ? stu.generalLevel : null;
 }
 function _genLevelSelHtml(i, stu) {
-  const own = stu.generalLevel || '', auto = (() => { const o = stu.generalLevel; stu.generalLevel = null; const b = generalLevel(stu); stu.generalLevel = o; return b; })();
-  return `<select class="gr-sel" style="width:auto" aria-label="General comment level" onchange="onGenLevel(${i},this.value)" title="Which General filter opens for this student">` +
-    `<option value=""${!own ? ' selected' : ''}>${auto ? 'From grades: ' + GEN_LEVEL_LABEL[auto] : '–'}</option>` +
+  const own = stu.generalLevel || '';
+  return `<select class="gr-sel" style="width:auto" aria-label="Personality level" onchange="onGenLevel(${i},this.value)" title="Opens the General comments at this level">` +
+    `<option value=""${!own ? ' selected' : ''}>–</option>` +
     ['strong', 'average', 'developing'].map(t => `<option value="${t}"${own === t ? ' selected' : ''}>${GEN_LEVEL_LABEL[t]}</option>`).join('') + '</select>';
 }
 function onGenLevel(i, v) {
@@ -12108,7 +12107,7 @@ function onGenLevel(i, v) {
   if (i === currentIdx) { _genLevelFor = null; applyGeneralLevel(); }
   autoSave();
 }
-// When a student is opened in General, the Positive / Average / Developing filter starts at their level. The teacher can still change it.
+// When a student is opened in General, the Positive / Average / Developing filter starts at the Personality level the teacher set for them. The teacher can still change it.
 let _genLevelFor = null;
 function applyGeneralLevel() {
   const stu = cur(); if (!stu || currentSubject !== 'general') return;
@@ -12116,10 +12115,10 @@ function applyGeneralLevel() {
   if (_genLevelFor === id) return;
   _genLevelFor = id;
   const lv = generalLevel(stu);
-  if (lv) { setTierFilter(lv); _genLevelSetByGrades = true; }
-  else if (_genLevelSetByGrades) { setTierFilter('all'); _genLevelSetByGrades = false; }   // a filter the teacher chose is left alone
+  if (lv) { setTierFilter(lv); _genLevelSetByLevel = true; }
+  else if (_genLevelSetByLevel) { setTierFilter('all'); _genLevelSetByLevel = false; }   // a filter the teacher chose is left alone
 }
-let _genLevelSetByGrades = false;
+let _genLevelSetByLevel = false;
 // Semester KLA sentences show the student's grade for that subject
 function klaKeyForSentence(s) {
   if (/Science/.test(s)) return 'science';
@@ -12245,6 +12244,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.3</div>
+<div class="version-badge">v3.16.4</div>
 </body>
 </html>
