@@ -216,6 +216,11 @@
   .custom-add-btn { font-family: var(--font); font-size: 12px; padding: 7px 14px; border-radius: var(--r-sm); border: 1px solid var(--green-bd); background: var(--green-bg); color: var(--green); cursor: pointer; white-space: nowrap; transition: all .12s; flex-shrink: 0; }
   .custom-add-btn:hover { border-color: var(--green); background: var(--green-hv); }
   .custom-hint { font-size: 11px; color: var(--t2); line-height: 1.5; padding-top: 2px; }
+  /* v3.16.6: buttons that put the student's name or a pronoun into "Write your own sentence" */
+  .ph-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+  .ph-lbl { font-size: 11px; font-weight: 600; color: var(--t2); margin-right: 2px; }
+  .ph-btn { font-family: var(--font); font-size: 12px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--accent-bd); background: var(--accent-bg); color: var(--accent); cursor: pointer; transition: all .12s; }
+  .ph-btn:hover { border-color: var(--accent); }
   .opt.custom { border-style: dashed; border-color: var(--border-h); color: var(--t0); }
   .opt.custom.sel { border-color: var(--green); border-style: dashed; background: var(--green-bg); color: var(--on-green); }
   .opt.custom::before { content: '✏ '; font-size: 11px; opacity: .5; }
@@ -940,6 +945,7 @@
     .opt-write:active { background: var(--bg-1); }
     .custom-label { display: flex; align-items: center; justify-content: space-between; }
     .custom-row { flex-wrap: wrap; } .custom-hint { flex: 1 1 100%; }
+    .ph-btn { min-height: 40px; padding: 0 14px; font-size: 14px; }
     .custom-close { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin: -8px -8px -8px 0; border: 0; background: transparent; color: var(--t2); font-size: 16px; cursor: pointer; }
     .icon-btn { width: 44px; height: 44px; }
     .stu-subj-tab { flex: 1; justify-content: center; gap: 6px; padding: 0 6px; min-height: 46px; font-size: 14px; }
@@ -1389,7 +1395,7 @@
         </div>
         <div class="out-editable" id="outEditable" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Draft comment"
              data-placeholder="Pick sentences from the bank to build this student’s comment, or type here directly…"
-             onblur="onDraftInput()" oninput="onDraftInput()" onkeydown="onDraftKeydown(event)"></div>
+             onblur="onDraftBlur()" oninput="onDraftInput()" onkeydown="onDraftKeydown(event)"></div>
         <div class="draft-edit-bar" id="draftEditBar">
           <button class="draft-reset-btn" onclick="resetDraft()">Reset</button>
           <div class="draft-edit-label">Editing draft…</div>
@@ -1809,6 +1815,14 @@ const RAW = {
   ],
   "Leadership": [
     "{{N}} is a confident natural leader who inspires classmates and leads by example.",
+    "{{N}} takes on leadership roles in group activities, ensuring tasks are completed efficiently and supporting others as needed.",
+    "{{S}} accepts leadership roles in group tasks, ensuring that peers are included.",
+    "{{N}} is a responsible student who takes on leadership roles in group activities.",
+    "{{N}} demonstrates leadership qualities that inspire classmates in {{pos}} learning.",
+    "{{N}} is a role model to others and leads by example.",
+    "{{N}} shows initiative in the classroom, taking pride in helping with the daily routine and setting a positive example.",
+  ],
+  "Roles & Responsibilities": [
     "As school captain, {{s}} excels in leadership roles and inspires peers by setting a positive example.",
     "As a house captain, {{N}} diligently fulfils {{pos}} leadership responsibilities.",
     "As vice-captain, {{N}} has diligently fulfilled {{pos}} leadership responsibilities.",
@@ -1816,12 +1830,6 @@ const RAW = {
     "{{N}} is a valuable member of the Student Representative Council, where {{s}} diligently completes {{pos}} responsibilities.",
     "{{N}} was elected by {{pos}} peers to represent the class on the Student Representative Council.",
     "{{N}} embodies leadership qualities in {{pos}} role as a school prefect.",
-    "{{N}} takes on leadership roles in group activities, ensuring tasks are completed efficiently and supporting others as needed.",
-    "{{S}} accepts leadership roles in group tasks, ensuring that peers are included.",
-    "{{N}} is a responsible student who takes on leadership roles in group activities.",
-    "{{N}} demonstrates leadership qualities that inspire classmates in {{pos}} learning.",
-    "{{N}} is a role model to others and leads by example.",
-    "{{N}} shows initiative in the classroom, taking pride in helping with the daily routine and setting a positive example.",
   ],
   "Attendance": [
     "{{N}}'s improved attendance this semester has given {{o}} increased opportunities to further develop {{pos}} knowledge and skills.",
@@ -1941,7 +1949,7 @@ const CATS = Object.keys(RAW);
 // Para 4: Sport & extracurricular (own paragraph)
 // Para 5: Closing statement (always own paragraph)
 const PARA_GROUPS = [
-  ["Personality", "Effort & Work Habits", "Communication & Collaboration", "Social Skills", "Leadership", "Independence", "Attendance"],
+  ["Personality", "Effort & Work Habits", "Communication & Collaboration", "Social Skills", "Leadership", "Roles & Responsibilities", "Independence", "Attendance"],
   ["Semester KLAs"],
   ["Interests & Passions", "Sport & Extracurricular"],
   ["EAL/D"],
@@ -2004,9 +2012,19 @@ Object.keys(GEN_OLD2NEW).forEach(o => {
   if (SEM_ONLY[2].has(n)) SEM_ONLY[2].add(o);
   if (TERM_TAG.has(n)) TERM_TAG.set(o, TERM_TAG.get(n));
 });
+// v3.16.6: sentences moved to a new category. Comments already built keep them under the old category in the saved data;
+// reading goes through genCatPicks, so they show as picked (and can be taken out) under the new one. Nothing saved is rewritten.
+const LEGACY_CATS = { 'Roles & Responsibilities': ['Leadership'] };
+// the sentences this student has picked that belong to category cat (new and old storage both)
+function genCatPicks(sel, cat) {
+  sel = sel || {};
+  const out = (sel[cat] || []).filter(k => !SENT_CAT[k] || SENT_CAT[k] === cat);
+  (LEGACY_CATS[cat] || []).forEach(old => (sel[old] || []).forEach(k => { if (SENT_CAT[k] === cat && !out.includes(k)) out.push(k); }));
+  return out;
+}
 // the form of bank sentence s this student has selected: the current wording, or the older one (or null)
 function genSelForm(cat, s, stu) {
-  const sel = ((stu || cur()).selected || {})[cat] || [];
+  const sel = genCatPicks((stu || cur()).selected, cat);
   if (sel.includes(s)) return s;
   const o = GEN_NEW2OLD[s];
   return o && sel.includes(o) ? o : null;
@@ -2124,13 +2142,31 @@ function theyAgree(t) {
   return t.replace(/(\{\{[Ss]\}\})((?:[^.!?{]|\{\{(?:O|o|Pos|pos|r)\}\})*)/g, (m, tok, tail) => tok + _agreeTail(tail, true));
 }
 // v3.9.3: the "Write your own sentence" box tells teachers to type {{First-name}}, {{He-she}}, {{His-her}}, {{him-her}}, but only {{N}} / {{S}} / {{Pos}} / {{o}} were ever filled in.
-const _FRIENDLY_TOK = { 'first-name': 'N', 'he-she': 'S', 'his-her': 'Pos', 'him-her': 'o', 'himself-herself': 'r', 'her-his': 'Pos' };
+// v3.16.6: typed by hand, a placeholder is often slightly off ({He-she}} with one brace, {{he/she}}, {{ He-she }}), and a capital in the middle of a sentence
+// or a small letter at the start never matched where it sat. All of those now work, and the capital follows the position: He / She / His / Her at the start of a sentence only.
+const _FRIENDLY_TOK = { 'first-name': 'N', 'name': 'N', 'he-she': 'S', 'his-her': 'Pos', 'him-her': 'o', 'himself-herself': 'r', 'her-his': 'Pos' };
+const _FRIENDLY_RE = /\{{1,2}\s*(first[-\s]name|name|he[-\/\s]she|his[-\/\s]her|him[-\/\s]her|himself[-\/\s]herself|her[-\/\s]his)\s*\}{1,2}/gi;
 function friendlyTokens(t) {
-  if (typeof t !== 'string' || t.indexOf('{{') === -1) return t;
-  return t.replace(/\{\{\s*(first-name|he-she|his-her|him-her|himself-herself|her-his)\s*\}\}/gi, (m, k) => {
-    const tok = _FRIENDLY_TOK[k.toLowerCase()], lower = k[0] === k[0].toLowerCase();
-    return '{{' + (lower && tok !== 'o' && tok !== 'r' ? tok.charAt(0).toLowerCase() + tok.slice(1) : tok) + '}}';
+  if (typeof t !== 'string' || t.indexOf('{') === -1) return t;
+  return t.replace(_FRIENDLY_RE, (m, k, off) => {
+    const tok = _FRIENDLY_TOK[k.toLowerCase().replace(/[\s\/]+/g, '-')];
+    if (tok === 'N' || tok === 'o' || tok === 'r') return '{{' + tok + '}}';
+    const before = t.slice(0, off);
+    const atStart = /^[\s"'\u201c\u2018(]*$/.test(before) || /[.!?]["'\u201d\u2019)]*\s+["'\u201c\u2018(]*$/.test(before);
+    return '{{' + (atStart ? tok : tok.charAt(0).toLowerCase() + tok.slice(1)) + '}}';
   });
+}
+// v3.16.6: a placeholder typed straight into the draft ({{he-she}} and the like) is filled in when the teacher clicks away from the draft
+function fillTypedPlaceholders(text) {
+  if (typeof text !== 'string' || text.search(_FRIENDLY_RE) === -1) return text;
+  const stu = cur(), p = stu && PR[stu.pronoun]; if (!p) return text;
+  const name = stu.name || '[Name]', yr = stu.year || '';
+  return friendlyTokens(text).replace(/\{\{(?:N|S|s|Pos|pos|o|r)\}\}/g, m => applyRaw(m, name, p, yr));
+}
+function onDraftBlur() {
+  const el = document.getElementById('outEditable');
+  if (el && cur() && el.innerText.search(_FRIENDLY_RE) !== -1) el.innerText = fillTypedPlaceholders(el.innerText);
+  onDraftInput();
 }
 function applyRaw(text, name, p, year) {
   text = friendlyTokens(text);
@@ -5000,7 +5036,7 @@ function renderSidebar() {
     const isFDCat = cat === 'Future Directions';
     const count = isFDCat
       ? (currentSubject === 'english' ? (cur().engFD || []).length : (cur().mathFD || []).length)
-      : (sel[cat] || []).length;
+      : (isSubject ? (sel[cat] || []) : genCatPicks(sel, cat)).length;   // v3.16.6: a moved sentence counts under its new category
     const isEditedCat = !isSubject && cur().editedCat === cat;
     const catRanked = !isSubject && currentSemester === 2 && cur().s2RankOrder && cur().s2RankOrder[cat];
     const btn = document.createElement('button');
@@ -5035,7 +5071,8 @@ const TIER_BOUNDARIES = {
   'Effort & Work Habits': { average: 13, developing: 16 },
   'Communication & Collaboration': { average: 8, developing: 11 },
   'Social Skills': { average: 11, developing: 14 },
-  'Leadership': { average: 10, developing: null },
+  'Leadership': { average: 3, developing: null },   // v3.16.6: seven sentences moved to Roles & Responsibilities; the first three stay Positive
+  'Roles & Responsibilities': { average: null, developing: null },   // v3.16.6: a role is held or not, so no Positive / Average / Developing
   'Independence': { average: 8, developing: 10 },
   'Semester KLAs': { average: null, developing: null },
   'Interests & Passions': { average: null, developing: null },
@@ -5082,7 +5119,8 @@ function _renderOptsCore() {
   wrap.className = 'custom-wrap';
   wrap.innerHTML = `
     <div class="custom-label"><span>Write your own sentence</span><button type="button" class="custom-close" onclick="toggleComposer()" aria-label="Close">✕</button></div>
-    <textarea class="custom-textarea" id="customInput" placeholder="Type a custom sentence… Use {{First-name}}, {{He-she}}, {{His-her}}, {{him-her}} as placeholders."></textarea>
+    <textarea class="custom-textarea" id="customInput" placeholder="Type a sentence. Use the buttons for a name or pronoun."></textarea>
+    ${placeholderRowHtml()}
     ${_catHasTiers ? `<div class="tier-sel-row grp-row" role="group" aria-label="Group"><span class="grp-lbl">Place under:</span>
       <button class="tier-sel-btn${_customTierSelected === 'strong' ? ' active-strong' : ''}" id="tierBtnStrong" onclick="setCustomTier('strong')">Positive</button>
       <button class="tier-sel-btn${_customTierSelected === 'average' ? ' active-average' : ''}" id="tierBtnAverage" onclick="setCustomTier('average')">Average</button>
@@ -5091,7 +5129,7 @@ function _renderOptsCore() {
     <div class="custom-row">
       <button class="custom-add-btn" onclick="addCustomSentence()">+ Add to comment</button>
       <button class="custom-add-btn mine" onclick="addCustomSentence(true)" title="Adds it to this comment and keeps it in the bank for every student">+ Add &amp; save to my bank</button>
-      <div class="custom-hint">Use {{First-name}}, {{He-she}}, {{His-her}}, {{him-her}} as placeholders.</div>
+      <div class="custom-hint">The name and pronouns change for each student.</div>
     </div>`;
   if (_composerOpen) grid.appendChild(wrap); else addWriteCard(grid);
 
@@ -6022,6 +6060,33 @@ function goNameField() { setMTab('draft'); const n = document.getElementById('st
   place();
   (mq.addEventListener ? mq.addEventListener.bind(mq, 'change') : mq.addListener.bind(mq))(() => { place(); try { renderOpts(); } catch (e) {} });
 })();
+// v3.16.6: the name and pronoun buttons in "Write your own sentence". They put the placeholder in where the cursor is,
+// so it never has to be typed. A pronoun gets its capital at the start of a sentence and stays small in the middle.
+const PH_BUTTONS = [
+  { tok: 'First-name', label: 'First name', tip: "The student's first name" },
+  { tok: 'he-she', cap: 'He-she', label: 'he / she', tip: 'He or she (She or He at the start of a sentence)' },
+  { tok: 'his-her', cap: 'His-her', label: 'his / her', tip: 'His or her (His or Her at the start of a sentence)' },
+  { tok: 'him-her', label: 'him / her', tip: 'Him or her' },
+  { tok: 'himself-herself', label: 'himself / herself', tip: 'Himself or herself' },
+];
+function placeholderRowHtml() {
+  return '<div class="ph-row" role="group" aria-label="Put in the name or a pronoun"><span class="ph-lbl">Put in:</span>' +
+    PH_BUTTONS.map((b, i) => `<button type="button" class="ph-btn" title="${b.tip}" onmousedown="event.preventDefault()" onclick="insertPlaceholder(${i})">${b.label}</button>`).join('') + '</div>';
+}
+function insertPlaceholder(i) {
+  const ta = document.getElementById('customInput'), b = PH_BUTTONS[i];
+  if (!ta || !b) return;
+  const a = ta.selectionStart == null ? ta.value.length : ta.selectionStart;
+  const z = ta.selectionEnd == null ? a : ta.selectionEnd;
+  const before = ta.value.slice(0, a);
+  const atStart = /^\s*$/.test(before) || /[.!?]["'”’)]*\s+$/.test(before);
+  const lead = /[A-Za-z0-9.,;:!?)\]”]$/.test(before) ? ' ' : '';   // a space first when the cursor is straight after a word
+  const ins = lead + '{{' + (atStart && b.cap ? b.cap : b.tok) + '}}';
+  ta.value = before + ins + ta.value.slice(z);
+  const pos = a + ins.length;
+  try { ta.focus({ preventScroll: true }); ta.setSelectionRange(pos, pos); } catch (e) {}
+  ta.dispatchEvent(new Event('input', { bubbles: true }));
+}
 function toggleComposer() {
   _composerOpen = !_composerOpen;
   renderOpts();
@@ -7256,7 +7321,7 @@ function _relinkDropped(stu, subj, text) {
   back.forEach(x => {
     if (subj === 'general') {
       if (!stu.selected[x.cat]) stu.selected[x.cat] = [];
-      if (!stu.selected[x.cat].includes(x.key)) stu.selected[x.cat].push(x.key);
+      if (!genCatPicks(stu.selected, x.cat).includes(x.key)) stu.selected[x.cat].push(x.key);   // v3.16.6: not twice if it is held under the old category
       if (!stu.ordered.includes(x.key)) stu.ordered.push(x.key);
       stu.pubEditGeneral = null; stu.pubEditGeneral_fdHash = null; stu.pubEditGeneral_subject = null;
     } else {
@@ -7313,6 +7378,7 @@ function genAddKey(cat, key) {
 function genRemoveKey(cat, key) {
   const stu = cur();
   if (stu.selected[cat]) stu.selected[cat] = stu.selected[cat].filter(k => k !== key);
+  (LEGACY_CATS[cat] || []).forEach(old => { if (stu.selected[old]) stu.selected[old] = stu.selected[old].filter(k => k !== key); });   // v3.16.6
   const oi = stu.ordered.indexOf(key); if (oi !== -1) stu.ordered.splice(oi, 1);
   if (stu.orderedAfterEdit) { const pi = stu.orderedAfterEdit.indexOf(key); if (pi !== -1) stu.orderedAfterEdit.splice(pi, 1); }
   syncGeneralOverride(key, false);
@@ -7534,7 +7600,8 @@ function renderSubjOpts(grid) {
   wrap.className = 'custom-wrap';
   wrap.innerHTML = `
     <div class="custom-label"><span>Write your own sentence</span><button type="button" class="custom-close" onclick="toggleComposer()" aria-label="Close">✕</button></div>
-    <textarea class="custom-textarea" id="customInput" placeholder="Type a custom sentence…"></textarea>
+    <textarea class="custom-textarea" id="customInput" placeholder="Type a sentence. Use the buttons for a name or pronoun."></textarea>
+    ${placeholderRowHtml()}
     ${groupRowHtml()}
     <div class="custom-row">
       <button class="custom-add-btn" onclick="addSubjCustomSentence()">+ Add to comment</button>
@@ -8798,7 +8865,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.5';
+const APP_VERSION = 'v3.16.6';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9382,6 +9449,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.6', date: '1 November 2026', items: [
+    'New category: Roles & Responsibilities, straight after Leadership. It holds the seven sentences about school captain, house captain, vice-captain, the Student Representative Council and prefect. They have not been reworded, and comments you have already built are unchanged.',
+    'In “Write your own sentence”, buttons now put in the first name or a pronoun (he / she, his / her, him / her, himself / herself) where the cursor is, so the placeholders never need typing. One typed by hand now fills in too, even with a brace missing or a small letter at the start of a sentence.',
+  ] },
   { v: 'v3.16.5', date: '30 October 2026', items: [
     'The repeated-word check now catches words from the same root, such as “enthusiasm” and “enthusiastically”, “creativity” and “creatively”, or “participation” and “participated”. Review highlights them, and so does the repeated-word note beside the word count. Everyday report words such as “friendly”, “strong” and “classroom” are still left alone.',
   ] },
@@ -10356,8 +10427,8 @@ function showRewritePanel() {
   const sentence = _synCurrentSentence;
   panel.innerHTML = `
     <div class="syn-rewrite-box">
-      <div style="font-size:11px;color:var(--t2);margin-bottom:6px">AI will rewrite this sentence using simpler words. You can edit before applying.</div>
-      <textarea class="syn-rewrite-text" id="synRewriteArea" readonly placeholder="Loading rewrite…">${sentence}</textarea>
+      <div style="font-size:11px;color:var(--t2);margin-bottom:6px">Type your own wording here, or press Rewrite for a suggestion in simpler words. Then press Apply.</div>
+      <textarea class="syn-rewrite-text" id="synRewriteArea" placeholder="Type your own wording…">${sentence}</textarea>
       <div class="syn-rewrite-actions">
         <button class="syn-rewrite-btn" onclick="fetchRewrite()">
           <svg style="width:12px;height:12px;vertical-align:middle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6"/><path d="M2 4v4h4"/></svg>
@@ -12299,6 +12370,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.5</div>
+<div class="version-badge">v3.16.6</div>
 </body>
 </html>
