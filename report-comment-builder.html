@@ -2146,13 +2146,22 @@ function theyAgree(t) {
 // or a small letter at the start never matched where it sat. All of those now work, and the capital follows the position: He / She / His / Her at the start of a sentence only.
 const _FRIENDLY_TOK = { 'first-name': 'N', 'name': 'N', 'he-she': 'S', 'his-her': 'Pos', 'him-her': 'o', 'himself-herself': 'r', 'her-his': 'Pos' };
 const _FRIENDLY_RE = /\{{1,2}\s*(first[-\s]name|name|he[-\/\s]she|his[-\/\s]her|him[-\/\s]her|himself[-\/\s]herself|her[-\/\s]his)\s*\}{1,2}/gi;
+// v3.16.7: "Add & save to my bank" used to turn the He / she inside {{He-she}} into tokens ({{{{S}}-she}}, {{He-{{s}}}}). Sentences saved that way are read as the placeholder they were meant to be (nothing saved is rewritten).
+const _GARBLED_RE = /\{\{\s*(\{\{[A-Za-z]+\}\}|[A-Za-z]+)\s*-\s*(\{\{[A-Za-z]+\}\}|[A-Za-z]+)\s*\}\}/g;
+const _GARBLED_FIRST = { s: 'he-she', he: 'he-she', pos: 'his-her', his: 'his-her', o: 'him-her', him: 'him-her', r: 'himself-herself', himself: 'himself-herself' };
 function friendlyTokens(t) {
   if (typeof t !== 'string' || t.indexOf('{') === -1) return t;
+  if (t.indexOf('{{{{') !== -1 || t.indexOf('-{{') !== -1) t = t.replace(_GARBLED_RE, (m, a, b) => {
+    if (a.indexOf('{{') === -1 && b.indexOf('{{') === -1) return m;
+    const k = _GARBLED_FIRST[a.replace(/[{}]/g, '').toLowerCase()];
+    return k ? '{{' + k + '}}' : m;
+  });
   return t.replace(_FRIENDLY_RE, (m, k, off) => {
     const tok = _FRIENDLY_TOK[k.toLowerCase().replace(/[\s\/]+/g, '-')];
-    if (tok === 'N' || tok === 'o' || tok === 'r') return '{{' + tok + '}}';
+    if (tok === 'N' || tok === 'r') return '{{' + tok + '}}';
     const before = t.slice(0, off);
     const atStart = /^[\s"'\u201c\u2018(]*$/.test(before) || /[.!?]["'\u201d\u2019)]*\s+["'\u201c\u2018(]*$/.test(before);
+    if (tok === 'o') return atStart ? '{{O}}' : '{{o}}';
     return '{{' + (atStart ? tok : tok.charAt(0).toLowerCase() + tok.slice(1)) + '}}';
   });
 }
@@ -8865,7 +8874,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.6';
+const APP_VERSION = 'v3.16.7';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -11259,13 +11268,19 @@ function applyS1Starter(id, original, name, pronounSet) {
 }
 // Turn a resolved sentence back into a template so it follows the student's name and pronouns
 function templatise(text, name, pronounSet) {
-  let t = String(text || '').trim();
-  if (name) t = t.replace(new RegExp('\\b' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'g'), '{{N}}');
+  // v3.16.7: placeholders ({{He-she}} and the like) become tokens first and are then left alone. Before, the "He" and "she" inside {{He-she}} were swapped for tokens too.
+  let t = friendlyTokens(String(text || '').trim());
   const p = pronounSet;
-  const swap = (word, tok) => { if (word) t = t.replace(new RegExp('\\b' + word + '\\b', 'g'), tok); };
-  swap(p.S, '{{S}}'); swap(p.s, '{{s}}'); swap(p.r, '{{r}}'); swap(p.Pos, '{{Pos}}'); swap(p.pos, '{{pos}}');
-  if (p.o !== p.pos) { swap(p.O, '{{O}}'); swap(p.o, '{{o}}'); }
-  return t;
+  const segs = t.split(/(\{\{[^{}]*\}\})/);   // odd positions are tokens, never touched
+  for (let i = 0; i < segs.length; i += 2) {
+    let x = segs[i];
+    if (name) x = x.replace(new RegExp('\\b' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'g'), '{{N}}');
+    const swap = (word, tok) => { if (word) x = x.replace(new RegExp('\\b' + word + '\\b', 'g'), tok); };
+    swap(p.S, '{{S}}'); swap(p.s, '{{s}}'); swap(p.r, '{{r}}'); swap(p.Pos, '{{Pos}}'); swap(p.pos, '{{pos}}');
+    if (p.o !== p.pos) { swap(p.O, '{{O}}'); swap(p.o, '{{o}}'); }
+    segs[i] = x;
+  }
+  return segs.join('');
 }
 function _tierOfRaw(cat, s) {
   const b = (typeof TIER_BOUNDARIES !== 'undefined' && TIER_BOUNDARIES[cat]) || { average: null, developing: null };
@@ -12370,6 +12385,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.6</div>
+<div class="version-badge">v3.16.7</div>
 </body>
 </html>
