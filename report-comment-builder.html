@@ -6012,6 +6012,8 @@ function toggleDone() {
   updateProgress();
   renderStuBar();
   renderOut();
+  // v3.16.8: marking a comment done goes straight to Review (of the same subject). Taking the tick off stays on Build.
+  if (!was) setView('publish');
 }
 
 function toggleMoreMenu(e) {
@@ -8874,7 +8876,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.7';
+const APP_VERSION = 'v3.16.8';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9458,6 +9460,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.8', date: '1 November 2026', items: [
+    'Mark as done now takes you straight to Review, on the same subject. Taking the tick off a finished comment leaves you where you are.',
+  ] },
   { v: 'v3.16.6', date: '1 November 2026', items: [
     'New category: Roles & Responsibilities, straight after Leadership. It holds the seven sentences about school captain, house captain, vice-captain, the Student Representative Council and prefect. They have not been reworded, and comments you have already built are unchanged.',
     'In “Write your own sentence”, buttons now put in the first name or a pronoun (he / she, his / her, him / her, himself / herself) where the cursor is, so the placeholders never need typing. One typed by hand now fills in too, even with a brace missing or a small letter at the start of a sentence.',
@@ -12385,6 +12390,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.7</div>
+<div class="version-badge">v3.16.8</div>
 </body>
 </html>
