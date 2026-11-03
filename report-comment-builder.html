@@ -21,6 +21,7 @@
     --done: #1E8A55; --on-done: #FFFFFF; --on-green: #0F5A33; --on-green-chip: #0F5A33;
     --chip-pos-bg: #DDF1E6; --chip-pos-fg: #0F5A33; --chip-ave-bg: #FBEFCF; --chip-ave-fg: #704400; --chip-dev-bg: #ECE6F8; --chip-dev-fg: #53288A;
     --gA: #15803d; --gB: #1d4ed8; --gC: #a16207; --gD: #c2410c; --gE: #b91c1c;
+    --sim: #A5167A; --sim-bg: #FCE6F3; --sim-bd: #EDA6D3; --on-sim: #FFFFFF;   /* v3.16.11: raspberry pink, used only for 'Similar to S1' */
     --shadow-pop: 0 8px 28px rgba(20,32,43,.18);
     --r-sm: 6px; --r-md: 10px; --r-lg: 14px;
     --font: 'Public Sans', system-ui, sans-serif; --serif: 'Newsreader', Georgia, serif; --mono: 'DM Mono', monospace;
@@ -39,6 +40,7 @@
     --done: #4ade80; --on-done: #052e16; --on-green: #a7f3c0; --on-green-chip: #4ade80;
     --chip-pos-bg: #0f2318; --chip-pos-fg: #4ade80; --chip-ave-bg: #2a1f00; --chip-ave-fg: #fbbf24; --chip-dev-bg: #1d1330; --chip-dev-fg: #c4a5f5;
     --gA: #22c55e; --gB: #60a5fa; --gC: #fbbf24; --gD: #fb923c; --gE: #f87171;
+    --sim: #f472b6; --sim-bg: #2b0f22; --sim-bd: #6b2552; --on-sim: #2b0f22;
     --shadow-pop: 0 8px 28px rgba(0,0,0,0.45);
   }
   /* THEME TOGGLE */
@@ -719,6 +721,13 @@
   .opt.s1-used { background: var(--red-bg); border-color: var(--red-bd); border-left: 1.5px solid var(--red-bd); color: var(--t2); opacity: .85; }
   .opt.s1-used:hover { background: var(--red-bg); }
   .opt.s1-used::after { content: 'Used in S1'; width: auto; height: auto; border: 0; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 700; background: var(--red-bg); color: var(--red); }
+  /* v3.16.11: Semester 2, closest in wording to a Semester 1 sentence */
+  .opt.sim:not(.sel) { border-color: var(--sim-bd); background: var(--sim-bg); }
+  .opt.sim:not(.sel):hover { border-color: var(--sim); background: var(--sim-bg); }
+  .sim-tag { flex: none; margin-left: 8px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--on-sim); background: var(--sim); border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+  .sim-note { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--t2); }
+  .sim-note::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--sim); flex: none; }
+  .sim-note[hidden] { display: none; }
   .opt-body { flex: 1; min-width: 0; text-align: left; }
   .opt-cat { display: block; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); margin-bottom: 2px; }
   .opt-custom-wrap .opt { border-radius: 12px 0 0 12px; }
@@ -1051,6 +1060,7 @@
   .tier-note { font-size: 12px; color: var(--t2); }   /* v3.16.9 */
   .tier-note[hidden] { display: none; }
   .c-tools.no-tiers .tier-note, .c-tools.tools-off .tier-note, body:not([data-subject="general"]) .tier-note { display: none; }
+  .c-tools.tools-off .sim-note, body:not([data-subject="general"]) .sim-note { display: none; }
 
   /* v3.16.0 JARGON CHECK */
   .jg-box { margin-top: 10px; border: 1px solid var(--amber-line, #E9C46A); background: var(--amber-bg, #FFF4D6); border-radius: var(--r-md); padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; color: var(--t0); }
@@ -1380,6 +1390,7 @@
             <button data-tier="developing" onclick="setTierFilter('developing')">Developing</button>
           </div>
           <span class="tier-note" id="tierNote" hidden title="No Personality level is set for this student, so the filter starts at the level of their Semester 1 sentences. Choose another level, or All, to change it."></span>
+          <span class="sim-note" id="simNote" hidden title="Pink sentences are the closest in wording to a sentence this student used in Semester 1, in this category.">Closest to Semester 1</span>
           <button class="btn-dashed" id="composerBtn" onclick="toggleComposer()" aria-expanded="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Write your own sentence</button>
           <div class="c-hint">Click a sentence to add it. Click again to remove it.</div>
         </div>
@@ -3483,6 +3494,53 @@ function getS1UsedKeys(stu) {
   return keys;
 }
 
+// v3.16.11 · Semester 2: which sentences in a category are closest in wording to the ones the student used in Semester 1.
+// Plain word overlap (cosine over word counts), so a word found in nearly every sentence of the category counts for little.
+// It only marks sentences that are already in the bank. Nothing is added, reworded or moved.
+const SIM_MIN = 0.2, SIM_MAX = 3;
+const _SIM_STOP = new Set(['himself', 'herself', 'themselves', 'themself', 'also', 'these', 'those', 'there', 'then', 'both', 'much', 'more', 'most', 'many', 'other', 'others', 'into', 'about', 'upon', 'during', 'throughout']);
+function _simToks(raw) {
+  const t = String(raw || '').replace(/\{\{[^}]*\}\}/g, ' ').toLowerCase().match(/[a-z]{3,}/g) || [];
+  return t.filter(w => !RANK_STOPWORDS.has(w) && !_SIM_STOP.has(w))
+    .map(w => w.replace(/(ingly|edly|ing|ed|ly|es|s)$/, '').replace(/(.)\1$/, '$1')).filter(w => w.length > 2);
+}
+const _simIdx = {};
+function _simIndex(cat) {
+  const bank = RAW[cat] || [];
+  let ix = _simIdx[cat];
+  if (ix && ix.n === bank.length) return ix;
+  const df = {}, vecs = new Map();
+  bank.forEach(s => { const m = {}; _simToks(s).forEach(w => { m[w] = (m[w] || 0) + 1; }); vecs.set(s, m); Object.keys(m).forEach(w => { df[w] = (df[w] || 0) + 1; }); });
+  const N = bank.length || 1;
+  const idf = w => Math.log((N + 1) / ((df[w] || 0) + 1)) + 1;
+  const wt = new Map();   // weighted vector and its length, per sentence
+  vecs.forEach((m, s) => { const v = {}; let n = 0; Object.keys(m).forEach(w => { v[w] = m[w] * idf(w); n += v[w] * v[w]; }); wt.set(s, { v, n: Math.sqrt(n) || 1 }); });
+  return (_simIdx[cat] = { n: bank.length, wt });
+}
+function similarToS1(cat, s1Sents, candidates) {
+  const out = new Set();
+  try {
+    const ix = _simIndex(cat);
+    const used = s1Sents.map(s => ix.wt.get(s)).filter(Boolean);
+    if (!used.length) return out;
+    const scored = [];
+    candidates.forEach((c, i) => {
+      const b = ix.wt.get(c); if (!b) return;
+      let best = 0;
+      used.forEach(a => { let d = 0; for (const w in a.v) if (b.v[w]) d += a.v[w] * b.v[w]; best = Math.max(best, d / (a.n * b.n)); });
+      if (best >= SIM_MIN) scored.push({ c, best, i });
+    });
+    scored.sort((x, y) => (y.best - x.best) || (x.i - y.i)).slice(0, SIM_MAX).forEach(x => out.add(x.c));
+  } catch (e) { console.warn('similarToS1', e); }
+  return out;
+}
+// The "Closest to Semester 1" key shows only while a pink sentence can be seen under the chosen level.
+function paintSimNote() {
+  const n = document.getElementById('simNote'); if (!n) return;
+  const g = document.getElementById('optsGrid'), t = g ? (g.dataset.tier || 'all') : 'all';
+  n.hidden = !(g && g.querySelector(t === 'all' ? '.opt.sim' : '.opt.sim.tier-' + t));
+}
+
 // Rank sentences for S2 using AI
 // ── S2 RANKING HELPERS ───────────────────────────────────────────
 const RANK_STOPWORDS = new Set([
@@ -5251,6 +5309,8 @@ function _renderOptsCore() {
   // v3.14.2: no more Semester 2 ranking (it only scored how few words a sentence shared with Semester 1).
   // The bank keeps its usual order, with the Semester 1 sentences in their own group at the top, as in English and Maths.
   let _s1Tiers = null;   // v3.16.9: the level(s) the student's Semester 1 sentences in this category came from
+  let _sim = new Set();   // v3.16.11: the sentences closest in wording to the student's Semester 1 sentences in this category
+  { const _sn = document.getElementById('simNote'); if (_sn) _sn.hidden = true; }
   if (isS2) {
     // S1-used at top, rest below
     const used = sentenceObjs.filter(o => s1Keys.has(o.s));
@@ -5262,6 +5322,7 @@ function _renderOptsCore() {
       const rank = o => _s1Tiers.has(tierFor(o.origIdx)) ? 0 : 1;
       notUsed = notUsed.map((o, i) => ({ o, i })).sort((a, b) => (rank(a.o) - rank(b.o)) || (a.i - b.i)).map(x => x.o);
     }
+    if (used.length) _sim = similarToS1(currentTab, used.map(o => o.s), notUsed.map(o => o.s));
     sentenceObjs = [...used, ...notUsed];
   }
 
@@ -5372,6 +5433,10 @@ function _renderOptsCore() {
     if (isSel && _selForm !== s) btn.title = 'This comment uses the older wording. Recent changes (in Settings) can update it.';
     if (isSel && _edSet.has(_selForm)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
     if (!isS1Used) btn.onclick = () => toggleOpt(currentTab, s);
+    if (isS2 && !isS1Used && !isSel && _sim.has(s)) {   // v3.16.11
+      btn.classList.add('sim'); if (!btn.title) btn.title = 'Close in wording to a sentence used in Semester 1.';
+      const st = document.createElement('span'); st.className = 'sim-tag'; st.textContent = 'Similar to S1'; btn.appendChild(st);
+    }
     if (isS1Used) { btn.title = 'Used in Semester 1. Click to continue it in Semester 2.'; btn.onclick = () => openContinueS1(currentTab, s); }
     if (TERM_TAG.has(s) && currentTab === 'Semester KLAs') { const tt = document.createElement('span'); tt.className = 'term-tag'; tt.textContent = TERM_TAG.get(s); btn.appendChild(tt); }
     if (currentTab === 'Semester KLAs') { const kk = klaKeyForSentence(s), kg = kk && getStuGrade(cur(), kk); if (kg) { const gt = document.createElement('span'); gt.className = 'term-tag gr-tag g' + kg; gt.textContent = 'Grade ' + kg; gt.title = (grCols().find(c => c.k === kk) || {}).short + ' grade from the Grades window'; btn.appendChild(gt); } }   // v3.14.0
@@ -5400,6 +5465,7 @@ function _renderOptsCore() {
     }
   });
   syncS1Head();
+  paintSimNote();
 }
 // v3.16.9: under a level filter, the "Used in Semester 1" heading is hidden when none of those sentences is at that level, so it is never left with nothing under it.
 function syncS1Head() {
@@ -6137,7 +6203,7 @@ function setTierFilter(t) {
   const grid = document.getElementById('optsGrid');
   if (grid) grid.dataset.tier = t;
   document.querySelectorAll('#tierSeg button').forEach(b => b.classList.toggle('on', b.dataset.tier === t));
-  syncS1Head(); paintTierNote();
+  syncS1Head(); paintTierNote(); paintSimNote();
 }
 // v3.16.9: a short note while the level filter is on the level taken from Semester 1 (no Personality level is set for the student)
 function paintTierNote() {
@@ -8988,7 +9054,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.10';
+const APP_VERSION = 'v3.16.11';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9630,6 +9696,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.11', date: '3 November 2026', items: [
+    'In Semester 2, General now marks the sentences closest in wording to the ones a student used in Semester 1. They are pink and say “Similar to S1”, up to three in each category. Nothing is added or reworded, and the order stays the same.',
+  ] },
   { v: 'v3.16.10', date: '3 November 2026', items: [
     'A General comment you have typed over in the draft box now keeps its paragraphs in Review, Copy and the Word and CSV files, in Semester 1 and Semester 2. Its sentences are grouped under the same paragraph rules as before (character, subjects, interests, closing). A sentence you wrote yourself stays with the sentence before it. No words are changed.',
   ] },
@@ -12591,6 +12660,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.10</div>
+<div class="version-badge">v3.16.11</div>
 </body>
 </html>
