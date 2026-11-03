@@ -2324,8 +2324,69 @@ function buildParas(stu) {
   return paras;
 }
 
+// v3.16.10 · a General comment the teacher has typed over is one block of text. This puts the paragraph rules (PARA_GROUPS)
+// back on it. Each sentence is matched to the bank sentence it came from (the same matching the bank uses to turn an
+// entry yellow); a sentence that matches nothing stays with the one before it; then the sentences are grouped by
+// paragraph, keeping their order inside each paragraph. No word is changed. A text that already has paragraphs,
+// or sits in one paragraph anyway, comes back exactly as it was.
+function _paraGroupOf(key) {
+  let cat;
+  if (String(key).startsWith('__custom__')) { const parts = String(key).split('__'); cat = parts.slice(2, parts.length - 1).join('__'); }
+  else cat = SENT_CAT[key];
+  const gi = PARA_GROUPS.findIndex(g => g.includes(cat));
+  return gi < 0 ? PARA_GROUPS.length : gi;
+}
+const _reparaMemo = new Map();
+function reparaGeneral(stu, text, keys) {
+  try {
+    text = String(text == null ? '' : text);
+    if (!stu || !text.trim() || /\n\s*\n/.test(text)) return text;
+    keys = (keys || []).filter(k => k && !String(k).startsWith('__custom____edited__'));
+    if (!keys.length) return text;
+    const sents = splitSentences(text);
+    if (sents.length < 2) return text;
+    const mk = (stu.name || '') + '|' + (stu.pronoun || '') + '|' + (stu.year || '') + '|' + keys.join('~') + '|' + text;
+    if (_reparaMemo.has(mk)) return _reparaMemo.get(mk);
+    const m = _draftMatches(stu, 'general', keys, text);
+    const grp = new Array(sents.length).fill(-1);
+    ['same', 'edited'].forEach(st => m.forEach((v, k) => {
+      if (v.status !== st) return;
+      for (let q = v.from; q < v.to && q < sents.length; q++) if (grp[q] === -1) grp[q] = _paraGroupOf(k);
+    }));
+    // a sentence rewritten too much to match as a whole still shares its key words with the bank sentence it came from
+    const left = []; for (let i = 0; i < grp.length; i++) if (grp[i] === -1) left.push(i);
+    if (left.length) {
+      const name = stu.name || '[Name]', pr = PR[stu.pronoun] || PR.he, yr = stu.year || '';
+      // only the key words count (no stop words, names or pronouns), so a short typed sentence such as
+      // "Sam is a valued member of our class." is never mistaken for a bank sentence
+      const content = toks => new Set(toks.filter(w => w !== 'x' && w.length > 2 && !RANK_STOPWORDS.has(w)));
+      const bank = [];
+      keys.forEach(k => { const raw = resolveKey(k, stu); if (raw) bank.push({ g: _paraGroupOf(k), w: content(_syncToks(applyAlternation(raw, name, pr, { value: 0 }, yr), stu)) }); });
+      left.forEach(i => {
+        const sw = content(_syncToks(sents[i], stu)); if (sw.size < 4) return;
+        let best = 0, bg = -1;
+        bank.forEach(b => { let n = 0; sw.forEach(w => { if (b.w.has(w)) n++; }); if (n > best) { best = n; bg = b.g; } });
+        if (best >= 4 && best / sw.size >= 0.3) grp[i] = bg;
+      });
+    }
+    let first = grp.findIndex(g => g !== -1), out = text;
+    if (first !== -1) {
+      for (let i = 0; i < first; i++) grp[i] = grp[first];
+      for (let i = first + 1; i < grp.length; i++) if (grp[i] === -1) grp[i] = grp[i - 1];
+      if (new Set(grp).size > 1) {
+        const by = new Map();
+        sents.forEach((x, i) => { if (!by.has(grp[i])) by.set(grp[i], []); by.get(grp[i]).push(x); });
+        out = Array.from(by.keys()).sort((x, y) => x - y).map(g => by.get(g).join(' ')).join('\n\n');
+      }
+    }
+    if (_reparaMemo.size > 300) _reparaMemo.clear();
+    _reparaMemo.set(mk, out);
+    return out;
+  } catch (e) { console.warn('paragraphs', e); return text; }
+}
+
 function getPublishedText(stu) {
-  if (stu.draftOverride) return stu.draftOverride;
+  if (stu.draftOverride) return reparaGeneral(stu, stu.draftOverride, stu.ordered);   // v3.16.10
 
   const name = stu.name || '[Name]';
   const p = PR[stu.pronoun];
@@ -2393,8 +2454,8 @@ function getPublishedText(stu) {
 
   PARA_GROUPS.forEach((group, gi) => {
     if (gi === editedParaIdx) {
-      // Use edited text as this paragraph's content
-      const paraSents = [editedText];
+      // Use edited text as this paragraph's content (v3.16.10: with its paragraphs put back when it is one block)
+      const paraSents = [reparaGeneral(stu, editedText, Array.from(atDone))];
       advanceCounter(editedText);
       // Append post-edit sentences for this group
       (postByGroup[gi] || []).forEach(s => {
@@ -6180,7 +6241,7 @@ function getFinalCommentText(stu, subj) {
     const tmp = document.createElement('div');
     tmp.innerHTML = stu[key];
     const t = paneTextFromEl(tmp);
-    if (t) return enforceAltText(stu, t);
+    if (t) return s === 'general' ? reparaGeneral(stu, enforceAltText(stu, t), stu.ordered) : enforceAltText(stu, t);   // v3.16.10
   }
   return getBuiltCommentText(stu, s);
 }
@@ -6534,6 +6595,17 @@ function renderPublish() {
   if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash && cacheSubjectOk) {
     // Cache is valid — subject, FD, and content all verified
     content.innerHTML = stu[pubEditKey];
+    // v3.16.10: saved Review text that is one block of sentences gets its paragraphs back
+    if (renderSubject === 'general') {
+      const _ps = content.querySelectorAll('p.pub-para');
+      if (_ps.length === 1 && !_ps[0].classList.contains('fd-para')) {
+        const _t = paneTextFromEl(content), _re = _t ? reparaGeneral(stu, _t, stu.ordered) : _t;
+        if (_re && _re !== _t && /\n\s*\n/.test(_re)) {
+          content.innerHTML = _re.split(/\n\s*\n/).filter(x => x.trim()).map((para, pi) =>
+            `<p class="pub-para">${(para.match(/[^.!?]+[.!?]+\s*/g) || [para]).map((x, si) => `<span data-pi="${pi}" data-si="${si}">${escHtml(x.trim())}</span>`).join(' ')}</p>`).join('');
+        }
+      }
+    }
     { const _n = enforceAlternationDOM(content);
       if (_n) document.getElementById('checkStatus').innerHTML = `<span style="font-size:12px;color:var(--blue)">✓ ${_n} alternation error${_n > 1 ? 's' : ''} auto-corrected</span>`; }
     setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
@@ -8916,7 +8988,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.9';
+const APP_VERSION = 'v3.16.10';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9558,6 +9630,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.10', date: '3 November 2026', items: [
+    'A General comment you have typed over in the draft box now keeps its paragraphs in Review, Copy and the Word and CSV files, in Semester 1 and Semester 2. Its sentences are grouped under the same paragraph rules as before (character, subjects, interests, closing). A sentence you wrote yourself stays with the sentence before it. No words are changed.',
+  ] },
   { v: 'v3.16.9', date: '3 November 2026', items: [
     'In Semester 2, General opens at the level of the sentences a student used in Semester 1 (Positive, Average or Developing), with a note saying so. A Personality level set in the Grades window is used instead. Choose another level, or All, at any time.',
     'In each General category where a student used Semester 1 sentences, the other sentences now start with the same level, marked “same level as Semester 1”. Nothing is added or reworded, and comments you have already built are unchanged.',
@@ -12516,6 +12591,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.9</div>
+<div class="version-badge">v3.16.10</div>
 </body>
 </html>
