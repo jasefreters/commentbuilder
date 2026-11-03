@@ -725,6 +725,7 @@
   .opt.sim:not(.sel) { border-color: var(--sim-bd); background: var(--sim-bg); }
   .opt.sim:not(.sel):hover { border-color: var(--sim); background: var(--sim-bg); }
   .sim-tag { flex: none; margin-left: 8px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--on-sim); background: var(--sim); border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+  @media (max-width: 700px) { .opt.sim:not(.sel) { position: relative; padding-top: 36px; } .opt.sim .sim-tag { position: absolute; top: 9px; left: 14px; margin: 0; } }
   .sim-note { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--t2); }
   .sim-note::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--sim); flex: none; }
   .sim-note[hidden] { display: none; }
@@ -1056,6 +1057,9 @@
 
   .opts .tier-divider.s1-head { display: flex !important; }
   .opts .tier-divider.s1-head.s1-empty { display: none !important; }   /* v3.16.9 */
+  .opts .tier-divider.sim-head { display: flex !important; }   /* v3.16.12 */
+  .opts .tier-divider.sim-head.sim-empty { display: none !important; }
+  .tier-divider-label.sim { color: var(--sim); background: var(--sim-bg); border-color: transparent; }
   .tier-divider-note { font-size: 11px; color: var(--t2); white-space: nowrap; }   /* v3.16.9 */
   .tier-note { font-size: 12px; color: var(--t2); }   /* v3.16.9 */
   .tier-note[hidden] { display: none; }
@@ -5323,7 +5327,10 @@ function _renderOptsCore() {
       notUsed = notUsed.map((o, i) => ({ o, i })).sort((a, b) => (rank(a.o) - rank(b.o)) || (a.i - b.i)).map(x => x.o);
     }
     if (used.length) _sim = similarToS1(currentTab, used.map(o => o.s), notUsed.map(o => o.s));
-    sentenceObjs = [...used, ...notUsed];
+    // v3.16.12: the pink sentences sit straight under the Semester 1 ones, closest first; the rest keep the order they had
+    const simObjs = [..._sim].map(k => notUsed.find(o => o.s === k)).filter(Boolean);
+    if (simObjs.length) notUsed = notUsed.filter(o => !_sim.has(o.s));
+    sentenceObjs = [...used, ...simObjs, ...notUsed];
   }
 
   // Tier is always based on ORIGINAL index in RAW, not display position
@@ -5397,14 +5404,22 @@ function _renderOptsCore() {
     if (customsByGroup[label]) renderCustomsForTier('strong', customsByGroup[label]);
   }
 
-  let _usedHead = false;
+  let _usedHead = false, _simHead = false;
   sentenceObjs.forEach(({ s, origIdx }, displayIdx) => {
     const tier = tierFor(origIdx); // always use original index for tier
+    const isSimGroup = isS2 && _sim.has(s);   // v3.16.12
     if (isS2 && s1Keys.has(s)) {
       if (!_usedHead) {
         _usedHead = true;
         const sd = document.createElement('div'); sd.className = 'tier-divider s1-head'; sd.id = 's1UsedHeadGen';
         sd.innerHTML = `<div class="tier-divider-line"></div><span class="tier-divider-label" style="color:var(--red);background:var(--red-bg);border-color:transparent">Used in Semester 1</span><div class="tier-divider-line"></div>`;
+        grid.appendChild(sd);
+      }
+    } else if (isSimGroup) {
+      if (!_simHead) {
+        _simHead = true;
+        const sd = document.createElement('div'); sd.className = 'tier-divider sim-head';
+        sd.innerHTML = `<div class="tier-divider-line"></div><span class="tier-divider-label sim">Similar to Semester 1</span><div class="tier-divider-line"></div>`;
         grid.appendChild(sd);
       }
     } else if (tier !== lastTier) {
@@ -5416,7 +5431,7 @@ function _renderOptsCore() {
       lastTier = tier;
     }
     // Inject sport sub-group divider if needed (use origIdx for group lookup)
-    if (isSportCat && !(isS2 && s1Keys.has(s))) {
+    if (isSportCat && !(isS2 && s1Keys.has(s)) && !isSimGroup) {
       const groupIdx = SPORT_GROUPS.findIndex(g => origIdx >= g.from && origIdx <= g.to);
       if (groupIdx !== currentSportGroup) {
         flushSportGroup(currentSportGroup);
@@ -5433,9 +5448,12 @@ function _renderOptsCore() {
     if (isSel && _selForm !== s) btn.title = 'This comment uses the older wording. Recent changes (in Settings) can update it.';
     if (isSel && _edSet.has(_selForm)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
     if (!isS1Used) btn.onclick = () => toggleOpt(currentTab, s);
-    if (isS2 && !isS1Used && !isSel && _sim.has(s)) {   // v3.16.11
-      btn.classList.add('sim'); if (!btn.title) btn.title = 'Close in wording to a sentence used in Semester 1.';
-      const st = document.createElement('span'); st.className = 'sim-tag'; st.textContent = 'Similar to S1'; btn.appendChild(st);
+    if (isSimGroup && !isS1Used) {   // v3.16.11, grouped at the top in v3.16.12
+      btn.dataset.sim = '1';
+      if (!isSel) {
+        btn.classList.add('sim'); if (!btn.title) btn.title = 'Close in wording to a sentence used in Semester 1.';
+        const st = document.createElement('span'); st.className = 'sim-tag'; st.textContent = 'Similar to S1'; btn.appendChild(st);
+      }
     }
     if (isS1Used) { btn.title = 'Used in Semester 1. Click to continue it in Semester 2.'; btn.onclick = () => openContinueS1(currentTab, s); }
     if (TERM_TAG.has(s) && currentTab === 'Semester KLAs') { const tt = document.createElement('span'); tt.className = 'term-tag'; tt.textContent = TERM_TAG.get(s); btn.appendChild(tt); }
@@ -5464,7 +5482,7 @@ function _renderOptsCore() {
       renderedTiers.add(tier);
     }
   });
-  syncS1Head();
+  syncS1Head(); syncSimHead();
   paintSimNote();
 }
 // v3.16.9: under a level filter, the "Used in Semester 1" heading is hidden when none of those sentences is at that level, so it is never left with nothing under it.
@@ -5473,6 +5491,12 @@ function syncS1Head() {
   const h = g.querySelector('.tier-divider.s1-head'); if (!h) return;
   const t = g.dataset.tier || 'all';
   h.classList.toggle('s1-empty', t !== 'all' && !g.querySelector('.opt.s1-used.tier-' + t));
+}
+function syncSimHead() {   // v3.16.12: the "Similar to Semester 1" heading is hidden when no sentence under it shows at the chosen level
+  const g = document.getElementById('optsGrid'); if (!g) return;
+  const h = g.querySelector('.tier-divider.sim-head'); if (!h) return;
+  const t = g.dataset.tier || 'all';
+  h.classList.toggle('sim-empty', t !== 'all' && !g.querySelector('.opt[data-sim].tier-' + t));
 }
 
 function buildDraftText() {
@@ -6203,7 +6227,7 @@ function setTierFilter(t) {
   const grid = document.getElementById('optsGrid');
   if (grid) grid.dataset.tier = t;
   document.querySelectorAll('#tierSeg button').forEach(b => b.classList.toggle('on', b.dataset.tier === t));
-  syncS1Head(); paintTierNote(); paintSimNote();
+  syncS1Head(); syncSimHead(); paintTierNote(); paintSimNote();
 }
 // v3.16.9: a short note while the level filter is on the level taken from Semester 1 (no Personality level is set for the student)
 function paintTierNote() {
@@ -9054,7 +9078,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.11';
+const APP_VERSION = 'v3.16.12';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9696,6 +9720,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.12', date: '3 November 2026', items: [
+    'In Semester 2, the pink “Similar to S1” sentences now sit at the top of each category, straight under the Semester 1 sentence, closest first. Nothing is added or reworded.',
+  ] },
   { v: 'v3.16.11', date: '3 November 2026', items: [
     'In Semester 2, General now marks the sentences closest in wording to the ones a student used in Semester 1. They are pink and say “Similar to S1”, up to three in each category. Nothing is added or reworded, and the order stays the same.',
   ] },
@@ -12660,6 +12687,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.11</div>
+<div class="version-badge">v3.16.12</div>
 </body>
 </html>
