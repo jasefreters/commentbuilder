@@ -1046,6 +1046,11 @@
   .gr-table tr.gr-fill .gr-sel { color: var(--accent); border-color: var(--accent-bd); width: auto; min-width: 72px; }
 
   .opts .tier-divider.s1-head { display: flex !important; }
+  .opts .tier-divider.s1-head.s1-empty { display: none !important; }   /* v3.16.9 */
+  .tier-divider-note { font-size: 11px; color: var(--t2); white-space: nowrap; }   /* v3.16.9 */
+  .tier-note { font-size: 12px; color: var(--t2); }   /* v3.16.9 */
+  .tier-note[hidden] { display: none; }
+  .c-tools.no-tiers .tier-note, .c-tools.tools-off .tier-note, body:not([data-subject="general"]) .tier-note { display: none; }
 
   /* v3.16.0 JARGON CHECK */
   .jg-box { margin-top: 10px; border: 1px solid var(--amber-line, #E9C46A); background: var(--amber-bg, #FFF4D6); border-radius: var(--r-md); padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; color: var(--t0); }
@@ -1054,8 +1059,13 @@
   .jg-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .jg-word { font-weight: 700; }
   .jg-arrow { color: var(--t2); }
-  .jg-in { flex: 1 1 220px; min-width: 0; padding: 6px 9px; font-size: 13.5px; }
+  .jg-in { flex: 1 1 160px; min-width: 0; padding: 6px 9px; font-size: 13.5px; }
+  .jg-btns { display: flex; gap: 8px; flex: 0 0 auto; }   /* v3.16.9: Change, Ignore and Always ignore wrap as one group */
+  @media (max-width: 560px) { .jg-btns { flex: 1 1 100%; } .jg-btns .modal-btn { flex: 1 1 0; } }
   .jg-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .jg-muted { margin-top: 8px; font-size: 12.5px; color: var(--t2); }   /* v3.16.9 */
+  .jg-box .jg-muted { margin-top: 0; }
+  .jg-link { border: 0; background: none; padding: 0; font: inherit; color: var(--accent); text-decoration: underline; cursor: pointer; }
 
   /* v3.16.0 HISTORY */
   .bg-acts { display: flex; gap: 12px; }
@@ -1207,6 +1217,8 @@
         </div>
         <div class="sw-pane-title">Comment length</div>
         <div id="toolSettings"></div>
+        <div class="sw-pane-title">Words not listed in Review</div>
+        <div id="jgIgnoreSettings"></div>
         <div class="sw-pane-title">Year level</div>
         <div class="sw-note">English and Maths comments are linked to a syllabus stage and follow the student's year and mark, with no switch to turn on. They carry no A to E grade. A student with no year shows no comments until a year is chosen.</div>
       </section>
@@ -1367,6 +1379,7 @@
             <button data-tier="average" onclick="setTierFilter('average')">Average</button>
             <button data-tier="developing" onclick="setTierFilter('developing')">Developing</button>
           </div>
+          <span class="tier-note" id="tierNote" hidden title="No Personality level is set for this student, so the filter starts at the level of their Semester 1 sentences. Choose another level, or All, to change it."></span>
           <button class="btn-dashed" id="composerBtn" onclick="toggleComposer()" aria-expanded="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Write your own sentence</button>
           <div class="c-hint">Click a sentence to add it. Click again to remove it.</div>
         </div>
@@ -3343,6 +3356,7 @@ function setSemester(n) {
       semLoad(stu, n);
     });
     currentSemester = n;
+    _genLevelFor = null;   // v3.16.9: the level Semester 2 starts at is worked out again
   }
   _paintSemesterUI();
   render();
@@ -5150,10 +5164,10 @@ function _renderOptsCore() {
   // We store them as objects and render them inline when we hit the right tier divider
 
   // Helper: inject a tier divider
-  function addDivider(tier, label) {
+  function addDivider(tier, label, note) {
     const div = document.createElement('div');
     div.className = 'tier-divider';
-    div.innerHTML = `<div class="tier-divider-line"></div><span class="tier-divider-label ${tier}">${label}</span><div class="tier-divider-line"></div>`;
+    div.innerHTML = `<div class="tier-divider-line"></div><span class="tier-divider-label ${tier}">${label}</span>${note ? `<span class="tier-divider-note">${note}</span>` : ''}<div class="tier-divider-line"></div>`;
     grid.appendChild(div);
   }
 
@@ -5175,10 +5189,18 @@ function _renderOptsCore() {
 
   // v3.14.2: no more Semester 2 ranking (it only scored how few words a sentence shared with Semester 1).
   // The bank keeps its usual order, with the Semester 1 sentences in their own group at the top, as in English and Maths.
+  let _s1Tiers = null;   // v3.16.9: the level(s) the student's Semester 1 sentences in this category came from
   if (isS2) {
     // S1-used at top, rest below
     const used = sentenceObjs.filter(o => s1Keys.has(o.s));
-    const notUsed = sentenceObjs.filter(o => !s1Keys.has(o.s));
+    let notUsed = sentenceObjs.filter(o => !s1Keys.has(o.s));
+    // v3.16.9: in a category with Positive / Average / Developing, where the student used Semester 1 sentences,
+    // the other sentences start with the same level. Nothing is added, removed or reworded, and every other category keeps its usual order.
+    if (bounds.average !== null && used.length) {
+      _s1Tiers = new Set(used.map(o => tierFor(o.origIdx)));
+      const rank = o => _s1Tiers.has(tierFor(o.origIdx)) ? 0 : 1;
+      notUsed = notUsed.map((o, i) => ({ o, i })).sort((a, b) => (rank(a.o) - rank(b.o)) || (a.i - b.i)).map(x => x.o);
+    }
     sentenceObjs = [...used, ...notUsed];
   }
 
@@ -5268,7 +5290,7 @@ function _renderOptsCore() {
         renderCustomsForTier(lastTier);
         renderedTiers.add(lastTier);
       }
-      if (!isSportCat) addDivider(tier, tierLabels[tier]);
+      if (!isSportCat) addDivider(tier, tierLabels[tier], _s1Tiers && _s1Tiers.has(tier) ? 'same level as Semester 1' : '');
       lastTier = tier;
     }
     // Inject sport sub-group divider if needed (use origIdx for group lookup)
@@ -5316,6 +5338,14 @@ function _renderOptsCore() {
       renderedTiers.add(tier);
     }
   });
+  syncS1Head();
+}
+// v3.16.9: under a level filter, the "Used in Semester 1" heading is hidden when none of those sentences is at that level, so it is never left with nothing under it.
+function syncS1Head() {
+  const g = document.getElementById('optsGrid'); if (!g) return;
+  const h = g.querySelector('.tier-divider.s1-head'); if (!h) return;
+  const t = g.dataset.tier || 'all';
+  h.classList.toggle('s1-empty', t !== 'all' && !g.querySelector('.opt.s1-used.tier-' + t));
 }
 
 function buildDraftText() {
@@ -6046,6 +6076,14 @@ function setTierFilter(t) {
   const grid = document.getElementById('optsGrid');
   if (grid) grid.dataset.tier = t;
   document.querySelectorAll('#tierSeg button').forEach(b => b.classList.toggle('on', b.dataset.tier === t));
+  syncS1Head(); paintTierNote();
+}
+// v3.16.9: a short note while the level filter is on the level taken from Semester 1 (no Personality level is set for the student)
+function paintTierNote() {
+  const n = document.getElementById('tierNote'); if (!n) return;
+  const on = !!_genS1Level && currentSemester === 2 && _tierFilter === _genS1Level;
+  n.hidden = !on;
+  n.textContent = on ? 'Level from Semester 1' : '';
 }
 // v3.9.3 (phone only): "Write your own sentence" is the first card in the bank instead of a row of its own
 const isPhone = () => !!(window.matchMedia && window.matchMedia('(max-width: 700px)').matches);
@@ -7771,6 +7809,7 @@ function addSubjCustomSentence(saveToBank) {
   if (!cur()[draftKey][currentTab]) cur()[draftKey][currentTab] = [];
   if (!cur()[draftKey][currentTab].includes(text)) cur()[draftKey][currentTab].push(text);
   ta.value = '';
+  _composerOpen = false;   // v3.16.9: the box closes once the sentence is added
   // Add it to the comment the same way a click does, so a hand-edited draft and Review both follow
   const sel = getSubjSelected();
   if ((sel[currentTab] || []).includes(text)) { render(); }
@@ -7800,6 +7839,7 @@ function addCustomSentence(saveToBank) {
   const key = '__custom__' + currentTab + '__' + (cur().custom[currentTab].length - 1);
   genAddKey(currentTab, key);
   ta.value = '';
+  _composerOpen = false;   // v3.16.9: the box closes once the sentence is added
   autoSave();
   render();
   showToast(saveToBank ? 'Added, and saved to your bank for every student.' : 'Sentence added and saved.');
@@ -8876,13 +8916,14 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.8';
+const APP_VERSION = 'v3.16.9';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
   const fd = {};
   ['english', 'maths'].forEach(k => { try { fd[k] = JSON.parse(lsGet('rcb_customFD_' + k, '{}')) || {}; } catch (e) { fd[k] = {}; } });
-  return { customFD: fd, longSent: getLongLimit(), wordLimit: getWordLimit(), wordLimitEng: getSubjWordLimit('english'), wordLimitMath: getSubjWordLimit('maths'), seenChanges: getSeenChanges() || undefined };
+  const jg = lsGet('rcb_jgignore', null);   // v3.16.9: words chosen with "Always ignore"
+  return { customFD: fd, longSent: getLongLimit(), wordLimit: getWordLimit(), wordLimitEng: getSubjWordLimit('english'), wordLimitMath: getSubjWordLimit('maths'), seenChanges: getSeenChanges() || undefined, jargonIgnore: (jg && Array.isArray(jg.list)) ? jg : undefined };
 }
 // Custom Future Directions lines are merged (never replaced), so lines typed on this device are never lost.
 function applySettingsBlob(b) {
@@ -8910,6 +8951,10 @@ function applySettingsBlob(b) {
     if (b.wordLimit >= 20 && b.wordLimit <= 2000) lsSet('rcb_wordlimit', String(b.wordLimit));
     if (b.wordLimitEng >= 20 && b.wordLimitEng <= 2000) lsSet('rcb_wordlimit_eng', String(b.wordLimitEng));
     if (b.wordLimitMath >= 20 && b.wordLimitMath <= 2000) lsSet('rcb_wordlimit_math', String(b.wordLimitMath));
+    if (b.jargonIgnore && Array.isArray(b.jargonIgnore.list) && typeof b.jargonIgnore.at === 'number') {   // v3.16.9: the newer list wins (so a word listed again on one device stays listed)
+      const have = lsGet('rcb_jgignore', null);
+      if (!have || !(have.at >= b.jargonIgnore.at)) lsSet('rcb_jgignore', { list: b.jargonIgnore.list.filter(x => typeof x === 'string').slice(0, 200), at: b.jargonIgnore.at });
+    }
     if (typeof b.seenChanges === 'string' && /^v\d+\.\d+\.\d+$/.test(b.seenChanges) && (!_seenFromAccount || _verNum(b.seenChanges) > _verNum(_seenFromAccount))) _seenFromAccount = b.seenChanges;   // v3.13.3
   } catch (e) { console.error('settings restore', e); }
 }
@@ -9235,7 +9280,11 @@ function replaceInStudent(stu, subj, word, to) {
   const re = _jargonRe(word), has = t => { re.lastIndex = 0; return typeof t === 'string' && re.test(t); };
   let changed = false;
   const pk = subj === 'english' ? 'pubEditEnglish' : subj === 'maths' ? 'pubEditMaths' : 'pubEditGeneral';
-  if (has(stu[pk])) { stu[pk] = _swapText(stu[pk], word, to); changed = true; }
+  if (typeof stu[pk] === 'string') {
+    // v3.16.9: saved Review text can still carry the repeated-word marks, which split a phrase into pieces
+    const clean = stu[pk].includes('dup-word') ? stu[pk].replace(/<mark class="dup-word"[^>]*>([^<]*)<\/mark>/g, '$1') : stu[pk];
+    if (has(clean)) { stu[pk] = _swapText(clean, word, to); changed = true; }
+  }
   if (subj === 'general') {
     const t = getPublishedText(stu);
     if (has(t)) { stu.draftOverride = _swapText(t, word, to); changed = true; }
@@ -9261,7 +9310,10 @@ function jargonElsewhere(word) {
 let _jgPending = null;   // the change just made, waiting for "change it everywhere"
 function renderJargonRow(pub) {
   const text = Array.from(pub.querySelectorAll('span[data-si]')).map(x => x.textContent).join(' ');
-  const hits = jargonIn(text);
+  // v3.16.9: words the teacher chose to ignore (in this comment, or always) are not listed
+  const everything = jargonIn(text).filter(x => !jgIgnoredAlways(x.j.term));
+  const hits = everything.filter(x => !jgIgnoredHere(cur(), x.j.term));
+  const hereCount = everything.length - hits.length;
   let h = '';
   if (_jgPending) {
     const others = jargonElsewhere(_jgPending.word);
@@ -9271,20 +9323,65 @@ function renderJargonRow(pub) {
         `<div class="jg-acts"><button class="modal-btn primary" onclick="applyJargonEverywhere()">Change it in all ${others.length}</button><button class="modal-btn" onclick="_jgPending = null; renderReviewInfo()">Leave them</button></div></div>`;
     } else _jgPending = null;
   }
-  if (!hits.length) return h;
+  const ignoredLine = hereCount ? `<div class="jg-muted">${hereCount} word${hereCount === 1 ? '' : 's'} left as ${hereCount === 1 ? 'it is' : 'they are'} in this comment. <button type="button" class="jg-link" onclick="jgShowHere()">List ${hereCount === 1 ? 'it' : 'them'} again</button></div>` : '';
+  if (!hits.length) return h + ignoredLine;
   h += `<div class="jg-box"><div class="jg-head">Words parents may not know</div>` + hits.map((x, k) =>
-    `<div class="jg-row"><span class="jg-word">${escHtml(x.word)}</span><span class="jg-arrow">→</span><input type="text" id="jgTo${k}" class="fb-input jg-in" value="${escHtml(_jgCase(x.word, x.j.plain))}" aria-label="Plainer wording for ${escHtml(x.word)}"><button class="modal-btn" onclick="applyJargonHere(${k})">Change</button></div>`).join('') +
-    `<div class="sw-help">Edit the plainer wording if it doesn't fit the sentence, then press Change. Check the sentence still reads well afterwards.</div></div>`;
+    `<div class="jg-row"><span class="jg-word">${escHtml(x.word)}</span><span class="jg-arrow">→</span><input type="text" id="jgTo${k}" class="fb-input jg-in" value="${escHtml(_jgCase(x.word, x.j.plain))}" aria-label="Plainer wording for ${escHtml(x.word)}"><span class="jg-btns"><button class="modal-btn" onclick="applyJargonHere(${k})">Change</button><button class="modal-btn" onclick="jgIgnoreHere(${k})" title="Leave this word as it is in this comment">Ignore</button><button class="modal-btn" onclick="jgIgnoreAlways(${k})" title="Never list this word again, in any comment">Always ignore</button></span></div>`).join('') +
+    `<div class="sw-help">Edit the plainer wording if it doesn't fit the sentence, then press Change. Check the sentence still reads well afterwards. Ignore leaves the word in this comment. Always ignore stops it being listed in any comment.</div>${ignoredLine}</div>`;
   _jgHits = hits;
   return h;
 }
 let _jgHits = [];
+// v3.16.9: Ignore (this comment only, kept on the student) and Always ignore (every comment, kept with the settings so it travels with the cloud copy and the backup file).
+// The word is the list entry's name in lower case ("explicit" also covers "explicitly").
+const _jgKey = term => String(term).toLowerCase();
+function jgAlwaysList() { const o = lsGet('rcb_jgignore', null); return o && Array.isArray(o.list) ? o.list.filter(x => typeof x === 'string') : []; }
+function jgSetAlways(list) { lsSet('rcb_jgignore', { list: [...new Set(list)], at: Date.now() }); }
+function jgIgnoredAlways(term) { return jgAlwaysList().includes(_jgKey(term)); }
+function _jgHereKey(term) { return currentSemester + '|' + currentSubject + '|' + _jgKey(term); }
+function jgIgnoredHere(stu, term) { return !!(stu && Array.isArray(stu.jgIgnore) && stu.jgIgnore.includes(_jgHereKey(term))); }
+function jgIgnoreHere(k) {
+  const x = _jgHits[k]; if (!x) return;
+  const stu = cur(), key = _jgHereKey(x.j.term);
+  stu.jgIgnore = Array.isArray(stu.jgIgnore) ? stu.jgIgnore : [];
+  if (!stu.jgIgnore.includes(key)) stu.jgIgnore.push(key);
+  autoSave(); renderReviewInfo();
+  showToast('Left “' + x.word + '” as it is in this comment.');
+}
+function jgIgnoreAlways(k) {
+  const x = _jgHits[k]; if (!x) return;
+  jgSetAlways(jgAlwaysList().concat(_jgKey(x.j.term)));
+  autoSave(); renderReviewInfo(); try { renderToolSettings(); } catch (e) {}
+  showToast('“' + x.word + '” will not be listed again. You can turn it back on in Settings › Comments.');
+}
+function jgShowHere() {
+  const stu = cur(), pre = currentSemester + '|' + currentSubject + '|';
+  stu.jgIgnore = (stu.jgIgnore || []).filter(k => !k.startsWith(pre));
+  autoSave(); renderReviewInfo();
+}
+function jgUnignore(i) {
+  const l = jgAlwaysList().slice(), t = l[i]; if (t === undefined) return;
+  l.splice(i, 1); jgSetAlways(l);
+  autoSave(); renderToolSettings(); if (currentView === 'publish') renderReviewInfo();
+  showToast('“' + t + '” will be listed again.');
+}
+function renderJgIgnoreSettings() {
+  const box = document.getElementById('jgIgnoreSettings'); if (!box) return;
+  const l = jgAlwaysList();
+  box.innerHTML = l.length
+    ? '<div class="style-list">' + l.map((t, i) => `<div class="style-item"><span class="style-pair">${escHtml(t)}</span><button class="style-x" title="List this word again" onclick="jgUnignore(${i})">✕</button></div>`).join('') + '</div>'
+    : '<div class="style-empty">Words you choose “Always ignore” in the Review list of words parents may not know are shown here. Press ✕ to list a word again.</div>';
+}
 function applyJargonHere(k) {
   const x = _jgHits[k], inp = document.getElementById('jgTo' + k); if (!x || !inp) return;
   const to = inp.value.trim(); if (!to) { inp.focus(); return; }
   const pub = document.getElementById('pubContent'); if (!pub) return;
   snapshotStudent(cur(), 'Before a jargon change', true);
   const re = _jargonRe(x.word);
+  // v3.16.9: the yellow repeated-word marks can split a phrase such as "guided practice" into pieces, and then nothing was found to change.
+  // Take the marks off first (they are drawn again straight after).
+  pub.querySelectorAll('mark.dup-word').forEach(mk => mk.replaceWith(document.createTextNode(mk.textContent)));
+  pub.querySelectorAll('span[data-si]').forEach(sp => sp.normalize());
   pub.querySelectorAll('span[data-si]').forEach(sp => {
     const w = document.createTreeWalker(sp, NodeFilter.SHOW_TEXT); let n;
     while ((n = w.nextNode())) { re.lastIndex = 0; if (re.test(n.nodeValue)) n.nodeValue = _swapText(n.nodeValue, x.word, to); }
@@ -9295,6 +9392,7 @@ function applyJargonHere(k) {
   try { recordStyleSwap(x.word, to, cur(), currentSubject); } catch (e) {}
   _jgPending = { word: x.word, to };
   autoSave(); renderReviewInfo();
+  try { highlightDuplicateWords(); } catch (e) {}   // v3.16.9: put the repeated-word marks back
   showToast('Changed “' + x.word + '” in this comment.');
 }
 function applyJargonEverywhere() {
@@ -9460,6 +9558,12 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.9', date: '3 November 2026', items: [
+    'In Semester 2, General opens at the level of the sentences a student used in Semester 1 (Positive, Average or Developing), with a note saying so. A Personality level set in the Grades window is used instead. Choose another level, or All, at any time.',
+    'In each General category where a student used Semester 1 sentences, the other sentences now start with the same level, marked “same level as Semester 1”. Nothing is added or reworded, and comments you have already built are unchanged.',
+    'In Review, the “Words parents may not know” list has two new buttons beside Change. Ignore leaves the word as it is in that comment. Always ignore stops the word being listed in any comment. Words you always ignore are kept in Settings › Comments, where you can list them again.',
+    'Fixed: in Review, Change did nothing for a phrase such as “guided practice” when one of its words was underlined as a repeat. It now changes the phrase.',
+  ] },
   { v: 'v3.16.8', date: '1 November 2026', items: [
     'Mark as done now takes you straight to Review, on the same subject. Taking the tick off a finished comment leaves you where you are.',
   ] },
@@ -11740,6 +11844,7 @@ function renderToolSettings() {
   h += `<div class="settings-row"><span class="settings-row-label">Maths comment word limit</span><input class="settings-num" id="wordLimitMath" type="number" min="20" max="2000" value="${getSubjWordLimit('maths')}" onchange="setSubjWordLimit('maths', this.value)"></div>`;
   h += `<div class="settings-row"><span class="settings-row-label">Flag sentences longer than (words)</span><input class="settings-num" id="longLimitInput" type="number" min="5" max="100" value="${getLongLimit()}" onchange="setLongLimit(this.value)"></div>`;
   box.innerHTML = h;
+  try { renderJgIgnoreSettings(); } catch (e) {}   // v3.16.9
   const mine = document.getElementById('mySentSettings'); if (!mine) return;
   h = '';
   if (!cats.length) h += `<div class="style-empty">Write your own sentence in the bank and choose “Add &amp; save to my bank”. It will then be available for every student.</div>`;
@@ -12260,11 +12365,32 @@ function applyGeneralLevel() {
   const id = stu.uid || currentIdx;
   if (_genLevelFor === id) return;
   _genLevelFor = id;
-  const lv = generalLevel(stu);
+  // v3.16.9: in Semester 2, a student with no Personality level set starts at the level of the sentences used in Semester 1
+  const own = generalLevel(stu);
+  _genS1Level = (!own && currentSemester === 2) ? s1LevelFor(stu) : null;
+  const lv = own || _genS1Level;
   if (lv) { setTierFilter(lv); _genLevelSetByLevel = true; }
   else if (_genLevelSetByLevel) { setTierFilter('all'); _genLevelSetByLevel = false; }   // a filter the teacher chose is left alone
+  paintTierNote();
 }
 let _genLevelSetByLevel = false;
+let _genS1Level = null;   // the level taken from Semester 1 for the student on screen, or null
+// The level of a student's Semester 1 sentences: the level most of the ones used in Positive / Average / Developing categories came from.
+// A tie, or no such sentence, gives null (the filter then starts at All). Nothing is stored; it is worked out each time.
+const S1_LEVEL_CATS = ['Personality', 'Effort & Work Habits', 'Communication & Collaboration', 'Social Skills', 'Leadership', 'Independence'];
+function s1LevelFor(stu) {
+  if (!stu) return null;
+  const n = { strong: 0, average: 0, developing: 0 };
+  getS1UsedKeys(stu).forEach(k => {
+    const cat = SENT_CAT[k];
+    if (!S1_LEVEL_CATS.includes(cat) || (RAW[cat] || []).indexOf(k) < 0) return;
+    n[_tierOfRaw(cat, k)]++;
+  });
+  const top = Math.max(n.strong, n.average, n.developing);
+  if (!top) return null;
+  const winners = ['strong', 'average', 'developing'].filter(t => n[t] === top);
+  return winners.length === 1 ? winners[0] : null;
+}
 // Semester KLA sentences show the student's grade for that subject
 function klaKeyForSentence(s) {
   if (/Science/.test(s)) return 'science';
@@ -12390,6 +12516,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.8</div>
+<div class="version-badge">v3.16.9</div>
 </body>
 </html>
