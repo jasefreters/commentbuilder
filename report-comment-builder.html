@@ -3497,7 +3497,7 @@ function getS1UsedKeys(stu) {
 // v3.16.11 · Semester 2: which sentences in a category are closest in wording to the ones the student used in Semester 1.
 // Plain word overlap (cosine over word counts), so a word found in nearly every sentence of the category counts for little.
 // It only marks sentences that are already in the bank. Nothing is added, reworded or moved.
-const SIM_MIN = 0.2, SIM_MAX = 3;
+const SIM_MIN = 0.2, SIM_FLOOR = 0.1, SIM_MAX = 3;   // the closest sentence is marked from SIM_FLOOR; a second and third only from SIM_MIN
 const _SIM_STOP = new Set(['himself', 'herself', 'themselves', 'themself', 'also', 'these', 'those', 'there', 'then', 'both', 'much', 'more', 'most', 'many', 'other', 'others', 'into', 'about', 'upon', 'during', 'throughout']);
 function _simToks(raw) {
   const t = String(raw || '').replace(/\{\{[^}]*\}\}/g, ' ').toLowerCase().match(/[a-z]{3,}/g) || [];
@@ -3528,9 +3528,9 @@ function similarToS1(cat, s1Sents, candidates) {
       const b = ix.wt.get(c); if (!b) return;
       let best = 0;
       used.forEach(a => { let d = 0; for (const w in a.v) if (b.v[w]) d += a.v[w] * b.v[w]; best = Math.max(best, d / (a.n * b.n)); });
-      if (best >= SIM_MIN) scored.push({ c, best, i });
+      if (best >= SIM_FLOOR) scored.push({ c, best, i });
     });
-    scored.sort((x, y) => (y.best - x.best) || (x.i - y.i)).slice(0, SIM_MAX).forEach(x => out.add(x.c));
+    scored.sort((x, y) => (y.best - x.best) || (x.i - y.i)).filter((x, n) => n === 0 || x.best >= SIM_MIN).slice(0, SIM_MAX).forEach(x => out.add(x.c));
   } catch (e) { console.warn('similarToS1', e); }
   return out;
 }
