@@ -417,6 +417,7 @@
   .mine-tag { margin-left: 8px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); background: var(--accent-bg); border: 1px solid var(--accent-bd); border-radius: 999px; padding: 1px 7px; vertical-align: middle; }
   .mine-cat { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--t2); margin-right: 4px; }
   .custom-add-btn.mine { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-bd); }
+  .settings-select { max-width: 100%; font-family: var(--font); font-size: 13px; padding: 5px 8px; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--bg-3); color: var(--t0); }
   .settings-num { width: 78px; font-family: var(--font); font-size: 13px; padding: 5px 8px; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--bg-3); color: var(--t0); }
   .export-drafts { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--t1); cursor: pointer; margin-right: 4px; }
   .tone-warn { margin-left: 8px; font-size: 11px; font-weight: 700; color: #8A5A00; background: var(--amber-bg, #FFF4D6); border: 1px solid var(--amber-line, #E9C46A); border-radius: 999px; padding: 1px 8px; }
@@ -1231,6 +1232,7 @@
         </div>
         <div class="sw-pane-title">Comment length</div>
         <div id="toolSettings"></div>
+        <div id="moreSettings"></div>
         <div class="sw-pane-title">Words not listed in Review</div>
         <div id="jgIgnoreSettings"></div>
         <div class="sw-pane-title">Year level</div>
@@ -2400,7 +2402,11 @@ function reparaGeneral(stu, text, keys) {
   } catch (e) { console.warn('paragraphs', e); return text; }
 }
 
-function getPublishedText(stu) {
+// v3.16.13 · Settings can turn General paragraphs off. Only the breaks between paragraphs go; no word changes, and nothing saved is rewritten.
+function flatParas(t) { return String(t == null ? '' : t).replace(/\s*\n\s*\n\s*/g, ' '); }
+function _paraOut(t) { return flagOn('paras') ? t : flatParas(t); }
+function getPublishedText(stu) { return _paraOut(getPublishedTextRaw(stu)); }
+function getPublishedTextRaw(stu) {
   if (stu.draftOverride) return reparaGeneral(stu, stu.draftOverride, stu.ordered);   // v3.16.10
 
   const name = stu.name || '[Name]';
@@ -3427,7 +3433,7 @@ function setSemester(n) {
     const from = currentSemester;
     students.forEach(stu => {
       // S1 comment text (used to rank S2 sentences) is rebuilt each time we leave S1, so late S1 edits are kept
-      if (from === 1) stu.s1Comment = getPublishedText(stu) || buildDraftTextForStu(stu);
+      if (from === 1) stu.s1Comment = getPublishedTextRaw(stu) || buildDraftTextForStu(stu);   // v3.16.13: kept as built, whatever the paragraph setting
       semStash(stu, from);
       semLoad(stu, n);
     });
@@ -5229,7 +5235,17 @@ const TIER_BOUNDARIES = {
   'Closing Statement': { average: 6, developing: null },
 };
 
-function renderOpts() { try { applyGeneralLevel(); } catch (e) {} _renderOptsCore(); markLongOpts(); }   // v3.14.0: Personality level
+function renderOpts() { try { applyGeneralLevel(); } catch (e) {} _renderOptsCore(); markLongOpts(); scrollListToTop(); }   // v3.14.0: Personality level
+// v3.16.13: a new category (or student, subject or semester) opens at the top of the list, so the Semester 1 sentence is in view.
+// Choosing a sentence, or any other redraw of the same list, keeps the place. Settings can turn this off.
+let _scrollKey = null;
+function scrollListToTop() {
+  const k = [currentSemester, currentIdx, currentSubject, currentTab].join('|');
+  if (k === _scrollKey) return;
+  _scrollKey = k;
+  if (!flagOn('topOnSwitch')) return;
+  const sc = document.querySelector('.c-scroll'); if (sc) sc.scrollTop = 0;
+}
 function _renderOptsCore() {
   if (currentSemester === 2) seedS2Grades(cur());
   _edSet = editedKeySet(cur(), currentSubject);   // v3.9.2: sentences the teacher has reworded in the draft
@@ -5314,6 +5330,7 @@ function _renderOptsCore() {
   // The bank keeps its usual order, with the Semester 1 sentences in their own group at the top, as in English and Maths.
   let _s1Tiers = null;   // v3.16.9: the level(s) the student's Semester 1 sentences in this category came from
   let _sim = new Set();   // v3.16.11: the sentences closest in wording to the student's Semester 1 sentences in this category
+  let _simTop = false;   // v3.16.13: Settings can pin them to the top, mark them where they are, or leave them off
   { const _sn = document.getElementById('simNote'); if (_sn) _sn.hidden = true; }
   if (isS2) {
     // S1-used at top, rest below
@@ -5323,12 +5340,15 @@ function _renderOptsCore() {
     // the other sentences start with the same level. Nothing is added, removed or reworded, and every other category keeps its usual order.
     if (bounds.average !== null && used.length) {
       _s1Tiers = new Set(used.map(o => tierFor(o.origIdx)));
-      const rank = o => _s1Tiers.has(tierFor(o.origIdx)) ? 0 : 1;
-      notUsed = notUsed.map((o, i) => ({ o, i })).sort((a, b) => (rank(a.o) - rank(b.o)) || (a.i - b.i)).map(x => x.o);
+      if (flagOn('s2LevelFirst')) {   // v3.16.13: can be turned off in Settings
+        const rank = o => _s1Tiers.has(tierFor(o.origIdx)) ? 0 : 1;
+        notUsed = notUsed.map((o, i) => ({ o, i })).sort((a, b) => (rank(a.o) - rank(b.o)) || (a.i - b.i)).map(x => x.o);
+      }
     }
-    if (used.length) _sim = similarToS1(currentTab, used.map(o => o.s), notUsed.map(o => o.s));
+    const _simMode = getSimMode(); _simTop = _simMode === 'top';
+    if (used.length && _simMode !== 'off') _sim = similarToS1(currentTab, used.map(o => o.s), notUsed.map(o => o.s));
     // v3.16.12: the pink sentences sit straight under the Semester 1 ones, closest first; the rest keep the order they had
-    const simObjs = [..._sim].map(k => notUsed.find(o => o.s === k)).filter(Boolean);
+    const simObjs = _simTop ? [..._sim].map(k => notUsed.find(o => o.s === k)).filter(Boolean) : [];
     if (simObjs.length) notUsed = notUsed.filter(o => !_sim.has(o.s));
     sentenceObjs = [...used, ...simObjs, ...notUsed];
   }
@@ -5407,7 +5427,7 @@ function _renderOptsCore() {
   let _usedHead = false, _simHead = false;
   sentenceObjs.forEach(({ s, origIdx }, displayIdx) => {
     const tier = tierFor(origIdx); // always use original index for tier
-    const isSimGroup = isS2 && _sim.has(s);   // v3.16.12
+    const isSimGroup = _simTop && _sim.has(s);   // v3.16.12 (v3.16.13: only when the setting is the top of the list)
     if (isS2 && s1Keys.has(s)) {
       if (!_usedHead) {
         _usedHead = true;
@@ -5448,7 +5468,7 @@ function _renderOptsCore() {
     if (isSel && _selForm !== s) btn.title = 'This comment uses the older wording. Recent changes (in Settings) can update it.';
     if (isSel && _edSet.has(_selForm)) { btn.classList.add('edited'); btn.title = 'You reworded this in the draft. Click to take it out of the comment.'; }
     if (!isS1Used) btn.onclick = () => toggleOpt(currentTab, s);
-    if (isSimGroup && !isS1Used) {   // v3.16.11, grouped at the top in v3.16.12
+    if (_sim.has(s) && !isS1Used) {   // v3.16.11, grouped at the top in v3.16.12 when the setting says so
       btn.dataset.sim = '1';
       if (!isSel) {
         btn.classList.add('sim'); if (!btn.title) btn.title = 'Close in wording to a sentence used in Semester 1.';
@@ -6194,7 +6214,8 @@ function toggleDone() {
   renderStuBar();
   renderOut();
   // v3.16.8: marking a comment done goes straight to Review (of the same subject). Taking the tick off stays on Build.
-  if (!was) setView('publish');
+  // v3.16.13: Settings can keep you on Build instead.
+  if (!was && flagOn('doneReview')) setView('publish');
 }
 
 function toggleMoreMenu(e) {
@@ -6306,6 +6327,20 @@ function paintBankTools(grid, hasTiers) {
 }
 // ── Draft pane actions ──────────────────────────────────────────────────
 // Word-for-word what Review shows: cached Review edits if any, else rebuilt from the data
+// v3.16.13: with General paragraphs off, merely looking at a saved edit must not flatten what is saved. Same words: keep it as saved.
+function _keepSavedParas(stu, key, subj, pubEl) {
+  if (subj !== 'general' || flagOn('paras')) return false;
+  const old = stu[key]; if (!old) return false;
+  const t = document.createElement('div'); t.innerHTML = old;
+  return t.querySelectorAll('p.pub-para').length > 1 && flatParas(paneTextFromEl(t) || '') === (paneTextFromEl(pubEl) || '');
+}
+// v3.16.13: show a Review pane as one paragraph (the words stay exactly as they are)
+function flattenParasDOM(root) {
+  const ps = Array.from(root.querySelectorAll('p.pub-para')).filter(x => !x.classList.contains('fd-para'));
+  if (ps.length < 2) return;
+  const t = flatParas(paneTextFromEl(root) || ''); if (!t) return;
+  root.innerHTML = `<p class="pub-para">${(t.match(/[^.!?]+[.!?]+\s*/g) || [t]).map((x, si) => `<span data-pi="0" data-si="${si}">${escHtml(x.trim())}</span>`).join(' ')}</p>`;
+}
 function paneTextFromEl(el) {
   if (!el || !el.innerHTML.trim()) return null;
   const paras = el.querySelectorAll('.pub-para');
@@ -6331,7 +6366,7 @@ function getFinalCommentText(stu, subj) {
     const tmp = document.createElement('div');
     tmp.innerHTML = stu[key];
     const t = paneTextFromEl(tmp);
-    if (t) return s === 'general' ? reparaGeneral(stu, enforceAltText(stu, t), stu.ordered) : enforceAltText(stu, t);   // v3.16.10
+    if (t) return s === 'general' ? _paraOut(reparaGeneral(stu, enforceAltText(stu, t), stu.ordered)) : enforceAltText(stu, t);   // v3.16.10, v3.16.13
   }
   return getBuiltCommentText(stu, s);
 }
@@ -6685,8 +6720,10 @@ function renderPublish() {
   if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash && cacheSubjectOk) {
     // Cache is valid — subject, FD, and content all verified
     content.innerHTML = stu[pubEditKey];
+    // v3.16.13: General paragraphs turned off in Settings: the saved edit is shown as one paragraph (what is saved is not changed)
+    if (renderSubject === 'general' && !flagOn('paras')) flattenParasDOM(content);
     // v3.16.10: saved Review text that is one block of sentences gets its paragraphs back
-    if (renderSubject === 'general') {
+    if (renderSubject === 'general' && flagOn('paras')) {
       const _ps = content.querySelectorAll('p.pub-para');
       if (_ps.length === 1 && !_ps[0].classList.contains('fd-para')) {
         const _t = paneTextFromEl(content), _re = _t ? reparaGeneral(stu, _t, stu.ordered) : _t;
@@ -6993,7 +7030,8 @@ function acceptPolish() {
   const pubContent = document.getElementById('pubContent');
   if (pubContent) {
     // Parse the polished text into the same span structure
-    const paras = newText.split(/\n\n+/).filter(Boolean);
+    let paras = newText.split(/\n\n+/).filter(Boolean);
+    if (currentSubject === 'general' && !flagOn('paras') && paras.length > 1) paras = [paras.join(' ')];   // v3.16.13
     pubContent.innerHTML = paras.map((para, pi) => {
       if (para.trim().startsWith('*')) {
         const lines = para.split('\n').filter(l => l.trim());
@@ -8195,10 +8233,12 @@ function saveCur() {
       const fdArr = subj === 'english' ? (students[currentIdx].engFD || [])
                   : subj === 'maths'   ? (students[currentIdx].mathFD || [])
                   : [];
-      students[currentIdx][key] = pubEl.innerHTML;
-      students[currentIdx][key + '_fdHash'] = subj + '|' + JSON.stringify(fdArr);
-      students[currentIdx][key + '_subject'] = subj;
-      autoSave();
+      if (!_keepSavedParas(students[currentIdx], key, subj, pubEl)) {   // v3.16.13
+        students[currentIdx][key] = pubEl.innerHTML;
+        students[currentIdx][key + '_fdHash'] = subj + '|' + JSON.stringify(fdArr);
+        students[currentIdx][key + '_subject'] = subj;
+        autoSave();
+      }
     }
   }
 }
@@ -8219,6 +8259,7 @@ function savePublishEdits() {
               : subj === 'maths'   ? (students[currentIdx].mathFD || [])
               : [];
   enforceAlternationDOM(pubEl);   // v3.8.6: never save a pane that breaks name / pronoun alternation
+  if (_keepSavedParas(students[currentIdx], key, subj, pubEl)) return;   // v3.16.13
   students[currentIdx][key] = stripAltMarks(pubEl.innerHTML);
   students[currentIdx][key + '_fdHash'] = subj + '|' + JSON.stringify(fdArr);
   students[currentIdx][key + '_subject'] = subj;
@@ -9078,7 +9119,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.12';
+const APP_VERSION = 'v3.16.13';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9720,6 +9761,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.13', date: '4 November 2026', items: [
+    'New settings under Comments. You can turn off paragraphs in the General comment, choose how Semester 2 shows sentences similar to Semester 1, and decide whether Done goes to Review. Confetti and the Semester 2 starting level can be turned off too.',
+    'Choosing another category, or another student, now opens the sentence list at the top, so the Semester 1 sentence is always in view. This can be turned off in Settings.',
+  ] },
   { v: 'v3.16.12', date: '3 November 2026', items: [
     'In Semester 2, the pink “Similar to S1” sentences now sit at the top of each category, straight under the Semester 1 sentence, closest first. Nothing is added or reworded.',
   ] },
@@ -10167,6 +10212,7 @@ function editClassSize() {
 let confettiFrame = null;
 
 function launchConfetti(duration = 2800, count = 120) {
+  if (!flagOn('confetti')) return;   // v3.16.13: Settings
   const canvas = document.getElementById('confetti-canvas');
   const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth;
@@ -11744,6 +11790,38 @@ function showNextLongSentence() {
   }
   showToast('This sentence is ' + target.n + ' words. Try splitting it.');
 }
+// ══ v3.16.13 · MORE SETTINGS ═══════════════════════════════════════════════
+// Saved on this device, like the word limits. Every default leaves the app working exactly as before.
+function getSimMode() { const v = lsGet('rcb_simmode', 'top'); return v === 'mark' || v === 'off' ? v : 'top'; }
+const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch' };
+function flagOn(name) { return lsGet(_FLAG_KEYS[name], true) !== false; }
+function _settingChanged(name) {
+  try {
+    if (name === 's2StartLevel') { _genLevelFor = null; applyGeneralLevel(); }
+    if (currentView === 'publish') { savePublishEdits(); renderPublish(); } else render();
+  } catch (e) { console.warn('setting', e); }
+  try { renderMoreSettings(); } catch (e) {}
+}
+function setSimMode(v) { lsSet('rcb_simmode', v === 'mark' || v === 'off' ? v : 'top'); _settingChanged('simMode'); }
+function setFlag(name, on) { lsSet(_FLAG_KEYS[name], !!on); _settingChanged(name); }
+function renderMoreSettings() {
+  const box = document.getElementById('moreSettings'); if (!box) return;
+  const sw = (name, label, help) => { const on = flagOn(name);
+    return `<div class="settings-row"><span class="settings-row-label">${label}<span class="sw-help">${help}</span></span><button class="settings-action-btn${on ? ' green' : ''}" role="switch" aria-checked="${on}" data-flag="${name}" onclick="setFlag('${name}', ${!on})">${on ? 'On' : 'Off'}</button></div>`; };
+  const m = getSimMode();
+  box.innerHTML =
+    '<div class="sw-pane-title">Semester 2 sentence lists</div>'
+    + `<div class="settings-row"><span class="settings-row-label">Sentences similar to Semester 1<span class="sw-help">Pink sentences, up to three, that are close in wording to the one used in Semester 1.</span></span><select class="settings-select" id="simModeSel" onchange="setSimMode(this.value)"><option value="top"${m === 'top' ? ' selected' : ''}>Top of the list</option><option value="mark"${m === 'mark' ? ' selected' : ''}>Marked where they are</option><option value="off"${m === 'off' ? ' selected' : ''}>Off</option></select></div>`
+    + sw('s2LevelFirst', 'Same level as Semester 1 first', 'The other sentences start with the level used in Semester 1. Off keeps the usual order.')
+    + sw('s2StartLevel', 'Start at the level used in Semester 1', 'Opens the Positive, Average or Developing filter at that level when no level is set for the student.')
+    + '<div class="sw-pane-title">Done and Review</div>'
+    + sw('doneReview', 'Go to Review when I press Done', 'Off keeps you on Build.')
+    + sw('confetti', 'Confetti when a comment is done', 'Shown once for each student.')
+    + '<div class="sw-pane-title">General comment paragraphs</div>'
+    + sw('paras', 'Split the General comment into paragraphs', 'Off puts the whole comment in one paragraph. No words change.')
+    + '<div class="sw-pane-title">Moving around</div>'
+    + sw('topOnSwitch', 'Open each category at the top of the list', 'Also when you change student. Off keeps your place in the list.');
+}
 function getWordLimit() { const n = parseInt(lsGet('rcb_wordlimit', '200'), 10); return n >= 20 && n <= 2000 ? n : 200; }
 // v3.16.0: English and Maths have their own limits (125 words unless changed in Settings)
 function getSubjWordLimit(subj) {
@@ -12009,6 +12087,7 @@ function _removeCustomIndex(stu, cat, idx) {
 // ── settings panel pieces ────────────────────────────────────────────────
 function renderToolSettings() {
   const box = document.getElementById('toolSettings'); if (!box) return;
+  try { renderMoreSettings(); } catch (e) {}   // v3.16.13
   const cats = Object.keys(myBank);
   let h = `<div class="settings-row"><span class="settings-row-label">General comment word limit</span><input class="settings-num" id="wordLimitInput" type="number" min="20" max="2000" value="${getWordLimit()}" onchange="setWordLimit(this.value)"></div>`;
   h += `<div class="settings-row"><span class="settings-row-label">English comment word limit</span><input class="settings-num" id="wordLimitEng" type="number" min="20" max="2000" value="${getSubjWordLimit('english')}" onchange="setSubjWordLimit('english', this.value)"></div>`;
@@ -12538,7 +12617,7 @@ function applyGeneralLevel() {
   _genLevelFor = id;
   // v3.16.9: in Semester 2, a student with no Personality level set starts at the level of the sentences used in Semester 1
   const own = generalLevel(stu);
-  _genS1Level = (!own && currentSemester === 2) ? s1LevelFor(stu) : null;
+  _genS1Level = (!own && currentSemester === 2 && flagOn('s2StartLevel')) ? s1LevelFor(stu) : null;   // v3.16.13: can be turned off in Settings
   const lv = own || _genS1Level;
   if (lv) { setTierFilter(lv); _genLevelSetByLevel = true; }
   else if (_genLevelSetByLevel) { setTierFilter('all'); _genLevelSetByLevel = false; }   // a filter the teacher chose is left alone
@@ -12687,6 +12766,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.12</div>
+<div class="version-badge">v3.16.13</div>
 </body>
 </html>
