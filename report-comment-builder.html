@@ -1082,6 +1082,54 @@
   .jg-box .jg-muted { margin-top: 0; }
   .jg-link { border: 0; background: none; padding: 0; font: inherit; color: var(--accent); text-decoration: underline; cursor: pointer; }
 
+  /* v3.16.14 REVIEW KEY, HOVER LABELS AND JARGON HIGHLIGHT */
+  :root { --jg: var(--sim); --jg-bg: var(--sim-bg); --jg-bd: var(--sim-bd); }
+  mark.jg-mark { background: var(--jg-bg); color: inherit; border-bottom: 2px solid var(--jg); border-radius: 3px; padding: 0 1px; cursor: help; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  mark.jg-mark.jg-on, mark.jg-mark.jg-flash { background: var(--jg-bd); outline: 2px solid var(--jg); outline-offset: 1px; }
+  mark.jg-mark.jg-flash { animation: jgFlash .6s ease 3; }
+  @keyframes jgFlash { 50% { box-shadow: 0 0 0 6px var(--jg-bg); } }
+  .jg-find { cursor: pointer; border-bottom: 2px solid var(--jg); border-radius: 2px; }
+  .jg-find:hover, .jg-find:focus-visible { background: var(--jg-bg); outline: none; }
+  .jg-row-flash { animation: jgRow 1.2s ease; }
+  @keyframes jgRow { 0%, 100% { box-shadow: none; } 30% { box-shadow: 0 0 0 3px var(--jg-bd); } }
+  .hl-key { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 12px 0 14px; font-family: var(--font); }
+  .hl-key[hidden] { display: none; }
+  .hl-key-lbl { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); margin-right: 2px; }
+  .hl-chip { display: inline-flex; align-items: center; gap: 6px; font: 600 12px/1.2 var(--font); color: var(--t0); background: var(--bg-1); border: 1px solid var(--border); border-radius: 999px; padding: 4px 10px 4px 5px; cursor: pointer; }
+  .hl-chip:hover { border-color: var(--border-h); }
+  .hl-chip b { font-weight: 700; color: var(--t1); }
+  .hl-chip.off { opacity: .6; }
+  .hl-chip.off .hl-lab { text-decoration: line-through; }
+  .hl-all { border: 0; background: none; padding: 0 2px; font: 600 12px/1.2 var(--font); color: var(--accent); text-decoration: underline; cursor: pointer; }
+  .hl-sw { display: inline-block; min-width: 26px; text-align: center; font: 600 12.5px/1.5 var(--serif); color: var(--t0); padding: 0 4px; border-radius: 3px; }
+  .hl-c-long .hl-sw { text-decoration: underline dotted var(--amber-line, #D99A00); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .hl-c-repeat .hl-sw { background: rgba(251,191,36,0.2); border-bottom: 1.5px solid var(--amber); }
+  html:not(.dark) .hl-c-repeat .hl-sw { background: rgba(217,119,6,0.12); }
+  .hl-c-jargon .hl-sw { background: var(--jg-bg); border-bottom: 2px solid var(--jg); }
+  .hl-c-tense .hl-sw { background: rgba(167,139,250,0.15); border-bottom: 1.5px solid #a78bfa; }
+  .hl-c-alt .hl-sw { background: rgba(96,165,250,0.18); border-bottom: 2px solid var(--blue); }
+  .hl-c-swap .hl-sw { border-bottom: 2px dotted var(--accent); }
+  .hl-c-ph .hl-sw { background: var(--red-bg, rgba(220,38,38,.14)); box-shadow: 0 0 0 1px var(--red, #c0392b); }
+  .hl-c-spell .hl-sw { border-bottom: 2px dotted #f87171; }
+  .hl-c-grammar .hl-sw { border-bottom: 2px dotted #60a5fa; }
+  .hl-c-idea .hl-sw { background: var(--amber-bg); border-bottom: 1.5px solid var(--amber); }
+  .hl-c-contra .hl-sw { background: rgba(248,113,113,.13); border-bottom: 1.5px solid var(--red); }
+  #pubContent.hl-off-long span[data-long="1"] { text-decoration: none; }
+  #pubContent.hl-off-repeat mark.dup-word { background: transparent !important; border-bottom-color: transparent !important; box-shadow: none !important; outline: 0 !important; }
+  #pubContent.hl-off-jargon mark.jg-mark { background: transparent; border-bottom-color: transparent; }
+  #pubContent.hl-off-tense span.f-tense { background: transparent; border-bottom-color: transparent; }
+  #pubContent.hl-off-alt span[data-alt], #pubContent.hl-off-alt span.f-alt { background: transparent; border-bottom-color: transparent; }
+  #pubContent.hl-off-swap mark.style-sug { border-bottom-color: transparent; }
+  #pubContent.hl-off-ph span[data-ph="1"] { background: transparent; box-shadow: none; }
+  #pubContent.hl-off-spell .f-spell, #pubContent.hl-off-grammar .f-grammar { border-bottom-color: transparent; }
+  #pubContent.hl-off-idea .f-dup, #pubContent.hl-off-contra .f-contra { background: transparent; border-bottom-color: transparent; }
+  .hl-tip { position: fixed; z-index: 970; max-width: min(300px, calc(100vw - 16px)); pointer-events: none; background: var(--bg-1); color: var(--t0); border: 1px solid var(--border-h); border-radius: 8px; padding: 4px; box-shadow: 0 8px 24px rgba(0,0,0,.22); font: 12.5px/1.4 var(--font); display: flex; flex-direction: column; gap: 3px; }
+  .hl-tip-l { padding: 3px 8px; border-left: 3px solid var(--t2); }
+  .hl-t-long, .hl-t-repeat, .hl-t-idea { border-left-color: var(--amber-line, #D99A00); }
+  .hl-t-jargon { border-left-color: var(--jg); } .hl-t-tense { border-left-color: #a78bfa; } .hl-t-alt { border-left-color: var(--blue); }
+  .hl-t-swap { border-left-color: var(--accent); } .hl-t-ph, .hl-t-contra { border-left-color: var(--red); }
+  .hl-t-spell { border-left-color: #f87171; } .hl-t-grammar { border-left-color: #60a5fa; }
+
   /* v3.16.0 HISTORY */
   .bg-acts { display: flex; gap: 12px; }
   .bg-hist { color: var(--t1); font-weight: 600; }
@@ -1485,6 +1533,7 @@
         </div>
         <div class="pub-name" id="pubName"></div>
         <div class="pub-checks" id="pubChecks"></div>
+        <div class="hl-key" id="hlKey" role="group" aria-label="Key to the highlights in this comment" hidden></div>
         <div id="pubContent"></div>
       </div>
     </div>
@@ -6601,7 +6650,7 @@ function enforceAlternationDOM(root) {
   return n;
 }
 // Highlights are for the person looking at the pane; they are never saved with it.
-function stripAltMarks(html) { return String(html || '').replace(/ data-alt="[^"]*"/g, '').replace(/ data-alt-note="[^"]*"/g, ''); }
+function stripAltMarks(html) { return String(html || '').replace(/ data-alt="[^"]*"/g, '').replace(/ data-alt-note="[^"]*"/g, '').replace(/ data-th="[^"]*"/g, ''); }
 function enforceAltText(stu, text) {
   if (!text || !stu) return text;
   const p = PR[stu.pronoun]; if (!p) return text;
@@ -8234,7 +8283,7 @@ function saveCur() {
                   : subj === 'maths'   ? (students[currentIdx].mathFD || [])
                   : [];
       if (!_keepSavedParas(students[currentIdx], key, subj, pubEl)) {   // v3.16.13
-        students[currentIdx][key] = pubEl.innerHTML;
+        students[currentIdx][key] = _pubHtmlClean(pubEl);   // v3.16.14
         students[currentIdx][key + '_fdHash'] = subj + '|' + JSON.stringify(fdArr);
         students[currentIdx][key + '_subject'] = subj;
         autoSave();
@@ -8260,7 +8309,7 @@ function savePublishEdits() {
               : [];
   enforceAlternationDOM(pubEl);   // v3.8.6: never save a pane that breaks name / pronoun alternation
   if (_keepSavedParas(students[currentIdx], key, subj, pubEl)) return;   // v3.16.13
-  students[currentIdx][key] = stripAltMarks(pubEl.innerHTML);
+  students[currentIdx][key] = stripAltMarks(_pubHtmlClean(pubEl));   // v3.16.14: the jargon highlight is not saved
   students[currentIdx][key + '_fdHash'] = subj + '|' + JSON.stringify(fdArr);
   students[currentIdx][key + '_subject'] = subj;
   autoSave(); // persist to IndexedDB and cloud so edits survive navigation
@@ -9119,7 +9168,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.13';
+const APP_VERSION = 'v3.16.14';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9517,6 +9566,7 @@ function renderJargonRow(pub) {
   const everything = jargonIn(text).filter(x => !jgIgnoredAlways(x.j.term));
   const hits = everything.filter(x => !jgIgnoredHere(cur(), x.j.term));
   const hereCount = everything.length - hits.length;
+  try { paintJargonMarks(pub, hits); } catch (e) { console.warn('jargon marks', e); }   // v3.16.14: highlighted in the comment
   let h = '';
   if (_jgPending) {
     const others = jargonElsewhere(_jgPending.word);
@@ -9529,8 +9579,8 @@ function renderJargonRow(pub) {
   const ignoredLine = hereCount ? `<div class="jg-muted">${hereCount} word${hereCount === 1 ? '' : 's'} left as ${hereCount === 1 ? 'it is' : 'they are'} in this comment. <button type="button" class="jg-link" onclick="jgShowHere()">List ${hereCount === 1 ? 'it' : 'them'} again</button></div>` : '';
   if (!hits.length) return h + ignoredLine;
   h += `<div class="jg-box"><div class="jg-head">Words parents may not know</div>` + hits.map((x, k) =>
-    `<div class="jg-row"><span class="jg-word">${escHtml(x.word)}</span><span class="jg-arrow">→</span><input type="text" id="jgTo${k}" class="fb-input jg-in" value="${escHtml(_jgCase(x.word, x.j.plain))}" aria-label="Plainer wording for ${escHtml(x.word)}"><span class="jg-btns"><button class="modal-btn" onclick="applyJargonHere(${k})">Change</button><button class="modal-btn" onclick="jgIgnoreHere(${k})" title="Leave this word as it is in this comment">Ignore</button><button class="modal-btn" onclick="jgIgnoreAlways(${k})" title="Never list this word again, in any comment">Always ignore</button></span></div>`).join('') +
-    `<div class="sw-help">Edit the plainer wording if it doesn't fit the sentence, then press Change. Check the sentence still reads well afterwards. Ignore leaves the word in this comment. Always ignore stops it being listed in any comment.</div>${ignoredLine}</div>`;
+    `<div class="jg-row"><span class="jg-word jg-find" role="button" tabindex="0" title="Show this word in the comment" onclick="jgFind(${k})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();jgFind(${k})}" onmouseenter="jgPulse(${k},true)" onmouseleave="jgPulse(${k},false)">${escHtml(x.word)}</span><span class="jg-arrow">→</span><input type="text" id="jgTo${k}" class="fb-input jg-in" value="${escHtml(_jgCase(x.word, x.j.plain))}" aria-label="Plainer wording for ${escHtml(x.word)}"><span class="jg-btns"><button class="modal-btn" onclick="applyJargonHere(${k})">Change</button><button class="modal-btn" onclick="jgIgnoreHere(${k})" title="Leave this word as it is in this comment">Ignore</button><button class="modal-btn" onclick="jgIgnoreAlways(${k})" title="Never list this word again, in any comment">Always ignore</button></span></div>`).join('') +
+    `<div class="sw-help">Each word is highlighted in pink in the comment below. Click a word here to find it. Edit the plainer wording if it doesn't fit the sentence, then press Change. Check the sentence still reads well afterwards. Ignore leaves the word in this comment. Always ignore stops it being listed in any comment.</div>${ignoredLine}</div>`;
   _jgHits = hits;
   return h;
 }
@@ -9583,6 +9633,7 @@ function applyJargonHere(k) {
   const re = _jargonRe(x.word);
   // v3.16.9: the yellow repeated-word marks can split a phrase such as "guided practice" into pieces, and then nothing was found to change.
   // Take the marks off first (they are drawn again straight after).
+  pub.querySelectorAll('mark.jg-mark').forEach(mk => mk.replaceWith(...mk.childNodes));   // v3.16.14: the pink marks too
   pub.querySelectorAll('mark.dup-word').forEach(mk => mk.replaceWith(document.createTextNode(mk.textContent)));
   pub.querySelectorAll('span[data-si]').forEach(sp => sp.normalize());
   pub.querySelectorAll('span[data-si]').forEach(sp => {
@@ -9594,8 +9645,9 @@ function applyJargonHere(k) {
   replaceInStudent(cur(), currentSubject, x.word, to);
   try { recordStyleSwap(x.word, to, cur(), currentSubject); } catch (e) {}
   _jgPending = { word: x.word, to };
-  autoSave(); renderReviewInfo();
-  try { highlightDuplicateWords(); } catch (e) {}   // v3.16.9: put the repeated-word marks back
+  autoSave();
+  try { highlightDuplicateWords(); } catch (e) {}   // v3.16.9: put the repeated-word marks back (before the Review box, which draws the pink jargon marks last)
+  renderReviewInfo();
   showToast('Changed “' + x.word + '” in this comment.');
 }
 function applyJargonEverywhere() {
@@ -9761,6 +9813,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.14', date: '4 November 2026', items: [
+    'Review has a key above the comment. It shows each highlight with its colour and how many there are, and you can hide any of them. Hover a highlight to see what it means straight away.',
+    'Words parents may not know are now highlighted in the comment. Click a word in the box to find it, or click the highlight to jump to its suggestion.',
+  ] },
   { v: 'v3.16.13', date: '4 November 2026', items: [
     'New settings under Comments. You can turn off paragraphs in the General comment, choose how Semester 2 shows sentences similar to Semester 1, and decide whether Done goes to Review. Confetti and the Semester 2 starting level can be turned off too.',
     'Choosing another category, or another student, now opens the sentence list at the top, so the Semester 1 sentence is always in view. This can be turned off in Settings.',
@@ -11912,6 +11968,163 @@ function toneReport(stu) {
 }
 
 // ── Review strip: length, long sentences, tone, note ─────────────────────
+// ══ v3.16.14 · REVIEW: KEY, HOVER LABELS AND JARGON HIGHLIGHT ═══════════════════════════════
+// The key lists the highlights that are in the comment, each with its colour and a count. Clicking one hides it (kept on this device).
+// Hover labels show at once instead of after the browser's slow tooltip. Nothing here changes a word, and none of it is saved with the comment.
+const HL_TYPES = [
+  { id: 'long',    label: 'Long sentence',              sel: 'span[data-long="1"]',        help: () => 'Sentences over ' + getLongLimit() + ' words are underlined with dots. The limit is in Settings.' },
+  { id: 'repeat',  label: 'Repeated word',              sel: 'mark.dup-word',              help: () => 'A word used more than once. Click it to see other words.', count: els => new Set(els.map(e => e.dataset.stem || e.textContent.toLowerCase())).size },
+  { id: 'jargon',  label: 'Words parents may not know', sel: 'mark.jg-mark',               help: () => 'Teaching words a parent may not know. The plainer wording is in the box above.', count: els => new Set(els.map(e => e.dataset.term)).size },
+  { id: 'tense',   label: 'Different tense',            sel: 'span.f-tense',               help: () => 'This sentence is in a different tense from most of the comment.' },
+  { id: 'alt',     label: 'Name or pronoun',            sel: 'span[data-alt], span.f-alt', help: () => 'Blue: changed to keep the name and pronouns alternating. Orange dashes: could not be fixed automatically.' },
+  { id: 'swap',    label: 'Your usual swap',            sel: 'mark.style-sug',             help: () => 'A word swap you usually make. Click it to use the swap.' },
+  { id: 'ph',      label: 'Unfinished',                 sel: 'span[data-ph="1"]',          help: () => 'A part in square brackets that still needs filling in.' },
+  { id: 'spell',   label: 'Spelling',                   sel: '.f-spell',                   help: () => 'A possible spelling mistake, from Check for issues.' },
+  { id: 'grammar', label: 'Grammar',                    sel: '.f-grammar',                 help: () => 'A possible grammar mistake, from Check for issues.' },
+  { id: 'idea',    label: 'Similar idea',               sel: '.f-dup',                     help: () => 'Two sentences that say much the same thing, from Check for issues.' },
+  { id: 'contra',  label: 'Contradiction',              sel: '.f-contra',                  help: () => 'Sentences that disagree with each other, from Check for issues.' },
+];
+function hlOffSet() { const a = lsGet('rcb_hl_off', []); return new Set(Array.isArray(a) ? a.filter(x => HL_TYPES.some(t => t.id === x)) : []); }
+function toggleHl(id) { const o = hlOffSet(); if (o.has(id)) o.delete(id); else o.add(id); lsSet('rcb_hl_off', [...o]); hideHlTip(); paintHlKey(); }
+function setAllHl(hide) { lsSet('rcb_hl_off', hide ? HL_TYPES.map(t => t.id) : []); hideHlTip(); paintHlKey(); }
+function _hlEls(pub, t) { return Array.from(pub.querySelectorAll(t.sel)); }
+function paintHlKey() {
+  const key = document.getElementById('hlKey'), pub = document.getElementById('pubContent'); if (!key || !pub) return;
+  const off = hlOffSet();
+  HL_TYPES.forEach(t => pub.classList.toggle('hl-off-' + t.id, off.has(t.id)));
+  const items = HL_TYPES.map(t => { const els = _hlEls(pub, t); return { t, n: els.length ? (t.count ? t.count(els) : els.length) : 0 }; }).filter(x => x.n > 0);
+  const sig = items.map(x => x.t.id + ':' + x.n).join('|') + '#' + items.map(x => off.has(x.t.id) ? 1 : 0).join('');
+  if (key.dataset.sig === sig) return;
+  key.dataset.sig = sig;
+  if (!items.length) { key.innerHTML = ''; key.hidden = true; return; }
+  key.hidden = false;
+  const allOff = items.every(x => off.has(x.t.id));
+  key.innerHTML = '<span class="hl-key-lbl">Key</span>' + items.map(({ t, n }) => {
+    const isOff = off.has(t.id);
+    return `<button type="button" class="hl-chip hl-c-${t.id}${isOff ? ' off' : ''}" data-hl="${t.id}" aria-pressed="${!isOff}" title="${escHtml(t.help())} Click to ${isOff ? 'show' : 'hide'} these highlights."><span class="hl-sw" aria-hidden="true">Ab</span><span class="hl-lab">${t.label}</span> <b>${n}</b></button>`;
+  }).join('') + (items.length > 1 ? `<button type="button" class="hl-all" data-hlall="${allOff ? 'show' : 'hide'}">${allOff ? 'Show all' : 'Hide all'}</button>` : '');
+}
+let _hlTimer = null;
+function schedulePaintHlKey() { clearTimeout(_hlTimer); _hlTimer = setTimeout(() => { try { paintHlKey(); } catch (e) { console.warn('key', e); } }, 80); }
+// ---- hover labels ----
+let _tipEl = null, _tipHeld = [], _tipTimer = null;
+function _tipNode() { if (!_tipEl) { _tipEl = document.createElement('div'); _tipEl.className = 'hl-tip'; _tipEl.setAttribute('role', 'tooltip'); _tipEl.style.display = 'none'; document.body.appendChild(_tipEl); } return _tipEl; }
+function _restoreTitles() { _tipHeld.forEach(el => { if (el.isConnected && el.dataset.th !== undefined) { el.title = el.dataset.th; delete el.dataset.th; } }); _tipHeld = []; }
+function hideHlTip() { clearTimeout(_tipTimer); if (_tipEl) _tipEl.style.display = 'none'; _restoreTitles(); }
+function _ttl(el) { return el.dataset.th !== undefined ? el.dataset.th : (el.title || ''); }
+function hlTipLines(target, pub) {
+  const off = hlOffSet(), out = [], seen = new Set();
+  for (let el = target; el && el !== pub; el = el.parentElement) {
+    if (!el.matches) continue;
+    let id = null, text = '';
+    if (el.matches('mark.jg-mark')) { id = 'jargon'; text = 'Parents may not know “' + (el.dataset.term || el.textContent) + '”. Try: ' + (el.dataset.plain || '') + '. Click to edit the suggestion.'; }
+    else if (el.matches('mark.dup-word')) { id = 'repeat'; const st = el.dataset.stem || '', n = st ? pub.querySelectorAll('mark.dup-word[data-stem="' + st.replace(/["\\]/g, '') + '"]').length : 0; text = 'Repeated word: “' + el.textContent + '”' + (n > 1 ? ' is used ' + n + ' times' : '') + '. Click to see other words.'; }
+    else if (el.matches('mark.style-sug')) { id = 'swap'; text = _ttl(el) || 'Your usual swap. Click to use it.'; }
+    else if (el.matches('span[data-long="1"]')) { id = 'long'; text = 'Long sentence: ' + _wordCount(el.textContent) + ' words (limit ' + getLongLimit() + '). Consider splitting it.'; }
+    else if (el.matches('span[data-ph="1"]')) { id = 'ph'; text = 'Unfinished: replace the part in square brackets.'; }
+    else if (el.matches('span.f-tense')) { id = 'tense'; text = _ttl(el) || 'This sentence is in a different tense from most of the comment.'; }
+    else if (el.matches('span[data-alt], span.f-alt')) { id = 'alt'; text = el.dataset.altNote || _ttl(el) || 'Name or pronoun alternation.'; }
+    else if (el.matches('.f-spell')) { id = 'spell'; text = _ttl(el) || 'Possible spelling mistake.'; }
+    else if (el.matches('.f-grammar')) { id = 'grammar'; text = _ttl(el) || 'Possible grammar mistake.'; }
+    else if (el.matches('.f-dup')) { id = 'idea'; text = _ttl(el) || 'Similar idea.'; }
+    else if (el.matches('.f-contra')) { id = 'contra'; text = _ttl(el) || 'Contradiction.'; }
+    if (!id || off.has(id)) continue;
+    if (el.title) { el.dataset.th = el.title; el.removeAttribute('title'); _tipHeld.push(el); }
+    const k = id + '|' + text; if (seen.has(k)) continue; seen.add(k); out.push({ id, text });
+  }
+  return out;
+}
+function hlShowTip(target, x, y) {
+  const pub = document.getElementById('pubContent'); if (!pub) return 0;
+  _restoreTitles();
+  const lines = hlTipLines(target, pub);
+  const t = _tipNode();
+  if (!lines.length) { t.style.display = 'none'; return 0; }
+  t.innerHTML = lines.map(l => `<div class="hl-tip-l hl-t-${l.id}">${escHtml(l.text)}</div>`).join('');
+  t.style.display = 'flex'; posHlTip(x, y);
+  return lines.length;
+}
+function posHlTip(x, y) {
+  const t = _tipEl; if (!t || t.style.display === 'none') return;
+  const w = t.offsetWidth, h = t.offsetHeight; let l = x + 14, tp = y + 18;
+  if (l + w > window.innerWidth - 8) l = Math.max(8, x - w - 14);
+  if (tp + h > window.innerHeight - 8) tp = Math.max(8, y - h - 12);
+  t.style.left = l + 'px'; t.style.top = tp + 'px';
+}
+function hlOver(e) { if (e.target && e.target.nodeType === 1) hlShowTip(e.target, e.clientX, e.clientY); }
+function hlMove(e) { posHlTip(e.clientX, e.clientY); }
+function hlClick(e) {
+  const jm = e.target.closest && e.target.closest('mark.jg-mark');
+  if (jm) jgFocusRow(jm.dataset.term);
+  if (window.matchMedia && window.matchMedia('(hover: none)').matches && e.target.closest && !e.target.closest('mark.dup-word, mark.style-sug')) {
+    if (hlShowTip(e.target, e.clientX, e.clientY)) { clearTimeout(_tipTimer); _tipTimer = setTimeout(hideHlTip, 3500); }
+  }
+}
+function initHlKey() {
+  const pub = document.getElementById('pubContent'); if (!pub || pub._hlInit) return; pub._hlInit = true;
+  new MutationObserver(schedulePaintHlKey).observe(pub, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'data-long', 'data-alt', 'data-ph'] });
+  pub.addEventListener('mouseover', hlOver); pub.addEventListener('mousemove', hlMove); pub.addEventListener('mouseleave', hideHlTip); pub.addEventListener('click', hlClick);
+  const key = document.getElementById('hlKey');
+  if (key) key.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.hl) toggleHl(b.dataset.hl); else if (b.dataset.hlall) setAllHl(b.dataset.hlall === 'hide');
+  });
+  window.addEventListener('scroll', hideHlTip, true);
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHlKey); else initHlKey();
+// ---- jargon highlight ----
+// Wrap characters [start, end) of root's text in elements from make() (one per text piece, so a phrase split by another mark still shows whole)
+function _wrapText(root, start, end, make) {
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), parts = []; let n, base = 0;
+  while ((n = w.nextNode())) { const len = n.nodeValue.length, a = Math.max(start, base), b = Math.min(end, base + len); if (a < b) parts.push({ n, from: a - base, to: b - base }); base += len; if (base >= end) break; }
+  return parts.map(({ n, from, to }) => {
+    let t = n; if (from > 0) t = n.splitText(from);
+    if (to - from < t.nodeValue.length) t.splitText(to - from);
+    const el = make(); t.parentNode.insertBefore(el, t); el.appendChild(t); return el;
+  });
+}
+function clearJgMarks(pub) {
+  const ms = Array.from(pub.querySelectorAll('mark.jg-mark')); if (!ms.length) return;
+  const parents = new Set();
+  ms.forEach(m => { parents.add(m.parentNode); m.replaceWith(...m.childNodes); });
+  parents.forEach(pn => { try { pn.normalize(); } catch (e) {} });
+}
+function paintJargonMarks(pub, hits) {
+  clearJgMarks(pub);
+  if (!hits || !hits.length) return;
+  const terms = hits.map(x => x.j).sort((a, b) => b.term.length - a.term.length);
+  pub.querySelectorAll('span[data-si]').forEach(sp => {
+    const t = sp.textContent, taken = [], ranges = [];
+    terms.forEach(j => { j.rx.lastIndex = 0; let m; while ((m = j.rx.exec(t))) { const st = m.index + m[1].length, en = st + m[2].length; if (!taken.some(([a, b]) => st < b && en > a)) { taken.push([st, en]); ranges.push({ st, en, j }); } } });
+    ranges.forEach(r => _wrapText(sp, r.st, r.en, () => { const mk = document.createElement('mark'); mk.className = 'jg-mark'; mk.dataset.term = r.j.term; mk.dataset.plain = r.j.plain; return mk; }));
+  });
+}
+// The Review pane as it is saved: without the highlights that are only there to look at
+function _pubHtmlClean(pubEl) {
+  let html;
+  if (pubEl.querySelector('mark.jg-mark')) { const c = pubEl.cloneNode(true); c.querySelectorAll('mark.jg-mark').forEach(m => m.replaceWith(...m.childNodes)); html = c.innerHTML; }
+  else html = pubEl.innerHTML;
+  return html.replace(/ data-th="[^"]*"/g, '');
+}
+function jgFind(k) {
+  const x = _jgHits[k], pub = document.getElementById('pubContent'); if (!x || !pub) return;
+  if (hlOffSet().has('jargon')) toggleHl('jargon');
+  const ms = Array.from(pub.querySelectorAll('mark.jg-mark')).filter(m => m.dataset.term === x.j.term); if (!ms.length) return;
+  try { ms[0].scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) { ms[0].scrollIntoView(); }
+  ms.forEach(m => { m.classList.remove('jg-flash'); void m.offsetWidth; m.classList.add('jg-flash'); });
+  setTimeout(() => ms.forEach(m => m.classList.remove('jg-flash')), 2000);
+}
+function jgPulse(k, on) {
+  const x = _jgHits[k]; if (!x) return;
+  document.querySelectorAll('#pubContent mark.jg-mark').forEach(m => m.classList.toggle('jg-on', !!on && m.dataset.term === x.j.term));
+}
+function jgFocusRow(term) {
+  const k = _jgHits.findIndex(x => x.j.term === term), inp = k >= 0 && document.getElementById('jgTo' + k); if (!inp) return;
+  const row = inp.closest('.jg-row'); try { inp.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+  inp.focus(); try { inp.select(); } catch (e) {}
+  if (row) { row.classList.remove('jg-row-flash'); void row.offsetWidth; row.classList.add('jg-row-flash'); setTimeout(() => row.classList.remove('jg-row-flash'), 1300); }
+}
+
 function renderReviewInfo() {
   const box = document.getElementById('pubChecks');
   const pub = document.getElementById('pubContent');
@@ -11959,6 +12172,7 @@ function renderReviewInfo() {
   const note = (cur().notes || '').trim();
   if (note) h += `<div class="rv-note"><b>Your note:</b> ${escHtml(note)}</div>`;
   box.innerHTML = h;
+  try { paintHlKey(); } catch (e) {}   // v3.16.14
 }
 
 // ── private notes ────────────────────────────────────────────────────────
@@ -12766,6 +12980,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.13</div>
+<div class="version-badge">v3.16.14</div>
 </body>
 </html>
