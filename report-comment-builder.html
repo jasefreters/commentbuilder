@@ -1204,6 +1204,16 @@
     .sw-tab { flex: none; white-space: nowrap; min-height: 44px; }
     .sw-close { width: 44px; height: 44px; }
   }
+
+  /* v3.16.15 SPORT TEMPLATES: Gala Days, Knockout Teams, Zone Carnivals */
+  .tpl-card { display: flex; flex-direction: column; gap: 10px; padding: 11px 16px; border: 1.5px dashed var(--border); border-radius: 12px; background: var(--bg-1); color: var(--t0); }
+  .tpl-text { font-size: 15.5px; line-height: 1.5; color: var(--t0); }
+  .tpl-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .tpl-lbl { font-size: 12px; color: var(--t2); }
+  .tpl-sel { font-family: var(--font); font-size: 14px; min-height: 34px; padding: 5px 8px; max-width: 100%; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--bg-3); color: var(--t0); }
+  .tpl-add { font-family: var(--font); font-size: 13px; min-height: 34px; padding: 6px 14px; border-radius: var(--r-sm); border: 1px solid var(--green-bd); background: var(--green-bg); color: var(--green); cursor: pointer; white-space: nowrap; }
+  .tpl-add:hover { border-color: var(--green); }
+  @media (max-width: 700px) { .tpl-sel, .tpl-add { min-height: 44px; } .tpl-sel { flex: 1 1 120px; } .tpl-add { flex: 1 1 100%; } }
 </style>
 </head>
 <body>
@@ -1446,7 +1456,6 @@
           <span class="tier-note" id="tierNote" hidden title="No Personality level is set for this student, so the filter starts at the level of their Semester 1 sentences. Choose another level, or All, to change it."></span>
           <span class="sim-note" id="simNote" hidden title="Pink sentences are the closest in wording to a sentence this student used in Semester 1, in this category.">Closest to Semester 1</span>
           <button class="btn-dashed" id="composerBtn" onclick="toggleComposer()" aria-expanded="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Write your own sentence</button>
-          <div class="c-hint">Click a sentence to add it. Click again to remove it.</div>
         </div>
       </div>
       <div class="c-scroll">
@@ -2143,8 +2152,17 @@ function applyWordingChanges(list) {
 }
 
 // true when sentence s may be offered in the given semester's bank
+// v3.16.15: Sport sentences the new Gala Days / Knockout Teams / Zone Carnivals templates replace. They stay in RAW, so a comment that already
+// uses one is untouched and can still take it out (the list keeps showing a retired sentence that is picked, or used in Semester 1). Nobody else is offered them.
+const RETIRED = new Set([
+  "{{N}} represented the school at the Zone Cross Country carnival, demonstrating commitment and school pride.",
+  "{{S}} competes in netball and touch football knockout teams, demonstrating good sportsmanship and representing the school with pride.",
+  "{{S}} participates in soccer and cricket gala days, displaying good sportsmanship and teamwork.",
+  "{{S}} participated enthusiastically in tiger tag and touch football gala day teams, consistently displaying excellent sportsmanship and teamwork.",
+]);
 function inSemester(s, sem) {
   const other = (sem || currentSemester) === 1 ? 2 : 1;
+  if (RETIRED.has(s)) return false;
   if (SEM_ONLY[other].has(s)) return false;
   const yr = (typeof cur === 'function' && cur()) ? String(cur().year || '') : '';
   if (yr === '5' && YEAR_ONLY[6].has(s)) return false;
@@ -5260,6 +5278,9 @@ function renderSidebar() {
 // Format: [{ label, from, to }] where from/to are sentence indices (inclusive)
 const SPORT_GROUPS = [
   { label: 'General',                  from: 0,  to: 1  },
+  { label: 'Gala Days',                from: -1, to: -2, tpl: true },   // v3.16.15: template sentences only (no fixed bank sentences)
+  { label: 'Knockout Teams',           from: -1, to: -2, tpl: true },
+  { label: 'Zone Carnivals',           from: -1, to: -2, tpl: true },
   { label: 'Cross Country',            from: 2,  to: 4  },
   { label: 'Touch Football',           from: 5,  to: 7  },
   { label: 'Soccer & Cricket',         from: 8,  to: 9  },
@@ -5267,6 +5288,79 @@ const SPORT_GROUPS = [
   { label: 'Dance, Cheer & Gymnastics',from: 11, to: 13 },
   { label: 'Choir & Cultural',         from: 14, to: 15 },
 ];
+
+// ══ v3.16.15 · SPORT TEMPLATES ══════════════════════════════════════════════
+// A template is a sentence with one or two sports (or carnivals) to choose. Choosing adds an ordinary sentence under the group, filled in,
+// the same way a sentence the teacher writes is added, so editing, Review, Semester 2 and Copy all treat it like any other.
+const SPORT_TPL = [
+  { group: 'Gala Days', noun: 'sports', list: ['touch football', 'soccer', 'tiger tag', 'cricket'], items: [
+    { id: 'gala1', n: 2, text: '{{N}} played in the [A] and [B] gala days, showing good sportsmanship.' },
+    { id: 'gala2', n: 2, text: '{{S}} represented the school at the [A] and [B] gala days, showing teamwork.' },
+  ] },
+  { group: 'Knockout Teams', noun: 'sports', list: ['touch football', 'soccer', 'tiger tag', 'cricket', 'netball'], items: [
+    { id: 'ko1', n: 2, text: '{{N}} represented the school with pride in the [A] and [B] knockout teams.' },
+    { id: 'ko2', n: 2, text: '{{S}} competes in the [A] and [B] knockout teams, showing good sportsmanship.' },
+  ] },
+  { group: 'Zone Carnivals', noun: 'carnivals', list: ['cross country', 'swimming', 'athletics'], items: [
+    { id: 'zc1', n: 1, text: '{{N}} represented the school at the zone [A] carnival, showing commitment and school pride.' },
+    { id: 'zc2', n: 2, text: '{{S}} competed at the zone [A] and [B] carnivals, showing good sportsmanship.' },
+  ] },
+];
+const _tplPick = {};   // template id -> the two choices (kept while the page is open, so adding several in a row is quick)
+function sportTplFind(id) { for (const g of SPORT_TPL) { const t = g.items.find(x => x.id === id); if (t) return { g, t }; } return null; }
+function sportTplPicks(g, t) {
+  let pk = _tplPick[t.id];
+  if (!pk || !g.list.includes(pk[0]) || !g.list.includes(pk[1])) pk = _tplPick[t.id] = [g.list[0], g.list[1]];
+  return pk;
+}
+function sportTplFill(g, t) { const pk = sportTplPicks(g, t); return t.text.replace('[A]', pk[0]).replace('[B]', pk[1]); }
+function sportTplLabel(v) { return v.charAt(0).toUpperCase() + v.slice(1); }
+function sportTplPick(id, k, v) {
+  const f = sportTplFind(id); if (!f) return;
+  const pk = sportTplPicks(f.g, f.t);
+  pk[k] = v;
+  if (f.t.n === 2 && pk[0] === pk[1]) {   // the same sport twice makes no sense: move the other box to a different one
+    const o = 1 - k; pk[o] = f.g.list.find(x => x !== v);
+    const sel = document.getElementById('tplsel_' + id + '_' + o); if (sel) sel.value = pk[o];
+  }
+  const pv = document.getElementById('tplprev_' + id); if (pv) pv.textContent = applyFC(sportTplFill(f.g, f.t));
+}
+function sportTplCard(g, t) {
+  const pk = sportTplPicks(g, t);
+  const card = document.createElement('div'); card.className = 'tpl-card'; card.dataset.tpl = t.id;
+  const txt = document.createElement('div'); txt.className = 'tpl-text'; txt.id = 'tplprev_' + t.id; txt.textContent = applyFC(sportTplFill(g, t));
+  const row = document.createElement('div'); row.className = 'tpl-row';
+  const lbl = document.createElement('span'); lbl.className = 'tpl-lbl';
+  lbl.textContent = t.n === 2 ? 'Choose 2 ' + g.noun + ':' : 'Choose a carnival:';
+  row.appendChild(lbl);
+  for (let k = 0; k < t.n; k++) {
+    const sel = document.createElement('select'); sel.className = 'tpl-sel'; sel.id = 'tplsel_' + t.id + '_' + k;
+    sel.setAttribute('aria-label', (t.n === 2 ? (k === 0 ? 'First ' : 'Second ') : '') + (g.noun === 'carnivals' ? 'carnival' : 'sport'));
+    g.list.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = sportTplLabel(v); sel.appendChild(o); });
+    sel.value = pk[k];
+    sel.onchange = () => sportTplPick(t.id, k, sel.value);
+    row.appendChild(sel);
+  }
+  const add = document.createElement('button'); add.type = 'button'; add.className = 'tpl-add'; add.textContent = '+ Add to comment';
+  add.onclick = () => addSportTpl(t.id);
+  row.appendChild(add);
+  card.appendChild(txt); card.appendChild(row);
+  return card;
+}
+function addSportTpl(id) {
+  const f = sportTplFind(id); if (!f || currentSubject !== 'general') return;
+  const cat = 'Sport & Extracurricular', stu = cur(), text = sportTplFill(f.g, f.t);
+  if (!stu.custom) stu.custom = {}; if (!stu.customTiers) stu.customTiers = {};
+  if (!stu.custom[cat]) stu.custom[cat] = []; if (!stu.customTiers[cat]) stu.customTiers[cat] = [];
+  let idx = stu.custom[cat].indexOf(text);
+  if (idx === -1) { stu.custom[cat].push(text); stu.customTiers[cat].push('strong'); idx = stu.custom[cat].length - 1; }
+  if (!getCustomGroup(stu, cat, text)) setCustomGroup(stu, cat, text, f.g.group);
+  const key = '__custom__' + cat + '__' + idx;
+  if ((stu.selected[cat] || []).includes(key)) { showToast('That sentence is already in the comment.'); render(); return; }
+  genAddKey(cat, key);
+  autoSave(); render();
+  showToast('Added to the comment.');
+}
 const TIER_BOUNDARIES = {
   'Personality': { average: 14, developing: 17 },
   'Effort & Work Habits': { average: 13, developing: 16 },
@@ -5373,7 +5467,7 @@ function _renderOptsCore() {
   // Wrap each sentence with its original index
   let sentenceObjs = rawSentences.map((s, origIdx) => ({ s, origIdx }))
     // other semester's sentences are hidden, unless one is already in this draft (so it can still be removed)
-    .filter(o => inSemester(o.s) || (cur().selected[currentTab] || []).includes(o.s));
+    .filter(o => inSemester(o.s) || (cur().selected[currentTab] || []).includes(o.s) || (RETIRED.has(o.s) && isS2 && s1Keys.has(o.s)));   // v3.16.15: a retired sentence stays while it is picked or was used in Semester 1
 
   // v3.14.2: no more Semester 2 ranking (it only scored how few words a sentence shared with Semester 1).
   // The bank keeps its usual order, with the Semester 1 sentences in their own group at the top, as in English and Maths.
@@ -5464,6 +5558,16 @@ function _renderOptsCore() {
   const isSportCat = currentTab === 'Sport & Extracurricular';
   let currentSportGroup = -1;
   const _flushedGroups = new Set();
+  let _tplDone = false;   // v3.16.15: the three template groups sit straight after General
+  function renderSportTemplates() {
+    if (_tplDone) return; _tplDone = true;
+    SPORT_TPL.forEach(g => {
+      addSportDivider(g.group);
+      g.items.forEach(t => grid.appendChild(sportTplCard(g, t)));
+      _flushedGroups.add(g.group);
+      if (customsByGroup[g.group]) renderCustomsForTier('strong', customsByGroup[g.group]);
+    });
+  }
   // v3.13.1: a group's own sentences go straight after the bank sentences in that group
   function flushSportGroup(gi) {
     if (gi < 0) return;
@@ -5504,6 +5608,7 @@ function _renderOptsCore() {
       const groupIdx = SPORT_GROUPS.findIndex(g => origIdx >= g.from && origIdx <= g.to);
       if (groupIdx !== currentSportGroup) {
         flushSportGroup(currentSportGroup);
+        if (groupIdx > 0) renderSportTemplates();
         currentSportGroup = groupIdx;
         if (groupIdx !== -1) addSportDivider(SPORT_GROUPS[groupIdx].label);
       }
@@ -5533,6 +5638,7 @@ function _renderOptsCore() {
   // v3.13.1: close the last Sport group, then any group whose only sentences are the teacher's own
   if (isSportCat) {
     flushSportGroup(currentSportGroup);
+    renderSportTemplates();
     SPORT_GROUPS.forEach((g, gi) => {
       if (!_flushedGroups.has(g.label) && customsByGroup[g.label]) { addSportDivider(g.label); flushSportGroup(gi); }
     });
@@ -9168,7 +9274,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.14';
+const APP_VERSION = 'v3.16.15';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9813,6 +9919,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.15', date: '5 November 2026', items: [
+    'Sport & Extracurricular has three new groups: Gala Days, Knockout Teams and Zone Carnivals. Each has two sentences where you choose the sports (or carnivals), then add it. Gala days and knockout teams take two of touch football, soccer, tiger tag and cricket (knockout also has netball). Zone carnivals use cross country, swimming and athletics.',
+    'Four fixed sentences these replace are no longer offered: Zone Cross Country, netball and touch football knockout, soccer and cricket gala days, and tiger tag and touch football gala day teams. A comment that already uses one is unchanged.',
+  ] },
   { v: 'v3.16.14', date: '4 November 2026', items: [
     'Review has a key above the comment. It shows each highlight with its colour and how many there are, and you can hide any of them. Hover a highlight to see what it means straight away.',
     'Words parents may not know are now highlighted in the comment. Click a word in the box to find it, or click the highlight to jump to its suggestion.',
@@ -12980,6 +13090,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.14</div>
+<div class="version-badge">v3.16.15</div>
 </body>
 </html>
