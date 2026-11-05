@@ -1496,7 +1496,7 @@
         </div>
         <div class="out-editable" id="outEditable" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Draft comment"
              data-placeholder="Pick sentences from the bank to build this student’s comment, or type here directly…"
-             onblur="onDraftBlur()" oninput="onDraftInput()" onkeydown="onDraftKeydown(event)"></div>
+             onblur="onDraftBlur()" oninput="onDraftInput()" onpaste="onDraftPaste()" onkeydown="onDraftKeydown(event)"></div>
         <div class="draft-edit-bar" id="draftEditBar">
           <button class="draft-reset-btn" onclick="resetDraft()">Reset</button>
           <div class="draft-edit-label">Editing draft…</div>
@@ -7827,6 +7827,78 @@ function _freeMatchScore(stu, subj, key, text) {
 function _inDraftAlready(stu, subj, key, text) {
   try { return _freeMatchScore(stu, subj, key, text) >= 0.75; } catch (e) { return false; }   // a close copy, not just a similar sentence
 }
+// ── v3.16.20 · paste a finished comment and the bank sentences in it are ticked ──────────────────────
+// Jason, 6 Nov, 01:02 ("Yes, build that please."): a comment pasted into the draft pane was treated as hand-written text, so nothing in the
+// lists showed as used. Now a paste finds the bank sentences in the text and ticks them. It only ticks: the pasted text is never changed,
+// typing does not do this, and a sentence that is not close to a bank sentence is left alone.
+const PASTE_TICK_MIN = 0.85;   // 1 = the same words; a name, a pronoun or a year number may differ
+function _pasteBankList(subj) {
+  const out = [], seen = new Set();
+  if (subj === 'general') {
+    Object.keys(SENT_CAT).forEach(k => { if (SENT_CAT[k] && !seen.has(k)) { seen.add(k); out.push({ cat: SENT_CAT[k], key: k }); } });
+  } else {
+    const bank = subj === 'english' ? ENGLISH_BANK : MATHS_BANK;
+    Object.keys(bank).forEach(cat => {
+      if (cat === 'Future Directions') return;
+      Object.keys(bank[cat] || {}).forEach(g => (bank[cat][g] || []).forEach(k => { if (typeof k === 'string' && !seen.has(k)) { seen.add(k); out.push({ cat, key: k }); } }));
+    });
+  }
+  return out;
+}
+// The bank sentences found in `text` that are not ticked yet: [{cat, key, from, score}] in the order they appear, plus how many pasted sentences no bank sentence explains.
+function pasteTickFind(stu, subj, text) {
+  const sents = splitSentences(text);
+  if (!sents.length) return { found: [], left: 0 };
+  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = stu.year || '';
+  const stoks = sents.map(x => _syncToks(x, stu)), blocked = new Array(sents.length).fill(false);
+  _draftMatches(stu, subj, _subjKeys(stu, subj), text).forEach(v => { if (v.status !== 'gone') for (let q = v.from; q < v.to; q++) blocked[q] = true; });   // text a ticked sentence already explains
+  const words = new Set([].concat(...stoks));
+  const sel = subj === 'general' ? null : ((subj === 'english' ? stu.engSelected : stu.mathSelected) || {});
+  const cands = [];
+  _pasteBankList(subj).forEach(({ cat, key }) => {
+    if (subj === 'general' ? genSelForm(cat, key, stu) !== null : subjSelectedForm(sel[cat] || [], key) !== null) return;
+    const c0 = applyAlternation(key, name, p, { value: 0 }, yr);
+    const c1 = p.S === 'They' ? applyAlternation(key, name, p, { value: 1 }, yr) : null;   // They / Name changes the verb too
+    const ct = _syncToks(c0, stu);
+    if (ct.length < 3 || ct.filter(w => words.has(w)).length / ct.length < 0.7) return;   // quick first look: most of its words must be in the text
+    cands.push({ cat, key, txt: c0, ct, ct2: c1 && c1 !== c0 ? _syncToks(c1, stu) : null, k: Math.max(1, splitSentences(c0).length) });
+  });
+  // a Maths sentence that names English (or the other way round) is a different comment, even when every other word is the same
+  const clash = (it, b) => { const w = sents.slice(b.from, b.to).join(' '); return subj === 'maths' ? (/\benglish\b/i.test(w) && !/\benglish\b/i.test(it.txt)) : subj === 'english' ? (/\bmath(?:s|ematics)\b/i.test(w) && !/\bmath(?:s|ematics)\b/i.test(it.txt)) : false; };
+  cands.forEach(it => { it.b = _bestWindow2(it, stoks, blocked); });
+  const found = [];
+  cands.filter(it => it.b.score >= PASTE_TICK_MIN).sort((a, b) => b.b.score - a.b.score).forEach(it => {
+    let b = it.b;
+    if (blocked.slice(b.from, b.to).some(Boolean)) b = _bestWindow2(it, stoks, blocked);   // a closer sentence has taken part of this text
+    if (b.score < PASTE_TICK_MIN || clash(it, b)) return;
+    for (let q = b.from; q < b.to; q++) blocked[q] = true;
+    found.push({ cat: it.cat, key: it.key, from: b.from, score: b.score });
+  });
+  found.sort((a, b) => a.from - b.from);
+  return { found, left: blocked.filter(x => !x).length };
+}
+function pasteTickApply(stu, subj, found) {
+  if (subj === 'general') { found.forEach(f => genAddKey(f.cat, f.key)); return; }
+  const sk = subj === 'english' ? 'engSelected' : 'mathSelected', ok = subj === 'english' ? 'engOrdered' : 'mathOrdered', pk = subj === 'english' ? 'pubEditEnglish' : 'pubEditMaths';
+  if (!stu[sk]) stu[sk] = {}; if (!stu[ok]) stu[ok] = [];
+  found.forEach(f => { (stu[sk][f.cat] = stu[sk][f.cat] || []).push(f.key); stu[ok].push(f.key); });
+  stu[pk] = null; stu[pk + '_fdHash'] = null;
+}
+function pasteTick(stu, subj) {
+  const hand = _handDraft(stu, subj);
+  if (!hand) return 0;
+  const r = pasteTickFind(stu, subj, subj === 'general' ? hand : (stripFDFromDraftText(hand) || ''));
+  if (!r.found.length) return 0;
+  pasteTickApply(stu, subj, r.found);
+  autoSave(); renderOpts(); renderSidebar(); updateSentChip();
+  const n = r.found.length;
+  showToast('Ticked ' + n + (n === 1 ? ' sentence' : ' sentences') + ' from the pasted comment' + (r.left ? ' · ' + r.left + (r.left === 1 ? ' sentence is' : ' sentences are') + ' not from the bank' : ''));
+  return n;
+}
+function onDraftPaste() {
+  const stu = cur(), subj = currentSubject;
+  setTimeout(() => { try { if (cur() === stu && currentSubject === subj) pasteTick(stu, subj); } catch (e) { /* ticking is a convenience: it must never get in the way of pasting */ } }, 80);
+}
 function scheduleReconcile(stu, subj, snap) {
   if (_reconTimer) clearTimeout(_reconTimer);
   const sig = _subjKeys(stu, subj).join('|');
@@ -9351,7 +9423,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.19';
+const APP_VERSION = 'v3.16.20';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10004,6 +10076,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.20', date: '6 November 2026', items: [
+    'Paste a finished comment into the draft and the sentences in it that come from the bank are ticked in their lists. The text you pasted is never changed.',
+  ] },
   { v: 'v3.16.19', date: '6 November 2026', items: [
     'Six new sentences in the General bank: two in Social Skills, and one each in Communication & Collaboration, Independence, Effort & Work Habits and Interests & Passions. Nothing already written was changed.',
   ] },
@@ -13188,6 +13263,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.19</div>
+<div class="version-badge">v3.16.20</div>
 </body>
 </html>
