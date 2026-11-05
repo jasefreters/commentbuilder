@@ -2221,6 +2221,14 @@ const _THEY_IRR = { is:'are', has:'have', was:'were', does:'do', "isn't":"aren't
 const _THEY_IRR_REV = { are:'is', have:'has', were:'was', do:'does', "aren't":"isn't", "haven't":"hasn't", "don't":"doesn't", "weren't":"wasn't" };
 const _AGREE_ADV = '(?:[A-Za-z]+ly|also|always|never|often|usually|still|just|even|now|then|sometimes|generally|already)';
 const _AGREE_NOTVERB = /^(only|early|family|likely|apply|reply|supply|rely|and|but|or|the|a|an|his|her|their|its|this|that|these|those|should|could|would|can|will|must|may|might|shall)$/i;
+// v3.16.22: words that are verbs in one comment and plural nouns in another (changes, needs, tests, turns). After "and" or a comma, with They, they lose the s only when an object follows ("slides, flips and turns shapes"; "changes in the weather" keeps its noun).
+const _THEY_AMBIG = new Set(['changes', 'needs', 'tests', 'turns']);
+const _AGREE_PREP = /^(?:in|on|at|of|for|with|during|from|by|about|into|onto|over|under|after|before|between|through|across|and|or|but|so|as|than|when|while|if|because|which|who|that|where|then|to)$/i;
+function _objFollows(w, s, end) {
+  const m = s.slice(end).match(/^\s+(\{\{[A-Za-z]+\}\}|[A-Za-z']+)/); if (!m) return false;
+  if (m[1].charAt(0) === '{') return true;   // his / her / their, still a placeholder at this point
+  return (w.toLowerCase() === 'needs' && /^to$/i.test(m[1])) || !_AGREE_PREP.test(m[1]);
+}
 let _THEY_V = null;   // verbs the banks use after a subject, so "uses X and applies Y" is recognised
 function _theyVerbs() {
   if (_THEY_V) return _THEY_V;
@@ -2233,7 +2241,7 @@ function _theyVerbs() {
     else if (o && typeof o === 'object') Object.values(o).forEach(walk);
   };
   // verbs the banks only ever use after "and" / a comma (never straight after the subject)
-  ('analyses attempts benefits builds classifies collects communicates compares comprehends connects constructs continues converts counts creates demonstrates describes discusses displays divides drafts draws edits evaluates explains explores finds identifies includes incorporates inspires interprets justifies labels listens maintains makes matches measures multiplies names navigates orders organises participates plots presents quantifies reads recalls recognises records represents revises rounds selects separates shares shows simplifies solves stays strives structures subtracts supports types understands uses works writes applies touches puts traces').split(' ').forEach(add);   // v3.12.3: touches, puts, traces come from the Access Points comments
+  ('analyses attempts benefits builds classifies collects communicates compares comprehends connects constructs continues converts counts creates demonstrates describes discusses displays divides drafts draws edits evaluates explains explores finds identifies includes incorporates inspires interprets justifies labels listens maintains makes matches measures multiplies names navigates orders organises participates plots presents quantifies reads recalls recognises records represents revises rounds selects separates shares shows simplifies solves stays strives structures subtracts supports types understands uses works writes applies touches puts traces flips develops improves remembers searches packs').split(' ').forEach(add);   // v3.12.3: touches, puts, traces come from the Access Points comments; v3.16.22: flips develops improves remembers searches packs
   try { [RAW, ENGLISH_BANK, MATHS_BANK].forEach(walk); } catch (e) { return { plural, toSing }; }   // banks not ready yet: do not cache
   return (_THEY_V = { plural, toSing });
 }
@@ -2244,12 +2252,13 @@ function _theyBase(w) {                       // uses → use, identifies → id
   return w.slice(0, -1);
 }
 function _keepCase(from, to) { return from[0] !== from[0].toLowerCase() ? to[0].toUpperCase() + to.slice(1) : to; }
-function _verbForm(w, plural, first) {
+function _verbForm(w, plural, first, obj) {
   const lw = w.toLowerCase();
   if (_AGREE_NOTVERB.test(lw)) return w;
   const V = _theyVerbs();
   if (plural) {
     if (_THEY_IRR[lw]) return _keepCase(w, _THEY_IRR[lw]);
+    if (obj) return _keepCase(w, _theyBase(lw));   // v3.16.22: changes / needs / tests / turns with an object after them
     if (!/s$/.test(lw) || /(ss|us|is)$/.test(lw) || lw.length < 3) return w;
     return (first || V.plural.has(lw)) ? _keepCase(w, _theyBase(lw)) : w;
   }
@@ -2265,8 +2274,8 @@ function _agreeTail(tail, plural) {
   let rest = tail.slice(m[0].length), after = '';
   // v3.16.19: verbs after "who / which" belong to the noun before it ("an animated student who builds ... and enjoys ..."), so they keep their form
   const rel = rest.search(/\s(?:who|which)\s/);
-  if (rel !== -1) { after = rest.slice(rel); rest = rest.slice(0, rel); }
-  rest = rest.replace(new RegExp('(\\b(?:and|but|or)\\s+|,\\s+(?:and\\s+)?)((?:' + _AGREE_ADV + '\\s+)*)([A-Za-z\']+)', 'g'), (mm, conj, adv, w) => conj + adv + _verbForm(w, plural, false));
+  if (rel > 0) { after = rest.slice(rel); rest = rest.slice(0, rel); }   // v3.16.22: a "which" straight after the verb ("predicts which objects will stack and pack ...") is a question word, not a relative, so the verbs after it still agree
+  rest = rest.replace(new RegExp('(\\b(?:and|but|or)\\s+|,\\s+(?:and\\s+)?)((?:' + _AGREE_ADV + '\\s+)*)([A-Za-z\']+)', 'g'), (mm, conj, adv, w, off, str) => conj + adv + _verbForm(w, plural, false, plural && _THEY_AMBIG.has(w.toLowerCase()) && _objFollows(w, str, off + mm.length)));
   return head + rest + after;
 }
 // Template version, run before the placeholders are filled. Only the {{S}} / {{s}} clauses change; a name keeps its singular verb.
@@ -7980,19 +7989,31 @@ function pasteTickApply(stu, subj, found, text) {
   found.forEach(f => { (stu[sk][f.cat] = stu[sk][f.cat] || []).push(f.key); stu[ok].push(f.key); });
   stu[pk] = null; stu[pk + '_fdHash'] = null;
 }
+// v3.16.22: after a paste, scroll the open list to the first sentence that has just been ticked (nothing moves when none of them is in this list)
+function scrollToFirstNewTicked(had) {
+  try {
+    const sc = document.querySelector('.c-scroll'); if (!sc) return false;
+    const c = [...document.querySelectorAll('#optsGrid .opt.sel')].find(b => !had.has(b.textContent)); if (!c) return false;
+    const r = c.getBoundingClientRect(), s = sc.getBoundingClientRect(); if (!r.height) return false;   // the list is hidden (phone, Draft tab open)
+    sc.scrollTop += r.top - s.top - 12; return true;
+  } catch (e) { return false; }
+}
 function pasteTick(stu, subj) {
   const hand = _handDraft(stu, subj);
   if (!hand) return 0;
   const r = pasteTickFind(stu, subj, subj === 'general' ? hand : (stripFDFromDraftText(hand) || ''));
   if (!r.found.length) return 0;
+  const had = new Set([...document.querySelectorAll('#optsGrid .opt.sel')].map(b => b.textContent));
   pasteTickApply(stu, subj, r.found, subj === 'general' ? '' : (stripFDFromDraftText(hand) || ''));
   autoSave(); renderOpts(); renderSidebar(); updateSentChip();
+  scrollToFirstNewTicked(had);
   const n = r.found.length;
   showToast('Ticked ' + n + (n === 1 ? ' sentence' : ' sentences') + ' from the pasted comment' + (r.left ? ' · ' + r.left + (r.left === 1 ? ' sentence is' : ' sentences are') + ' not from the bank' : ''));
   return n;
 }
 function onDraftPaste() {
   const stu = cur(), subj = currentSubject;
+  if (!flagOn('pasteTick')) return;   // v3.16.22: Settings > Comments
   setTimeout(() => { try { if (cur() === stu && currentSubject === subj) pasteTick(stu, subj); } catch (e) { /* ticking is a convenience: it must never get in the way of pasting */ } }, 80);
 }
 function scheduleReconcile(stu, subj, snap) {
@@ -9524,7 +9545,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.21';
+const APP_VERSION = 'v3.16.22';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10177,6 +10198,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.22', date: '6 November 2026', items: [
+    'With the pronoun They, every verb in a list now agrees (\u201cThey slide, flip and turn shapes\u201d). Before, only the first verb changed.',
+    'Pasting a finished comment now scrolls the list to the first sentence that was ticked, and there is a switch in Settings (Comments) to turn the ticking off.',
+  ] },
   { v: 'v3.16.21', date: '6 November 2026', items: [
     'Below Expectations now asks which year the student\u2019s work aligns with. There is a row of years at the top of that tab, and a box opens when you tick a sentence that has a year in it. It fills the year in the sentence (for example, \u201caligns with Year 3 expectations\u201d), so you no longer change it by hand. It is kept for each subject and each semester. If you do not choose one, the sentence shows the year in the Yr box as before.',
   ] },
@@ -12235,7 +12260,7 @@ function showNextLongSentence() {
 // ══ v3.16.13 · MORE SETTINGS ═══════════════════════════════════════════════
 // Saved on this device, like the word limits. Every default leaves the app working exactly as before.
 function getSimMode() { const v = lsGet('rcb_simmode', 'top'); return v === 'mark' || v === 'off' ? v : 'top'; }
-const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch' };
+const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch', pasteTick: 'rcb_pastetick' };
 function flagOn(name) { return lsGet(_FLAG_KEYS[name], true) !== false; }
 function _settingChanged(name) {
   try {
@@ -12261,6 +12286,8 @@ function renderMoreSettings() {
     + sw('confetti', 'Confetti when a comment is done', 'Shown once for each student.')
     + '<div class="sw-pane-title">General comment paragraphs</div>'
     + sw('paras', 'Split the General comment into paragraphs', 'Off puts the whole comment in one paragraph. No words change.')
+    + '<div class="sw-pane-title">Pasting a finished comment</div>'
+    + sw('pasteTick', 'Tick the sentences from a pasted comment', 'Ticks the bank sentences found in the comment you paste into the draft and scrolls the list to the first one. The text you paste is never changed. Off leaves a pasted comment as plain text.')
     + '<div class="sw-pane-title">Moving around</div>'
     + sw('topOnSwitch', 'Open each category at the top of the list', 'Also when you change student. Off keeps your place in the list.');
 }
@@ -13368,6 +13395,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.21</div>
+<div class="version-badge">v3.16.22</div>
 </body>
 </html>
