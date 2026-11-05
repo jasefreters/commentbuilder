@@ -590,6 +590,14 @@
   .yp-grid button, .yp-cancel { font-family:var(--font); font-size:14px; padding:10px 0; border-radius:var(--r-sm); border:1px solid var(--border); background:var(--bg-3); color:var(--t0); cursor:pointer; }
   .yp-grid button:hover { border-color:var(--green); color:var(--green); }
   .yp-cancel { width:100%; margin-top:10px; font-size:12px; color:var(--t2); }
+  .align-strip { margin:6px 12px 4px; padding:8px 10px; border:1px solid var(--border); border-radius:var(--r-sm); background:var(--bg-2); }
+  .align-lab { font-size:12px; font-weight:600; color:var(--t0); margin-bottom:6px; }
+  .align-chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .align-chips button { font-family:var(--font); font-size:12px; min-width:40px; padding:5px 10px; border-radius:999px; border:1px solid var(--border); background:var(--bg-3); color:var(--t1); cursor:pointer; }
+  .align-chips button:hover { border-color:var(--green); color:var(--green); }
+  .align-chips button.on { border-color:var(--green); background:var(--green-bg); color:var(--green); font-weight:700; }
+  .align-note { font-size:11px; color:var(--t2); margin-top:6px; line-height:1.4; }
+  .align-note.warn { color:var(--red); }
 
   /* ═══════════════════════════════════════════════════════════════
      v3.6.0 LAYOUT — workbench + class board (replaces the v3.5 layout)
@@ -2305,8 +2313,11 @@ function onDraftBlur() {
 function applyRaw(text, name, p, year) {
   text = friendlyTokens(text);
   const n = name || '[Name]';
-  const yr = year !== undefined ? year : getYear();
+  // v3.16.21: the year argument can carry the year her work aligns with ("5|3" = Year 5 student, work aligns with Year 3)
+  const _yp = String(year !== undefined ? year : getYear() + (alignOf(cur(), currentSubject) ? '|' + alignOf(cur(), currentSubject) : '')).split('|');
+  const yr = _yp[0], alYr = _yp[1] || '';
   const yearLabel = yr ? yearWord(yr) : 'Year [X]';
+  const alLabel = alYr ? yearWord(alYr) : '';
   if (p && p.S === 'They') text = theyAgree(text);   // v3.9.2
   return text
     .replace(/\{\{N\}\}/g, n)
@@ -2315,8 +2326,14 @@ function applyRaw(text, name, p, year) {
     .replace(/\{\{O\}\}/g, p.O).replace(/\{\{o\}\}/g, p.o)
     .replace(/\{\{Pos\}\}/g, p.Pos).replace(/\{\{pos\}\}/g, p.pos)
     .replace(/\{\{r\}\}/g, p.r)
-    .replace(/Year \[X\]/g, yearLabel);
+    .replace(/below Year \[X\]/g, 'below ' + yearLabel)   // the year the student is in
+    .replace(/Year \[X\]/g, alLabel || yearLabel)           // the year the work aligns with (the Yr box year until one is chosen)
+    .replace(/Year \[Y\]/g, alLabel || 'Year [Y]');
 }
+// v3.16.21: the year a student's Below Expectations work aligns with, kept per subject and per semester
+function alignOf(stu, subj) { return (stu && (subj === 'english' ? stu.engAlign : subj === 'maths' ? stu.mathAlign : '')) || ''; }
+function yrA(stu, subj) { const y = (stu && stu.year) || '', a = alignOf(stu, subj); return a ? y + '|' + a : y; }
+function needsAlign(key) { return typeof key === 'string' && /Year \[[XY]\]/.test(key.replace(/below Year \[X\]/g, '')); }
 // applyFC: apply placeholders to a sentence as it would appear in the draft.
 // If the sentence is already selected, use its actual position in cur().ordered.
 // If not yet selected, it would be added at position cur().ordered.length (0-based),
@@ -2865,7 +2882,8 @@ function subjS1Picks(cat) {
   const keys = (sel[cat] || []).filter(k => typeof k === 'string' && k && !k.startsWith('__custom__'));
   if (!keys.length) return [];
   const customs = ((eng ? stu.engCustom : stu.mathCustom) || {})[cat] || [];
-  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = stu.year || '';
+  const _s1al = (eng ? stu.engS1Align : stu.mathS1Align) || '';
+  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = (stu.year || '') + (_s1al ? '|' + _s1al : '');
   const edited = new Map();
   try {
     const all = (eng ? stu.engS1Ordered : stu.mathS1Ordered) || [];
@@ -2884,6 +2902,79 @@ function subjS1Picks(cat) {
     out.push({ key: k, text: w || applyRaw(k, name, p, yr), edited: !!w });
   });
   return out;
+}
+
+// ── v3.16.21 · the year a student's Below Expectations work aligns with ─────────────────────────────
+function _alignKey(subj) { return subj === 'english' ? 'engAlign' : subj === 'maths' ? 'mathAlign' : null; }
+function _beYearTicked(stu, subj) {   // is a Below Expectations sentence that carries a year ticked?
+  const sel = (subj === 'english' ? stu.engSelected : stu.mathSelected) || {};
+  return (sel['Below Expectations'] || []).some(needsAlign);
+}
+function alignStripEl() {
+  const stu = cur(), subj = currentSubject, a = alignOf(stu, subj);
+  const d = document.createElement('div'); d.className = 'align-strip'; d.id = 'alignStrip';
+  const who = stu.name ? stu.name + '\u2019s' : 'The student\u2019s';
+  d.innerHTML = '<div class="align-lab">Year ' + escHtml(who) + ' work aligns with</div><div class="align-chips">' +
+    ['K', '1', '2', '3', '4', '5', '6'].map(y => '<button type="button" data-al="' + y + '" class="' + (a === y ? 'on' : '') + '" aria-pressed="' + (a === y) + '">' + (y === 'K' ? 'K' : 'Year ' + y) + '</button>').join('') + '</div>';
+  const note = document.createElement('div'); note.className = 'align-note';
+  if (a) note.textContent = 'The sentences below that mention a year will say ' + yearWord(a) + '. Tap it again to clear.';
+  else {
+    note.textContent = 'Not chosen yet. Sentences that mention a year show ' + (stu.year ? yearWord(stu.year) + ' (the Yr box)' : 'the Yr box year') + ' until you choose one.';
+    if (_beYearTicked(stu, subj)) note.classList.add('warn');
+  }
+  d.appendChild(note);
+  d.addEventListener('click', e => { const y = e.target && e.target.getAttribute && e.target.getAttribute('data-al'); if (y) setAlign(y === alignOf(cur(), currentSubject) ? '' : y); });
+  return d;
+}
+function setAlign(y) {
+  const stu = cur(), subj = currentSubject, k = _alignKey(subj);
+  if (!k) return;
+  stu[k] = y || '';
+  // an unfinished "Year [Y]" in a hand-edited draft or a Review copy is filled; nothing else the teacher wrote is touched
+  const lab = y ? yearWord(y) : '';
+  const eng = subj === 'english', dk = eng ? 'engDraft' : 'mathDraft', pk = eng ? 'pubEditEnglish' : 'pubEditMaths', ek = eng ? 'engDraftEdited' : 'mathDraftEdited';
+  let handEdited = false;
+  [dk, pk].forEach(f => {
+    const v = stu[f];
+    if (typeof v !== 'string' || !v) return;
+    if (lab && v.indexOf('Year [Y]') !== -1) stu[f] = v.split('Year [Y]').join(lab);
+    if ((f === pk || stu[ek]) && _beYearTicked(stu, subj)) handEdited = true;
+  });
+  autoSave();
+  if (currentView === 'publish') renderPublish(); else render();
+  if (y && handEdited) showToast('Saved ' + lab + '. Your edited comment keeps its own wording, so change the year in it by hand if it shows a different one.');
+}
+function openAlignPicker() {
+  if (document.getElementById('yearPicker')) return;
+  const stu = cur(); if (!stu || !_alignKey(currentSubject)) return;
+  const ov = document.createElement('div'); ov.className = 'yp-ov'; ov.id = 'yearPicker';
+  const close = () => { ov.remove(); document.removeEventListener('keydown', esc); };
+  const esc = e => { if (e.key === 'Escape') close(); };
+  const who = stu.name ? stu.name + '\u2019s' : 'this student\u2019s';
+  ov.innerHTML = '<div class="yp-box" role="dialog" aria-label="Year the work aligns with"><h3>Which year does ' + escHtml(who) + ' work align with?</h3><p>This fills in the year in the Below Expectations sentence.' +
+    (stu.year ? ' If you leave it, the sentence shows ' + escHtml(yearWord(stu.year)) + '.' : '') + '</p><div class="yp-grid">' +
+    ['K', '1', '2', '3', '4', '5', '6'].map(y => '<button type="button" data-y="' + y + '">' + (y === 'K' ? 'K' : 'Year ' + y) + '</button>').join('') +
+    '</div><button type="button" class="yp-cancel">Decide later</button></div>';
+  ov.addEventListener('click', e => {
+    if (e.target === ov || e.target.classList.contains('yp-cancel')) { close(); return; }
+    const y = e.target.getAttribute && e.target.getAttribute('data-y');
+    if (y) { close(); setAlign(y); }
+  });
+  document.addEventListener('keydown', esc);
+  document.body.appendChild(ov);
+}
+// pasting a finished comment: the year in its Below Expectations sentence becomes the aligned year (only when none is chosen yet)
+function inferAlignFromPaste(stu, subj, found, text) {
+  const k = _alignKey(subj); if (!k || stu[k]) return;
+  const sents = splitSentences(text);
+  for (const f of found) {
+    if (f.cat !== 'Below Expectations' || !needsAlign(f.key)) continue;
+    const seg = sents.slice(f.from, f.to).join(' ');
+    const ms = seg.match(/Year [1-6]\b|Kindergarten/g);
+    if (!ms) continue;
+    const last = ms[ms.length - 1], y = last === 'Kindergarten' ? 'K' : last.slice(5);
+    if (y !== String(stu.year || '')) { stu[k] = y; return; }
+  }
 }
 
 function toggleSubjOpt(cat, s) {
@@ -2916,7 +3007,7 @@ function toggleSubjOpt(cat, s) {
   if (existing) {
     const name = cur().name || '[Name]';
     const p    = PR[cur().pronoun];
-    const yr   = cur().year || '';
+    const yr   = yrA(cur(), currentSubject);
     // Count existing name/pronoun openers to continue alternation correctly
     // Only count actual name or pronoun sentence starters, not all capitals
     const nameEsc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -2951,12 +3042,14 @@ function toggleSubjOpt(cat, s) {
 
   render();
   autoSave();
+  // v3.16.21: a Below Expectations sentence with a year in it asks which year the work aligns with
+  if (isAdding && cat === 'Below Expectations' && needsAlign(s) && !alignOf(cur(), currentSubject)) openAlignPicker();
 }
 
 function getSubjDraft() {
   const name = cur().name || '[Name]';
   const p = PR[cur().pronoun];
-  const yr = cur().year || '';
+  const yr = yrA(cur(), currentSubject);
   if (currentSubject === 'english') {
     // Only use stored engDraft if teacher explicitly edited it — otherwise always rebuild
     if (cur().engDraftEdited && cur().engDraft) return cur().engDraft;
@@ -3490,6 +3583,8 @@ const SEM_FIELDS = [
   ['mathGrades',         'mathS1Grades',           'mathS2Grades',           () => ({})],
   ['mathDraft',          'mathS1Draft',            'mathS2Draft',            () => null],
   ['mathFD',             'mathS1FD',               'mathS2FD',               () => []],
+  ['mathAlign',          'mathS1Align',            'mathS2Align',            () => ''],   // v3.16.21: year her Below Expectations work aligns with
+  ['engAlign',           'engS1Align',             'engS2Align',             () => ''],
   ['klaGrades',          's1KlaGrades',            's2KlaGrades',            () => ({})],   // v3.14.0: CAPA, Science, Health, PE, HSIE
   ['published',          's1Published',            's2Published',            () => false],
   ['engPublished',       'engS1Published',         'engS2Published',         () => false],
@@ -6860,7 +6955,7 @@ function getSubjectPublishText(stu, subj) {
   if (subject === 'english') {
     const name = stu.name || '[Name]';
     const p = PR[stu.pronoun];
-    const yr = stu.year || '';
+    const yr = yrA(stu, 'english');
     const counter = { value: 0 };
     let bodyText;
     if (stu.engDraftEdited && stu.engDraft) {
@@ -6876,7 +6971,7 @@ function getSubjectPublishText(stu, subj) {
   if (subject === 'maths') {
     const name = stu.name || '[Name]';
     const p = PR[stu.pronoun];
-    const yr = stu.year || '';
+    const yr = yrA(stu, 'maths');
     const counter = { value: 0 };
     let bodyText;
     if (stu.mathDraftEdited && stu.mathDraft) {
@@ -7699,7 +7794,7 @@ function _bestWindow(ct, k, stoks, blocked) {
 const SYNC_SAME = 0.9999, SYNC_EDITED = 0.5;
 // text = the teacher's hand-edited draft. Returns Map key → { status: 'same'|'edited'|'gone', from, to }
 function _draftMatches(stu, subj, keys, text) {
-  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = stu.year || '';
+  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
   const sents = splitSentences(text), stoks = sents.map(s => _syncToks(s, stu));
   const items = [];
   keys.forEach(key => {
@@ -7819,7 +7914,7 @@ function _freeMatchScore(stu, subj, key, text) {
   const others = _subjKeys(stu, subj).filter(k => k !== key);
   const sents = splitSentences(text), stoks = sents.map(x => _syncToks(x, stu)), blocked = new Array(sents.length).fill(false);
   _draftMatches(stu, subj, others, text).forEach(v => { if (v.status !== 'gone') for (let q = v.from; q < v.to; q++) blocked[q] = true; });
-  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = stu.year || '';
+  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
   const raw = resolveKey(key, stu); if (!raw) return 0;
   const cand = applyAlternation(raw, name, p, { value: 0 }, yr), alt = p.S === 'They' ? applyAlternation(raw, name, p, { value: 1 }, yr) : null;
   return _bestWindow2({ ct: _syncToks(cand, stu), ct2: alt && alt !== cand ? _syncToks(alt, stu) : null, k: Math.max(1, splitSentences(cand).length) }, stoks, blocked).score;
@@ -7849,7 +7944,7 @@ function _pasteBankList(subj) {
 function pasteTickFind(stu, subj, text) {
   const sents = splitSentences(text);
   if (!sents.length) return { found: [], left: 0 };
-  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = stu.year || '';
+  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
   const stoks = sents.map(x => _syncToks(x, stu)), blocked = new Array(sents.length).fill(false);
   _draftMatches(stu, subj, _subjKeys(stu, subj), text).forEach(v => { if (v.status !== 'gone') for (let q = v.from; q < v.to; q++) blocked[q] = true; });   // text a ticked sentence already explains
   const words = new Set([].concat(...stoks));
@@ -7872,13 +7967,14 @@ function pasteTickFind(stu, subj, text) {
     if (blocked.slice(b.from, b.to).some(Boolean)) b = _bestWindow2(it, stoks, blocked);   // a closer sentence has taken part of this text
     if (b.score < PASTE_TICK_MIN || clash(it, b)) return;
     for (let q = b.from; q < b.to; q++) blocked[q] = true;
-    found.push({ cat: it.cat, key: it.key, from: b.from, score: b.score });
+    found.push({ cat: it.cat, key: it.key, from: b.from, to: b.to, score: b.score });
   });
   found.sort((a, b) => a.from - b.from);
   return { found, left: blocked.filter(x => !x).length };
 }
-function pasteTickApply(stu, subj, found) {
+function pasteTickApply(stu, subj, found, text) {
   if (subj === 'general') { found.forEach(f => genAddKey(f.cat, f.key)); return; }
+  if (text) { try { inferAlignFromPaste(stu, subj, found, text); } catch (e) { /* a convenience */ } }
   const sk = subj === 'english' ? 'engSelected' : 'mathSelected', ok = subj === 'english' ? 'engOrdered' : 'mathOrdered', pk = subj === 'english' ? 'pubEditEnglish' : 'pubEditMaths';
   if (!stu[sk]) stu[sk] = {}; if (!stu[ok]) stu[ok] = [];
   found.forEach(f => { (stu[sk][f.cat] = stu[sk][f.cat] || []).push(f.key); stu[ok].push(f.key); });
@@ -7889,7 +7985,7 @@ function pasteTick(stu, subj) {
   if (!hand) return 0;
   const r = pasteTickFind(stu, subj, subj === 'general' ? hand : (stripFDFromDraftText(hand) || ''));
   if (!r.found.length) return 0;
-  pasteTickApply(stu, subj, r.found);
+  pasteTickApply(stu, subj, r.found, subj === 'general' ? '' : (stripFDFromDraftText(hand) || ''));
   autoSave(); renderOpts(); renderSidebar(); updateSentChip();
   const n = r.found.length;
   showToast('Ticked ' + n + (n === 1 ? ' sentence' : ' sentences') + ' from the pasted comment' + (r.left ? ' · ' + r.left + (r.left === 1 ? ' sentence is' : ' sentences are') + ' not from the bank' : ''));
@@ -7907,7 +8003,7 @@ function scheduleReconcile(stu, subj, snap) {
 }
 // Clicking a yellow sentence to take it out: remove the teacher's reworded version from the draft too.
 function removeKeyFromText(text, key, stu) {
-  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = stu.year || '';
+  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, currentSubject);
   const raw = resolveKey(key, stu);
   for (const start of [0, 1]) {
     const r = applyAlternation(raw, name, p, { value: start }, yr);
@@ -7962,6 +8058,7 @@ function renderAllStrandsView(grid) {
   const name = cur().name || '[Name]';
   const p = PR[cur().pronoun];
   const yr = cur().year || '';
+  const yrAl = yrA(cur(), currentSubject);   // v3.16.21: the year plus the year her work aligns with, for the sentence text
   const isMaths = currentSubject === 'maths';
   const grades = effGrades(cur(), isMaths ? 'maths' : 'english');   // v3.14.5
 
@@ -8071,7 +8168,7 @@ function renderAllStrandsView(grid) {
         gDiv.innerHTML = `<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:999px;border:1px solid ${gradeColor};color:${gradeColor};background:${gradeColor}18">${g} — ${GRADE_LABELS[g]}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
         grid.appendChild(gDiv);
       }
-      const displayed = applyRaw(s, name, p, yr);
+      const displayed = applyRaw(s, name, p, yrAl);
       const isSel = subjHas(sel[cat], s);
       const btn = document.createElement('button');
       btn.className = 'opt' + (isSel ? ' sel' : '');
@@ -8147,6 +8244,7 @@ function renderSubjOpts(grid) {
   const name = cur().name || '[Name]';
   const p = PR[cur().pronoun];
   const yr = cur().year || '';
+  const yrAl = yrA(cur(), currentSubject);   // v3.16.21: the year plus the year her work aligns with, for the sentence text
 
   // Custom input box at top
   const wrap = document.createElement('div');
@@ -8168,6 +8266,9 @@ function renderSubjOpts(grid) {
     yh.textContent = 'Choose this student’s year to see the Kindergarten to Year 6 comments for this strand.';
     grid.appendChild(yh);
   }
+
+  // v3.16.21: Below Expectations asks which year the work aligns with (fills "Year [X]" / "Year [Y]" in its sentences)
+  if (currentTab === 'Below Expectations') grid.appendChild(alignStripEl());
 
   // If grades selected, show those; if none selected show all grades
   const hasGrades = selectedGrades && selectedGrades.length > 0;
@@ -8212,7 +8313,7 @@ function renderSubjOpts(grid) {
   const _mk = mineKey(currentTab);
   const customSents = ((cur()[customKey] && cur()[customKey][currentTab]) || []).filter(x => typeof x === 'string');
   function makeSubjCustomRow(s) {
-      const displayed = applyRaw(s, name, p, yr);
+      const displayed = applyRaw(s, name, p, yrAl);
       const isSel = (sel[currentTab] || []).includes(s);
       const row = document.createElement('div');
       row.style.cssText = 'display:flex;align-items:stretch;gap:4px';
@@ -8265,7 +8366,7 @@ function renderSubjOpts(grid) {
     }
 
     sents.forEach(s => {
-      const displayed = applyRaw(s, name, p, yr);
+      const displayed = applyRaw(s, name, p, yrAl);
       const isSel = subjHas(sel[currentTab], s);
       const btn = document.createElement('button');
       btn.className = 'opt' + (isSel ? ' sel' : '');
@@ -9423,7 +9524,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.20';
+const APP_VERSION = 'v3.16.21';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9805,7 +9906,7 @@ function replaceInStudent(stu, subj, word, to) {
     if (has(t)) { stu.draftOverride = _swapText(t, word, to); changed = true; }
   } else {
     const eng = subj === 'english', dk = eng ? 'engDraft' : 'mathDraft', ek = eng ? 'engDraftEdited' : 'mathDraftEdited', fk = eng ? 'engFD' : 'mathFD';
-    const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = stu.year || '', counter = { value: 0 };
+    const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj), counter = { value: 0 };
     const body = (stu[ek] && stu[dk]) ? stripFDLines(stu[dk]) : (stu[eng ? 'engOrdered' : 'mathOrdered'] || []).map(x => applyAlternation(resolveKey(x, stu), name, p, counter, yr)).join(' ');
     if (has(body)) { stu[dk] = _swapText(body, word, to); stu[ek] = true; changed = true; }
     if (Array.isArray(stu[fk]) && stu[fk].some(has)) { stu[fk] = stu[fk].map(x => has(x) ? _swapText(x, word, to) : x); changed = true; }
@@ -10076,6 +10177,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.21', date: '6 November 2026', items: [
+    'Below Expectations now asks which year the student\u2019s work aligns with. There is a row of years at the top of that tab, and a box opens when you tick a sentence that has a year in it. It fills the year in the sentence (for example, \u201caligns with Year 3 expectations\u201d), so you no longer change it by hand. It is kept for each subject and each semester. If you do not choose one, the sentence shows the year in the Yr box as before.',
+  ] },
   { v: 'v3.16.20', date: '6 November 2026', items: [
     'Paste a finished comment into the draft and the sentences in it that come from the bank are ticked in their lists. The text you pasted is never changed.',
   ] },
@@ -12443,6 +12547,7 @@ function renderReviewInfo() {
   if (phFound.length) {
     const hints = [];
     if (phFound.some(x => /^\[X\]$/.test(x))) hints.push('[X] is the year level. Choose it in the Yr box above the draft.');
+    if (phFound.some(x => /^\[Y\]$/.test(x))) hints.push('[Y] is the year the work aligns with. Choose it at the top of the Below Expectations tab.');
     if (phFound.some(x => /^\[Name\]$/i.test(x))) hints.push('[Name] needs the student\u2019s name.');
     h += `<div class="rv-flag" style="border-color:var(--red);background:var(--red-bg)">\u26a0 This comment still has ${phFound.length > 1 ? 'unfinished parts' : 'an unfinished part'}: ${phFound.map(x => '<b>' + escHtml(x) + '</b>').join(', ')}. ${hints.map(escHtml).join(' ') || 'Replace the part in square brackets with the right wording.'} (highlighted in red below)</div>`;
   }
@@ -13263,6 +13368,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.20</div>
+<div class="version-badge">v3.16.21</div>
 </body>
 </html>
