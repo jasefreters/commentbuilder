@@ -1286,7 +1286,7 @@
         <div class="sw-pane-title">Recent changes</div>
         <div class="settings-row">
           <span class="settings-row-label">What has changed in the app and the sentence bank<span class="sw-help">Also where you can update comments that still use older wording.</span></span>
-          <button class="settings-action-btn" onclick="toggleSettings(); openRecentChanges(true)">View</button>
+          <button class="settings-action-btn" onclick="openRecentChanges(true)">View</button>
         </div>
         <div class="sw-pane-title">Comment length</div>
         <div id="toolSettings"></div>
@@ -9274,7 +9274,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.15';
+const APP_VERSION = 'v3.16.16';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10012,8 +10012,10 @@ function maybeShowRecentChanges() {
   _rcShownThisLoad = true;
   openRecentChanges(false);
 }
+var _rcReturnFocus = null;   // v3.16.16: opened from Settings, the window stays open underneath and focus goes back to the View button
 function openRecentChanges(all) {
   closeRecentChanges();
+  _rcReturnFocus = document.activeElement;
   const seen = all ? null : getSeenChanges();
   const entries = RECENT_CHANGES.filter(e => !seen || _verNum(e.v) > _verNum(seen));
   const wording = WORDING_CHANGES.filter(w => entries.some(e => e.v === w.v));
@@ -10059,8 +10061,11 @@ function closeRecentChanges(markSeen) {
   const ov = document.getElementById('rcOverlay'); if (!ov) return;
   ov.remove();
   if (markSeen) markChangesSeen();
+  const back = _rcReturnFocus; _rcReturnFocus = null;
+  if (back && back !== document.body && document.body.contains(back)) { try { back.focus(); } catch (e) {} }
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('rcOverlay')) closeRecentChanges(true); });
+// v3.16.16: Esc closes only this window; if Settings is open underneath it stays open (the Settings Esc handler is registered later and is stopped here)
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('rcOverlay')) { e.stopImmediatePropagation(); closeRecentChanges(true); } });
 window.addEventListener('load', () => setTimeout(scheduleRecentChanges, 2500));
 
 // v3.13.0: settings open in a centred window; the tab you last used opens again next time
@@ -13090,6 +13095,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.15</div>
+<div class="version-badge">v3.16.16</div>
 </body>
 </html>
