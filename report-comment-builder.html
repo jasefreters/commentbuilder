@@ -1213,6 +1213,18 @@
   .tpl-sel { font-family: var(--font); font-size: 14px; min-height: 34px; padding: 5px 8px; max-width: 100%; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--bg-3); color: var(--t0); }
   .tpl-add { font-family: var(--font); font-size: 13px; min-height: 34px; padding: 6px 14px; border-radius: var(--r-sm); border: 1px solid var(--green-bd); background: var(--green-bg); color: var(--green); cursor: pointer; white-space: nowrap; }
   .tpl-add:hover { border-color: var(--green); }
+  /* v3.16.17 sports, carnivals and groups in Settings */
+  .tplset-grp { padding: 8px 14px 10px; display: flex; flex-direction: column; gap: 6px; }
+  .tplset-name { font-size: 13.5px; font-weight: 600; color: var(--t0); }
+  .tplset-name span { font-weight: 400; color: var(--t2); font-size: 12px; }
+  .tplset-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tplset-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--bg-3); border: 1px solid var(--border); color: var(--t1); }
+  .tplset-chip.own { background: var(--green-bg); border-color: var(--green-bd); color: var(--t0); }
+  .tplset-chip button { all: unset; cursor: pointer; font-size: 12px; line-height: 1; padding: 2px 3px; color: var(--t2); border-radius: 4px; }
+  .tplset-chip button:hover, .tplset-chip button:focus-visible { color: var(--red); outline: 1px solid var(--border); }
+  .tplset-add { display: flex; gap: 8px; }
+  .tplset-add input { flex: 1 1 auto; min-width: 0; font-family: var(--font); font-size: 14px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--r-sm); background: var(--bg-1); color: var(--t0); }
+  @media (max-width: 700px) { .tplset-add input { font-size: 16px; min-height: 44px; } .tplset-add .settings-action-btn { min-height: 44px; } .tplset-chip button { padding: 8px 10px; } }
   @media (max-width: 700px) { .tpl-sel, .tpl-add { min-height: 44px; } .tpl-sel { flex: 1 1 120px; } .tpl-add { flex: 1 1 100%; } }
 </style>
 </head>
@@ -1293,6 +1305,8 @@
         <div id="moreSettings"></div>
         <div class="sw-pane-title">Words not listed in Review</div>
         <div id="jgIgnoreSettings"></div>
+        <div class="sw-pane-title">Sports, carnivals and groups</div>
+        <div id="tplSettings"></div>
         <div class="sw-pane-title">Year level</div>
         <div class="sw-note">English and Maths comments are linked to a syllabus stage and follow the student's year and mark, with no switch to turn on. They carry no A to E grade. A student with no year shows no comments until a year is chosen.</div>
       </section>
@@ -2159,6 +2173,10 @@ const RETIRED = new Set([
   "{{S}} competes in netball and touch football knockout teams, demonstrating good sportsmanship and representing the school with pride.",
   "{{S}} participates in soccer and cricket gala days, displaying good sportsmanship and teamwork.",
   "{{S}} participated enthusiastically in tiger tag and touch football gala day teams, consistently displaying excellent sportsmanship and teamwork.",
+  // v3.16.17: Dance, Cheer & Gymnastics are templates now (these three are what the templates give with dance + cheer and gymnastics + cheer)
+  "{{N}} passionately participates in the dance and cheer group, showcasing talent and enthusiasm for performance.",
+  "{{N}} enjoys participating in gymnastics and cheer groups during break times.",
+  "{{N}} enjoys participating in dance and cheer groups during break times.",
 ]);
 function inSemester(s, sem) {
   const other = (sem || currentSemester) === 1 ? 2 : 1;
@@ -5285,7 +5303,7 @@ const SPORT_GROUPS = [
   { label: 'Touch Football',           from: 5,  to: 7  },
   { label: 'Soccer & Cricket',         from: 8,  to: 9  },
   { label: 'Tiger Tag & Gala Days',    from: 10, to: 10 },
-  { label: 'Dance, Cheer & Gymnastics',from: 11, to: 13 },
+  { label: 'Dance, Cheer & Gymnastics',from: 11, to: 13, tpl: true },   // v3.16.17: template cards sit with the other three; the old fixed sentences are retired
   { label: 'Choir & Cultural',         from: 14, to: 15 },
 ];
 
@@ -5293,50 +5311,68 @@ const SPORT_GROUPS = [
 // A template is a sentence with one or two sports (or carnivals) to choose. Choosing adds an ordinary sentence under the group, filled in,
 // the same way a sentence the teacher writes is added, so editing, Review, Semester 2 and Copy all treat it like any other.
 const SPORT_TPL = [
-  { group: 'Gala Days', noun: 'sports', list: ['touch football', 'soccer', 'tiger tag', 'cricket'], items: [
-    { id: 'gala1', n: 2, text: '{{N}} played in the [A] and [B] gala days, showing good sportsmanship.' },
-    { id: 'gala2', n: 2, text: '{{S}} represented the school at the [A] and [B] gala days, showing teamwork.' },
+  { group: 'Gala Days', key: 'gala', noun: 'sports', one: 'sport', list: ['touch football', 'soccer', 'tiger tag', 'cricket'], items: [
+    { id: 'gala1', text: '{{N}} played in the [A] and [B] gala days, showing good sportsmanship.', text1: '{{N}} played in the [A] gala days, showing good sportsmanship.' },
+    { id: 'gala2', text: '{{S}} represented the school at the [A] and [B] gala days, showing teamwork.', text1: '{{S}} represented the school at the [A] gala days, showing teamwork.' },
   ] },
-  { group: 'Knockout Teams', noun: 'sports', list: ['touch football', 'soccer', 'tiger tag', 'cricket', 'netball'], items: [
-    { id: 'ko1', n: 2, text: '{{N}} represented the school with pride in the [A] and [B] knockout teams.' },
-    { id: 'ko2', n: 2, text: '{{S}} competes in the [A] and [B] knockout teams, showing good sportsmanship.' },
+  { group: 'Knockout Teams', key: 'ko', noun: 'sports', one: 'sport', list: ['touch football', 'soccer', 'tiger tag', 'cricket', 'netball'], items: [
+    { id: 'ko1', text: '{{N}} represented the school with pride in the [A] and [B] knockout teams.', text1: '{{N}} represented the school with pride in the [A] knockout team.' },
+    { id: 'ko2', text: '{{S}} competes in the [A] and [B] knockout teams, showing good sportsmanship.', text1: '{{S}} competes in the [A] knockout team, showing good sportsmanship.' },
   ] },
-  { group: 'Zone Carnivals', noun: 'carnivals', list: ['cross country', 'swimming', 'athletics'], items: [
-    { id: 'zc1', n: 1, text: '{{N}} represented the school at the zone [A] carnival, showing commitment and school pride.' },
-    { id: 'zc2', n: 2, text: '{{S}} competed at the zone [A] and [B] carnivals, showing good sportsmanship.' },
+  { group: 'Zone Carnivals', key: 'zone', noun: 'carnivals', one: 'carnival', list: ['cross country', 'swimming', 'athletics'], items: [
+    { id: 'zc1', text: '{{N}} represented the school at the zone [A] and [B] carnivals, showing school pride.', text1: '{{N}} represented the school at the zone [A] carnival, showing commitment and school pride.' },
+    { id: 'zc2', text: '{{S}} competed at the zone [A] and [B] carnivals, showing good sportsmanship.', text1: '{{S}} competed at the zone [A] carnival, showing good sportsmanship.' },
+  ] },
+  // v3.16.17: the three fixed sentences this replaces are in RETIRED; dance + cheer and gymnastics + cheer give exactly their old wording
+  { group: 'Dance, Cheer & Gymnastics', key: 'dance', noun: 'groups', one: 'group', list: ['dance', 'cheer', 'gymnastics'], items: [
+    { id: 'dc1', text: '{{N}} enjoys participating in [A] and [B] groups during break times.', text1: '{{N}} enjoys participating in the [A] group during break times.' },
+    { id: 'dc2', text: '{{N}} passionately participates in the [A] and [B] group, showcasing talent and enthusiasm for performance.', text1: '{{N}} passionately participates in the [A] group, showcasing talent and enthusiasm for performance.' },
   ] },
 ];
+// v3.16.17: sports, carnivals and groups the teacher adds in Settings (kept on the device and carried in the settings blob, the newer list wins)
+function tplExtraObj() { const o = lsGet('rcb_tplextra', null); return (o && o.lists && typeof o.lists === 'object') ? o : null; }
+function tplExtras(key) { const o = tplExtraObj(), a = o && o.lists[key]; return Array.isArray(a) ? a.filter(x => typeof x === 'string') : []; }
+function tplSetExtras(key, arr) { const o = tplExtraObj(); const lists = Object.assign({}, o ? o.lists : {}); lists[key] = arr; lsSet('rcb_tplextra', { lists, at: Date.now() }); }
+function tplClean(v) {
+  v = String(v || '').replace(/[\[\]{}<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 30).trim();
+  if (/^[A-Z][^A-Z]*$/.test(v)) v = v.charAt(0).toLowerCase() + v.slice(1);   // "Basketball" reads as "basketball" in the middle of a sentence; "AFL" and "Oz Tag" are left alone
+  return v;
+}
 const _tplPick = {};   // template id -> the two choices (kept while the page is open, so adding several in a row is quick)
 function sportTplFind(id) { for (const g of SPORT_TPL) { const t = g.items.find(x => x.id === id); if (t) return { g, t }; } return null; }
+function sportTplList(g) { return g.list.concat(tplExtras(g.key).filter(x => !g.list.some(b => b.toLowerCase() === x.toLowerCase()))); }
 function sportTplPicks(g, t) {
+  const L = sportTplList(g);
   let pk = _tplPick[t.id];
-  if (!pk || !g.list.includes(pk[0]) || !g.list.includes(pk[1])) pk = _tplPick[t.id] = [g.list[0], g.list[1]];
+  if (!pk || !L.includes(pk[0]) || (pk[1] !== '' && (!L.includes(pk[1]) || pk[1] === pk[0]))) pk = _tplPick[t.id] = [L[0], L[1]];
   return pk;
 }
-function sportTplFill(g, t) { const pk = sportTplPicks(g, t); return t.text.replace('[A]', pk[0]).replace('[B]', pk[1]); }
+function _tplSub(text, a, b) { return text.replace('[A]', () => a).replace('[B]', () => b); }
+function sportTplFill(g, t) { const pk = sportTplPicks(g, t); return pk[1] ? _tplSub(t.text, pk[0], pk[1]) : _tplSub(t.text1, pk[0], ''); }
 function sportTplLabel(v) { return v.charAt(0).toUpperCase() + v.slice(1); }
 function sportTplPick(id, k, v) {
   const f = sportTplFind(id); if (!f) return;
-  const pk = sportTplPicks(f.g, f.t);
+  const L = sportTplList(f.g), pk = sportTplPicks(f.g, f.t);
   pk[k] = v;
-  if (f.t.n === 2 && pk[0] === pk[1]) {   // the same sport twice makes no sense: move the other box to a different one
-    const o = 1 - k; pk[o] = f.g.list.find(x => x !== v);
+  if (v !== '' && pk[0] === pk[1]) {   // the same sport twice makes no sense: move the other box to a different one
+    const o = 1 - k; pk[o] = L.find(x => x !== v);
     const sel = document.getElementById('tplsel_' + id + '_' + o); if (sel) sel.value = pk[o];
   }
   const pv = document.getElementById('tplprev_' + id); if (pv) pv.textContent = applyFC(sportTplFill(f.g, f.t));
 }
 function sportTplCard(g, t) {
-  const pk = sportTplPicks(g, t);
+  const L = sportTplList(g), pk = sportTplPicks(g, t);
   const card = document.createElement('div'); card.className = 'tpl-card'; card.dataset.tpl = t.id;
   const txt = document.createElement('div'); txt.className = 'tpl-text'; txt.id = 'tplprev_' + t.id; txt.textContent = applyFC(sportTplFill(g, t));
   const row = document.createElement('div'); row.className = 'tpl-row';
   const lbl = document.createElement('span'); lbl.className = 'tpl-lbl';
-  lbl.textContent = t.n === 2 ? 'Choose 2 ' + g.noun + ':' : 'Choose a carnival:';
+  lbl.textContent = 'Choose up to 2 ' + g.noun + ':';
   row.appendChild(lbl);
-  for (let k = 0; k < t.n; k++) {
+  for (let k = 0; k < 2; k++) {
     const sel = document.createElement('select'); sel.className = 'tpl-sel'; sel.id = 'tplsel_' + t.id + '_' + k;
-    sel.setAttribute('aria-label', (t.n === 2 ? (k === 0 ? 'First ' : 'Second ') : '') + (g.noun === 'carnivals' ? 'carnival' : 'sport'));
-    g.list.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = sportTplLabel(v); sel.appendChild(o); });
+    sel.setAttribute('aria-label', k === 0 ? 'First ' + g.one : 'Second ' + g.one + ' (optional)');
+    if (k === 1) { const o = document.createElement('option'); o.value = ''; o.textContent = 'No second ' + g.one; sel.appendChild(o); }
+    L.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = sportTplLabel(v); sel.appendChild(o); });
     sel.value = pk[k];
     sel.onchange = () => sportTplPick(t.id, k, sel.value);
     row.appendChild(sel);
@@ -5346,6 +5382,37 @@ function sportTplCard(g, t) {
   row.appendChild(add);
   card.appendChild(txt); card.appendChild(row);
   return card;
+}
+// Settings > Comments: add or take away the teacher's own sports, carnivals and groups
+function renderTplSettings() {
+  const box = document.getElementById('tplSettings'); if (!box) return;
+  box.innerHTML = '<div class="sw-note">These are the choices in the template sentences in Sport &amp; Extracurricular. Add your own and they appear after the ones that come with the app.</div>' +
+    SPORT_TPL.map(g => {
+      const own = tplExtras(g.key).filter(x => !g.list.some(b => b.toLowerCase() === x.toLowerCase()));
+      return `<div class="tplset-grp"><div class="tplset-name">${escHtml(g.group)} <span>${escHtml(g.noun)}</span></div>` +
+        `<div class="tplset-chips">${g.list.map(v => `<span class="tplset-chip">${escHtml(sportTplLabel(v))}</span>`).join('')}` +
+        own.map((v, i) => `<span class="tplset-chip own">${escHtml(sportTplLabel(v))}<button type="button" title="Take this away" aria-label="Take ${escHtml(v)} away" onclick="tplRemove('${g.key}', ${i})">✕</button></span>`).join('') + '</div>' +
+        `<div class="tplset-add"><input id="tplIn_${g.key}" type="text" maxlength="30" placeholder="Add a ${escHtml(g.one)}" aria-label="Add a ${escHtml(g.one)} to ${escHtml(g.group)}" onkeydown="if(event.key==='Enter'){event.preventDefault();tplAdd('${g.key}')}">` +
+        `<button type="button" class="settings-action-btn" onclick="tplAdd('${g.key}')">Add</button></div></div>`;
+    }).join('');
+}
+function tplAdd(key) {
+  const g = SPORT_TPL.find(x => x.key === key), inp = document.getElementById('tplIn_' + key); if (!g || !inp) return;
+  const v = tplClean(inp.value); if (!v) { inp.focus(); return; }
+  const have = sportTplList(g);
+  if (have.some(x => x.toLowerCase() === v.toLowerCase())) { showToast('“' + v + '” is already in the list.'); inp.focus(); return; }
+  const own = tplExtras(key); if (own.length >= 20) { showToast('That list is full (20 of your own). Take one away first.'); return; }
+  tplSetExtras(key, own.concat(v));
+  autoSave(); renderTplSettings(); try { render(); } catch (e) {}
+  const n = document.getElementById('tplIn_' + key); if (n) n.focus();
+  showToast('Added “' + v + '” to ' + g.group + '.');
+}
+function tplRemove(key, i) {
+  const g = SPORT_TPL.find(x => x.key === key); if (!g) return;
+  const own = tplExtras(key).filter(x => !g.list.some(b => b.toLowerCase() === x.toLowerCase())), v = own[i]; if (v === undefined) return;
+  own.splice(i, 1); tplSetExtras(key, own);
+  autoSave(); renderTplSettings(); try { render(); } catch (e) {}
+  showToast('Took “' + v + '” away.');
 }
 function addSportTpl(id) {
   const f = sportTplFind(id); if (!f || currentSubject !== 'general') return;
@@ -5610,7 +5677,7 @@ function _renderOptsCore() {
         flushSportGroup(currentSportGroup);
         if (groupIdx > 0) renderSportTemplates();
         currentSportGroup = groupIdx;
-        if (groupIdx !== -1) addSportDivider(SPORT_GROUPS[groupIdx].label);
+        if (groupIdx !== -1) { const _lb = SPORT_GROUPS[groupIdx].label; addSportDivider(SPORT_TPL.some(g => g.group === _lb) ? _lb + ' (earlier wording)' : _lb); }   // v3.16.17: a retired sentence that is still picked
       }
     }
     const _selForm = genSelForm(currentTab, s);   // v3.13.2: the older wording counts as this sentence
@@ -9274,14 +9341,14 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.16';
+const APP_VERSION = 'v3.16.17';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
   const fd = {};
   ['english', 'maths'].forEach(k => { try { fd[k] = JSON.parse(lsGet('rcb_customFD_' + k, '{}')) || {}; } catch (e) { fd[k] = {}; } });
   const jg = lsGet('rcb_jgignore', null);   // v3.16.9: words chosen with "Always ignore"
-  return { customFD: fd, longSent: getLongLimit(), wordLimit: getWordLimit(), wordLimitEng: getSubjWordLimit('english'), wordLimitMath: getSubjWordLimit('maths'), seenChanges: getSeenChanges() || undefined, jargonIgnore: (jg && Array.isArray(jg.list)) ? jg : undefined };
+  return { customFD: fd, longSent: getLongLimit(), wordLimit: getWordLimit(), wordLimitEng: getSubjWordLimit('english'), wordLimitMath: getSubjWordLimit('maths'), seenChanges: getSeenChanges() || undefined, jargonIgnore: (jg && Array.isArray(jg.list)) ? jg : undefined, tplExtra: tplExtraObj() || undefined };
 }
 // Custom Future Directions lines are merged (never replaced), so lines typed on this device are never lost.
 function applySettingsBlob(b) {
@@ -9312,6 +9379,14 @@ function applySettingsBlob(b) {
     if (b.jargonIgnore && Array.isArray(b.jargonIgnore.list) && typeof b.jargonIgnore.at === 'number') {   // v3.16.9: the newer list wins (so a word listed again on one device stays listed)
       const have = lsGet('rcb_jgignore', null);
       if (!have || !(have.at >= b.jargonIgnore.at)) lsSet('rcb_jgignore', { list: b.jargonIgnore.list.filter(x => typeof x === 'string').slice(0, 200), at: b.jargonIgnore.at });
+    }
+    if (b.tplExtra && b.tplExtra.lists && typeof b.tplExtra.lists === 'object' && typeof b.tplExtra.at === 'number') {   // v3.16.17: the newer list of added sports wins
+      const have = lsGet('rcb_tplextra', null);
+      if (!have || !(have.at >= b.tplExtra.at)) {
+        const lists = {};
+        ['gala', 'ko', 'zone', 'dance'].forEach(k => { const a = b.tplExtra.lists[k]; if (Array.isArray(a)) lists[k] = a.filter(x => typeof x === 'string').map(tplClean).filter(Boolean).slice(0, 20); });
+        lsSet('rcb_tplextra', { lists, at: b.tplExtra.at });
+      }
     }
     if (typeof b.seenChanges === 'string' && /^v\d+\.\d+\.\d+$/.test(b.seenChanges) && (!_seenFromAccount || _verNum(b.seenChanges) > _verNum(_seenFromAccount))) _seenFromAccount = b.seenChanges;   // v3.13.3
   } catch (e) { console.error('settings restore', e); }
@@ -9919,6 +9994,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.17', date: '5 November 2026', items: [
+    'The Gala Days, Knockout Teams and Zone Carnivals sentences now let you choose one or two sports (or carnivals), for students who only play one. Dance, Cheer & Gymnastics has the same kind of sentences. The three fixed sentences it replaces are no longer offered, and a comment that already uses one is unchanged.',
+    'In Settings › Comments you can add your own sports, carnivals and groups to those choices.',
+  ] },
   { v: 'v3.16.15', date: '5 November 2026', items: [
     'Sport & Extracurricular has three new groups: Gala Days, Knockout Teams and Zone Carnivals. Each has two sentences where you choose the sports (or carnivals), then add it. Gala days and knockout teams take two of touch football, soccer, tiger tag and cricket (knockout also has netball). Zone carnivals use cross country, swimming and athletics.',
     'Four fixed sentences these replace are no longer offered: Zone Cross Country, netball and touch football knockout, soccer and cricket gala days, and tiger tag and touch football gala day teams. A comment that already uses one is unchanged.',
@@ -12424,6 +12503,7 @@ function renderToolSettings() {
   h += `<div class="settings-row"><span class="settings-row-label">Flag sentences longer than (words)</span><input class="settings-num" id="longLimitInput" type="number" min="5" max="100" value="${getLongLimit()}" onchange="setLongLimit(this.value)"></div>`;
   box.innerHTML = h;
   try { renderJgIgnoreSettings(); } catch (e) {}   // v3.16.9
+  try { renderTplSettings(); } catch (e) {}   // v3.16.17
   const mine = document.getElementById('mySentSettings'); if (!mine) return;
   h = '';
   if (!cats.length) h += `<div class="style-empty">Write your own sentence in the bank and choose “Add &amp; save to my bank”. It will then be available for every student.</div>`;
@@ -13095,6 +13175,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.16</div>
+<div class="version-badge">v3.16.17</div>
 </body>
 </html>
