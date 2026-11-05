@@ -5349,7 +5349,7 @@ function sportTplPicks(g, t) {
 }
 function _tplSub(text, a, b) { return text.replace('[A]', () => a).replace('[B]', () => b); }
 function sportTplFill(g, t) { const pk = sportTplPicks(g, t); return pk[1] ? _tplSub(t.text, pk[0], pk[1]) : _tplSub(t.text1, pk[0], ''); }
-function sportTplLabel(v) { return v.charAt(0).toUpperCase() + v.slice(1); }
+function sportTplLabel(v) { return String(v).replace(/(^|\s)(\S)/g, (m, a, c) => a + c.toUpperCase()); }   // v3.16.18: Touch Football, Tiger Tag (drop-down and Settings labels only; the sentences keep the lowercase of the approved wording)
 function sportTplPick(id, k, v) {
   const f = sportTplFind(id); if (!f) return;
   const L = sportTplList(f.g), pk = sportTplPicks(f.g, f.t);
@@ -9341,7 +9341,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.17';
+const APP_VERSION = 'v3.16.18';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -13175,6 +13175,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.17</div>
+<div class="version-badge">v3.16.18</div>
 </body>
 </html>
