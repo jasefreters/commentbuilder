@@ -1865,6 +1865,7 @@ const RAW = {
     "{{S}} often requires reminders to stay on task and complete {{pos}} work in an appropriate timeframe.",
     "{{S}} is beginning to work productively during independent work, however can be easily distracted during lessons.",
     "{{S}} requires all instructions to be short and explicit, and benefits from step-by-step guidance to begin tasks.",
+    "{{N}} needs all learning tasks broken into small, achievable parts and benefits from close guidance.",
   ],
   "Communication & Collaboration": [
     "{{S}} communicates with confidence and clarity and is an active participant in class discussions.",
@@ -1879,6 +1880,7 @@ const RAW = {
     "{{N}} is an attentive listener who is becoming more confident in contributing to class discussions.",
     "{{N}} is developing the confidence to clearly communicate {{pos}} ideas during class activities.",
     "I would now like to see {{o}} take a more active role in class discussions as {{s}} has many valuable insights to share.",
+    "{{N}} is learning to show {{pos}} enthusiasm respectfully by raising {{pos}} hand in class discussions.",
   ],
   "Social Skills": [
     "{{N}} is a generous and kind friend who is willing to share {{pos}} time with peers and can brighten anyone's day.",
@@ -1892,12 +1894,14 @@ const RAW = {
     "{{N}} is approachable and maintains a respectful demeanour, contributing positively to the classroom atmosphere.",
     "{{N}} always shows kindness, courtesy, and consideration towards others.",
     "{{S}} treats peers and teachers with respect and consideration.",
+    "{{N}} is an animated student who builds positive friendships and enjoys making {{pos}} classmates laugh.",
     "{{N}} uses effective social skills in the playground to build positive relationships with {{pos}} peers and resolves minor conflicts calmly.",
     "{{S}} shows respect for both classmates and teachers, helping to create a calm and productive classroom environment.",
     "{{N}} is well-liked and consistently contributes to a respectful classroom atmosphere.",
     "{{N}} participates in structured activities during break times, gaining confidence to interact with {{pos}} peers in the playground.",
     "{{N}} is developing appropriate social skills and is learning to handle disagreements respectfully.",
     "{{N}} is developing {{pos}} ability to communicate how {{s}} is feeling to peers and staff to improve {{pos}} emotional regulation.",
+    "{{S}} is getting better at noticing how {{pos}} actions affect others.",
   ],
   "Independence": [
     "{{N}} displays a high level of independence, approaching tasks with confidence and persistence.",
@@ -1914,6 +1918,7 @@ const RAW = {
     "{{N}} is productive during independent work, however often requires reminders to stay on task and complete work in an appropriate timeframe.",
     "{{N}} is developing the confidence to request assistance while working independently or in a small group.",
     "{{S}} is learning to refrain from talking to {{pos}} friends at inappropriate times.",
+    "{{S}} works quietly alone and is beginning to stay calm, keep trying and finish tasks.",
   ],
   "Leadership": [
     "{{N}} is a confident natural leader who inspires classmates and leads by example.",
@@ -1968,6 +1973,7 @@ const RAW = {
     "In Physical Education, {{n}} works well with others in groups and teams by encouraging {{pos}} classmates and sharing responsibilities.",
     "{{N}} shows a keen interest in Science, particularly in exploring how the properties of materials influence their use in everyday products.",
     "{{N}} uses techniques such as blending and shading with watercolours and oil pastels to enhance artistic effect.",
+    "{{S}} loves drawing and sculpting, and shows real confidence when trying different lines and shapes.",
   ],
   "Sport & Extracurricular": [
     // General
@@ -2248,8 +2254,12 @@ function _agreeTail(tail, plural) {
   const m = tail.match(new RegExp('^((?:\\s+' + _AGREE_ADV + ')*\\s+)([A-Za-z\']+)'));
   if (!m) return tail;
   const head = m[1] + _verbForm(m[2], plural, true);
-  const rest = tail.slice(m[0].length).replace(new RegExp('(\\b(?:and|but|or)\\s+|,\\s+(?:and\\s+)?)((?:' + _AGREE_ADV + '\\s+)*)([A-Za-z\']+)', 'g'), (mm, conj, adv, w) => conj + adv + _verbForm(w, plural, false));
-  return head + rest;
+  let rest = tail.slice(m[0].length), after = '';
+  // v3.16.19: verbs after "who / which" belong to the noun before it ("an animated student who builds ... and enjoys ..."), so they keep their form
+  const rel = rest.search(/\s(?:who|which)\s/);
+  if (rel !== -1) { after = rest.slice(rel); rest = rest.slice(0, rel); }
+  rest = rest.replace(new RegExp('(\\b(?:and|but|or)\\s+|,\\s+(?:and\\s+)?)((?:' + _AGREE_ADV + '\\s+)*)([A-Za-z\']+)', 'g'), (mm, conj, adv, w) => conj + adv + _verbForm(w, plural, false));
+  return head + rest + after;
 }
 // Template version, run before the placeholders are filled. Only the {{S}} / {{s}} clauses change; a name keeps its singular verb.
 function theyAgree(t) {
@@ -5432,7 +5442,7 @@ const TIER_BOUNDARIES = {
   'Personality': { average: 14, developing: 17 },
   'Effort & Work Habits': { average: 13, developing: 16 },
   'Communication & Collaboration': { average: 8, developing: 11 },
-  'Social Skills': { average: 11, developing: 14 },
+  'Social Skills': { average: 12, developing: 15 },   // v3.16.19: one new Positive sentence (index 11) and one new Developing sentence at the end
   'Leadership': { average: 3, developing: null },   // v3.16.6: seven sentences moved to Roles & Responsibilities; the first three stay Positive
   'Roles & Responsibilities': { average: null, developing: null },   // v3.16.6: a role is held or not, so no Positive / Average / Developing
   'Independence': { average: 8, developing: 10 },
@@ -9341,7 +9351,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.18';
+const APP_VERSION = 'v3.16.19';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -9994,6 +10004,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.19', date: '6 November 2026', items: [
+    'Six new sentences in the General bank: two in Social Skills, and one each in Communication & Collaboration, Independence, Effort & Work Habits and Interests & Passions. Nothing already written was changed.',
+  ] },
   { v: 'v3.16.17', date: '5 November 2026', items: [
     'The Gala Days, Knockout Teams and Zone Carnivals sentences now let you choose one or two sports (or carnivals), for students who only play one. Dance, Cheer & Gymnastics has the same kind of sentences. The three fixed sentences it replaces are no longer offered, and a comment that already uses one is unchanged.',
     'In Settings › Comments you can add your own sports, carnivals and groups to those choices.',
@@ -13175,6 +13188,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.18</div>
+<div class="version-badge">v3.16.19</div>
 </body>
 </html>
