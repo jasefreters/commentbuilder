@@ -2996,7 +2996,7 @@ function toggleSubjOpt(cat, s) {
 
   if (isAdding) {
     sel[cat].push(s);
-    ord.push(s);
+    ord.splice(orderedSlot(cur(), currentSubject, s, cat, ord), 0, s);   // v3.16.24: in category order (the end when the setting is off)
   } else {
     sel[cat].splice(idx, 1);
     const oi = ord.indexOf(s);
@@ -3025,8 +3025,9 @@ function toggleSubjOpt(cat, s) {
     const counter = { value: openerCount };
     const resolved = applyAlternation(s, name, p, counter, yr);
     if (isAdding) {
-      // Append the new sentence to the existing manual draft (v3.14.4: unless it is still there, moved or reworded)
-      if (!_inDraftAlready(cur(), currentSubject, s, existing)) cur()[draftKey] = existing.trimEnd() + ' ' + resolved;
+      // Add the new sentence to the existing manual draft (v3.14.4: unless it is still there, moved or reworded)
+      // v3.16.24: in category order among the sentences already there; the text already in the draft is left as it is
+      if (!_inDraftAlready(cur(), currentSubject, s, existing)) cur()[draftKey] = draftInsert(cur(), currentSubject, s, cat, existing, (before, turn) => applyAlternation(s, name, p, { value: turn !== null && turn !== undefined ? turn : (before.match(openerRegex) || []).length }, yr));
     } else {
       // Remove the sentence from the draft (strip it wherever it appears; a reworded copy is found by its match)
       const escaped = resolved.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -7771,7 +7772,7 @@ function genInvalidate() {
   _draftDirty = true;
 }
 // If the teacher has typed in the draft pane, the typed text is what shows. Keep a clicked sentence in step with it.
-function syncGeneralOverride(key, adding) {
+function syncGeneralOverride(key, adding, cat) {
   const stu = cur();
   const ex = stu.draftOverride;
   if (ex === null || ex === undefined || ex === '') return;
@@ -7781,8 +7782,7 @@ function syncGeneralOverride(key, adding) {
     if (_inDraftAlready(stu, 'general', key, ex)) return;   // v3.14.4: it is still in the text (moved or reworded): just link it again
     const nameEsc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const openerRegex = new RegExp('^(' + nameEsc + '|' + [p.N, p.S, p.n, p.s].filter(Boolean).join('|') + ')\\b', 'gm');
-    const counter = { value: (ex.match(openerRegex) || []).length };
-    stu.draftOverride = ex.trimEnd() + ' ' + applyAlternation(raw, name, p, counter, yr);
+    stu.draftOverride = draftInsert(stu, 'general', key, _keyCat(stu, 'general', key) || cat, ex, (before, turn) => applyAlternation(raw, name, p, { value: turn !== null && turn !== undefined ? turn : (before.match(openerRegex) || []).length }, yr));   // v3.16.24: in category order
   } else {
     stu.draftOverride = removeKeyFromText(ex, key, stu) || null;
   }
@@ -8011,7 +8011,7 @@ function pasteTickFind(stu, subj, text) {
   return { found, left: blocked.filter(x => !x).length };
 }
 function pasteTickApply(stu, subj, found, text) {
-  if (subj === 'general') { found.forEach(f => genAddKey(f.cat, f.key)); return; }
+  if (subj === 'general') { found.forEach(f => genAddKey(f.cat, f.key, { append: true })); return; }
   if (text) { try { inferAlignFromPaste(stu, subj, found, text); } catch (e) { /* a convenience */ } }
   const sk = subj === 'english' ? 'engSelected' : 'mathSelected', ok = subj === 'english' ? 'engOrdered' : 'mathOrdered', pk = subj === 'english' ? 'pubEditEnglish' : 'pubEditMaths';
   if (!stu[sk]) stu[sk] = {}; if (!stu[ok]) stu[ok] = [];
@@ -8065,13 +8065,91 @@ function removeKeyFromText(text, key, stu) {
   if (m && m.status !== 'gone') return sents.filter((_, i) => i < m.from || i >= m.to).join(' ');
   return text;
 }
-function genAddKey(cat, key) {
+// ══ v3.16.24 · NEW SENTENCES GO WHERE THEIR CATEGORY SITS IN THE LIST ═══════════════════════════════
+// Jason, 7 Nov, 13:10: when a sentence is added to a draft that already has sentences, put it in the order the categories are listed.
+// A sentence he has moved by hand keeps its place: nothing already in the draft is moved, only the new sentence is placed.
+// It goes in the slot that puts the fewest sentences out of category order, so a moved sentence does not drag it away from where it belongs.
+// Settings (Comments): "Put new sentences in category order". Off adds each new sentence at the end, as before.
+function _catList(subj) { return subj === 'english' ? ENGLISH_CATS : subj === 'maths' ? MATHS_CATS : CATS; }
+function _keyCat(stu, subj, key) {
+  if (subj === 'general') {
+    if (String(key).startsWith('__custom__')) { const parts = key.split('__'); return parts.slice(2, parts.length - 1).join('__'); }
+    if (SENT_CAT[key]) return SENT_CAT[key];
+  }
+  const sel = (subj === 'english' ? stu.engSelected : subj === 'maths' ? stu.mathSelected : stu.selected) || {};
+  for (const c of Object.keys(sel)) if ((sel[c] || []).includes(key)) return c;
+  return null;
+}
+// ranks: the category number of each sentence in the draft (null = not from the bank, so it has no place in the order);
+// blocked[p]: a slot that would cut one comment in two. Returns the slot (0 = before the first sentence, n = after the last).
+function _bestSlot(ranks, blocked, r) {
+  const n = ranks.length; let best = n, bc = Infinity;
+  for (let q = 0; q <= n; q++) {
+    if (blocked && blocked[q]) continue;
+    let c = 0;
+    for (let i = 0; i < q; i++) if (ranks[i] !== null && ranks[i] > r) c++;
+    for (let i = q; i < n; i++) if (ranks[i] !== null && ranks[i] <= r) c++;
+    if (c < bc) { bc = c; best = q; }
+  }
+  while (best < n && ranks[best] === null) best++;   // after any sentence the teacher typed that follows the one it belongs with
+  return best;
+}
+// Where a new key goes in an ordered list of keys (the built draft). Returns an index; the end when the setting is off.
+function orderedSlot(stu, subj, key, cat, arr) {
+  try {
+    if (!flagOn('catOrder')) return arr.length;
+    const list = _catList(subj), r = list.indexOf(cat);
+    if (r < 0) return arr.length;
+    const ranks = arr.map(k => { if (k === key) return null; const c = list.indexOf(_keyCat(stu, subj, k)); return c < 0 ? null : c; });
+    return _bestSlot(ranks, null, r);
+  } catch (e) { return arr.length; }
+}
+function _sentSpans(text) {
+  const re = /[^\s][\s\S]*?(?:[.!?]+["')\]]*(?=\s|$)|$)/g, out = []; let m;
+  while ((m = re.exec(text))) { if (!m[0].length) { re.lastIndex++; continue; } out.push([m.index, m.index + m[0].trimEnd().length]); }
+  return out;
+}
+// Which turn the new sentence takes after `before`: 0 = the name, 1 = a pronoun, null = cannot tell (the caller counts as it did before).
+function _nextTurn(stu, before) {
+  const last = splitSentences(before).pop(); if (!last) return 0;
+  const nm = String(stu.name || '').trim();
+  if (nm && new RegExp('^' + nm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z0-9])').test(last)) return 1;
+  if (/^(He|She|They|His|Her|Their|Him|Them|Hers|Theirs)\b/.test(last)) return 0;
+  return null;
+}
+// Put a new sentence into a hand-edited draft. make(textBefore, turn) gives the sentence with the right name / pronoun turn for that place
+// (turn: see _nextTurn; with the setting off it is null, so the sentence is made as it was before v3.16.24).
+// Everything already in the text stays exactly as it is.
+function draftInsert(stu, subj, key, cat, text, make) {
+  const atEnd = () => { const on = flagOn('catOrder'); return text.trimEnd() + ' ' + make(text, on ? _nextTurn(stu, text) : null); };
+  try {
+    if (!flagOn('catOrder')) return atEnd();
+    const list = _catList(subj), r = list.indexOf(cat);
+    if (r < 0) return atEnd();
+    const spans = _sentSpans(text), n = spans.length;
+    if (!n) return atEnd();
+    const ranks = new Array(n).fill(null), blocked = new Array(n + 1).fill(false);
+    _draftMatches(stu, subj, _subjKeys(stu, subj).filter(k => k !== key), text).forEach((v, k) => {
+      if (v.status === 'gone') return;
+      const c = list.indexOf(_keyCat(stu, subj, k)); if (c < 0) return;
+      for (let q = v.from; q < v.to && q < n; q++) ranks[q] = c;
+      for (let q = v.from + 1; q < v.to && q <= n; q++) blocked[q] = true;   // not between the two halves of one comment
+    });
+    const at = _bestSlot(ranks, blocked, r);
+    if (at >= n) return atEnd();
+    if (at === 0) { const a = spans[0][0]; return text.slice(0, a) + make('', 0) + ' ' + text.slice(a); }
+    const end = spans[at - 1][1], before = text.slice(0, end);
+    return text.slice(0, end) + ' ' + make(before, _nextTurn(stu, before)) + text.slice(end);
+  } catch (e) { return atEnd(); }
+}
+function genAddKey(cat, key, opts) {
   const stu = cur();
   if (!stu.selected[cat]) stu.selected[cat] = [];
   stu.selected[cat].push(key);
-  stu.ordered.push(key);
+  if (opts && opts.append) stu.ordered.push(key);   // a pasted comment keeps the order it was pasted in
+  else stu.ordered.splice(orderedSlot(stu, 'general', key, _keyCat(stu, 'general', key) || cat, stu.ordered), 0, key);   // v3.16.24
   if (stu.editedCat) { if (!stu.orderedAfterEdit) stu.orderedAfterEdit = []; stu.orderedAfterEdit.push(key); }
-  syncGeneralOverride(key, true);
+  syncGeneralOverride(key, true, cat);
   genInvalidate();
 }
 function genRemoveKey(cat, key) {
@@ -9574,7 +9652,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.23';
+const APP_VERSION = 'v3.16.24';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10227,6 +10305,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.24', date: '7 November 2026', items: [
+    'A new sentence now goes where its category sits in the list, among the sentences already in the draft. A sentence you moved stays where you put it. You can turn this off in Settings (Comments).',
+  ] },
   { v: 'v3.16.23', date: '7 November 2026', items: [
     'Pressing Enter in the draft now makes a line break. Before, it typed a space. Press it twice for a blank line. Review and Copy keep the breaks.',
   ] },
@@ -12292,7 +12373,7 @@ function showNextLongSentence() {
 // ══ v3.16.13 · MORE SETTINGS ═══════════════════════════════════════════════
 // Saved on this device, like the word limits. Every default leaves the app working exactly as before.
 function getSimMode() { const v = lsGet('rcb_simmode', 'top'); return v === 'mark' || v === 'off' ? v : 'top'; }
-const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch', pasteTick: 'rcb_pastetick' };
+const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch', pasteTick: 'rcb_pastetick', catOrder: 'rcb_catorder' };
 function flagOn(name) { return lsGet(_FLAG_KEYS[name], true) !== false; }
 function _settingChanged(name) {
   try {
@@ -12318,6 +12399,8 @@ function renderMoreSettings() {
     + sw('confetti', 'Confetti when a comment is done', 'Shown once for each student.')
     + '<div class="sw-pane-title">General comment paragraphs</div>'
     + sw('paras', 'Split the General comment into paragraphs', 'Off puts the whole comment in one paragraph. No words change.')
+    + '<div class="sw-pane-title">Adding sentences to the draft</div>'
+    + sw('catOrder', 'Put new sentences in category order', 'A sentence you add goes where its category sits in the list, among the sentences already in the draft. A sentence you moved stays where you put it. Off adds each new sentence at the end.')
     + '<div class="sw-pane-title">Pasting a finished comment</div>'
     + sw('pasteTick', 'Tick the sentences from a pasted comment', 'Ticks the bank sentences found in the comment you paste into the draft and scrolls the list to the first one. The text you paste is never changed. Off leaves a pasted comment as plain text.')
     + '<div class="sw-pane-title">Moving around</div>'
@@ -13427,6 +13510,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.23</div>
+<div class="version-badge">v3.16.24</div>
 </body>
 </html>
