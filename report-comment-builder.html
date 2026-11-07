@@ -1504,7 +1504,7 @@
         </div>
         <div class="out-editable" id="outEditable" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Draft comment"
              data-placeholder="Pick sentences from the bank to build this student’s comment, or type here directly…"
-             onblur="onDraftBlur()" oninput="onDraftInput()" onpaste="onDraftPaste()" onkeydown="onDraftKeydown(event)"></div>
+             onblur="onDraftBlur()" oninput="onDraftInput()" onpaste="onDraftPaste()" onkeydown="onDraftKeydown(event)" onbeforeinput="onDraftBeforeInput(event)"></div>
         <div class="draft-edit-bar" id="draftEditBar">
           <button class="draft-reset-btn" onclick="resetDraft()">Reset</button>
           <div class="draft-edit-label">Editing draft…</div>
@@ -2466,7 +2466,7 @@ function buildParas(stu) {
 // back on it. Each sentence is matched to the bank sentence it came from (the same matching the bank uses to turn an
 // entry yellow); a sentence that matches nothing stays with the one before it; then the sentences are grouped by
 // paragraph, keeping their order inside each paragraph. No word is changed. A text that already has paragraphs,
-// or sits in one paragraph anyway, comes back exactly as it was.
+// or has a line break the teacher typed with Enter (v3.16.23), or sits in one paragraph anyway, comes back exactly as it was.
 function _paraGroupOf(key) {
   let cat;
   if (String(key).startsWith('__custom__')) { const parts = String(key).split('__'); cat = parts.slice(2, parts.length - 1).join('__'); }
@@ -2478,7 +2478,7 @@ const _reparaMemo = new Map();
 function reparaGeneral(stu, text, keys) {
   try {
     text = String(text == null ? '' : text);
-    if (!stu || !text.trim() || /\n\s*\n/.test(text)) return text;
+    if (!stu || !text.trim() || /\n/.test(text)) return text;   // v3.16.23: any line break the teacher typed is the teacher's own layout
     keys = (keys || []).filter(k => k && !String(k).startsWith('__custom____edited__'));
     if (!keys.length) return text;
     const sents = splitSentences(text);
@@ -2528,7 +2528,7 @@ function flatParas(t) { return String(t == null ? '' : t).replace(/\s*\n\s*\n\s*
 function _paraOut(t) { return flagOn('paras') ? t : flatParas(t); }
 function getPublishedText(stu) { return _paraOut(getPublishedTextRaw(stu)); }
 function getPublishedTextRaw(stu) {
-  if (stu.draftOverride) return reparaGeneral(stu, stu.draftOverride, stu.ordered);   // v3.16.10
+  if (stu.draftOverride) return reparaGeneral(stu, String(stu.draftOverride).replace(/\s+$/, ''), stu.ordered);   // v3.16.10; v3.16.23: Enter pressed at the end leaves no blank lines in the finished text
 
   const name = stu.name || '[Name]';
   const p = PR[stu.pronoun];
@@ -6360,11 +6360,31 @@ function onDraftInput() {
   scheduleReconcile(cur(), currentSubject, currentSubject === 'general' ? text : stripFDFromDraftText(text));
 }
 
+// v3.16.23: Enter in the draft pane makes a real line break (it used to type a space). A <br> keeps the pane
+// one block, so the text still reads back as plain lines, and two Enters in a row leave a blank line.
+function _draftLineBreak() {
+  let ok = false;
+  try { ok = document.execCommand('insertLineBreak'); } catch (e) {}
+  if (!ok) {
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return;
+    const r = sel.getRangeAt(0); r.deleteContents();
+    const br = document.createElement('br'); r.insertNode(br);
+    r.setStartAfter(br); r.collapse(true); sel.removeAllRanges(); sel.addRange(r);
+    onDraftInput();
+  }
+}
 function onDraftKeydown(e) {
-  // Prevent Enter adding a <div> — use a space instead
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter' && !e.isComposing) {
     e.preventDefault();
-    document.execCommand('insertText', false, ' ');
+    _draftLineBreak();
+  }
+}
+// Phone keyboards often send Enter as an input event with no key name, so catch that here too.
+function onDraftBeforeInput(e) {
+  if (e.inputType === 'insertParagraph') {
+    e.preventDefault();
+    _draftLineBreak();
   }
 }
 
@@ -6686,6 +6706,14 @@ function paneTextFromEl(el) {
         return Array.from(para.querySelectorAll('.fd-line')).map(l => l.textContent.trim()).filter(Boolean).join('\n');
       }
       const spans = para.querySelectorAll('span');
+      if (spans.length && para.querySelector('br')) {   // v3.16.23: lines the teacher broke with Enter
+        const lines = [[]];
+        para.childNodes.forEach(n => {
+          if (n.nodeName === 'BR') lines.push([]);
+          else if (n.nodeName === 'SPAN') { const t = n.textContent.trim(); if (t) lines[lines.length - 1].push(t); }
+        });
+        return lines.map(l => l.join(' ')).filter(Boolean).join('\n');
+      }
       if (spans.length) return Array.from(spans).map(s => s.textContent.trim()).filter(Boolean).join(' ');
       return para.innerText.trim();
     }).filter(Boolean);
@@ -7091,10 +7119,11 @@ function renderPublish() {
         `<span data-pi="${pi}" data-si="0" class="fd-line">${l.trim()}</span>`
       ).join('<br>')}</p>`;
     }
-    const sentences = para.match(/[^.!?]+[.!?]+\s*/g) || [para];
-    return `<p class="pub-para">${sentences.map((s, si) =>
-      `<span data-pi="${pi}" data-si="${si}">${s.trim()}</span>`
-    ).join(' ')}</p>`;
+    // v3.16.23: a line break typed with Enter inside a paragraph stays a line break here (one line gives exactly what it did before)
+    let _si = 0;
+    return `<p class="pub-para">${para.split('\n').filter(l => l.trim()).map(line =>
+      (line.match(/[^.!?]+[.!?]+\s*/g) || [line]).map(s => `<span data-pi="${pi}" data-si="${_si++}">${s.trim()}</span>`).join(' ')
+    ).join('<br>')}</p>`;
   }).join('');
 
   // Mark published and trigger effects per subject
@@ -9545,7 +9574,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.22';
+const APP_VERSION = 'v3.16.23';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10198,6 +10227,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.23', date: '7 November 2026', items: [
+    'Pressing Enter in the draft now makes a line break. Before, it typed a space. Press it twice for a blank line. Review and Copy keep the breaks.',
+  ] },
   { v: 'v3.16.22', date: '6 November 2026', items: [
     'With the pronoun They, every verb in a list now agrees (\u201cThey slide, flip and turn shapes\u201d). Before, only the first verb changed.',
     'Pasting a finished comment now scrolls the list to the first sentence that was ticked, and there is a switch in Settings (Comments) to turn the ticking off.',
@@ -13395,6 +13427,6 @@ loadTheme();
   </div>
 </div>
 
-<div class="version-badge">v3.16.22</div>
+<div class="version-badge">v3.16.23</div>
 </body>
 </html>
