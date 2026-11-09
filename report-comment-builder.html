@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Report Comment Builder</title>
+<title>Report Ready</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -1275,7 +1275,7 @@
 <body>
 
 <header>
-  <div class="logo">Comment Builder</div>
+  <div class="logo">Report Ready</div>
   <div class="sem-toggle" role="group" aria-label="Semester">
     <button class="sem-btn active s1" id="semS1" onclick="setSemester(1)">Semester 1</button>
     <button class="sem-btn s2" id="semS2" onclick="setSemester(2)">Semester 2</button>
@@ -9701,7 +9701,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.29';
+const APP_VERSION = 'v3.16.30';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10355,6 +10355,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.30', date: '9 November 2026', items: [
+    'The app is now called Report Ready. Your students, comments and settings are exactly as you left them.',
+  ] },
   { v: 'v3.16.29', date: '9 November 2026', items: [
     'Dark mode now follows your computer or phone until you choose Light or Dark in Settings.',
     'Small arrows beside the category buttons show when there are more categories to scroll to.',
@@ -13564,7 +13567,7 @@ loadTheme();
     <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
       <div>
         <div style="font-size:15px;font-weight:600;color:var(--t0)">Admin Panel</div>
-        <div style="font-size:11px;color:var(--t2);margin-top:2px">Report Comment Builder — Cloud Accounts</div>
+        <div style="font-size:11px;color:var(--t2);margin-top:2px">Report Ready — Cloud Accounts</div>
       </div>
       <button onclick="closeAdminPanel()" style="font-family:var(--font);font-size:18px;background:none;border:none;color:var(--t2);cursor:pointer;padding:4px 8px">✕</button>
     </div>
