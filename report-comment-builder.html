@@ -4591,7 +4591,7 @@ const MATHS_BANK = {
   }
 };
 
-const ENGLISH_CATS = ["Introduction", "Below Expectations", "Oral Language & Communication", "Reading Comprehension", "Creating Written Texts", "Vocabulary", "Spelling & Grammar", "Handwriting & Digital Transcription", "Understanding and Responding to Literature", "Future Directions"];
+const ENGLISH_CATS = ["Introduction", "Below Expectations", "Oral Language & Communication", "Reading Comprehension", "Understanding and Responding to Literature", "Creating Written Texts", "Vocabulary", "Spelling & Grammar", "Handwriting & Digital Transcription", "Future Directions"];
 const MATHS_CATS = ["Introduction", "Below Expectations", "Represents Numbers", "Additive Relations", "Multiplicative Relations", "Representing Quantity Fractions", "Geometric Measure", "Two-Dimensional Spatial Structure", "Three-Dimensional Spatial Structure", "Non-Spatial Measure", "Data", "Chance", "Future Directions"];
 
 // ══ v3.11.0 · YEAR-BASED GRADING ═══════════════════════════════════════════════════════════════
@@ -9656,7 +9656,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.27';
+const APP_VERSION = 'v3.16.28';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10309,6 +10309,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.28', date: '9 November 2026', items: [
+    'In English, Understanding and Responding to Literature now sits straight after Reading Comprehension in the category tabs and the strand lists. Its sentences are unchanged, and comments you have already built keep their order.',
+  ] },
   { v: 'v3.16.27', date: '9 November 2026', items: [
     'The \u201cDifferent tense\u201d check no longer flags sentences that are in the present tense, such as \u201clanguage can be used to evoke emotion\u201d. It now looks at the main verb of each sentence.',
   ] },
