@@ -55,6 +55,14 @@ function subjBank(subj, name) {
   Object.keys(orig).forEach(k => {
     if (k === 'Introduction' || k === 'Below Expectations') {
       const s = bank[subj][k];
+      if (k === 'Introduction' && s && typeof s === 'object') {   // one real comment per band A to E (C is the old demo sample)
+        out[k] = {};
+        Object.keys(s).forEach(g => {
+          if (g !== 'C' && !(orig[k][g] || []).includes(s[g])) throw new Error('not a bank sentence: ' + s[g]);
+          out[k][g] = [s[g]];
+        });
+        return;
+      }
       if (s) out[k] = k === 'Introduction' ? { C: [s] } : { U: [s] };
       return;
     }

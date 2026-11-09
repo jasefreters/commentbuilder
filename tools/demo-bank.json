@@ -41,11 +41,23 @@
   ]
  },
  "english": {
-  "Introduction": "{{N}} has demonstrated a sound understanding of key concepts covered in English this semester.",
+  "Introduction": {
+   "A": "{{N}} has demonstrated a strong understanding of English skills this semester.",
+   "B": "{{N}} has made steady progress in English this semester.",
+   "C": "{{N}} has demonstrated a sound understanding of key concepts covered in English this semester.",
+   "D": "{{N}} is developing {{pos}} understanding of key English concepts.",
+   "E": "{{N}} has made limited progress in English."
+  },
   "Below Expectations": "{{S}} is working below stage expectations in English and is continuing to develop key skills with teacher support."
  },
  "maths": {
-  "Introduction": "{{N}} has demonstrated a sound understanding of key mathematical concepts this semester.",
+  "Introduction": {
+   "A": "{{N}} demonstrates an outstanding understanding of mathematical concepts this semester.",
+   "B": "{{N}} has demonstrated a strong understanding of key mathematical concepts this semester.",
+   "C": "{{N}} has demonstrated a sound understanding of key mathematical concepts this semester.",
+   "D": "{{N}} is developing {{pos}} understanding of mathematical concepts this semester.",
+   "E": "{{N}} is developing {{pos}} understanding of mathematical concepts."
+  },
   "Below Expectations": "{{S}} is working below stage expectations in Mathematics and is continuing to develop key skills with guidance."
  },
  "fdPerStage": 2,
