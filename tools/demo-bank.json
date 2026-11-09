@@ -12,28 +12,145 @@
   },
   "english": {
     "Introduction": "{{N}} has demonstrated a sound understanding of key concepts covered in English this semester.",
-    "Below Expectations": "{{S}} is working below stage expectations in English and is continuing to develop key skills with teacher support.",
-    "Oral Language & Communication": "{{S}} seeks clarification during discussions and uses this to build a clearer understanding of texts.",
-    "Reading Comprehension": "{{S}} uses reading strategies to comprehend more complex texts.",
-    "Creating Written Texts": "{{S}} organises ideas into paragraphs using basic connectives to sequence events and information.",
-    "Vocabulary": "{{S}} selects vocabulary that enhances meaning.",
-    "Spelling & Grammar": "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy.",
-    "Handwriting & Digital Transcription": "{{S}} forms letters correctly and maintains appropriate spacing when writing.",
-    "Understanding and Responding to Literature": "{{S}} describes how characters are built through their actions and viewpoints."
+    "Below Expectations": "{{S}} is working below stage expectations in English and is continuing to develop key skills with teacher support."
   },
   "maths": {
     "Introduction": "{{N}} has demonstrated a sound understanding of key mathematical concepts this semester.",
-    "Below Expectations": "{{S}} is working below stage expectations in Mathematics and is continuing to develop key skills with guidance.",
-    "Represents Numbers": "{{S}} applies {{pos}} knowledge of place value to work confidently with large numbers.",
-    "Additive Relations": "{{S}} applies number facts to create equal number sentences.",
-    "Multiplicative Relations": "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders.",
-    "Representing Quantity Fractions": "{{S}} expresses common percentages as both fractions and decimals.",
-    "Geometric Measure": "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor.",
-    "Two-Dimensional Spatial Structure": "{{S}} identifies and classifies triangles and quadrilaterals based on their properties.",
-    "Three-Dimensional Spatial Structure": "{{S}} names and describes the features of two- and three-dimensional shapes.",
-    "Non-Spatial Measure": "{{S}} measures weight, perimeter and area accurately.",
-    "Data": "{{S}} accurately interprets information presented in tables, column graphs and line graphs.",
-    "Chance": "{{S}} describes the chance of events occurring using the terms equally likely, likely and unlikely."
+    "Below Expectations": "{{S}} is working below stage expectations in Mathematics and is continuing to develop key skills with guidance."
   },
-  "fdPerStage": 2
+  "fdPerStage": 2,
+  "staged": {
+    "english": {
+      "Oral Language & Communication": [
+        "{{S}} listens closely to others and shares {{pos}} thoughts during play-based activities.",
+        "{{S}} participates in partner and group conversations when responding to texts.",
+        "{{S}} delivered a thoughtful and well-organised prepared speech.",
+        "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions.",
+        "{{S}} explores and develops new ideas with others.",
+        "{{S}} communicates one idea, or two connected ideas, when speaking to the teacher."
+      ],
+      "Reading Comprehension": [
+        "{{S}} reads with confidence and connects with the ideas in texts.",
+        "{{S}} makes connections between {{pos}} experiences and the events in a story.",
+        "{{S}} uses strategies to fix {{pos}} understanding when meaning breaks down.",
+        "{{S}} monitors {{pos}} understanding and recognises when meaning breaks down.",
+        "{{S}} explains how a text can carry more than one meaning.",
+        "{{S}} recalls key events and characters in a story."
+      ],
+      "Vocabulary": [
+        "{{S}} describes objects using words for size, shape, colour and position.",
+        "{{S}} uses a growing vocabulary to enhance {{pos}} writing.",
+        "{{S}} includes describing words to add detail and variety to writing.",
+        "{{S}} explains how vocabulary choices can enhance the entertainment value of narratives.",
+        "{{S}} understands the way language is used has changed over time."
+      ],
+      "Creating Written Texts": [
+        "{{S}} writes simple sentences using words displayed in the classroom.",
+        "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.",
+        "{{S}} is developing skills in structuring and editing persuasive texts.",
+        "{{S}} applies a variety of tenses to suit different writing tasks.",
+        "{{S}} argues against opposing views to strengthen {{pos}} persuasive writing.",
+        "{{S}} takes part in creating texts with others."
+      ],
+      "Spelling & Grammar": [
+        "{{S}} breaks longer words into chunks as a strategy for spelling.",
+        "{{S}} applies correct letter patterns and general rules when spelling words.",
+        "{{S}} checks {{pos}} work for spelling mistakes and uses dictionaries to correct them.",
+        "{{S}} automatically uses strategies in a range of contexts to spell unfamiliar words.",
+        "{{S}} recognises words that start with the same sound."
+      ],
+      "Handwriting & Digital Transcription": [
+        "{{S}} holds {{pos}} pencil comfortably during handwriting tasks and remembers to write letters from left to right.",
+        "{{S}} uses basic word-processing tools to type and edit short texts.",
+        "{{S}} uses word-processing tools to draft and edit {{pos}} writing.",
+        "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation.",
+        "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger."
+      ],
+      "Understanding and Responding to Literature": [
+        "{{S}} names {{pos}} favourite stories and characters in class discussions.",
+        "{{S}} uses figurative language or wordplay in {{pos}} own writing.",
+        "{{S}} identifies words and phrases that are used to persuade the reader.",
+        "{{S}} describes how characters are built through their actions and viewpoints.",
+        "{{S}} explains how the way characters treat each other reflects real relationships."
+      ]
+    },
+    "maths": {
+      "Represents Numbers": [
+        "{{S}} immediately recognises the number of objects in a small collection.",
+        "{{S}} knows one more and one less of numbers up to 100.",
+        "{{S}} rounds numbers to estimate results and records numbers in different ways.",
+        "{{S}} rounds whole numbers and decimals to estimate results.",
+        "{{S}} tells apart decimals that end and decimals that repeat forever.",
+        "{{S}} recognises different finger patterns for the same number."
+      ],
+      "Additive Relations": [
+        "{{S}} adds two small groups of counters to solve mathematical problems.",
+        "{{S}} uses concrete materials to model addition and subtraction problems involving two-digit numbers.",
+        "{{S}} solves addition and subtraction problems by separating numbers into their place value.",
+        "{{S}} applies a range of addition and subtraction strategies effectively.",
+        "{{S}} plots pairs of numbers on a grid to show a straight-line pattern.",
+        "{{S}} counts across two small groups to find a total."
+      ],
+      "Multiplicative Relations": [
+        "{{S}} records how objects were shared using drawings, words and numbers.",
+        "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100.",
+        "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+        "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders.",
+        "{{S}} uses letters to stand for unknown numbers when solving simple problems.",
+        "{{S}} identifies the number of objects in a group."
+      ],
+      "Representing Quantity Fractions": [
+        "{{S}} recognises and names simple fractions such as halves and quarters.",
+        "{{S}} recognises and represents fractions of a length and records numbers in different forms.",
+        "{{S}} works with fractions and decimals and identifies prime numbers.",
+        "{{S}} solves problems involving the multiplication and division of fractions."
+      ],
+      "Geometric Measure": [
+        "{{S}} experiments with making two equal parts by finding the middle.",
+        "{{S}} gives and follows directions between familiar places, using turns to the left or right.",
+        "{{S}} uses both centimetres and metres to find distances.",
+        "{{S}} uses hectares and square metres to solve area problems.",
+        "{{S}} uses formulas to find the area of circles, trapeziums and kites.",
+        "{{S}} responds to simple instructions about position or movement."
+      ],
+      "Two-Dimensional Spatial Structure": [
+        "{{S}} names basic shapes in {{pos}} environment and describes their features.",
+        "{{S}} sorts two-dimensional shapes based on their sides and corners.",
+        "{{S}} finds lines of symmetry in pictures, designs and shapes.",
+        "{{S}} calculates areas and matches three-dimensional objects with their two-dimensional drawings.",
+        "{{S}} finds missing angles when a line crosses a pair of parallel lines.",
+        "{{S}} sorts shapes into groups."
+      ],
+      "Three-Dimensional Spatial Structure": [
+        "{{S}} participates in whole class activities to sort objects by one feature.",
+        "{{S}} names three-dimensional objects including cubes, cylinders, spheres and rectangular prisms.",
+        "{{S}} describes the features of prisms, pyramids and cylinders by building models of them.",
+        "{{S}} efficiently connects three-dimensional objects with their two-dimensional representations.",
+        "{{S}} describes how objects made by joining prisms look from different views.",
+        "{{S}} selects objects by pointing or touching as they are named."
+      ],
+      "Non-Spatial Measure": [
+        "{{S}} lifts objects to feel which is heavier or lighter.",
+        "{{S}} shows money values in different forms.",
+        "{{S}} adds amounts of money and compares prices in familiar situations.",
+        "{{S}} solves problems involving time by converting between 12-hour and 24-hour formats.",
+        "{{S}} reads and draws graphs that show distance travelled over time.",
+        "{{S}} identifies events that happen in the daytime or at night-time."
+      ],
+      "Data": [
+        "{{S}} takes part in class activities to collect information from classmates and ask questions about it.",
+        "{{S}} organises data into a picture graph using tally marks and symbols.",
+        "{{S}} identifies the largest and smallest values in a data display.",
+        "{{S}} chooses suitable graphs and timelines to display information and organises data clearly.",
+        "{{S}} draws conclusions from data shown in tables and different graphs.",
+        "{{S}} answers yes or no questions or chooses from options to help collect data."
+      ],
+      "Chance": [
+        "{{S}} describes the chance of different outcomes in everyday situations.",
+        "{{S}} identifies possible outcomes of events and describes them using everyday language.",
+        "{{S}} describes the likelihood of outcomes in chance experiments using everyday language.",
+        "{{S}} works out the chance that an event will not happen."
+      ]
+    }
+  }
 }
