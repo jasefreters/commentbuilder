@@ -1,0 +1,11 @@
+/* demo mode (added by tools/build-demo.js) */
+.demo-pill { font: 600 10px/1 var(--font-ui, 'Public Sans', system-ui, sans-serif); letter-spacing: .06em; text-transform: uppercase; padding: 3px 7px; border-radius: 999px; background: var(--accent-bg, #E3EEF6); color: var(--accent, #0F5C8E); vertical-align: middle; margin-left: 6px; }
+.demo-cta { font: 600 12px/1 var(--font-ui, 'Public Sans', system-ui, sans-serif); padding: 8px 12px; border-radius: 8px; background: var(--accent, #0F5C8E); color: #fff; text-decoration: none; white-space: nowrap; }
+.demo-cta:hover { filter: brightness(1.08); }
+.demo-reset { font: 500 12px/1 var(--font-ui, 'Public Sans', system-ui, sans-serif); padding: 8px 10px; border-radius: 8px; background: transparent; color: inherit; border: 1px solid var(--border, #cfd6de); cursor: pointer; white-space: nowrap; }
+#adminBtn, .sw-tab[data-swtab="account"], .sw-tab[data-swtab="data"], .sw-tab[data-swtab="ai"], .sw-tab[data-swtab="suggest"],
+.sw-pane[data-swpane="account"], .sw-pane[data-swpane="data"], .sw-pane[data-swpane="ai"], .sw-pane[data-swpane="suggest"] { display: none !important; }
+/* Check for issues, Polish and Rewrite call the AI service, which the demo does not have */
+#checkBtn, #polishBtn, button[onclick="reviewAndCheck()"], button[onclick="reviewAndPolish()"] { display: none !important; }
+@media (max-width: 1100px) and (min-width: 701px) { .demo-reset { display: none; } }
+@media (max-width: 1100px) and (min-width: 701px) { .demo-cta { padding: 8px 10px; } }
