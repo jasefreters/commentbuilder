@@ -57,7 +57,10 @@
     "{{S}} delivered a thoughtful and well-organised prepared speech.",
     "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions.",
     "{{S}} explores and develops new ideas with others.",
-    "{{S}} communicates one idea, or two connected ideas, when speaking to the teacher."
+    "{{S}} communicates one idea, or two connected ideas, when speaking to the teacher.",
+    "{{S}} poses thoughtful questions to deepen interpretation and supports {{pos}} thinking with clear reasons.",
+    "{{S}} presented a thoughtful and well-organised prepared speech.",
+    "{{S}} seeks clarification during discussions and uses this to build a clearer understanding of texts."
    ],
    "Reading Comprehension": [
     "{{S}} reads with confidence and connects with the ideas in texts.",
@@ -65,14 +68,20 @@
     "{{S}} uses strategies to fix {{pos}} understanding when meaning breaks down.",
     "{{S}} monitors {{pos}} understanding and recognises when meaning breaks down.",
     "{{S}} explains how a text can carry more than one meaning.",
-    "{{S}} recalls key events and characters in a story."
+    "{{S}} recalls key events and characters in a story.",
+    "{{S}} uses reading strategies to comprehend more complex texts.",
+    "{{S}} locates relevant information in a text.",
+    "{{S}} reads texts with complex ideas and explains how the author built them."
    ],
    "Vocabulary": [
     "{{S}} describes objects using words for size, shape, colour and position.",
     "{{S}} uses a growing vocabulary to enhance {{pos}} writing.",
     "{{S}} includes describing words to add detail and variety to writing.",
     "{{S}} explains how vocabulary choices can enhance the entertainment value of narratives.",
-    "{{S}} understands the way language is used has changed over time."
+    "{{S}} understands the way language is used has changed over time.",
+    "{{S}} selects vocabulary that enhances meaning.",
+    "{{S}} draws vocabulary from texts {{s}} has read.",
+    "{{S}} chooses words to give {{pos}} writing a particular style."
    ],
    "Creating Written Texts": [
     "{{S}} writes simple sentences using words displayed in the classroom.",
@@ -80,28 +89,40 @@
     "{{S}} is developing skills in structuring and editing persuasive texts.",
     "{{S}} applies a variety of tenses to suit different writing tasks.",
     "{{S}} argues against opposing views to strengthen {{pos}} persuasive writing.",
-    "{{S}} takes part in creating texts with others."
+    "{{S}} takes part in creating texts with others.",
+    "{{S}} plans and organises information reports.",
+    "{{S}} organises recounts and attempts informative texts with emerging control.",
+    "{{S}} reflects on how planning and revising changes the clarity of {{pos}} writing."
    ],
    "Spelling & Grammar": [
     "{{S}} breaks longer words into chunks as a strategy for spelling.",
     "{{S}} applies correct letter patterns and general rules when spelling words.",
     "{{S}} checks {{pos}} work for spelling mistakes and uses dictionaries to correct them.",
     "{{S}} automatically uses strategies in a range of contexts to spell unfamiliar words.",
-    "{{S}} recognises words that start with the same sound."
+    "{{S}} recognises words that start with the same sound.",
+    "{{S}} selects appropriate tenses to suit different writing tasks.",
+    "{{S}} varies sentence length to improve {{pos}} writing.",
+    "{{S}} applies spelling generalisations to spell most familiar and less common words correctly."
    ],
    "Handwriting & Digital Transcription": [
     "{{S}} holds {{pos}} pencil comfortably during handwriting tasks and remembers to write letters from left to right.",
     "{{S}} uses basic word-processing tools to type and edit short texts.",
     "{{S}} uses word-processing tools to draft and edit {{pos}} writing.",
     "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation.",
-    "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger."
+    "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger.",
+    "{{S}} uses the keyboard efficiently when publishing {{pos}} texts digitally.",
+    "{{S}} types texts and searches for information online.",
+    "{{S}} presents written work neatly and communicates ideas clearly when typing."
    ],
    "Understanding and Responding to Literature": [
     "{{S}} names {{pos}} favourite stories and characters in class discussions.",
     "{{S}} uses figurative language or wordplay in {{pos}} own writing.",
     "{{S}} identifies words and phrases that are used to persuade the reader.",
     "{{S}} describes how characters are built through their actions and viewpoints.",
-    "{{S}} explains how the way characters treat each other reflects real relationships."
+    "{{S}} explains how the way characters treat each other reflects real relationships.",
+    "{{S}} explores how language can evoke emotions in poems.",
+    "{{S}} identifies and applies themes in various texts.",
+    "{{S}} explains how a text can draw on other texts to add meaning."
    ]
   },
   "maths": {
@@ -111,7 +132,11 @@
     "{{S}} rounds numbers to estimate results and records numbers in different ways.",
     "{{S}} rounds whole numbers and decimals to estimate results.",
     "{{S}} tells apart decimals that end and decimals that repeat forever.",
-    "{{S}} recognises different finger patterns for the same number."
+    "{{S}} recognises different finger patterns for the same number.",
+    "{{S}} compares and orders decimals and percentages.",
+    "{{S}} understands that one thousand is made up of ten hundreds and represents numbers using words and drawings.",
+    "{{S}} adds and subtracts positive and negative numbers.",
+    "{{S}} uses place value to read, write and work with large numbers and represents them in different ways."
    ],
    "Additive Relations": [
     "{{S}} adds two small groups of counters to solve mathematical problems.",
@@ -119,7 +144,11 @@
     "{{S}} solves addition and subtraction problems by separating numbers into their place value.",
     "{{S}} applies a range of addition and subtraction strategies effectively.",
     "{{S}} plots pairs of numbers on a grid to show a straight-line pattern.",
-    "{{S}} counts across two small groups to find a total."
+    "{{S}} counts across two small groups to find a total.",
+    "{{S}} solves subtraction with three-digit numbers.",
+    "{{S}} uses {{pos}} knowledge of addition and subtraction to solve complex worded problems.",
+    "{{S}} uses graphs to solve simple equations.",
+    "{{S}} applies known strategies to solve addition and subtraction problems."
    ],
    "Multiplicative Relations": [
     "{{S}} records how objects were shared using drawings, words and numbers.",
@@ -127,13 +156,21 @@
     "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
     "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders.",
     "{{S}} uses letters to stand for unknown numbers when solving simple problems.",
-    "{{S}} identifies the number of objects in a group."
+    "{{S}} identifies the number of objects in a group.",
+    "{{S}} generates number patterns using times tables.",
+    "{{S}} solves division problems with whole number remainders.",
+    "{{S}} writes expressions with letters and finds their value by replacing letters with numbers.",
+    "{{S}} multiplies and divides decimals accurately and works through calculations with several steps in the correct order."
    ],
    "Representing Quantity Fractions": [
     "{{S}} recognises and names simple fractions such as halves and quarters.",
     "{{S}} recognises and represents fractions of a length and records numbers in different forms.",
     "{{S}} works with fractions and decimals and identifies prime numbers.",
-    "{{S}} solves problems involving the multiplication and division of fractions."
+    "{{S}} solves problems involving the multiplication and division of fractions.",
+    "{{S}} converts simple fractions to decimals.",
+    "{{S}} adds and subtracts simple fractions with accuracy.",
+    "{{S}} adds, subtracts, multiplies and divides fractions.",
+    "{{S}} expresses common percentages as both fractions and decimals."
    ],
    "Geometric Measure": [
     "{{S}} experiments with making two equal parts by finding the middle.",
@@ -141,7 +178,11 @@
     "{{S}} uses both centimetres and metres to find distances.",
     "{{S}} uses hectares and square metres to solve area problems.",
     "{{S}} uses formulas to find the area of circles, trapeziums and kites.",
-    "{{S}} responds to simple instructions about position or movement."
+    "{{S}} responds to simple instructions about position or movement.",
+    "{{S}} identifies and plots points on a number plane.",
+    "{{S}} selects appropriate units of measurement to determine length.",
+    "{{S}} calculates the perimeters of common two-dimensional shapes.",
+    "{{S}} converts between units of area, volume and capacity."
    ],
    "Two-Dimensional Spatial Structure": [
     "{{S}} names basic shapes in {{pos}} environment and describes their features.",
@@ -149,7 +190,11 @@
     "{{S}} finds lines of symmetry in pictures, designs and shapes.",
     "{{S}} calculates areas and matches three-dimensional objects with their two-dimensional drawings.",
     "{{S}} finds missing angles when a line crosses a pair of parallel lines.",
-    "{{S}} sorts shapes into groups."
+    "{{S}} sorts shapes into groups.",
+    "{{S}} creates patterns by flipping, sliding and turning shapes.",
+    "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles.",
+    "{{S}} classifies triangles and quadrilaterals.",
+    "{{S}} finds a missing side of a right-angled triangle."
    ],
    "Three-Dimensional Spatial Structure": [
     "{{S}} participates in whole class activities to sort objects by one feature.",
@@ -157,7 +202,10 @@
     "{{S}} describes the features of prisms, pyramids and cylinders by building models of them.",
     "{{S}} efficiently connects three-dimensional objects with their two-dimensional representations.",
     "{{S}} describes how objects made by joining prisms look from different views.",
-    "{{S}} selects objects by pointing or touching as they are named."
+    "{{S}} selects objects by pointing or touching as they are named.",
+    "{{S}} visualises and constructs prisms and pyramids.",
+    "{{S}} sketches objects from different views and builds models from drawings.",
+    "{{S}} connects three-dimensional objects with their two-dimensional representations."
    ],
    "Non-Spatial Measure": [
     "{{S}} lifts objects to feel which is heavier or lighter.",
@@ -165,7 +213,10 @@
     "{{S}} adds amounts of money and compares prices in familiar situations.",
     "{{S}} solves problems involving time by converting between 12-hour and 24-hour formats.",
     "{{S}} reads and draws graphs that show distance travelled over time.",
-    "{{S}} identifies events that happen in the daytime or at night-time."
+    "{{S}} identifies events that happen in the daytime or at night-time.",
+    "{{S}} converts between kilograms, grams and tonnes.",
+    "{{S}} reads and records time using hours and minutes.",
+    "{{S}} measures mass using appropriate units."
    ],
    "Data": [
     "{{S}} takes part in class activities to collect information from classmates and ask questions about it.",
@@ -173,13 +224,20 @@
     "{{S}} identifies the largest and smallest values in a data display.",
     "{{S}} chooses suitable graphs and timelines to display information and organises data clearly.",
     "{{S}} draws conclusions from data shown in tables and different graphs.",
-    "{{S}} answers yes or no questions or chooses from options to help collect data."
+    "{{S}} answers yes or no questions or chooses from options to help collect data.",
+    "{{S}} explains how data displays can sometimes be misleading.",
+    "{{S}} creates surveys and records data using predicted categories.",
+    "{{S}} answers questions about side-by-side column graphs that compare two groups.",
+    "{{S}} identifies the type of data collected and chooses a graph to suit it."
    ],
    "Chance": [
     "{{S}} describes the chance of different outcomes in everyday situations.",
     "{{S}} identifies possible outcomes of events and describes them using everyday language.",
     "{{S}} describes the likelihood of outcomes in chance experiments using everyday language.",
-    "{{S}} works out the chance that an event will not happen."
+    "{{S}} works out the chance that an event will not happen.",
+    "{{S}} identifies likely outcomes from chance experiments.",
+    "{{S}} explains why chance experiment results can differ from what was expected.",
+    "{{S}} describes the likelihood of events using probability language."
    ]
   }
  }

@@ -60,6 +60,8 @@ function subjBank(subj, name) {
     }
     const list = (bank.staged[subj] || {})[k];
     if (!list) return;
+    const rank = t => t === 'ES1' ? 0 : t === 'AP' ? 9 : +(/^S(\d)/.exec(t || '') || [0, 5])[1];   // Early Stage 1, Stage 1 to 4, then Access Points
+    list.sort((a, b) => rank(realTag[a]) - rank(realTag[b]));
     list.forEach(s => {
       if (!(realBank[subj][k].U || []).includes(s)) throw new Error('not a bank sentence: ' + s);
       if (!realTag[s]) throw new Error('no stage tag: ' + s);
