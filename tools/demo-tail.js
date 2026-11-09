@@ -33,4 +33,32 @@ function demoReset() {
   try { localStorage.clear(); } catch (e) {}
   try { const r = indexedDB.deleteDatabase(DB_NAME); r.onsuccess = r.onerror = r.onblocked = () => location.reload(); setTimeout(() => location.reload(), 600); } catch (e) { location.reload(); }
 }
+// Band placement for the demo. The real app puts each comment under the highest grade it fits, so for some years a
+// band can be empty (Year 6: B, C and D all take Stage 3). In the demo a band with nothing of its own is given a
+// spare comment from a band that has more than one, so every band shows a comment.
+function _fillBands(L, out) {   // L: grade -> comments that fit it; out: grade -> comments placed (highest grade first)
+  const band = {}; GRADE_ORDER.forEach(g => out[g].forEach(s => { band[s] = g; }));
+  const move = (s, to) => { const from = band[s]; out[from].splice(out[from].indexOf(s), 1); out[to].push(s); band[s] = to; };
+  const fill = (g, seen) => {
+    for (const s of L[g]) { const h = band[s]; if (h !== g && out[h].length >= 2) { move(s, g); return true; } }
+    for (const s of L[g]) {
+      const h = band[s]; if (h === g || seen.has(h)) continue;
+      seen.add(h); move(s, g);
+      if (fill(h, seen)) return true;
+      move(s, h);
+    }
+    return false;
+  };
+  GRADE_ORDER.forEach(g => { if (!out[g].length && L[g].length) fill(g, new Set([g])); });
+  GRADE_ORDER.forEach(g => { out[g] = L[g].filter(s => band[s] === g); });
+  return out;
+}
+const _realAllGrades = yearAllGrades;
+yearAllGrades = function (cat) {
+  const out = _realAllGrades(cat);
+  if (!yearGradingActive()) return out;
+  const L = {}; GRADE_ORDER.forEach(g => { const r = yearSents(cat, g); L[g] = r.fallback ? [] : r.list; });
+  GRADE_ORDER.forEach(g => { if (!out[g]) out[g] = []; });
+  return _fillBands(L, out);
+};
 demoStart();
