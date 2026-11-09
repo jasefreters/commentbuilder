@@ -1900,7 +1900,7 @@ const PR = {
   they: { S:'They', s:'they', O:'Them', o:'them', Pos:'Their',pos:'their',r:'themselves' }
 };
 
-const RAW = {"Personality":["{{N}} is an enthusiastic and curious student whose enquiring mind results in active classroom participation."],"Effort & Work Habits":["{{S}} displays an excellent attitude towards learning, demonstrating genuine curiosity and a willingness to challenge {{pos}} thinking."],"Communication & Collaboration":["{{S}} communicates with confidence and clarity and is an active participant in class discussions."],"Social Skills":["{{N}} is a generous and kind friend who is willing to share {{pos}} time with peers and cares for the wellbeing of others."],"Independence":["{{N}} displays a high level of independence, approaching tasks with confidence and persistence."],"Leadership":["{{N}} is a confident natural leader who inspires classmates and leads by example."],"Semester KLAs":["{{N}} has shown strong engagement in Science and Technology this semester, actively participating in research on weather and climate."],"Sport & Extracurricular":["{{N}} excels in Physical Education, using {{pos}} abilities to compete alongside {{pos}} peers."],"Closing Statement":["{{N}} is to be congratulated on a great start to Stage 3. I look forward to seeing {{pos}} learning progress throughout the remainder of the year."]};
+const RAW = {"Personality":["{{N}} is an enthusiastic and curious student whose enquiring mind results in active classroom participation.","{{N}} displays a positive attitude towards school, showing an interest in all learning areas.","{{N}} produces a pleasing standard of work when {{s}} is focused and motivated."],"Effort & Work Habits":["{{S}} displays an excellent attitude towards learning, demonstrating genuine curiosity and a willingness to challenge {{pos}} thinking.","{{S}} usually maintains focus and commitment to {{pos}} learning across most learning areas.","{{S}} often requires reminders to stay on task and complete {{pos}} work in an appropriate timeframe."],"Communication & Collaboration":["{{S}} communicates with confidence and clarity and is an active participant in class discussions.","{{S}} listens attentively during class discussions, contributing {{pos}} own thoughts and ideas when prompted.","{{N}} is learning to show {{pos}} enthusiasm respectfully by raising {{pos}} hand in class discussions."],"Social Skills":["{{N}} is a generous and kind friend who is willing to share {{pos}} time with peers and cares for the wellbeing of others.","{{N}} is well-liked and consistently contributes to a respectful classroom atmosphere.","{{N}} is developing appropriate social skills and is learning to handle disagreements respectfully."],"Independence":["{{N}} displays a high level of independence, approaching tasks with confidence and persistence.","{{S}} begins tasks without prompting and generally stays focused until completion.","{{S}} works quietly alone and is beginning to stay calm, keep trying and finish tasks."],"Leadership":["{{N}} is a confident natural leader who inspires classmates and leads by example.","{{N}} is a responsible student who takes on leadership roles in group activities."],"Semester KLAs":["{{N}} has shown strong engagement in Science and Technology this semester, actively participating in research on weather and climate."],"Sport & Extracurricular":["{{N}} excels in Physical Education, using {{pos}} abilities to compete alongside {{pos}} peers."],"Closing Statement":["{{N}} is to be congratulated on a great start to Stage 3. I look forward to seeing {{pos}} learning progress throughout the remainder of the year.","It has been a pleasure to teach {{N}} and I look forward to a successful Semester 2."]};
 
 const CATS = Object.keys(RAW);
 
@@ -4150,22 +4150,7 @@ function addSportTpl(id) {
   autoSave(); render();
   showToast('Added to the comment.');
 }
-const TIER_BOUNDARIES = {
-  'Personality': { average: 14, developing: 17 },
-  'Effort & Work Habits': { average: 13, developing: 16 },
-  'Communication & Collaboration': { average: 8, developing: 11 },
-  'Social Skills': { average: 12, developing: 15 },   // v3.16.19: one new Positive sentence (index 11) and one new Developing sentence at the end
-  'Leadership': { average: 3, developing: null },   // v3.16.6: seven sentences moved to Roles & Responsibilities; the first three stay Positive
-  'Roles & Responsibilities': { average: null, developing: null },   // v3.16.6: a role is held or not, so no Positive / Average / Developing
-  'Independence': { average: 8, developing: 10 },
-  'Semester KLAs': { average: null, developing: null },
-  'Interests & Passions': { average: null, developing: null },
-  'Sport & Extracurricular': { average: null, developing: null },
-  'EAL/D': { average: null, developing: null },
-
-  'Attendance': { average: 1, developing: 2 },
-  'Closing Statement': { average: 6, developing: null },
-};
+const TIER_BOUNDARIES = {"Personality":{"average":1,"developing":2},"Effort & Work Habits":{"average":1,"developing":2},"Communication & Collaboration":{"average":1,"developing":2},"Social Skills":{"average":1,"developing":2},"Leadership":{"average":1,"developing":null},"Roles & Responsibilities":{"average":null,"developing":null},"Independence":{"average":1,"developing":2},"Semester KLAs":{"average":null,"developing":null},"Interests & Passions":{"average":null,"developing":null},"Sport & Extracurricular":{"average":null,"developing":null},"EAL/D":{"average":null,"developing":null},"Attendance":{"average":1,"developing":2},"Closing Statement":{"average":1,"developing":null}};
 
 function renderOpts() { try { applyGeneralLevel(); } catch (e) {} _renderOptsCore(); markLongOpts(); scrollListToTop(); }   // v3.14.0: Personality level
 // v3.16.13: a new category (or student, subject or semester) opens at the top of the list, so the Semester 1 sentence is in view.

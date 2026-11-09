@@ -28,8 +28,23 @@ const dec = (name, val, kind) => { replace[name] = (kind || 'const') + ' ' + nam
 
 // ── comment banks ──
 const rawKeys = Object.keys(valueOf('RAW'));
-const RAW = {}; rawKeys.forEach(k => { if (bank.general[k]) RAW[k] = [bank.general[k]]; });
+// General: one Positive comment per category; where the app has Average and Developing tiers, one of each as well.
+// List order is Positive, Average, Developing; the tier boundaries are reset to match (real bank sentences only).
+const realRaw = valueOf('RAW'), realBounds = valueOf('TIER_BOUNDARIES');
+const RAW = {}, bounds = {};
+rawKeys.forEach(k => {
+  const l = bank.general[k]; if (!l) return;
+  const rb = realBounds[k] || {}, tiers = rb.average == null ? 1 : (rb.developing == null ? 2 : 3);
+  if (l.length > tiers) throw new Error('too many tiers for ' + k);
+  l.forEach((s, i) => {
+    if (i === 0) return;   // the Positive sample is the old demo's own wording
+    const at = realRaw[k].indexOf(s); if (at < 0) throw new Error('not a bank sentence: ' + s);
+    { const t = at < rb.average ? 0 : (rb.developing == null || at < rb.developing) ? 1 : 2; if (t !== i) throw new Error('wrong tier for ' + s); }
+  });
+  RAW[k] = l; bounds[k] = { average: l.length > 1 ? 1 : null, developing: l.length > 2 ? 2 : null };
+});
 dec('RAW', RAW);
+dec('TIER_BOUNDARIES', Object.assign({}, realBounds, bounds));
 // Introduction and Below Expectations: one sample each. Every skill strand: one real bank comment per stage
 // (Early Stage 1, Stage 1, 2, 3, 4 and Access Points), listed in tools/demo-bank.json under "staged";
 // each keeps its stage tag from the app, so the demo shows the year-and-mark grading.
