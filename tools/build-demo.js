@@ -30,18 +30,33 @@ const dec = (name, val, kind) => { replace[name] = (kind || 'const') + ' ' + nam
 const rawKeys = Object.keys(valueOf('RAW'));
 const RAW = {}; rawKeys.forEach(k => { if (bank.general[k]) RAW[k] = [bank.general[k]]; });
 dec('RAW', RAW);
+// Introduction and Below Expectations: one sample each. Every skill strand: one real bank comment per stage
+// (Early Stage 1, Stage 1, 2, 3, 4 and Access Points), listed in tools/demo-bank.json under "staged";
+// each keeps its stage tag from the app, so the demo shows the year-and-mark grading.
+const realTag = valueOf('SENT_TAG'), realBank = { english: valueOf('ENGLISH_BANK'), maths: valueOf('MATHS_BANK') };
+const stageTag = {};
 function subjBank(subj, name) {
   const orig = valueOf(name), out = {};
   Object.keys(orig).forEach(k => {
-    const s = bank[subj][k];
-    if (!s) return;
-    out[k] = k === 'Introduction' ? { C: [s] } : { U: [s] };
+    if (k === 'Introduction' || k === 'Below Expectations') {
+      const s = bank[subj][k];
+      if (s) out[k] = k === 'Introduction' ? { C: [s] } : { U: [s] };
+      return;
+    }
+    const list = (bank.staged[subj] || {})[k];
+    if (!list) return;
+    list.forEach(s => {
+      if (!(realBank[subj][k].U || []).includes(s)) throw new Error('not a bank sentence: ' + s);
+      if (!realTag[s]) throw new Error('no stage tag: ' + s);
+      stageTag[s] = realTag[s];
+    });
+    out[k] = { U: list };
   });
   return out;
 }
 dec('ENGLISH_BANK', subjBank('english', 'ENGLISH_BANK'));
 dec('MATHS_BANK', subjBank('maths', 'MATHS_BANK'));
-const tag = {}; ['english', 'maths'].forEach(s => { tag[bank[s]['Below Expectations']] = 'BEY'; });
+const tag = Object.assign({}, stageTag); ['english', 'maths'].forEach(s => { tag[bank[s]['Below Expectations']] = 'BEY'; });
 dec('SENT_TAG', tag);
 // Future Directions: a few per stage so the feature can be tried
 function trimFD(name) {
@@ -68,6 +83,7 @@ let html = out.join('\n');
 const head = fs.readFileSync(path.join(__dirname, 'demo-head.js'), 'utf8');
 const tail = fs.readFileSync(path.join(__dirname, 'demo-tail.js'), 'utf8');
 const css = fs.readFileSync(path.join(__dirname, 'demo.css'), 'utf8');
+html = html.replace(/\{\{S\}\} calculates areas of rectangles and applies the formula to find the area of triangles\./g, '(a bank sentence)');   // quoted in one code comment
 html = html.replace(/<title>[^<]*<\/title>/, '<title>Report Ready demo</title>');
 html = html.replace('</style>\n</head>', '</style>\n<style id="demoCss">\n' + css + '\n</style>\n</head>');
 if (!html.includes('id="demoCss"')) throw new Error('css marker');
