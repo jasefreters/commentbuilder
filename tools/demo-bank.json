@@ -1,0 +1,39 @@
+{
+  "general": {
+    "Personality": "{{N}} is an enthusiastic and curious student whose enquiring mind results in active classroom participation.",
+    "Effort & Work Habits": "{{S}} displays an excellent attitude towards learning, demonstrating genuine curiosity and a willingness to challenge {{pos}} thinking.",
+    "Communication & Collaboration": "{{S}} communicates with confidence and clarity and is an active participant in class discussions.",
+    "Social Skills": "{{N}} is a generous and kind friend who is willing to share {{pos}} time with peers and cares for the wellbeing of others.",
+    "Leadership": "{{N}} is a confident natural leader who inspires classmates and leads by example.",
+    "Independence": "{{N}} displays a high level of independence, approaching tasks with confidence and persistence.",
+    "Semester KLAs": "{{N}} has shown strong engagement in Science and Technology this semester, actively participating in research on weather and climate.",
+    "Sport & Extracurricular": "{{N}} excels in Physical Education, using {{pos}} abilities to compete alongside {{pos}} peers.",
+    "Closing Statement": "{{N}} is to be congratulated on a great start to Stage 3. I look forward to seeing {{pos}} learning progress throughout the remainder of the year."
+  },
+  "english": {
+    "Introduction": "{{N}} has demonstrated a sound understanding of key concepts covered in English this semester.",
+    "Below Expectations": "{{S}} is working below stage expectations in English and is continuing to develop key skills with teacher support.",
+    "Oral Language & Communication": "{{S}} seeks clarification during discussions and uses this to build a clearer understanding of texts.",
+    "Reading Comprehension": "{{S}} uses reading strategies to comprehend more complex texts.",
+    "Creating Written Texts": "{{S}} organises ideas into paragraphs using basic connectives to sequence events and information.",
+    "Vocabulary": "{{S}} selects vocabulary that enhances meaning.",
+    "Spelling & Grammar": "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy.",
+    "Handwriting & Digital Transcription": "{{S}} forms letters correctly and maintains appropriate spacing when writing.",
+    "Understanding and Responding to Literature": "{{S}} describes how characters are built through their actions and viewpoints."
+  },
+  "maths": {
+    "Introduction": "{{N}} has demonstrated a sound understanding of key mathematical concepts this semester.",
+    "Below Expectations": "{{S}} is working below stage expectations in Mathematics and is continuing to develop key skills with guidance.",
+    "Represents Numbers": "{{S}} applies {{pos}} knowledge of place value to work confidently with large numbers.",
+    "Additive Relations": "{{S}} applies number facts to create equal number sentences.",
+    "Multiplicative Relations": "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders.",
+    "Representing Quantity Fractions": "{{S}} expresses common percentages as both fractions and decimals.",
+    "Geometric Measure": "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor.",
+    "Two-Dimensional Spatial Structure": "{{S}} identifies and classifies triangles and quadrilaterals based on their properties.",
+    "Three-Dimensional Spatial Structure": "{{S}} names and describes the features of two- and three-dimensional shapes.",
+    "Non-Spatial Measure": "{{S}} measures weight, perimeter and area accurately.",
+    "Data": "{{S}} accurately interprets information presented in tables, column graphs and line graphs.",
+    "Chance": "{{S}} describes the chance of events occurring using the terms equally likely, likely and unlikely."
+  },
+  "fdPerStage": 2
+}
