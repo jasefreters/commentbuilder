@@ -9656,7 +9656,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.26';
+const APP_VERSION = 'v3.16.27';
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
 function getSettingsBlob() {
@@ -10309,6 +10309,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.27', date: '9 November 2026', items: [
+    'The \u201cDifferent tense\u201d check no longer flags sentences that are in the present tense, such as \u201clanguage can be used to evoke emotion\u201d. It now looks at the main verb of each sentence.',
+  ] },
   { v: 'v3.16.26', date: '8 November 2026', items: [
     'The English Below Expectations sentence now ends \u201caligns with Year 3 requirements\u201d too, so \u201cexpectations\u201d is not used twice in the one sentence. Comments you have already built keep their old wording.',
   ] },
@@ -11137,8 +11140,35 @@ const PRESENT_MARKERS = [
   /\b(is|are|has|does|goes|shows|displays|demonstrates|participates|competes|represents|performs|enjoys|works|helps|uses|makes|takes|gives|comes|brings|builds|creates|develops|improves|produces|completes|achieves|excels|contributes|supports|encourages|assists|engages|tries|attempts|needs|requires|benefits|gains|finds|grows|leads|manages|applies|adapts|listens|communicates|collaborates|shares|explores|investigates|designs|constructs|plans|organises|organizes|begins|starts|finishes|learns|approaches|strives|aspires|continues|maintains|demonstrates|displays|shows|achieves|pursues|embraces|tackles|handles|navigates)\b/i
 ];
 
+// v3.16.27: the tense comes from the main verb (the first verb after the subject), so "can be used" or "words displayed
+// in the classroom" later in a present-tense sentence are not mistaken for a past tense. The word lists below are the
+// fallback for a sentence that does not start with a subject and a verb.
+const TENSE_PAST_IRREG = /^(was|were|had|did|went|made|took|gave|came|brought|built|found|grew|led|began|wrote|spoke|said|saw|knew|got|kept|left|met|ran|sat|stood|told|thought|understood|won|drew|chose|held|taught|heard|felt|lost|paid|sent|spent|swam|threw|wore|became|showed|forgot|fell|rose|sang|drove|ate|flew|slept|caught|taught|bought|sold|dealt|learnt)$/;
+const TENSE_PRESENT_BASE = /^(is|are|am|has|have|does|do|can|will|may|must|should)$/;
+const TENSE_ED_BUT_PRESENT = /^(need|feed|seed|proceed|succeed|exceed|bleed|breed|heed|speed|weed|embed|shed|bed|red|hundred)$/;
+const TENSE_ADVERB = /^(also|often|always|consistently|regularly|usually|sometimes|generally|now|still|only|just|even|really|currently|rarely|never|carefully|clearly|quickly|actively|eagerly|enthusiastically|positively|thoughtfully|willingly|readily|steadily|gradually|increasingly|sometimes|mostly|mainly|particularly|especially|occasionally|frequently|typically|naturally|calmly|politely|happily|kindly|keenly|proudly|reliably|successfully|easily|effectively)$/;
+function mainVerbTense(sentence) {
+  let t = String(sentence || '').trim();
+  // a short lead-in such as "When asked," or "During maths lessons," is skipped
+  const comma = t.indexOf(',');
+  if (comma > 0 && comma < 60 && /^(when|during|after|before|in|at|throughout|while|if|for|on|by|with|as)\b/i.test(t)) t = t.slice(comma + 1).trim();
+  const m = t.match(/^(?:[A-Z][\w'\u2019-]*(?:\s[A-Z][\w'\u2019-]*)?|He|She|They|It)\s+([a-z'\u2019-]+)(?:\s+([a-z'\u2019-]+))?/);
+  if (!m) return null;
+  let v = m[1].toLowerCase();
+  if (TENSE_ADVERB.test(v) && m[2]) v = m[2].toLowerCase();
+  if (TENSE_PAST_IRREG.test(v)) return 'past';
+  if (TENSE_PRESENT_BASE.test(v)) return 'present';
+  if (v.length > 3 && /ed$/.test(v) && !TENSE_ED_BUT_PRESENT.test(v)) return 'past';
+  if (/^(read|put|set|cut|hit|let|shut|cost)$/.test(v)) return null;   // the same word in both tenses
+  if (/^[a-z]{3,}$/.test(v) && !/^(and|but|the|that|who|which|with|for|not|to|of|in|on|at|as)$/.test(v)) return 'present';
+  return null;
+}
 function detectSentenceTense(sentence) {
-  const hasPast = PAST_MARKERS.some(r => r.test(sentence));
+  const main = mainVerbTense(sentence);
+  if (main) return main;
+  // a word after is/are/be/been/being is a describing word ("can be used", "is based"), not a past tense
+  const s = String(sentence || '').replace(/\b(?:is|are|am|be|been|being)\s+(?:\w+ly\s+)?\w+\b/gi, ' ');
+  const hasPast = PAST_MARKERS.some(r => r.test(s));
   const hasPresent = PRESENT_MARKERS.some(r => r.test(sentence));
   if (hasPast && !hasPresent) return 'past';
   if (hasPresent && !hasPast) return 'present';
