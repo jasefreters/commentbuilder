@@ -4695,10 +4695,27 @@ function ungradedSents(catSentences, g) {
     return _tagSet(t).some(x => allowed.has(x));
   });
 }
+// v3.16.31 (Jason, 9 Nov): at E the stages closest to D come first and Early Stage 1 is always last.
+// Order: Stage 4+ down to Stage 1 (Maths Part B before Part A), then comments with no stage, then Access Points, then Early Stage 1.
+// Only the order changes; the wording does not. Comments of equal rank keep the order they had.
+function _eRank(tag) {
+  if (tag === 'ES1') return 0;
+  if (tag === 'AP') return 1;
+  const m = /^S(\d)(A\+B|A|B)?$/.exec(tag || '');
+  if (!m) return 9;   // no stage (and Below Expectations wording)
+  return 10 + (+m[1]) * 10 + (m[2] === 'B' || m[2] === 'A+B' ? 2 : m[2] === 'A' ? 1 : 0);
+}
 function yearSents(catSentences, g) {
+  const r = _yearSentsOrdered(catSentences, g);
+  if (g === 'E' && yearGradingActive() && r.list.length > 1) {
+    r.list = r.list.map((s, i) => ({ s, i, k: _eRank(SENT_TAG[s]) })).sort((a, b) => (b.k - a.k) || (a.i - b.i)).map(x => x.s);
+  }
+  return r;
+}
+function _yearSentsOrdered(catSentences, g) {
   const base = _yearSentsGraded(catSentences, g);
   const ung = ungradedSents(catSentences, g);
-  if (!ung.length) return base;
+  if (!ung.length) return { list: base.list.slice(), fallback: base.fallback };
   // when the strand's graded wording had nothing for this tab it fell back to the standard comments; the new comments fill it, so keep only the general ones
   const list = base.fallback ? (catSentences[g] || []).filter(s => !SENT_TAG[s]) : base.list;
   return { list: list.concat(ung.filter(s => list.indexOf(s) === -1)), fallback: false };
@@ -9701,7 +9718,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.16.30';
+const APP_VERSION = 'v3.16.31';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10355,6 +10372,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.16.31', date: '9 November 2026', items: [
+    'At E, the comments now run from the stage closest to D down to the lowest, with Early Stage 1 always last. Only the order changes; the sentences are the same.',
+  ] },
   { v: 'v3.16.30', date: '9 November 2026', items: [
     'The app is now called Report Ready. Your students, comments and settings are exactly as you left them.',
   ] },
