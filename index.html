@@ -1,1028 +1,500 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <title>Report Ready — Report Comments for NSW Primary Teachers</title>
+<meta name="description" content="Report Ready is a purpose-built tool for NSW primary school teachers. Build report comments from an approved sentence bank for General, English and Mathematics. Free to use.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<script>
+/* Theme first, so the page never flashes the wrong colours. Same saved choice as the app (rcb_theme). */
+(function () {
+  try {
+    var t = JSON.parse(localStorage.getItem('rcb_theme'));
+    var dark = t === 'dark' || (t !== 'light' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) document.documentElement.classList.add('dark');
+  } catch (e) {}
+})();
+</script>
 <style>
+  /* Colours, type and corners are the app's own, so the landing page, the demo and the app match. */
   :root {
-    --bg: #0a0a0a;
-    --bg1: #111;
-    --bg2: #1a1a1a;
-    --bg3: #222;
-    --border: #2e2e2e;
-    --border-h: #444;
-    --t0: #f0f0f0;
-    --t1: #aaa;
-    --t2: #555;
-    --green: #4ade80;
-    --green-dim: rgba(74,222,128,0.12);
-    --blue: #60a5fa;
-    --blue-dim: rgba(96,165,250,0.12);
-    --amber: #fbbf24;
-    --amber-dim: rgba(251,191,36,0.1);
-    --purple: #c084fc;
-    --purple-dim: rgba(192,132,252,0.1);
-    --font: 'DM Sans', sans-serif;
-    --serif: 'DM Serif Display', serif;
-    --mono: 'DM Mono', monospace;
-    --r: 10px;
-    --r-lg: 16px;
+    --bg-0: #F2F4F7; --bg-1: #FFFFFF; --bg-2: #F6F8FA; --bg-3: #EAEEF3; --bg-4: #DDE3EA;
+    --border: #DDE3EA; --border-h: #9AA8B6;
+    --t0: #14202B; --t1: #3C4B59; --t2: #566676;
+    --green: #17724A; --green-bg: #DDF1E6; --green-bd: #A9D8BE;
+    --amber: #946000; --amber-bg: #FBEFCF; --amber-fg: #704400;
+    --red: #B42318; --red-bg: #FDE8E6; --red-bd: #F3B5AF;
+    --accent: #0F5C8E; --accent-bg: #E3EFF8; --accent-bd: #B7D3E8; --on-accent: #FFFFFF;
+    --done: #1E8A55; --on-done: #FFFFFF; --on-green-chip: #0F5A33;
+    --shadow-pop: 0 8px 28px rgba(20,32,43,.18);
+    --shadow-card: 0 1px 2px rgba(20,32,43,.06), 0 12px 32px rgba(20,32,43,.10);
+    --font: 'Public Sans', system-ui, sans-serif; --serif: 'Newsreader', Georgia, serif;
+    color-scheme: light;
+  }
+  html.dark {
+    --bg-0: #0a0a0a; --bg-1: #111; --bg-2: #1a1a1a; --bg-3: #222; --bg-4: #2a2a2a;
+    --border: #2e2e2e; --border-h: #444;
+    --t0: #f0f0f0; --t1: #aaa; --t2: #8a8a8a;
+    --green: #4ade80; --green-bg: #0f2318; --green-bd: #1a4028;
+    --amber: #fbbf24; --amber-bg: rgba(251,191,36,0.12); --amber-fg: #fbbf24;
+    --red: #f87171; --red-bg: #2a1010; --red-bd: #4a1010;
+    --accent: #60a5fa; --accent-bg: #0a1628; --accent-bd: #1a2e4a; --on-accent: #06121f;
+    --done: #4ade80; --on-done: #052e16; --on-green-chip: #4ade80;
+    --shadow-pop: 0 8px 28px rgba(0,0,0,0.45);
+    --shadow-card: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.5);
+    color-scheme: dark;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body { font-family: var(--font); font-size: 16px; line-height: 1.6; background: var(--bg-0); color: var(--t0); -webkit-font-smoothing: antialiased; }
+  button, input { font-family: inherit; color: inherit; }
+  button { cursor: pointer; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  ::selection { background: var(--accent-bd); color: var(--t0); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg-0); }
+  ::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 5px; border: 2px solid var(--bg-0); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-h); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .ic { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding-inline: max(20px, env(safe-area-inset-left, 0px)) max(20px, env(safe-area-inset-right, 0px)); }
+  h1, h2, h3 { text-wrap: balance; }
 
-  html { scroll-behavior: smooth; }
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 0 18px; border: 1.5px solid var(--border); border-radius: 12px; background: var(--bg-1); font-size: 15px; font-weight: 700; text-decoration: none; color: var(--t0); white-space: nowrap; }
+  .btn:hover { border-color: var(--border-h); }
+  .btn-primary { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
+  .btn-primary:hover { border-color: var(--accent); filter: brightness(1.08); }
+  .btn-lg { min-height: 52px; padding: 0 24px; font-size: 16px; }
 
-  body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--t0);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 30; background: var(--bg-1); border-bottom: 1px solid var(--border); }
+  .nav-in { display: flex; align-items: center; gap: 8px; min-height: 60px; }
+  .logo { margin-right: auto; font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; white-space: nowrap; }
+  .nav-link { display: inline-flex; align-items: center; min-height: 40px; padding: 0 12px; border-radius: 10px; font-size: 14px; font-weight: 600; color: var(--t1); text-decoration: none; }
+  .nav-link:hover { color: var(--t0); background: var(--bg-3); }
+  .nav .btn { min-height: 40px; padding: 0 16px; font-size: 14px; }
+  .icon-btn { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-1); color: var(--t0); }
+  .icon-btn:hover { border-color: var(--border-h); }
+  #themeBtn .moon { display: none; }
+  html.dark #themeBtn .sun { display: none; }
+  html.dark #themeBtn .moon { display: block; }
 
-  /* ── NAV ──────────────────────────────────────────────────── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    height: 60px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 2rem;
-    background: rgba(10,10,10,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo {
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--t0);
-    text-decoration: none;
-  }
-  .nav-logo span { color: var(--green); }
-  .nav-links { display: flex; align-items: center; gap: 8px; }
-  .btn-ghost {
-    font-family: var(--font);
-    font-size: 13px;
-    padding: 7px 18px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: none;
-    color: var(--t1);
-    cursor: pointer;
-    text-decoration: none;
-    transition: border-color .15s, color .15s;
-    display: inline-flex; align-items: center;
-  }
-  .btn-ghost:hover { border-color: var(--border-h); color: var(--t0); }
-  .btn-primary {
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 500;
-    padding: 8px 20px;
-    border-radius: 999px;
-    border: none;
-    background: var(--green);
-    color: #0a0a0a;
-    cursor: pointer;
-    text-decoration: none;
-    transition: opacity .15s, transform .1s;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
-  .btn-primary:active { transform: translateY(0); }
+  /* Hero */
+  .hero { padding-block: clamp(40px, 7vw, 88px) clamp(40px, 6vw, 72px); }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(32px, 5vw, 64px); align-items: center; }
+  h1 { font-size: clamp(2.5rem, 1.2rem + 3.4vw, 3.5rem); line-height: 1.06; font-weight: 700; letter-spacing: -.025em; }
+  h1 .hl { color: var(--accent); }
+  .hero-sub { max-width: 46ch; margin-top: 20px; font-size: 18px; line-height: 1.6; color: var(--t1); }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .hero-note { margin-top: 16px; font-size: 14px; color: var(--t2); }
+  .hero-note b { color: var(--t0); font-weight: 600; }
 
-  /* ── HERO ─────────────────────────────────────────────────── */
-  .hero {
-    min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    padding: 100px 2rem 60px;
-    position: relative;
-    overflow: hidden;
-  }
+  /* Live example in the hero: the app's own look */
+  .mock { border: 1px solid var(--border); border-radius: 16px; background: var(--bg-0); box-shadow: var(--shadow-card); padding: 16px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 14px; }
+  .m-list { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .m-opt { display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 14px; border: 1.5px solid var(--border); border-radius: 12px; background: var(--bg-1); transition: border-color .25s, background-color .25s; }
+  .m-opt.sel { border-color: var(--done); background: var(--green-bg); }
+  .m-cat { display: block; margin-bottom: 2px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); }
+  .m-txt { flex: 1; min-width: 0; font-size: 14px; line-height: 1.45; }
+  .m-mark { flex: none; width: 26px; height: 26px; display: grid; place-items: center; border: 1.5px solid var(--border-h); border-radius: 50%; color: var(--t2); transition: background-color .25s, border-color .25s, color .25s; }
+  .m-mark .ic { width: 14px; height: 14px; stroke-width: 2.2; }
+  .m-mark .ck { display: none; }
+  .m-opt.sel .m-mark { background: var(--done); border-color: var(--done); color: var(--on-done); }
+  .m-opt.sel .m-mark .ck { display: block; }
+  .m-opt.sel .m-mark .pl { display: none; }
+  .m-draft { display: flex; flex-direction: column; min-width: 0; border: 1px solid var(--border); border-radius: 14px; background: var(--bg-1); overflow: hidden; }
+  .m-head { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; padding: 12px 14px 8px; }
+  .m-title { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); }
+  .m-wc { font-size: 13px; font-weight: 600; }
+  .m-track { height: 6px; margin: 0 14px; overflow: hidden; border-radius: 3px; background: var(--bg-3); }
+  .m-bar { height: 100%; width: 0; background: var(--accent); transition: width .5s cubic-bezier(.22, 1, .36, 1); }
+  .m-out { flex: 1; padding: 12px 14px 16px; font-family: var(--serif); font-size: 16px; line-height: 1.6; min-height: 150px; }
+  .m-out .new { animation: inkIn .5s cubic-bezier(.22, 1, .36, 1); }
+  @keyframes inkIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
-  /* Subtle grid background */
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 60px 60px;
-    opacity: 0.4;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
-  }
+  /* Quiet band: what it fits */
+  .fits { border-block: 1px solid var(--border); background: var(--bg-1); }
+  .fits-in { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 28px; padding-block: 18px; }
+  .fits-in p { font-size: 14px; font-weight: 700; color: var(--t0); }
+  .fits-in ul { display: flex; flex-wrap: wrap; gap: 8px 22px; list-style: none; }
+  .fits-in li { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--t1); }
+  .fits-in li .ic { width: 16px; height: 16px; color: var(--done); stroke-width: 2.2; }
 
-  /* Glow blobs */
-  .hero-glow {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    pointer-events: none;
-  }
-  .hero-glow-1 {
-    width: 500px; height: 500px;
-    background: rgba(74,222,128,0.06);
-    top: 10%; left: -10%;
-  }
-  .hero-glow-2 {
-    width: 400px; height: 400px;
-    background: rgba(96,165,250,0.07);
-    top: 20%; right: -5%;
-  }
+  /* Sections */
+  section.block { padding-block: clamp(56px, 8vw, 104px); }
+  h2 { font-size: clamp(1.75rem, 1rem + 2.4vw, 2.6rem); line-height: 1.12; font-weight: 700; letter-spacing: -.02em; }
+  .lede { max-width: 52ch; margin-top: 14px; font-size: 17px; line-height: 1.6; color: var(--t1); }
 
-  .hero-inner {
-    position: relative; z-index: 1;
-    text-align: center;
-    max-width: 780px;
-    animation: fadeUp .8s ease both;
-  }
+  /* How it works */
+  .steps { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; margin-top: 44px; counter-reset: s; }
+  .steps li { counter-increment: s; padding-top: 18px; border-top: 2px solid var(--border-h); }
+  .steps li::before { content: counter(s); display: block; margin-bottom: 10px; font-size: 28px; line-height: 1; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .steps h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .steps p { font-size: 15px; line-height: 1.6; color: var(--t1); }
 
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 11px; font-weight: 500;
-    letter-spacing: .08em; text-transform: uppercase;
-    color: var(--green);
-    background: var(--green-dim);
-    border: 1px solid rgba(74,222,128,0.2);
-    padding: 5px 14px;
-    border-radius: 999px;
-    margin-bottom: 28px;
-  }
-  .hero-badge::before { content: '●'; font-size: 8px; }
+  /* Features: a list, not a grid of cards */
+  .band { background: var(--bg-1); border-block: 1px solid var(--border); }
+  .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 88px); align-items: start; }
+  .split-head { position: sticky; top: 100px; }
+  .feat-list { list-style: none; border-top: 1px solid var(--border); }
+  .feat-list li { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 6px 28px; padding-block: 22px; border-bottom: 1px solid var(--border); }
+  .feat-list h3 { font-size: 16px; font-weight: 700; }
+  .feat-list p { font-size: 15px; line-height: 1.6; color: var(--t1); max-width: 60ch; }
 
-  .hero h1 {
-    font-family: var(--serif);
-    font-size: clamp(42px, 7vw, 76px);
-    line-height: 1.08;
-    letter-spacing: -.02em;
-    color: var(--t0);
-    margin-bottom: 24px;
-  }
-  .hero h1 em {
-    font-style: italic;
-    color: var(--green);
-  }
+  /* Coverage */
+  .cover { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 40px; border-block: 1px solid var(--border); }
+  .cover > div { padding: 28px clamp(16px, 2.4vw, 32px); }
+  .cover > div + div { border-left: 1px solid var(--border); }
+  .cover > div:first-child { padding-left: 0; }
+  .cover h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .cover p { font-size: 15px; line-height: 1.6; color: var(--t1); }
+  .strands { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; list-style: none; }
+  .strands li { padding: 5px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-1); font-size: 13px; font-weight: 600; }
 
-  .hero-sub {
-    font-size: clamp(15px, 2vw, 18px);
-    color: var(--t1);
-    line-height: 1.7;
-    max-width: 560px;
-    margin: 0 auto 40px;
-  }
+  /* Checks and flow */
+  .checks-list { list-style: none; display: flex; flex-direction: column; gap: 26px; margin-top: 32px; }
+  .checks-list h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .checks-list p { font-size: 15px; line-height: 1.6; color: var(--t1); max-width: 52ch; }
+  .flow { border: 1px solid var(--border); border-radius: 16px; background: var(--bg-1); box-shadow: var(--shadow-card); padding: 22px; }
+  .flow-title { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); }
+  .flow-sub { margin: 4px 0 16px; font-size: 13px; color: var(--t2); }
+  .flow-lbl { margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--t1); }
+  .flow-text { padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-2); font-family: var(--serif); font-size: 16px; line-height: 1.6; }
+  .flow-sug { margin-top: 14px; padding: 12px 14px; border: 1.5px solid var(--accent-bd); border-radius: 10px; background: var(--accent-bg); }
+  .flow-sug .flow-lbl { color: var(--accent); }
+  .flow-sug .flow-text { padding: 0; border: 0; background: none; }
+  .flow-btns { display: flex; gap: 8px; margin-top: 14px; }
+  .flow-btns span { display: inline-flex; align-items: center; min-height: 34px; padding: 0 14px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--bg-1); font-size: 13px; font-weight: 700; }
+  .flow-btns .ok { border-color: var(--done); background: var(--done); color: var(--on-done); }
 
-  .hero-cta {
-    display: flex; align-items: center; justify-content: center;
-    gap: 12px; flex-wrap: wrap;
-  }
-  .btn-primary-lg {
-    font-family: var(--font);
-    font-size: 15px;
-    font-weight: 500;
-    padding: 13px 30px;
-    border-radius: 999px;
-    border: none;
-    background: var(--green);
-    color: #0a0a0a;
-    cursor: pointer;
-    text-decoration: none;
-    transition: opacity .15s, transform .1s, box-shadow .15s;
-    display: inline-flex; align-items: center; gap: 8px;
-    box-shadow: 0 0 0 0 rgba(74,222,128,0);
-  }
-  .btn-primary-lg:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(74,222,128,0.2);
-  }
-  .btn-ghost-lg {
-    font-family: var(--font);
-    font-size: 15px;
-    padding: 13px 30px;
-    border-radius: 999px;
-    border: 1px solid var(--border-h);
-    background: none;
-    color: var(--t1);
-    cursor: pointer;
-    text-decoration: none;
-    transition: border-color .15s, color .15s;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .btn-ghost-lg:hover { border-color: var(--t1); color: var(--t0); }
+  /* Cloud */
+  .cols3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 36px; border-block: 1px solid var(--border); }
+  .cols3 > div { padding: 24px clamp(16px, 2.4vw, 32px); }
+  .cols3 > div + div { border-left: 1px solid var(--border); }
+  .cols3 > div:first-child { padding-left: 0; }
+  .cols3 h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .cols3 p { font-size: 15px; line-height: 1.6; color: var(--t1); }
 
-  .hero-note {
-    margin-top: 20px;
-    font-size: 12px;
-    color: var(--t2);
-  }
-  .hero-note strong { color: var(--t1); }
+  /* Close */
+  .close { background: var(--accent); color: var(--on-accent); padding-block: clamp(56px, 8vw, 96px); text-align: center; }
+  .close h2 { max-width: 20ch; margin: 0 auto; }
+  .close p { max-width: 44ch; margin: 16px auto 0; font-size: 17px; line-height: 1.6; opacity: .92; }
+  .close .btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
+  .close .btn { border-color: transparent; background: var(--bg-1); color: var(--t0); }
+  .close .btn:hover { filter: brightness(.96); border-color: transparent; }
+  .close .btn-line { background: transparent; border-color: currentColor; color: var(--on-accent); }
 
-  /* ── SOCIAL PROOF ─────────────────────────────────────────── */
-  .proof {
-    padding: 20px 2rem 60px;
-    text-align: center;
-    border-bottom: 1px solid var(--border);
-  }
-  .proof-label {
-    font-size: 11px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--t2);
-    margin-bottom: 16px;
-  }
-  .proof-pills {
-    display: flex; flex-wrap: wrap; gap: 10px;
-    justify-content: center;
-  }
-  .proof-pill {
-    font-size: 12px;
-    color: var(--t1);
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 5px 14px;
-  }
+  footer { background: var(--bg-1); border-top: 1px solid var(--border); }
+  .foot-in { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; padding-block: 22px; font-size: 14px; color: var(--t2); }
+  .foot-in .logo { margin-right: 0; color: var(--t0); font-size: 13px; }
+  .foot-in .ver { margin-left: auto; font-size: 12px; }
 
-  /* ── FEATURES ─────────────────────────────────────────────── */
-  .features {
-    padding: 100px 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .section-label {
-    font-size: 11px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--green);
-    font-weight: 500;
-    margin-bottom: 16px;
-    display: block;
-  }
-  .section-title {
-    font-family: var(--serif);
-    font-size: clamp(32px, 4vw, 48px);
-    line-height: 1.15;
-    letter-spacing: -.02em;
-    margin-bottom: 14px;
-  }
-  .section-sub {
-    font-size: 16px;
-    color: var(--t1);
-    max-width: 520px;
-    line-height: 1.7;
-    margin-bottom: 60px;
-  }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: var(--r-lg);
-    overflow: hidden;
-  }
-  .feature-card {
-    background: var(--bg1);
-    padding: 32px 28px;
-    transition: background .2s;
-  }
-  .feature-card:hover { background: var(--bg2); }
-  .feature-icon {
-    width: 40px; height: 40px;
-    border-radius: var(--r);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 18px;
-    font-size: 18px;
-  }
-  .feature-card h3 {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--t0);
-    margin-bottom: 8px;
-    letter-spacing: -.01em;
-  }
-  .feature-card p {
-    font-size: 13.5px;
-    color: var(--t1);
-    line-height: 1.65;
-  }
-  .feat-green .feature-icon { background: var(--green-dim); color: var(--green); }
-  .feat-blue  .feature-icon { background: var(--blue-dim);  color: var(--blue);  }
-  .feat-amber .feature-icon { background: var(--amber-dim); color: var(--amber); }
-  .feat-purple .feature-icon { background: var(--purple-dim); color: var(--purple); }
-
-  /* ── HOW IT WORKS ─────────────────────────────────────────── */
-  .how {
-    padding: 100px 2rem;
-    background: var(--bg1);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .how-inner {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-    margin-top: 56px;
-  }
-  .step { position: relative; }
-  .step-num {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--t2);
-    letter-spacing: .1em;
-    margin-bottom: 14px;
-    display: block;
-  }
-  .step h3 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    letter-spacing: -.01em;
-  }
-  .step p {
-    font-size: 13.5px;
-    color: var(--t1);
-    line-height: 1.65;
-  }
-  .step-line {
-    position: absolute;
-    top: 5px; right: -20px;
-    width: 40px; height: 1px;
-    background: var(--border);
-  }
-
-  /* ── SUBJECTS ─────────────────────────────────────────────── */
-  .subjects {
-    padding: 100px 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .subject-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 16px;
-    margin-top: 56px;
-  }
-  .subject-card {
-    background: var(--bg1);
-    border: 1px solid var(--border);
-    border-radius: var(--r-lg);
-    padding: 28px 24px;
-    transition: border-color .2s, transform .2s;
-  }
-  .subject-card:hover {
-    border-color: var(--border-h);
-    transform: translateY(-2px);
-  }
-  .subject-tag {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 999px;
-    margin-bottom: 16px;
-  }
-  .subject-card h3 {
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    letter-spacing: -.01em;
-  }
-  .subject-card p {
-    font-size: 13px;
-    color: var(--t1);
-    line-height: 1.65;
-    margin-bottom: 16px;
-  }
-  .strand-list {
-    display: flex; flex-wrap: wrap; gap: 6px;
-  }
-  .strand-chip {
-    font-size: 10.5px;
-    color: var(--t2);
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 2px 9px;
-  }
-  .subj-general .subject-tag { background: rgba(74,222,128,0.1); color: var(--green); }
-  .subj-english .subject-tag { background: var(--blue-dim); color: var(--blue); }
-  .subj-maths   .subject-tag { background: var(--purple-dim); color: var(--purple); }
-
-  /* ── AI FEATURES ──────────────────────────────────────────── */
-  .ai-section {
-    padding: 100px 2rem;
-    background: var(--bg1);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .ai-inner {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-  }
-  @media (max-width: 700px) { .ai-inner { grid-template-columns: 1fr; } }
-  .ai-feature-list {
-    display: flex; flex-direction: column; gap: 20px;
-    margin-top: 40px;
-  }
-  .ai-feat {
-    display: flex; gap: 14px; align-items: flex-start;
-  }
-  .ai-feat-icon {
-    width: 34px; height: 34px; flex-shrink: 0;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px;
-  }
-  .ai-feat h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .ai-feat p { font-size: 13px; color: var(--t1); line-height: 1.6; }
-  .ai-demo {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--r-lg);
-    padding: 24px;
-    font-size: 13px;
-    line-height: 1.75;
-    color: var(--t1);
-  }
-  .ai-demo-label {
-    font-size: 10px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--t2);
-    font-family: var(--mono);
-    margin-bottom: 12px;
-  }
-  .ai-demo-text { color: var(--t0); margin-bottom: 16px; }
-  .ai-suggestion {
-    background: var(--bg3);
-    border: 1px solid rgba(74,222,128,0.2);
-    border-radius: var(--r);
-    padding: 12px 14px;
-  }
-  .ai-suggestion-label {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--amber);
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    margin-bottom: 6px;
-  }
-  .ai-suggestion-text { color: var(--t0); font-style: italic; }
-
-  /* ── CLOUD ────────────────────────────────────────────────── */
-  .cloud-section {
-    padding: 100px 2rem;
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .cloud-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-top: 56px;
-  }
-  @media (max-width: 640px) { .cloud-cards { grid-template-columns: 1fr; } }
-  .cloud-card {
-    background: var(--bg1);
-    border: 1px solid var(--border);
-    border-radius: var(--r-lg);
-    padding: 28px 20px;
-    text-align: left;
-  }
-  .cloud-card-icon {
-    font-size: 22px;
-    margin-bottom: 14px;
-    display: block;
-  }
-  .cloud-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-  .cloud-card p { font-size: 13px; color: var(--t1); line-height: 1.6; }
-
-  /* ── CTA SECTION ──────────────────────────────────────────── */
-  .cta-section {
-    padding: 120px 2rem;
-    background: var(--bg1);
-    border-top: 1px solid var(--border);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .cta-section::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(74,222,128,0.05) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .cta-inner { position: relative; z-index: 1; }
-  .cta-section h2 {
-    font-family: var(--serif);
-    font-size: clamp(32px, 5vw, 52px);
-    letter-spacing: -.02em;
-    margin-bottom: 16px;
-    line-height: 1.1;
-  }
-  .cta-section p {
-    font-size: 16px;
-    color: var(--t1);
-    max-width: 460px;
-    margin: 0 auto 36px;
-    line-height: 1.7;
-  }
-
-  /* ── FOOTER ───────────────────────────────────────────────── */
-  footer {
-    padding: 32px 2rem;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .footer-logo {
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--t2);
-  }
-  .footer-logo span { color: var(--green); }
-  .footer-note { font-size: 12px; color: var(--t2); }
-
-  /* ── MODAL ────────────────────────────────────────────────── */
-  .modal-overlay {
-    display: none;
-    position: fixed; inset: 0; z-index: 9999;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(4px);
-    align-items: center; justify-content: center;
-    padding: 20px;
-  }
+  /* Sign up and sign in */
+  .modal-overlay { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(20,32,43,.55); }
   .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--bg1);
-    border: 1px solid var(--border-h);
-    border-radius: var(--r-lg);
-    width: 100%;
-    max-width: 420px;
-    padding: 32px 28px;
-    animation: modalIn .2s ease both;
-  }
-  @keyframes modalIn {
-    from { opacity:0; transform: scale(.96) translateY(8px); }
-    to   { opacity:1; transform: scale(1) translateY(0); }
-  }
-  .modal-title {
-    font-family: var(--serif);
-    font-size: 26px;
-    letter-spacing: -.02em;
-    margin-bottom: 6px;
-  }
-  .modal-sub { font-size: 13px; color: var(--t1); margin-bottom: 24px; }
-  .field { margin-bottom: 16px; }
-  .field label {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--t1);
-    margin-bottom: 6px;
-    letter-spacing: .02em;
-  }
-  .field input {
-    width: 100%;
-    font-family: var(--font);
-    font-size: 14px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--r);
-    color: var(--t0);
-    padding: 10px 13px;
-    outline: none;
-    transition: border-color .15s;
-  }
-  .field input:focus { border-color: var(--green); }
-  .field-hint { font-size: 11px; color: var(--t2); margin-top: 5px; }
-  .modal-error {
-    font-size: 12px;
-    color: #f87171;
-    background: rgba(248,113,113,0.1);
-    border: 1px solid rgba(248,113,113,0.2);
-    border-radius: var(--r);
-    padding: 8px 12px;
-    margin-bottom: 14px;
-    display: none;
-  }
-  .modal-success {
-    font-size: 13px;
-    color: var(--green);
-    background: var(--green-dim);
-    border: 1px solid rgba(74,222,128,0.2);
-    border-radius: var(--r);
-    padding: 10px 12px;
-    margin-bottom: 14px;
-    display: none;
-    line-height: 1.5;
-  }
-  .modal-btn {
-    width: 100%;
-    font-family: var(--font);
-    font-size: 14px;
-    font-weight: 500;
-    padding: 11px;
-    border-radius: var(--r);
-    border: none;
-    background: var(--green);
-    color: #0a0a0a;
-    cursor: pointer;
-    margin-top: 4px;
-    transition: opacity .15s;
-  }
-  .modal-btn:hover { opacity: 0.88; }
-  .modal-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .modal-switch {
-    text-align: center;
-    margin-top: 18px;
-    font-size: 13px;
-    color: var(--t2);
-  }
-  .modal-switch a {
-    color: var(--blue);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .modal-switch a:hover { text-decoration: underline; }
-  .modal-close {
-    position: absolute;
-    top: 16px; right: 20px;
-    font-size: 18px;
-    background: none; border: none;
-    color: var(--t2); cursor: pointer;
-    line-height: 1;
-  }
-  .modal { position: relative; }
+  .modal { position: relative; width: min(420px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; padding: 28px 24px 24px; border: 1px solid var(--border-h); border-radius: 16px; background: var(--bg-1); box-shadow: var(--shadow-pop); }
+  .modal-close { position: absolute; top: 12px; right: 12px; }
+  .modal-title { padding-right: 44px; font-size: 22px; line-height: 1.2; font-weight: 700; }
+  .modal-sub { margin: 6px 0 18px; font-size: 15px; color: var(--t1); }
+  .modal-error, .modal-success { display: none; margin-bottom: 14px; padding: 10px 12px; border-radius: 10px; font-size: 14px; line-height: 1.5; }
+  .modal-error { border: 1px solid var(--red-bd); background: var(--red-bg); color: var(--red); }
+  .modal-success { border: 1px solid var(--green-bd); background: var(--green-bg); color: var(--on-green-chip); }
+  .modal-success a { color: inherit; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; }
+  .field input { width: 100%; min-height: 46px; padding: 0 14px; border: 1.5px solid var(--border-h); border-radius: 10px; background: var(--bg-1); font-size: 16px; }
+  .field input:focus-visible { outline-offset: 0; border-color: var(--accent); }
+  .field-hint { margin-top: 6px; font-size: 13px; color: var(--t2); }
+  .modal-btn { width: 100%; min-height: 50px; border: 0; border-radius: 12px; background: var(--accent); color: var(--on-accent); font-size: 16px; font-weight: 700; }
+  .modal-btn:hover:not(:disabled) { filter: brightness(1.08); }
+  .modal-btn:disabled { opacity: .6; cursor: not-allowed; }
+  .modal-switch { margin-top: 16px; text-align: center; font-size: 14px; color: var(--t1); }
+  .modal-switch a { color: var(--accent); font-weight: 600; }
 
-  /* ── ANIMATIONS ───────────────────────────────────────────── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
+  /* Tablet */
+  @media (max-width: 960px) {
+    .hero-grid { grid-template-columns: minmax(0, 1fr); }
+    .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 28px; }
+    .split { grid-template-columns: minmax(0, 1fr); }
+    .split-head { position: static; }
+    .nav-link.opt { display: none; }
   }
-  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
-  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  /* Phone */
+  @media (max-width: 700px) {
+    .cover, .cols3 { grid-template-columns: minmax(0, 1fr); }
+    .cover > div, .cols3 > div { padding-inline: 0; }
+    .cover > div + div, .cols3 > div + div { border-left: 0; border-top: 1px solid var(--border); }
+    .feat-list li { grid-template-columns: minmax(0, 1fr); }
+    .mock { grid-template-columns: minmax(0, 1fr); }
+    .foot-in .ver { margin-left: 0; }
+  }
+  @media (max-width: 520px) {
+    .steps { grid-template-columns: minmax(0, 1fr); }
+    .hero-cta .btn { width: 100%; }
+    .nav .btn-short { padding: 0 14px; }
+    .nav .icon-btn { display: none; }
+    .hero-sub { font-size: 17px; }
+  }
+  @media (max-width: 380px) {
+    .nav .free { display: none; }
+    .nav-link { padding: 0 8px; }
+    .nav-in { gap: 4px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .m-opt, .m-mark, .m-bar { transition: none; }
+    .m-out .new { animation: none; }
+  }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">Report<span>Ready</span></a>
-  <div class="nav-links">
-    <a href="#features" class="btn-ghost">Features</a>
-    <a href="#" class="btn-ghost" onclick="openLogin(); return false">Sign in</a>
-    <a href="#" class="btn-primary" onclick="openSignup(); return false">
-      Get started free
-    </a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+</svg>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top" aria-label="Report Ready, top of page">Report Ready</a>
+    <a class="nav-link opt" href="#features">Features</a>
+    <a class="nav-link opt" href="demo.html">Try the demo</a>
+    <a class="nav-link" href="#" onclick="openLogin(); return false">Sign in</a>
+    <a class="btn btn-primary btn-short" href="#" onclick="openSignup(); return false">Get started<span class="free"> free</span></a>
+    <button type="button" class="icon-btn" id="themeBtn" aria-label="Switch to dark theme" title="Switch theme">
+      <svg class="ic sun" aria-hidden="true"><use href="#i-sun"/></svg>
+      <svg class="ic moon" aria-hidden="true"><use href="#i-moon"/></svg>
+    </button>
   </div>
-</nav>
+</header>
+
+<main id="top">
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-glow hero-glow-1"></div>
-  <div class="hero-glow hero-glow-2"></div>
-  <div class="hero-inner">
-    <div class="hero-badge">Built for NSW Primary School Teachers</div>
-    <h1>Report comments<br>in <em>minutes</em>, not hours.</h1>
-    <p class="hero-sub">Report Ready is a purpose-built tool for NSW primary school teachers. Build polished, professional report comments from an approved sentence bank — for General, English and Mathematics.</p>
-    <div class="hero-cta">
-      <a href="#" class="btn-primary-lg" onclick="openSignup(); return false">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
-        Create free account
-      </a>
-      <a href="demo.html" class="btn-ghost-lg">
-        View demo
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 4l4 4-4 4"/></svg>
-      </a>
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Report comments in <span class="hl">minutes</span>, not hours.</h1>
+      <p class="hero-sub">Report Ready is a purpose-built tool for NSW primary school teachers. Build polished, professional report comments from an approved sentence bank, for General, English and Mathematics.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="#" onclick="openSignup(); return false">Create free account</a>
+        <a class="btn btn-lg" href="demo.html">Try the demo<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+      <p class="hero-note">Free to use. <b>No subscription required.</b> Cloud sync included.</p>
     </div>
-    <p class="hero-note">Free to use. <strong>No subscription required.</strong> Cloud sync included.</p>
+
+    <div class="mock" id="mock" role="img" aria-label="Picking three sentences from the bank builds a comment for a student called Alex in the draft panel.">
+      <div class="m-list" aria-hidden="true">
+        <div class="m-opt sel" data-i="0"><div class="m-txt"><span class="m-cat">Personality</span>Alex is an enthusiastic and curious student whose enquiring mind results in active classroom participation.</div><span class="m-mark"><svg class="ic pl"><use href="#i-plus"/></svg><svg class="ic ck"><use href="#i-check"/></svg></span></div>
+        <div class="m-opt sel" data-i="1"><div class="m-txt"><span class="m-cat">Effort &amp; Work Habits</span>She displays an excellent attitude towards learning, demonstrating genuine curiosity and a willingness to challenge her thinking.</div><span class="m-mark"><svg class="ic pl"><use href="#i-plus"/></svg><svg class="ic ck"><use href="#i-check"/></svg></span></div>
+        <div class="m-opt sel" data-i="2"><div class="m-txt"><span class="m-cat">Communication &amp; Collaboration</span>She communicates with confidence and clarity and is an active participant in class discussions.</div><span class="m-mark"><svg class="ic pl"><use href="#i-plus"/></svg><svg class="ic ck"><use href="#i-check"/></svg></span></div>
+      </div>
+      <div class="m-draft" aria-hidden="true">
+        <div class="m-head"><span class="m-title">General comment · Alex</span><span class="m-wc" id="mWc">0 / 200</span></div>
+        <div class="m-track"><div class="m-bar" id="mBar"></div></div>
+        <div class="m-out" id="mOut"></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- PROOF -->
-<div class="proof">
-  <p class="proof-label">Aligned with NSW curriculum</p>
-  <div class="proof-pills">
-    <span class="proof-pill">NSW Syllabus K–10</span>
-    <span class="proof-pill">Stage 2 & Stage 3</span>
-    <span class="proof-pill">A–E Grading</span>
-    <span class="proof-pill">EAL/D Support</span>
-    <span class="proof-pill">Semester 1 & 2</span>
-    <span class="proof-pill">Approved sentence bank</span>
+<!-- WHAT IT FITS -->
+<div class="fits">
+  <div class="wrap fits-in">
+    <p>Aligned with NSW curriculum</p>
+    <ul>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>NSW Syllabus K–10</li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Stage 2 and Stage 3</li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>A–E grading</li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>EAL/D support</li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Semester 1 and 2</li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Approved sentence bank</li>
+    </ul>
   </div>
 </div>
 
-<!-- FEATURES -->
-<section class="features" id="features">
-  <div class="fade-up">
-    <span class="section-label">Features</span>
-    <h2 class="section-title">Everything you need,<br>nothing you don't.</h2>
-    <p class="section-sub">Every feature was designed around the real workflow of a classroom teacher at report time.</p>
-  </div>
-
-  <div class="features-grid fade-up">
-    <div class="feature-card feat-green">
-      <div class="feature-icon">✦</div>
-      <h3>Approved sentence bank</h3>
-      <p>Every sentence has been reviewed and approved. Build comments by clicking — no typing required. Sentences automatically adapt to each student's name and pronouns.</p>
-    </div>
-    <div class="feature-card feat-blue">
-      <div class="feature-icon">⇄</div>
-      <h3>Smart name & pronoun substitution</h3>
-      <p>Set each student's name, pronouns and year level once. The app alternates between name and pronoun across sentences for natural, flowing comments.</p>
-    </div>
-    <div class="feature-card feat-amber">
-      <div class="feature-icon">✺</div>
-      <h3>AI-powered polish</h3>
-      <p>A one-click Polish button rewrites your comment for flow and cohesion — merging related sentences and varying openers — while keeping every piece of content intact.</p>
-    </div>
-    <div class="feature-card feat-purple">
-      <div class="feature-icon">◈</div>
-      <h3>Issue checker</h3>
-      <p>Automatically flags duplicate ideas, contradictions, tense inconsistencies and future directions that conflict with stated strengths — before you copy.</p>
-    </div>
-    <div class="feature-card feat-green">
-      <div class="feature-icon">◎</div>
-      <h3>Grade-filtered sentences</h3>
-      <p>Set a grade for each strand and the sentence bank filters to show only appropriate comments. Select multiple grades to see sentences across a range.</p>
-    </div>
-    <div class="feature-card feat-blue">
-      <div class="feature-icon">⊕</div>
-      <h3>Future directions</h3>
-      <p>Choose up to two future directions per subject from a stage-appropriate bank. Auto-suggested based on the student's lowest-graded strands.</p>
-    </div>
-    <div class="feature-card feat-amber">
-      <div class="feature-icon">↻</div>
-      <h3>Semester 1 & 2 support</h3>
-      <p>Switch between semesters for each student. Semester 1 comments are snapshotted for reference when building Semester 2 — no data is ever lost.</p>
-    </div>
-    <div class="feature-card feat-purple">
-      <div class="feature-icon">☁</div>
-      <h3>Cloud sync</h3>
-      <p>Your session saves automatically to the cloud every 15 seconds. Sign in on any device or browser and your students and comments are right there.</p>
-    </div>
-    <div class="feature-card feat-green">
-      <div class="feature-icon">✎</div>
-      <h3>Fully editable</h3>
-      <p>Every comment can be edited freely in the draft pane. Synonym suggestions, manual rewrites and AI improvements all carry through to the final published version.</p>
-    </div>
-  </div>
-</section>
-
 <!-- HOW IT WORKS -->
-<section class="how">
-  <div class="how-inner">
-    <div class="fade-up">
-      <span class="section-label">How it works</span>
-      <h2 class="section-title">From blank page to finished comment in four steps.</h2>
+<section class="block" id="how">
+  <div class="wrap">
+    <h2>From blank page to finished comment in four steps.</h2>
+    <ol class="steps">
+      <li><h3>Add your students</h3><p>Enter each student's name, pronouns and year level. The app handles the rest automatically.</p></li>
+      <li><h3>Set grades</h3><p>Assign A–E grades per strand for English and Maths. The sentence bank filters to show only grade-appropriate comments.</p></li>
+      <li><h3>Select sentences</h3><p>Click sentences from the bank to build your comment. Edit freely, or use AI Polish to improve flow in one click.</p></li>
+      <li><h3>Copy and paste</h3><p>Hit Copy in the Review view. Your polished, professional report comment is ready to paste into your school's reporting system.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="block band" id="features">
+  <div class="wrap split">
+    <div class="split-head">
+      <h2>Everything you need, nothing you don't.</h2>
+      <p class="lede">Every feature was designed around the real workflow of a classroom teacher at report time.</p>
     </div>
-    <div class="steps fade-up">
-      <div class="step">
-        <span class="step-num">01 —</span>
-        <h3>Add your students</h3>
-        <p>Enter each student's name, pronouns and year level. The app handles the rest automatically.</p>
-        <div class="step-line"></div>
+    <ul class="feat-list">
+      <li><h3>Approved sentence bank</h3><p>Every sentence has been reviewed and approved. Build comments by clicking, with no typing required. Sentences automatically adapt to each student's name and pronouns.</p></li>
+      <li><h3>Name and pronoun substitution</h3><p>Set each student's name, pronouns and year level once. The app alternates between name and pronoun across sentences for natural, flowing comments.</p></li>
+      <li><h3>AI-powered polish</h3><p>A one-click Polish button rewrites your comment for flow and cohesion, merging related sentences and varying openers, while keeping every piece of content intact.</p></li>
+      <li><h3>Issue checker</h3><p>Automatically flags duplicate ideas, contradictions, tense inconsistencies and future directions that conflict with stated strengths, before you copy.</p></li>
+      <li><h3>Grade-filtered sentences</h3><p>Set a grade for each strand and the sentence bank filters to show only appropriate comments. Select multiple grades to see sentences across a range.</p></li>
+      <li><h3>Future directions</h3><p>Choose up to two future directions per subject from a stage-appropriate bank. Auto-suggested based on the student's lowest-graded strands.</p></li>
+      <li><h3>Semester 1 and 2 support</h3><p>Switch between semesters for each student. Semester 1 comments are snapshotted for reference when building Semester 2, so no data is ever lost.</p></li>
+      <li><h3>Cloud sync</h3><p>Your session saves automatically to the cloud every 15 seconds. Sign in on any device or browser and your students and comments are right there.</p></li>
+      <li><h3>Fully editable</h3><p>Every comment can be edited freely in the draft pane. Synonym suggestions, manual rewrites and AI improvements all carry through to the final version.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- COVERAGE -->
+<section class="block">
+  <div class="wrap">
+    <h2>Three subjects. Every strand covered.</h2>
+    <p class="lede">Sentence banks built specifically for NSW primary curriculum outcomes at Stage 2 and Stage 3.</p>
+    <div class="cover">
+      <div>
+        <h3>General comment</h3>
+        <p>Personality, social skills, effort, communication, leadership, independence, extracurricular and KLA highlights, plus EAL/D and attendance support.</p>
+        <ul class="strands">
+          <li>Personality</li><li>Effort &amp; Work Habits</li><li>Social Skills</li><li>Leadership</li><li>EAL/D</li><li>Attendance</li><li>Closing Statement</li>
+        </ul>
       </div>
-      <div class="step">
-        <span class="step-num">02 —</span>
-        <h3>Set grades</h3>
-        <p>Assign A–E grades per strand for English and Maths. The sentence bank filters to show only grade-appropriate comments.</p>
-        <div class="step-line"></div>
+      <div>
+        <h3>English</h3>
+        <p>Full coverage of the NSW English K–10 syllabus strands for Stage 2 and Stage 3, with A–E grade sentences for each.</p>
+        <ul class="strands">
+          <li>Reading Comprehension</li><li>Oral Language</li><li>Creating Written Texts</li><li>Vocabulary</li><li>Spelling &amp; Grammar</li><li>Handwriting</li><li>UARL</li>
+        </ul>
       </div>
-      <div class="step">
-        <span class="step-num">03 —</span>
-        <h3>Select sentences</h3>
-        <p>Click sentences from the bank to build your comment. Edit freely, or use AI Polish to improve flow in one click.</p>
-        <div class="step-line"></div>
-      </div>
-      <div class="step">
-        <span class="step-num">04 —</span>
-        <h3>Copy & paste</h3>
-        <p>Hit Copy in the Publish view. Your polished, professional report comment is ready to paste into your school's reporting system.</p>
+      <div>
+        <h3>Mathematics</h3>
+        <p>All NSW Mathematics K–10 strands covered, with sentences correctly mapped to the right strand. No more fractions in Multiplicative Relations.</p>
+        <ul class="strands">
+          <li>Represents Numbers</li><li>Additive Relations</li><li>Multiplicative Relations</li><li>Fractions</li><li>Geometric Measure</li><li>Data</li><li>Chance</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SUBJECTS -->
-<section class="subjects">
-  <div class="fade-up">
-    <span class="section-label">Coverage</span>
-    <h2 class="section-title">Three subjects.<br>Every strand covered.</h2>
-    <p class="section-sub">Sentence banks built specifically for NSW primary curriculum outcomes at Stage 2 and Stage 3.</p>
-  </div>
-  <div class="subject-grid fade-up">
-    <div class="subject-card subj-general">
-      <span class="subject-tag">General</span>
-      <h3>General Comment</h3>
-      <p>Personality, social skills, effort, communication, leadership, independence, extracurricular and KLA highlights — plus EAL/D and attendance support.</p>
-      <div class="strand-list">
-        <span class="strand-chip">Personality</span>
-        <span class="strand-chip">Effort & Work Habits</span>
-        <span class="strand-chip">Social Skills</span>
-        <span class="strand-chip">Leadership</span>
-        <span class="strand-chip">EAL/D</span>
-        <span class="strand-chip">Attendance</span>
-        <span class="strand-chip">Closing Statement</span>
-      </div>
+<!-- CHECKS AND FLOW -->
+<section class="block band">
+  <div class="wrap split">
+    <div>
+      <h2>Comments that read like a teacher wrote them.</h2>
+      <ul class="checks-list">
+        <li><h3>Flow suggestions</h3><p>When you select sentences from related strands, the app instantly suggests a combined version. You can edit it before you accept.</p></li>
+        <li><h3>Polish comment</h3><p>One click sends your draft to AI for a full cohesion rewrite. See the before and after side by side, edit the suggestion, then accept.</p></li>
+        <li><h3>Issue detection</h3><p>Flags duplicate ideas, contradictions, tense errors and future directions that conflict with stated strengths.</p></li>
+      </ul>
     </div>
-    <div class="subject-card subj-english">
-      <span class="subject-tag">English</span>
-      <h3>English</h3>
-      <p>Full coverage of the NSW English K–10 syllabus strands for Stage 2 and Stage 3, with A–E grade sentences for each.</p>
-      <div class="strand-list">
-        <span class="strand-chip">Reading Comprehension</span>
-        <span class="strand-chip">Oral Language</span>
-        <span class="strand-chip">Creating Written Texts</span>
-        <span class="strand-chip">Vocabulary</span>
-        <span class="strand-chip">Spelling & Grammar</span>
-        <span class="strand-chip">Handwriting</span>
-        <span class="strand-chip">UARL</span>
-      </div>
-    </div>
-    <div class="subject-card subj-maths">
-      <span class="subject-tag">Mathematics</span>
-      <h3>Mathematics</h3>
-      <p>All NSW Mathematics K–10 strands covered, with sentences correctly mapped to the right strand — no more fractions in Multiplicative Relations.</p>
-      <div class="strand-list">
-        <span class="strand-chip">Represents Numbers</span>
-        <span class="strand-chip">Additive Relations</span>
-        <span class="strand-chip">Multiplicative Relations</span>
-        <span class="strand-chip">Fractions</span>
-        <span class="strand-chip">Geometric Measure</span>
-        <span class="strand-chip">Data</span>
-        <span class="strand-chip">Chance</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- AI FEATURES -->
-<section class="ai-section">
-  <div class="ai-inner">
-    <div class="fade-up">
-      <span class="section-label">AI Features</span>
-      <h2 class="section-title">Comments that read like a teacher wrote them.</h2>
-      <div class="ai-feature-list">
-        <div class="ai-feat">
-          <div class="ai-feat-icon" style="background:var(--amber-dim);color:var(--amber)">✦</div>
-          <div>
-            <h4>Flow suggestions</h4>
-            <p>When you select sentences from related strands, the app instantly suggests a combined version — editable before you accept.</p>
-          </div>
+    <div class="flow" role="img" aria-label="Example of a flow suggestion. Two Maths sentences about two-dimensional and three-dimensional shapes are merged into one sentence.">
+      <div aria-hidden="true">
+        <div class="flow-title">Flow suggestion · Maths</div>
+        <div class="flow-sub">Two-Dimensional Spatial Structure + Three-Dimensional Spatial Structure</div>
+        <div class="flow-lbl">Selected sentences</div>
+        <div class="flow-text">He names and describes the features of two-dimensional shapes. He identifies and names common three-dimensional objects.</div>
+        <div class="flow-sug">
+          <div class="flow-lbl">Suggested merge</div>
+          <div class="flow-text">He names and describes the features of two-dimensional shapes and three-dimensional objects.</div>
         </div>
-        <div class="ai-feat">
-          <div class="ai-feat-icon" style="background:var(--blue-dim);color:var(--blue)">◎</div>
-          <div>
-            <h4>Polish comment</h4>
-            <p>One click sends your draft to AI for a full cohesion rewrite. See the before and after side by side, edit the suggestion, then accept.</p>
-          </div>
-        </div>
-        <div class="ai-feat">
-          <div class="ai-feat-icon" style="background:var(--purple-dim);color:var(--purple)">◈</div>
-          <div>
-            <h4>Issue detection</h4>
-            <p>Flags duplicate ideas, contradictions, tense errors and future directions that conflict with stated strengths.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="ai-demo fade-up">
-      <div class="ai-demo-label">✦ Flow suggestion — Maths</div>
-      <div style="font-size:11px;color:var(--t2);margin-bottom:10px">Two-Dimensional Spatial Structure + Three-Dimensional Spatial Structure</div>
-      <div style="font-size:12px;color:var(--t2);margin-bottom:4px">Selected sentences</div>
-      <div class="ai-demo-text">"He names and describes the features of two-dimensional shapes. He identifies and names common three-dimensional objects."</div>
-      <div class="ai-suggestion">
-        <div class="ai-suggestion-label">Suggested merge</div>
-        <div class="ai-suggestion-text">"He names and describes the features of two-dimensional shapes and three-dimensional objects."</div>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button style="font-family:var(--font);font-size:12px;padding:5px 14px;border-radius:6px;border:none;background:var(--green);color:#0a0a0a;cursor:pointer">✓ Accept</button>
-        <button style="font-family:var(--font);font-size:12px;padding:5px 14px;border-radius:6px;border:1px solid var(--border);background:none;color:var(--t2);cursor:pointer">✕ Dismiss</button>
+        <div class="flow-btns"><span class="ok">Accept</span><span>Dismiss</span></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CLOUD -->
-<section class="cloud-section">
-  <div class="fade-up">
-    <span class="section-label">Cloud Sync</span>
-    <h2 class="section-title">Your data, everywhere.</h2>
-    <p class="section-sub" style="margin:0 auto 0">Sign in on any computer, any browser. Your students and comments are always there.</p>
-  </div>
-  <div class="cloud-cards fade-up">
-    <div class="cloud-card">
-      <span class="cloud-card-icon">↻</span>
-      <h4>Auto-saves every 15 seconds</h4>
-      <p>Every change is pushed to the cloud automatically. No manual saving, no lost work.</p>
-    </div>
-    <div class="cloud-card">
-      <span class="cloud-card-icon">🔒</span>
-      <h4>Username + PIN protected</h4>
-      <p>Your data is stored under your unique username and PIN. Nobody else can access your students' comments.</p>
-    </div>
-    <div class="cloud-card">
-      <span class="cloud-card-icon">⊕</span>
-      <h4>Works offline too</h4>
-      <p>If you lose internet, the app keeps working and saves locally. It syncs to cloud automatically when you're back online.</p>
+<section class="block">
+  <div class="wrap">
+    <h2>Your data, everywhere.</h2>
+    <p class="lede">Sign in on any computer, any browser. Your students and comments are always there.</p>
+    <div class="cols3">
+      <div><h3>Auto-saves every 15 seconds</h3><p>Every change is pushed to the cloud automatically. No manual saving, no lost work.</p></div>
+      <div><h3>Username and PIN protected</h3><p>Your data is stored under your unique username and PIN. Nobody else can access your students' comments.</p></div>
+      <div><h3>Works offline too</h3><p>If you lose internet, the app keeps working and saves locally. It syncs to the cloud automatically when you're back online.</p></div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta-section">
-  <div class="cta-inner fade-up">
-    <h2>Ready to save hours<br>this report season?</h2>
+<!-- CLOSE -->
+<section class="close">
+  <div class="wrap">
+    <h2>Ready to save hours this report season?</h2>
     <p>Free to use. No subscription. No credit card. Just faster, better report comments.</p>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-      <a href="#" class="btn-primary-lg" onclick="openSignup(); return false">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
-        Create free account
-      </a>
-      <a href="https://jasefreters.github.io/commentbuilder/report-comment-builder.html" class="btn-ghost-lg">
-        Open the app
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 4l4 4-4 4"/></svg>
-      </a>
+    <div class="btns">
+      <a class="btn btn-lg" href="#" onclick="openSignup(); return false">Create free account</a>
+      <a class="btn btn-lg btn-line" href="https://jasefreters.github.io/commentbuilder/report-comment-builder.html">Open the app<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+</main>
+
 <footer>
-  <span class="footer-logo">Report<span>Ready</span></span>
-  <span class="footer-note">Built for NSW primary school teachers · Free to use</span>
-  <span class="footer-note" style="font-family:var(--mono);color:var(--t2);opacity:.5">landing v1.0.3</span>
+  <div class="wrap foot-in">
+    <span class="logo">Report Ready</span>
+    <span>Built for NSW primary school teachers · Free to use</span>
+    <span class="ver">landing v1.1.0</span>
+  </div>
 </footer>
 
-<!-- SIGN UP MODAL -->
+<!-- SIGN UP -->
 <div class="modal-overlay" id="signupModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('signupModal')">✕</button>
-    <div class="modal-title">Create account</div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
+    <button type="button" class="icon-btn modal-close" onclick="closeModal('signupModal')" aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <h2 class="modal-title" id="signupTitle">Create account</h2>
     <p class="modal-sub">Free forever. Your comments sync across any device.</p>
-    <div class="modal-error" id="signupError"></div>
-    <div class="modal-success" id="signupSuccess"></div>
+    <div class="modal-error" id="signupError" role="alert"></div>
+    <div class="modal-success" id="signupSuccess" role="status"></div>
     <div class="field">
-      <label>Username</label>
-      <input type="text" id="signupUser" placeholder="e.g. jsmith" autocomplete="off" spellcheck="false"
+      <label for="signupUser">Username</label>
+      <input type="text" id="signupUser" placeholder="e.g. jsmith" autocomplete="off" spellcheck="false" autocapitalize="none"
         onkeydown="if(event.key==='Enter')document.getElementById('signupPin').focus()"/>
       <div class="field-hint">Lowercase letters, numbers, hyphens and underscores only.</div>
     </div>
     <div class="field">
-      <label>PIN</label>
+      <label for="signupPin">PIN</label>
       <input type="password" id="signupPin" placeholder="Choose a PIN (min. 4 characters)"
         onkeydown="if(event.key==='Enter')doSignup()"/>
       <div class="field-hint">You'll use this PIN to sign in on any device.</div>
     </div>
-    <button class="modal-btn" id="signupBtn" onclick="doSignup()">Create account &amp; open app</button>
+    <button type="button" class="modal-btn" id="signupBtn" onclick="doSignup()">Create account &amp; open app</button>
     <div class="modal-switch">Already have an account? <a href="#" onclick="switchModal('signupModal','loginModal'); return false">Sign in</a></div>
   </div>
 </div>
 
-<!-- LOGIN MODAL -->
+<!-- SIGN IN -->
 <div class="modal-overlay" id="loginModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
-    <div class="modal-title">Sign in</div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <button type="button" class="icon-btn modal-close" onclick="closeModal('loginModal')" aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <h2 class="modal-title" id="loginTitle">Sign in</h2>
     <p class="modal-sub">Your comments will load automatically.</p>
-    <div class="modal-error" id="loginError"></div>
-    <div class="modal-success" id="loginSuccess"></div>
+    <div class="modal-error" id="loginError" role="alert"></div>
+    <div class="modal-success" id="loginSuccess" role="status"></div>
     <div class="field">
-      <label>Username</label>
-      <input type="text" id="loginUser" placeholder="Your username" autocomplete="off" spellcheck="false"
+      <label for="loginUser">Username</label>
+      <input type="text" id="loginUser" placeholder="Your username" autocomplete="off" spellcheck="false" autocapitalize="none"
         onkeydown="if(event.key==='Enter')document.getElementById('loginPin').focus()"/>
     </div>
     <div class="field">
-      <label>PIN</label>
+      <label for="loginPin">PIN</label>
       <input type="password" id="loginPin" placeholder="Your PIN"
         onkeydown="if(event.key==='Enter')doLogin()"/>
     </div>
-    <button class="modal-btn" id="loginBtn" onclick="doLogin()">Sign in &amp; open app</button>
+    <button type="button" class="modal-btn" id="loginBtn" onclick="doLogin()">Sign in &amp; open app</button>
     <div class="modal-switch">New here? <a href="#" onclick="switchModal('loginModal','signupModal'); return false">Create a free account</a></div>
   </div>
 </div>
@@ -1032,25 +504,40 @@ const WORKER = 'https://black-sea-3013.freters.workers.dev';
 const APP_URL = 'https://jasefreters.github.io/commentbuilder/report-comment-builder.html';
 
 // ── Modal helpers ───────────────────────────────────────────────
-function openSignup() {
-  document.getElementById('signupModal').classList.add('open');
-  setTimeout(() => document.getElementById('signupUser').focus(), 100);
+let lastFocus = null;
+function openModal(id, focusId) {
+  lastFocus = document.activeElement;
+  document.getElementById(id).classList.add('open');
+  setTimeout(() => document.getElementById(focusId).focus(), 100);
 }
-function openLogin() {
-  document.getElementById('loginModal').classList.add('open');
-  setTimeout(() => document.getElementById('loginUser').focus(), 100);
-}
+function openSignup() { openModal('signupModal', 'signupUser'); }
+function openLogin() { openModal('loginModal', 'loginUser'); }
 function closeModal(id) {
   document.getElementById(id).classList.remove('open');
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
 }
 function switchModal(from, to) {
-  closeModal(from);
+  document.getElementById(from).classList.remove('open');
   setTimeout(() => document.getElementById(to).classList.add('open'), 150);
+  setTimeout(() => document.getElementById(to === 'signupModal' ? 'signupUser' : 'loginUser').focus(), 260);
 }
-// Close on backdrop click
+// Close on backdrop click and Escape; keep Tab inside the open dialog
 document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+  el.addEventListener('click', e => { if (e.target === el) closeModal(el.id); });
 });
+document.addEventListener('keydown', e => {
+  const open = document.querySelector('.modal-overlay.open');
+  if (!open) return;
+  if (e.key === 'Escape') { closeModal(open.id); return; }
+  if (e.key !== 'Tab') return;
+  const items = [...open.querySelectorAll('button, a[href], input')].filter(x => !x.disabled && x.offsetParent !== null);
+  if (!items.length) return;
+  const first = items[0], last = items[items.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+// Links from the demo open the sign-up form
+if (location.hash === '#signup') openSignup();
 
 // ── Validation ──────────────────────────────────────────────────
 function validateCredentials(user, pin) {
@@ -1101,7 +588,7 @@ async function doSignup() {
     });
 
     // Success — redirect to app with credentials in URL hash (never in query string)
-    sucEl.innerHTML = '✓ Account created! Opening the app… <a href="' + APP_URL + '" style="color:var(--green)">' + APP_URL + '</a>';
+    sucEl.innerHTML = 'Account created. Opening the app… <a href="' + APP_URL + '">Open it now</a>';
     sucEl.style.display = 'block';
     btn.textContent = 'Opening app…';
 
@@ -1152,7 +639,7 @@ async function doLogin() {
     }
 
     const stuCount = (data.session && data.session.students) ? data.session.students.length : 0;
-    sucEl.innerHTML = '✓ Signed in! Loading your ' + stuCount + ' student' + (stuCount !== 1 ? 's' : '') + '… <a href="' + APP_URL + '" style="color:var(--green)">Click here if not redirected.</a>';
+    sucEl.innerHTML = 'Signed in. Loading your ' + stuCount + ' student' + (stuCount !== 1 ? 's' : '') + '… <a href="' + APP_URL + '">Click here if not redirected.</a>';
     sucEl.style.display = 'block';
     btn.textContent = 'Opening app…';
 
@@ -1168,11 +655,54 @@ async function doLogin() {
   }
 }
 
-// ── Scroll animations ────────────────────────────────────────────
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.12 });
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+// ── Theme (same saved choice as the app) ────────────────────────
+const themeBtn = document.getElementById('themeBtn');
+function storedTheme() { try { const t = JSON.parse(localStorage.getItem('rcb_theme')); return t === 'dark' || t === 'light' ? t : null; } catch (e) { return null; } }
+function paintTheme() {
+  const dark = document.documentElement.classList.contains('dark');
+  themeBtn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  themeBtn.title = dark ? 'Switch to light theme' : 'Switch to dark theme';
+}
+themeBtn.addEventListener('click', () => {
+  const dark = !document.documentElement.classList.contains('dark');
+  document.documentElement.classList.toggle('dark', dark);
+  try { localStorage.setItem('rcb_theme', JSON.stringify(dark ? 'dark' : 'light')); } catch (e) {}
+  paintTheme();
+});
+try {
+  const mq = matchMedia('(prefers-color-scheme: dark)');
+  if (mq.addEventListener) mq.addEventListener('change', () => { if (!storedTheme()) { document.documentElement.classList.toggle('dark', mq.matches); paintTheme(); } });
+} catch (e) {}
+paintTheme();
+
+// ── Hero example: the comment builds itself once ────────────────
+// The page shows the finished state first. With motion allowed it replays once: pick, pick, pick.
+(function () {
+  const opts = [...document.querySelectorAll('#mock .m-opt')];
+  const out = document.getElementById('mOut'), wc = document.getElementById('mWc'), bar = document.getElementById('mBar');
+  const texts = opts.map(o => [...o.querySelector('.m-txt').childNodes].filter(n => n.nodeType === 3).map(n => n.textContent).join('').trim());
+  const show = n => {
+    out.innerHTML = '';
+    texts.slice(0, n).forEach((t, i) => {
+      const s = document.createElement('span');
+      s.textContent = (i ? ' ' : '') + t;
+      if (i === n - 1 && n < texts.length + 1 && animate) s.className = 'new';
+      out.appendChild(s);
+    });
+    const words = texts.slice(0, n).join(' ').trim().split(/\s+/).filter(Boolean).length;
+    wc.textContent = (n ? words : 0) + ' / 200';
+    bar.style.width = Math.min(100, words / 2) + '%';
+    opts.forEach((o, i) => o.classList.toggle('sel', i < n));
+  };
+  let animate = false;
+  show(texts.length);                       // finished state, visible by default
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  setTimeout(() => {
+    animate = true; show(0);
+    [1, 2, 3].forEach((n, i) => setTimeout(() => show(n), 900 + i * 1500));
+  }, 600);
+})();
 </script>
 </body>
 </html>
