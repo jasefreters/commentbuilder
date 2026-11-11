@@ -3,7 +3,7 @@ const DEMO_MODE = true;
 (function () {
   // The demo shares a website address with the real app, so keep its saved data apart: every key gets a "demo:" prefix
   // (the light/dark choice is shared on purpose). Nothing the demo does can touch a real session.
-  const real = window.localStorage, P = 'demo:', shared = k => k === 'rcb_theme';
+  const real = window.localStorage, P = 'demo:', shared = k => k === 'rcb_theme' || k === 'rcb_scheme';
   const mk = k => shared(k) ? k : P + k;
   const shim = {
     getItem: k => real.getItem(mk(k)),

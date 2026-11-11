@@ -16,36 +16,51 @@
     var t = JSON.parse(localStorage.getItem('rcb_theme'));
     var dark = t === 'dark' || (t !== 'light' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
     if (dark) document.documentElement.classList.add('dark');
+    if (JSON.parse(localStorage.getItem('rcb_scheme')) === 'classic') document.documentElement.setAttribute('data-scheme', 'classic');
   } catch (e) {}
 })();
 </script>
 <style>
-  /* Colours, type and corners are the app's own, so the landing page, the demo and the app match. */
+  /* Soft pastel is the default; Classic is the scheme chosen in the app's Settings (html[data-scheme="classic"]), carried over by the saved choice. */
   :root {
-    --bg-0: #F2F4F7; --bg-1: #FFFFFF; --bg-2: #F6F8FA; --bg-3: #EAEEF3; --bg-4: #DDE3EA;
-    --border: #DDE3EA; --border-h: #9AA8B6;
-    --t0: #14202B; --t1: #3C4B59; --t2: #566676;
-    --green: #17724A; --green-bg: #DDF1E6; --green-bd: #A9D8BE;
-    --amber: #946000; --amber-bg: #FBEFCF; --amber-fg: #704400;
-    --red: #B42318; --red-bg: #FDE8E6; --red-bd: #F3B5AF;
-    --accent: #0F5C8E; --accent-bg: #E3EFF8; --accent-bd: #B7D3E8; --on-accent: #FFFFFF;
-    --done: #1E8A55; --on-done: #FFFFFF; --on-green-chip: #0F5A33;
-    --shadow-pop: 0 8px 28px rgba(20,32,43,.18);
-    --shadow-card: 0 1px 2px rgba(20,32,43,.06), 0 12px 32px rgba(20,32,43,.10);
+    --bg-0: #F8F7FB; --bg-1: #FFFFFF; --bg-2: #F3F1F9; --bg-3: #ECE9F4;
+    --bg-4: #E3E0EC; --border: #E3E0EC; --border-h: #8F8BB0; --t0: #26233A;
+    --t1: #4A4763; --t2: #66627F; --green: #1F6B3A; --green-bg: #D9F1D4;
+    --green-bd: #A9D8A0; --amber: #7A5400; --amber-bg: #FFF0BD; --amber-fg: #6B4A00;
+    --red: #A12A1F; --red-bg: #FDDFDC; --red-bd: #F0B0AA; --accent: #0F5C8E;
+    --accent-bg: #DAEAF8; --accent-bd: #A9CBE8; --on-accent: #FFFFFF; --done: #1F6B3A;
+    --on-done: #FFFFFF; --on-green-chip: #17572F; --shadow-pop: 0 8px 28px rgba(38,35,58,.18); --shadow-card: 0 1px 2px rgba(38,35,58,.06), 0 12px 32px rgba(38,35,58,.10);
     --font: 'Public Sans', system-ui, sans-serif; --serif: 'Newsreader', Georgia, serif;
     color-scheme: light;
   }
   html.dark {
-    --bg-0: #0a0a0a; --bg-1: #111; --bg-2: #1a1a1a; --bg-3: #222; --bg-4: #2a2a2a;
-    --border: #2e2e2e; --border-h: #444;
-    --t0: #f0f0f0; --t1: #aaa; --t2: #8a8a8a;
-    --green: #4ade80; --green-bg: #0f2318; --green-bd: #1a4028;
-    --amber: #fbbf24; --amber-bg: rgba(251,191,36,0.12); --amber-fg: #fbbf24;
-    --red: #f87171; --red-bg: #2a1010; --red-bd: #4a1010;
-    --accent: #60a5fa; --accent-bg: #0a1628; --accent-bd: #1a2e4a; --on-accent: #06121f;
-    --done: #4ade80; --on-done: #052e16; --on-green-chip: #4ade80;
-    --shadow-pop: 0 8px 28px rgba(0,0,0,0.45);
-    --shadow-card: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.5);
+    --bg-0: #16141F; --bg-1: #1E1B2B; --bg-2: #262338; --bg-3: #302D45;
+    --bg-4: #3A3750; --border: #3A3750; --border-h: #6C6990; --t0: #EDEBF7;
+    --t1: #BDBAD3; --t2: #9A97B3; --green: #A6E3A1; --green-bg: #1B2E1F;
+    --green-bd: #2F5A35; --amber: #F5DD8A; --amber-bg: rgba(245,221,138,0.12); --amber-fg: #F5DD8A;
+    --red: #F4A9A3; --red-bg: #3A1F1F; --red-bd: #6B3535; --accent: #8EC5F0;
+    --accent-bg: #172B3E; --accent-bd: #2E5373; --on-accent: #08121C; --done: #A6E3A1;
+    --on-done: #0F2A14; --on-green-chip: #A6E3A1; --shadow-pop: 0 8px 28px rgba(0,0,0,0.5); --shadow-card: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.5);
+    color-scheme: dark;
+  }
+  html[data-scheme="classic"] {
+    --bg-0: #F2F4F7; --bg-1: #FFFFFF; --bg-2: #F6F8FA; --bg-3: #EAEEF3;
+    --bg-4: #DDE3EA; --border: #DDE3EA; --border-h: #8392A3; --t0: #14202B;
+    --t1: #3C4B59; --t2: #566676; --green: #17724A; --green-bg: #DDF1E6;
+    --green-bd: #A9D8BE; --amber: #946000; --amber-bg: #FBEFCF; --amber-fg: #704400;
+    --red: #B42318; --red-bg: #FDE8E6; --red-bd: #F3B5AF; --accent: #0F5C8E;
+    --accent-bg: #E3EFF8; --accent-bd: #B7D3E8; --on-accent: #FFFFFF; --done: #1B7F4D;
+    --on-done: #FFFFFF; --on-green-chip: #0F5A33; --shadow-pop: 0 8px 28px rgba(20,32,43,.18); --shadow-card: 0 1px 2px rgba(20,32,43,.06), 0 12px 32px rgba(20,32,43,.10);
+    color-scheme: light;
+  }
+  html.dark[data-scheme="classic"] {
+    --bg-0: #0E141B; --bg-1: #151C25; --bg-2: #1B2430; --bg-3: #243040;
+    --bg-4: #2D3A4A; --border: #2D3A4A; --border-h: #5A6E86; --t0: #EAF0F6;
+    --t1: #B4C0CD; --t2: #93A1B1; --green: #4ADE80; --green-bg: #0F2318;
+    --green-bd: #1A4028; --amber: #FBBF24; --amber-bg: rgba(251,191,36,0.12); --amber-fg: #FBBF24;
+    --red: #F87171; --red-bg: #2A1010; --red-bd: #4A1010; --accent: #5BC0EB;
+    --accent-bg: #0A1628; --accent-bd: #1A2E4A; --on-accent: #06121F; --done: #4ADE80;
+    --on-done: #052E16; --on-green-chip: #4ADE80; --shadow-pop: 0 8px 28px rgba(0,0,0,0.45); --shadow-card: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.5);
     color-scheme: dark;
   }
 
