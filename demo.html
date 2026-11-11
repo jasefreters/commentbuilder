@@ -36,6 +36,9 @@
     --chip-pos-bg: var(--gA-bg); --chip-pos-fg: var(--gA-fg); --chip-ave-bg: var(--gC-bg); --chip-ave-fg: var(--gC-fg); --chip-dev-bg: var(--gE-bg); --chip-dev-fg: var(--gE-fg);
     --r-sm: 6px; --r-md: 10px; --r-lg: 14px;
     --font: 'Public Sans', system-ui, sans-serif; --serif: 'Newsreader', Georgia, serif; --mono: 'DM Mono', monospace;
+    --subj-general-btn: #0E4F54; --subj-general-btnon: #FFFFFF;
+    --subj-english-btn: #1E3A8A; --subj-english-btnon: #FFFFFF;
+    --subj-maths-btn: #7A3410; --subj-maths-btnon: #FFFFFF;
   }
   /* DARK MODE (soft pastel, "dusk") */
   html.dark {
@@ -57,6 +60,9 @@
     --subj-general: #4FA3A8; --subj-english-fill: #B3C4FA; --subj-english-on: #14121C; --subj-english-tint: #1C2858;
     --subj-english-ink: #CCD8FF; --subj-english: #6E8AE8; --subj-maths-fill: #F5BC92; --subj-maths-on: #14121C;
     --subj-maths-tint: #4A2C17; --subj-maths-ink: #FFD6B8; --subj-maths: #D98A4E;
+    --subj-general-btn: #9FDCDD; --subj-general-btnon: #14121C;
+    --subj-english-btn: #B3C4FA; --subj-english-btnon: #14121C;
+    --subj-maths-btn: #F5BC92; --subj-maths-btnon: #14121C;
   }
   /* CLASSIC scheme */
   html[data-scheme="classic"] {
@@ -78,6 +84,9 @@
     --subj-general: #0F766E; --subj-english-fill: #1D4ED8; --subj-english-on: #FFFFFF; --subj-english-tint: #E9EFFD;
     --subj-english-ink: #1E3A8A; --subj-english: #1D4ED8; --subj-maths-fill: #B45309; --subj-maths-on: #FFFFFF;
     --subj-maths-tint: #FDF0E2; --subj-maths-ink: #7C3A06; --subj-maths: #B45309;
+    --subj-general-btn: #0F766E; --subj-general-btnon: #FFFFFF;
+    --subj-english-btn: #1D4ED8; --subj-english-btnon: #FFFFFF;
+    --subj-maths-btn: #B45309; --subj-maths-btnon: #FFFFFF;
   }
   html.dark[data-scheme="classic"] {
     --bg-0: #0E141B; --bg-1: #151C25; --bg-2: #1B2430; --bg-3: #243040;
@@ -98,6 +107,9 @@
     --subj-general: #34D1BF; --subj-english-fill: #7AA2FF; --subj-english-on: #0B1118; --subj-english-tint: #15234A;
     --subj-english-ink: #B5CAFF; --subj-english: #7AA2FF; --subj-maths-fill: #F59E5B; --subj-maths-on: #0B1118;
     --subj-maths-tint: #35210F; --subj-maths-ink: #FFC896; --subj-maths: #F59E5B;
+    --subj-general-btn: #34D1BF; --subj-general-btnon: #0B1118;
+    --subj-english-btn: #7AA2FF; --subj-english-btnon: #0B1118;
+    --subj-maths-btn: #F59E5B; --subj-maths-btnon: #0B1118;
   }
   /* THEME TOGGLE */
   .theme-toggle { display: flex; align-items: center; gap: 6px; cursor: pointer; }
@@ -1301,6 +1313,34 @@
     .toast, .toast.show { transform: translateX(-50%); transition: opacity .15s; }
     .badge-notif, .badge-notif.show { transform: none; transition: opacity .15s; }
   }
+
+  /* v3.17.1: the subject colour runs through the tab strip, the draft pane and its buttons, so the draft you are typing into is obvious */
+  body { --sc-fill: var(--subj-general-fill); --sc-on: var(--subj-general-on); --sc-tint: var(--subj-general-tint); --sc-ink: var(--subj-general-ink); --sc-line: var(--subj-general); --sc-btn: var(--subj-general-btn); --sc-btnon: var(--subj-general-btnon); }
+  body[data-subject="english"] { --sc-fill: var(--subj-english-fill); --sc-on: var(--subj-english-on); --sc-tint: var(--subj-english-tint); --sc-ink: var(--subj-english-ink); --sc-line: var(--subj-english); --sc-btn: var(--subj-english-btn); --sc-btnon: var(--subj-english-btnon); }
+  body[data-subject="maths"] { --sc-fill: var(--subj-maths-fill); --sc-on: var(--subj-maths-on); --sc-tint: var(--subj-maths-tint); --sc-ink: var(--subj-maths-ink); --sc-line: var(--subj-maths); --sc-btn: var(--subj-maths-btn); --sc-btnon: var(--subj-maths-btnon); }
+  .stu-subj-tabs { border-bottom: 3px solid var(--sc-line); }
+  .stu-subj-tab.active, .stu-subj-tab.active.english, .stu-subj-tab.active.maths { background: var(--sc-fill); color: var(--sc-on); border-bottom-color: var(--sc-line); border-radius: 10px 10px 0 0; margin-bottom: -3px; box-shadow: inset 0 0 0 1.5px var(--sc-line); }
+  .cat-btn.active { background: var(--sc-fill); border-color: var(--sc-line); color: var(--sc-on); }
+  .cat-btn.active .cat-count { background: color-mix(in srgb, var(--sc-on) 16%, transparent); color: var(--sc-on); }
+  html.dark .cat-btn.active .cat-count { background: color-mix(in srgb, var(--sc-on) 16%, transparent); }
+  .draft-card { border: 2.5px solid var(--sc-line); }
+  .p-top { background: var(--sc-fill); color: var(--sc-on); }
+  .p-top .p-title, .p-top .wc { color: var(--sc-on); }
+  .p-title { display: flex; flex-direction: column; gap: 1px; line-height: 1.2; white-space: normal; }
+  .p-title .p-sub { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .9; }
+  .p-title .p-name { font-size: 17px; font-weight: 700; letter-spacing: 0; text-transform: none; }
+  .p-top .wc-bar-wrap { background: color-mix(in srgb, var(--sc-on) 22%, transparent); }
+  .p-top .wc-bar { background: var(--sc-on); }
+  .p-top .wc-bar.over { background: var(--red); }
+  .draft-lock { display: flex; align-items: center; gap: 8px; margin: 0; padding: 8px 20px; background: var(--sc-tint); color: var(--sc-ink); border-bottom: 1px solid var(--sc-line); font-size: 12.5px; font-weight: 600; }
+  .draft-lock svg { flex: none; }
+  .p-actions .btn-primary { background: var(--sc-btn); color: var(--sc-btnon); }
+  .p-actions .act-btn { border-color: var(--sc-line); color: var(--sc-ink); }
+  .p-actions .act-btn.on { background: var(--green-bg); border-color: var(--done); color: var(--on-green-chip); }
+  .stu-subj-tab.active .st-badge { background: var(--bg-1); color: var(--t0); box-shadow: inset 0 0 0 1px var(--sc-line); }
+  .rdot[data-s="general"].done { background: var(--subj-general-fill); border-color: var(--subj-general); color: var(--subj-general-on); }
+  .rdot[data-s="english"].done { background: var(--subj-english-fill); border-color: var(--subj-english); color: var(--subj-english-on); }
+  .rdot[data-s="maths"].done { background: var(--subj-maths-fill); border-color: var(--subj-maths); color: var(--subj-maths-on); }
 </style>
 <style id="demoCss">
 /* demo mode (added by tools/build-demo.js) */
@@ -1590,6 +1630,7 @@
           </div>
           <div class="wc-bar-wrap"><div class="wc-bar" id="wcBar"></div></div>
         </div>
+        <div class="draft-lock" id="draftLock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span id="draftLockText">Pasting or typing here changes the General draft only.</span></div>
         <div class="out-editable" id="outEditable" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Draft comment"
              data-placeholder="Pick sentences from the bank to build this student’s comment, or type here directly…"
              onblur="onDraftBlur()" oninput="onDraftInput()" onpaste="onDraftPaste()" onkeydown="onDraftKeydown(event)" onbeforeinput="onDraftBeforeInput(event)"></div>
@@ -1615,7 +1656,7 @@
       <div class="p-actions">
         <button class="btn-primary" onclick="copyComment()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
-          Copy comment
+          <span id="copyBtnLabel">Copy comment</span>
         </button>
         <div class="act-row">
           <button class="act-btn" id="doneBtn" onclick="toggleDone()" aria-pressed="false">Mark as done</button>
@@ -5103,7 +5144,7 @@ function renderClassRail() {
   const rows = students.map((stu, i) => {
     const dots = [['G', 'general'], ['E', 'english'], ['M', 'maths']].map(([l, s]) => {
       const st = subjState(stu, s);
-      return `<span class="rdot ${st}" title="${s.charAt(0).toUpperCase() + s.slice(1)}: ${STATE_LABEL[st]}">${l}</span>`;
+      return `<span class="rdot ${st}" data-s="${s}" title="${s.charAt(0).toUpperCase() + s.slice(1)}: ${STATE_LABEL[st]}">${l}</span>`;
     }).join('');
     const named = !!(stu.name && stu.name.trim());
     return `<button class="rail-row${i === currentIdx ? ' active' : ''}" onclick="switchStu(${i})"${i === currentIdx ? ' aria-current="true"' : ''}>` +
@@ -5146,13 +5187,15 @@ function paintStudentChrome() {
   if (next) next.disabled = currentIdx >= students.length - 1;
   const subjName = { general: 'General', english: 'English', maths: 'Maths' }[currentSubject] || 'General';
   const t = document.getElementById('draftTitle');
-  if (t) t.textContent = `${subjName} comment · ${(stu.name && stu.name.trim()) || 'new student'}${stu.year ? ' (' + stu.year + ')' : ''}`;
+  if (t) t.innerHTML = `<span class="p-sub">${subjName} draft</span><span class="p-name">${escHtml((stu.name && stu.name.trim()) || 'New student')}${stu.year ? ' · Year ' + escHtml(String(stu.year)) : ''}</span>`;
+  const lk = document.getElementById('draftLockText'); if (lk) lk.textContent = `Pasting or typing here changes the ${subjName} draft only.`;
+  const cl = document.getElementById('copyBtnLabel'); if (cl) cl.textContent = `Copy ${subjName} comment`;
   const done = subjState(stu, currentSubject) === 'done';
   const db = document.getElementById('doneBtn');
   if (db) {
     db.classList.toggle('on', done);
     db.setAttribute('aria-pressed', done ? 'true' : 'false');
-    db.textContent = done ? '✓ Done' : 'Mark as done';
+    db.textContent = done ? `✓ ${subjName} done` : `Mark ${subjName} as done`;
   }
   const nb = document.getElementById('nextStuBtn');
   if (nb) nb.textContent = currentIdx >= students.length - 1 ? 'New student' : 'Next student';
@@ -8167,7 +8210,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.0';
+const APP_VERSION = 'v3.17.1';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
