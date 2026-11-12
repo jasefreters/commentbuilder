@@ -3988,12 +3988,11 @@ Return ONLY a JSON array of IDs in ranked order: [0,1,2,...]
 Sentences:
 ${sentenceList.slice(0, 80).map((item, i) => `${i}: ${item.text}`).join('\n')}`;
 
-    const res = await anthropicFetch({ model: 'claude-sonnet-4-6', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] });
+    const res = await anthropicFetch({ model: 'claude-sonnet-4-6', max_tokens: 1000, system: AI_JSON_SYSTEM, messages: [{ role: 'user', content: prompt }] });
 
     if (!res.ok) throw new Error('API ' + res.status);
     const data = await res.json();
-    const raw = (data.content?.find(b => b.type === 'text')?.text || '[]').replace(/```json|```/g, '').trim();
-    const ranked = JSON.parse(raw);
+    const ranked = parseAiJson(data.content?.find(b => b.type === 'text')?.text || '[]', 'array');
 
     const rankOrder = {};
     ranked.forEach((eligibleIdx, rank) => {
@@ -7578,12 +7577,13 @@ async function runCheck() {
   status.innerHTML = '<div class="check-status"><div class="spinner"></div><span>Analysing comment…</span></div>';
 
   try {
-    const res = await anthropicFetch({
+    const _checkReq = (extra) => anthropicFetch({
         model: 'claude-sonnet-4-6',
         max_tokens: 1000,
+        system: AI_JSON_SYSTEM,
         messages: [{
           role: 'user',
-          content: `You are a school report comment reviewer for an Australian primary school teacher. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma. Carefully read the following student report comment and identify any:
+          content: (extra || '') + `You are a school report comment reviewer for an Australian primary school teacher. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma. Carefully read the following student report comment and identify any:
 1. SIMILAR sentences — two sentences that express the same idea, even if worded differently
 2. CONTRADICTIONS — two sentences that say conflicting things (e.g. works independently vs needs support)
 3. TENSE errors — sentences not in present tense. School report comments should be in present tense throughout.
@@ -7600,6 +7600,7 @@ Comment:
 ${text}`
         }]
       });
+    let res = await _checkReq('');
 
     if (!res.ok) {
       const errData = await res.json().catch(() => ({}));
@@ -7614,9 +7615,18 @@ ${text}`
       return;
     }
 
-    const data = await res.json();
-    const raw = (data.content?.find(b => b.type === 'text')?.text || '{"issues":[]}').replace(/```json|```/g, '').trim();
-    const result = JSON.parse(raw);
+    let data = await res.json();
+    let raw = data.content?.find(b => b.type === 'text')?.text || '{"issues":[]}';
+    let result;
+    try { result = parseAiJson(raw, 'object'); }
+    catch (pe) {
+      // one more go, asking for the JSON only
+      res = await _checkReq('Reply with the JSON object only. ');
+      if (!res.ok) throw pe;
+      data = await res.json();
+      raw = data.content?.find(b => b.type === 'text')?.text || '{"issues":[]}';
+      result = parseAiJson(raw, 'object');
+    }
     btn.disabled = false;
     if (!result.issues?.length) {
       status.innerHTML = '<div class="ok-msg"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l3 3 7-7"/></svg> No issues found</div>';
@@ -7636,6 +7646,8 @@ ${text}`
     } else if (!getApiKey()) {
       _pendingCheck = true;
       promptApiKey();
+    } else if (e.message === 'AI_NOT_JSON') {
+      status.innerHTML = '<span style="font-size:13px;color:var(--red)">The checker gave an answer the app could not read. Click Check for issues again.</span>';
     } else {
       status.innerHTML = `<span style="font-size:13px;color:var(--red)">Error: ${e.message}</span>`;
     }
@@ -9796,7 +9808,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.2';
+const APP_VERSION = 'v3.17.3';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10030,6 +10042,26 @@ function saveEarnedBadges(b) { lsSet('rcb_badges', b); }
 // When running from a real URL (claude.ai, localhost, hosted), calls go direct.
 function getProxyUrl() { return lsGet('rcb_proxy', 'https://black-sea-3013.freters.workers.dev'); }
 function setProxyUrl(url) { lsSet('rcb_proxy', url); }
+
+// The AI sometimes adds a sentence before or after the JSON ("I'll analyse..."). Pull out the JSON itself.
+// kind is 'object' or 'array'. Throws Error('AI_NOT_JSON') when there is no usable JSON in the reply.
+function parseAiJson(raw, kind) {
+  const open = kind === 'array' ? '[' : '{', close = kind === 'array' ? ']' : '}';
+  let t = String(raw || '').replace(/```json|```/gi, '').trim();
+  try { const v = JSON.parse(t); if (kind === 'array' ? Array.isArray(v) : (v && typeof v === 'object' && !Array.isArray(v))) return v; } catch (e) {}
+  for (let start = t.indexOf(open); start !== -1; start = t.indexOf(open, start + 1)) {
+    let depth = 0, inStr = false, esc = false;
+    for (let i = start; i < t.length; i++) {
+      const ch = t[i];
+      if (inStr) { if (esc) esc = false; else if (ch === '\\') esc = true; else if (ch === '"') inStr = false; continue; }
+      if (ch === '"') inStr = true;
+      else if (ch === open) depth++;
+      else if (ch === close && --depth === 0) { try { return JSON.parse(t.slice(start, i + 1)); } catch (e) { break; } }
+    }
+  }
+  throw new Error('AI_NOT_JSON');
+}
+const AI_JSON_SYSTEM = 'You reply with valid JSON only. The first character of your reply must be the opening bracket. Write no words before or after the JSON.';
 
 function anthropicFetch(body) {
   const storedKey = getApiKey();
@@ -10450,6 +10482,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.3', date: '12 November 2026', items: [
+    'Check for issues works again when the AI adds a sentence before its answer. The app now finds the answer inside the reply, and tries once more if it cannot.',
+  ] },
   { v: 'v3.17.2', date: '11 November 2026', items: [
     'The soft pastel colours are gentler: lighter subject colours, a calmer teal and a softer blue for buttons. Classic is unchanged.',
   ] },
@@ -11702,6 +11737,7 @@ async function showSynonymsPanel(word, markEl) {
     const res = await anthropicFetch({
       model: 'claude-sonnet-4-6',
       max_tokens: 200,
+      system: AI_JSON_SYSTEM,
       messages: [{
         role: 'user',
         content: `You are helping an Australian primary school teacher vary word choice in student report comments written for parents. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma.
@@ -11720,9 +11756,7 @@ Return ONLY a JSON array of 6 lowercase strings, no explanation, no markdown:
 
     if (!res.ok) throw new Error('API error ' + res.status);
     const data = await res.json();
-    const raw = (data.content?.find(b => b.type === 'text')?.text || '[]').replace(/```json|```/g, '').trim();
-    let synonyms = JSON.parse(raw);
-    if (!Array.isArray(synonyms)) throw new Error('Bad response');
+    let synonyms = parseAiJson(data.content?.find(b => b.type === 'text')?.text || '[]', 'array');
 
     const unused = synonyms.filter(s => !usedWords.has(s.toLowerCase()));
     const used = synonyms.filter(s => usedWords.has(s.toLowerCase()));
