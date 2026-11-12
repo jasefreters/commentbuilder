@@ -8222,7 +8222,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.3';
+const APP_VERSION = 'v3.17.4';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -8794,18 +8794,47 @@ function openHistory(i) {
   const L = { general: 'General', english: 'English', maths: 'Maths' };
   const items = list.map((h, k) => {
     const wc = ['general', 'english', 'maths'].map(s => `${L[s]} ${countWords(h.texts[s] || '')}`).join(' · ');
-    const body = ['general', 'english', 'maths'].filter(s => h.texts[s]).map(s => `<div class="hi-sub">${L[s]}</div><div class="hi-text">${escHtml(h.texts[s])}</div>`).join('');
+    const now = _histTexts(stu);
+    const same = s => (h.texts[s] || '') === (now[s] || '');
+    const body = ['general', 'english', 'maths'].filter(s => h.texts[s]).map(s => `<div class="hi-sub">${L[s]} <span style="font-weight:500;text-transform:none;letter-spacing:0;opacity:.85">· ${same(s) ? 'same as now' : 'different from now'}</span></div><div class="hi-text">${escHtml(h.texts[s])}</div>`).join('');
+    const btns = ['general', 'english', 'maths'].map(s => {
+      const none = !h.texts[s], dis = none || same(s);
+      const label = none ? `No ${L[s]} then` : same(s) ? `${L[s]} same as now` : `Restore ${L[s]} only`;
+      return `<button class="modal-btn" ${dis ? 'disabled' : ''} style="border-color:var(--subj-${s});${dis ? 'opacity:.55' : 'color:var(--subj-' + s + '-ink);font-weight:600'}" onclick="restoreHistorySubject(${i}, ${h.at}, '${s}')">${label}</button>`;
+    }).join('');
     return `<div class="hi-item"><div class="hi-top"><span class="hi-when">${escHtml(_histWhen(h.at))}</span><span class="hi-why">${escHtml(h.why || '')}</span><span class="hi-wc">${wc} words</span></div>` +
       `<details><summary style="cursor:pointer;font-size:13px;color:var(--accent);font-weight:600">Show this version</summary><div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">${body}</div></details>` +
-      `<div><button class="modal-btn" onclick="restoreHistory(${i}, ${h.at})">Restore this version</button></div></div>`;
+      `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">${btns}<button class="modal-btn" onclick="restoreHistory(${i}, ${h.at})">Restore all three</button></div></div>`;
   }).join('');
   ov.innerHTML = `<div class="modal-box hi-box" role="dialog" aria-modal="true" aria-labelledby="hiTitle"><div class="gr-bar"><div class="modal-title grow" id="hiTitle">History · ${escHtml(stuLabel(stu, i))} · Semester ${currentSemester}</div><button class="modal-btn" onclick="closeHistory()" aria-label="Close">✕</button></div>` +
-    `<div class="gr-note">Earlier versions of this student's comments, newest first. Restoring puts back all three (General, English and Maths) as they were then; what you have now is kept here first, so you can switch back. History is kept in this browser only.</div>` +
+    `<div class="gr-note">Earlier versions of this student's comments, newest first. You can restore just the General, English or Maths comment, or all three, as they were then. What you have now is kept here first, so you can switch back. History is kept in this browser only.</div>` +
     (items || '<div class="gr-note">No earlier versions yet. They are kept as you work, every few minutes, and before you clear or reset a comment.</div>') + '</div>';
   document.body.appendChild(ov);
 }
 function closeHistory() { const ov = document.getElementById('hiOverlay'); if (ov) ov.remove(); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('hiOverlay')) closeHistory(); });
+// Which parts of a student belong to each subject's comment (sentences chosen, order, grades, final-draft edits, done mark).
+const _GENERAL_KEYS = new Set(['selected', 'ordered', 'custom', 'customTiers', 'published', 'confettiShown', 'draftOverride', 'editedCat', 'orderedAfterEdit', 'orderedAtDone', 's2Ordered', 's2Selected', 's2DraftOverride', 's2EditedCat', 's2OrderedAfterEdit', 's2OrderedAtDone', 's2RankOrder']);
+function _isSubjKey(subj, k) {
+  if (subj === 'english') return /^eng/.test(k) || k.indexOf('pubEditEnglish') === 0;
+  if (subj === 'maths') return /^math/.test(k) || k.indexOf('pubEditMaths') === 0;
+  return _GENERAL_KEYS.has(k) || k.indexOf('pubEditGeneral') === 0;
+}
+function restoreHistorySubject(i, at, subj) {
+  const stu = students[i]; if (!stu) return;
+  const h = (_hist[stu.uid] || []).find(x => x.at === at); if (!h || !h.data) return;
+  const L = { general: 'General', english: 'English', maths: 'Maths' }[subj]; if (!L) return;
+  if (!confirm('Restore only ' + stuLabel(stu, i) + '\u2019s ' + L + ' comment to ' + _histWhen(at) + '? Their other comments stay as they are. What you have now is kept in History first.')) return;
+  saveCur();
+  snapshotStudent(stu, 'Before restoring ' + L, true);
+  Object.keys(stu).forEach(k => { if (_isSubjKey(subj, k)) delete stu[k]; });
+  Object.keys(h.data).forEach(k => { if (_isSubjKey(subj, k)) stu[k] = JSON.parse(JSON.stringify(h.data[k])); });
+  closeHistory();
+  if (i === currentIdx) loadCur();
+  render(); updateProgress(); autoSave();
+  if (currentView === 'stats') renderStats();
+  showToast('Restored ' + stuLabel(stu, i) + '\u2019s ' + L + ' comment to ' + _histWhen(at) + '.');
+}
 function restoreHistory(i, at) {
   const stu = students[i]; if (!stu) return;
   const h = (_hist[stu.uid] || []).find(x => x.at === at); if (!h) return;
