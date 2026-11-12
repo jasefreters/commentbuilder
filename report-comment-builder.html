@@ -9865,7 +9865,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.6';
+const APP_VERSION = 'v3.17.7';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10568,6 +10568,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.7', date: '12 November 2026', items: [
+    'Review no longer shows the yellow \u201cGeneral reads positive, but English is developing\u201d warnings. The \u201cTone across subjects\u201d line stays.',
+  ] },
   { v: 'v3.17.6', date: '12 November 2026', items: [
     'The Polish button now only shows on English and Maths, where it works. It no longer appears on General.',
   ] },
@@ -12830,13 +12833,7 @@ function toneReport(stu) {
   const name = (stu.name || '').trim() || 'This student';
   const present = ['general', 'english', 'maths'].filter(s => out.bands[s]);
   const L = { general: 'General', english: 'English', maths: 'Maths' };
-  for (let i = 0; i < present.length; i++) for (let j = i + 1; j < present.length; j++) {
-    const a = present[i], b = present[j];
-    if (Math.abs(TONE_RANK[out.bands[a]] - TONE_RANK[out.bands[b]]) >= 2) {
-      const hi = TONE_RANK[out.bands[a]] > TONE_RANK[out.bands[b]] ? a : b, lo = hi === a ? b : a;
-      out.issues.push({ kind: 'across', text: `${L[hi]} reads ${TONE_LABEL[out.bands[hi]].toLowerCase()}, but ${L[lo]} is ${TONE_LABEL[out.bands[lo]].toLowerCase()}. Check the two fit together.` });
-    }
-  }
+  // v3.17.7: no amber warning when one subject reads more positive than another. The "Tone across subjects" line in Review still shows each subject's tone.
   present.forEach(s => {
     let text = '';
     try { text = getFinalCommentText(stu, s) || ''; } catch (e) {}
