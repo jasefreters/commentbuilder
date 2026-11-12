@@ -2431,6 +2431,7 @@ function fillTypedPlaceholders(text) {
   return friendlyTokens(text).replace(/\{\{(?:N|S|s|Pos|pos|o|r)\}\}/g, m => applyRaw(m, name, p, yr));
 }
 function onDraftBlur() {
+  if (!_paneIsMine()) return;   // v3.17.5
   const el = document.getElementById('outEditable');
   if (el && cur() && el.innerText.search(_FRIENDLY_RE) !== -1) el.innerText = fillTypedPlaceholders(el.innerText);
   onDraftInput();
@@ -6232,7 +6233,7 @@ function _hash(s) {   // cyrb53, a short fingerprint (not security)
 }
 function _hs(s) { return _hash(_canon(_normStudent(s, 0))); }   // fingerprint of one student (defaults filled in, key order ignored)
 function _newUid() { return 'u' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-3); }
-function _ensureUids() { students.forEach(s => { if (!s.uid) s.uid = _newUid(); }); }
+function _ensureUids() { const seen = new Set(); students.forEach(s => { if (!s.uid || seen.has(s.uid)) s.uid = _newUid(); seen.add(s.uid); }); }   // v3.17.5: two students never share an id
 function _snapshot(sess) {
   const st = {};
   (sess.students || []).forEach(s => { if (s.uid) st[s.uid] = _hs(s); });
@@ -6385,6 +6386,17 @@ let _saveTimer = null;
 let _publishedSinceLastBackup = false;
 
 
+// v3.17.5: the draft pane remembers whose text it holds (student + subject). Nothing reads the pane back into a
+// student's data unless the pane belongs to that student and subject. Before this, a pane that kept the keyboard
+// focus while you moved to another student (an iPad does not drop focus when you tap a button) kept the old text,
+// and the next save wrote that text into the new student.
+let _paneOwner = null;
+function _paneIsMine() { const c = cur(); return !!(_paneOwner && c && c.uid && _paneOwner.uid === c.uid && _paneOwner.subj === currentSubject); }
+function _stampPane() { const c = cur(); _paneOwner = c ? { uid: c.uid, subj: currentSubject } : null; }
+function _releasePane() {   // while currentIdx still points at the student whose text is in the pane, so its blur saves to the right student
+  const el = document.getElementById('outEditable');
+  if (el && document.activeElement === el) el.blur();
+}
 function renderOut() { _renderOutCore(); updateSentChip(); }
 function _renderOutCore() {
   const el = document.getElementById('outEditable');
@@ -6400,8 +6412,8 @@ function _renderOutCore() {
     const subjText = getSubjDraft() || '';
     const fdText = getFDText();
     const fullText = subjText + (fdText ? '\n\n' + fdText : '');
-    if (document.activeElement !== el) {
-      el.innerText = fullText;
+    if (document.activeElement !== el || !_paneIsMine()) {
+      el.innerText = fullText; _stampPane();
     }
     // Word count against the subject limit (Settings)
     const words = fullText.trim().split(/\s+/).filter(Boolean).length;
@@ -6417,13 +6429,13 @@ function _renderOutCore() {
   const hasOverride = cur().draftOverride !== null && cur().draftOverride !== undefined;
 
   if (hasOverride) {
-    if (document.activeElement !== el) {
-      el.innerText = cur().draftOverride;
+    if (document.activeElement !== el || !_paneIsMine()) {
+      el.innerText = cur().draftOverride; _stampPane();
       updateWc(cur().draftOverride);
     }
   } else {
     const text = buildDraftText();
-    el.innerText = text;
+    el.innerText = text; _stampPane();
     updateWc(text);
   }
 
@@ -6451,6 +6463,7 @@ function stripFDFromDraftText(text) {
 let _draftDirty = false; // true when draft was edited but publish hasn't re-rendered yet
 
 function onDraftInput() {
+  if (!_paneIsMine()) return;   // v3.17.5: the pane holds someone else's text (or another subject's): never save it here
   const el = document.getElementById('outEditable');
   const text = el.innerText;
   if (currentSubject === 'english') {
@@ -6531,6 +6544,7 @@ function onDraftBeforeInput(e) {
 }
 
 function doneDraft() {
+  if (!_paneIsMine()) { render(); return; }   // v3.17.5
   const el = document.getElementById('outEditable');
   const editedText = el.innerText.trim();
   if (editedText) {
@@ -7657,28 +7671,42 @@ ${text}`
 // Store flagged issues so we can show fix suggestions on click
 function closeFix() { document.getElementById('fixDropdown').style.display = 'none'; }
 
-function applyWordFix(word, replacement) {
-  // Replace a specific word in the publish pane with the corrected version
-  const pubContent = document.getElementById('pubContent');
-  if (!pubContent) return;
-  const spans = pubContent.querySelectorAll('span, mark');
-  spans.forEach(s => {
-    if (s.textContent.trim().toLowerCase() === word.toLowerCase() ||
-        s.innerHTML.includes(word)) {
-      // Replace the inner mark/span with plain text of the replacement
-      const parent = s.parentNode;
-      const textNode = document.createTextNode(replacement);
-      parent.replaceChild(textNode, s);
-    }
-  });
-  // Also do a text-level replace as fallback
-  pubContent.innerHTML = pubContent.innerHTML.replace(
-    new RegExp('\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\b', 'g'),
-    replacement
-  );
+// v3.17.5: a one-word fix changes only the word that was clicked. It used to swap whole sentences for the word.
+function applyWordFix(mark, replacement) {
+  if (!mark || !mark.parentNode || !replacement) { closeFix(); return; }
+  const fixed = matchCase(mark.textContent, replacement);
+  mark.replaceWith(document.createTextNode(fixed));
+  const pc = document.getElementById('pubContent'); if (pc) pc.normalize();
   closeFix();
-  savePublishEdits();
+  requestAnimationFrame(() => {
+    highlightDuplicateWords();
+    highlightTenseIssues();
+    syncPublishToDraft();
+    savePublishEdits();
+  });
   showToast('Fix applied.');
+}
+
+// Wraps each whole-word match of `re` in the span's own text (not inside other marks) in a flag mark.
+function _flagWordsIn(span, re, cls, tip, issueIdx) {
+  const walker = document.createTreeWalker(span, NodeFilter.SHOW_TEXT, {
+    acceptNode: n => n.parentElement && n.parentElement.closest('mark, [data-issue-idx]') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
+  });
+  const nodes = []; let nd; while ((nd = walker.nextNode())) nodes.push(nd);
+  let n = 0;
+  nodes.forEach(node => {
+    const text = node.nodeValue; re.lastIndex = 0;
+    const frag = document.createDocumentFragment(); let pos = 0, m;
+    while ((m = re.exec(text)) !== null) {
+      if (m[0] === '') { re.lastIndex++; continue; }
+      if (m.index > pos) frag.appendChild(document.createTextNode(text.slice(pos, m.index)));
+      const mk = document.createElement('span');
+      mk.className = cls; mk.title = tip; mk.dataset.issueIdx = issueIdx; mk.textContent = m[0];
+      frag.appendChild(mk); pos = m.index + m[0].length; n++;
+    }
+    if (pos > 0) { if (pos < text.length) frag.appendChild(document.createTextNode(text.slice(pos))); node.replaceWith(frag); }
+  });
+  return n;
 }
 
 function applyFlags(issues) {
@@ -7698,23 +7726,19 @@ function applyFlags(issues) {
       allSpans.forEach(span => {
         const spanText = span.textContent.trim();
         if (isSpellGrammar) {
-          // Word-level: highlight just the flagged word within the span
-          const escapedTarget = trimmed.replace(/[.*+?^${}()|[\\\]]/g, '\\$&');
-          const re = new RegExp('(?:^|\\b)(' + escapedTarget + ')(?:\\b|$)', 'gi');
-          if (re.test(spanText)) {
-            const tip = issue.suggestion ? `Suggestion: ${issue.suggestion}` : issue.reason;
-            span.innerHTML = spanText.replace(re,
-              `<span class="${cls}" title="${tip}" data-issue-idx="${issueIdx}"
-                onclick="event.stopPropagation();openFixDropdown(event,this,_flaggedIssues[${issueIdx}])">$1</span>`);
-          }
+          // Word-level: highlight just the flagged word, in the case the checker wrote it when that is in the comment
+          const escapedTarget = trimmed.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const tip = issue.suggestion ? `Suggestion: ${issue.suggestion}` : issue.reason;
+          const body = '(?<![\\w’\'])' + escapedTarget + '(?![\\w’\'])';
+          const anyExact = allSpans.some(sp => new RegExp(body).test(sp.textContent));
+          _flagWordsIn(span, new RegExp(body, anyExact ? 'g' : 'gi'), cls, tip, issueIdx);
         } else {
           // Sentence-level: highlight the whole span
           if (spanText === trimmed ||
               (trimmed.length > 20 && spanText.includes(trimmed.slice(0, 30)))) {
             span.className = cls;
             span.title = 'Click for fix suggestion';
-            span.dataset.issueIdx = issueIdx;
-            span.onclick = (e) => { e.stopPropagation(); openFixDropdown(e, span, issue); };
+            span.dataset.issueIdx = issueIdx;   // the click is picked up by the handler below, so it survives the Review text being rebuilt
           }
         }
       });
@@ -7728,6 +7752,17 @@ document.addEventListener('click', e => {
   if (dd && dd.style.display !== 'none' && !dd.contains(e.target)) {
     dd.style.display = 'none';
   }
+});
+
+// v3.17.5: flagged words and sentences open their fix through one handler on the page. The click used to be set on each
+// element, which is lost whenever Review is rebuilt from its saved copy: the tooltip stayed but the click did nothing.
+document.addEventListener('click', e => {
+  const el = e.target.closest && e.target.closest('#pubContent [data-issue-idx]');
+  if (!el || e.target.closest('mark.dup-word, mark.style-sug')) return;
+  const issue = _flaggedIssues[+el.dataset.issueIdx];
+  if (!issue) { const dd = document.getElementById('fixDropdown'); if (dd) dd.style.display = 'none'; showToast('Click Check for issues again to get a fix for this one.'); return; }
+  e.stopPropagation();
+  openFixDropdown(e, el, issue);
 });
 
 function openFixDropdown(event, span, issue) {
@@ -7760,18 +7795,22 @@ function openFixDropdown(event, span, issue) {
   actions.innerHTML = '<button class="fix-btn" onclick="closeFix()">Dismiss</button>';
 
   // For spelling/grammar with a suggestion already provided, show it immediately
-  if ((issue.type === 'spelling' || issue.type === 'grammar') && issue.suggestion) {
-    suggestion.innerHTML = `<div class="fix-suggestion">${issue.suggestion}</div>`;
-    window._pendingFix = { action: 'replace', pi: span.dataset ? span.dataset.pi : '', si: span.dataset ? span.dataset.si : '', replacement: issue.suggestion, word: issue.sentences[0] };
+  const isWord = !!(span.dataset && span.dataset.issueIdx !== undefined && (issue.type === 'spelling' || issue.type === 'grammar'));
+  if (isWord && issue.suggestion) {
+    suggestion.innerHTML = '';
+    const fs = document.createElement('div'); fs.className = 'fix-suggestion'; fs.textContent = issue.suggestion; suggestion.appendChild(fs);
+    window._pendingFix = { action: 'word', mark: span, replacement: issue.suggestion };
     actions.innerHTML = `
       <button class="fix-btn" onclick="closeFix()">Dismiss</button>
-      <button class="fix-btn primary" onclick="applyWordFix('${issue.sentences[0].replace(/'/g,"\'")}','${issue.suggestion.replace(/'/g,"\'")}')">✓ Apply fix</button>`;
+      <button class="fix-btn primary" onclick="applyPendingFix()">✓ Apply fix</button>`;
   } else {
     fetchFixSuggestion(span, issue, suggestion, actions);
   }
 }
 
-async function fetchFixSuggestion(span, issue, suggestionEl, actionsEl) {
+async function fetchFixSuggestion(span, issue, suggestionEl, actionsEl, _try) {
+  _try = _try || 0;
+  const sentSpan = (span.closest && span.closest('span[data-si]')) || span;   // v3.17.5: a flagged word sits inside its sentence
   const fullComment = document.getElementById('pubContent').textContent;
   const sentences = issue.sentences.join(' / ');
   const typeDescriptions = {
@@ -7808,28 +7847,39 @@ Keep language simple and parent-friendly. Return ONLY the suggested fix as plain
     const fix = (data.content?.find(b => b.type === 'text')?.text || '').trim();
     if (!fix) throw new Error('empty');
 
-    suggestionEl.innerHTML = `<div class="fix-suggestion">${fix}</div>`;
+    suggestionEl.innerHTML = '';
+    const fsEl = document.createElement('div'); fsEl.className = 'fix-suggestion'; fsEl.textContent = fix; suggestionEl.appendChild(fsEl);
 
     // Store fix safely and render buttons
     const isRemoval = /^remove|^delete|^omit/i.test(fix);
-    window._pendingFix = { action: isRemoval ? 'remove' : 'replace', pi: span.dataset.pi, si: span.dataset.si, replacement: fix };
+    window._pendingFix = { action: isRemoval ? 'remove' : 'replace', pi: sentSpan.dataset.pi, si: sentSpan.dataset.si, replacement: fix };
     actionsEl.innerHTML = `
       <button class="fix-btn" onclick="closeFix()">Dismiss</button>
       <button class="fix-btn apply" onclick="applyPendingFix()">${isRemoval ? 'Remove sentence' : 'Apply fix'}</button>`;
 
   } catch(e) {
-    if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED') {
-      suggestionEl.innerHTML = '<div class="fix-suggestion" style="color:var(--t2)">AI fix requires Worker setup — see Worker URL button in toolbar.</div>';
-    } else {
-      suggestionEl.innerHTML = '<div class="fix-suggestion" style="color:var(--t2)">Could not fetch suggestion — try Check for Issues again first.</div>';
+    // v3.17.5: one quiet retry, then say what actually went wrong and offer Try again
+    if (_try < 1 && /^API (429|5\d\d)|PROXY_FAIL|Failed to fetch|NetworkError|empty/i.test(e.message || '')) {
+      return setTimeout(() => fetchFixSuggestion(span, issue, suggestionEl, actionsEl, _try + 1), 1200);
     }
-    actionsEl.innerHTML = '<button class="fix-btn" onclick="closeFix()">Dismiss</button>';
+    let msg;
+    if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED') msg = 'AI fix requires Worker setup — see Worker URL button in toolbar.';
+    else if (!getApiKey() && !getProxyUrl()) msg = 'The AI is not connected, so there is no suggestion. Add your key in Settings.';
+    else if (/^API 401|^API 403/.test(e.message || '')) msg = 'The AI would not accept the key (' + e.message.replace('API ', 'error ') + '). Check it in Settings.';
+    else if (/^API/.test(e.message || '')) msg = 'The AI did not answer just now (' + e.message.replace('API ', 'error ') + '). Try again in a moment.';
+    else msg = 'The AI did not answer just now. Try again in a moment.';
+    suggestionEl.innerHTML = '';
+    const er = document.createElement('div'); er.className = 'fix-suggestion'; er.style.color = 'var(--t2)'; er.textContent = msg; suggestionEl.appendChild(er);
+    actionsEl.innerHTML = '<button class="fix-btn" onclick="closeFix()">Dismiss</button><button class="fix-btn primary" id="fixRetryBtn">Try again</button>';
+    const rb = document.getElementById('fixRetryBtn');
+    if (rb) rb.onclick = () => { suggestionEl.innerHTML = '<div class="fix-loading"><div class="spinner"></div><span>Getting fix suggestion…</span></div>'; fetchFixSuggestion(span, issue, suggestionEl, actionsEl, 0); };
   }
 }
 
 function applyPendingFix() {
   const fix = window._pendingFix;
   if (!fix) { closeFix(); return; }
+  if (fix.action === 'word') { applyWordFix(fix.mark, fix.replacement); window._pendingFix = null; return; }
   applyFlagFix(fix.action, fix.pi, fix.si, fix.replacement);
   window._pendingFix = null;
 }
@@ -7863,7 +7913,7 @@ function flushDraftPane() {
   // previous subject render (the activeElement guard in renderOut means
   // outEditable isn't updated when the user has focus there).
   const el = document.getElementById('outEditable');
-  if (!el || document.activeElement !== el) return;
+  if (!el || document.activeElement !== el || !_paneIsMine()) return;
 
   const text = el.innerText;
   if (currentSubject === 'english') {
@@ -8835,6 +8885,7 @@ function addStu(done) { saveCur(); openYearPicker(y => { _addStuNow(y); if (done
 function _addStuNow(newYear) { students.push({ uid:_newUid(), name:'', pronoun:'he', year:newYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[], engSelected:{}, engOrdered:[], engGrades:{}, engDraft:null, engPublished:false, mathSelected:{}, mathOrdered:[], mathGrades:{}, mathDraft:null, mathPublished:false, engFD:[], mathFD:[], fdStage:'Stage 3', pubEditGeneral:null, pubEditEnglish:null, pubEditMaths:null, engS2Selected:{}, engS2Ordered:[], engS2Grades:{}, engS2Draft:null, mathS2Selected:{}, mathS2Ordered:[], mathS2Grades:{}, mathS2Draft:null, engS2FD:[], mathS2FD:[] }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
 
 function pubNavStudent(dir) {
+  _releasePane();
   savePublishEdits(); // save publish edits before navigating to another student
   saveCur();
   const newIdx = currentIdx + dir;
@@ -8870,6 +8921,7 @@ function newStudentFromPublish() {
   });
 }
 function switchStu(i) {
+  _releasePane();
   savePublishEdits(); // save any publish pane edits before switching students
   if (currentView === 'publish') learnFromCurrent();   // v3.7.0
   saveCur();
@@ -8886,8 +8938,10 @@ function switchStu(i) {
 function removeStu(i) {
   const name = students[i].name || ('Student ' + (i + 1));
   if (!confirm('Delete ' + name + '? This cannot be undone.')) return;
+  _releasePane();
   saveCur(); // ensure current student is saved before removing another
   students.splice(i, 1);
+  if (i < currentIdx) currentIdx--;   // v3.17.5: removing someone above you left you on the next student down
   if (currentIdx >= students.length) currentIdx = students.length - 1;
   if (currentSubject === 'english') currentTab = ENGLISH_CATS[0];
   else if (currentSubject === 'maths') currentTab = MATHS_CATS[0];
@@ -8904,7 +8958,8 @@ function saveCur() {
   students[currentIdx].year = document.getElementById('yearSet').value;
   // Persist any live edits from the contenteditable draft pane
   const el = document.getElementById('outEditable');
-  if (el && students[currentIdx].draftOverride !== null && students[currentIdx].draftOverride !== undefined) {
+  // v3.17.5: only when the pane is showing THIS student's General draft (it also shows English and Maths drafts, and may still hold the previous student's text)
+  if (el && currentSubject === 'general' && _paneIsMine() && students[currentIdx].draftOverride !== null && students[currentIdx].draftOverride !== undefined) {
     students[currentIdx].draftOverride = el.innerText || null;
   }
   // Persist any edits made in the Publish view (synonym replacements, manual edits)
@@ -9808,7 +9863,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.4';
+const APP_VERSION = 'v3.17.5';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10511,6 +10566,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.5', date: '12 November 2026', items: [
+    'Fixed a bug where one student\u2019s edited comment could end up in another student\u2019s draft. The draft now only saves into the student and subject it is showing, and it lets go of the keyboard when you move to someone else. If a comment was already overwritten, use History to restore it.',
+    'Check for issues: clicking a flagged word or sentence now always opens its fix, and \u201cApply fix\u201d on a single word (such as he \u2192 him) changes just that word. Before, it could replace the whole comment with the word. If the AI cannot answer, it now says why and offers Try again.',
+  ] },
   { v: 'v3.17.4', date: '12 November 2026', items: [
     'History: you can now restore just the General, English or Maths comment from an earlier version. The other two stay as they are. "Restore all three" is still there.',
   ] },
@@ -11697,7 +11756,7 @@ function syncPublishToDraft() {
   // Update the draft pane immediately
   const el = document.getElementById('outEditable');
   if (el) {
-    el.innerText = fullText;
+    el.innerText = fullText; _stampPane();
     updateWc(fullText);
     document.getElementById('draftEditBar').className = 'draft-edit-bar visible';
   }
