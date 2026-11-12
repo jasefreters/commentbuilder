@@ -363,6 +363,7 @@
   .f-alt { cursor: pointer; background: rgba(96,165,250,0.13); border-bottom: 1.5px solid var(--blue); border-radius: 2px; cursor: help; }
   .swatch.a { background: var(--blue); }
   .f-tense { cursor: pointer; background: color-mix(in srgb, var(--hl-tense) 16%, transparent); border-bottom: 1.5px solid var(--hl-tense); border-radius: 2px; cursor: help; }
+  body[data-subject="general"] .polish-only { display: none !important; }   /* v3.17.6 */
   .f-spell { cursor: help; border-bottom: 2px dotted var(--hl-spell); border-radius: 2px; }
   .f-grammar { cursor: help; border-bottom: 2px dotted var(--hl-grammar); border-radius: 2px; }
   .swatch.t { background: var(--hl-tense); }
@@ -1635,7 +1636,7 @@
           <div class="checks-hint">Spelling, repeated words, tense and flow are checked in Review.</div>
           <div class="checks-row">
             <button class="btn-sec" onclick="reviewAndCheck()">Check for issues</button>
-            <button class="btn-sec" onclick="reviewAndPolish()" title="AI-powered flow and cohesion rewrite">Polish</button>
+            <button class="btn-sec polish-only" onclick="reviewAndPolish()" title="AI-powered flow and cohesion rewrite">Polish</button>
           </div>
         </div>
       </section>
@@ -1704,7 +1705,7 @@
         <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5M8 11v.4"/></svg>
         Check for issues
       </button>
-      <button class="btn btn-ghost" id="polishBtn" onclick="runPolish()" style="width:auto" title="AI-powered flow and cohesion rewrite">
+      <button class="btn btn-ghost polish-only" id="polishBtn" onclick="runPolish()" style="width:auto" title="AI-powered flow and cohesion rewrite">
         <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h8M8 4l4 4-4 4"/><path d="M2 4l1.5 1.5L2 7"/></svg>
         Polish
       </button>
@@ -6980,6 +6981,7 @@ function renderBoard() {
 }
 
 function syncPubSubj() {
+  document.body.dataset.subject = currentSubject;   // v3.17.6: Review follows the subject too (Polish is English and Maths only)
   document.querySelectorAll('#pubSubj button').forEach(b => b.classList.toggle('on', b.dataset.pubsubj === currentSubject));
 }
 
@@ -9863,7 +9865,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.5';
+const APP_VERSION = 'v3.17.6';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10566,6 +10568,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.6', date: '12 November 2026', items: [
+    'The Polish button now only shows on English and Maths, where it works. It no longer appears on General.',
+  ] },
   { v: 'v3.17.5', date: '12 November 2026', items: [
     'Fixed a bug where one student\u2019s edited comment could end up in another student\u2019s draft. The draft now only saves into the student and subject it is showing, and it lets go of the keyboard when you move to someone else. If a comment was already overwritten, use History to restore it.',
     'Check for issues: clicking a flagged word or sentence now always opens its fix, and \u201cApply fix\u201d on a single word (such as he \u2192 him) changes just that word. Before, it could replace the whole comment with the word. If the AI cannot answer, it now says why and offers Try again.',
