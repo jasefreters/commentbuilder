@@ -415,6 +415,18 @@
   mark.style-sug { background: transparent; color: inherit; border-bottom: 2px dotted var(--accent); cursor: pointer; padding: 0 1px; border-radius: 2px; }
   mark.style-sug:hover { background: var(--accent-bg); }
   mark.dup-word.has-sug { box-shadow: inset 0 -2px 0 0 var(--accent); }
+  .para-rules { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px; padding: 4px 14px 8px; }
+  .para-rule { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--t1); padding: 3px 0; }
+  .para-rule select { font-family: var(--font); font-size: 12.5px; padding: 4px 6px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t0); }
+  .para-rule.changed select { border-color: var(--accent, var(--blue)); }
+  @media (max-width: 700px) { .para-rules { grid-template-columns: 1fr; } }
+  #paraHandle { position: fixed; z-index: 940; display: none; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border-h); background: var(--bg-1); color: var(--t1); font: 600 14px/1 var(--font); cursor: pointer; padding: 0; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+  #paraHandle:hover, #paraHandle:focus-visible { color: var(--t0); border-color: var(--blue); }
+  #paraMenu { position: fixed; z-index: 950; display: none; min-width: 230px; background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-md); box-shadow: 0 8px 28px rgba(0,0,0,.25); padding: 6px; font-family: var(--font); }
+  #paraMenu button { display: block; width: 100%; text-align: left; font: 13px var(--font); color: var(--t0); background: none; border: 0; border-radius: var(--r-sm); padding: 9px 10px; cursor: pointer; }
+  #paraMenu button:hover, #paraMenu button:focus-visible { background: var(--bg-3); }
+  #paraMenu .pm-note { font-size: 11.5px; color: var(--t2); padding: 4px 10px 6px; }
+  #pubContent span.para-focus { background: var(--bg-3); border-radius: 3px; }
   .style-sug-pop { position: fixed; z-index: 950; width: 250px; background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-md); box-shadow: 0 8px 28px rgba(0,0,0,0.25); padding: 10px; display: none; font-family: var(--font); }
   .ssp-head { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--t2); }
   .ssp-row { font-size: 14px; color: var(--t0); margin: 4px 0 8px; font-weight: 500; }
@@ -1991,13 +2003,45 @@ const CATS = Object.keys(RAW);
 // Para 3: EAL/D (own paragraph when present)
 // Para 4: Sport & extracurricular (own paragraph)
 // Para 5: Closing statement (always own paragraph)
-const PARA_GROUPS = [
+const PARA_GROUPS_DEFAULT = [
   ["Personality", "Effort & Work Habits", "Communication & Collaboration", "Social Skills", "Leadership", "Roles & Responsibilities", "Independence", "Attendance"],
   ["Semester KLAs"],
   ["Interests & Passions", "Sport & Extracurricular"],
   ["EAL/D"],
   ["Closing Statement"],
 ];
+// v3.17.8: Settings can move a category to another paragraph. PARA_GROUPS is rebuilt in place from the usual layout above
+// plus the teacher's choices (rcb_paragroups: category -> paragraph number, 1 to 6). With no choices it is the usual layout.
+const PARA_GROUPS = PARA_GROUPS_DEFAULT.map(g => g.slice());
+const PARA_MAX = 6;
+function _paraMapStored() { try { const m = lsGet('rcb_paragroups', null); return m && typeof m === 'object' && !Array.isArray(m) && Object.keys(m).length ? m : null; } catch (e) { return null; } }
+function _paraRulesCustom() { return !!_paraMapStored(); }
+function applyParaGroups() {
+  const map = _paraMapStored(), groups = Array.from({ length: PARA_MAX }, () => []);
+  PARA_GROUPS_DEFAULT.forEach((g, gi) => g.forEach(cat => {
+    const n = map && Number.isInteger(map[cat]) ? map[cat] : 0;
+    groups[n >= 1 && n <= PARA_MAX ? n - 1 : gi].push(cat);
+  }));
+  PARA_GROUPS.length = 0; groups.filter(g => g.length).forEach(g => PARA_GROUPS.push(g));
+  try { _reparaMemo.clear(); } catch (e) {}
+}
+function paraNumberOf(cat) {   // the paragraph number a category is in now (1 to 6)
+  const map = _paraMapStored(); if (map && Number.isInteger(map[cat]) && map[cat] >= 1 && map[cat] <= PARA_MAX) return map[cat];
+  return PARA_GROUPS_DEFAULT.findIndex(g => g.includes(cat)) + 1;
+}
+function setParaGroup(cat, n) {
+  const m = Object.assign({}, _paraMapStored() || {});
+  n = parseInt(n, 10);
+  const def = PARA_GROUPS_DEFAULT.findIndex(g => g.includes(cat)) + 1;
+  if (!n || n === def) delete m[cat]; else m[cat] = n;
+  lsSet('rcb_paragroups', Object.keys(m).length ? m : null);
+  applyParaGroups(); _paraRulesChanged();
+}
+function resetParaGroups() { lsSet('rcb_paragroups', null); applyParaGroups(); _paraRulesChanged(); showToast('Paragraphs are back to the usual layout.'); }
+function _paraRulesChanged() {
+  try { if (currentView === 'publish') { savePublishEdits(); renderPublish(); } else render(); } catch (e) { console.warn('paragraphs', e); }
+  try { renderMoreSettings(); } catch (e) {}
+}
 
 // Build lookup: raw sentence → its category
 const SENT_CAT = {};
@@ -2385,6 +2429,7 @@ function _paraGroupOf(key) {
   return gi < 0 ? PARA_GROUPS.length : gi;
 }
 const _reparaMemo = new Map();
+try { applyParaGroups(); } catch (e) { /* the usual layout stays */ }
 function reparaGeneral(stu, text, keys) {
   try {
     text = String(text == null ? '' : text);
@@ -2436,7 +2481,26 @@ function reparaGeneral(stu, text, keys) {
 // v3.16.13 · Settings can turn General paragraphs off. Only the breaks between paragraphs go; no word changes, and nothing saved is rewritten.
 function flatParas(t) { return String(t == null ? '' : t).replace(/\s*\n\s*\n\s*/g, ' '); }
 function _paraOut(t) { return flagOn('paras') ? t : flatParas(t); }
-function getPublishedText(stu) { return _paraOut(getPublishedTextRaw(stu)); }
+// v3.17.8 · paragraphs the teacher split or joined in Review. stu.paraLayout maps a sentence (name and pronoun ignored)
+// to true (starts a paragraph) or false (carries on). A sentence not in the map follows the automatic layout.
+function _paraSig(t, stu) { return _syncToks(t, stu).join(' '); }
+function _paraLayoutText(stu, text) {
+  try {
+    if (!stu || !stu.paraLayout || !flagOn('paras')) return text;
+    const t = String(text == null ? '' : text); if (!t.trim()) return t;
+    const paras = t.split(/\n\s*\n/).filter(x => x.trim());
+    if (paras.some(x => /\n/.test(x))) return t;   // lines the teacher broke with Enter stay as they are
+    const items = []; paras.forEach(pg => splitSentences(pg).forEach((x, i) => items.push({ x, auto: i === 0 })));
+    const out = [];
+    items.forEach((it, i) => {
+      const sig = _paraSig(it.x, stu), has = Object.prototype.hasOwnProperty.call(stu.paraLayout, sig);
+      const start = i === 0 ? true : (has ? !!stu.paraLayout[sig] : it.auto);
+      if (start) out.push([it.x]); else out[out.length - 1].push(it.x);
+    });
+    return out.map(g => g.join(' ')).join('\n\n');
+  } catch (e) { return text; }
+}
+function getPublishedText(stu) { return _paraOut(_paraLayoutText(stu, getPublishedTextRaw(stu))); }
 function getPublishedTextRaw(stu) {
   if (stu.draftOverride) return reparaGeneral(stu, String(stu.draftOverride).replace(/\s+$/, ''), stu.ordered);   // v3.16.10; v3.16.23: Enter pressed at the end leaves no blank lines in the finished text
 
@@ -3469,6 +3533,7 @@ const SEM_FIELDS = [
   ['ordered',            's1Ordered',              's2Ordered',              () => []],
   ['selected',           's1Selected',             's2Selected',             () => ({})],
   ['draftOverride',      's1DraftOverride',        's2DraftOverride',        () => null],
+  ['paraLayout',         's1ParaLayout',           's2ParaLayout',           () => null],   // v3.17.8
   ['editedCat',          's1EditedCat',            's2EditedCat',            () => null],
   ['orderedAfterEdit',   's1OrderedAfterEdit',     's2OrderedAfterEdit',     () => []],
   ['orderedAtDone',      's1OrderedAtDone',        's2OrderedAtDone',        () => []],
@@ -5385,6 +5450,138 @@ function flattenParasDOM(root) {
   const t = flatParas(paneTextFromEl(root) || ''); if (!t) return;
   root.innerHTML = `<p class="pub-para">${(t.match(/[^.!?]+[.!?]+\s*/g) || [t]).map((x, si) => `<span data-pi="0" data-si="${si}">${escHtml(x.trim())}</span>`).join(' ')}</p>`;
 }
+
+// ── v3.17.8 · split or join paragraphs by hand (Review, General) ─────────────────────────────
+// A ¶ button sits beside the sentence you point at. It starts a new paragraph there, or joins the paragraph to the one above.
+// What you choose is kept with the student (stu.paraLayout, by sentence), so it survives edits and sentences added later.
+function _paraSentSpans(p) { return Array.from(p.children).filter(c => c.matches && c.matches('span[data-si]')); }
+function _paraEditable(content) {
+  const ps = Array.from(content.querySelectorAll('p.pub-para'));
+  return ps.length > 0 && !ps.some(x => x.classList.contains('fd-para') || x.querySelector('br')) && ps.every(x => _paraSentSpans(x).length > 0);
+}
+function _renumberParas(content) {
+  Array.from(content.querySelectorAll('p.pub-para')).forEach((p, pi) => _paraSentSpans(p).forEach((sp, si) => { sp.dataset.pi = pi; sp.dataset.si = si; }));
+}
+function _saveParaLayoutFromDOM(content, stu) {
+  const m = {};
+  Array.from(content.querySelectorAll('p.pub-para')).forEach(p => _paraSentSpans(p).forEach((sp, i) => { m[_paraSig(sp.textContent, stu)] = (i === 0); }));
+  stu.paraLayout = m;
+}
+function _applyParaLayoutDOM(content, stu) {
+  try {
+    if (!stu || !stu.paraLayout || !flagOn('paras') || currentSubject !== 'general' || !_paraEditable(content)) return;
+    const ps = Array.from(content.querySelectorAll('p.pub-para')), flat = [];
+    ps.forEach(p => _paraSentSpans(p).forEach((sp, i) => flat.push({ sp, auto: i === 0 })));
+    const groups = [];
+    flat.forEach((it, i) => {
+      const sig = _paraSig(it.sp.textContent, stu), has = Object.prototype.hasOwnProperty.call(stu.paraLayout, sig);
+      const start = i === 0 ? true : (has ? !!stu.paraLayout[sig] : it.auto);
+      if (start) groups.push([it.sp]); else groups[groups.length - 1].push(it.sp);
+    });
+    if (groups.length === ps.length && groups.every((g, gi) => g.length === _paraSentSpans(ps[gi]).length)) return;   // already laid out this way
+    const frag = document.createDocumentFragment();
+    groups.forEach(g => { const np = document.createElement('p'); np.className = ps[0].className;
+      g.forEach((sp, k) => { if (k) np.appendChild(document.createTextNode(' ')); np.appendChild(sp); }); frag.appendChild(np); });
+    ps[0].before(frag); ps.forEach(p => p.remove()); _renumberParas(content);
+  } catch (e) { console.warn('paragraph layout', e); }
+}
+function paraSplitOrJoin(span) {
+  const stu = cur(), content = document.getElementById('pubContent');
+  if (!stu || !content || currentSubject !== 'general' || !span || !_paraEditable(content)) return;
+  try { snapshotStudent(stu, 'Before changing paragraphs', true); } catch (e) {}
+  const p = span.parentElement, sibs = _paraSentSpans(p), idx = sibs.indexOf(span);
+  if (idx > 0) {                                   // start a new paragraph at this sentence
+    const np = document.createElement('p'); np.className = p.className;
+    let n = span; const moving = [];
+    while (n) { moving.push(n); n = n.nextSibling; }
+    moving.forEach(x => np.appendChild(x));
+    if (np.firstChild && np.firstChild.nodeType === 3 && !np.firstChild.nodeValue.trim()) np.firstChild.remove();
+    p.after(np);
+  } else {                                         // join this paragraph to the one above
+    const prev = p.previousElementSibling;
+    if (!prev || !prev.classList.contains('pub-para')) return;
+    prev.appendChild(document.createTextNode(' '));
+    Array.from(p.childNodes).forEach(x => prev.appendChild(x));
+    p.remove();
+  }
+  _renumberParas(content); _saveParaLayoutFromDOM(content, stu);
+  closeParaMenu();
+  try { _draftDirty = false; savePublishEdits(); } catch (e) {}
+  autoSave();
+  showToast(idx > 0 ? 'New paragraph started.' : 'Paragraphs joined.');
+}
+function paraBackToAuto() {
+  const stu = cur(); if (!stu || currentSubject !== 'general') return;
+  try { snapshotStudent(stu, 'Before paragraphs back to automatic', true); } catch (e) {}
+  const flat = t => String(t || '').replace(/\s*\n\s*/g, ' ').trim();   // a saved layout (blank lines) is also put back to automatic
+  stu.paraLayout = null;
+  if (stu.draftOverride) stu.draftOverride = flat(stu.draftOverride);
+  if (stu.custom && stu.custom['__edited__'] && stu.custom['__edited__'][0]) stu.custom['__edited__'] = [flat(stu.custom['__edited__'][0])];
+  stu.pubEditGeneral = null; stu.pubEditGeneral_fdHash = null; stu.pubEditGeneral_subject = null;
+  try { _reparaMemo.clear(); } catch (e) {}
+  closeParaMenu(); autoSave(); renderPublish(); renderOut();
+  showToast('Paragraphs are back to automatic.');
+}
+let _paraSpan = null, _paraHideT = null, _paraShownAt = 0;
+function _paraEnsureUI() {
+  if (document.getElementById('paraHandle')) return;
+  const h = document.createElement('button'); h.id = 'paraHandle'; h.type = 'button'; h.textContent = '¶';
+  h.setAttribute('aria-label', 'Paragraph options for this sentence'); h.title = 'Paragraph options';
+  h.onclick = e => { e.stopPropagation(); openParaMenu(); };
+  h.onmouseenter = () => clearTimeout(_paraHideT);
+  document.body.appendChild(h);
+  const m = document.createElement('div'); m.id = 'paraMenu'; m.setAttribute('role', 'menu'); document.body.appendChild(m);
+}
+function _paraHandleFor(span) {
+  const stu = cur(), content = document.getElementById('pubContent');
+  if (!span || !stu || currentView !== 'publish' || currentSubject !== 'general' || !flagOn('paras') || !content || !_paraEditable(content)) { hideParaHandle(true); return; }
+  _paraEnsureUI(); clearTimeout(_paraHideT);
+  if (_paraSpan && _paraSpan !== span) _paraSpan.classList.remove('para-focus');
+  _paraSpan = span; _paraShownAt = Date.now();
+  const r = span.getClientRects()[0] || span.getBoundingClientRect(), cr = content.getBoundingClientRect();
+  const h = document.getElementById('paraHandle');
+  h.style.display = 'block';
+  h.style.left = Math.max(4, cr.left - 36) + 'px';
+  h.style.top = Math.max(4, r.top + (r.height - 26) / 2) + 'px';
+}
+function hideParaHandle(now) {
+  clearTimeout(_paraHideT);
+  const go = () => { const h = document.getElementById('paraHandle'); if (h) h.style.display = 'none'; if (_paraSpan) _paraSpan.classList.remove('para-focus'); _paraSpan = null; closeParaMenu(); };
+  if (now) go(); else _paraHideT = setTimeout(() => { const m = document.getElementById('paraMenu'); if (m && m.style.display === 'block') return; go(); }, 500);
+}
+function closeParaMenu() { const m = document.getElementById('paraMenu'); if (m) m.style.display = 'none'; }
+function openParaMenu() {
+  const span = _paraSpan, stu = cur(); if (!span || !stu) return;
+  _paraEnsureUI();
+  const p = span.parentElement, idx = _paraSentSpans(p).indexOf(span), prev = p.previousElementSibling;
+  const canJoin = idx === 0 && prev && prev.classList.contains('pub-para');
+  const m = document.getElementById('paraMenu'); m.innerHTML = '';
+  const add = (label, fn) => { const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'menuitem'); b.textContent = label; b.onclick = e => { e.stopPropagation(); fn(); }; m.appendChild(b); };
+  if (idx > 0) add('Start a new paragraph here', () => paraSplitOrJoin(span));
+  if (canJoin) add('Join with the paragraph above', () => paraSplitOrJoin(span));
+  add('Back to automatic paragraphs', paraBackToAuto);
+  if (!m.children.length) return;
+  const hr = document.getElementById('paraHandle').getBoundingClientRect();
+  m.style.display = 'block';
+  const mh = m.offsetHeight, top = Math.min(window.innerHeight - mh - 8, hr.bottom + 6);
+  m.style.top = Math.max(8, top) + 'px'; m.style.left = Math.max(8, Math.min(hr.left, window.innerWidth - m.offsetWidth - 8)) + 'px';
+  span.classList.add('para-focus');
+  _paraShownAt = Date.now();
+  const f = m.querySelector('button'); if (f) f.focus({ preventScroll: true });
+}
+document.addEventListener('mouseover', e => {
+  const sp = e.target.closest && e.target.closest('#pubContent p.pub-para > span[data-si]');
+  if (sp) _paraHandleFor(sp);
+  else if (e.target.closest && e.target.closest('#pubContent')) { /* between sentences: keep the handle */ }
+});
+document.addEventListener('mouseout', e => { if (e.target.closest && e.target.closest('#pubContent') && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('#pubContent, #paraHandle, #paraMenu'))) hideParaHandle(); });
+document.addEventListener('click', e => {
+  const sp = e.target.closest && e.target.closest('#pubContent p.pub-para > span[data-si]');
+  if (sp && !e.target.closest('mark, [data-issue-idx]')) { _paraHandleFor(sp); return; }   // a tap shows the button on a touch screen
+  if (!(e.target.closest && e.target.closest('#paraMenu, #paraHandle'))) { closeParaMenu(); if (!(e.target.closest && e.target.closest('#pubContent'))) hideParaHandle(true); }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeParaMenu(); });
+window.addEventListener('scroll', () => { if (_paraSpan && Date.now() - _paraShownAt > 400) hideParaHandle(true); }, true);   // a scroll that only brought the sentence into view does not count
 function paneTextFromEl(el) {
   if (!el || !el.innerHTML.trim()) return null;
   const paras = el.querySelectorAll('.pub-para');
@@ -5418,7 +5615,7 @@ function getFinalCommentText(stu, subj) {
     const tmp = document.createElement('div');
     tmp.innerHTML = stu[key];
     const t = paneTextFromEl(tmp);
-    if (t) return s === 'general' ? _paraOut(reparaGeneral(stu, enforceAltText(stu, t), stu.ordered)) : enforceAltText(stu, t);   // v3.16.10, v3.16.13
+    if (t) return s === 'general' ? _paraOut(_paraLayoutText(stu, reparaGeneral(stu, enforceAltText(stu, t), stu.ordered))) : enforceAltText(stu, t);   // v3.16.10, v3.16.13
   }
   return getBuiltCommentText(stu, s);
 }
@@ -5777,15 +5974,19 @@ function renderPublish() {
     if (renderSubject === 'general' && !flagOn('paras')) flattenParasDOM(content);
     // v3.16.10: saved Review text that is one block of sentences gets its paragraphs back
     if (renderSubject === 'general' && flagOn('paras')) {
-      const _ps = content.querySelectorAll('p.pub-para');
-      if (_ps.length === 1 && !_ps[0].classList.contains('fd-para')) {
-        const _t = paneTextFromEl(content), _re = _t ? reparaGeneral(stu, _t, stu.ordered) : _t;
-        if (_re && _re !== _t && /\n\s*\n/.test(_re)) {
+      const _ps = Array.from(content.querySelectorAll('p.pub-para'));
+      const _plain = _ps.length > 0 && !_ps.some(x => x.classList.contains('fd-para') || x.querySelector('br'));
+      // v3.17.8: with the paragraph rules changed in Settings, a saved Review text that has not been split or joined by hand follows them
+      const _rulesNow = JSON.stringify(_paraMapStored() || ''), _rulesMoved = (stu.paraRulesSig || '""') !== _rulesNow;
+      if (_plain && (_ps.length === 1 || (_rulesMoved && !stu.paraLayout))) {
+        const _t0 = paneTextFromEl(content), _t = _t0 ? flatParas(_t0) : _t0, _re = _t ? reparaGeneral(stu, _t, stu.ordered) : _t;
+        if (_re && _re !== _t0 && /\n\s*\n/.test(_re)) {
           content.innerHTML = _re.split(/\n\s*\n/).filter(x => x.trim()).map((para, pi) =>
             `<p class="pub-para">${(para.match(/[^.!?]+[.!?]+\s*/g) || [para]).map((x, si) => `<span data-pi="${pi}" data-si="${si}">${escHtml(x.trim())}</span>`).join(' ')}</p>`).join('');
         }
       }
     }
+    if (renderSubject === 'general') { _applyParaLayoutDOM(content, stu); stu.paraRulesSig = JSON.stringify(_paraMapStored() || ''); }   // v3.17.8
     { const _n = enforceAlternationDOM(content);
       if (_n) document.getElementById('checkStatus').innerHTML = `<span style="font-size:12px;color:var(--blue)">✓ ${_n} alternation error${_n > 1 ? 's' : ''} auto-corrected</span>`; }
     setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
@@ -5798,6 +5999,7 @@ function renderPublish() {
 
   // Draft has been incorporated into publish — clear dirty flag
   _draftDirty = false;
+  if (renderSubject === 'general') stu.paraRulesSig = JSON.stringify(_paraMapStored() || '');   // v3.17.8
 
   content.innerHTML = fixedParas.map((para, pi) => {
     // FD lines are single-newline separated and start with *
@@ -8279,7 +8481,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.7';
+const APP_VERSION = 'v3.17.8';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -8871,7 +9073,7 @@ function openHistory(i) {
 function closeHistory() { const ov = document.getElementById('hiOverlay'); if (ov) ov.remove(); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('hiOverlay')) closeHistory(); });
 // Which parts of a student belong to each subject's comment (sentences chosen, order, grades, final-draft edits, done mark).
-const _GENERAL_KEYS = new Set(['selected', 'ordered', 'custom', 'customTiers', 'published', 'confettiShown', 'draftOverride', 'editedCat', 'orderedAfterEdit', 'orderedAtDone', 's2Ordered', 's2Selected', 's2DraftOverride', 's2EditedCat', 's2OrderedAfterEdit', 's2OrderedAtDone', 's2RankOrder']);
+const _GENERAL_KEYS = new Set(['paraLayout', 's2ParaLayout', 'selected', 'ordered', 'custom', 'customTiers', 'published', 'confettiShown', 'draftOverride', 'editedCat', 'orderedAfterEdit', 'orderedAtDone', 's2Ordered', 's2Selected', 's2DraftOverride', 's2EditedCat', 's2OrderedAfterEdit', 's2OrderedAtDone', 's2RankOrder']);
 function _isSubjKey(subj, k) {
   if (subj === 'english') return /^eng/.test(k) || k.indexOf('pubEditEnglish') === 0;
   if (subj === 'maths') return /^math/.test(k) || k.indexOf('pubEditMaths') === 0;
@@ -11015,6 +11217,16 @@ function _settingChanged(name) {
 }
 function setSimMode(v) { lsSet('rcb_simmode', v === 'mark' || v === 'off' ? v : 'top'); _settingChanged('simMode'); }
 function setFlag(name, on) { lsSet(_FLAG_KEYS[name], !!on); _settingChanged(name); }
+function _paraRulesHtml() {
+  const cats = PARA_GROUPS_DEFAULT.flat();
+  const row = c => { const cur0 = paraNumberOf(c), changed = cur0 !== PARA_GROUPS_DEFAULT.findIndex(g => g.includes(c)) + 1;
+    return `<label class="para-rule${changed ? ' changed' : ''}"><span>${escHtml(c)}</span><select aria-label="Paragraph for ${escHtml(c)}" onchange="setParaGroup('${c.replace(/'/g, "\\'")}', this.value)">${
+      Array.from({ length: PARA_MAX }, (_, i) => `<option value="${i + 1}"${cur0 === i + 1 ? ' selected' : ''}>Paragraph ${i + 1}</option>`).join('')}</select></label>`; };
+  return '<div class="sw-pane-title">Which paragraph each kind of sentence goes in</div>'
+    + '<div class="settings-row"><span class="settings-row-label"><span class="sw-help">The usual layout is shown first. Choose the same paragraph for two kinds to put them together. This only changes comments that are laid out automatically. A comment you split or joined yourself in Review keeps its layout.</span></span></div>'
+    + '<div class="para-rules">' + cats.map(row).join('') + '</div>'
+    + `<div class="settings-row"><span class="settings-row-label">Usual layout</span><button class="settings-action-btn" onclick="resetParaGroups()"${_paraRulesCustom() ? '' : ' disabled'}>Back to the usual layout</button></div>`;
+}
 function renderMoreSettings() {
   const box = document.getElementById('moreSettings'); if (!box) return;
   const sw = (name, label, help) => { const on = flagOn(name);
@@ -11030,6 +11242,7 @@ function renderMoreSettings() {
     + sw('confetti', 'Confetti when a comment is done', 'Shown once for each student.')
     + '<div class="sw-pane-title">General comment paragraphs</div>'
     + sw('paras', 'Split the General comment into paragraphs', 'Off puts the whole comment in one paragraph. No words change.')
+    + _paraRulesHtml()
     + '<div class="sw-pane-title">Adding sentences to the draft</div>'
     + sw('catOrder', 'Put new sentences in category order', 'A sentence you add goes where its category sits in the list, among the sentences already in the draft. A sentence you moved stays where you put it. Off adds each new sentence at the end.')
     + '<div class="sw-pane-title">Pasting a finished comment</div>'
