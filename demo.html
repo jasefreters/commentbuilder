@@ -5719,7 +5719,10 @@ function syncPubSubj() {
 // opening phrase ("During Health, Aisha has...", "In Drama, she has..."). Subjects must run Name, pronoun, Name, pronoun...
 // Sentences with no name or pronoun as subject ("This support has helped...") are left alone and do not count.
 // A possessive subject swaps too: "Aisha's English proficiency..." <-> "Her English proficiency..." (never "She's").
-const _ALT_OBJ_PRECEDERS = new Set(['helped','help','helps','helping','encouraged','encourage','encourages','supported','support','supports','supporting','allowed','allows','enabled','enables','taught','teach','teaches','asked','told','let','lets','made','makes','given','gave','give','gives','for','to','with','by','towards','toward','of','from','about','around','assisted','assisting','praised','challenged','motivated','inspired','reminded','guided','showed','join','joined','joining','than','like']);
+const _ALT_OBJ_PRECEDERS = new Set(['helped','help','helps','helping','encouraged','encourage','encourages','supported','support','supports','supporting','allowed','allows','enabled','enables','taught','teach','teaches','asked','told','let','lets','made','makes','given','gave','give','gives','for','to','with','by','towards','toward','of','from','about','around','assisted','assisting','praised','challenged','motivated','inspired','reminded','guided','showed','join','joined','joining','than','like',
+  // v3.17.9: verbs a teacher uses for a student ("I wish him all the best"). Without these a name was swapped back to "he".
+  'wish','wishes','wished','wishing','congratulate','congratulates','congratulated','commend','commends','commended','thank','thanks','thanked','welcome','welcomed','miss','missed','watch','watched','see','saw','seeing','observe','observed','observing','applaud','applauded','urge','urged','know','knew','coach','coached','mentor','mentored','guide','guides','guiding','reward','rewarded','praise','praises','tell','tells','telling','ask','asks','asking','remind','reminds','nominate','nominated','teaching']);
+const _ALT_NOT_OBJ = new Set(['than', 'like', 'as']);   // "older than he", "like he did" take a subject pronoun
 const _ALT_OBJ_FOLLOW = /^(to|in|with|for|on|and|as|by|from|at|of|about|into|through|that|when|so|up|than|if|or|but|while|during|after|before|which|who)\b/i;
 // Find the student reference that decides a sentence's turn. Prefer the subject (after any opening phrase);
 // otherwise the first mention of the name or a pronoun anywhere ("This support has helped her...").
@@ -5761,7 +5764,9 @@ function _altRef(sent, name, p) {
     return { role: 'name', kind, start: lead + pn, end: lead + pn + tok.length, atStart: pn === 0, tok };
   }
   const tok = mp[2];
-  return { role: 'pron', kind: kindOfPron(tok, body.slice(pp + tok.length)), start: lead + pp, end: lead + pp + tok.length, atStart: pp === 0, tok };
+  let pkind = kindOfPron(tok, body.slice(pp + tok.length));
+  if (pkind === 'subj') { const bw = body.slice(0, pp).trim().split(/\s+/).pop().replace(/[^\w]/g, '').toLowerCase(); if (_ALT_OBJ_PRECEDERS.has(bw) && !_ALT_NOT_OBJ.has(bw)) pkind = 'obj'; }   // "I wish he" is an object slot
+  return { role: 'pron', kind: pkind, start: lead + pp, end: lead + pp + tok.length, atStart: pp === 0, tok };
 }
 function _altReplacement(ref, toRole, name, p) {
   if (toRole === 'name') return ref.kind === 'poss' ? name + "'s" : name;
@@ -5777,7 +5782,13 @@ function _altPlan(sents, name, p) {
     const hm = s.match(/^(\s*)(He|She|They)['’]s (?=English proficiency)/);
     if (hm) { out.push({ i, start: hm[1].length, end: hm[1].length + hm[2].length, rep: name, from: hm[2] }); expect = 'pron'; return; }
     const ref = _altRef(s, name, p); if (!ref) return;
-    if (ref.role === expect) { expect = flip(expect); return; }
+    if (ref.role === expect) {
+      // v3.17.9: a subject pronoun in an object slot ("I wish he all the best") becomes the object form ("him")
+      if (ref.role === 'pron' && ref.kind === 'obj' && p.o && [p.S, p.s].some(v => v && v.toLowerCase() === ref.tok.toLowerCase()) && ref.tok.toLowerCase() !== p.o.toLowerCase()) {
+        out.push({ i, start: ref.start, end: ref.end, rep: p.o, from: ref.tok, to: p.o });
+      }
+      expect = flip(expect); return;
+    }
     if (ref.kind === 'refl') {
       out.push({ i, warn: true, from: ref.tok, want: expect, note: "This sentence is meant to use " + (expect === 'name' ? 'the name' : 'a pronoun') + " here but “" + ref.tok + "” can't be swapped automatically. Please reword it." });
       expect = flip(ref.role); return;
@@ -8481,7 +8492,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.8';
+const APP_VERSION = 'v3.17.9';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
