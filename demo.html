@@ -6650,12 +6650,7 @@ function applyWordFix(mark, replacement) {
   mark.replaceWith(document.createTextNode(fixed));
   const pc = document.getElementById('pubContent'); if (pc) pc.normalize();
   closeFix();
-  requestAnimationFrame(() => {
-    highlightDuplicateWords();
-    highlightTenseIssues();
-    syncPublishToDraft();
-    savePublishEdits();
-  });
+  _afterReviewEdit();
   showToast('Fix applied.');
 }
 
@@ -6870,11 +6865,7 @@ function applyFlagFix(action, pi, si, replacement) {
     span.title = '';
   }
   closeFix();
-  requestAnimationFrame(() => {
-    highlightDuplicateWords();
-    highlightTenseIssues();
-    syncPublishToDraft();
-  });
+  _afterReviewEdit();
 }
 
 // ── VIEW ─────────────────────────────────────────────────────────
@@ -6913,10 +6904,21 @@ function flushDraftPane() {
   }
 }
 
+// v3.17.14 · text typed straight into Review goes into the Build draft when you go to Build, so a later change in Build keeps it.
+// Only when Review really differs from what Build would make (a visit alone changes nothing).
+function _reviewToDraftIfChanged() {
+  try {
+    const stu = cur(), pc = document.getElementById('pubContent'); if (!stu || !pc || _draftDirty) return;
+    const fin = paneTextFromEl(pc); if (!fin) return;
+    const norm = t => String(t || '').replace(/\s+/g, ' ').trim();
+    if (norm(fin) === norm(getBuiltCommentText(stu, currentSubject))) return;
+    syncPublishToDraft();
+  } catch (e) { console.warn('review to draft', e); }
+}
 function setView(v) {
   document.body.dataset.view = v;   // v3.16.29: lets the version tag step aside on Review
   if (currentView === 'build') flushDraftPane(); // sync draft pane before leaving Build
-  if (currentView === 'publish') { savePublishEdits(); learnFromCurrent(); } // save publish edits before leaving, and learn the swaps
+  if (currentView === 'publish') { savePublishEdits(); if (v === 'build') _reviewToDraftIfChanged(); learnFromCurrent(); } // save publish edits before leaving, and learn the swaps
   saveCur();
   // v3.6.0: never leave a finished Review pane behind. A stale pane could otherwise be cached onto a different student.
   if (currentView === 'publish' && v !== 'publish') { const _pc = document.getElementById('pubContent'); if (_pc) _pc.innerHTML = ''; }
@@ -8720,7 +8722,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.13';
+const APP_VERSION = 'v3.17.14';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10400,7 +10402,7 @@ function showEditPanel() {
   panel.innerHTML = `
     <div class="syn-rewrite-box">
       <div style="font-size:11px;color:var(--t2);margin-bottom:6px">Edit this sentence directly, then click Apply.</div>
-      <textarea class="syn-rewrite-text" id="synEditArea" style="min-height:80px">${sentence}</textarea>
+      <textarea class="syn-rewrite-text" id="synEditArea" style="min-height:80px">${escHtml(sentence)}</textarea>
       <div class="syn-rewrite-actions">
         <button class="syn-rewrite-btn" onclick="closeSynDropdown()">Cancel</button>
         <button class="syn-rewrite-btn apply" onclick="applyEditSentence()">Apply</button>
@@ -10420,13 +10422,9 @@ function applyEditSentence() {
   if (!span) { closeSynDropdown(); return; }
   const newText = area.value.trim();
   if (!newText) return;
-  span.innerHTML = newText;
+  span.textContent = newText;   // v3.17.14: plain text, so characters such as < and & are kept as typed
   closeSynDropdown();
-  requestAnimationFrame(() => {
-    highlightDuplicateWords();
-    highlightTenseIssues();
-    syncPublishToDraft();
-  });
+  _afterReviewEdit();
 }
 
 function showOmitPanel() {
@@ -10455,11 +10453,7 @@ function omitDupWord() {
   // Clean double spaces left behind
   span.innerHTML = span.innerHTML.replace(/\s{2,}/g, ' ').trim();
   closeSynDropdown();
-  requestAnimationFrame(() => {
-    highlightDuplicateWords();
-    highlightTenseIssues();
-    syncPublishToDraft();
-  });
+  _afterReviewEdit();
 }
 
 function showRewritePanel() {
@@ -10468,7 +10462,7 @@ function showRewritePanel() {
   panel.innerHTML = `
     <div class="syn-rewrite-box">
       <div style="font-size:11px;color:var(--t2);margin-bottom:6px">Type your own wording here, or press Rewrite for a suggestion in simpler words. Then press Apply.</div>
-      <textarea class="syn-rewrite-text" id="synRewriteArea" placeholder="Type your own wording…">${sentence}</textarea>
+      <textarea class="syn-rewrite-text" id="synRewriteArea" placeholder="Type your own wording…">${escHtml(sentence)}</textarea>
       <div class="syn-rewrite-actions">
         <button class="syn-rewrite-btn" onclick="fetchRewrite()">
           <svg style="width:12px;height:12px;vertical-align:middle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6"/><path d="M2 4v4h4"/></svg>
@@ -10512,21 +10506,34 @@ Sentence: ${sentence}`
 }
 
 
-// Sync the current published content back into the draft pane
+// Sync the current published content back into the draft (this student, this subject)
 function syncPublishToDraft() {
-  const pubContent = document.getElementById('pubContent');
-  if (!pubContent) return;
-  // Collect the full text from published paragraphs
-  const paras = Array.from(pubContent.querySelectorAll('p.pub-para'));
-  if (!paras.length) return;
-  const fullText = paras.map(p => p.textContent.trim()).filter(Boolean).join('\n\n');
+  const pubContent = document.getElementById('pubContent'), stu = cur();
+  if (!pubContent || !stu || currentView !== 'publish') return;
+  const subj = currentSubject;
+  const body = Array.from(pubContent.querySelectorAll('p.pub-para:not(.fd-para)'));
+  if (!body.length) return;
+  if (subj !== 'general') {   // v3.17.14: English and Maths have their own draft (this used to write into the General comment)
+    const text = body.map(p => p.textContent.trim()).filter(Boolean).join(' ');
+    if (!text) return;
+    const eng = subj === 'english';
+    stu[eng ? 'engDraft' : 'mathDraft'] = text; stu[eng ? 'engDraftEdited' : 'mathDraftEdited'] = true;
+    if (pubContent.querySelector('p.fd-para')) {
+      const fd = Array.from(pubContent.querySelectorAll('p.fd-para .fd-line')).map(l => l.textContent.trim().replace(/^\*\s*/, '')).filter(Boolean);
+      stu[eng ? 'engFD' : 'mathFD'] = fd;
+    }
+    try { renderOut(); } catch (e) {}
+    autoSave();
+    return;
+  }
+  const fullText = body.map(p => p.textContent.trim()).filter(Boolean).join('\n\n');
   if (!fullText) return;
   // Store as the edited draft so the draft pane reflects it
-  if (!cur().custom) cur().custom = {};
-  cur().custom['__edited__'] = [fullText];
-  cur().editedCat = cur().editedCat || CATS[0]; // keep existing or default
-  cur().orderedAtDone = cur().orderedAtDone.length ? cur().orderedAtDone : (cur().ordered || []).slice();
-  cur().orderedAfterEdit = [];
+  if (!stu.custom) stu.custom = {};
+  stu.custom['__edited__'] = [fullText];
+  stu.editedCat = stu.editedCat || CATS[0]; // keep existing or default
+  stu.orderedAtDone = (stu.orderedAtDone || []).length ? stu.orderedAtDone : (stu.ordered || []).slice();
+  stu.orderedAfterEdit = [];
   // Update the draft pane immediately
   const el = document.getElementById('outEditable');
   if (el) {
@@ -10543,13 +10550,9 @@ function applyRewrite() {
   if (!span) { closeSynDropdown(); return; }
   const newText = area.value.trim();
   if (!newText) return;
-  span.innerHTML = newText;
+  span.textContent = newText;   // v3.17.14: plain text, so characters such as < and & are kept as typed
   closeSynDropdown();
-  requestAnimationFrame(() => {
-    highlightDuplicateWords();
-    highlightTenseIssues();
-    syncPublishToDraft();
-  });
+  _afterReviewEdit();
 }
 
 async function openSynDropdown(event, markEl) {
@@ -10682,11 +10685,7 @@ function replaceDupWord(markEl, synonym) {
   fixArticleBefore(markEl, replacement);
   markEl.outerHTML = replacement;
   closeSynDropdown();
-  requestAnimationFrame(() => {
-    highlightDuplicateWords();
-    highlightTenseIssues();
-    syncPublishToDraft();
-  });
+  _afterReviewEdit();
 }
 
 
@@ -11108,8 +11107,13 @@ function fixArticleBefore(node, newWord) {
   const art = m[2][0] === m[2][0].toUpperCase() ? want.charAt(0).toUpperCase() + want.slice(1) : want;
   prev.nodeValue = prev.nodeValue.slice(0, m.index + m[1].length) + art + m[3];
 }
+// v3.17.14 · after any change made in the Review pane: write it back to the draft and save it NOW, for this student and subject.
+// (It used to wait for the next animation frame, so a quick switch to another pane or student lost the draft update and
+// sometimes wrote it to the wrong place.) Only the coloured marks wait for the next frame.
 function _afterReviewEdit() {
-  requestAnimationFrame(() => { highlightDuplicateWords(); highlightTenseIssues(); syncPublishToDraft(); });
+  try { syncPublishToDraft(); } catch (e) { console.warn('sync', e); }
+  try { savePublishEdits(); } catch (e) { console.warn('save', e); }
+  requestAnimationFrame(() => { if (currentView === 'publish') { try { highlightDuplicateWords(); highlightTenseIssues(); } catch (e) {} } });
 }
 function applyStyleSug(mk) {
   const key = mk.dataset.key, to = mk.dataset.to, from = mk.dataset.from;
@@ -12542,6 +12546,16 @@ document.addEventListener('focusout', e => {
   const n = enforceAlternationDOM(pc);
   if (n) { showToast(n === 1 ? 'Name and pronoun alternation corrected in 1 sentence.' : 'Name and pronoun alternation corrected in ' + n + ' sentences.'); setTimeout(() => { try { highlightTenseIssues(); } catch (x) {} }, 30); }
 });
+// v3.17.14 · closing or hiding the page straight after an edit must not lose it
+function _flushNow() {
+  try {
+    if (!_stateLoaded || !cur()) return;
+    if (currentView === 'publish') savePublishEdits(); else if (currentView === 'build') flushDraftPane();
+    saveCur(); lsSet('rcb_session', buildSession());
+  } catch (e) {}
+}
+window.addEventListener('pagehide', _flushNow);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') _flushNow(); });
 loadPersistedState();
 // ══ DEMO MODE start-up ════════════════════════════════════════════════════════════
 function demoStart() {
@@ -12618,7 +12632,8 @@ loadTheme(); loadScheme();
   const obs = new MutationObserver(() => {
     if (currentView !== 'publish' || _draftDirty) return;
     clearTimeout(_pubSaveTimer);
-    _pubSaveTimer = setTimeout(() => savePublishEdits(), 300);
+    const _i = currentIdx, _s = currentSubject;   // v3.17.14: a timer that fires after the student or subject changed must not save the new pane
+    _pubSaveTimer = setTimeout(() => { if (currentIdx === _i && currentSubject === _s && currentView === 'publish') savePublishEdits(); }, 300);
   });
   obs.observe(pubEl, { childList: true, subtree: true, characterData: true });
 })();
