@@ -6404,6 +6404,7 @@ function _mergeSessions(base, local, cloud) {
 }
 // Folds the cloud copy `cs` into what is on screen. Returns { localChanged } (true when this device still has changes the cloud lacks).
 function _mergeIntoLive(cs) {
+  try { if (currentView === 'publish') savePublishEdits(); else if (currentView === 'build') flushDraftPane(); } catch (e) {}   // v3.17.15: what is on screen is saved before the cloud copy is folded in
   saveCur(); _ensureUids();
   const curUid = students[currentIdx] && students[currentIdx].uid;
   const cloud = { students: (cs.students || []).map((s, i) => _normStudent(s, i)), styleMemory: normaliseStyleMemory(cs.styleMemory), myBank: normaliseMyBank(cs.myBank), totalStudents: cs.totalStudents || 0 };
@@ -6418,6 +6419,7 @@ function _mergeIntoLive(cs) {
     const at = students.findIndex(s => s.uid === curUid);
     currentIdx = at >= 0 ? at : Math.min(currentIdx, students.length - 1);
     loadCur(); render(); updateProgress();
+    if (currentView === 'publish') { try { renderPublish(); } catch (e) {} }   // v3.17.15: Review shows the merged comment, not the one from before
     const sess = buildSession(); idbSet('rcb_session', sess); lsSet('rcb_session', sess);
     showToast('Updated with changes from your other device.');
   }
@@ -7626,6 +7628,7 @@ function getFDTextForStu(stu, subj) {
 }
 
 function renderPublish() {
+  if (_synOpenSpan && !_synOpenSpan.isConnected) closeSynDropdown();   // v3.17.15: a different comment is on screen now
   _dismissedMerges = []; // reset dismissed flow suggestions on each publish render
   const stu = cur();
   const name = cn(stu) || '[Name]';
@@ -8387,6 +8390,7 @@ function _reviewToDraftIfChanged() {
   } catch (e) { console.warn('review to draft', e); }
 }
 function setView(v) {
+  if (v !== 'publish') { try { closeSynDropdown(); } catch (e) {} }
   document.body.dataset.view = v;   // v3.16.29: lets the version tag step aside on Review
   if (currentView === 'build') flushDraftPane(); // sync draft pane before leaving Build
   if (currentView === 'publish') { savePublishEdits(); if (v === 'build') _reviewToDraftIfChanged(); learnFromCurrent(); } // save publish edits before leaving, and learn the swaps
@@ -10308,7 +10312,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.14';
+const APP_VERSION = 'v3.17.15';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -11011,6 +11015,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.15', date: '14 November 2026', items: [
+    'The Synonyms / Rewrite / Edit / Omit window no longer closes when you click outside it, so a half-typed edit is not lost to a stray click. Press Dismiss (or Cancel or Apply) to close it. It still closes when you go to another pane, because the sentence it was open on is no longer there. If a change cannot be applied because the sentence has moved on, you now get a message instead of nothing happening.',
+    'When changes from another device or browser arrive, what is on screen is saved first and Review shows the merged comment, so the two sides cannot overwrite each other.'
+  ] },
   { v: 'v3.17.14', date: '14 November 2026', items: [
     'Fixed edits from the Synonyms / Rewrite / Edit window (and the other Review fixes) not being kept when you switched pane quickly. The change is now written back to the draft and saved straight away, for the right student and the right subject. Before, a quick switch could leave the Build draft without the change, and a later change in Build then removed it.',
     'Fixed an edit made in the English or Maths Review also changing the General comment. English and Maths edits now go to their own draft, and an edit to a future directions line also changes the list in Build.',
@@ -12117,16 +12125,16 @@ let _synApiKey = null; // cached for session
 
 function closeSynDropdown() {
   document.getElementById('synDropdown').style.display = 'none';
-  _synOpenMark = null;
+  _synOpenMark = null; _synOpenSpan = null;
 }
 
-// Close dropdown on outside click
-document.addEventListener('click', e => {
-  const dd = document.getElementById('synDropdown');
-  if (dd && dd.style.display !== 'none' && !dd.contains(e.target) && e.target !== _synOpenMark) {
-    closeSynDropdown();
-  }
-});
+// v3.17.15 · the window no longer closes when you click outside it. Dismiss (or Cancel / Apply) closes it, so a half-typed edit is never lost to a stray click.
+let _synOpenSpan = null;
+function _synSpanNow() {   // the sentence the window was opened on, if it is still on the page
+  if (_synOpenSpan && _synOpenSpan.isConnected) return _synOpenSpan;
+  if (_synOpenMark && _synOpenMark.isConnected) return _synOpenMark.closest('span[data-si]');
+  return null;
+}
 
 let _synCurrentTab = 'synonyms';
 let _synCurrentSentence = '';
@@ -12150,7 +12158,7 @@ function switchSynTab(tab) {
 
 function showEditPanel() {
   const panel = document.getElementById('synPanel');
-  const span = _synOpenMark ? _synOpenMark.closest('span[data-si]') : null;
+  const span = _synSpanNow();
   const sentence = span ? span.textContent.trim() : (_synCurrentSentence || '');
   panel.innerHTML = `
     <div class="syn-rewrite-box">
@@ -12171,8 +12179,8 @@ function showEditPanel() {
 function applyEditSentence() {
   const area = document.getElementById('synEditArea');
   if (!area || !_synOpenMark) return;
-  const span = _synOpenMark.closest('span[data-si]');
-  if (!span) { closeSynDropdown(); return; }
+  const span = _synSpanNow();
+  if (!span) { showToast('That sentence has changed. Open the window on it again.'); closeSynDropdown(); return; }
   const newText = area.value.trim();
   if (!newText) return;
   span.textContent = newText;   // v3.17.14: plain text, so characters such as < and & are kept as typed
@@ -12198,11 +12206,14 @@ function showOmitPanel() {
 
 function omitDupWord() {
   if (!_synOpenMark) return;
-  const span = _synOpenMark.closest('span[data-si]');
-  if (!span) { closeSynDropdown(); return; }
+  const span = _synSpanNow();
+  if (!span) { showToast('That sentence has changed. Open the window on it again.'); closeSynDropdown(); return; }
   // Remove the word and clean up any double spaces
   const oldWord = _synOpenMark.dataset.word;
-  _synOpenMark.outerHTML = '';
+  let _mk = _synOpenMark;
+  if (!_mk.isConnected) _mk = Array.from(span.querySelectorAll('mark[data-word]')).find(m => m.dataset.word === oldWord) || null;   // the marks were redrawn while the window was open
+  if (!_mk) { showToast('That word has moved. Open the window on it again.'); closeSynDropdown(); return; }
+  _mk.outerHTML = '';
   // Clean double spaces left behind
   span.innerHTML = span.innerHTML.replace(/\s{2,}/g, ' ').trim();
   closeSynDropdown();
@@ -12299,8 +12310,8 @@ function syncPublishToDraft() {
 function applyRewrite() {
   const area = document.getElementById('synRewriteArea');
   if (!area || !_synOpenMark) return;
-  const span = _synOpenMark.closest('span[data-si]');
-  if (!span) { closeSynDropdown(); return; }
+  const span = _synSpanNow();
+  if (!span) { showToast('That sentence has changed. Open the window on it again.'); closeSynDropdown(); return; }
   const newText = area.value.trim();
   if (!newText) return;
   span.textContent = newText;   // v3.17.14: plain text, so characters such as < and & are kept as typed
@@ -12329,7 +12340,7 @@ async function openSynDropdown(event, markEl) {
   dd.style.left = Math.min(rect.left, window.innerWidth - 350) + 'px';
   dd.style.top = top + 'px';
   dd.style.visibility = 'visible';
-  _synOpenMark = markEl;
+  _synOpenMark = markEl; _synOpenSpan = markEl.closest('span[data-si]');
   _synCurrentTab = 'synonyms';
 
   // Get the full sentence containing this word for rewrite
