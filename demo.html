@@ -2493,8 +2493,9 @@ function _paraOut(t) { return flagOn('paras') ? t : flatParas(t); }
 function _paraSig(t, stu) { return _syncToks(t, stu).join(' '); }
 // v3.17.10 · a layout is { __v: 2, order: [sentence, ...] | null, starts: { sentence: true|false } }. The v3.17.8 layout
 // (a plain map of sentence -> starts a paragraph) is read as starts only. 'order' is set only when the teacher moved a sentence.
-function _paraLayoutParts(stu) {
-  const L = stu && stu.paraLayout; if (!L) return null;
+function _layoutKey(subj) { return subj === 'english' ? 'engLayout' : subj === 'maths' ? 'mathLayout' : 'paraLayout'; }   // v3.17.13: English and Maths keep a sentence order too
+function _paraLayoutParts(stu, subj) {
+  const L = stu && stu[_layoutKey(subj)]; if (!L) return null;
   if (L.__v === 2) return { order: Array.isArray(L.order) && L.order.length ? L.order : null, starts: L.starts || {} };
   return { order: null, starts: L };
 }
@@ -2520,10 +2521,11 @@ function _paraArrange(items, parts) {
   });
   return groups;
 }
-function _paraLayoutText(stu, text, orderOnly) {
+function _paraLayoutText(stu, text, orderOnly, subj) {
   try {
-    if (!stu || !stu.paraLayout || !flagOn('paras')) return text;
-    let parts = _paraLayoutParts(stu); if (!parts) return text;
+    const other = !!subj && subj !== 'general'; if (other) orderOnly = true;   // English and Maths are one paragraph: only the order is kept
+    if (!stu || !stu[_layoutKey(subj)] || (!other && !flagOn('paras'))) return text;
+    let parts = _paraLayoutParts(stu, subj); if (!parts) return text;
     if (orderOnly) { if (!parts.order) return text; parts = { order: parts.order, starts: {} }; }   // the Build draft follows the order, not the paragraph splits
     const t = String(text == null ? '' : text); if (!t.trim()) return t;
     const paras = t.split(/\n\s*\n/).filter(x => x.trim());
@@ -3047,7 +3049,8 @@ function toggleSubjOpt(cat, s) {
   if (isAdding && cat === 'Below Expectations' && needsAlign(s) && !alignOf(cur(), currentSubject)) openAlignPicker();
 }
 
-function getSubjDraft() {
+function getSubjDraft() { return _subjOrder(cur(), currentSubject, _getSubjDraftRaw()); }
+function _getSubjDraftRaw() {
   const name = cn(cur()) || '[Name]';
   const p = PR[cur().pronoun];
   const yr = yrA(cur(), currentSubject);
@@ -3577,6 +3580,8 @@ const SEM_FIELDS = [
   ['orderedAtDone',      's1OrderedAtDone',        's2OrderedAtDone',        () => []],
   ['engSelected',        'engS1Selected',          'engS2Selected',          () => ({})],
   ['engOrdered',         'engS1Ordered',           'engS2Ordered',           () => []],
+  ['engLayout',          'engS1Layout',            'engS2Layout',            () => null],   // v3.17.13
+  ['mathLayout',         'mathS1Layout',           'mathS2Layout',           () => null],
   ['engGrades',          'engS1Grades',            'engS2Grades',            () => ({})],
   ['engDraft',           'engS1Draft',             'engS2Draft',             () => null],
   ['engFD',              'engS1FD',                'engS2FD',                () => []],
@@ -5506,24 +5511,27 @@ function flattenParasDOM(root) {
 // A ¶ button sits beside the sentence you point at. It starts a new paragraph there, or joins the paragraph to the one above.
 // What you choose is kept with the student (stu.paraLayout, by sentence), so it survives edits and sentences added later.
 function _paraSentSpans(p) { return Array.from(p.children).filter(c => c.matches && c.matches('span[data-si]')); }
+function _paraBody(content) { return Array.from(content.querySelectorAll('p.pub-para:not(.fd-para)')); }   // the future-directions lines are never moved
 function _paraEditable(content) {
-  const ps = Array.from(content.querySelectorAll('p.pub-para'));
-  return ps.length > 0 && !ps.some(x => x.classList.contains('fd-para') || x.querySelector('br')) && ps.every(x => _paraSentSpans(x).length > 0);
+  const ps = _paraBody(content);
+  return ps.length > 0 && !ps.some(x => x.querySelector('br')) && ps.every(x => _paraSentSpans(x).length > 0);
 }
 function _renumberParas(content) {
-  Array.from(content.querySelectorAll('p.pub-para')).forEach((p, pi) => _paraSentSpans(p).forEach((sp, si) => { sp.dataset.pi = pi; sp.dataset.si = si; }));
+  _paraBody(content).forEach((p, pi) => _paraSentSpans(p).forEach((sp, si) => { sp.dataset.pi = pi; sp.dataset.si = si; }));
 }
 function _saveParaLayoutFromDOM(content, stu, withOrder) {
   const starts = {}, order = [];
-  Array.from(content.querySelectorAll('p.pub-para')).forEach(p => _paraSentSpans(p).forEach((sp, i) => { const g = _paraSig(sp.textContent, stu); starts[g] = (i === 0); order.push(g); }));
-  const old = _paraLayoutParts(stu);
-  stu.paraLayout = { __v: 2, order: withOrder ? order : (old && old.order) || null, starts };   // order only changes when a sentence was moved
+  _paraBody(content).forEach(p => _paraSentSpans(p).forEach((sp, i) => { const g = _paraSig(sp.textContent, stu); starts[g] = (i === 0); order.push(g); }));
+  const old = _paraLayoutParts(stu, currentSubject);
+  stu[_layoutKey(currentSubject)] = { __v: 2, order: withOrder ? order : (old && old.order) || null, starts };   // order only changes when a sentence was moved
 }
 function _applyParaLayoutDOM(content, stu) {
   try {
-    if (!stu || !stu.paraLayout || !flagOn('paras') || currentSubject !== 'general' || !_paraEditable(content)) return;
-    const parts = _paraLayoutParts(stu); if (!parts) return;
-    const ps = Array.from(content.querySelectorAll('p.pub-para')), flat = [];
+    const other = currentSubject !== 'general';
+    if (!stu || !stu[_layoutKey(currentSubject)] || (!other && !flagOn('paras')) || !_paraEditable(content)) return;
+    let parts = _paraLayoutParts(stu, currentSubject); if (!parts) return;
+    if (other) { if (!parts.order) return; parts = { order: parts.order, starts: {} }; }
+    const ps = _paraBody(content), flat = [];
     ps.forEach(p => _paraSentSpans(p).forEach((sp, i) => flat.push({ sp, sig: _paraSig(sp.textContent, stu), auto: i === 0 })));
     const groups = _paraArrange(flat, parts);
     const same = groups.length === ps.length && groups.every((g, gi) => { const cur = _paraSentSpans(ps[gi]); return g.length === cur.length && g.every((it, k) => it.sp === cur[k]); });
@@ -5582,14 +5590,15 @@ function _paraIsNoop(span, t) {
 }
 function paraMoveSentence(span, t, quiet) {
   const stu = cur(), content = document.getElementById('pubContent');
-  if (!stu || !content || currentSubject !== 'general' || !span || !t || !_paraEditable(content) || _paraIsNoop(span, t)) return false;
+  if (!stu || !content || !span || !t || !_paraEditable(content) || _paraIsNoop(span, t)) return false;
+  if (currentSubject !== 'general' && t.kind === 'newpara') return false;   // English and Maths stay one paragraph
   try { snapshotStudent(stu, 'Before moving a sentence', true); } catch (e) {}
   const src = span.parentElement;
   if (t.kind === 'before') t.ref.parentNode.insertBefore(span, t.ref);
   else if (t.kind === 'end') t.ref.appendChild(span);
   else { const np = document.createElement('p'); np.className = src.className; np.appendChild(span);
-    if (t.ref) t.ref.before(np); else content.querySelector('p.pub-para:last-of-type') ? Array.from(content.querySelectorAll('p.pub-para')).pop().after(np) : content.appendChild(np); }
-  Array.from(content.querySelectorAll('p.pub-para')).forEach(p => {       // tidy: no empty paragraphs, one space between sentences
+    if (t.ref) t.ref.before(np); else { const bp = _paraBody(content); bp.length ? bp[bp.length - 1].after(np) : content.appendChild(np); } }
+  _paraBody(content).forEach(p => {       // tidy: no empty paragraphs, one space between sentences
     const sp = _paraSentSpans(p); if (!sp.length) { p.remove(); return; }
     Array.from(p.childNodes).forEach(n => { if (n.nodeType === 3) n.remove(); });
     sp.forEach((x, k) => { if (k) p.insertBefore(document.createTextNode(' '), x); });
@@ -5607,7 +5616,7 @@ function paraMoveSentence(span, t, quiet) {
 // one step up (-1) or down (+1); returns the target or null
 function _paraStepTarget(span, dir) {
   const p = span.parentElement, sibs = _paraSentSpans(p), i = sibs.indexOf(span), alone = sibs.length === 1;
-  const paras = Array.from(p.parentNode.querySelectorAll('p.pub-para')), pi = paras.indexOf(p);
+  const paras = _paraBody(p.parentNode), pi = paras.indexOf(p);
   if (dir < 0) {
     if (i > 0) return { kind: 'before', ref: sibs[i - 1] };
     if (pi === 0) return null;
@@ -5626,24 +5635,24 @@ function paraMoveStep(span, dir) {
 // ── drag and drop ──
 let _drag = null;
 function _dragTargets(content) {
-  const out = [], paras = Array.from(content.querySelectorAll('p.pub-para'));
+  const out = [], paras = _paraBody(content), other = currentSubject !== 'general';
   const cr = content.getBoundingClientRect();
   paras.forEach((p, pi) => {
     const pr = p.getBoundingClientRect(), prev = paras[pi - 1];
     const y = prev ? (prev.getBoundingClientRect().bottom + pr.top) / 2 : pr.top - 6;
-    out.push({ kind: 'newpara', ref: p, line: { x1: cr.left, x2: cr.right, y1: y, y2: y }, gap: true });
+    if (!other) out.push({ kind: 'newpara', ref: p, line: { x1: cr.left, x2: cr.right, y1: y, y2: y }, gap: true });
     const sp = _paraSentSpans(p);
     sp.forEach(x => { const r = x.getClientRects()[0] || x.getBoundingClientRect(); out.push({ kind: 'before', ref: x, line: { x1: r.left - 2, x2: r.left - 2, y1: r.top, y2: r.bottom } }); });
     const last = sp[sp.length - 1], lrs = last.getClientRects(), lr = lrs[lrs.length - 1] || last.getBoundingClientRect();
     out.push({ kind: 'end', ref: p, line: { x1: lr.right + 2, x2: lr.right + 2, y1: lr.top, y2: lr.bottom } });
   });
-  if (paras.length) { const lb = paras[paras.length - 1].getBoundingClientRect(); const y = lb.bottom + 6;
+  if (paras.length && !other) { const lb = paras[paras.length - 1].getBoundingClientRect(); const y = lb.bottom + 6;
     out.push({ kind: 'newpara', ref: null, line: { x1: cr.left, x2: cr.right, y1: y, y2: y }, gap: true }); }
   return out;
 }
 function _dragPick(px, py, targets, content) {
   // pointer on a sentence: drop before it (first half) or after it (second half)
-  const over = Array.from(content.querySelectorAll('p.pub-para > span[data-si]')).find(sp => Array.from(sp.getClientRects()).some(r => px >= r.left && px <= r.right && py >= r.top && py <= r.bottom));
+  const over = Array.from(content.querySelectorAll('p.pub-para:not(.fd-para) > span[data-si]')).find(sp => Array.from(sp.getClientRects()).some(r => px >= r.left && px <= r.right && py >= r.top && py <= r.bottom));
   if (over) {
     const rs = Array.from(over.getClientRects()), idx = rs.findIndex(r => px >= r.left && px <= r.right && py >= r.top && py <= r.bottom), r = rs[idx];
     const first = rs.length === 1 ? px < (r.left + r.right) / 2 : idx < rs.length / 2;
@@ -5706,6 +5715,15 @@ function paraDragStart(e) {
   document.body.classList.add('para-drag-on'); span.classList.add('para-dragging');
   _dragUpdate(); d.raf = requestAnimationFrame(_dragLoop);
 }
+function paraOrderReset() {
+  const stu = cur(); if (!stu || currentSubject === 'general') return;
+  const eng = currentSubject === 'english', pk = eng ? 'pubEditEnglish' : 'pubEditMaths';
+  try { snapshotStudent(stu, 'Before putting sentences back in order', true); } catch (e) {}
+  stu[_layoutKey(currentSubject)] = null;
+  stu[pk] = null; stu[pk + '_fdHash'] = null; stu[pk + '_subject'] = null;
+  closeParaMenu(); autoSave(); renderPublish(); renderOut();
+  showToast('Sentences are back in their original order.');
+}
 let _paraSpan = null, _paraHideT = null, _paraShownAt = 0;
 function _paraEnsureUI() {
   if (document.getElementById('paraHandle')) return;
@@ -5725,13 +5743,13 @@ function _paraEnsureUI() {
 }
 function _paraHandleFor(span) {
   const stu = cur(), content = document.getElementById('pubContent');
-  if (!span || !stu || currentView !== 'publish' || currentSubject !== 'general' || !flagOn('paras') || !content || !_paraEditable(content)) { hideParaHandle(true); return; }
+  if (!span || !stu || currentView !== 'publish' || (currentSubject === 'general' && !flagOn('paras')) || !content || !_paraEditable(content)) { hideParaHandle(true); return; }
   _paraEnsureUI(); clearTimeout(_paraHideT);
   if (_paraSpan && _paraSpan !== span) _paraSpan.classList.remove('para-focus');
   _paraSpan = span; _paraShownAt = Date.now();
   const r = span.getClientRects()[0] || span.getBoundingClientRect(), cr = content.getBoundingClientRect();
   const h = document.getElementById('paraHandle');
-  h.style.display = 'block';
+  h.style.display = 'block'; h.textContent = currentSubject === 'general' ? '\u00b6' : '\u22ef';
   const top = Math.max(4, r.top + (r.height - 26) / 2), gp = document.getElementById('paraGrip');
   h.style.left = Math.max(4, cr.left - 36) + 'px';
   h.style.top = top + 'px';
@@ -5752,11 +5770,12 @@ function openParaMenu() {
   const canJoin = idx === 0 && prev && prev.classList.contains('pub-para');
   const m = document.getElementById('paraMenu'); m.innerHTML = '';
   const add = (label, fn) => { const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'menuitem'); b.textContent = label; b.onclick = e => { e.stopPropagation(); fn(); }; m.appendChild(b); };
-  if (idx > 0) add('Start a new paragraph here', () => paraSplitOrJoin(span));
-  if (canJoin) add('Join with the paragraph above', () => paraSplitOrJoin(span));
+  const gen = currentSubject === 'general';
+  if (gen && idx > 0) add('Start a new paragraph here', () => paraSplitOrJoin(span));
+  if (gen && canJoin) add('Join with the paragraph above', () => paraSplitOrJoin(span));
   if (_paraStepTarget(span, -1)) add('Move sentence up', () => paraMoveStep(span, -1));
   if (_paraStepTarget(span, 1)) add('Move sentence down', () => paraMoveStep(span, 1));
-  add('Back to automatic paragraphs', paraBackToAuto);
+  if (gen) add('Back to automatic paragraphs', paraBackToAuto); else if (stu[_layoutKey(currentSubject)]) add('Back to the original order', paraOrderReset);
   if (!m.children.length) return;
   const hr = document.getElementById('paraHandle').getBoundingClientRect();
   m.style.display = 'block';
@@ -5767,13 +5786,13 @@ function openParaMenu() {
   const f = m.querySelector('button'); if (f) f.focus({ preventScroll: true });
 }
 document.addEventListener('mouseover', e => {
-  const sp = e.target.closest && e.target.closest('#pubContent p.pub-para > span[data-si]');
+  const sp = e.target.closest && e.target.closest('#pubContent p.pub-para:not(.fd-para) > span[data-si]');
   if (sp) _paraHandleFor(sp);
   else if (e.target.closest && e.target.closest('#pubContent')) { /* between sentences: keep the handle */ }
 });
 document.addEventListener('mouseout', e => { if (e.target.closest && e.target.closest('#pubContent') && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('#pubContent, #paraHandle, #paraGrip, #paraMenu'))) hideParaHandle(); });
 document.addEventListener('click', e => {
-  const sp = e.target.closest && e.target.closest('#pubContent p.pub-para > span[data-si]');
+  const sp = e.target.closest && e.target.closest('#pubContent p.pub-para:not(.fd-para) > span[data-si]');
   if (sp && !e.target.closest('mark, [data-issue-idx]')) { _paraHandleFor(sp); return; }   // a tap shows the button on a touch screen
   if (!(e.target.closest && e.target.closest('#paraMenu, #paraHandle, #paraGrip'))) { closeParaMenu(); if (!(e.target.closest && e.target.closest('#pubContent'))) hideParaHandle(true); }
 });
@@ -6082,6 +6101,11 @@ function stripFDLines(text) {
     .trim();
 }
 
+// v3.17.13 · English and Maths: the order a teacher moved sentences into (stu.engLayout / stu.mathLayout)
+function _subjOrder(stu, subj, text) {
+  const t = _paraLayoutText(stu, text, true, subj);
+  return t === text ? text : enforceAltText(stu, t);   // a new order can break name / pronoun alternation
+}
 function getSubjectPublishText(stu, subj) {
   // subj can be passed explicitly (from renderPublish snapshot) or falls back to global
   const subject = subj || currentSubject;
@@ -6099,6 +6123,7 @@ function getSubjectPublishText(stu, subj) {
       // Always rebuild from engOrdered so alternation is always fresh and correct
       bodyText = (stu.engOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
     }
+    bodyText = _subjOrder(stu, 'english', bodyText);
     const fdText = getFDTextForStu(stu, 'english');
     return [bodyText, fdText].filter(Boolean).join('\n\n');
   }
@@ -6115,6 +6140,7 @@ function getSubjectPublishText(stu, subj) {
       // Always rebuild from mathOrdered so alternation is always fresh and correct
       bodyText = (stu.mathOrdered || []).map(s => applyAlternation(s, name, p, counter, yr)).join(' ');
     }
+    bodyText = _subjOrder(stu, 'maths', bodyText);
     const fdText = getFDTextForStu(stu, 'maths');
     return [bodyText, fdText].filter(Boolean).join('\n\n');
   }
@@ -6199,6 +6225,7 @@ function renderPublish() {
       }
     }
     if (renderSubject === 'general') { _applyParaLayoutDOM(content, stu); stu.paraRulesSig = JSON.stringify(_paraMapStored() || ''); }   // v3.17.8
+    else _applyParaLayoutDOM(content, stu);   // v3.17.13: English and Maths keep the order you moved sentences into
     { const _n = enforceAlternationDOM(content);
       if (_n) document.getElementById('checkStatus').innerHTML = `<span style="font-size:12px;color:var(--blue)">✓ ${_n} alternation error${_n > 1 ? 's' : ''} auto-corrected</span>`; }
     setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
@@ -8693,7 +8720,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.12';
+const APP_VERSION = 'v3.17.13';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
