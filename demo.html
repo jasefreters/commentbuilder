@@ -5158,6 +5158,12 @@ let _publishedSinceLastBackup = false;
 // and the next save wrote that text into the new student.
 let _paneOwner = null;
 function _paneIsMine() { const c = cur(); return !!(_paneOwner && c && c.uid && _paneOwner.uid === c.uid && _paneOwner.subj === currentSubject); }
+// v3.17.18: the Review pane records whose comment (student and subject) it is showing. A save only writes the pane
+// back to that student and subject, so a pane that is out of step with the screen can never be saved onto another
+// student's comment or into another subject (English text ended up in a student's General comment this way).
+let _pubOwner = null;
+function _stampPub(stu, subj) { _pubOwner = stu && stu.uid ? { uid: stu.uid, subj } : null; }
+function _pubPaneIsMine() { const c = cur(); return !!(_pubOwner && c && c.uid && _pubOwner.uid === c.uid && _pubOwner.subj === currentSubject); }
 function _stampPane() { const c = cur(); _paneOwner = c ? { uid: c.uid, subj: currentSubject } : null; }
 function _releasePane() {   // while currentIdx still points at the student whose text is in the pane, so its blur saves to the right student
   const el = document.getElementById('outEditable');
@@ -6066,7 +6072,10 @@ function syncPubSubj() {
 const _ALT_OBJ_PRECEDERS = new Set(['helped','help','helps','helping','encouraged','encourage','encourages','supported','support','supports','supporting','allowed','allows','enabled','enables','taught','teach','teaches','asked','told','let','lets','made','makes','given','gave','give','gives','for','to','with','by','towards','toward','of','from','about','around','assisted','assisting','praised','challenged','motivated','inspired','reminded','guided','showed','join','joined','joining','than','like',
   // v3.17.9: verbs a teacher uses for a student ("I wish him all the best"). Without these a name was swapped back to "he".
   'wish','wishes','wished','wishing','congratulate','congratulates','congratulated','commend','commends','commended','thank','thanks','thanked','welcome','welcomed','miss','missed','watch','watched','see','saw','seeing','observe','observed','observing','applaud','applauded','urge','urged','know','knew','coach','coached','mentor','mentored','guide','guides','guiding','reward','rewarded','praise','praises','tell','tells','telling','ask','asks','asking','remind','reminds','nominate','nominated','teaching']);
-const _ALT_NOT_OBJ = new Set(['than', 'like', 'as']);   // "older than he", "like he did" take a subject pronoun
+const _ALT_NOT_OBJ = new Set(['than', 'like', 'as']);
+// v3.17.18: "I wish his all the best" / "I wish Hayden's every success" is a possessive where the object form belongs (older versions left these in saved comments)
+const _ALT_WISH = new Set(['wish', 'wishes', 'wished', 'wishing', 'congratulate', 'congratulates', 'congratulated', 'commend', 'commends', 'commended', 'thank', 'thanks', 'thanked']);
+const _ALT_WISH_NEXT = /^\s*(all|every|a|an|the|well|success|good|happy|best)\b/i;   // "older than he", "like he did" take a subject pronoun
 const _ALT_OBJ_FOLLOW = /^(to|in|with|for|on|and|as|by|from|at|of|about|into|through|that|when|so|up|than|if|or|but|while|during|after|before|which|who)\b/i;
 // Find the student reference that decides a sentence's turn. Prefer the subject (after any opening phrase);
 // otherwise the first mention of the name or a pronoun anywhere ("This support has helped her...").
@@ -6104,13 +6113,17 @@ function _altRef(sent, name, p) {
   if (pn < pp) {
     const tok = mn[2], poss = /['’]s$/i.test(tok) && tok.length > name.length;
     const before = body.slice(0, pn).trim().split(/\s+/).pop().replace(/[^\w]/g, '').toLowerCase();
-    const kind = poss ? 'poss' : (_ALT_OBJ_PRECEDERS.has(before) ? 'obj' : 'subj');
-    return { role: 'name', kind, start: lead + pn, end: lead + pn + tok.length, atStart: pn === 0, tok };
+    const wishPoss = poss && _ALT_WISH.has(before) && _ALT_WISH_NEXT.test(body.slice(pn + tok.length));
+    const kind = wishPoss ? 'obj' : poss ? 'poss' : (_ALT_OBJ_PRECEDERS.has(before) ? 'obj' : 'subj');
+    return { role: 'name', kind, start: lead + pn, end: lead + pn + tok.length, atStart: pn === 0, tok, fixPoss: wishPoss };
   }
   const tok = mp[2];
   let pkind = kindOfPron(tok, body.slice(pp + tok.length));
-  if (pkind === 'subj') { const bw = body.slice(0, pp).trim().split(/\s+/).pop().replace(/[^\w]/g, '').toLowerCase(); if (_ALT_OBJ_PRECEDERS.has(bw) && !_ALT_NOT_OBJ.has(bw)) pkind = 'obj'; }   // "I wish he" is an object slot
-  return { role: 'pron', kind: pkind, start: lead + pp, end: lead + pp + tok.length, atStart: pp === 0, tok };
+  const bw = body.slice(0, pp).trim().split(/\s+/).pop().replace(/[^\w]/g, '').toLowerCase();
+  if (pkind === 'subj') { if (_ALT_OBJ_PRECEDERS.has(bw) && !_ALT_NOT_OBJ.has(bw)) pkind = 'obj'; }   // "I wish he" is an object slot
+  let fixPoss = false;
+  if (pkind === 'poss' && _ALT_WISH.has(bw) && _ALT_WISH_NEXT.test(body.slice(pp + tok.length))) { pkind = 'obj'; fixPoss = true; }   // "I wish his all the best"
+  return { role: 'pron', kind: pkind, start: lead + pp, end: lead + pp + tok.length, atStart: pp === 0, tok, fixPoss };
 }
 function _altReplacement(ref, toRole, name, p) {
   if (toRole === 'name') return ref.kind === 'poss' ? name + "'s" : name;
@@ -6127,6 +6140,8 @@ function _altPlan(sents, name, p) {
     if (hm) { out.push({ i, start: hm[1].length, end: hm[1].length + hm[2].length, rep: name, from: hm[2] }); expect = 'pron'; return; }
     const ref = _altRef(s, name, p); if (!ref) return;
     if (ref.role === expect) {
+      // v3.17.18: "I wish his all the best" / "I wish Hayden's all the best" become "him" / "Hayden"
+      if (ref.fixPoss) { const rp = ref.role === 'name' ? name : p.o; out.push({ i, start: ref.start, end: ref.end, rep: rp, from: ref.tok, to: rp }); expect = flip(expect); return; }
       // v3.17.9: a subject pronoun in an object slot ("I wish he all the best") becomes the object form ("him")
       if (ref.role === 'pron' && ref.kind === 'obj' && p.o && [p.S, p.s].some(v => v && v.toLowerCase() === ref.tok.toLowerCase()) && ref.tok.toLowerCase() !== p.o.toLowerCase()) {
         out.push({ i, start: ref.start, end: ref.end, rep: p.o, from: ref.tok, to: p.o });
@@ -6304,6 +6319,7 @@ function renderPublish() {
   const content = document.getElementById('pubContent');
   if (!publishedText || !publishedText.trim()) {
     content.innerHTML = '<p style="color:var(--t2);font-style:italic;font-size:14px">No sentences selected. Go back and build the comment first.</p>';
+    _pubOwner = null;
     return;
   }
 
@@ -6337,6 +6353,7 @@ function renderPublish() {
   if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash && cacheSubjectOk) {
     // Cache is valid — subject, FD, and content all verified
     content.innerHTML = stu[pubEditKey];
+    _stampPub(stu, renderSubject);
     // v3.16.13: General paragraphs turned off in Settings: the saved edit is shown as one paragraph (what is saved is not changed)
     if (renderSubject === 'general' && !flagOn('paras')) flattenParasDOM(content);
     // v3.16.10: saved Review text that is one block of sentences gets its paragraphs back
@@ -6369,6 +6386,7 @@ function renderPublish() {
   _draftDirty = false;
   if (renderSubject === 'general') stu.paraRulesSig = JSON.stringify(_paraMapStored() || '');   // v3.17.8
 
+  _stampPub(stu, renderSubject);
   content.innerHTML = fixedParas.map((para, pi) => {
     // FD lines are single-newline separated and start with *
     // Render them as a special block rather than sentence spans
@@ -8068,7 +8086,7 @@ function saveCur() {
   }
   // Persist any edits made in the Publish view (synonym replacements, manual edits)
   // Skip if draft was edited but publish hasn't re-rendered — would cache stale content
-  if (currentView === 'publish' && !_draftDirty) {
+  if (currentView === 'publish' && !_draftDirty && _pubPaneIsMine()) {
     const pubEl = document.getElementById('pubContent');
     const hasPara = pubEl && pubEl.querySelector('.pub-para');
     if (hasPara) {
@@ -8093,7 +8111,7 @@ function loadCur() { document.getElementById('studentName').value = cur().name||
 // Explicitly save any edits made in the publish pane
 // Call this before any navigation that might lose publish view content
 function savePublishEdits() {
-  if (_draftDirty) return;
+  if (_draftDirty || !_pubPaneIsMine()) return;
   const pubEl = document.getElementById('pubContent');
   const hasPara = pubEl && pubEl.querySelector('.pub-para');
   if (!hasPara) return;
@@ -8852,7 +8870,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.17';
+const APP_VERSION = 'v3.17.18';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
