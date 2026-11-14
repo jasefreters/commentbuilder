@@ -942,6 +942,20 @@
   #conflictBanner .cb-name { flex: 1 1 100px; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
   #conflictBanner .sb-btn { font: inherit; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-h); background: var(--bg-2); color: var(--t0); cursor: pointer; }
   #conflictBanner .sb-go { background: var(--amber-line); border-color: transparent; color: #1a1305; }
+  #conflictBanner { max-height: min(78vh, 620px); overflow-y: auto; }
+  #conflictBanner .cb-item { display: flex; flex-direction: column; gap: 6px; padding-top: 8px; border-top: 1px solid var(--border-h); }
+  #conflictBanner .cb-item:first-of-type { border-top: 0; padding-top: 0; }
+  #conflictBanner .cb-meta { font-size: 12px; color: var(--t1); line-height: 1.45; }
+  #conflictBanner .cb-sum { font-size: 12px; color: var(--t1); line-height: 1.45; }
+  #conflictBanner .cb-link { font: inherit; font-size: 12px; font-weight: 600; background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; align-self: flex-start; }
+  #conflictBanner [hidden] { display: none; }
+  #conflictBanner .cb-diffs { display: flex; flex-direction: column; gap: 10px; }
+  #conflictBanner .cb-field { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  #conflictBanner .cb-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  #conflictBanner .cb-col { min-width: 0; padding: 8px; border: 1px solid var(--border-h); border-radius: 8px; background: var(--bg-2); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; white-space: pre-wrap; }
+  #conflictBanner .cb-col b { display: block; font-size: 11px; font-weight: 600; color: var(--t2); margin-bottom: 3px; white-space: normal; }
+  #conflictBanner .cb-col mark { background: rgba(251,191,36,0.38); color: inherit; border-radius: 2px; padding: 0 1px; }
+  @media (max-width: 520px) { #conflictBanner .cb-cols { grid-template-columns: 1fr; } }
   #syncBanner.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
   #syncBanner .sb-btn { font: inherit; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-h); background: var(--bg-2); color: var(--t0); cursor: pointer; }
   #syncBanner .sb-go { background: var(--amber-line); border-color: transparent; color: #1a1305; }
@@ -6411,7 +6425,7 @@ function _mergeIntoLive(cs) {
   const local = { students, styleMemory, myBank, totalStudents };
   const r = _mergeSessions(_syncBase, local, cloud);
   if (r.changedLive || r.conflicts.length) {
-    if (r.conflicts.length) _stashConflictCopies(r.conflicts);
+    if (r.conflicts.length) { r.conflicts.forEach(c => { c.otherAt = cs.savedAt || null; c.otherDevice = cs.device || ''; }); _stashConflictCopies(r.conflicts); }
     const wasName = curUid ? (students.find(s => s.uid === curUid) || {}).name : '';
     students = r.students.length ? r.students : students;
     styleMemory = r.styleMemory; myBank = r.myBank; totalStudents = r.totalStudents;
@@ -6433,6 +6447,89 @@ function _stashConflictCopies(list) {
     lsSet('rcb_conflict_copies', old.slice(-6));
   } catch (e) {}
 }
+// v3.17.17 · the conflict box says which device, when, and what is different, so you can choose with the facts in front of you.
+function _deviceLabel() {
+  try {
+    const ua = navigator.userAgent || '', tp = navigator.maxTouchPoints || 0;
+    const os = /iPhone/.test(ua) ? 'iPhone' : (/iPad/.test(ua) || (/Macintosh/.test(ua) && tp > 1)) ? 'iPad' : /Android/.test(ua) ? 'Android' : /CrOS/.test(ua) ? 'Chromebook'
+      : /Windows/.test(ua) ? 'Windows' : /Macintosh/.test(ua) ? 'Mac' : /Linux/.test(ua) ? 'Linux' : 'Device';
+    const br = /Edg\//.test(ua) ? 'Edge' : /OPR\/|Opera/.test(ua) ? 'Opera' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /Chrome|CriOS/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : 'browser';
+    return os + ' · ' + br;
+  } catch (e) { return ''; }
+}
+function _cbWhen(iso) {
+  const d = iso ? new Date(iso) : null;
+  if (!d || isNaN(d)) return '';
+  return d.toLocaleString([], { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+}
+function _cbEsc(t) { return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+// Word-by-word comparison of two texts. Returns the two texts as safe HTML with the words that differ marked.
+function _cbWordDiff(a, b) {
+  const A = String(a || '').split(/\s+/).filter(Boolean), B = String(b || '').split(/\s+/).filter(Boolean);
+  if (A.length * B.length > 360000) return [_cbEsc(a), _cbEsc(b)];
+  const w = B.length + 1, L = new Uint16Array((A.length + 1) * w);
+  for (let i = A.length - 1; i >= 0; i--) for (let j = B.length - 1; j >= 0; j--)
+    L[i * w + j] = A[i] === B[j] ? L[(i + 1) * w + j + 1] + 1 : Math.max(L[(i + 1) * w + j], L[i * w + j + 1]);
+  const oa = [], ob = []; let i = 0, j = 0;
+  const mk = t => '<mark>' + _cbEsc(t) + '</mark>';
+  while (i < A.length && j < B.length) {
+    if (A[i] === B[j]) { oa.push(_cbEsc(A[i])); ob.push(_cbEsc(B[j])); i++; j++; }
+    else if (L[(i + 1) * w + j] >= L[i * w + j + 1]) oa.push(mk(A[i++]));
+    else ob.push(mk(B[j++]));
+  }
+  while (i < A.length) oa.push(mk(A[i++]));
+  while (j < B.length) ob.push(mk(B[j++]));
+  return [oa.join(' '), ob.join(' ')];
+}
+function _cbFieldLabel(k) {
+  const sem = /^s1|S1/.test(k) ? 'Semester 1 ' : /^s2|S2/.test(k) ? 'Semester 2 ' : '';
+  const subj = /^eng/i.test(k) ? 'English' : /^math/i.test(k) ? 'Maths' : 'General';
+  return sem + subj + (/FD$/.test(k) ? ' future directions' : ' comment');
+}
+function _cbPlain(v) {
+  if (v == null) return '';
+  if (Array.isArray(v)) return v.map(x => (x && typeof x === 'object') ? '' : String(x)).filter(Boolean).join('\n');
+  return typeof v === 'string' ? v : '';
+}
+function _cbViewText(html) {   // the words in a saved Review view
+  try { const d = document.createElement('div'); d.innerHTML = String(html || ''); return (d.textContent || '').replace(/\s+/g, ' ').trim(); } catch (e) { return ''; }
+}
+// What is different between this device's copy of a student and the other device's copy.
+function _describeConflict(mine, theirs) {
+  const items = [], other = new Set(); let viewsOnOneSide = false;
+  const keys = new Set([...Object.keys(mine || {}), ...Object.keys(theirs || {})]);
+  keys.forEach(k => {
+    if (k === 'uid') return;
+    const a = mine ? mine[k] : undefined, b = theirs ? theirs[k] : undefined;
+    if (_canon(a) === _canon(b)) return;
+    if (/^pubEdit/.test(k)) {
+      if (/_(fdHash|subject)$/.test(k)) return;
+      if (typeof a === 'string' && typeof b === 'string') {
+        const ta = _cbViewText(a), tb = _cbViewText(b);
+        if (ta !== tb) items.push({ label: 'Review view of the ' + (/Maths/.test(k) ? 'Maths' : /English/.test(k) ? 'English' : 'General') + ' comment', a: ta, b: tb });
+      } else viewsOnOneSide = true;
+      return;
+    }
+    if (/(Draft|Override|Comment)$/.test(k) || /FD$/.test(k)) {
+      const ta = _cbPlain(a), tb = _cbPlain(b);
+      if (ta !== tb) items.push({ label: _cbFieldLabel(k), a: ta, b: tb, spacing: ta.replace(/\s+/g, '') === tb.replace(/\s+/g, '') });
+      return;
+    }
+    if (k === 'custom') {
+      const ca = Object.assign({}, a || {}), cb = Object.assign({}, b || {});
+      const ea = _cbPlain(ca.__edited__), eb = _cbPlain(cb.__edited__); delete ca.__edited__; delete cb.__edited__;
+      if (ea !== eb) items.push({ label: 'General comment (as edited)', a: ea, b: eb, spacing: ea.replace(/\s+/g, '') === eb.replace(/\s+/g, '') });
+      if (_canon(ca) !== _canon(cb)) other.add('Sentences you added yourself');
+      return;
+    }
+    other.add(/^(name|pronoun|year)$/.test(k) ? 'Name, pronoun or year'
+      : /(selected|ordered|Selected|Ordered|Tiers|editedCat|EditedCat|AtDone|AfterEdit)/.test(k) ? 'Chosen sentences'
+      : /Grades/.test(k) ? 'Grades'
+      : /(published|Published|confetti|Edited)/.test(k) ? 'Done ticks'
+      : 'Other settings');
+  });
+  return { items, other: [...other], viewsOnOneSide };
+}
 function showConflictBanner() {
   let b = document.getElementById('conflictBanner');
   if (!b) { b = document.createElement('div'); b.id = 'conflictBanner'; b.setAttribute('role', 'alert'); document.body.appendChild(b); }
@@ -6444,13 +6541,42 @@ function showConflictBanner() {
     : 'These students were changed on another device too. This device\'s versions were kept.';
   b.appendChild(head);
   _conflicts.forEach(c => {
+    const box = document.createElement('div'); box.className = 'cb-item';
     const row = document.createElement('div'); row.className = 'cb-row';
     const nm = document.createElement('span'); nm.className = 'cb-name'; nm.textContent = c.name; row.appendChild(nm);
     const use = document.createElement('button'); use.type = 'button'; use.className = 'sb-btn sb-go'; use.textContent = 'Use the other device\'s version';
     use.onclick = () => useOtherVersion(c.uid);
     const keep = document.createElement('button'); keep.type = 'button'; keep.className = 'sb-btn'; keep.textContent = 'Keep this one';
     keep.onclick = () => { _conflicts = _conflicts.filter(x => x.uid !== c.uid); showConflictBanner(); };
-    row.appendChild(use); row.appendChild(keep); b.appendChild(row);
+    row.appendChild(use); row.appendChild(keep); box.appendChild(row);
+    // which device, and when
+    const mineStu = students.find(x => x && x.uid === c.uid) || null;
+    const when = _cbWhen(c.otherAt), mineDev = _deviceLabel();
+    const meta = document.createElement('div'); meta.className = 'cb-meta';
+    meta.textContent = 'Other device: ' + (c.otherDevice || 'not named (it saved before devices were named)') + (when ? ', last saved ' + when : '') + '. This device: ' + (mineDev || 'this one') + '.';
+    box.appendChild(meta);
+    // what is different
+    const d = _describeConflict(mineStu, c.cloud);
+    const sum = document.createElement('div'); sum.className = 'cb-sum';
+    const parts = d.items.map(x => x.label + (x.spacing ? ' (spacing only)' : '')).concat(d.other);
+    if (parts.length) sum.textContent = 'Different: ' + parts.join('; ') + '.';
+    else sum.textContent = 'No comment wording is different' + (d.viewsOnOneSide ? ' (only a saved Review view is on one device and not the other), so either choice gives the same comments.' : '.');
+    box.appendChild(sum);
+    if (d.items.length) {
+      const wrap = document.createElement('div'); wrap.className = 'cb-diffs'; wrap.hidden = !c.open;
+      d.items.forEach(x => {
+        const f = document.createElement('div');
+        const lab = document.createElement('div'); lab.className = 'cb-field'; lab.textContent = x.label; f.appendChild(lab);
+        const cols = document.createElement('div'); cols.className = 'cb-cols';
+        const [ha, hb] = _cbWordDiff(x.a, x.b);
+        const mkCol = (t, h) => { const col = document.createElement('div'); col.className = 'cb-col'; const bt = document.createElement('b'); bt.textContent = t; col.appendChild(bt); const sp = document.createElement('span'); sp.innerHTML = h || '<i>(nothing)</i>'; col.appendChild(sp); return col; };
+        cols.appendChild(mkCol('This device', ha)); cols.appendChild(mkCol('Other device', hb)); f.appendChild(cols); wrap.appendChild(f);
+      });
+      const tog = document.createElement('button'); tog.type = 'button'; tog.className = 'cb-link'; tog.textContent = c.open ? 'Hide the changes' : 'Show the changes';
+      tog.onclick = () => { c.open = !c.open; wrap.hidden = !c.open; tog.textContent = c.open ? 'Hide the changes' : 'Show the changes'; };
+      box.appendChild(tog); box.appendChild(wrap);
+    }
+    b.appendChild(box);
   });
   b.classList.add('show');
 }
@@ -10312,7 +10438,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.16';
+const APP_VERSION = 'v3.17.17';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10365,7 +10491,7 @@ function applySettingsBlob(b) {
 }
 function buildSession() {
   _ensureUids();
-  return { students, currentIdx, totalStudents, semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob(), savedAt: new Date().toISOString() };
+  return { students, currentIdx, totalStudents, semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob(), savedAt: new Date().toISOString(), device: _deviceLabel() };   // v3.17.17: the device name goes with the save, so the other device can say who changed what
 }
 // The backup file: everything in the session plus streak and badges, and the app version that wrote it.
 function buildBackup() {
@@ -11015,6 +11141,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.17', date: '14 November 2026', items: [
+    'When a student was changed on two devices, the box now says which device the other copy came from, when it was last saved, and exactly what is different. The two versions are shown side by side with the changed words marked, so you can choose which to keep. (The device name is shown once the other device has saved with this version.)'
+  ] },
   { v: 'v3.17.16', date: '14 November 2026', items: [
     'Review and Build now flag the word "idea" (and "ideas") when it is used more than once in a comment, so you can swap it for another word like any other repeated word.'
   ] },
