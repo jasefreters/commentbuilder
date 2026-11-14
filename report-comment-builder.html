@@ -1546,13 +1546,13 @@
 
       <section class="sw-pane" data-swpane="ai" role="tabpanel">
         <div class="sw-pane-title">AI features</div>
-        <div class="sw-note">Polish, Check for issues and AI Re-rank need an Anthropic API key and a Worker URL.</div>
+        <div class="sw-note">Polish, Check for issues and AI Re-rank work when you are signed in to cloud sync. Each account has a monthly AI allowance, which starts again on the 1st. The two settings below are only for running the AI through your own Anthropic account.</div>
         <div class="settings-row">
-          <span class="settings-row-label">API key</span>
+          <span class="settings-row-label">Your own API key (optional)</span>
           <button class="settings-action-btn" onclick="promptApiKey(); toggleSettings()">Set key</button>
         </div>
         <div class="settings-row">
-          <span class="settings-row-label">Worker URL</span>
+          <span class="settings-row-label">Your own Worker URL (optional)</span>
           <button class="settings-action-btn" onclick="showProxyGuide(); toggleSettings()">Set URL</button>
         </div>
       </section>
@@ -4087,7 +4087,7 @@ async function rankForS2AI() {
   btn.innerHTML = '<div class="spinner" style="width:12px;height:12px;border-top-color:var(--green)"></div> Ranking…';
   note.textContent = 'AI is analysing the S1 comment and ranking alternatives…';
 
-  if (!getApiKey()) { promptApiKey(); btn.disabled = false; btn.innerHTML = '<svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5.5 8h5M8 5.5v5"/></svg> AI Re-rank'; return; }
+  if (!aiReady()) { aiAskSetup(); btn.disabled = false; btn.innerHTML = '<svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5.5 8h5M8 5.5v5"/></svg> AI Re-rank'; return; }
 
   const s1Keys = getS1UsedKeys(stu);
   const sentenceList = [];
@@ -4136,7 +4136,8 @@ ${sentenceList.slice(0, 80).map((item, i) => `${i}: ${item.text}`).join('\n')}`;
   } catch(e) {
     btn.disabled = false;
     btn.innerHTML = '<svg style="width:13px;height:13px" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5.5 8h5M8 5.5v5"/></svg> AI Re-rank';
-    if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED' || e.message === 'PROXY_FAIL') { note.textContent = 'AI setup needed.'; showProxyGuide(); }
+    if (aiErrText(e)) { note.textContent = aiErrText(e); }
+    else if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED' || e.message === 'PROXY_FAIL') { note.textContent = 'AI setup needed.'; showProxyGuide(); }
     else { note.textContent = 'AI ranking failed. Using word-overlap ranking instead.'; }
     rankForS2(); // Fall back to word overlap
   }
@@ -8079,7 +8080,7 @@ ${text}`
     acceptBtn.style.display = 'none'; // hide old accept button
     statusEl.innerHTML = suggestionsHtml;
   } catch(e) {
-    statusEl.textContent = 'Error: ' + e.message;
+    statusEl.textContent = aiErrText(e) || ('Error: ' + e.message);
   } finally {
     if (btn) { btn.textContent = 'Polish'; btn.disabled = false; }
   }
@@ -8258,14 +8259,16 @@ ${text}`
     setTimeout(() => { highlightDuplicateWords(); highlightTenseIssues(); }, 60);
   } catch(e) {
     btn.disabled = false;
-    if (e.message === 'CORS_FILE') {
+    if (aiErrText(e)) {
+      status.innerHTML = '<span style="font-size:13px;color:var(--red)">' + escHtml(aiErrText(e)) + '</span>';
+    } else if (e.message === 'CORS_FILE') {
       status.innerHTML = '';
       showLocalServerGuide();
     } else if (e.message === 'CORS_HOSTED' || e.message === 'PROXY_FAIL') {
       status.innerHTML = '<span style="font-size:13px;color:var(--red)">Connection failed — check Worker URL is correct</span>';
-    } else if (!getApiKey()) {
-      _pendingCheck = true;
-      promptApiKey();
+    } else if (!aiReady()) {
+      _pendingCheck = !aiBuiltIn();
+      aiAskSetup();
     } else if (e.message === 'AI_NOT_JSON') {
       status.innerHTML = '<span style="font-size:13px;color:var(--red)">The checker gave an answer the app could not read. Click Check for issues again.</span>';
     } else {
@@ -8460,11 +8463,12 @@ Keep language simple and parent-friendly. Return ONLY the suggested fix as plain
 
   } catch(e) {
     // v3.17.5: one quiet retry, then say what actually went wrong and offer Try again
-    if (_try < 1 && /^API (429|5\d\d)|PROXY_FAIL|Failed to fetch|NetworkError|empty/i.test(e.message || '')) {
+    if (_try < 1 && !aiErrText(e) && /^API (429|5\d\d)|PROXY_FAIL|Failed to fetch|NetworkError|empty/i.test(e.message || '')) {
       return setTimeout(() => fetchFixSuggestion(span, issue, suggestionEl, actionsEl, _try + 1), 1200);
     }
     let msg;
-    if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED') msg = 'AI fix requires Worker setup — see Worker URL button in toolbar.';
+    if (aiErrText(e)) msg = aiErrText(e);
+    else if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED') msg = 'AI fix requires Worker setup — see Worker URL button in toolbar.';
     else if (!getApiKey() && !getProxyUrl()) msg = 'The AI is not connected, so there is no suggestion. Add your key in Settings.';
     else if (/^API 401|^API 403/.test(e.message || '')) msg = 'The AI would not accept the key (' + e.message.replace('API ', 'error ') + '). Check it in Settings.';
     else if (/^API/.test(e.message || '')) msg = 'The AI did not answer just now (' + e.message.replace('API ', 'error ') + '). Try again in a moment.';
@@ -9991,7 +9995,11 @@ async function cloudSignIn() {
         headers: { 'X-User-Token': token }
       });
       const data = await res.json();
-      if (data.found) {
+      if (res.status === 429) {
+        cloudShowAuthError('Too many attempts. Wait 15 minutes and try again.');
+        setCloudUser('');
+        setCloudPin('');
+      } else if (data.found) {
         // Credentials are valid but local is newer — signed in OK
         updateCloudStatus();
         toggleSettings();
@@ -10025,6 +10033,13 @@ async function cloudCreateAccount() {
       headers: { 'X-User-Token': token }
     });
     const checkData = await checkRes.json();
+    if (checkRes.status === 429) {
+      if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
+      cloudShowAuthError('Too many attempts. Wait 15 minutes and try again.');
+      setCloudUser('');
+      setCloudPin('');
+      return;
+    }
     if (checkData.found) {
       // Account already exists — treat as sign in instead
       if (btn) { btn.textContent = 'Create account'; btn.disabled = false; }
@@ -10472,7 +10487,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.19';
+const APP_VERSION = 'v3.17.20';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10705,7 +10720,28 @@ function saveEarnedBadges(b) { lsSet('rcb_badges', b); }
 // When running from file://, browsers block direct calls to api.anthropic.com (CORS).
 // We detect this and route through a free CORS proxy automatically.
 // When running from a real URL (claude.ai, localhost, hosted), calls go direct.
-function getProxyUrl() { return lsGet('rcb_proxy', 'https://black-sea-3013.freters.workers.dev'); }
+function getProxyUrl() { return lsGet('rcb_proxy', CLOUD_WORKER); }
+// v3.17.20: the built-in AI is for signed-in accounts and has a monthly allowance. A teacher's own Worker and key still work as before.
+function aiBuiltIn() { return String(getProxyUrl() || '').replace(/\/+$/, '').replace(/\/api\/anthropic$/, '') === CLOUD_WORKER; }
+function aiReady() { return aiBuiltIn() ? !!getCloudToken() : !!getApiKey(); }
+function aiAskSetup() { if (aiBuiltIn()) _aiNote('signin'); else promptApiKey(); }
+let _aiNoteAt = 0;
+function _aiNote(kind, resets) {
+  if (Date.now() - _aiNoteAt < 4000) return;   // one message, even when a feature retries
+  _aiNoteAt = Date.now();
+  showToast(aiErrText({ message: kind === 'limit' ? 'AI_LIMIT' : 'AI_SIGNIN' }, resets));
+}
+let _aiResets = '';
+function aiErrText(e, resets) {
+  const m = (e && e.message) || '';
+  if (m === 'AI_SIGNIN') return 'Sign in to cloud sync (Settings) to use the AI features.';
+  if (m === 'AI_LIMIT') {
+    const r = resets || _aiResets; let when = 'on the 1st of next month';
+    try { if (r) when = 'on ' + new Date(r).toLocaleDateString('en-AU', { day: 'numeric', month: 'long' }); } catch (x) {}
+    return 'You have used this month\u2019s AI allowance. It starts again ' + when + '.';
+  }
+  return '';
+}
 function setProxyUrl(url) { lsSet('rcb_proxy', url); }
 
 // The AI sometimes adds a sentence before or after the JSON ("I'll analyse..."). Pull out the JSON itself.
@@ -10731,6 +10767,24 @@ const AI_JSON_SYSTEM = 'You reply with valid JSON only. The first character of y
 function anthropicFetch(body) {
   const storedKey = getApiKey();
   const proxyUrl = getProxyUrl();
+
+  if (aiBuiltIn()) {
+    const token = getCloudToken();
+    if (!token) { _aiNote('signin'); return Promise.reject(new Error('AI_SIGNIN')); }
+    return fetch(CLOUD_WORKER + '/api/anthropic', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-User-Token': token },
+      body: JSON.stringify(body)
+    }).then(async res => {
+      if (res.status === 401 || res.status === 429) {
+        let t = '', resets = '';
+        try { const d = await res.clone().json(); t = (d && d.error && d.error.type) || ''; resets = (d && d.error && d.error.resets) || ''; } catch (x) {}
+        if (t === 'usage_limit') { _aiResets = resets; _aiNote('limit', resets); throw new Error('AI_LIMIT'); }
+        if (t === 'sign_in_required') { _aiNote('signin'); throw new Error('AI_SIGNIN'); }
+      }
+      return res;
+    }, () => { throw new Error('PROXY_FAIL'); });
+  }
 
   // If a proxy URL is configured, use it — it handles auth server-side
   if (proxyUrl) {
@@ -11176,6 +11230,11 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.20', date: '15 November 2026', items: [
+    'The AI features (Polish, Check for issues, AI Re-rank, synonyms and simpler wording) now work as soon as you are signed in to cloud sync. You no longer need your own API key.',
+    'Each account has a monthly AI allowance. If you reach it, the app tells you the date it starts again. Everything else keeps working.',
+    'Signing in now pauses for 15 minutes after ten wrong tries, to protect your class from someone guessing a PIN.'
+  ] },
   { v: 'v3.17.19', date: '14 November 2026', items: [
     'Fixed paragraphs running together in the finished comment (\u201c\u2026until completion.In Science\u2026\u201d). It happened to a comment you had typed into in Build, after you looked at it in Review: the app read the hidden Build box and lost its paragraph breaks. It now reads the box correctly.',
     'Comments already saved with their paragraphs glued together are put back the way they were the next time the app opens.'
@@ -12602,9 +12661,11 @@ Return ONLY a JSON array of 6 lowercase strings, no explanation, no markdown:
     }
 
   } catch(e) {
-    if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED' || e.message === 'PROXY_FAIL') {
+    if (aiErrText(e)) {
+      list.innerHTML = '<div class="syn-none">' + escHtml(aiErrText(e)) + '</div>';
+    } else if (e.message === 'CORS_FILE' || e.message === 'CORS_HOSTED' || e.message === 'PROXY_FAIL') {
       list.innerHTML = '<div class="syn-none" style="cursor:pointer;color:var(--blue)" onclick="showProxyGuide()">AI setup needed — click for guide</div>';
-    } else if (e.message.includes('401') || (!getApiKey())) {
+    } else if (e.message.includes('401') || (!aiBuiltIn() && !getApiKey())) {
       list.innerHTML = '<div class="syn-none">API key needed — set it via the API key button in the publish toolbar.</div>';
     } else {
       list.innerHTML = '<div class="syn-none">Could not fetch synonyms.</div>';
