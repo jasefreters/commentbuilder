@@ -1,0 +1,12 @@
+{
+  "name": "report-ready",
+  "private": true,
+  "description": "Report Ready: tooling and safety-net tests. The app itself is report-comment-builder.html.",
+  "scripts": {
+    "test": "node --test --test-concurrency=1 tests/*.test.js",
+    "build-demo": "node tools/build-demo.js"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}
