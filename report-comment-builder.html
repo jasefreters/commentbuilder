@@ -2764,7 +2764,8 @@ function _draftShown(stu, text) {
 }
 function getPublishedText(stu) { return _paraOut(_paraLayoutText(stu, getPublishedTextRaw(stu))); }
 function getPublishedTextRaw(stu) {
-  if (stu.draftOverride) return reparaGeneral(stu, String(stu.draftOverride).replace(/\s+$/, ''), stu.ordered);   // v3.16.10; v3.16.23: Enter pressed at the end leaves no blank lines in the finished text
+  if (stu.draftOverride) return reparaGeneral(stu, _healGlue(String(stu.draftOverride)).replace(/\s+$/, ''), stu.ordered);   // v3.17.19: heal text glued by the old hidden-box bug
+  // v3.16.10; v3.16.23: Enter pressed at the end leaves no blank lines in the finished text
 
   const name = cn(stu) || '[Name]';
   const p = PR[stu.pronoun];
@@ -6636,6 +6637,21 @@ let _pubOwner = null;
 function _stampPub(stu, subj) { _pubOwner = stu && stu.uid ? { uid: stu.uid, subj } : null; }
 function _pubPaneIsMine() { const c = cur(); return !!(_pubOwner && c && c.uid && _pubOwner.uid === c.uid && _pubOwner.subj === currentSubject); }
 function _stampPane() { const c = cur(); _paneOwner = c ? { uid: c.uid, subj: currentSubject } : null; }
+// v3.17.19 · the text of the Build draft box, with its line breaks, even while Build is hidden. innerText on a hidden box drops every <br>, which glued paragraphs together ("completion.In Science").
+function _paneText(el) {
+  if (!el) return '';
+  if (el.getClientRects().length) return el.innerText;
+  let out = '';
+  const walk = n => n.childNodes.forEach(c => {
+    if (c.nodeType === 3) out += c.nodeValue;
+    else if (c.nodeName === 'BR') out += '\n';
+    else if (c.nodeType === 1) { const blk = /^(DIV|P|LI)$/.test(c.nodeName); if (blk && out && !out.endsWith('\n')) out += '\n'; walk(c); if (blk && !out.endsWith('\n')) out += '\n'; }
+  });
+  walk(el);
+  return out.replace(/\n$/, '');
+}
+// v3.17.19 · text already glued by that bug ("…until completion.In Science…") goes back to the paragraph break it came from.
+function _healGlue(t) { return typeof t === 'string' ? t.replace(/([a-z0-9][.!?]["')\]]*)(?=[A-Z][a-z]|I[\s'\u2019])/g, '$1\n\n') : t; }
 function _releasePane() {   // while currentIdx still points at the student whose text is in the pane, so its blur saves to the right student
   const el = document.getElementById('outEditable');
   if (el && document.activeElement === el) el.blur();
@@ -6790,7 +6806,7 @@ function onDraftBeforeInput(e) {
 function doneDraft() {
   if (!_paneIsMine()) { render(); return; }   // v3.17.5
   const el = document.getElementById('outEditable');
-  const editedText = el.innerText.trim();
+  const editedText = _paneText(el).trim();
   if (editedText) {
     if (!cur().custom) cur().custom = {};
     cur().custom['__edited__'] = [editedText];
@@ -9553,7 +9569,7 @@ function saveCur() {
   const el = document.getElementById('outEditable');
   // v3.17.5: only when the pane is showing THIS student's General draft (it also shows English and Maths drafts, and may still hold the previous student's text)
   if (el && currentSubject === 'general' && _paneIsMine() && students[currentIdx].draftOverride !== null && students[currentIdx].draftOverride !== undefined) {
-    students[currentIdx].draftOverride = el.innerText || null;
+    students[currentIdx].draftOverride = _paneText(el) || null;   // v3.17.19: not innerText: Build is hidden while Review is open
   }
   // Persist any edits made in the Publish view (synonym replacements, manual edits)
   // Skip if draft was edited but publish hasn't re-rendered — would cache stale content
@@ -10456,7 +10472,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.18';
+const APP_VERSION = 'v3.17.19';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10617,6 +10633,7 @@ function _normStudent(s, i) {
       });
     }
   });
+  ['draftOverride', 's1DraftOverride', 's2DraftOverride'].forEach(k => { if (typeof stu[k] === 'string') stu[k] = _healGlue(stu[k]); });   // v3.17.19: a draft glued by the old hidden-box bug gets its paragraph breaks back
   if (!stu.uid) stu.uid = 'L' + i;   // sessions saved before v3.10.1 have no ids: the position is the same on every device
   return stu;
 }
@@ -11159,6 +11176,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.19', date: '14 November 2026', items: [
+    'Fixed paragraphs running together in the finished comment (\u201c\u2026until completion.In Science\u2026\u201d). It happened to a comment you had typed into in Build, after you looked at it in Review: the app read the hidden Build box and lost its paragraph breaks. It now reads the box correctly.',
+    'Comments already saved with their paragraphs glued together are put back the way they were the next time the app opens.'
+  ] },
   { v: 'v3.17.18', date: '14 November 2026', items: [
     'Fixed a Review comment being saved onto the wrong student or subject. Review now remembers whose comment and which subject it is showing, and only saves back to that one. This was how a student\u2019s English comment could end up in their General comment.',
     'Review now corrects \u201cI wish his all the best\u201d and \u201cI wish Hayden\u2019s all the best\u201d to \u201cI wish him\u2026\u201d and \u201cI wish Hayden\u2026\u201d. Comments saved by older versions still had these.'
