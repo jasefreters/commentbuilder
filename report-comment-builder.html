@@ -6356,17 +6356,31 @@ function _hash(s) {   // cyrb53, a short fingerprint (not security)
   h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
   return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
 }
-function _hs(s) { return _hash(_canon(_normStudent(s, 0))); }   // fingerprint of one student (defaults filled in, key order ignored)
+function _hsLegacy(s) { return _hash(_canon(_normStudent(s, 0))); }   // the fingerprint used up to v3.17.20
+// Fingerprint of one student (defaults filled in, key order ignored).
+// v3.17.21: looking at a comment in Review is not a change. Review keeps a copy of what it showed (pubEdit...) and a note of the
+// paragraph rules; neither goes into the fingerprint, unless the Review copy says something the comment itself does not.
+function _hs(s) {
+  const c = Object.assign({}, _normStudent(s, 0));
+  delete c.paraRulesSig; delete c.confettiShown;
+  [['pubEditGeneral', 'general'], ['pubEditEnglish', 'english'], ['pubEditMaths', 'maths']].forEach(([k, subj]) => {
+    let plain = !c[k];
+    if (!plain) { try { plain = getFinalCommentText(c, subj) === getBuiltCommentText(c, subj); } catch (e) { plain = false; } }
+    if (plain) { delete c[k]; delete c[k + '_fdHash']; delete c[k + '_subject']; }
+  });
+  return _hash(_canon(c));
+}
 function _newUid() { return 'u' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-3); }
 function _ensureUids() { const seen = new Set(); students.forEach(s => { if (!s.uid || seen.has(s.uid)) s.uid = _newUid(); seen.add(s.uid); }); }   // v3.17.5: two students never share an id
 function _snapshot(sess) {
   const st = {};
   (sess.students || []).forEach(s => { if (s.uid) st[s.uid] = _hs(s); });
-  return { at: sess.savedAt || null, st, sm: _hash(_canon(sess.styleMemory || null)), mb: _hash(_canon(sess.myBank || {})), ts: sess.totalStudents || 0 };
+  return { v: 2, at: sess.savedAt || null, st, sm: _hash(_canon(sess.styleMemory || null)), mb: _hash(_canon(sess.myBank || {})), ts: sess.totalStudents || 0 };
 }
 function _setSyncBase(b) { _syncBase = b; lsSet('rcb_syncbase', b); }
 // Three-way merge of the students and the shared lists. base = fingerprints, local/cloud = { students, styleMemory, myBank, totalStudents }
 function _mergeSessions(base, local, cloud) {
+  const _hs = (base && base.v === 2) ? window._hs : _hsLegacy;   // a base saved by an older version is compared the old way, once
   const conflicts = []; let changedLive = false, localChanged = false;
   const cMap = new Map(cloud.students.map(s => [s.uid, s])), lMap = new Map(local.students.map(s => [s.uid, s]));
   const out = [];
@@ -10487,7 +10501,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.20';
+const APP_VERSION = 'v3.17.21';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -11230,6 +11244,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.21', date: '15 November 2026', items: [
+    'Fixed a way a comment changed on one device could be replaced by an older copy from another. Opening a comment in Review on the second device counted as changing it, so that device\u2019s older copy could win. Looking at a comment no longer counts as a change.'
+  ] },
   { v: 'v3.17.20', date: '15 November 2026', items: [
     'The AI features (Polish, Check for issues, AI Re-rank, synonyms and simpler wording) now work as soon as you are signed in to cloud sync. You no longer need your own API key.',
     'Each account has a monthly AI allowance. If you reach it, the app tells you the date it starts again. Everything else keeps working.',
