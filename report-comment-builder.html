@@ -422,6 +422,12 @@
   @media (max-width: 700px) { .para-rules { grid-template-columns: 1fr; } }
   #paraHandle { position: fixed; z-index: 940; display: none; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border-h); background: var(--bg-1); color: var(--t1); font: 600 14px/1 var(--font); cursor: pointer; padding: 0; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
   #paraHandle:hover, #paraHandle:focus-visible { color: var(--t0); border-color: var(--blue); }
+  #paraGrip { position: fixed; z-index: 940; display: none; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border-h); background: var(--bg-1); color: var(--t1); font: 15px/1 var(--font); cursor: grab; padding: 0; touch-action: none; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+  #paraGrip:hover, #paraGrip:focus-visible { color: var(--t0); border-color: var(--blue); }
+  body.para-drag-on, body.para-drag-on * { cursor: grabbing !important; user-select: none !important; -webkit-user-select: none !important; }
+  #paraGhost { position: fixed; z-index: 990; pointer-events: none; max-width: min(360px, 80vw); background: var(--bg-1); color: var(--t0); border: 1px solid var(--blue); border-radius: var(--r-sm); padding: 6px 10px; font: 13px/1.4 var(--font); box-shadow: 0 8px 24px rgba(0,0,0,.25); opacity: .95; }
+  #paraDrop { position: fixed; z-index: 985; pointer-events: none; display: none; background: var(--blue); border-radius: 2px; }
+  #pubContent span.para-dragging { opacity: .35; }
   #paraMenu { position: fixed; z-index: 950; display: none; min-width: 230px; background: var(--bg-1); border: 1px solid var(--border-h); border-radius: var(--r-md); box-shadow: 0 8px 28px rgba(0,0,0,.25); padding: 6px; font-family: var(--font); }
   #paraMenu button { display: block; width: 100%; text-align: left; font: 13px var(--font); color: var(--t0); background: none; border: 0; border-radius: var(--r-sm); padding: 9px 10px; cursor: pointer; }
   #paraMenu button:hover, #paraMenu button:focus-visible { background: var(--bg-3); }
@@ -2692,20 +2698,44 @@ function _paraOut(t) { return flagOn('paras') ? t : flatParas(t); }
 // v3.17.8 · paragraphs the teacher split or joined in Review. stu.paraLayout maps a sentence (name and pronoun ignored)
 // to true (starts a paragraph) or false (carries on). A sentence not in the map follows the automatic layout.
 function _paraSig(t, stu) { return _syncToks(t, stu).join(' '); }
+// v3.17.10 · a layout is { __v: 2, order: [sentence, ...] | null, starts: { sentence: true|false } }. The v3.17.8 layout
+// (a plain map of sentence -> starts a paragraph) is read as starts only. 'order' is set only when the teacher moved a sentence.
+function _paraLayoutParts(stu) {
+  const L = stu && stu.paraLayout; if (!L) return null;
+  if (L.__v === 2) return { order: Array.isArray(L.order) && L.order.length ? L.order : null, starts: L.starts || {} };
+  return { order: null, starts: L };
+}
+// items = [{ sig, auto }] in the automatic order. Returns groups of items (paragraphs) following the saved layout.
+function _paraArrange(items, parts) {
+  let seq = items.slice();
+  if (parts.order) {
+    const pos = new Map(); parts.order.forEach((g, i) => { if (!pos.has(g)) pos.set(g, i); });
+    const known = items.filter(it => pos.has(it.sig)).sort((a, b) => pos.get(a.sig) - pos.get(b.sig));   // stable
+    const res = known.slice();
+    items.forEach((it, i) => {
+      if (pos.has(it.sig)) return;                                        // a new sentence goes after the one before it
+      const at = i === 0 ? 0 : res.indexOf(items[i - 1]) + 1;
+      res.splice(at, 0, it);
+    });
+    seq = res;
+  }
+  const groups = [];
+  seq.forEach((it, i) => {
+    const has = Object.prototype.hasOwnProperty.call(parts.starts, it.sig);
+    const start = i === 0 ? true : (has ? !!parts.starts[it.sig] : it.auto);
+    if (start) groups.push([it]); else groups[groups.length - 1].push(it);
+  });
+  return groups;
+}
 function _paraLayoutText(stu, text) {
   try {
     if (!stu || !stu.paraLayout || !flagOn('paras')) return text;
+    const parts = _paraLayoutParts(stu); if (!parts) return text;
     const t = String(text == null ? '' : text); if (!t.trim()) return t;
     const paras = t.split(/\n\s*\n/).filter(x => x.trim());
     if (paras.some(x => /\n/.test(x))) return t;   // lines the teacher broke with Enter stay as they are
-    const items = []; paras.forEach(pg => splitSentences(pg).forEach((x, i) => items.push({ x, auto: i === 0 })));
-    const out = [];
-    items.forEach((it, i) => {
-      const sig = _paraSig(it.x, stu), has = Object.prototype.hasOwnProperty.call(stu.paraLayout, sig);
-      const start = i === 0 ? true : (has ? !!stu.paraLayout[sig] : it.auto);
-      if (start) out.push([it.x]); else out[out.length - 1].push(it.x);
-    });
-    return out.map(g => g.join(' ')).join('\n\n');
+    const items = []; paras.forEach(pg => splitSentences(pg).forEach((x, i) => items.push({ x, sig: _paraSig(x, stu), auto: i === 0 })));
+    return _paraArrange(items, parts).map(g => g.map(it => it.x).join(' ')).join('\n\n');
   } catch (e) { return text; }
 }
 function getPublishedText(stu) { return _paraOut(_paraLayoutText(stu, getPublishedTextRaw(stu))); }
@@ -6731,7 +6761,7 @@ function paintStudentChrome() {
   document.body.toggleAttribute('data-noname', !(stu.name || '').trim());
   document.body.dataset.subject = currentSubject;
   const pos = document.getElementById('stuPos');
-  if (pos) pos.textContent = `Student ${currentIdx + 1} of ${students.length}`;
+  if (pos) pos.textContent = `Student ${currentIdx + 1} of ${Math.max(totalStudents, students.length)}`;   // v3.17.10: of the whole class
   const prev = document.getElementById('stuPrevBtn'), next = document.getElementById('stuNextBtn');
   if (prev) prev.disabled = currentIdx === 0;
   if (next) next.disabled = currentIdx >= students.length - 1;
@@ -6933,26 +6963,24 @@ function _paraEditable(content) {
 function _renumberParas(content) {
   Array.from(content.querySelectorAll('p.pub-para')).forEach((p, pi) => _paraSentSpans(p).forEach((sp, si) => { sp.dataset.pi = pi; sp.dataset.si = si; }));
 }
-function _saveParaLayoutFromDOM(content, stu) {
-  const m = {};
-  Array.from(content.querySelectorAll('p.pub-para')).forEach(p => _paraSentSpans(p).forEach((sp, i) => { m[_paraSig(sp.textContent, stu)] = (i === 0); }));
-  stu.paraLayout = m;
+function _saveParaLayoutFromDOM(content, stu, withOrder) {
+  const starts = {}, order = [];
+  Array.from(content.querySelectorAll('p.pub-para')).forEach(p => _paraSentSpans(p).forEach((sp, i) => { const g = _paraSig(sp.textContent, stu); starts[g] = (i === 0); order.push(g); }));
+  const old = _paraLayoutParts(stu);
+  stu.paraLayout = { __v: 2, order: withOrder ? order : (old && old.order) || null, starts };   // order only changes when a sentence was moved
 }
 function _applyParaLayoutDOM(content, stu) {
   try {
     if (!stu || !stu.paraLayout || !flagOn('paras') || currentSubject !== 'general' || !_paraEditable(content)) return;
+    const parts = _paraLayoutParts(stu); if (!parts) return;
     const ps = Array.from(content.querySelectorAll('p.pub-para')), flat = [];
-    ps.forEach(p => _paraSentSpans(p).forEach((sp, i) => flat.push({ sp, auto: i === 0 })));
-    const groups = [];
-    flat.forEach((it, i) => {
-      const sig = _paraSig(it.sp.textContent, stu), has = Object.prototype.hasOwnProperty.call(stu.paraLayout, sig);
-      const start = i === 0 ? true : (has ? !!stu.paraLayout[sig] : it.auto);
-      if (start) groups.push([it.sp]); else groups[groups.length - 1].push(it.sp);
-    });
-    if (groups.length === ps.length && groups.every((g, gi) => g.length === _paraSentSpans(ps[gi]).length)) return;   // already laid out this way
+    ps.forEach(p => _paraSentSpans(p).forEach((sp, i) => flat.push({ sp, sig: _paraSig(sp.textContent, stu), auto: i === 0 })));
+    const groups = _paraArrange(flat, parts);
+    const same = groups.length === ps.length && groups.every((g, gi) => { const cur = _paraSentSpans(ps[gi]); return g.length === cur.length && g.every((it, k) => it.sp === cur[k]); });
+    if (same) return;                                                     // already laid out this way
     const frag = document.createDocumentFragment();
     groups.forEach(g => { const np = document.createElement('p'); np.className = ps[0].className;
-      g.forEach((sp, k) => { if (k) np.appendChild(document.createTextNode(' ')); np.appendChild(sp); }); frag.appendChild(np); });
+      g.forEach((it, k) => { if (k) np.appendChild(document.createTextNode(' ')); np.appendChild(it.sp); }); frag.appendChild(np); });
     ps[0].before(frag); ps.forEach(p => p.remove()); _renumberParas(content);
   } catch (e) { console.warn('paragraph layout', e); }
 }
@@ -6993,6 +7021,141 @@ function paraBackToAuto() {
   closeParaMenu(); autoSave(); renderPublish(); renderOut();
   showToast('Paragraphs are back to automatic.');
 }
+// v3.17.10 · move a sentence (drag and drop, or Move up / Move down). target = { kind:'before', ref: span } | { kind:'end', ref: p }
+// | { kind:'newpara', ref: p | null } (a new paragraph just above p, or at the very end when ref is null).
+function _paraIsNoop(span, t) {
+  const p = span.parentElement, sibs = _paraSentSpans(p);
+  if (t.kind === 'before') return t.ref === span || span.nextElementSibling === t.ref;
+  if (t.kind === 'end') return t.ref === p && sibs[sibs.length - 1] === span;
+  if (t.kind === 'newpara') return sibs.length === 1 && (t.ref === p || t.ref === p.nextElementSibling || (t.ref === null && !p.nextElementSibling));
+  return true;
+}
+function paraMoveSentence(span, t, quiet) {
+  const stu = cur(), content = document.getElementById('pubContent');
+  if (!stu || !content || currentSubject !== 'general' || !span || !t || !_paraEditable(content) || _paraIsNoop(span, t)) return false;
+  try { snapshotStudent(stu, 'Before moving a sentence', true); } catch (e) {}
+  const src = span.parentElement;
+  if (t.kind === 'before') t.ref.parentNode.insertBefore(span, t.ref);
+  else if (t.kind === 'end') t.ref.appendChild(span);
+  else { const np = document.createElement('p'); np.className = src.className; np.appendChild(span);
+    if (t.ref) t.ref.before(np); else content.querySelector('p.pub-para:last-of-type') ? Array.from(content.querySelectorAll('p.pub-para')).pop().after(np) : content.appendChild(np); }
+  Array.from(content.querySelectorAll('p.pub-para')).forEach(p => {       // tidy: no empty paragraphs, one space between sentences
+    const sp = _paraSentSpans(p); if (!sp.length) { p.remove(); return; }
+    Array.from(p.childNodes).forEach(n => { if (n.nodeType === 3) n.remove(); });
+    sp.forEach((x, k) => { if (k) p.insertBefore(document.createTextNode(' '), x); });
+  });
+  _renumberParas(content);
+  try { enforceAlternationDOM(content); } catch (e) {}                    // a new order can break name / pronoun alternation
+  _saveParaLayoutFromDOM(content, stu, true);
+  closeParaMenu();
+  try { _draftDirty = false; savePublishEdits(); } catch (e) {}
+  autoSave();
+  setTimeout(() => { try { highlightDuplicateWords(); highlightTenseIssues(); } catch (e) {} }, 60);
+  if (!quiet) showToast('Sentence moved.');
+  return true;
+}
+// one step up (-1) or down (+1); returns the target or null
+function _paraStepTarget(span, dir) {
+  const p = span.parentElement, sibs = _paraSentSpans(p), i = sibs.indexOf(span), alone = sibs.length === 1;
+  const paras = Array.from(p.parentNode.querySelectorAll('p.pub-para')), pi = paras.indexOf(p);
+  if (dir < 0) {
+    if (i > 0) return { kind: 'before', ref: sibs[i - 1] };
+    if (pi === 0) return null;
+    return alone ? { kind: 'newpara', ref: paras[pi - 1] } : { kind: 'end', ref: paras[pi - 1] };
+  }
+  if (i < sibs.length - 1) return sibs[i + 2] ? { kind: 'before', ref: sibs[i + 2] } : { kind: 'end', ref: p };
+  if (pi === paras.length - 1) return null;
+  return alone ? { kind: 'newpara', ref: paras[pi + 2] || null } : { kind: 'before', ref: _paraSentSpans(paras[pi + 1])[0] };
+}
+function paraMoveStep(span, dir) {
+  const t = _paraStepTarget(span, dir); if (!t) return false;
+  const ok = paraMoveSentence(span, t, true);
+  if (ok) { showToast(dir < 0 ? 'Sentence moved up.' : 'Sentence moved down.'); setTimeout(() => { try { if (document.body.contains(span)) { span.scrollIntoView({ block: 'nearest' }); _paraHandleFor(span); } } catch (e) {} }, 0); }
+  return ok;
+}
+// ── drag and drop ──
+let _drag = null;
+function _dragTargets(content) {
+  const out = [], paras = Array.from(content.querySelectorAll('p.pub-para'));
+  const cr = content.getBoundingClientRect();
+  paras.forEach((p, pi) => {
+    const pr = p.getBoundingClientRect(), prev = paras[pi - 1];
+    const y = prev ? (prev.getBoundingClientRect().bottom + pr.top) / 2 : pr.top - 6;
+    out.push({ kind: 'newpara', ref: p, line: { x1: cr.left, x2: cr.right, y1: y, y2: y }, gap: true });
+    const sp = _paraSentSpans(p);
+    sp.forEach(x => { const r = x.getClientRects()[0] || x.getBoundingClientRect(); out.push({ kind: 'before', ref: x, line: { x1: r.left - 2, x2: r.left - 2, y1: r.top, y2: r.bottom } }); });
+    const last = sp[sp.length - 1], lrs = last.getClientRects(), lr = lrs[lrs.length - 1] || last.getBoundingClientRect();
+    out.push({ kind: 'end', ref: p, line: { x1: lr.right + 2, x2: lr.right + 2, y1: lr.top, y2: lr.bottom } });
+  });
+  if (paras.length) { const lb = paras[paras.length - 1].getBoundingClientRect(); const y = lb.bottom + 6;
+    out.push({ kind: 'newpara', ref: null, line: { x1: cr.left, x2: cr.right, y1: y, y2: y }, gap: true }); }
+  return out;
+}
+function _dragPick(px, py, targets, content) {
+  // pointer on a sentence: drop before it (first half) or after it (second half)
+  const over = Array.from(content.querySelectorAll('p.pub-para > span[data-si]')).find(sp => Array.from(sp.getClientRects()).some(r => px >= r.left && px <= r.right && py >= r.top && py <= r.bottom));
+  if (over) {
+    const rs = Array.from(over.getClientRects()), idx = rs.findIndex(r => px >= r.left && px <= r.right && py >= r.top && py <= r.bottom), r = rs[idx];
+    const first = rs.length === 1 ? px < (r.left + r.right) / 2 : idx < rs.length / 2;
+    if (first) return targets.find(t => t.kind === 'before' && t.ref === over);
+    const nx = over.nextElementSibling && over.nextElementSibling.matches('span[data-si]') ? over.nextElementSibling : null;
+    return nx ? targets.find(t => t.kind === 'before' && t.ref === nx) : targets.find(t => t.kind === 'end' && t.ref === over.parentElement);
+  }
+  let best = null, bd = 1e9;
+  targets.forEach(t => { const l = t.line, cx = Math.max(l.x1, Math.min(l.x2, px)), cy = Math.max(l.y1, Math.min(l.y2, py));
+    let d = Math.hypot(px - cx, py - cy); if (t.gap) d -= 4;   // a gap between paragraphs wins a tie
+    if (d < bd) { bd = d; best = t; } });
+  return best;
+}
+function _dragScroller(content) {
+  let n = content.parentElement;
+  while (n && n !== document.body) { const o = getComputedStyle(n).overflowY; if ((o === 'auto' || o === 'scroll') && n.scrollHeight > n.clientHeight + 4) return n; n = n.parentElement; }
+  return null;
+}
+function _dragUpdate() {
+  const d = _drag; if (!d) return;
+  const content = document.getElementById('pubContent'); if (!content) return;
+  d.ghost.style.left = (d.x + 14) + 'px'; d.ghost.style.top = (d.y + 14) + 'px';
+  const t = _dragPick(d.x, d.y, _dragTargets(content), content);
+  d.target = t && !_paraIsNoop(d.span, t) ? t : null;
+  const ind = document.getElementById('paraDrop');
+  if (!d.target) { ind.style.display = 'none'; return; }
+  const l = d.target.line; ind.style.display = 'block';
+  if (l.y1 === l.y2) { ind.style.left = l.x1 + 'px'; ind.style.top = (l.y1 - 1.5) + 'px'; ind.style.width = (l.x2 - l.x1) + 'px'; ind.style.height = '3px'; ind.dataset.kind = 'gap'; }
+  else { ind.style.left = (l.x1 - 1.5) + 'px'; ind.style.top = l.y1 + 'px'; ind.style.width = '3px'; ind.style.height = (l.y2 - l.y1) + 'px'; ind.dataset.kind = 'caret'; }
+}
+function _dragLoop() {
+  const d = _drag; if (!d) return;
+  const edge = 60, vh = window.innerHeight; let dy = 0;
+  if (d.y < edge) dy = -Math.ceil((edge - d.y) / 6); else if (d.y > vh - edge) dy = Math.ceil((d.y - (vh - edge)) / 6);
+  if (dy) { const sc = d.scroller; if (sc) sc.scrollTop += dy; else window.scrollBy(0, dy); _dragUpdate(); }
+  d.raf = requestAnimationFrame(_dragLoop);
+}
+function _dragEnd(commit) {
+  const d = _drag; if (!d) return; _drag = null;
+  cancelAnimationFrame(d.raf);
+  document.removeEventListener('pointermove', d.mv, true); document.removeEventListener('pointerup', d.up, true); document.removeEventListener('pointercancel', d.cancel, true); document.removeEventListener('keydown', d.key, true);
+  d.ghost.remove(); const ind = document.getElementById('paraDrop'); if (ind) ind.style.display = 'none';
+  document.body.classList.remove('para-drag-on'); d.span.classList.remove('para-dragging');
+  if (commit && d.target) { const sp = d.span; if (paraMoveSentence(sp, d.target)) setTimeout(() => { try { if (document.body.contains(sp)) _paraHandleFor(sp); } catch (e) {} }, 0); }
+}
+function paraDragStart(e) {
+  const span = _paraSpan, content = document.getElementById('pubContent');
+  if (!span || !content || _drag || (e.button != null && e.button !== 0) || !_paraEditable(content)) return;
+  e.preventDefault(); e.stopPropagation();
+  _paraEnsureUI(); closeParaMenu();
+  const ghost = document.createElement('div'); ghost.id = 'paraGhost';
+  const txt = span.textContent.trim(); ghost.textContent = txt.length > 70 ? txt.slice(0, 67) + '…' : txt;
+  document.body.appendChild(ghost);
+  const d = _drag = { span, ghost, x: e.clientX, y: e.clientY, target: null, scroller: _dragScroller(content), raf: 0 };
+  d.mv = ev => { d.x = ev.clientX; d.y = ev.clientY; _dragUpdate(); };
+  d.up = ev => { d.x = ev.clientX; d.y = ev.clientY; _dragUpdate(); _dragEnd(true); };
+  d.cancel = () => _dragEnd(false);
+  d.key = ev => { if (ev.key === 'Escape') { ev.preventDefault(); _dragEnd(false); } };
+  document.addEventListener('pointermove', d.mv, true); document.addEventListener('pointerup', d.up, true); document.addEventListener('pointercancel', d.cancel, true); document.addEventListener('keydown', d.key, true);
+  document.body.classList.add('para-drag-on'); span.classList.add('para-dragging');
+  _dragUpdate(); d.raf = requestAnimationFrame(_dragLoop);
+}
 let _paraSpan = null, _paraHideT = null, _paraShownAt = 0;
 function _paraEnsureUI() {
   if (document.getElementById('paraHandle')) return;
@@ -7001,6 +7164,13 @@ function _paraEnsureUI() {
   h.onclick = e => { e.stopPropagation(); openParaMenu(); };
   h.onmouseenter = () => clearTimeout(_paraHideT);
   document.body.appendChild(h);
+  const gp = document.createElement('button'); gp.id = 'paraGrip'; gp.type = 'button'; gp.textContent = '⠿';
+  gp.setAttribute('aria-label', 'Move this sentence. Drag it, or use the up and down arrow keys.'); gp.title = 'Drag to move this sentence';
+  gp.onpointerdown = paraDragStart;
+  gp.onmouseenter = () => clearTimeout(_paraHideT);
+  gp.onkeydown = e => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); e.stopPropagation(); const sp = _paraSpan; if (sp) { paraMoveStep(sp, e.key === 'ArrowUp' ? -1 : 1); setTimeout(() => { const g = document.getElementById('paraGrip'); if (g && g.style.display !== 'none') g.focus({ preventScroll: true }); }, 10); } } };
+  document.body.appendChild(gp);
+  const di = document.createElement('div'); di.id = 'paraDrop'; document.body.appendChild(di);
   const m = document.createElement('div'); m.id = 'paraMenu'; m.setAttribute('role', 'menu'); document.body.appendChild(m);
 }
 function _paraHandleFor(span) {
@@ -7012,12 +7182,16 @@ function _paraHandleFor(span) {
   const r = span.getClientRects()[0] || span.getBoundingClientRect(), cr = content.getBoundingClientRect();
   const h = document.getElementById('paraHandle');
   h.style.display = 'block';
+  const top = Math.max(4, r.top + (r.height - 26) / 2), gp = document.getElementById('paraGrip');
   h.style.left = Math.max(4, cr.left - 36) + 'px';
-  h.style.top = Math.max(4, r.top + (r.height - 26) / 2) + 'px';
+  h.style.top = top + 'px';
+  gp.style.display = 'block';
+  if (cr.left >= 72) { gp.style.left = (cr.left - 66) + 'px'; gp.style.top = top + 'px'; }   // beside the paragraph button
+  else { gp.style.left = Math.max(4, cr.left - 36) + 'px'; gp.style.top = (top + 29) + 'px'; }   // narrow screen: underneath it
 }
 function hideParaHandle(now) {
   clearTimeout(_paraHideT);
-  const go = () => { const h = document.getElementById('paraHandle'); if (h) h.style.display = 'none'; if (_paraSpan) _paraSpan.classList.remove('para-focus'); _paraSpan = null; closeParaMenu(); };
+  const go = () => { if (_drag) return; const h = document.getElementById('paraHandle'); if (h) h.style.display = 'none'; const g = document.getElementById('paraGrip'); if (g) g.style.display = 'none'; if (_paraSpan) _paraSpan.classList.remove('para-focus'); _paraSpan = null; closeParaMenu(); };
   if (now) go(); else _paraHideT = setTimeout(() => { const m = document.getElementById('paraMenu'); if (m && m.style.display === 'block') return; go(); }, 500);
 }
 function closeParaMenu() { const m = document.getElementById('paraMenu'); if (m) m.style.display = 'none'; }
@@ -7030,6 +7204,8 @@ function openParaMenu() {
   const add = (label, fn) => { const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'menuitem'); b.textContent = label; b.onclick = e => { e.stopPropagation(); fn(); }; m.appendChild(b); };
   if (idx > 0) add('Start a new paragraph here', () => paraSplitOrJoin(span));
   if (canJoin) add('Join with the paragraph above', () => paraSplitOrJoin(span));
+  if (_paraStepTarget(span, -1)) add('Move sentence up', () => paraMoveStep(span, -1));
+  if (_paraStepTarget(span, 1)) add('Move sentence down', () => paraMoveStep(span, 1));
   add('Back to automatic paragraphs', paraBackToAuto);
   if (!m.children.length) return;
   const hr = document.getElementById('paraHandle').getBoundingClientRect();
@@ -7045,11 +7221,11 @@ document.addEventListener('mouseover', e => {
   if (sp) _paraHandleFor(sp);
   else if (e.target.closest && e.target.closest('#pubContent')) { /* between sentences: keep the handle */ }
 });
-document.addEventListener('mouseout', e => { if (e.target.closest && e.target.closest('#pubContent') && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('#pubContent, #paraHandle, #paraMenu'))) hideParaHandle(); });
+document.addEventListener('mouseout', e => { if (e.target.closest && e.target.closest('#pubContent') && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('#pubContent, #paraHandle, #paraGrip, #paraMenu'))) hideParaHandle(); });
 document.addEventListener('click', e => {
   const sp = e.target.closest && e.target.closest('#pubContent p.pub-para > span[data-si]');
   if (sp && !e.target.closest('mark, [data-issue-idx]')) { _paraHandleFor(sp); return; }   // a tap shows the button on a touch screen
-  if (!(e.target.closest && e.target.closest('#paraMenu, #paraHandle'))) { closeParaMenu(); if (!(e.target.closest && e.target.closest('#pubContent'))) hideParaHandle(true); }
+  if (!(e.target.closest && e.target.closest('#paraMenu, #paraHandle, #paraGrip'))) { closeParaMenu(); if (!(e.target.closest && e.target.closest('#pubContent'))) hideParaHandle(true); }
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeParaMenu(); });
 window.addEventListener('scroll', () => { if (_paraSpan && Date.now() - _paraShownAt > 400) hideParaHandle(true); }, true);   // a scroll that only brought the sentence into view does not count
@@ -7408,7 +7584,8 @@ function renderPublish() {
   // prevents any async/event timing from changing it mid-render
   const renderSubject = currentSubject;
   const subjLabel = renderSubject === 'english' ? ' — English' : renderSubject === 'maths' ? ' — Mathematics' : '';
-  document.getElementById('pubName').textContent = `${name} — Semester ${currentSemester} 2026${subjLabel}`;
+  { const _N = Math.max(totalStudents, students.length);   // v3.17.10: place in the class, so you can see how many are left
+    document.getElementById('pubName').textContent = `${name} (${currentIdx + 1} of ${_N}) — Semester ${currentSemester} 2026${subjLabel}`; }
   document.getElementById('checkStatus').innerHTML = '';
   document.getElementById('flagLegend').style.display = 'none';
   document.getElementById('checkBtn').disabled = false;
@@ -10078,7 +10255,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.9';
+const APP_VERSION = 'v3.17.10';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10781,6 +10958,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.10', date: '14 November 2026', items: [
+    'Drag and drop a sentence. In Review, point at a sentence in the General comment and drag it by the grip button (the dotted circle, beside the \u00b6 button) to where you want it: before another sentence, after one, or into a gap between paragraphs to give it a paragraph of its own. A line shows where it will land, and Esc cancels. The \u00b6 menu also has \u201cMove sentence up\u201d and \u201cMove sentence down\u201d, and the up and down arrow keys move it when the grip is selected. Names and pronouns are re-checked after a move. \u201cBack to automatic paragraphs\u201d puts everything back.',
+    'Each student now shows their place in the class: \u201cMason (5 of 28) \u2014 Semester 2 2026\u201d in Review, and \u201cStudent 5 of 28\u201d in Build (it counts the whole class, not only the students added so far).'
+  ] },
   { v: 'v3.17.9', date: '13 November 2026', items: [
     'Fixed \u201cI wish he all the best for 2027\u201d. The name and pronoun check swapped \u201chim\u201d for the name, then the name for \u201che\u201d. It now knows verbs like wish, congratulate, commend and thank take \u201chim\u201d or \u201cher\u201d, and it corrects a comment that already says \u201cI wish he\u201d.',
   ] },
