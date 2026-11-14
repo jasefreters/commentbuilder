@@ -23,6 +23,8 @@ async function openApp({ cloud, context } = {}) {
   page.on('pageerror', e => page.errors.push(e.message));
   await page.goto(APP);
   await page.waitForFunction(() => typeof _stateLoaded !== 'undefined' && _stateLoaded, null, { timeout: 15000 });
+  // No "Recent changes" pop-up in tests: it covers the page and blocks clicks.
+  await page.evaluate(() => { _rcShownThisLoad = true; const o = document.getElementById('rcOverlay'); if (o) o.style.display = 'none'; });
   return page;
 }
 
