@@ -422,6 +422,7 @@
   @media (max-width: 700px) { .para-rules { grid-template-columns: 1fr; } }
   #paraHandle { position: fixed; z-index: 940; display: none; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border-h); background: var(--bg-1); color: var(--t1); font: 600 14px/1 var(--font); cursor: pointer; padding: 0; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
   #paraHandle:hover, #paraHandle:focus-visible { color: var(--t0); border-color: var(--blue); }
+  .opt:focus-visible, #boardRows .board-grid.row:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
   #paraGrip { position: fixed; z-index: 940; display: none; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border-h); background: var(--bg-1); color: var(--t1); font: 15px/1 var(--font); cursor: grab; padding: 0; touch-action: none; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
   #paraGrip:hover, #paraGrip:focus-visible { color: var(--t0); border-color: var(--blue); }
   body.para-drag-on, body.para-drag-on * { cursor: grabbing !important; user-select: none !important; -webkit-user-select: none !important; }
@@ -5894,7 +5895,7 @@ function renderBoard() {
     none: '<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>' };
   rowsEl.innerHTML = list.length ? list.map(({ stu, i }) => {
     const cells = subjects.map(([s]) => { const st = subjState(stu, s); return `<div><span class="pill ${st}">${icon[st]}${STATE_LABEL[st]}</span></div>`; }).join('');
-    return `<div class="board-grid row${i === currentIdx ? ' current' : ''}" onclick="openFromBoard(${i})">` +
+    return `<div class="board-grid row${i === currentIdx ? ' current' : ''}" tabindex="0" onclick="openFromBoard(${i})">` +
       `<div class="bg-name"><span class="rail-av">${escHtml(stuInitials(stu, i))}</span><span>${escHtml(stuLabelY(stu, i))}</span>${(() => { const ti = toneReport(stu).issues; return ti.length ? `<span class="tone-warn" title="${escHtml(ti.map(x => x.text).join(' '))}">⚠ Tone</span>` : ''; })()}</div>${cells}` +
       `<div>${boardWords(stu) || '–'}</div><div class="bg-acts"><button class="bg-open" onclick="event.stopPropagation(); openFromBoard(${i})">Open</button><button class="bg-open bg-hist" onclick="event.stopPropagation(); openHistory(${i})" title="Earlier versions of this student's comments">History</button></div></div>`;
   }).join('') : `<div class="board-empty">${students.length ? 'No students match.' : 'No students yet.'}</div>`;
@@ -8692,7 +8693,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.11';
+const APP_VERSION = 'v3.17.12';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -9505,6 +9506,58 @@ function toggleSettings(tab) {
   const on = document.querySelector('#settingsPanel .sw-tab.on'); if (on) on.focus();
 }
 
+// v3.17.12 · arrow keys, when you are not typing. Build: up and down move through the sentence list (Enter or Space ticks).
+// Review: left and right change student. Class board: up and down move between students (Enter opens).
+function _kbTyping(t) { return !!(t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))); }
+function _kbBlocked() {
+  if (Array.from(document.querySelectorAll('.modal-overlay, .yp-ov')).some(_kbVisible)) return true;
+  if (_kbVisible(document.getElementById('settingsOverlay'))) return true;
+  const pm = document.getElementById('paraMenu'); if (pm && pm.style.display === 'block') return true;
+  return !!_drag;
+}
+function _kbVisible(el) { return !!(el && el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden'); }
+function _kbFocusNow(el) { if (el) { el.focus({ preventScroll: true }); el.scrollIntoView({ block: 'nearest' }); } }
+document.addEventListener('keydown', e => {
+  if (e.defaultPrevented || e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+  const k = e.key, t = e.target;
+  if (_kbTyping(t) || _kbBlocked()) return;
+  // class board
+  const rowsEl = document.getElementById('boardRows');
+  if (rowsEl && _kbVisible(rowsEl)) {
+    const rows = Array.from(rowsEl.querySelectorAll('.board-grid.row'));
+    const onRow = t && t.closest && t.closest('.board-grid.row');
+    if ((k === 'ArrowDown' || k === 'ArrowUp') && rows.length && (!t || t === document.body || onRow)) {
+      e.preventDefault();
+      const i = onRow ? rows.indexOf(onRow) : -1;
+      const n = i < 0 ? Math.max(0, rows.findIndex(r => r.classList.contains('current'))) : Math.max(0, Math.min(rows.length - 1, i + (k === 'ArrowDown' ? 1 : -1)));
+      _kbFocusNow(rows[n]); return;
+    }
+    if ((k === 'Enter' || k === ' ') && t && t.classList && t.classList.contains('row') && t.classList.contains('board-grid')) { e.preventDefault(); t.click(); }
+    return;
+  }
+  // Build: the sentence list
+  if (currentView === 'build' && (k === 'ArrowDown' || k === 'ArrowUp' || k === 'Enter' || k === ' ')) {
+    const opts = Array.from(document.querySelectorAll('.opt')).filter(_kbVisible);
+    const on = t && t.classList && t.classList.contains('opt') ? t : null;
+    if (k === 'Enter' || k === ' ') {
+      if (!on) return;                                               // a ticked sentence redraws the list, so put the focus back where it was
+      e.preventDefault(); const i = opts.indexOf(on); on.click();
+      setTimeout(() => { const now = Array.from(document.querySelectorAll('.opt')).filter(_kbVisible); if (now[i]) now[i].focus({ preventScroll: true }); }, 30);
+      return;
+    }
+    if (!opts.length || (t && t !== document.body && !on)) return;
+    e.preventDefault();
+    const i = on ? opts.indexOf(on) : -1;
+    const n = i < 0 ? (k === 'ArrowDown' ? 0 : opts.length - 1) : Math.max(0, Math.min(opts.length - 1, i + (k === 'ArrowDown' ? 1 : -1)));
+    _kbFocusNow(opts[n]); return;
+  }
+  // Review: students
+  if (currentView === 'publish' && (k === 'ArrowLeft' || k === 'ArrowRight') && (!t || t === document.body || !t.closest || !t.closest('#pubContent, #paraMenu'))) {
+    const next = currentIdx + (k === 'ArrowRight' ? 1 : -1);
+    if (next < 0 || next >= students.length) return;
+    e.preventDefault(); pubNavStudent(k === 'ArrowRight' ? 1 : -1);
+  }
+});
 // Close the settings window by clicking the dimmed background or pressing Esc
 document.addEventListener('click', e => {
   const ov = document.getElementById('settingsOverlay');
