@@ -2270,7 +2270,7 @@ function friendlyTokens(t) {
 function fillTypedPlaceholders(text) {
   if (typeof text !== 'string' || text.search(_FRIENDLY_RE) === -1) return text;
   const stu = cur(), p = stu && PR[stu.pronoun]; if (!p) return text;
-  const name = stu.name || '[Name]', yr = stu.year || '';
+  const name = cn(stu) || '[Name]', yr = stu.year || '';
   return friendlyTokens(text).replace(/\{\{(?:N|S|s|Pos|pos|o|r)\}\}/g, m => applyRaw(m, name, p, yr));
 }
 function onDraftBlur() {
@@ -2382,7 +2382,7 @@ function applyAlternation(raw, name, p, counter, year) {
 
 // ── PUBLISHED TEXT ────────────────────────────────────────────────
 function buildParas(stu) {
-  const name = stu.name || '[Name]';
+  const name = cn(stu) || '[Name]';
   const p = PR[stu.pronoun];
   const yr = stu.year || '';
   const ordered = stu.ordered;
@@ -2444,7 +2444,7 @@ function reparaGeneral(stu, text, keys) {
     if (!keys.length) return text;
     const sents = splitSentences(text);
     if (sents.length < 2) return text;
-    const mk = (stu.name || '') + '|' + (stu.pronoun || '') + '|' + (stu.year || '') + '|' + keys.join('~') + '|' + text;
+    const mk = (cn(stu) || '') + '|' + (stu.pronoun || '') + '|' + (stu.year || '') + '|' + keys.join('~') + '|' + text;
     if (_reparaMemo.has(mk)) return _reparaMemo.get(mk);
     const m = _draftMatches(stu, 'general', keys, text);
     const grp = new Array(sents.length).fill(-1);
@@ -2455,7 +2455,7 @@ function reparaGeneral(stu, text, keys) {
     // a sentence rewritten too much to match as a whole still shares its key words with the bank sentence it came from
     const left = []; for (let i = 0; i < grp.length; i++) if (grp[i] === -1) left.push(i);
     if (left.length) {
-      const name = stu.name || '[Name]', pr = PR[stu.pronoun] || PR.he, yr = stu.year || '';
+      const name = cn(stu) || '[Name]', pr = PR[stu.pronoun] || PR.he, yr = stu.year || '';
       // only the key words count (no stop words, names or pronouns), so a short typed sentence such as
       // "Sam is a valued member of our class." is never mistaken for a bank sentence
       const content = toks => new Set(toks.filter(w => w !== 'x' && w.length > 2 && !RANK_STOPWORDS.has(w)));
@@ -2519,10 +2519,11 @@ function _paraArrange(items, parts) {
   });
   return groups;
 }
-function _paraLayoutText(stu, text) {
+function _paraLayoutText(stu, text, orderOnly) {
   try {
     if (!stu || !stu.paraLayout || !flagOn('paras')) return text;
-    const parts = _paraLayoutParts(stu); if (!parts) return text;
+    let parts = _paraLayoutParts(stu); if (!parts) return text;
+    if (orderOnly) { if (!parts.order) return text; parts = { order: parts.order, starts: {} }; }   // the Build draft follows the order, not the paragraph splits
     const t = String(text == null ? '' : text); if (!t.trim()) return t;
     const paras = t.split(/\n\s*\n/).filter(x => x.trim());
     if (paras.some(x => /\n/.test(x))) return t;   // lines the teacher broke with Enter stay as they are
@@ -2530,11 +2531,17 @@ function _paraLayoutText(stu, text) {
     return _paraArrange(items, parts).map(g => g.map(it => it.x).join(' ')).join('\n\n');
   } catch (e) { return text; }
 }
+// v3.17.10 · a sentence moved in Review is moved in the Build draft box too.
+function _draftShown(stu, text) {
+  if (currentSubject !== 'general') return text;
+  const t = _paraLayoutText(stu, text, true);
+  return t === text ? text : enforceAltText(stu, t);   // a new order can break name / pronoun alternation
+}
 function getPublishedText(stu) { return _paraOut(_paraLayoutText(stu, getPublishedTextRaw(stu))); }
 function getPublishedTextRaw(stu) {
   if (stu.draftOverride) return reparaGeneral(stu, String(stu.draftOverride).replace(/\s+$/, ''), stu.ordered);   // v3.16.10; v3.16.23: Enter pressed at the end leaves no blank lines in the finished text
 
-  const name = stu.name || '[Name]';
+  const name = cn(stu) || '[Name]';
   const p = PR[stu.pronoun];
   const yr = stu.year || '';
 
@@ -2875,7 +2882,7 @@ function subjS1Picks(cat) {
   if (!keys.length) return [];
   const customs = ((eng ? stu.engCustom : stu.mathCustom) || {})[cat] || [];
   const _s1al = (eng ? stu.engS1Align : stu.mathS1Align) || '';
-  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = (stu.year || '') + (_s1al ? '|' + _s1al : '');
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun] || PR.he, yr = (stu.year || '') + (_s1al ? '|' + _s1al : '');
   const edited = new Map();
   try {
     const all = (eng ? stu.engS1Ordered : stu.mathS1Ordered) || [];
@@ -2997,7 +3004,7 @@ function toggleSubjOpt(cat, s) {
   const existing  = cur()[editedKey] ? cur()[draftKey] : null;   // v3.8.1: only a hand-edited draft is kept
 
   if (existing) {
-    const name = cur().name || '[Name]';
+    const name = cn(cur()) || '[Name]';
     const p    = PR[cur().pronoun];
     const yr   = yrA(cur(), currentSubject);
     // Count existing name/pronoun openers to continue alternation correctly
@@ -3040,7 +3047,7 @@ function toggleSubjOpt(cat, s) {
 }
 
 function getSubjDraft() {
-  const name = cur().name || '[Name]';
+  const name = cn(cur()) || '[Name]';
   const p = PR[cur().pronoun];
   const yr = yrA(cur(), currentSubject);
   if (currentSubject === 'english') {
@@ -3440,7 +3447,7 @@ function renderFDPanel(grid) {
   const fd = getFDBank();
   const stage = getFDStage();
   const curFD = getCurFD();
-  const name = cur().name || '[Name]';
+  const name = cn(cur()) || '[Name]';
 
   // Stage selector
   const stageSel = document.createElement('div');
@@ -3540,7 +3547,7 @@ function getFDText() {
 function _getFDText_unused() {
   const fd = getCurFD();
   if (!fd.length) return '';
-  const name = cur().name || '[Name]';
+  const name = cn(cur()) || '[Name]';
   const p = PR[cur().pronoun];
   const poss = p.Pos; // His/Her
   // Build the combined FD paragraph
@@ -3652,7 +3659,7 @@ function catForKey(key) {
 
 // Helper: build draft text for any student (not just cur())
 function buildDraftTextForStu(stu) {
-  const name = stu.name || '[Name]';
+  const name = cn(stu) || '[Name]';
   const p = PR[stu.pronoun];
   const yr = stu.year || '';
   const counter = { value: 0 };
@@ -3773,7 +3780,7 @@ function rankForS2() {
     const eligible = (RAW[cat] || [])
       .filter(s => inSemester(s))
       .map((s, i) => {
-        const applied = applyRaw(s, stu.name || 'Student', PR[stu.pronoun], stu.year || '');
+        const applied = applyRaw(s, cn(stu) || 'Student', PR[stu.pronoun], stu.year || '');
         return { key: s, idx: i, score: scoreS2Sentence(applied, s1Words) };
       })
       .filter(item => !s1Keys.has(item.key))
@@ -3814,7 +3821,7 @@ async function rankForS2AI() {
   CATS.forEach(cat => {
     (RAW[cat] || []).forEach((s, i) => {
       if (!s1Keys.has(s) && inSemester(s)) {
-        const applied = applyRaw(s, stu.name || 'Student', PR[stu.pronoun], stu.year || '');
+        const applied = applyRaw(s, cn(stu) || 'Student', PR[stu.pronoun], stu.year || '');
         sentenceList.push({ cat, idx: i, key: s, text: applied });
       }
     });
@@ -4624,7 +4631,7 @@ function syncSimHead() {   // v3.16.12: the "Similar to Semester 1" heading is h
 }
 
 function buildDraftText() {
-  const name = cur().name || '[Name]';
+  const name = cn(cur()) || '[Name]';
   const p = PR[cur().pronoun];
   const yr = cur().year || '';
   const counter = { value: 0 };
@@ -4669,7 +4676,7 @@ function renderMergeSuggestions() {
   banner.innerHTML = '';
 
   rules.forEach((rule, ri) => {
-    const name = cur().name || '[Name]';
+    const name = cn(cur()) || '[Name]';
     const p = PR[cur().pronoun];
     const yr = cur().year || '';
     const counter = { value: 0 };
@@ -5055,11 +5062,12 @@ function _renderOutCore() {
 
   if (hasOverride) {
     if (document.activeElement !== el || !_paneIsMine()) {
-      el.innerText = cur().draftOverride; _stampPane();
-      updateWc(cur().draftOverride);
+      const _ot = _draftShown(cur(), cur().draftOverride);
+      el.innerText = _ot; _stampPane();
+      updateWc(_ot);
     }
   } else {
-    const text = buildDraftText();
+    const text = _draftShown(cur(), buildDraftText());
     el.innerText = text; _stampPane();
     updateWc(text);
   }
@@ -5238,6 +5246,18 @@ function subjState(stu, subj) {
   if (subj === 'english') return stu.engPublished ? 'done' : ((stu.engOrdered || []).length ? 'draft' : 'none');
   if (subj === 'maths') return stu.mathPublished ? 'done' : ((stu.mathOrdered || []).length ? 'draft' : 'none');
   return stu.published ? 'done' : (((stu.ordered || []).length || stu.draftOverride) ? 'draft' : 'none');
+}
+// v3.17.11 · the name used inside comments. With "First name only in comments" on (Settings), "Jordan Smith" is written as "Jordan",
+// so two students with the same first name can be told apart in the lists. Off: the whole name, as before.
+function cn(stu) {
+  const full = stu && stu.name; if (!full) return full || '';
+  if (!flagOn('firstName')) return full;
+  const t = String(full).trim(); return t.split(/\s+/)[0] || full;
+}
+function _fullToFirst(stu, text) {   // comments already written with the whole name
+  const full = stu && stu.name ? String(stu.name).trim().replace(/\s+/g, ' ') : '';
+  if (!text || !full || full.indexOf(' ') < 0 || !flagOn('firstName')) return text;
+  return String(text).replace(new RegExp('(?<![A-Za-z0-9])' + full.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+') + '(?![A-Za-z0-9])', 'g'), full.split(' ')[0]);
 }
 function stuLabel(stu, i) { return (stu.name && stu.name.trim()) || ('Student ' + (i + 1)); }
 function stuInitials(stu, i) {
@@ -5787,7 +5807,7 @@ function getFinalCommentText(stu, subj) {
   const key = s === 'english' ? 'pubEditEnglish' : s === 'maths' ? 'pubEditMaths' : 'pubEditGeneral';
   const fdArr = s === 'english' ? (stu.engFD || []) : s === 'maths' ? (stu.mathFD || []) : [];
   const hash = s + '|' + JSON.stringify(fdArr);
-  if (stu[key] && stu[key + '_fdHash'] === hash && (!stu[key + '_subject'] || stu[key + '_subject'] === s) && (!stu.name || stu[key].includes(stu.name))) {
+  if (stu[key] && stu[key + '_fdHash'] === hash && (!stu[key + '_subject'] || stu[key + '_subject'] === s) && (!stu.name || stu[key].includes(cn(stu)))) {
     const tmp = document.createElement('div');
     tmp.innerHTML = stu[key];
     const t = paneTextFromEl(tmp);
@@ -6013,9 +6033,12 @@ function fixAlternation(text, name, p) {
 // Same rule applied to the Review pane itself (keeps highlights and cursor-free edits in place). Returns the number of fixes.
 function enforceAlternationDOM(root) {
   const stu = cur(); if (!root || !stu) return 0;
-  const name = stu.name || '[Name]', p = PR[stu.pronoun]; if (!p) return 0;
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun]; if (!p) return 0;
   const spans = Array.from(root.querySelectorAll('span[data-si]')).filter(x => !x.classList.contains('fd-line'));
   if (!spans.length) return 0;
+  if (flagOn('firstName') && /\s/.test(String(stu.name || '').trim())) {   // v3.17.11: a comment written with the whole name keeps just the first name
+    spans.forEach(sp => { const w = document.createTreeWalker(sp, NodeFilter.SHOW_TEXT); let nd; while ((nd = w.nextNode())) { const v = _fullToFirst(stu, nd.nodeValue); if (v !== nd.nodeValue) nd.nodeValue = v; } });
+  }
   const plan = _altPlan(spans.map(x => x.textContent), name, p);
   let n = 0;
   plan.forEach(a => {
@@ -6042,7 +6065,7 @@ function stripAltMarks(html) { return String(html || '').replace(/ data-alt="[^"
 function enforceAltText(stu, text) {
   if (!text || !stu) return text;
   const p = PR[stu.pronoun]; if (!p) return text;
-  return fixAlternation(text, stu.name || '[Name]', p).text;
+  return fixAlternation(_fullToFirst(stu, text), cn(stu) || '[Name]', p).text;
 }
 
 function escapeRegex(str) {
@@ -6063,7 +6086,7 @@ function getSubjectPublishText(stu, subj) {
   const subject = subj || currentSubject;
   // Returns the correct published text depending on the active subject
   if (subject === 'english') {
-    const name = stu.name || '[Name]';
+    const name = cn(stu) || '[Name]';
     const p = PR[stu.pronoun];
     const yr = yrA(stu, 'english');
     const counter = { value: 0 };
@@ -6079,7 +6102,7 @@ function getSubjectPublishText(stu, subj) {
     return [bodyText, fdText].filter(Boolean).join('\n\n');
   }
   if (subject === 'maths') {
-    const name = stu.name || '[Name]';
+    const name = cn(stu) || '[Name]';
     const p = PR[stu.pronoun];
     const yr = yrA(stu, 'maths');
     const counter = { value: 0 };
@@ -6107,14 +6130,14 @@ function getFDTextForStu(stu, subj) {
 function renderPublish() {
   _dismissedMerges = []; // reset dismissed flow suggestions on each publish render
   const stu = cur();
-  const name = stu.name || '[Name]';
+  const name = cn(stu) || '[Name]';
   const p = PR[stu.pronoun];
   // Snapshot currentSubject at the moment renderPublish is called —
   // prevents any async/event timing from changing it mid-render
   const renderSubject = currentSubject;
   const subjLabel = renderSubject === 'english' ? ' — English' : renderSubject === 'maths' ? ' — Mathematics' : '';
   { const _N = Math.max(totalStudents, students.length);   // v3.17.10: place in the class, so you can see how many are left
-    document.getElementById('pubName').textContent = `${name} (${currentIdx + 1} of ${_N}) — Semester ${currentSemester} 2026${subjLabel}`; }
+    document.getElementById('pubName').textContent = `${stu.name || '[Name]'} (${currentIdx + 1} of ${_N}) — Semester ${currentSemester} 2026${subjLabel}`; }
   document.getElementById('checkStatus').innerHTML = '';
   document.getElementById('flagLegend').style.display = 'none';
   document.getElementById('checkBtn').disabled = false;
@@ -6154,7 +6177,7 @@ function renderPublish() {
   // v3.6.0: a cache that never mentions this student by name belongs to someone else (an older bug could
   // copy one student's Review pane onto another). Drop it so the comment is rebuilt from the sentences.
   const cacheSubjectOk = (!stu[pubEditSubjKey] || stu[pubEditSubjKey] === renderSubject)
-    && (!stu.name || !stu[pubEditKey] || stu[pubEditKey].includes(stu.name));
+    && (!stu.name || !stu[pubEditKey] || stu[pubEditKey].includes(cn(stu)));
   if (stu[pubEditKey] && stu[pubEditFDKey] === currentFDHash && cacheSubjectOk) {
     // Cache is valid — subject, FD, and content all verified
     content.innerHTML = stu[pubEditKey];
@@ -6298,7 +6321,7 @@ async function runPolish() {
   if (btn) { btn.textContent = 'Polishing…'; btn.disabled = true; }
 
   const subjectName = currentSubject === 'english' ? 'English' : 'Mathematics';
-  const studentName = cur().name || 'the student';
+  const studentName = cn(cur()) || 'the student';
 
   try {
     const response = await anthropicFetch({
@@ -6904,7 +6927,7 @@ function syncGeneralOverride(key, adding, cat) {
   const stu = cur();
   const ex = stu.draftOverride;
   if (ex === null || ex === undefined || ex === '') return;
-  const name = stu.name || '[Name]', p = PR[stu.pronoun], yr = stu.year || '';
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun], yr = stu.year || '';
   const raw = resolveKey(key, stu);
   if (adding) {
     if (_inDraftAlready(stu, 'general', key, ex)) return;   // v3.14.4: it is still in the text (moved or reworded): just link it again
@@ -6923,7 +6946,7 @@ let _reconTimer = null;
 const _SYNC_PRON = new Set(['he','she','they','his','her','hers','their','theirs','him','them','himself','herself','themselves']);
 function _syncToks(t, stu) {
   let s = String(t || '').toLowerCase().replace(/[‘’]/g, "'");
-  const nm = String((stu && stu.name) || '[Name]').trim().toLowerCase();
+  const nm = String(cn(stu) || '[Name]').trim().toLowerCase();
   if (nm) s = s.replace(new RegExp('(?<![a-z0-9])' + nm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![a-z0-9])', 'g'), ' x ');
   return (s.match(/[a-z0-9']+/g) || []).map(w => w.replace(/^'+|'+$/g, '')).filter(Boolean).map(w => _SYNC_PRON.has(w) ? 'x' : w);
 }
@@ -6960,7 +6983,7 @@ function _bestWindow(ct, k, stoks, blocked) {
 const SYNC_SAME = 0.9999, SYNC_EDITED = 0.5;
 // text = the teacher's hand-edited draft. Returns Map key → { status: 'same'|'edited'|'gone', from, to }
 function _draftMatches(stu, subj, keys, text) {
-  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
   const sents = splitSentences(text), stoks = sents.map(s => _syncToks(s, stu));
   const items = [];
   keys.forEach(key => {
@@ -7080,7 +7103,7 @@ function _freeMatchScore(stu, subj, key, text) {
   const others = _subjKeys(stu, subj).filter(k => k !== key);
   const sents = splitSentences(text), stoks = sents.map(x => _syncToks(x, stu)), blocked = new Array(sents.length).fill(false);
   _draftMatches(stu, subj, others, text).forEach(v => { if (v.status !== 'gone') for (let q = v.from; q < v.to; q++) blocked[q] = true; });
-  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
   const raw = resolveKey(key, stu); if (!raw) return 0;
   const cand = applyAlternation(raw, name, p, { value: 0 }, yr), alt = p.S === 'They' ? applyAlternation(raw, name, p, { value: 1 }, yr) : null;
   return _bestWindow2({ ct: _syncToks(cand, stu), ct2: alt && alt !== cand ? _syncToks(alt, stu) : null, k: Math.max(1, splitSentences(cand).length) }, stoks, blocked).score;
@@ -7110,7 +7133,7 @@ function _pasteBankList(subj) {
 function pasteTickFind(stu, subj, text) {
   const sents = splitSentences(text);
   if (!sents.length) return { found: [], left: 0 };
-  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
   const stoks = sents.map(x => _syncToks(x, stu)), blocked = new Array(sents.length).fill(false);
   _draftMatches(stu, subj, _subjKeys(stu, subj), text).forEach(v => { if (v.status !== 'gone') for (let q = v.from; q < v.to; q++) blocked[q] = true; });   // text a ticked sentence already explains
   const words = new Set([].concat(...stoks));
@@ -7181,7 +7204,7 @@ function scheduleReconcile(stu, subj, snap) {
 }
 // Clicking a yellow sentence to take it out: remove the teacher's reworded version from the draft too.
 function removeKeyFromText(text, key, stu) {
-  const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, currentSubject);
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, currentSubject);
   const raw = resolveKey(key, stu);
   for (const start of [0, 1]) {
     const r = applyAlternation(raw, name, p, { value: start }, yr);
@@ -7240,7 +7263,7 @@ function _sentSpans(text) {
 // Which turn the new sentence takes after `before`: 0 = the name, 1 = a pronoun, null = cannot tell (the caller counts as it did before).
 function _nextTurn(stu, before) {
   const last = splitSentences(before).pop(); if (!last) return 0;
-  const nm = String(stu.name || '').trim();
+  const nm = String(cn(stu) || '').trim();
   if (nm && new RegExp('^' + nm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z0-9])').test(last)) return 1;
   if (/^(He|She|They|His|Her|Their|Him|Them|Hers|Theirs)\b/.test(last)) return 0;
   return null;
@@ -7311,7 +7334,7 @@ function setCustomTier(tier) {
 function renderAllStrandsView(grid) {
   const bank = getBank();
   const sel = getSubjSelected();
-  const name = cur().name || '[Name]';
+  const name = cn(cur()) || '[Name]';
   const p = PR[cur().pronoun];
   const yr = cur().year || '';
   const yrAl = yrA(cur(), currentSubject);   // v3.16.21: the year plus the year her work aligns with, for the sentence text
@@ -7494,7 +7517,7 @@ function renderSubjOpts(grid) {
   const sel = getSubjSelected();
   const ord = getSubjOrdered();
   const selectedGrades = getCurGrade(currentTab);
-  const name = cur().name || '[Name]';
+  const name = cn(cur()) || '[Name]';
   const p = PR[cur().pronoun];
   const yr = cur().year || '';
   const yrAl = yrA(cur(), currentSubject);   // v3.16.21: the year plus the year her work aligns with, for the sentence text
@@ -8669,7 +8692,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.10';
+const APP_VERSION = 'v3.17.11';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -9072,7 +9095,7 @@ function replaceInStudent(stu, subj, word, to) {
     if (has(t)) { stu.draftOverride = _swapText(t, word, to); changed = true; }
   } else {
     const eng = subj === 'english', dk = eng ? 'engDraft' : 'mathDraft', ek = eng ? 'engDraftEdited' : 'mathDraftEdited', fk = eng ? 'engFD' : 'mathFD';
-    const name = stu.name || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj), counter = { value: 0 };
+    const name = cn(stu) || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj), counter = { value: 0 };
     const body = (stu[ek] && stu[dk]) ? stripFDLines(stu[dk]) : (stu[eng ? 'engOrdered' : 'mathOrdered'] || []).map(x => applyAlternation(resolveKey(x, stu), name, p, counter, yr)).join(' ');
     if (has(body)) { stu[dk] = _swapText(body, word, to); stu[ek] = true; changed = true; }
     if (Array.isArray(stu[fk]) && stu[fk].some(has)) { stu[fk] = stu[fk].map(x => has(x) ? _swapText(x, word, to) : x); changed = true; }
@@ -10210,7 +10233,7 @@ function highlightDuplicateWords() {
   });
 
   // Build dynamic ignore list: student name + all pronoun forms
-  const stuName = (cur().name || '').toLowerCase();
+  const stuName = (cn(cur()) || '').toLowerCase();
   const pron = PR[cur().pronoun || 'he'];
   // Split name on spaces AND hyphens so Ruby-Lee doesn't flag Lee as repeated
   const nameParts = stuName.split(/[\s\-]+/);
@@ -10820,7 +10843,7 @@ function getBuiltCommentText(stu, subj) {
   const s = subj || 'general';
   const raw = getSubjectPublishText(stu, s);
   if (!raw || !raw.trim()) return '';
-  const name = stu.name || '[Name]', p = PR[stu.pronoun];
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun];
   return fixAlternation(raw, name, p).text;
 }
 // Called when a comment is finished or left: compare the built text with the final text and remember the swaps.
@@ -11266,7 +11289,7 @@ function addContinuedS1() {
   if (!raw) { showToast('Please write the sentence first.'); return; }
   const { cat, tier } = _s1m;
   const stu = cur();
-  const tpl = templatise(raw, stu.name, getPron());
+  const tpl = templatise(_fullToFirst(stu, raw), cn(stu), getPron());
   if (_s1m.subj) {   // Maths or English: keep it as one of the student's own sentences and add it to the comment like a click
     const subj = _s1m.subj, ck = subj === 'english' ? 'engCustom' : 'mathCustom';
     if (!stu[ck]) stu[ck] = {};
@@ -11394,7 +11417,7 @@ function showNextLongSentence() {
 // ══ v3.16.13 · MORE SETTINGS ═══════════════════════════════════════════════
 // Saved on this device, like the word limits. Every default leaves the app working exactly as before.
 function getSimMode() { const v = lsGet('rcb_simmode', 'top'); return v === 'mark' || v === 'off' ? v : 'top'; }
-const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch', pasteTick: 'rcb_pastetick', catOrder: 'rcb_catorder' };
+const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch', pasteTick: 'rcb_pastetick', catOrder: 'rcb_catorder', firstName: 'rcb_firstname' };
 function flagOn(name) { return lsGet(_FLAG_KEYS[name], true) !== false; }
 function _settingChanged(name) {
   try {
@@ -11431,6 +11454,8 @@ function renderMoreSettings() {
     + '<div class="sw-pane-title">General comment paragraphs</div>'
     + sw('paras', 'Split the General comment into paragraphs', 'Off puts the whole comment in one paragraph. No words change.')
     + _paraRulesHtml()
+    + '<div class="sw-pane-title">Student names</div>'
+    + sw('firstName', 'First name only in comments', 'If you type a surname after the first name (for example Jordan Smith), comments use only Jordan. The whole name still shows in the lists, so two students with the same first name can be told apart. Off uses the whole name in the comment.')
     + '<div class="sw-pane-title">Adding sentences to the draft</div>'
     + sw('catOrder', 'Put new sentences in category order', 'A sentence you add goes where its category sits in the list, among the sentences already in the draft. A sentence you moved stays where you put it. Off adds each new sentence at the end.')
     + '<div class="sw-pane-title">Pasting a finished comment</div>'
