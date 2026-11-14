@@ -8726,7 +8726,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.15';
+const APP_VERSION = 'v3.17.16';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10113,7 +10113,7 @@ const REPORT_WHITELIST = new Set([
   'skills','skill','knowledge','understanding','ability','abilities','effort',
   'attitude','behaviour','progress','growth','development','improvement',
   'opportunity','opportunities','experience','experiences','area','areas',
-  'approach','approaches','interest','interests','ideas','ideas','feedback',
+  'approach','approaches','interest','interests','feedback',
 ]);
 
 // ── WORD FAMILIES (v3.16.5) ──────────────────────────────────────
