@@ -100,14 +100,17 @@ test('the Swap button sits outside the comment text, appears on pointing, swaps 
   await page.context().close();
 });
 
-test('no Swap button in English or Maths Review', async () => {
+test('the Swap button also shows in English Review, but never on a future direction line', async () => {
   const page = await ready();
   await page.evaluate(() => { switchStu(0); setSubject('english'); });
   const name = await page.evaluate(() => students[0].name);
-  await openReview(page, name, 'english').catch(() => {});
-  await page.hover('#pubContent span[data-pi][data-si]').catch(() => {});
-  await settle(page, 150);
-  assert.ok(!(await page.isVisible('#swapBtn').catch(() => false)));
+  await openReview(page, name, 'english');
+  await page.hover('#pubContent p.pub-para:not(.fd-para) span[data-pi][data-si]');
+  await page.waitForSelector('#swapBtn', { state: 'visible' });
+  if (await page.$('#pubContent .fd-line')) {
+    await page.hover('#pubContent .fd-line'); await settle(page, 800);
+    assert.ok(!(await page.isVisible('#swapBtn')), 'no Swap button on a future direction');
+  }
   await page.context().close();
 });
 

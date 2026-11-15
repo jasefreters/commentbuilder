@@ -16,7 +16,7 @@ async function prep(page, i, lv) {
   await page.evaluate(([i, lv]) => { switchStu(i); setSubject('general'); if (lv) onGenLevel(currentIdx, lv); const s = cur(); CATS.forEach(c => (s.selected[c] || []).slice().forEach(k => genRemoveKey(c, k))); render(); }, [i, lv]);
 }
 
-test('Quick mode is off by default, shows only in General, and switching it on and off leaves the bank as it was', async () => {
+test('Quick mode is off by default, shows in every subject, and switching it on and off leaves the bank as it was', async () => {
   const page = await ready();
   assert.strictEqual(await page.getAttribute('#quickBtn', 'aria-checked'), 'false');
   assert.ok(await page.isVisible('#quickBtn'));
@@ -26,8 +26,8 @@ test('Quick mode is off by default, shows only in General, and switching it on a
   assert.ok(await page.$('#quickPanel'));
   await page.click('#quickBtn'); await settle(page, 100);
   assert.strictEqual(await page.$eval('#optsGrid', e => e.innerHTML), bankBefore, 'the usual list is exactly as before');
-  await page.evaluate(() => setSubject('english')); assert.ok(!(await page.isVisible('#quickBtn')));
-  await page.evaluate(() => setSubject('maths')); assert.ok(!(await page.isVisible('#quickBtn')));
+  await page.evaluate(() => setSubject('english')); assert.ok(await page.isVisible('#quickBtn'));
+  await page.evaluate(() => setSubject('maths')); assert.ok(await page.isVisible('#quickBtn'));
   await page.context().close();
 });
 
