@@ -8871,15 +8871,14 @@ function renderQuickPanel(grid) {
   head.textContent = (idx + 1) + ' of ' + _GL.length + ' · ' + cat;
   box.appendChild(head);
   const traits = GEN_TRAITS[cat] || [];
-  const shown = [], hidden = [];
+  const shown = [];
   traits.forEach(t => {
     const ticked = quickTicked(stu, cat, t), all = quickCandidates(stu, cat, t, true);
     if (!ticked && !all.length) return;   // nothing in it is offered this semester
-    const atLevel = !tiers || !lv || all.some(x => _tierOfRaw(cat, x) === lv);
-    if (ticked || atLevel || _quickShowAll) shown.push({ t, ticked }); else hidden.push(t);
+    shown.push({ t, ticked });   // v3.17.30: every group is always shown (no "Show more"); the level only decides which sentence is picked first
   });
   const sub = document.createElement('p'); sub.className = 'quick-sub';
-  sub.textContent = tiers && lv && !_quickShowAll ? 'Tap what fits. Showing the ones with a ' + lvLabel[lv] + ' sentence.' : 'Tap what fits.';
+  sub.textContent = 'Tap what fits.';
   box.appendChild(sub);
   const chips = document.createElement('div'); chips.className = 'quick-chips'; chips.setAttribute('role', 'group'); chips.setAttribute('aria-label', cat + ' characteristics');
   shown.forEach(({ t, ticked }) => {
@@ -8888,7 +8887,6 @@ function renderQuickPanel(grid) {
   });
   if (!shown.length) { const m = document.createElement('div'); m.className = 'yr-fallback'; m.textContent = 'Nothing in this category is offered this semester.'; chips.appendChild(m); }
   box.appendChild(chips);
-  if (hidden.length) box.appendChild(_quickBtn('Show ' + hidden.length + ' more', 'quick-link', () => { _quickShowAll = true; render(); }));
   const nav = document.createElement('div'); nav.className = 'quick-nav';
   const picked = traits.some(t => quickTicked(stu, cat, t));
   const back = _quickBtn('Back', 'quick-link', () => quickGo(-1)); if (idx === 0) back.disabled = true;
@@ -13925,7 +13923,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.30';
+const APP_VERSION = 'v3.17.31';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -14670,6 +14668,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.31', date: '15 November 2026', items: [
+    'Quick mode for General now always shows every button in a category. The "Show more" button is gone; the student\'s level still decides which sentence is picked first.'
+  ] },
   { v: 'v3.17.30', date: '15 November 2026', items: [
     'General comments now say what the student can do. "Is beginning to" was taken out of 32 General sentences (for example "is beginning to persist with short tasks" is now "persists with short tasks"), and the Personal and Social Capability level tag on each moved down to the earlier level where that skill is expected. Comments you have already built keep the wording they have; sentences picked from now on use the new wording.',
   ] },

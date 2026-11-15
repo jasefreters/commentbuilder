@@ -228,3 +228,20 @@ test('categories without groups (Emotional Wellbeing, Reflection & Goal Setting)
   assert.ok(await page.$('#quickPanel'), 'Quick mode opens');
   await page.context().close();
 });
+
+test('every characteristic in a category is shown whatever the level, with no "Show more" button (v3.17.30)', async () => {
+  const page = await ready();
+  await prep(page, 0, 'strong'); await quickOn(page);
+  const r = await page.evaluate(() => {
+    const out = [];
+    CATS.forEach(c => { if (!GEN_TRAITS[c] || !_quickHasTiers(c)) return; currentTab = c; render();
+      const shown = document.querySelectorAll('#quickPanel .quick-chip').length;
+      const offered = GEN_TRAITS[c].filter(t => quickCandidates(cur(), c, t, true).length || quickTicked(cur(), c, t)).length;
+      out.push({ c, shown, offered, more: [...document.querySelectorAll('#quickPanel .quick-link')].some(b => /Show \d+ more/.test(b.textContent)) });
+    });
+    return out;
+  });
+  assert.ok(r.length > 3);
+  r.forEach(x => { assert.strictEqual(x.shown, x.offered, x.c); assert.ok(!x.more, x.c); });
+  await page.context().close();
+});
