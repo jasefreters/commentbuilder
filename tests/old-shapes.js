@@ -24,7 +24,7 @@ async function buildOldShapes(page) {
     currentIdx = 0; totalStudents = students.length; _ensureUids();
     loadCur(); render();
     const gcats = ['Personality', 'Effort & Work Habits', 'Social Skills', 'Independence', 'Closing Statement'];
-    const tickGeneral = i => { switchStu(i); setSubject('general'); gcats.forEach((c, j) => { const a = RAW[c]; toggleOpt(c, a[(i * 2 + j) % a.length]); }); };
+    const tickGeneral = i => { switchStu(i); setSubject('general'); gcats.forEach((c, j) => { const a = RAW[c].filter(x => typeof PSC_LEVEL === 'undefined' || !PSC_LEVEL[x]); toggleOpt(c, a[(i * 2 + j) % a.length]); }); };
     const tickSubject = (i, subj) => {
       switchStu(i); setSubject(subj); const bank = getBank();
       Object.keys(bank).filter(c => c !== 'Below Expectations').slice(0, 4).forEach((c, j) => { const g = bank[c]; const arr = g.C || g[Object.keys(g)[0]]; toggleSubjOpt(c, arr[(i + j) % arr.length]); });
@@ -47,7 +47,7 @@ async function buildOldShapes(page) {
     // Cam: Done pressed in Build, then one more sentence ticked
     { const i = at('Cam'); switchStu(i); setSubject('general'); const s = students[i];
       s.custom['__edited__'] = [getBuiltCommentText(s, 'general').replace('.', ' with real pride.')]; s.editedCat = gcats[0]; s.orderedAtDone = s.ordered.slice(); s.orderedAfterEdit = [];
-      const a = RAW['Independence']; toggleOpt('Independence', a[(5) % a.length]); }
+      const a = RAW['Independence'].filter(x => typeof PSC_LEVEL === 'undefined' || !PSC_LEVEL[x]); toggleOpt('Independence', a[(5) % a.length]); }
     // Faye: three stores that disagree (the shape of a comment edited in Review after typing in Build)
     { const i = at('Faye'); switchStu(i); setSubject('general'); const s = students[i]; const b = getBuiltCommentText(s, 'general');
       s.custom['__edited__'] = [b + ' Done text.']; s.editedCat = gcats[0]; s.orderedAtDone = s.ordered.slice(); s.orderedAfterEdit = []; }
