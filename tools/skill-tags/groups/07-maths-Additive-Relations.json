@@ -1,0 +1,232 @@
+{
+  "subject": "maths",
+  "section": "Additive Relations",
+  "strand": "Additive Relations",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} applies a range of addition and subtraction strategies effectively."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} applies known strategies to solve addition and subtraction problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} uses {{pos}} knowledge of addition and subtraction to solve complex worded problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} applies different strategies to solve addition and subtraction problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} uses known number facts and basic strategies to solve addition and subtraction problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} solves subtraction with three-digit numbers."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} adds two small groups of counters to solve mathematical problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} shows different ways to make numbers up to ten using counters, such as '4 and 3 makes 7'."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} knows some combinations of numbers up to 10, such as '3 and 3 makes 6', and draws pictures to show {{pos}} thinking."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} solves simple addition problems by doubling, such as '6 and 6 makes 12'."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} uses taught strategies to solve addition and subtraction problems with combinations up to 20."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} uses concrete materials to model addition and subtraction problems involving two-digit numbers."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} uses the equals sign to show when two number sentences have the same total."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} recalls related addition and subtraction facts for numbers to at least 20."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} solves addition and subtraction problems by separating numbers into their place value."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} solves addition and subtraction problems using appropriate mental strategies."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} uses estimation to decide whether an answer is reasonable."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} solves addition and subtraction problems with numbers of any size using a range of strategies."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} combines and separates groups of items."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} counts across two small groups to find a total."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} plots pairs of numbers on a grid to show a straight-line pattern."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} uses graphs to solve simple equations."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Combining groups of items."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Separating groups of items."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Counting across two small groups to a total within a counting range."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Combining two or more groups of objects to model addition."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Separating and taking away part of a group of objects to model subtraction."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Creating and recognising combinations for numbers up to ten."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Counting by ones to find the total or difference when solving questions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Comparing two groups of objects to determine how many more."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using strategies to solve addition and subtraction problems involving one and two-digit numbers."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Describing number combinations using 'more than', 'less than' and 'double'."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Recalling related addition and subtraction facts for numbers to at least 20."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Solving two-digit addition problems."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Solving addition problems by separating numbers into tens and ones."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Applying mental strategies to add and subtract."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing solutions to addition and subtraction problems using a variety of strategies."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Calculating addition and subtraction problems with money."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using an algorithm to solve addition and subtraction problems with up to 3 digits."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Choosing the most efficient addition and subtraction strategies to solve mathematical problems."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving word problems with multiple steps."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Applying known strategies to solve addition and subtraction problems."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using place value to add or subtract 3 or more numbers with different numbers of digits."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Rounding numbers appropriately when estimating."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving word problems involving the addition and subtraction of decimals up to 3 decimal places."
+    }
+  ]
+}

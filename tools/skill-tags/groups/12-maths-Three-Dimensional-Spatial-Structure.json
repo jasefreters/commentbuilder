@@ -1,0 +1,217 @@
+{
+  "subject": "maths",
+  "section": "Three-Dimensional Spatial Structure",
+  "strand": "Three-Dimensional Spatial Structure",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} efficiently connects three-dimensional objects with their two-dimensional representations."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} compares and constructs three-dimensional objects such as prisms and pyramids."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} connects three-dimensional objects with their two-dimensional representations."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} connects three-dimensional objects with two-dimensional drawings and representations."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A+B",
+      "text": "{{S}} visualises and constructs prisms and pyramids."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} compares basic three-dimensional objects and explains how to connect them with their two-dimensional representations."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} identifies basic three-dimensional objects and describes their features."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} describes and compares three-dimensional objects."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} names three-dimensional objects including cubes, cylinders, spheres and rectangular prisms."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} names and describes the features of common three-dimensional objects."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} participates in whole class activities to sort objects by one feature."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} experiments with filling and pouring to compare how much containers can hold."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} predicts which objects will stack and packs blocks into a given space."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} compares how much space different block models take up."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} builds shapes from connecting cubes to compare how much space they take up."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} compares how much different containers can hold using concrete materials."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} describes the features of prisms, pyramids and cylinders by building models of them."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} measures how much containers hold in litres, linking the litre to everyday containers."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} sketches objects from different views and builds models from drawings."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} orders the amounts different containers can hold that have been measured in millilitres."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} selects objects by pointing or touching as they are named."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} matches objects to given shapes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} stacks objects such as blocks."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} describes how objects made by joining prisms look from different views."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Selecting objects by pointing or touching as they are named."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Matching objects to given shapes."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Stacking three-dimensional objects."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Describing the features of familiar objects."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Making and describing a variety of three-dimensional models."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Sorting objects and identifying the features used to sort them."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Naming three-dimensional objects, including cubes, cylinders, spheres and rectangular prisms."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Sorting three-dimensional objects according to features."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Naming a three-dimensional object when given a description of its features."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Explaining why containers of different shapes may have the same volume."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying the differences between prisms, pyramids and cylinders."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Constructing models of prisms, pyramids and cylinders."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying features of prisms and pyramids from images."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Sketching rectangular prisms and pyramids, showing depth."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Comparing features of prisms and pyramids."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Drawing three-dimensional objects from different views."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Constructing three-dimensional models of prisms and pyramids."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Calculating volumes of rectangular prisms in cubic centimetres and cubic metres."
+    }
+  ]
+}

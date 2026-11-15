@@ -1,0 +1,322 @@
+{
+  "subject": "maths",
+  "section": "Represents Numbers",
+  "strand": "Representing Whole Numbers",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} works confidently with large numbers, reads and writes values in the millions, and understands decimals to the hundredths and thousandths."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} confidently works with large numbers and applies place value knowledge to understand numbers in the millions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A+B",
+      "text": "{{S}} compares and orders decimals and percentages."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} adds and subtracts positive and negative numbers."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} works confidently with large numbers in the millions and applies place value to solve a range of problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A+B",
+      "text": "{{S}} compares and orders whole numbers and fractions and rounds decimals accurately."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} applies {{pos}} knowledge of place value to work confidently with large numbers."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} works confidently with large numbers and applies place value to solve problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} rounds whole numbers and decimals to estimate results."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} reads and represents numbers using place value knowledge."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} uses place value to read, write and work with large numbers and represents them in different ways."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} reads, writes, and interprets numbers in a variety of ways."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} works with whole numbers and applies place value to solve problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} rounds numbers to estimate results and records numbers in different ways."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} is learning to read and represent numbers in different ways and can order numbers up to four digits."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} separates numbers into groups of tens and ones."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} counts objects carefully to find the total when solving mathematical problems with the class."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} represents numbers using drawings, words and numerals."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} immediately recognises the number of objects in a small collection."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} counts forwards and backwards from 40."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} knows one more and one less of numbers up to 100."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} counts forwards from any given number up to 120."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} reads, writes and orders three-digit numbers."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} states what each digit is worth in a three-digit number."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} identifies the number before and after a given three-digit number."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} understands that one thousand is made up of ten hundreds and represents numbers using words and drawings."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} arranges numbers of up to six digits from lowest to highest."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} recognises different finger patterns for the same number."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} selects numerals using eye contact, gestures or touch."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} says number words in order and points to or touches objects as {{s}} counts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} multiplies and divides positive and negative numbers."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} tells apart decimals that end and decimals that repeat forever."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} writes one amount as a fraction, decimal or percentage of another."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} finds any percentage of an amount to solve problems."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Recognising different finger patterns for the same number."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Selecting numerals using eye contact, gesture or physical contact."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Saying number words in a sequence starting at one."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Looking at, pointing to or touching objects as they are being counted."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Recognising up to four items in small groups without counting."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Counting forwards to at least 30."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Stating the number after or before a given number."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Counting backwards from a given number between 1 and 20."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Reading numerals to at least 20, including zero."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Comparing and ordering numbers to 20."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Counting forwards from any given number up to 120."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Counting backwards from any given number from 120."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Rounding numbers to the nearest ten using a number line."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Estimating the number of objects in a collection to the nearest hundred."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Stating the place value of digits in two-digit numbers."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using place value to separate three-digit numbers."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Comparing the size of numbers by positioning them on a number line."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing numbers up to four-digits using different materials."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Reading and ordering numbers of up to at least four-digits."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing tenths and hundredths on a number line."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using a decimal point to record tenths and hundredths."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Comparing and ordering decimals of up to two places."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Arranging numbers in the millions in ascending and descending order."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Rounding numbers to a specified place value."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Regrouping numbers in different forms."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Interpreting decimal notation for thousandths."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recognising the location of negative whole numbers in relation to zero."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recalling commonly used percentages, decimals and fractions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Calculating the sale price of an item after a discount of 10%, 25% and 50%."
+    }
+  ]
+}

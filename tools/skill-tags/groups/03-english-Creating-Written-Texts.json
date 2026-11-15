@@ -1,0 +1,397 @@
+{
+  "subject": "english",
+  "section": "Creating Written Texts",
+  "strand": "Creating Written Texts",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} experiments with narrative writing features, showcasing creativity and thoughtfulness."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with appropriate detail."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} shows a strong understanding of how to plan, structure and revise persuasive texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} includes specific details in {{pos}} writing to make {{pos}} ideas clearer and more engaging."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} structures writing in a clear and organised way and includes detail to support ideas."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} plans, drafts and revises persuasive texts effectively."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} uses planning strategies effectively when creating texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} plans and organises information reports."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} applies a variety of tenses to suit different writing tasks."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} is developing skills in structuring and editing persuasive texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} organises recounts and attempts informative texts with emerging control."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} draws pictures to represent {{pos}} ideas and writes short sentences using words displayed in the classroom."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} writes simple sentences using words displayed in the classroom."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} draws pictures to show {{pos}} ideas and labels {{pos}} work using words displayed in the classroom."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} plans {{pos}} writing and improves it after feedback."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} writes simple and compound sentences about characters and events using correct punctuation."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} writes for different purposes, such as to describe, explain, give an opinion or tell a story."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} creates a beginning, a problem, and a resolution using simple paragraphs."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} writes informative texts with headings and paragraphs that begin with a main idea."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} structures persuasive paragraphs with a clear statement of position and supporting ideas."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} forms simple paragraphs to express {{pos}} ideas and edits {{pos}} work for correct punctuation."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} maintains a consistent point of view throughout imaginative writing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} takes part in creating texts with others."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} uses pictures and symbols to create texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} chooses topics to write about."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} draws pictures to support {{pos}} writing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} argues against opposing views to strengthen {{pos}} persuasive writing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} backs up a clear main argument about a text with evidence from it."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} works with others to write texts that bring together different ideas and values."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} reflects on how planning and revising changes the clarity of {{pos}} writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Participating in creating texts with others."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Using pictures and symbols to create texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying topics they would like to write about."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Drawing pictures to support writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Creating a text including at least 2 related ideas."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Sequencing ideas in a written text."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Creating written texts to give an opinion."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Creating written texts to recount an event."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Writing phrases that show time or place."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using a capital letter and full stop correctly when writing sentences."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using question marks and exclamation marks correctly when writing sentences."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Editing their work after receiving feedback."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing a text that gives a description."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing a text that gives an opinion."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing a text that tells a story."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Sequencing ideas in a logical order when writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing paragraphs in a sequenced order."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing a combination of sentence types."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using commas to separate ideas when writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using punctuation accurately when writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Re-reading and editing their own writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Sequencing ideas and actions into paragraphs when writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Creating written texts to persuade a viewpoint."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Sequencing arguments into paragraphs with ideas and topic sentences when writing a persuasive text."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using a variety of sentence types when writing texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using topic specific language in writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Writing informative texts using the correct features (e.g. headings, paragraphs, topic sentences)."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Creating factual and historical accounts which follow the appropriate structure."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using capital letters appropriately when writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using commas appropriately when writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Researching and summarising topic-related ideas when planning for writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Choosing appropriate text structures, features and language when writing imaginative texts to engage the audience."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Making creative choices about imaginary settings, character profiles and motives to enhance reader engagement."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Choosing appropriate text structures, features and language when writing informative texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Writing ideas through logically sequenced paragraphs."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Choosing appropriate text structures, features and language when writing persuasive texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using persuasive language to strengthen arguments in writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Writing appropriate sentence types to suit purpose and audience."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Varying the sentence structures and lengths when creating texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Experimenting with different language features for effect and to engage the reader."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using print or digital tools to plan, sequence, create, revise, edit and publish texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Re-reading, proofreading and editing own and others' writing."
+    }
+  ]
+}

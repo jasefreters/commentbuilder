@@ -1,0 +1,187 @@
+{
+  "subject": "maths",
+  "section": "Representing Quantity Fractions",
+  "strand": "Representing Quantity Fractions",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} adds, subtracts, multiplies and divides fractions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} compares and orders fractions, decimals and percentages and explains how they are related."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} solves problems involving the multiplication and division of fractions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} compares amounts using ratios, such as 2 to 3, and explains how they connect to fractions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} calculates percentage discounts and finds fractions of whole numbers."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} adds and subtracts simple fractions with accuracy."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} works with fractions and decimals and identifies prime numbers."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} demonstrates an understanding of the connection between common fractions, decimals and percentages."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} expresses common percentages as both fractions and decimals."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} works with fractions and decimals with growing accuracy."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} understands common fractions and writes them as decimals."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} recognises and represents fractions of a length and records numbers in different forms."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} recognises fractions and decimals and applies them in simple problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} recognises simple fractions such as halves and quarters and records numbers as decimals."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} converts simple fractions to decimals."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} represents fractions with halves, quarters and thirds."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} accurately represents fractions on a number line."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} writes tenths and hundredths as decimal numbers."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} represents common fractions using models and number lines."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} recognises and names simple fractions such as halves and quarters."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} is learning to recognise, name and represent simple fractions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} models halves, quarters, and eighths of a collection using counters."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} divides objects into equal halves, quarters and eighths to represent fractions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} shows that different fractions can represent the same amount."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing fractions with halves, quarters, eighths and thirds."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Naming fractions up to one whole."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recording fractions that are equal using diagrams and number lines."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recognising how many parts make one whole."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Determining the location of common fractions on a number line."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Comparing and ordering different fractions by placing them on a number line."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Adding and subtracting similar fractions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving word problems that involve similar fractions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Ordering common fractions using diagrams and number lines."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Creating fractions that are equal for half in quarters, eighths, sixths and tenths."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving real-life problems that involve finding a part of a total amount."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Finding parts of a group including halves, quarters, fifths and tenths."
+    }
+  ]
+}

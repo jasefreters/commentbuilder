@@ -1,0 +1,262 @@
+{
+  "subject": "maths",
+  "section": "Two-Dimensional Spatial Structure",
+  "strand": "Two-Dimensional Spatial Structure",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} calculates areas and matches three-dimensional objects with their two-dimensional drawings."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} classifies triangles and quadrilaterals by their features."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} calculates the area of two-dimensional shapes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} identifies and classifies triangles and quadrilaterals based on their properties."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} identifies and classifies triangles and quadrilaterals by their features."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} classifies triangles and quadrilaterals based on their properties."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} classifies triangles and quadrilaterals."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} identifies and names common two-dimensional shapes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} names basic shapes in {{pos}} environment and describes their features."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} makes pictures and designs by fitting shapes together."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} compares the surfaces of two shapes to see which is bigger."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} makes shapes by tracing around objects, drawing and building."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} sorts two-dimensional shapes based on their sides and corners."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} compares the area of two-dimensional shapes by using counters and blocks."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} slides, flips and turns shapes, recognising that the shape stays the same size."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} creates rows and columns to model the area of rectangles."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} compares and describes the features of shapes, such as parallel sides or equal sides."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} finds lines of symmetry in pictures, designs and shapes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} creates grid structures to model the area of rectangles."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} creates patterns by flipping, sliding and turning shapes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} compares the areas of shapes by estimating first, then measuring on a square grid."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} combines shapes to make new shapes and designs."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} splits a shape into smaller shapes and describes the result."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} points to a square, triangle, circle or rectangle when asked and matches them to images."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} sorts shapes into groups."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} finds missing angles when a line crosses a pair of parallel lines."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} uses the properties of triangles and four-sided shapes to find unknown angles."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} finds a missing side of a right-angled triangle."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Pointing to a square, triangle, circle or rectangle when asked."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Sorting shapes into groups."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Matching circles, squares, triangles or rectangles to images."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Sorting shapes according to features such as size and shape."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Describing shapes including circles, squares, triangles and rectangles."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Making pictures and designs using a selection of shapes."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using comparative language to describe areas."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Describing the features of two-dimensional shapes."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Naming two-dimensional shapes based on their sides and corners."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Comparing two-dimensional shapes based on their sides and corners."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using informal units to compare the area of two-dimensional shapes."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Comparing two-dimensional shapes based on their features."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying two-dimensional shapes that have parallel sides."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Creating a grid structure to model the area of a rectangle."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Measuring the areas of squares and rectangles."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Measuring the areas of rectangles and right-angled triangles."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Describing shapes that have parallel sides."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recognising the need for formal units larger than the square metre."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Calculating areas of rectangles in square centimetres, square metres and square kilometres."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recording and using the formula to find the area of a parallelogram."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recording and using the formula to find the area of a triangle."
+    }
+  ]
+}
