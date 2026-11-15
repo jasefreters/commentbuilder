@@ -101,7 +101,7 @@ test('the first sync after updating from an older version of the app still merge
   await save(a); await settle(a, 300);
   await save(b); await settle(b, 300);
   assert.ok((await snapshot(b))['Sam|english'].includes('FromA'), 'device B received the change');
-  assert.equal(await b.evaluate(() => _syncBase.v), 2, 'and now keeps its record in the new form');
+  assert.equal(await b.evaluate(() => _syncBase.v), 3, 'and now keeps its record in the new form');
   await a.context().close(); await b.context().close();
 });
 

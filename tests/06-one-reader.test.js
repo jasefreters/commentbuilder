@@ -16,7 +16,7 @@ test('only the build code and the few comparing built with final text read the b
   // change. They may be called by the code that builds, and by the code that compares built with final. Everything else asks commentText.
   const src = fs.readFileSync(APP, 'utf8').split('\n');
   const allowed = new Set(['getPublishedText', 'getSubjectPublishText', 'getBuiltCommentText', 'getFinalCommentText', 'renderPublish',
-    'learnFromCurrent', '_reviewToDraftIfChanged', '_hs', 'replaceInStudent', 'copyDraft']);
+    'learnFromCurrent', '_reviewToDraftIfChanged', '_hs', '_hsV2', '_upgradeSubject', 'replaceInStudent', 'copyDraft']);
   let fn = '(top)'; const offenders = [];
   src.forEach((l, i) => {
     const m = l.match(/^\s*(?:async\s+)?function\s+([A-Za-z0-9_$]+)\s*\(/); if (m && (l.length - l.trimStart().length) <= 2) fn = m[1];

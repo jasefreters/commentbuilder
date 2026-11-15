@@ -6360,7 +6360,7 @@ function _hsLegacy(s) { return _hash(_canon(_normStudent(s, 0))); }   // the fin
 // Fingerprint of one student (defaults filled in, key order ignored).
 // v3.17.21: looking at a comment in Review is not a change. Review keeps a copy of what it showed (pubEdit...) and a note of the
 // paragraph rules; neither goes into the fingerprint, unless the Review copy says something the comment itself does not.
-function _hs(s) {
+function _hsV2(s) {
   const c = Object.assign({}, _normStudent(s, 0));
   delete c.paraRulesSig; delete c.confettiShown;
   [['pubEditGeneral', 'general'], ['pubEditEnglish', 'english'], ['pubEditMaths', 'maths']].forEach(([k, subj]) => {
@@ -6370,17 +6370,24 @@ function _hs(s) {
   });
   return _hash(_canon(c));
 }
+// v3.17.23 (v3 fingerprint): a comment is fingerprinted in its UPGRADED form, so the same words stored the old way on one device and the
+// new way on another are the same version, not a conflict.
+function _hs(s) {
+  let c;
+  try { c = _normStudent(_cmtClone(s), 0); _upgradeStudent(c); } catch (e) { c = s; }
+  return _hsV2(c);
+}
 function _newUid() { return 'u' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-3); }
 function _ensureUids() { const seen = new Set(); students.forEach(s => { if (!s.uid || seen.has(s.uid)) s.uid = _newUid(); seen.add(s.uid); }); }   // v3.17.5: two students never share an id
 function _snapshot(sess) {
   const st = {};
   (sess.students || []).forEach(s => { if (s.uid) st[s.uid] = _hs(s); });
-  return { v: 2, at: sess.savedAt || null, st, sm: _hash(_canon(sess.styleMemory || null)), mb: _hash(_canon(sess.myBank || {})), ts: sess.totalStudents || 0 };
+  return { v: 3, at: sess.savedAt || null, st, sm: _hash(_canon(sess.styleMemory || null)), mb: _hash(_canon(sess.myBank || {})), ts: sess.totalStudents || 0 };
 }
 function _setSyncBase(b) { _syncBase = b; lsSet('rcb_syncbase', b); }
 // Three-way merge of the students and the shared lists. base = fingerprints, local/cloud = { students, styleMemory, myBank, totalStudents }
 function _mergeSessions(base, local, cloud) {
-  const _hs = (base && base.v === 2) ? window._hs : _hsLegacy;   // a base saved by an older version is compared the old way, once
+  const _hs = (base && base.v === 3) ? window._hs : (base && base.v === 2) ? window._hsV2 : _hsLegacy;   // a base saved by an older version is compared the old way, once
   const conflicts = []; let changedLive = false, localChanged = false;
   const cMap = new Map(cloud.students.map(s => [s.uid, s])), lMap = new Map(local.students.map(s => [s.uid, s]));
   const out = [];
@@ -6445,6 +6452,7 @@ function _mergeIntoLive(cs) {
     const wasName = curUid ? (students.find(s => s.uid === curUid) || {}).name : '';
     students = r.students.length ? r.students : students;
     styleMemory = r.styleMemory; myBank = r.myBank; totalStudents = r.totalStudents;
+    _upgradeAll('sync');   // v3.17.23
     if (cs.settings) applySettingsBlob(cs.settings);
     const at = students.findIndex(s => s.uid === curUid);
     currentIdx = at >= 0 ? at : Math.min(currentIdx, students.length - 1);
@@ -6600,7 +6608,7 @@ function useOtherVersion(uid) {
   const c = _conflicts.find(x => x.uid === uid); if (!c) return;
   saveCur();
   const i = students.findIndex(s => s.uid === uid);
-  if (i >= 0) { students[i] = _normStudent(c.cloud, i); if (i === currentIdx) loadCur(); render(); updateProgress(); autoSave(); }
+  if (i >= 0) { students[i] = _normStudent(c.cloud, i); try { _upgradeStudent(students[i]); } catch (e) {} if (i === currentIdx) loadCur(); render(); updateProgress(); autoSave(); }
   _conflicts = _conflicts.filter(x => x.uid !== uid); showConflictBanner();
 }
 // Look at the cloud copy now; fold in anything another device saved. Safe to call often.
@@ -6822,16 +6830,11 @@ function doneDraft() {
   if (!_paneIsMine()) { render(); return; }   // v3.17.5
   const el = document.getElementById('outEditable');
   const editedText = _paneText(el).trim();
-  if (editedText) {
-    if (!cur().custom) cur().custom = {};
-    cur().custom['__edited__'] = [editedText];
-    cur().editedCat = currentTab;
-    // Snapshot which sentences were selected at the time of Done
-    cur().orderedAtDone = cur().ordered.slice();
-    // New sentences selected after Done go into this separate list
-    cur().orderedAfterEdit = [];
+  if (editedText) {   // v3.17.23: one store: Done keeps the words in draftOverride (the old separate "Done" text is no longer written)
+    cur().draftOverride = editedText;
+    _clearDoneText(cur());
+    cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null; cur().pubEditGeneral_subject = null;
   }
-  cur().draftOverride = null;
   el.blur();
   render();
   autoSave();
@@ -7461,6 +7464,118 @@ function paneTextFromEl(el) {
 // THE one reader of a comment (storage step 2, v3.17.22): what the teacher sees in Review, copies, exports and counts.
 // Everything that needs "the comment" calls this. The built-only readers below (getBuiltCommentText and friends) are for building it.
 function commentText(stu, subj) { return getFinalCommentText(stu, subj); }
+
+// ── v3.17.23 · ONE store for a comment (storage step 2, PR C) ────────────────────────────────────────────────
+// Before: a finished comment could live in up to four places (the typed text, the "Done" text, the Review copy, the ticked sentences)
+// and which one showed depended on the order things happened. Now the words live in ONE place: draftOverride (General) or
+// engDraft / mathDraft (English, Maths). The Review copy is only ever a cache of it.
+// Old comments are upgraded on load: keep exactly what shows today, write it to the one place, and check that the new reading gives
+// the same words. If it does not, the old fields are left exactly as they were.
+const _CMT_SUBJ = [['general', 'pubEditGeneral'], ['english', 'pubEditEnglish'], ['maths', 'pubEditMaths']];
+function _cmtClone(o) { return JSON.parse(JSON.stringify(o)); }
+function _clearReviewCopy(stu, k) { stu[k] = null; stu[k + '_fdHash'] = null; stu[k + '_subject'] = null; }
+function _clearDoneText(stu) {
+  stu.editedCat = null; stu.orderedAfterEdit = []; stu.orderedAtDone = [];
+  if (stu.custom) delete stu.custom['__edited__'];
+}
+function _hasDoneText(stu) { return !!(stu.custom && stu.custom['__edited__'] && stu.custom['__edited__'][0]); }
+const _UPG_FIELDS = {
+  general: ['draftOverride', 'editedCat', 'orderedAfterEdit', 'orderedAtDone', 'custom', 'pubEditGeneral', 'pubEditGeneral_fdHash', 'pubEditGeneral_subject'],
+  english: ['engDraft', 'engDraftEdited', 'pubEditEnglish', 'pubEditEnglish_fdHash', 'pubEditEnglish_subject'],
+  maths: ['mathDraft', 'mathDraftEdited', 'pubEditMaths', 'pubEditMaths_fdHash', 'pubEditMaths_subject']
+};
+// Upgrades ONE subject's comment on the live fields of `stu`. Returns { changed, kept, lost } where `lost` is true when an older copy with
+// different words was set aside (it goes to History as "Before upgrade").
+function _upgradeSubject(stu, subj) {
+  const k = { general: 'pubEditGeneral', english: 'pubEditEnglish', maths: 'pubEditMaths' }[subj];
+  const hasCache = !!stu[k], hasDone = subj === 'general' && (_hasDoneText(stu) || !!stu.editedCat);
+  if (!hasCache && !hasDone) return { changed: false };
+  let legacy;
+  try { legacy = commentText(stu, subj); } catch (e) { return { changed: false, kept: true }; }
+  if (!legacy || !legacy.trim()) return { changed: false };
+  let lost = false;
+  try { lost = getBuiltCommentText(stu, subj) !== legacy; } catch (e) { lost = true; }
+  // case 1: the Review copy is just a copy of what the other fields already say: drop the copy only
+  if (hasCache && !hasDone) {
+    const c1 = _cmtClone(stu); _clearReviewCopy(c1, k);
+    let same = false; try { same = commentText(c1, subj) === legacy; } catch (e) {}
+    if (same) { _clearReviewCopy(stu, k); return { changed: true, lost: false }; }
+  }
+  // case 2: write what shows now into the one store, clear the others, and check the new reading gives the same words
+  const c2 = _cmtClone(stu);
+  if (subj === 'general') { c2.draftOverride = legacy; _clearDoneText(c2); }
+  else if (subj === 'english') { c2.engDraft = legacy; c2.engDraftEdited = true; }
+  else { c2.mathDraft = legacy; c2.mathDraftEdited = true; }
+  _clearReviewCopy(c2, k);
+  let ok = false; try { ok = commentText(c2, subj) === legacy; } catch (e) {}
+  if (!ok) return { changed: false, kept: true };
+  _UPG_FIELDS[subj].forEach(f => { stu[f] = c2[f] === undefined ? stu[f] : c2[f]; });
+  return { changed: true, lost };
+}
+function _upgradeLive(stu) {
+  const r = { changed: false, lost: false, kept: false };
+  ['general', 'english', 'maths'].forEach(subj => { const x = _upgradeSubject(stu, subj); if (x.changed) r.changed = true; if (x.lost) r.lost = true; if (x.kept) r.kept = true; });
+  return r;
+}
+// Both semesters: the live fields hold the current semester; the other semester's copy is loaded into a spare student, upgraded, and put back.
+function _upgradeStudent(stu) {
+  const before = _cmtClone(stu);
+  const r = { changed: false, lost: false, kept: false };
+  const other = currentSemester === 1 ? 2 : 1;
+  // The OTHER semester goes first: the old Done text (custom.__edited__) was never kept per semester, so the other semester still
+  // reads it while it is there. Upgrading it first keeps that semester showing exactly what it shows today.
+  try {
+    const hasOther = SEM_FIELDS.some(f => { const v = stu[other === 1 ? f[1] : f[2]]; return v !== undefined && v !== null && (f[0] === 'pubEditGeneral' || f[0] === 'pubEditEnglish' || f[0] === 'pubEditMaths' || f[0] === 'editedCat') && v; });
+    if (hasOther) {
+      const o = _cmtClone(stu); semLoad(o, other);
+      const ro = _upgradeLive(o);
+      if (ro.changed) {
+        semStash(o, other);
+        SEM_FIELDS.forEach(f => { const key = other === 1 ? f[1] : f[2]; stu[key] = _semClone(o[key]); });
+        r.changed = true; if (ro.lost) r.lost = true;
+        // the other semester's custom lives inside the stash only through SEM_FIELDS; "custom" itself is not stashed, so leave it alone
+      }
+      if (ro.kept) r.kept = true;
+    }
+  } catch (e) {}
+  const rl = _upgradeLive(stu);
+  if (rl.changed) r.changed = true; if (rl.lost) r.lost = true; if (rl.kept) r.kept = true;
+  r.before = before;
+  return r;
+}
+var _pendingUpgradeHist = [];
+function _flushUpgradeHist() {
+  if (!_pendingUpgradeHist.length) return;
+  const go = () => {
+    _pendingUpgradeHist.splice(0).forEach(h => {
+      const list = _hist[h.uid] || (_hist[h.uid] = []);
+      list.push({ at: Date.now(), why: 'Before upgrade', sig: h.sig, texts: h.texts, data: h.data, sem: currentSemester });
+      while (list.length > HIST_MAX) list.shift();
+    });
+    _histPersist();
+  };
+  try { if (typeof _histReady !== 'undefined' && _histReady && _histReady.then) _histReady.then(go, go); else go(); } catch (e) { go(); }
+}
+// Upgrade every student after a load. A whole-class safety copy is kept once, before the first change.
+function _upgradeAll(why) {
+  let any = false, safety = null;
+  try {
+    students.forEach(stu => {
+      if (!stu) return;
+      const r = _upgradeStudent(stu);
+      if (!r.changed) return;
+      if (!safety && !lsGet('rcb_pre_upgrade_v3', null)) { safety = true; lsSet('rcb_pre_upgrade_v3', { at: Date.now(), why: why || 'load', students: students.map((x, i) => x === stu ? r.before : x) }); }
+      any = true;
+      if (r.lost) {
+        if (!stu.uid) _ensureUids();
+        let texts = null; try { texts = _histTexts(r.before); } catch (e) {}
+        _pendingUpgradeHist.push({ uid: stu.uid, sig: texts ? texts.general + '\u0001' + texts.english + '\u0001' + texts.maths : '', texts: texts || { general: '', english: '', maths: '' }, data: r.before });
+      }
+    });
+  } catch (e) { console.warn('comment upgrade failed', e); }
+  if (any) _flushUpgradeHist();
+  return any;
+}
 function getFinalCommentText(stu, subj) {
   const s = subj || 'general';
   const key = s === 'english' ? 'pubEditEnglish' : s === 'maths' ? 'pubEditMaths' : 'pubEditGeneral';
@@ -10505,7 +10620,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.22';
+const APP_VERSION = 'v3.17.23';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10687,6 +10802,7 @@ function _applyPersistedState(saved) {
   if (saved && saved.styleMemory) { styleMemory = normaliseStyleMemory(saved.styleMemory); _sugIndex = null; }   // v3.7.0
   if (saved && saved.myBank) myBank = normaliseMyBank(saved.myBank);   // v3.8.0
   if (saved && saved.settings) applySettingsBlob(saved.settings);   // v3.9.0
+  _upgradeAll('load');   // v3.17.23
 }
 
 // ── STREAK ────────────────────────────────────────────────────────
@@ -11073,7 +11189,8 @@ function applyJargonEverywhere() {
 // restoring, or a change made to many students at once. Up to 40 per student.
 const HIST_MAX = 40, HIST_GAP = 3 * 60 * 1000;
 var _hist = {}, _histChecked = {};
-try { idbGet('rcb_history').then(h => { if (h && typeof h === 'object') _hist = Object.assign(h, _hist); }).catch(() => {}); } catch (e) {}
+var _histReady = null;
+try { _histReady = idbGet('rcb_history').then(h => { if (h && typeof h === 'object') _hist = Object.assign(h, _hist); }).catch(() => {}); } catch (e) {}
 let _histSaveT = null;
 function _histPersist() { clearTimeout(_histSaveT); _histSaveT = setTimeout(() => { try { idbSet('rcb_history', _hist); } catch (e) {} }, 1500); }
 function _histTexts(stu) {
@@ -11248,6 +11365,11 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.23', date: '15 November 2026', items: [
+    'A comment\u2019s words are now kept in one place. Before, a finished comment could be stored up to four ways (typed text, the Done text, the Review copy, the ticked sentences), and a change made in Review after typing in Build could be lost or flip back later. Review changes and Done now write to the same place the Build box uses.',
+    'Your existing comments are upgraded the first time you open this version. Each one keeps exactly the words it shows today. If an older copy had different words, it is kept in History as \u201cBefore upgrade\u201d, and a copy of the whole class is kept on this device.',
+    'After you finish a comment or edit it in Review, ticking a new sentence now adds it into the text, in its usual place, instead of tacking it on the end.'
+  ] },
   { v: 'v3.17.22', date: '15 November 2026', items: [
     'Export all (.txt), the class stats and word counts, Check for issues and the Copy fallback now use the same comment text that Review and Copy show. Before, they could show older words after a change made in Review.',
     'The Export all (.txt) file is now named for the semester you are in (report-comments-s2-2026.txt in Semester 2), like the Word and CSV exports. It was always named s1.'
@@ -12549,11 +12671,8 @@ function syncPublishToDraft() {
   const fullText = body.map(p => p.textContent.trim()).filter(Boolean).join('\n\n');
   if (!fullText) return;
   // Store as the edited draft so the draft pane reflects it
-  if (!stu.custom) stu.custom = {};
-  stu.custom['__edited__'] = [fullText];
-  stu.editedCat = stu.editedCat || CATS[0]; // keep existing or default
-  stu.orderedAtDone = (stu.orderedAtDone || []).length ? stu.orderedAtDone : (stu.ordered || []).slice();
-  stu.orderedAfterEdit = [];
+  stu.draftOverride = fullText;   // v3.17.23: one store. The words live in draftOverride; the old "Done" text is no longer written.
+  _clearDoneText(stu);
   // Update the draft pane immediately
   const el = document.getElementById('outEditable');
   if (el) {
