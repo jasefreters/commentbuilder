@@ -1,0 +1,5895 @@
+{
+  "tags": [
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} delivered a thoughtful and well-organised prepared speech.",
+      "skill": "presenting"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} actively participates in class discussions, asking specific questions to clarify information and deepen {{pos}} understanding.",
+      "skill": "joining-discussions",
+      "skill2": "asking-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} adjusts {{pos}} volume, pace and expression when reading aloud to suit the purpose and complexity of the text.",
+      "skill": "voice"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions.",
+      "skill": "listening-and-understanding"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} presented a thoughtful and well-organised prepared speech.",
+      "skill": "presenting"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} communicates clearly and uses appropriate language during class discussions.",
+      "skill": "suitable-language"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} actively participates in group discussions.",
+      "skill": "joining-discussions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} appropriately adjusts {{pos}} volume and pace during class presentations to support audience engagement.",
+      "skill": "voice"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} seeks clarification during discussions and uses this to build a clearer understanding of texts.",
+      "skill": "asking-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} poses thoughtful questions to deepen interpretation and supports {{pos}} thinking with clear reasons.",
+      "skill": "asking-questions",
+      "skill2": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} participates positively in discussions and is becoming more confident when expressing opinions about texts.",
+      "skill": "joining-discussions",
+      "skill2": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} participates positively in class discussions and shares ideas about characters, themes and author choices.",
+      "skill": "joining-discussions",
+      "skill2": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} uses appropriate language skills when interacting with others during class discussions.",
+      "skill": "suitable-language"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} is developing the ability to change {{pos}} volume and pace to support audience engagement during class presentations.",
+      "skill": "voice"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} participates in class discussions and is learning to express ideas more clearly.",
+      "skill": "joining-discussions",
+      "skill2": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} asks specific questions to clarify information and listens attentively to the contributions of others.",
+      "skill": "asking-questions",
+      "skill2": "listening-and-understanding"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} participates in class discussions with support and is learning to express ideas more clearly when speaking.",
+      "skill": "joining-discussions",
+      "skill2": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} listens to others and is beginning to respond appropriately in conversations.",
+      "skill": "listening-and-understanding",
+      "skill2": "joining-discussions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} listens closely to others and shares {{pos}} thoughts during play-based activities.",
+      "skill": "listening-and-understanding",
+      "skill2": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} shares {{pos}} thoughts during class discussions and takes turns when speaking.",
+      "skill": "sharing-ideas",
+      "skill2": "turn-taking"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} speaks clearly to communicate {{pos}} ideas.",
+      "skill": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} expresses {{pos}} thoughts and feelings using simple language.",
+      "skill": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} participates in partner and group conversations when responding to texts.",
+      "skill": "joining-discussions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} tells or retells a story in order to an audience, adding detail to make it interesting.",
+      "skill": "telling-stories"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} speaks in longer sentences during conversations.",
+      "skill": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} uses verbs that match past, present and future events when speaking.",
+      "skill": "suitable-language"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} joins in discussions, stays on topic, and builds on the ideas of others.",
+      "skill": "joining-discussions",
+      "skill2": "staying-on-topic"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} asks questions to check or extend {{pos}} understanding and retells spoken texts in {{pos}} own words.",
+      "skill": "asking-questions",
+      "skill2": "listening-and-understanding"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} plans a presentation to suit the audience, then reflects on how well it went.",
+      "skill": "presenting"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} looks at the person who is speaking.",
+      "skill": "listening-and-understanding"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} answers yes or no questions.",
+      "skill": "answering-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} follows a single instruction from the teacher.",
+      "skill": "following-instructions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} takes part in class discussions by sharing thoughts and feelings about a familiar topic.",
+      "skill": "joining-discussions",
+      "skill2": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} communicates one idea, or two connected ideas, when speaking to the teacher.",
+      "skill": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} starts social interactions with classmates and staff.",
+      "skill": "starting-conversations"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} takes turns when speaking to others.",
+      "skill": "turn-taking"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} retells parts of a familiar story.",
+      "skill": "telling-stories"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} answers questions about familiar people and places.",
+      "skill": "answering-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} explores and develops new ideas with others.",
+      "skill": "joining-discussions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Looking at and acknowledging someone when they are speaking.",
+      "skill": "listening-and-understanding"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Responding to a yes or no question appropriately.",
+      "skill": "answering-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Following a single instruction from the teacher.",
+      "skill": "following-instructions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Sharing thoughts and feelings on a familiar topic.",
+      "skill": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Communicating a single idea when speaking to a teacher.",
+      "skill": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Communicating two connected ideas when speaking to a teacher.",
+      "skill": "sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Starting social interactions with peers and staff.",
+      "skill": "starting-conversations"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Taking turns when speaking to others.",
+      "skill": "turn-taking"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Participating in class discussions.",
+      "skill": "joining-discussions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Retelling parts of a familiar story.",
+      "skill": "telling-stories"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Answering questions about familiar people and places.",
+      "skill": "answering-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Responding to spoken questions.",
+      "skill": "answering-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Following 3-step spoken instructions.",
+      "skill": "following-instructions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Contributing to group conversations.",
+      "skill": "joining-discussions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Starting a conversation with peers and adults.",
+      "skill": "starting-conversations"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Taking turns when speaking.",
+      "skill": "turn-taking"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Asking questions using who, what, when, where, why or how.",
+      "skill": "asking-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Telling a story to peers and adults.",
+      "skill": "telling-stories"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Staying on topic when speaking.",
+      "skill": "staying-on-topic"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Asking for support when unsure of a spoken message.",
+      "skill": "asking-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Asking relevant questions to extend their knowledge.",
+      "skill": "asking-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Interacting with peers during partner or group work.",
+      "skill": "joining-discussions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Refining their understanding by discussing with others.",
+      "skill": "joining-discussions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Remaining on-topic during group discussions.",
+      "skill": "staying-on-topic"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Speaking in a logical sequence.",
+      "skill": "telling-stories"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Comparing ideas with others during group discussions.",
+      "skill": "joining-discussions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Including key details when describing events and stories.",
+      "skill": "telling-stories"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Asking specific questions to clarify information.",
+      "skill": "asking-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Listening actively to others' contributions.",
+      "skill": "listening-and-understanding"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Understanding vocabulary within a spoken text.",
+      "skill": "listening-and-understanding"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Contributing to discussions with peers.",
+      "skill": "joining-discussions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Demonstrating appropriate language when interacting with others.",
+      "skill": "suitable-language"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Delivering oral presentations using language to suit purpose and audience.",
+      "skill": "presenting"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Enhancing oral presentations by changing the volume of their voice.",
+      "skill": "voice"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Initiating and contributing to discussions and evaluating shared information.",
+      "skill": "joining-discussions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Interacting in a range of contexts and deliberately adjusting language and style.",
+      "skill": "suitable-language"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Asking and responding to a range of questions about literature that contribute to own or others' understanding.",
+      "skill": "asking-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Applying active listening strategies by retelling and building on what another person has said.",
+      "skill": "listening-and-understanding"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Responding to questions with elaboration and detail.",
+      "skill": "answering-questions"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Delivering presentations suited to purpose and audience.",
+      "skill": "presenting"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Experimenting with volume, pace and expression to enhance meaning when presenting and reciting.",
+      "skill": "voice"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Reflecting on and monitoring own and peer presentations according to given criteria.",
+      "skill": "presenting"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} makes observations and supports them with evidence from the text to enhance {{pos}} understanding of stories and information.",
+      "skill": "evidence-and-inference"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} reads with confidence and uses context, grammar knowledge and skimming strategies to locate information in moderately complex texts.",
+      "skill": "reading-strategies",
+      "skill2": "finding-information"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} applies reading strategies to interpret complex texts and explains how these texts communicate meaning.",
+      "skill": "reading-strategies",
+      "skill2": "language-features"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} monitors {{pos}} understanding and recognises when meaning breaks down.",
+      "skill": "monitoring-meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} explains how authors make deliberate choices to shape the reader's perception.",
+      "skill": "language-features"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} interprets key ideas in narratives and digital texts, and recognises how authors use language to shape meaning.",
+      "skill": "main-ideas",
+      "skill2": "language-features"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} comprehends digital texts and advertisements and identifies key ideas in narratives.",
+      "skill": "main-ideas"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} identifies main ideas, understands simple inferences and explains how authors use evidence to support ideas.",
+      "skill": "main-ideas",
+      "skill2": "evidence-and-inference"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} reads with confidence and connects with the ideas in texts.",
+      "skill": "connections"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses background knowledge and reading skills to better understand texts.",
+      "skill": "connections"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} uses reading strategies to comprehend more complex texts.",
+      "skill": "reading-strategies"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} identifies key ideas and supporting details when reading.",
+      "skill": "main-ideas"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} reads with confidence and uses skimming strategies to identify key ideas, locate details and understand unfamiliar words.",
+      "skill": "reading-strategies",
+      "skill2": "finding-information"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts.",
+      "skill": "language-features",
+      "skill2": "evidence-and-inference"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} identifies main ideas and is beginning to recognise how language features help build meaning.",
+      "skill": "main-ideas",
+      "skill2": "language-features"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} reads predictable texts with growing confidence and identifies key ideas to support comprehension.",
+      "skill": "main-ideas"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} reads simple texts with support and is working towards identifying key information and following the main ideas.",
+      "skill": "main-ideas"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.",
+      "skill": "language-features"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} understands simple, predictable texts.",
+      "skill": "none"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} reads predictable texts with guidance and draws basic connections to gain a clearer understanding of the stories.",
+      "skill": "connections"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} reads simple, familiar texts and is building confidence in recognising high-frequency words.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} comprehends predictable imaginative texts from the main character's perspective.",
+      "skill": "evidence-and-inference"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} tracks print from left to right.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} knows the front and back of a book.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} identifies the spaces between words in a text.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} hears and says the first, middle and final sounds in familiar spoken words.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} blends chunks of spoken words to make new words, such as 'talk-ing'.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} has a strong understanding of taught letters and the sounds they usually make.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} recognises some taught letters of the alphabet and the sounds they make.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} participates in whole class reading activities to blend and segment words.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} listens to familiar stories that are read to {{o}} and recalls basic events that occurred.",
+      "skill": "recalling"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} stops at full stops and changes {{pos}} voice for questions when reading aloud.",
+      "skill": "fluency"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses pictures to help {{o}} understand stories that are read to {{o}}.",
+      "skill": "finding-information"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} segments and blends words to read decodable texts with improved fluency and comprehension.",
+      "skill": "letters-sounds-words",
+      "skill2": "fluency"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} can identify the beginning and final sound in words.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses background knowledge and personal experiences to connect with texts when reading.",
+      "skill": "connections"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} self-corrects when {{pos}} fluency or meaning is interrupted.",
+      "skill": "monitoring-meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} has shown growth in recognising and re-reading when meaning has been interrupted.",
+      "skill": "monitoring-meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} makes connections between {{pos}} experiences and the events in a story.",
+      "skill": "connections"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} uses headings, pictures and links to find information in a text.",
+      "skill": "finding-information"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} reads between the lines using clues in the text.",
+      "skill": "evidence-and-inference"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} reads longer texts with accuracy and uses appropriate volume and speed when reading aloud.",
+      "skill": "fluency"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} uses strategies to fix {{pos}} understanding when meaning breaks down.",
+      "skill": "monitoring-meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} locates relevant information in a text.",
+      "skill": "finding-information"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} identifies how persuasive, informative and imaginative texts are organised.",
+      "skill": "purpose-and-structure"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} compares print and digital texts to decide which is most useful for a task.",
+      "skill": "purpose-and-structure"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "",
+      "text": "{{S}} takes on teacher feedback to improve {{pos}} skills when reading texts.",
+      "skill": "none"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} engages with texts for different purposes.",
+      "skill": "reading-strategies"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} shows likes and dislikes about a story.",
+      "skill": "opinions"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} recognises familiar words in texts.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} asks questions when the meaning is unclear.",
+      "skill": "asking-questions"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} recalls key events and characters in a story.",
+      "skill": "recalling"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} recalls key facts from an information text.",
+      "skill": "recalling"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} explains how a text can carry more than one meaning.",
+      "skill": "language-features"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} reads texts with complex ideas and explains how the author built them.",
+      "skill": "purpose-and-structure"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Engaging in texts for different purposes.",
+      "skill": "reading-strategies"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Indicating likes and dislikes in a story.",
+      "skill": "opinions"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Recognising familiar words in texts.",
+      "skill": "letters-sounds-words"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Asking questions when meaning is unknown.",
+      "skill": "asking-questions"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Recalling key events and characters in a story.",
+      "skill": "recalling"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Recalling key facts from an information text.",
+      "skill": "recalling"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Pausing when meaning has been disrupted while reading aloud.",
+      "skill": "monitoring-meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Re-reading to check if an error was made.",
+      "skill": "monitoring-meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Asking questions to clarify meaning when reading.",
+      "skill": "asking-questions"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using background knowledge to identify connections between a story and own experiences.",
+      "skill": "connections"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Recalling characters and events in a text after reading.",
+      "skill": "recalling"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Recalling the sequence of events in a text after reading.",
+      "skill": "recalling"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using information or events from a text to form an opinion.",
+      "skill": "opinions"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Pausing to clarify the meaning of unknown words.",
+      "skill": "monitoring-meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Identifying the who, what, when, where and why in texts.",
+      "skill": "recalling"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Understanding the structure and purpose of a complex sentence.",
+      "skill": "language-features"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Making meaning when reading using multiple sources (e.g. images and text).",
+      "skill": "finding-information"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Recounting main ideas from a text.",
+      "skill": "main-ideas"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Forming an opinion of a text using evidence.",
+      "skill": "opinions"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Recognising when meaning is interrupted during reading.",
+      "skill": "monitoring-meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Re-reading parts of a text to ensure meaning is understood.",
+      "skill": "monitoring-meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using background knowledge and personal experiences to make personal connections to texts.",
+      "skill": "connections"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Monitoring understanding while reading.",
+      "skill": "monitoring-meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Sequencing and explaining events from a text.",
+      "skill": "recalling"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying different purposes and strategies for reading (e.g. skimming and scanning).",
+      "skill": "reading-strategies"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Making connections to different texts to compare and analyse them.",
+      "skill": "connections"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Building and using topic knowledge during reading to deepen understanding.",
+      "skill": "connections"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Finding and using relevant information from different types of texts.",
+      "skill": "finding-information"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Determining a text's specific purpose.",
+      "skill": "purpose-and-structure"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Linking the meanings of key words across a text to help make connections.",
+      "skill": "language-features"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying how their background knowledge is used to create understanding in a text.",
+      "skill": "connections"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Asking questions to promote deeper understanding of a text.",
+      "skill": "asking-questions"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Identifying where meaning breaks down when reading.",
+      "skill": "monitoring-meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using evidence from a text to support reading comprehension.",
+      "skill": "evidence-and-inference"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Categorising information or ideas to aid recall and support summaries.",
+      "skill": "main-ideas"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Summarising the main ideas of a text.",
+      "skill": "main-ideas"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Comparing the purposes for different texts and considering why authors and illustrators have structured texts in particular ways.",
+      "skill": "purpose-and-structure"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} experiments with narrative writing features, showcasing creativity and thoughtfulness.",
+      "skill": "imaginative"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with appropriate detail.",
+      "skill": "planning",
+      "skill2": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader.",
+      "skill": "informative",
+      "skill2": "persuasive"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} shows a strong understanding of how to plan, structure and revise persuasive texts.",
+      "skill": "persuasive",
+      "skill2": "planning"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types.",
+      "skill": "sentences"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} includes specific details in {{pos}} writing to make {{pos}} ideas clearer and more engaging.",
+      "skill": "word-choice"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} structures writing in a clear and organised way and includes detail to support ideas.",
+      "skill": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} plans, drafts and revises persuasive texts effectively.",
+      "skill": "persuasive",
+      "skill2": "planning"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} uses planning strategies effectively when creating texts.",
+      "skill": "planning"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} plans and organises information reports.",
+      "skill": "informative",
+      "skill2": "planning"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} applies a variety of tenses to suit different writing tasks.",
+      "skill": "sentences"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} is developing skills in structuring and editing persuasive texts.",
+      "skill": "persuasive",
+      "skill2": "editing"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} organises recounts and attempts informative texts with emerging control.",
+      "skill": "informative"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks.",
+      "skill": "sentences",
+      "skill2": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing.",
+      "skill": "word-choice",
+      "skill2": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.",
+      "skill": "sentences",
+      "skill2": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea.",
+      "skill": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} draws pictures to represent {{pos}} ideas and writes short sentences using words displayed in the classroom.",
+      "skill": "pictures-and-symbols",
+      "skill2": "sentences"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} writes simple sentences using words displayed in the classroom.",
+      "skill": "sentences"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} draws pictures to show {{pos}} ideas and labels {{pos}} work using words displayed in the classroom.",
+      "skill": "pictures-and-symbols"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} plans {{pos}} writing and improves it after feedback.",
+      "skill": "planning",
+      "skill2": "editing"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} writes simple and compound sentences about characters and events using correct punctuation.",
+      "skill": "sentences",
+      "skill2": "punctuation"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} writes for different purposes, such as to describe, explain, give an opinion or tell a story.",
+      "skill": "informative",
+      "skill2": "persuasive"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} creates a beginning, a problem, and a resolution using simple paragraphs.",
+      "skill": "imaginative",
+      "skill2": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} writes informative texts with headings and paragraphs that begin with a main idea.",
+      "skill": "informative",
+      "skill2": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} structures persuasive paragraphs with a clear statement of position and supporting ideas.",
+      "skill": "persuasive",
+      "skill2": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} forms simple paragraphs to express {{pos}} ideas and edits {{pos}} work for correct punctuation.",
+      "skill": "paragraphs-and-order",
+      "skill2": "editing"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} maintains a consistent point of view throughout imaginative writing.",
+      "skill": "imaginative"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} takes part in creating texts with others.",
+      "skill": "writing-with-others"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} uses pictures and symbols to create texts.",
+      "skill": "pictures-and-symbols"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} chooses topics to write about.",
+      "skill": "planning"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} draws pictures to support {{pos}} writing.",
+      "skill": "pictures-and-symbols"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} argues against opposing views to strengthen {{pos}} persuasive writing.",
+      "skill": "persuasive"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} backs up a clear main argument about a text with evidence from it.",
+      "skill": "persuasive"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} works with others to write texts that bring together different ideas and values.",
+      "skill": "writing-with-others"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} reflects on how planning and revising changes the clarity of {{pos}} writing.",
+      "skill": "editing",
+      "skill2": "planning"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Participating in creating texts with others.",
+      "skill": "writing-with-others"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Using pictures and symbols to create texts.",
+      "skill": "pictures-and-symbols"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying topics they would like to write about.",
+      "skill": "planning"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Drawing pictures to support writing.",
+      "skill": "pictures-and-symbols"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Creating a text including at least 2 related ideas.",
+      "skill": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Sequencing ideas in a written text.",
+      "skill": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Creating written texts to give an opinion.",
+      "skill": "persuasive"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Creating written texts to recount an event.",
+      "skill": "informative"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Writing phrases that show time or place.",
+      "skill": "sentences"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using a capital letter and full stop correctly when writing sentences.",
+      "skill": "punctuation"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using question marks and exclamation marks correctly when writing sentences.",
+      "skill": "punctuation"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Editing their work after receiving feedback.",
+      "skill": "editing"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing a text that gives a description.",
+      "skill": "informative"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing a text that gives an opinion.",
+      "skill": "persuasive"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing a text that tells a story.",
+      "skill": "imaginative"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Sequencing ideas in a logical order when writing.",
+      "skill": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing paragraphs in a sequenced order.",
+      "skill": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing a combination of sentence types.",
+      "skill": "sentences"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using commas to separate ideas when writing.",
+      "skill": "punctuation"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using punctuation accurately when writing.",
+      "skill": "punctuation"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Re-reading and editing their own writing.",
+      "skill": "editing"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Sequencing ideas and actions into paragraphs when writing.",
+      "skill": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Creating written texts to persuade a viewpoint.",
+      "skill": "persuasive"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Sequencing arguments into paragraphs with ideas and topic sentences when writing a persuasive text.",
+      "skill": "persuasive"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using a variety of sentence types when writing texts.",
+      "skill": "sentences"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using topic specific language in writing.",
+      "skill": "word-choice"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Writing informative texts using the correct features (e.g. headings, paragraphs, topic sentences).",
+      "skill": "informative"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Creating factual and historical accounts which follow the appropriate structure.",
+      "skill": "informative"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using capital letters appropriately when writing.",
+      "skill": "punctuation"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using commas appropriately when writing.",
+      "skill": "punctuation"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Researching and summarising topic-related ideas when planning for writing.",
+      "skill": "planning"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Choosing appropriate text structures, features and language when writing imaginative texts to engage the audience.",
+      "skill": "imaginative"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Making creative choices about imaginary settings, character profiles and motives to enhance reader engagement.",
+      "skill": "imaginative"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Choosing appropriate text structures, features and language when writing informative texts.",
+      "skill": "informative"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Writing ideas through logically sequenced paragraphs.",
+      "skill": "paragraphs-and-order"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Choosing appropriate text structures, features and language when writing persuasive texts.",
+      "skill": "persuasive"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using persuasive language to strengthen arguments in writing.",
+      "skill": "persuasive"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Writing appropriate sentence types to suit purpose and audience.",
+      "skill": "sentences"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Varying the sentence structures and lengths when creating texts.",
+      "skill": "sentences"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Experimenting with different language features for effect and to engage the reader.",
+      "skill": "word-choice"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using print or digital tools to plan, sequence, create, revise, edit and publish texts.",
+      "skill": "editing"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Re-reading, proofreading and editing own and others' writing.",
+      "skill": "editing"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} automatically uses strategies in a range of contexts to spell unfamiliar words.",
+      "skill": "none"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} identifies complex letter patterns and sounds when spelling and applies this knowledge to improve spelling accuracy.",
+      "skill": "letter-patterns",
+      "skill2": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} applies correct letter patterns and general rules when spelling words.",
+      "skill": "letter-patterns",
+      "skill2": "word-part-rules"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} applies spelling generalisations to spell most familiar and less common words correctly.",
+      "skill": "letter-patterns"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} applies correct spelling patterns and general rules when writing.",
+      "skill": "letter-patterns",
+      "skill2": "word-part-rules"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} has shown improvement in spelling by identifying letter patterns to support correct spelling.",
+      "skill": "letter-patterns"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy.",
+      "skill": "letter-patterns",
+      "skill2": "word-part-rules"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} applies some spelling patterns and general rules when writing.",
+      "skill": "letter-patterns",
+      "skill2": "word-part-rules"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} selects appropriate tenses to suit different writing tasks.",
+      "skill": "grammar-and-punctuation"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words.",
+      "skill": "letter-patterns"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.",
+      "skill": "letter-patterns",
+      "skill2": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} spells words with double letters and identifies the meaning of most words by recognising their spelling.",
+      "skill": "letter-patterns",
+      "skill2": "homophones"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} spells simple words with common endings and uses basic strategies to spell unfamiliar words with some success.",
+      "skill": "word-part-rules"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} is learning to apply common spelling patterns in writing.",
+      "skill": "letter-patterns"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly.",
+      "skill": "grammar-and-punctuation"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} is beginning to identify nouns and verbs in simple sentences.",
+      "skill": "grammar-and-punctuation"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} spells common words correctly and sounds out unfamiliar words with care.",
+      "skill": "common-words",
+      "skill2": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} writes {{pos}} first name by putting the letters in the right order.",
+      "skill": "letters-and-name"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} writes short sentences using familiar language and is improving {{pos}} use of full stops.",
+      "skill": "grammar-and-punctuation"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} adds 's' to words to show more than one, such as changing 'cat' to 'cats'.",
+      "skill": "word-part-rules"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} writes related sentences to create stories and adds phrases that show time and place.",
+      "skill": "grammar-and-punctuation"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} breaks words into sounds as a spelling strategy.",
+      "skill": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} spells high-frequency words correctly in {{pos}} writing.",
+      "skill": "common-words"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} breaks longer words into chunks as a strategy for spelling.",
+      "skill": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} spells words with prefixes, such as un- and re-.",
+      "skill": "word-part-rules"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} spells words with suffixes, such as -ful and -est.",
+      "skill": "word-part-rules"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} recognises common word beginnings such as 'un-' and 're-', and correctly uses them when spelling.",
+      "skill": "word-part-rules"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} checks {{pos}} work for spelling mistakes and uses dictionaries to correct them.",
+      "skill": "checking-spelling"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} uses commas to separate parts of a sentence and apostrophes for contractions.",
+      "skill": "grammar-and-punctuation"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} varies sentence length to improve {{pos}} writing.",
+      "skill": "grammar-and-punctuation"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} matches the letters in {{pos}} name and puts them in the correct order.",
+      "skill": "letters-and-name"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} recognises words that start with the same sound.",
+      "skill": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} identifies letters in familiar words.",
+      "skill": "letters-and-name"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Matching letters in their own name.",
+      "skill": "letters-and-name"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Putting the letters of their name in the correct order.",
+      "skill": "letters-and-name"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Recognising words that start with the same sound.",
+      "skill": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying letters in familiar words.",
+      "skill": "letters-and-name"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Spelling irregular words (e.g. to, was, come).",
+      "skill": "common-words"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Breaking words into syllables as a spelling strategy (e.g. pic-nic).",
+      "skill": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Spelling their own name.",
+      "skill": "letters-and-name"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Experimenting with letter patterns to spell common words.",
+      "skill": "letter-patterns"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Breaking words into sounds when spelling words.",
+      "skill": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Spelling words which have double letters accurately.",
+      "skill": "letter-patterns"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Spelling high-frequency words accurately.",
+      "skill": "common-words"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Selecting the correct spelling rule when writing plurals.",
+      "skill": "word-part-rules"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Selecting the correct spelling rule when changing a word between tenses.",
+      "skill": "word-part-rules"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Breaking words into syllables as a spelling strategy.",
+      "skill": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Spelling taught high-frequency contractions accurately.",
+      "skill": "common-words"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Spelling words that sound the same but have different meanings.",
+      "skill": "homophones"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying and correcting spelling errors.",
+      "skill": "checking-spelling"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Breaking words into syllables and letter-sounds when spelling.",
+      "skill": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Understanding that certain letter patterns change depending on where they are in a word.",
+      "skill": "letter-patterns"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Breaking longer words into syllables and sounds when spelling.",
+      "skill": "sounds-and-syllables"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Applying uncommon letter patterns to spell words correctly.",
+      "skill": "letter-patterns"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using a dictionary or thesaurus to correct misspelled words.",
+      "skill": "checking-spelling"
+    },
+    {
+      "group": "english|Spelling",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using the correct spelling of words that sound the same but have different meanings.",
+      "skill": "homophones"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} writes with a legible and fluent handwriting style for extended periods and navigates the keyboard efficiently when typing words, numbers and punctuation.",
+      "skill": "fluent-handwriting",
+      "skill2": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation.",
+      "skill": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} types accurately and presents ideas clearly in digital formats.",
+      "skill": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} writes with a fluent, legible handwriting style and navigates the keyboard efficiently when typing.",
+      "skill": "fluent-handwriting",
+      "skill2": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} presents written work neatly and maintains consistent letter formation.",
+      "skill": "letter-formation"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} writes with a clear and legible handwriting style and types accurately using a keyboard.",
+      "skill": "fluent-handwriting",
+      "skill2": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} presents written work neatly and communicates ideas clearly when typing.",
+      "skill": "fluent-handwriting",
+      "skill2": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} uses the keyboard efficiently when publishing {{pos}} texts digitally.",
+      "skill": "keyboard",
+      "skill2": "word-processing"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} maintains a fluent handwriting style and types efficiently using the keyboard.",
+      "skill": "fluent-handwriting",
+      "skill2": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts.",
+      "skill": "letter-formation",
+      "skill2": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} presents written and digital work neatly, demonstrating a consistent and legible handwriting style.",
+      "skill": "fluent-handwriting"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} joins letters when writing familiar words and uses keyboard skills to type efficiently.",
+      "skill": "fluent-handwriting",
+      "skill2": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} joins letters when writing familiar words and uses technology appropriately when creating texts.",
+      "skill": "fluent-handwriting",
+      "skill2": "word-processing"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} forms most letters correctly on the line and uses appropriate spacing between words.",
+      "skill": "letter-formation"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} is learning to form letters correctly and write on the line.",
+      "skill": "letter-formation"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} forms letters correctly and maintains appropriate spacing when writing.",
+      "skill": "letter-formation"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} holds {{pos}} pencil comfortably during handwriting tasks and remembers to write letters from left to right.",
+      "skill": "posture-and-grip"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "During structured handwriting lessons, {{S}} carefully forms letters with the correct shape.",
+      "skill": "letter-formation"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} uses basic word-processing tools to type and edit short texts.",
+      "skill": "word-processing"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "During handwriting lessons, {{s}} uses appropriate pencil control to form letters on the line.",
+      "skill": "letter-formation",
+      "skill2": "posture-and-grip"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} forms letters with consistent size and slope.",
+      "skill": "letter-formation"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} types texts and searches for information online.",
+      "skill": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} uses word-processing tools to draft and edit {{pos}} writing.",
+      "skill": "word-processing"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} makes marks and strokes on a page or digital device using writing tools.",
+      "skill": "early-marks"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger.",
+      "skill": "early-marks"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Making a mark on a page or digital device.",
+      "skill": "early-marks"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Using writing tools to form strokes on paper.",
+      "skill": "early-marks"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Forming letters using playdough.",
+      "skill": "early-marks"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Tracing letter templates using a finger.",
+      "skill": "early-marks"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using a stable posture when handwriting or drawing.",
+      "skill": "posture-and-grip"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using a stable and relaxed pencil grasp.",
+      "skill": "posture-and-grip"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Writing letters of the alphabet with correct formation, including capital letters.",
+      "skill": "letter-formation"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Applying appropriate pressure when handwriting to produce legible writing.",
+      "skill": "posture-and-grip"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Forming letters with consistent size and slope from memory.",
+      "skill": "letter-formation"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Locating punctuation on a keyboard.",
+      "skill": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using punctuation when typing.",
+      "skill": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing all letters correctly on a line consistently.",
+      "skill": "letter-formation"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using spaces between written words.",
+      "skill": "letter-formation"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Typing up to 5 words per minute on a keyboard.",
+      "skill": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Joining letters using consistent size and spacing to develop handwriting fluency.",
+      "skill": "fluent-handwriting"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using knowledge of the keyboard layout and functions to type texts.",
+      "skill": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using a word-processing program to draft and revise texts.",
+      "skill": "word-processing"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Writing with a legible, fluent and personal handwriting style for longer periods of time.",
+      "skill": "fluent-handwriting"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Navigating the keyboard with efficiency and accuracy when typing words, numbers, punctuation and other symbols.",
+      "skill": "keyboard"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using taught keyboard shortcuts when creating digital texts.",
+      "skill": "word-processing"
+    },
+    {
+      "group": "english|Handwriting",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Adjusting handwriting style to suit writing purpose.",
+      "skill": "fluent-handwriting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} works confidently with large numbers, reads and writes values in the millions, and understands decimals to the hundredths and thousandths.",
+      "skill": "reading-writing-numbers",
+      "skill2": "decimals"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} confidently works with large numbers and applies place value knowledge to understand numbers in the millions.",
+      "skill": "place-value"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S3A+B",
+      "text": "{{S}} compares and orders decimals and percentages.",
+      "skill": "comparing-ordering",
+      "skill2": "decimals"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} adds and subtracts positive and negative numbers.",
+      "skill": "negative-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} works confidently with large numbers in the millions and applies place value to solve a range of problems.",
+      "skill": "place-value"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S3A+B",
+      "text": "{{S}} compares and orders whole numbers and fractions and rounds decimals accurately.",
+      "skill": "comparing-ordering",
+      "skill2": "rounding-estimating"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} applies {{pos}} knowledge of place value to work confidently with large numbers.",
+      "skill": "place-value"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} works confidently with large numbers and applies place value to solve problems.",
+      "skill": "place-value"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} rounds whole numbers and decimals to estimate results.",
+      "skill": "rounding-estimating"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} reads and represents numbers using place value knowledge.",
+      "skill": "reading-writing-numbers",
+      "skill2": "place-value"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} uses place value to read, write and work with large numbers and represents them in different ways.",
+      "skill": "place-value",
+      "skill2": "reading-writing-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} reads, writes, and interprets numbers in a variety of ways.",
+      "skill": "reading-writing-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} works with whole numbers and applies place value to solve problems.",
+      "skill": "place-value"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} rounds numbers to estimate results and records numbers in different ways.",
+      "skill": "rounding-estimating",
+      "skill2": "reading-writing-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} is learning to read and represent numbers in different ways and can order numbers up to four digits.",
+      "skill": "reading-writing-numbers",
+      "skill2": "comparing-ordering"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} separates numbers into groups of tens and ones.",
+      "skill": "place-value"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} counts objects carefully to find the total when solving mathematical problems with the class.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} represents numbers using drawings, words and numerals.",
+      "skill": "reading-writing-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} immediately recognises the number of objects in a small collection.",
+      "skill": "subitising"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} counts forwards and backwards from 40.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} knows one more and one less of numbers up to 100.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} counts forwards from any given number up to 120.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} reads, writes and orders three-digit numbers.",
+      "skill": "reading-writing-numbers",
+      "skill2": "comparing-ordering"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} states what each digit is worth in a three-digit number.",
+      "skill": "place-value"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} identifies the number before and after a given three-digit number.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} understands that one thousand is made up of ten hundreds and represents numbers using words and drawings.",
+      "skill": "place-value",
+      "skill2": "reading-writing-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} arranges numbers of up to six digits from lowest to highest.",
+      "skill": "comparing-ordering"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} recognises different finger patterns for the same number.",
+      "skill": "subitising"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} selects numerals using eye contact, gestures or touch.",
+      "skill": "reading-writing-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} says number words in order and points to or touches objects as {{s}} counts.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} multiplies and divides positive and negative numbers.",
+      "skill": "negative-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} tells apart decimals that end and decimals that repeat forever.",
+      "skill": "decimals"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} writes one amount as a fraction, decimal or percentage of another.",
+      "skill": "percentages",
+      "skill2": "decimals"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} finds any percentage of an amount to solve problems.",
+      "skill": "percentages"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Recognising different finger patterns for the same number.",
+      "skill": "subitising"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Selecting numerals using eye contact, gesture or physical contact.",
+      "skill": "reading-writing-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Saying number words in a sequence starting at one.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Looking at, pointing to or touching objects as they are being counted.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Recognising up to four items in small groups without counting.",
+      "skill": "subitising"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Counting forwards to at least 30.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Stating the number after or before a given number.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Counting backwards from a given number between 1 and 20.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Reading numerals to at least 20, including zero.",
+      "skill": "reading-writing-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Comparing and ordering numbers to 20.",
+      "skill": "comparing-ordering"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Counting forwards from any given number up to 120.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Counting backwards from any given number from 120.",
+      "skill": "counting"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Rounding numbers to the nearest ten using a number line.",
+      "skill": "rounding-estimating"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Estimating the number of objects in a collection to the nearest hundred.",
+      "skill": "rounding-estimating"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Stating the place value of digits in two-digit numbers.",
+      "skill": "place-value"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using place value to separate three-digit numbers.",
+      "skill": "place-value"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Comparing the size of numbers by positioning them on a number line.",
+      "skill": "comparing-ordering"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing numbers up to four-digits using different materials.",
+      "skill": "reading-writing-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Reading and ordering numbers of up to at least four-digits.",
+      "skill": "comparing-ordering"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing tenths and hundredths on a number line.",
+      "skill": "decimals"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using a decimal point to record tenths and hundredths.",
+      "skill": "decimals"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Comparing and ordering decimals of up to two places.",
+      "skill": "comparing-ordering"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Arranging numbers in the millions in ascending and descending order.",
+      "skill": "comparing-ordering"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Rounding numbers to a specified place value.",
+      "skill": "rounding-estimating"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Regrouping numbers in different forms.",
+      "skill": "place-value"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Interpreting decimal notation for thousandths.",
+      "skill": "decimals"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recognising the location of negative whole numbers in relation to zero.",
+      "skill": "negative-numbers"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recalling commonly used percentages, decimals and fractions.",
+      "skill": "percentages"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Calculating the sale price of an item after a discount of 10%, 25% and 50%.",
+      "skill": "percentages"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} applies a range of addition and subtraction strategies effectively.",
+      "skill": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} applies known strategies to solve addition and subtraction problems.",
+      "skill": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} uses {{pos}} knowledge of addition and subtraction to solve complex worded problems.",
+      "skill": "word-problems"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} applies different strategies to solve addition and subtraction problems.",
+      "skill": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} uses known number facts and basic strategies to solve addition and subtraction problems.",
+      "skill": "number-facts",
+      "skill2": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} solves subtraction with three-digit numbers.",
+      "skill": "place-value-methods"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} adds two small groups of counters to solve mathematical problems.",
+      "skill": "combining-separating"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} shows different ways to make numbers up to ten using counters, such as '4 and 3 makes 7'.",
+      "skill": "number-facts"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} knows some combinations of numbers up to 10, such as '3 and 3 makes 6', and draws pictures to show {{pos}} thinking.",
+      "skill": "number-facts"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} solves simple addition problems by doubling, such as '6 and 6 makes 12'.",
+      "skill": "number-facts"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} uses taught strategies to solve addition and subtraction problems with combinations up to 20.",
+      "skill": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} uses concrete materials to model addition and subtraction problems involving two-digit numbers.",
+      "skill": "combining-separating"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} uses the equals sign to show when two number sentences have the same total.",
+      "skill": "equations-and-graphs"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} recalls related addition and subtraction facts for numbers to at least 20.",
+      "skill": "number-facts"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} solves addition and subtraction problems by separating numbers into their place value.",
+      "skill": "place-value-methods"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} solves addition and subtraction problems using appropriate mental strategies.",
+      "skill": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} uses estimation to decide whether an answer is reasonable.",
+      "skill": "estimating"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} solves addition and subtraction problems with numbers of any size using a range of strategies.",
+      "skill": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} combines and separates groups of items.",
+      "skill": "combining-separating"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} counts across two small groups to find a total.",
+      "skill": "counting-to-solve"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} plots pairs of numbers on a grid to show a straight-line pattern.",
+      "skill": "equations-and-graphs"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} uses graphs to solve simple equations.",
+      "skill": "equations-and-graphs"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Combining groups of items.",
+      "skill": "combining-separating"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Separating groups of items.",
+      "skill": "combining-separating"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Counting across two small groups to a total within a counting range.",
+      "skill": "counting-to-solve"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Combining two or more groups of objects to model addition.",
+      "skill": "combining-separating"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Separating and taking away part of a group of objects to model subtraction.",
+      "skill": "combining-separating"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Creating and recognising combinations for numbers up to ten.",
+      "skill": "number-facts"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Counting by ones to find the total or difference when solving questions.",
+      "skill": "counting-to-solve"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Comparing two groups of objects to determine how many more.",
+      "skill": "counting-to-solve"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using strategies to solve addition and subtraction problems involving one and two-digit numbers.",
+      "skill": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Describing number combinations using 'more than', 'less than' and 'double'.",
+      "skill": "number-facts"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Recalling related addition and subtraction facts for numbers to at least 20.",
+      "skill": "number-facts"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Solving two-digit addition problems.",
+      "skill": "place-value-methods"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Solving addition problems by separating numbers into tens and ones.",
+      "skill": "place-value-methods"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Applying mental strategies to add and subtract.",
+      "skill": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing solutions to addition and subtraction problems using a variety of strategies.",
+      "skill": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Calculating addition and subtraction problems with money.",
+      "skill": "word-problems"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using an algorithm to solve addition and subtraction problems with up to 3 digits.",
+      "skill": "place-value-methods"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Choosing the most efficient addition and subtraction strategies to solve mathematical problems.",
+      "skill": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving word problems with multiple steps.",
+      "skill": "word-problems"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Applying known strategies to solve addition and subtraction problems.",
+      "skill": "strategies"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using place value to add or subtract 3 or more numbers with different numbers of digits.",
+      "skill": "place-value-methods"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Rounding numbers appropriately when estimating.",
+      "skill": "estimating"
+    },
+    {
+      "group": "maths|Additive Relations",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving word problems involving the addition and subtraction of decimals up to 3 decimal places.",
+      "skill": "word-problems"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} uses letters to stand for unknown numbers and recognises numbers multiplied by themselves, such as 4 × 4.",
+      "skill": "algebra"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} multiplies and divides decimals accurately and works through calculations with several steps in the correct order.",
+      "skill": "larger-numbers",
+      "skill2": "multi-step"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} uses letters to stand for unknown numbers when solving simple problems.",
+      "skill": "algebra"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} multiplies 2- and 3-digit numbers by 2-digit numbers and represents and solves division problems with whole number remainders.",
+      "skill": "larger-numbers"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders.",
+      "skill": "facts",
+      "skill2": "larger-numbers"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} creates number patterns using known multiplication facts.",
+      "skill": "patterns",
+      "skill2": "facts"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} generates number patterns using times tables.",
+      "skill": "patterns",
+      "skill2": "facts"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} solves division problems with whole number remainders.",
+      "skill": "larger-numbers"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} recalls some multiplication facts and uses them to support calculations.",
+      "skill": "facts"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} counts by twos, threes and fives to recognise simple division and creates equal groups to show multiplication.",
+      "skill": "equal-groups",
+      "skill2": "patterns"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} uses visual representations to find multiplication facts.",
+      "skill": "facts",
+      "skill2": "solving-and-recording"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} uses strategies to solve simple division problems.",
+      "skill": "solving-and-recording"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} creates and continues patterns by lining up objects according to their colour or shape.",
+      "skill": "patterns"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} records how objects were shared using drawings, words and numbers.",
+      "skill": "solving-and-recording",
+      "skill2": "equal-groups"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} models and describes collections of objects as 'groups of', such as two groups of three.",
+      "skill": "equal-groups"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100.",
+      "skill": "patterns"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} organises objects into equal rows and columns as part of {{pos}} multiplication knowledge.",
+      "skill": "equal-groups"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+      "skill": "inverse"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} recognises that multiplication and division are opposites and uses one to solve the other.",
+      "skill": "inverse"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} recognises that doubling a number gives the same answer as multiplying by 2.",
+      "skill": "facts"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems.",
+      "skill": "facts",
+      "skill2": "solving-and-recording"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts.",
+      "skill": "facts"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} copies a continuing pattern.",
+      "skill": "patterns"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} points to or touches objects as they are shared into smaller equal groups.",
+      "skill": "equal-groups"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} identifies the number of objects in a group.",
+      "skill": "equal-groups"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} writes expressions with letters and finds their value by replacing letters with numbers.",
+      "skill": "algebra"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Copying a continuing pattern.",
+      "skill": "patterns"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Pointing to or touching objects as they are being shared into smaller equal groups.",
+      "skill": "equal-groups"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying the number of objects in a group.",
+      "skill": "equal-groups"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Continuing repeating patterns using sounds and/or actions.",
+      "skill": "patterns"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Creating repeating patterns using shapes, objects, images or pictures.",
+      "skill": "patterns"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Dividing objects into smaller groups and recognising whether the number in each group is equal or not.",
+      "skill": "equal-groups"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Grouping and sharing concrete materials by distributing objects one by one.",
+      "skill": "equal-groups"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Modelling and describing collections of objects as 'groups of'.",
+      "skill": "equal-groups"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Solving multiplication problems using repeated addition.",
+      "skill": "solving-and-recording"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Solving multiplication and division problems using objects and diagrams.",
+      "skill": "solving-and-recording"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Recording answers to multiplication and division problems using drawings, words or numerals.",
+      "skill": "solving-and-recording"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Creating and continuing number patterns that increase or decrease by the same amount.",
+      "skill": "patterns"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Understanding doubling is multiplying a number by two.",
+      "skill": "facts"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Relating multiplication facts to their opposite division fact.",
+      "skill": "inverse"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recalling multiplication facts up to 10 x 10.",
+      "skill": "facts"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing and solving multiplication and division word problems using number sentences.",
+      "skill": "solving-and-recording"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Determining factors for a given whole number.",
+      "skill": "facts"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using mental strategies to multiply one-digit numbers by 10, 100, 1000.",
+      "skill": "larger-numbers"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving a multiplication algorithm correctly.",
+      "skill": "larger-numbers"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Selecting and using efficient strategies to multiply whole numbers.",
+      "skill": "larger-numbers"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving problems involving brackets.",
+      "skill": "multi-step"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Providing reasoning when solving complex multiplication and division problems.",
+      "skill": "multi-step"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} adds, subtracts, multiplies and divides fractions.",
+      "skill": "calculating"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} compares and orders fractions, decimals and percentages and explains how they are related.",
+      "skill": "comparing-ordering",
+      "skill2": "decimals-percentages"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} solves problems involving the multiplication and division of fractions.",
+      "skill": "calculating"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} compares amounts using ratios, such as 2 to 3, and explains how they connect to fractions.",
+      "skill": "comparing-ordering"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} calculates percentage discounts and finds fractions of whole numbers.",
+      "skill": "fraction-of-amount",
+      "skill2": "decimals-percentages"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} adds and subtracts simple fractions with accuracy.",
+      "skill": "calculating"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} works with fractions and decimals and identifies prime numbers.",
+      "skill": "decimals-percentages"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} demonstrates an understanding of the connection between common fractions, decimals and percentages.",
+      "skill": "decimals-percentages"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} expresses common percentages as both fractions and decimals.",
+      "skill": "decimals-percentages"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} works with fractions and decimals with growing accuracy.",
+      "skill": "decimals-percentages"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} understands common fractions and writes them as decimals.",
+      "skill": "decimals-percentages"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} recognises and represents fractions of a length and records numbers in different forms.",
+      "skill": "naming-showing"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} recognises fractions and decimals and applies them in simple problems.",
+      "skill": "decimals-percentages",
+      "skill2": "naming-showing"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} recognises simple fractions such as halves and quarters and records numbers as decimals.",
+      "skill": "naming-showing",
+      "skill2": "decimals-percentages"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} converts simple fractions to decimals.",
+      "skill": "decimals-percentages"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} represents fractions with halves, quarters and thirds.",
+      "skill": "naming-showing"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} accurately represents fractions on a number line.",
+      "skill": "number-line"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} writes tenths and hundredths as decimal numbers.",
+      "skill": "decimals-percentages"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} represents common fractions using models and number lines.",
+      "skill": "naming-showing",
+      "skill2": "number-line"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} recognises and names simple fractions such as halves and quarters.",
+      "skill": "naming-showing"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} is learning to recognise, name and represent simple fractions.",
+      "skill": "naming-showing"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} models halves, quarters, and eighths of a collection using counters.",
+      "skill": "fraction-of-amount",
+      "skill2": "naming-showing"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} divides objects into equal halves, quarters and eighths to represent fractions.",
+      "skill": "naming-showing"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} shows that different fractions can represent the same amount.",
+      "skill": "equivalent"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing fractions with halves, quarters, eighths and thirds.",
+      "skill": "naming-showing"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Naming fractions up to one whole.",
+      "skill": "naming-showing"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recording fractions that are equal using diagrams and number lines.",
+      "skill": "equivalent"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recognising how many parts make one whole.",
+      "skill": "naming-showing"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Determining the location of common fractions on a number line.",
+      "skill": "number-line"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Comparing and ordering different fractions by placing them on a number line.",
+      "skill": "comparing-ordering"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Adding and subtracting similar fractions.",
+      "skill": "calculating"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving word problems that involve similar fractions.",
+      "skill": "calculating"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Ordering common fractions using diagrams and number lines.",
+      "skill": "comparing-ordering"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Creating fractions that are equal for half in quarters, eighths, sixths and tenths.",
+      "skill": "equivalent"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving real-life problems that involve finding a part of a total amount.",
+      "skill": "fraction-of-amount"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Finding parts of a group including halves, quarters, fifths and tenths.",
+      "skill": "fraction-of-amount"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} calculates the perimeter of two-dimensional shapes and precisely measures angles with a protractor.",
+      "skill": "perimeter",
+      "skill2": "angles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3A+B",
+      "text": "{{S}} identifies and plots points on a number plane.",
+      "skill": "maps-and-grids"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor.",
+      "skill": "perimeter",
+      "skill2": "angles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} measures length using appropriate units and converts between centimetres, metres and kilometres.",
+      "skill": "converting-units",
+      "skill2": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} plots and labels points on a number plane.",
+      "skill": "maps-and-grids"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} uses hectares and square metres to solve area problems.",
+      "skill": "area-volume-circles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} identifies and plots points in the first quadrant of a number plane.",
+      "skill": "maps-and-grids"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} calculates the perimeters of common two-dimensional shapes.",
+      "skill": "perimeter"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} measures length, area and capacity using appropriate units.",
+      "skill": "measuring-length",
+      "skill2": "area-volume-circles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} measures angles accurately.",
+      "skill": "angles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} uses metres and kilometres to estimate and measure distances.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} identifies and plots points in the first quadrant of a number plane with support.",
+      "skill": "maps-and-grids"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} selects appropriate units of measurement to determine length.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} identifies right angles in shapes.",
+      "skill": "angles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} is beginning to measure perimeter and calculate the area of familiar two-dimensional shapes.",
+      "skill": "perimeter",
+      "skill2": "area-volume-circles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} measures and compares lengths in centimetres and metres.",
+      "skill": "measuring-length",
+      "skill2": "comparing-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} experiments with making two equal parts by finding the middle.",
+      "skill": "none"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} follows simple directions to move to a new position.",
+      "skill": "position-directions"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses words such as 'under', 'next to' and 'behind' to describe where objects are.",
+      "skill": "position-directions"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses words such as 'bigger' and 'longer' to describe the length of an object.",
+      "skill": "comparing-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} measures and records the length of objects using concrete materials such as blocks and tiles.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} gives and follows directions between familiar places, using turns to the left or right.",
+      "skill": "position-directions"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} measures lengths using a centimetre ruler.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} records lengths and distances using the abbreviation 'm' for metres.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} reads simple maps and plans a path from one place to another.",
+      "skill": "maps-and-grids",
+      "skill2": "position-directions"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} uses both centimetres and metres to find distances.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} describes a path on a map using important places and compass directions.",
+      "skill": "maps-and-grids",
+      "skill2": "position-directions"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} compares angles with a right angle, describing them as smaller, larger or the same size.",
+      "skill": "angles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} responds to simple instructions about position or movement.",
+      "skill": "position-directions"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} matches items of similar length and identifies if two lengths are the same or different.",
+      "skill": "comparing-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} explains how the radius, diameter and circumference of a circle are related.",
+      "skill": "area-volume-circles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} uses formulas to find the area of circles, trapeziums and kites.",
+      "skill": "area-volume-circles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} finds the volume of prisms and cylinders using formulas.",
+      "skill": "area-volume-circles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} converts between units of area, volume and capacity.",
+      "skill": "converting-units",
+      "skill2": "area-volume-circles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Responding to simple instructions to demonstrate position or movement.",
+      "skill": "position-directions"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Matching items of a similar length.",
+      "skill": "comparing-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying if the length of two items is the same or different.",
+      "skill": "comparing-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Following simple directions to position themselves or objects.",
+      "skill": "position-directions"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Describing the position of an object in relation to another object.",
+      "skill": "position-directions"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Identifying length as a measure of an object from one end to the other.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Comparing the length of objects by placing them side-by-side.",
+      "skill": "comparing-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Comparing the lengths of two or more objects using appropriate units.",
+      "skill": "comparing-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Estimating lengths and distances to the nearest centimetre.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Selecting appropriate units to measure the length of an object.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Estimating lengths and distances to the nearest metre.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Describing a route taken on a map using landmarks and directional language.",
+      "skill": "maps-and-grids"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Accurately identifying the grid reference of locations and/or objects.",
+      "skill": "maps-and-grids"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using a combination of centimetres and metres to measure distances.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying angles in real-life situations.",
+      "skill": "angles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying right angles in shapes.",
+      "skill": "angles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Estimating and measuring the perimeters of squares and rectangles.",
+      "skill": "perimeter"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Estimating lengths and distances using an appropriate unit.",
+      "skill": "measuring-length"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Calculating perimeters of common two-dimensional shapes, including squares, rectangles and triangles.",
+      "skill": "perimeter"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Measuring angles of up to 360° using a protractor.",
+      "skill": "angles"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Converting measurements to the same unit to compare lengths and distances.",
+      "skill": "converting-units"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving a variety of problems involving different units of length.",
+      "skill": "converting-units"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} calculates areas and matches three-dimensional objects with their two-dimensional drawings.",
+      "skill": "measuring-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} classifies triangles and quadrilaterals by their features.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles.",
+      "skill": "measuring-area",
+      "skill2": "area-formulas"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} calculates the area of two-dimensional shapes.",
+      "skill": "measuring-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} identifies and classifies triangles and quadrilaterals based on their properties.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} identifies and classifies triangles and quadrilaterals by their features.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} classifies triangles and quadrilaterals based on their properties.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} classifies triangles and quadrilaterals.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} identifies and names common two-dimensional shapes.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} names basic shapes in {{pos}} environment and describes their features.",
+      "skill": "recognising-naming",
+      "skill2": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} makes pictures and designs by fitting shapes together.",
+      "skill": "making-designs"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} compares the surfaces of two shapes to see which is bigger.",
+      "skill": "comparing-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} makes shapes by tracing around objects, drawing and building.",
+      "skill": "making-designs"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} sorts two-dimensional shapes based on their sides and corners.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} compares the area of two-dimensional shapes by using counters and blocks.",
+      "skill": "comparing-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} slides, flips and turns shapes, recognising that the shape stays the same size.",
+      "skill": "transformations"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} creates rows and columns to model the area of rectangles.",
+      "skill": "measuring-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} compares and describes the features of shapes, such as parallel sides or equal sides.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} finds lines of symmetry in pictures, designs and shapes.",
+      "skill": "transformations"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} creates grid structures to model the area of rectangles.",
+      "skill": "measuring-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} creates patterns by flipping, sliding and turning shapes.",
+      "skill": "transformations"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} compares the areas of shapes by estimating first, then measuring on a square grid.",
+      "skill": "comparing-area",
+      "skill2": "measuring-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} combines shapes to make new shapes and designs.",
+      "skill": "making-designs"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} splits a shape into smaller shapes and describes the result.",
+      "skill": "making-designs"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} points to a square, triangle, circle or rectangle when asked and matches them to images.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} sorts shapes into groups.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} finds missing angles when a line crosses a pair of parallel lines.",
+      "skill": "unknown-angles-sides"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} uses the properties of triangles and four-sided shapes to find unknown angles.",
+      "skill": "unknown-angles-sides"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} finds a missing side of a right-angled triangle.",
+      "skill": "unknown-angles-sides"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Pointing to a square, triangle, circle or rectangle when asked.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Sorting shapes into groups.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Matching circles, squares, triangles or rectangles to images.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Sorting shapes according to features such as size and shape.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Describing shapes including circles, squares, triangles and rectangles.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Making pictures and designs using a selection of shapes.",
+      "skill": "making-designs"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using comparative language to describe areas.",
+      "skill": "comparing-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Describing the features of two-dimensional shapes.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Naming two-dimensional shapes based on their sides and corners.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Comparing two-dimensional shapes based on their sides and corners.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using informal units to compare the area of two-dimensional shapes.",
+      "skill": "comparing-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Comparing two-dimensional shapes based on their features.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying two-dimensional shapes that have parallel sides.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Creating a grid structure to model the area of a rectangle.",
+      "skill": "measuring-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Measuring the areas of squares and rectangles.",
+      "skill": "measuring-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Measuring the areas of rectangles and right-angled triangles.",
+      "skill": "measuring-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Describing shapes that have parallel sides.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recognising the need for formal units larger than the square metre.",
+      "skill": "measuring-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Calculating areas of rectangles in square centimetres, square metres and square kilometres.",
+      "skill": "measuring-area"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recording and using the formula to find the area of a parallelogram.",
+      "skill": "area-formulas"
+    },
+    {
+      "group": "maths|Two-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recording and using the formula to find the area of a triangle.",
+      "skill": "area-formulas"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} efficiently connects three-dimensional objects with their two-dimensional representations.",
+      "skill": "drawing-views"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} compares and constructs three-dimensional objects such as prisms and pyramids.",
+      "skill": "features",
+      "skill2": "building"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} connects three-dimensional objects with their two-dimensional representations.",
+      "skill": "drawing-views"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} connects three-dimensional objects with two-dimensional drawings and representations.",
+      "skill": "drawing-views"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A+B",
+      "text": "{{S}} visualises and constructs prisms and pyramids.",
+      "skill": "drawing-views",
+      "skill2": "building"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} compares basic three-dimensional objects and explains how to connect them with their two-dimensional representations.",
+      "skill": "features",
+      "skill2": "drawing-views"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} identifies basic three-dimensional objects and describes their features.",
+      "skill": "recognising-naming",
+      "skill2": "features"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} describes and compares three-dimensional objects.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} names three-dimensional objects including cubes, cylinders, spheres and rectangular prisms.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} names and describes the features of common three-dimensional objects.",
+      "skill": "recognising-naming",
+      "skill2": "features"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} participates in whole class activities to sort objects by one feature.",
+      "skill": "sorting"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} experiments with filling and pouring to compare how much containers can hold.",
+      "skill": "volume-capacity"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} predicts which objects will stack and packs blocks into a given space.",
+      "skill": "building",
+      "skill2": "volume-capacity"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} compares how much space different block models take up.",
+      "skill": "volume-capacity"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} builds shapes from connecting cubes to compare how much space they take up.",
+      "skill": "building",
+      "skill2": "volume-capacity"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} compares how much different containers can hold using concrete materials.",
+      "skill": "volume-capacity"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} describes the features of prisms, pyramids and cylinders by building models of them.",
+      "skill": "features",
+      "skill2": "building"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} measures how much containers hold in litres, linking the litre to everyday containers.",
+      "skill": "volume-capacity"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} sketches objects from different views and builds models from drawings.",
+      "skill": "drawing-views",
+      "skill2": "building"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} orders the amounts different containers can hold that have been measured in millilitres.",
+      "skill": "volume-capacity"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} selects objects by pointing or touching as they are named.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} matches objects to given shapes.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} stacks objects such as blocks.",
+      "skill": "building"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} describes how objects made by joining prisms look from different views.",
+      "skill": "drawing-views"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Selecting objects by pointing or touching as they are named.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Matching objects to given shapes.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Stacking three-dimensional objects.",
+      "skill": "building"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Describing the features of familiar objects.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Making and describing a variety of three-dimensional models.",
+      "skill": "building"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Sorting objects and identifying the features used to sort them.",
+      "skill": "sorting"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Naming three-dimensional objects, including cubes, cylinders, spheres and rectangular prisms.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Sorting three-dimensional objects according to features.",
+      "skill": "sorting"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Naming a three-dimensional object when given a description of its features.",
+      "skill": "recognising-naming"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Explaining why containers of different shapes may have the same volume.",
+      "skill": "volume-capacity"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying the differences between prisms, pyramids and cylinders.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Constructing models of prisms, pyramids and cylinders.",
+      "skill": "building"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying features of prisms and pyramids from images.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Sketching rectangular prisms and pyramids, showing depth.",
+      "skill": "drawing-views"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Comparing features of prisms and pyramids.",
+      "skill": "features"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Drawing three-dimensional objects from different views.",
+      "skill": "drawing-views"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Constructing three-dimensional models of prisms and pyramids.",
+      "skill": "building"
+    },
+    {
+      "group": "maths|Three-Dimensional Spatial Structure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Calculating volumes of rectangular prisms in cubic centimetres and cubic metres.",
+      "skill": "volume-capacity"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} chooses appropriate units for measuring capacity and mass.",
+      "skill": "measuring-mass-capacity"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} solves problems involving capacity and mass.",
+      "skill": "measuring-mass-capacity"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} converts between 12-hour and 24-hour time systems.",
+      "skill": "24-hour-time"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} measures weight, perimeter and area accurately.",
+      "skill": "measuring-mass-capacity"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} solves problems involving time by converting between 12-hour and 24-hour formats.",
+      "skill": "24-hour-time"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} measures mass using appropriate units.",
+      "skill": "measuring-mass-capacity"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} converts between 12- and 24-hour time.",
+      "skill": "24-hour-time"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} calculates totals with money and compares prices.",
+      "skill": "money"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} adds amounts of money and compares prices in familiar situations.",
+      "skill": "money"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} reads and records time using hours and minutes.",
+      "skill": "reading-clocks"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} uses scaled instruments to measure capacities in millilitres and litres.",
+      "skill": "measuring-mass-capacity"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} reads and records time using hours and minutes and uses a calendar to find the number of days to a date.",
+      "skill": "reading-clocks",
+      "skill2": "calendar"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} represents money in different ways and counts collections of coins and notes in familiar situations.",
+      "skill": "money"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} shows money values in different forms.",
+      "skill": "money"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} lifts objects to feel which is heavier or lighter.",
+      "skill": "comparing-mass"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} reads analog and digital clocks to the hour, such as '12 o'clock'.",
+      "skill": "reading-clocks"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses words like 'morning' and 'afternoon' to explain the order of events in {{pos}} day.",
+      "skill": "ordering-events"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} reads analog clocks and describes minute hand movement using appropriate 'o'clock' and 'half past' language.",
+      "skill": "reading-clocks"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} uses a calendar to name the days of the week and the months of the year.",
+      "skill": "calendar"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} compares the weight of objects using a balance and everyday units.",
+      "skill": "comparing-mass"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} measures and compares the duration of events in minutes.",
+      "skill": "duration"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} estimates which objects have a mass of about one kilogram.",
+      "skill": "measuring-mass-capacity"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} compares and orders the duration of events measured in minutes.",
+      "skill": "duration"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} measures the mass of objects with scales in grams and kilograms.",
+      "skill": "measuring-mass-capacity"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} identifies whether an object is heavy or light.",
+      "skill": "comparing-mass"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} understands the order of routines.",
+      "skill": "ordering-events"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} identifies events that happen in the daytime or at night-time.",
+      "skill": "ordering-events"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} locates the hour hand and the minute hand on an analog clock.",
+      "skill": "reading-clocks"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} converts between kilograms, grams and tonnes.",
+      "skill": "converting-mass"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} solves problems that involve different units of mass.",
+      "skill": "converting-mass"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} uses start and finish times to work out how long an event lasts.",
+      "skill": "duration"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} solves time problems that use both 12- and 24-hour times.",
+      "skill": "24-hour-time"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} reads and draws graphs that show distance travelled over time.",
+      "skill": "none"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying if an object is heavy or light.",
+      "skill": "comparing-mass"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Understanding the order of routines.",
+      "skill": "ordering-events"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying events that can happen at daytime or night-time.",
+      "skill": "ordering-events"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Locating the hour hand and minute hand on an analog clock.",
+      "skill": "reading-clocks"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Identifying that objects can be heavy or light.",
+      "skill": "comparing-mass"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Comparing weight by lifting objects.",
+      "skill": "comparing-mass"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Reading analog and digital clocks to the hour using the term 'o'clock.'",
+      "skill": "reading-clocks"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Sequencing events in time.",
+      "skill": "ordering-events"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Naming and ordering the days of the week.",
+      "skill": "calendar"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Comparing and ordering the mass of two objects.",
+      "skill": "comparing-mass"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Naming and ordering the months of the year.",
+      "skill": "calendar"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Reading analog clocks to the half hour.",
+      "skill": "reading-clocks"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using a calendar to calculate the number of days to a future event.",
+      "skill": "calendar"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using the terms hour, minute and second.",
+      "skill": "duration"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Reading analog clocks to the quarter-hour.",
+      "skill": "reading-clocks"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recognising the need for a formal unit to measure mass.",
+      "skill": "measuring-mass-capacity"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recording masses using the abbreviation for kilograms (kg).",
+      "skill": "measuring-mass-capacity"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using 5-minute intervals to read time on an analog clock.",
+      "skill": "reading-clocks"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using minutes to describe the duration of events.",
+      "skill": "duration"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recording times using the colon notation with am and pm.",
+      "skill": "reading-clocks"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Selecting appropriate units of measurement for mass.",
+      "skill": "measuring-mass-capacity"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Converting between kilograms and grams and between kilograms and tonnes.",
+      "skill": "converting-mass"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Reading 24-hour time correctly.",
+      "skill": "24-hour-time"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Converting between 12- and 24-hour time accurately.",
+      "skill": "24-hour-time"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using timetables from real-life situations involving 12- and 24-hour time.",
+      "skill": "24-hour-time"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using start and finish times to calculate the elapsed time of events.",
+      "skill": "duration"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} explains how data displays can sometimes be misleading.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} interprets information in tables and identifies important features of data displays.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} chooses suitable graphs and timelines to display information, and collects and organises data effectively.",
+      "skill": "choosing-graphs",
+      "skill2": "collecting"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} interprets data presented in tables and graphs.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} constructs and interprets data displays where each symbol or bar stands for more than one.",
+      "skill": "making-displays",
+      "skill2": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} interprets data from tables, graphs and charts, and explains their key features.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} interprets data from tables and column graphs.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} interprets information from tables and column graphs and finds totals in data displays.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} accurately interprets information presented in tables, column graphs and line graphs.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} interprets information from tables and column graphs, and makes comparisons between categories.",
+      "skill": "reading-graphs",
+      "skill2": "comparing-data"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} chooses suitable graphs and timelines to display information and organises data clearly.",
+      "skill": "choosing-graphs",
+      "skill2": "sorting-recording"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} reads and interprets information from tables and graphs with growing understanding.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} identifies the largest and smallest values in a data display.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} reads information from tables and explains what is shown in column graphs.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} interprets information from tables and column graphs with growing understanding.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} selects suitable graphs to display data.",
+      "skill": "choosing-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} reads basic tables and column graphs with growing understanding.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} chooses appropriate graphs and data displays to represent simple information.",
+      "skill": "choosing-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} organises and presents information using appropriate graphs and tables.",
+      "skill": "making-displays",
+      "skill2": "choosing-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} takes part in class activities to collect information from classmates and ask questions about it.",
+      "skill": "collecting"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} groups objects by one feature and joins in class activities to make a data display.",
+      "skill": "sorting-recording",
+      "skill2": "making-displays"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} organises data into a picture graph using tally marks and symbols.",
+      "skill": "making-displays",
+      "skill2": "sorting-recording"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} answers questions about data represented in tallies and picture graphs.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} creates column graphs and answers questions related to the information.",
+      "skill": "making-displays",
+      "skill2": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} creates surveys and records data using predicted categories.",
+      "skill": "collecting"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} chooses a suitable number scale to create data representations and draws graphs using both paper and digital technologies.",
+      "skill": "making-displays"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} answers questions about side-by-side column graphs that compare two groups.",
+      "skill": "comparing-data",
+      "skill2": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} answers yes or no questions or chooses from options to help collect data.",
+      "skill": "collecting"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} uses pictures to show collected data.",
+      "skill": "making-displays"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} identifies the type of data collected and chooses a graph to suit it.",
+      "skill": "choosing-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} finds the average, middle value and most common value of a set of data.",
+      "skill": "comparing-data"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} draws conclusions from data shown in tables and different graphs.",
+      "skill": "comparing-data"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Providing a yes or no response to questions for the purpose of collecting data.",
+      "skill": "collecting"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Responding to a question from a choice of at least two options.",
+      "skill": "collecting"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Representing collected data using pictures.",
+      "skill": "making-displays"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Posing and responding to questions about information collected for a simple graph.",
+      "skill": "collecting"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Grouping objects according to characteristics.",
+      "skill": "sorting-recording"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Arranging objects according to a feature to create a simple graph.",
+      "skill": "making-displays"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Interpreting information presented in a simple graph to answer questions.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Choosing suitable questions when collecting data for a graph.",
+      "skill": "collecting"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using tally marks to record collected data.",
+      "skill": "sorting-recording"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Creating data displays using objects or symbols.",
+      "skill": "making-displays"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Interpreting information presented in picture graphs.",
+      "skill": "reading-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing data using multiple graphs.",
+      "skill": "making-displays"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Comparing the same data shown in different types of graphs.",
+      "skill": "comparing-data"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Conducting a survey to collect a variety of data.",
+      "skill": "collecting"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Collecting different types of data through observations and by conducting surveys.",
+      "skill": "collecting"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recognising which type of graph is most appropriate when representing data.",
+      "skill": "choosing-graphs"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Comparing different sets of data shown together in a column graph.",
+      "skill": "comparing-data"
+    },
+    {
+      "group": "maths|Data",
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Understanding data on a timeline using a scale accurately.",
+      "skill": "reading-graphs"
+    }
+  ],
+  "unsure": [
+    {
+      "group": "english|Oral Language and Communication",
+      "text": "{{S}} speaks in longer sentences during conversations.",
+      "why": "speaking in longer sentences, could be suitable-language"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "text": "{{S}} uses verbs that match past, present and future events when speaking.",
+      "why": "correct verb tenses when speaking, no exact skill"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "text": "{{S}} explores and develops new ideas with others.",
+      "why": "develops new ideas with others, could be sharing-ideas"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "text": "Refining their understanding by discussing with others.",
+      "why": "refining understanding by discussing, could be listening-and-understanding"
+    },
+    {
+      "group": "english|Oral Language and Communication",
+      "text": "Speaking in a logical sequence.",
+      "why": "speaking in a logical sequence, could be sharing-ideas"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "text": "{{S}} reads with confidence and connects with the ideas in texts.",
+      "why": "\"connects with the ideas in texts\" is vague"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "text": "{{S}} comprehends predictable imaginative texts from the main character's perspective.",
+      "why": "understanding a character's perspective, could be connections"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "text": "{{S}} compares print and digital texts to decide which is most useful for a task.",
+      "why": "compares print and digital texts for a task, could be reading-strategies"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "text": "{{S}} explains how a text can carry more than one meaning.",
+      "why": "a text with more than one meaning"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "text": "Identifying the who, what, when, where and why in texts.",
+      "why": "who/what/when/where/why, could be main-ideas"
+    },
+    {
+      "group": "english|Reading Comprehension",
+      "text": "Understanding the structure and purpose of a complex sentence.",
+      "why": "structure and purpose of a complex sentence"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "text": "{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader.",
+      "why": "plans and structures informative and persuasive texts, three skills named"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "text": "{{S}} writes for different purposes, such as to describe, explain, give an opinion or tell a story.",
+      "why": "four purposes named (describe, explain, opinion, story)"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "text": "{{S}} forms simple paragraphs to express {{pos}} ideas and edits {{pos}} work for correct punctuation.",
+      "why": "also punctuation"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "text": "Creating a text including at least 2 related ideas.",
+      "why": "a text with at least 2 related ideas"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "text": "Writing phrases that show time or place.",
+      "why": "phrases showing time or place, could be word-choice"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "text": "Using persuasive language to strengthen arguments in writing.",
+      "why": "persuasive language, could be word-choice"
+    },
+    {
+      "group": "english|Creating Written Texts",
+      "text": "Using print or digital tools to plan, sequence, create, revise, edit and publish texts.",
+      "why": "print or digital tools to plan, create, revise and publish"
+    },
+    {
+      "group": "english|Spelling",
+      "text": "{{S}} automatically uses strategies in a range of contexts to spell unfamiliar words.",
+      "why": "\"uses strategies to spell unfamiliar words\" names no particular strategy"
+    },
+    {
+      "group": "english|Handwriting",
+      "text": "{{S}} presents written work neatly and communicates ideas clearly when typing.",
+      "why": "neat work and clear typing, could be letter-formation"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "text": "{{S}} compares and orders decimals and percentages.",
+      "why": "compares and orders decimals and percentages"
+    },
+    {
+      "group": "maths|Representing Whole Numbers",
+      "text": "Representing numbers up to four-digits using different materials.",
+      "why": "represents numbers with materials, could be place-value"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "text": "{{S}} identifies the number of objects in a group.",
+      "why": "identifies the number of objects in a group"
+    },
+    {
+      "group": "maths|Multiplicative Relations",
+      "text": "Identifying the number of objects in a group.",
+      "why": "identifying the number of objects in a group"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "text": "{{S}} compares amounts using ratios, such as 2 to 3, and explains how they connect to fractions.",
+      "why": "ratios, no skill in the list covers ratios"
+    },
+    {
+      "group": "maths|Representing Quantity Fractions",
+      "text": "{{S}} works with fractions and decimals and identifies prime numbers.",
+      "why": "also prime numbers"
+    },
+    {
+      "group": "maths|Geometric Measure",
+      "text": "{{S}} experiments with making two equal parts by finding the middle.",
+      "why": "making two equal parts by finding the middle, no skill in the list"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "text": "{{S}} measures weight, perimeter and area accurately.",
+      "why": "also perimeter and area, which belong to another group"
+    },
+    {
+      "group": "maths|Non-Spatial Measure",
+      "text": "{{S}} reads and draws graphs that show distance travelled over time.",
+      "why": "reads and draws graphs of distance over time, no skill in the list"
+    },
+    {
+      "group": "maths|Data",
+      "text": "{{S}} explains how data displays can sometimes be misleading.",
+      "why": "explains how displays can mislead, could be comparing-data"
+    },
+    {
+      "group": "maths|Data",
+      "text": "{{S}} finds the average, middle value and most common value of a set of data.",
+      "why": "average, middle and most common value, no exact skill"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+// english|Spelling  (sentences 0-32, future directions 33-55)
+// batch 1: items 0-24
+0 none # unsure: "uses strategies to spell unfamiliar words" names no particular strategy
+1 letter-patterns+sounds-and-syllables
+2 letter-patterns+word-part-rules
+3 letter-patterns
+4 letter-patterns+word-part-rules
+5 letter-patterns
+6 letter-patterns+word-part-rules
+7 letter-patterns+word-part-rules
+8 grammar-and-punctuation
+9 letter-patterns
+10 letter-patterns+sounds-and-syllables
+11 letter-patterns+homophones
+12 word-part-rules
+13 letter-patterns
+14 grammar-and-punctuation
+15 grammar-and-punctuation
+16 common-words+sounds-and-syllables
+17 letters-and-name
+18 grammar-and-punctuation
+19 word-part-rules
+20 grammar-and-punctuation
+21 sounds-and-syllables
+22 common-words
+23 sounds-and-syllables
+24 word-part-rules
+// batch 2: items 25-49
+25 word-part-rules
+26 word-part-rules
+27 checking-spelling
+28 grammar-and-punctuation
+29 grammar-and-punctuation
+30 letters-and-name
+31 sounds-and-syllables
+32 letters-and-name
+33 letters-and-name
+34 letters-and-name
+35 sounds-and-syllables
+36 letters-and-name
+37 common-words
+38 sounds-and-syllables
+39 letters-and-name
+40 letter-patterns
+41 sounds-and-syllables
+42 letter-patterns
+43 common-words
+44 word-part-rules
+45 word-part-rules
+46 sounds-and-syllables
+47 common-words
+48 homophones
+49 checking-spelling
+// batch 3: items 50-55
+50 sounds-and-syllables
+51 letter-patterns
+52 sounds-and-syllables
+53 letter-patterns
+54 checking-spelling
+55 homophones

@@ -1,0 +1,63 @@
+// maths|Non-Spatial Measure  (sentences 0-32, future directions 33-58)
+// batch 1: items 0-24
+0 measuring-mass-capacity
+1 measuring-mass-capacity
+2 24-hour-time
+3 measuring-mass-capacity # unsure: also perimeter and area, which belong to another group
+4 24-hour-time
+5 measuring-mass-capacity
+6 24-hour-time
+7 money
+8 money
+9 reading-clocks
+10 measuring-mass-capacity
+11 reading-clocks+calendar
+12 money
+13 money
+14 comparing-mass
+15 reading-clocks
+16 ordering-events
+17 reading-clocks
+18 calendar
+19 comparing-mass
+20 duration
+21 measuring-mass-capacity
+22 duration
+23 measuring-mass-capacity
+24 comparing-mass
+// batch 2: items 25-49
+25 ordering-events
+26 ordering-events
+27 reading-clocks
+28 converting-mass
+29 converting-mass
+30 duration
+31 24-hour-time
+32 none # unsure: reads and draws graphs of distance over time, no skill in the list
+33 comparing-mass
+34 ordering-events
+35 ordering-events
+36 reading-clocks
+37 comparing-mass
+38 comparing-mass
+39 reading-clocks
+40 ordering-events
+41 calendar
+42 comparing-mass
+43 calendar
+44 reading-clocks
+45 calendar
+46 duration
+47 reading-clocks
+48 measuring-mass-capacity
+49 measuring-mass-capacity
+// batch 3: items 50-58
+50 reading-clocks
+51 duration
+52 reading-clocks
+53 measuring-mass-capacity
+54 converting-mass
+55 24-hour-time
+56 24-hour-time
+57 24-hour-time
+58 duration

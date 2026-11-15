@@ -1,0 +1,51 @@
+// maths|Multiplicative Relations  (sentences 0-25, future directions 26-47)
+// batch 1: items 0-24
+0 algebra
+1 larger-numbers+multi-step
+2 algebra
+3 larger-numbers
+4 facts+larger-numbers
+5 patterns+facts
+6 patterns+facts
+7 larger-numbers
+8 facts
+9 equal-groups+patterns
+10 facts+solving-and-recording
+11 solving-and-recording
+12 patterns
+13 solving-and-recording+equal-groups
+14 equal-groups
+15 patterns
+16 equal-groups
+17 inverse
+18 inverse
+19 facts
+20 facts+solving-and-recording
+21 facts
+22 patterns
+23 equal-groups
+24 equal-groups # unsure: identifies the number of objects in a group
+// batch 2: items 25-47
+25 algebra
+26 patterns
+27 equal-groups
+28 equal-groups # unsure: identifying the number of objects in a group
+29 patterns
+30 patterns
+31 equal-groups
+32 equal-groups
+33 equal-groups
+34 solving-and-recording
+35 solving-and-recording
+36 solving-and-recording
+37 patterns
+38 facts
+39 inverse
+40 facts
+41 solving-and-recording
+42 facts
+43 larger-numbers
+44 larger-numbers
+45 larger-numbers
+46 multi-step
+47 multi-step
