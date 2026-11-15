@@ -653,6 +653,9 @@
   .quick-switch { font-family: var(--font); font-size: 12px; padding: 3px 10px; border: 1px solid var(--border-h); border-radius: 999px; background: transparent; color: var(--t2); cursor: pointer; }
   .quick-switch.on { background: var(--green-bg); color: var(--green); border-color: var(--green); }
   body:not([data-subject="general"]) .quick-switch { display: none; }
+  .swap-btn { position: fixed; z-index: 60; display: none; font-family: var(--font); font-size: 12px; padding: 3px 10px; border: 1px solid var(--border-h); border-radius: 999px; background: var(--bg, #fff); color: var(--t1, #333); cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.18); }
+  .swap-btn:hover { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+  @media print { .swap-btn { display: none !important; } }
   .quick-panel { padding: 4px 0 8px; }
   .quick-prog { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); font-weight: 500; margin-bottom: 6px; }
   .quick-q { font-size: 16px; font-weight: 500; margin: 0 0 4px; }
@@ -6172,6 +6175,87 @@ function setQuick(on) {
   try { renderMoreSettings(); } catch (e) {}
 }
 function toggleQuick() { setQuick(!quickOn()); }
+// v3.17.29 · Swap a sentence in Review (General). The sentence is found through the same matcher the draft uses (_draftMatches),
+// so a sentence the teacher reworded is never swapped. The button sits outside #pubContent so the save observer never sees it.
+let _swapSpan = null, _swapHideT = null;
+function _swapBtnEl() {
+  let b = document.getElementById('swapBtn');
+  if (!b) {
+    b = document.createElement('button'); b.id = 'swapBtn'; b.type = 'button'; b.className = 'swap-btn';
+    b.textContent = '⇄ Swap'; b.title = 'Swap for another sentence about the same thing'; b.setAttribute('aria-label', 'Swap this sentence for another about the same thing');
+    b.addEventListener('mousedown', e => e.preventDefault());
+    b.addEventListener('mouseenter', () => clearTimeout(_swapHideT));
+    b.addEventListener('mouseleave', () => { _swapHideT = setTimeout(_swapHide, 500); });
+    b.addEventListener('click', () => { if (_swapSpan && _swapSpan.isConnected) swapSentence(_swapSpan); });
+    document.body.appendChild(b);
+  }
+  return b;
+}
+function _swapHide() { clearTimeout(_swapHideT); const b = document.getElementById('swapBtn'); if (b) b.style.display = 'none'; _swapSpan = null; }
+function _swapShow(span) {
+  if (currentSubject !== 'general' || currentView !== 'publish' || !flagOn('swapBtn')) return;
+  if (!span || span.closest('.fd-para')) return;
+  clearTimeout(_swapHideT);
+  _swapSpan = span;
+  const rs = span.getClientRects(); if (!rs.length) return;
+  const r = rs[rs.length - 1], b = _swapBtnEl();
+  b.style.display = 'block';
+  const w = b.offsetWidth || 70;
+  b.style.left = Math.max(4, Math.min(window.innerWidth - w - 8, r.right + 6)) + 'px';
+  b.style.top = Math.max(4, r.top + (r.height - (b.offsetHeight || 24)) / 2) + 'px';
+}
+document.addEventListener('mouseover', e => { const sp = e.target.closest && e.target.closest('#pubContent span[data-pi][data-si]'); if (sp) _swapShow(sp); });
+document.addEventListener('mouseout', e => { if (e.target.closest && e.target.closest('#pubContent')) _swapHideT = setTimeout(_swapHide, 500); });
+document.addEventListener('click', e => { const sp = e.target.closest && e.target.closest('#pubContent span[data-pi][data-si]'); if (sp) _swapShow(sp); });
+window.addEventListener('scroll', () => _swapHide(), true);
+// Which bank sentence is this span? Only an unchanged, one-sentence match counts.
+function _swapFind(stu, span) {
+  const content = document.getElementById('pubContent'); if (!content) return null;
+  const spans = Array.from(content.querySelectorAll('p.pub-para:not(.fd-para) > span[data-si]'));
+  const idx = spans.indexOf(span); if (idx < 0) return null;
+  const text = Array.from(content.querySelectorAll('p.pub-para:not(.fd-para)')).map(p => p.textContent.trim()).filter(Boolean).join('\n\n');
+  if (splitSentences(text).length !== spans.length) return null;
+  const m = _draftMatches(stu, null, stu.ordered.slice(), text);
+  for (const [key, r] of m) if (r.status === 'same' && r.from === idx && r.to === idx + 1) return key;
+  return null;
+}
+function _swapReplaceKey(stu, oldKey, newKey) {
+  const swapIn = arr => { if (!Array.isArray(arr)) return; const i = arr.indexOf(oldKey); if (i !== -1) arr[i] = newKey; };
+  Object.keys(stu.selected || {}).forEach(c => swapIn(stu.selected[c]));
+  swapIn(stu.ordered); swapIn(stu.orderedAfterEdit); swapIn(stu.orderedAtDone);
+}
+function _swapMoveLayout(stu, oldSig, newSig) {
+  const L = stu[_layoutKey('general')]; if (!L || oldSig === newSig) return;
+  if (L.__v === 2) {
+    if (L.starts && Object.prototype.hasOwnProperty.call(L.starts, oldSig)) { L.starts[newSig] = L.starts[oldSig]; delete L.starts[oldSig]; }
+    if (Array.isArray(L.order)) L.order = L.order.map(g => g === oldSig ? newSig : g);
+  } else if (Object.prototype.hasOwnProperty.call(L, oldSig)) { L[newSig] = L[oldSig]; delete L[oldSig]; }
+}
+function swapSentence(span) {
+  _swapHide();
+  const stu = cur();
+  if (currentSubject !== 'general' || currentView !== 'publish' || !stu) return;
+  if (stu.editedCat) { showToast('This comment was edited in an older way, so sentences cannot be swapped.'); return; }
+  const key = _swapFind(stu, span);
+  if (!key) { showToast('This sentence has been edited, so it cannot be swapped.'); return; }
+  const tr = SENT_TRAIT[key] || SENT_TRAIT[GEN_OLD2NEW[key]];
+  if (!tr) { showToast('This sentence is not in a group, so it cannot be swapped.'); return; }
+  const t = GEN_TRAITS[tr.cat].find(x => x.id === tr.id);
+  const cands = quickCandidates(stu, tr.cat, t, false);
+  if (!cands.length) { showToast('No other sentence for ' + t.label + ' is available.'); return; }
+  const at = t.sentences.indexOf(SENT_TRAIT[key] ? key : GEN_OLD2NEW[key]);
+  const pick = cands.find(x => t.sentences.indexOf(x) > at) || cands[0];
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, 'general');
+  const oldTxt = span.textContent.trim();
+  const nt = applyAlternation(resolveKey(pick, stu), name, p, { value: oldTxt.startsWith(name) ? 0 : 1 }, yr);
+  _swapMoveLayout(stu, _paraSig(oldTxt, stu), _paraSig(nt, stu));
+  _swapReplaceKey(stu, key, pick);
+  span.textContent = nt;
+  const content = document.getElementById('pubContent');
+  try { enforceAlternationDOM(content); } catch (e) {}
+  _afterReviewEdit();
+  showToast('Swapped (' + t.label + '). Press Swap again for another.');
+}
 function paintQuickBtn() {
   const b = document.getElementById('quickBtn'); if (!b) return;
   const on = quickOn();
@@ -8585,6 +8669,7 @@ function getFDTextForStu(stu, subj) {
 }
 
 function renderPublish() {
+  try { _swapHide(); } catch (e) {}
   if (_synOpenSpan && !_synOpenSpan.isConnected) closeSynDropdown();   // v3.17.15: a different comment is on screen now
   _dismissedMerges = []; // reset dismissed flow suggestions on each publish render
   const stu = cur();
@@ -11287,7 +11372,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.28';
+const APP_VERSION = 'v3.17.29';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -12032,6 +12117,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.29', date: '15 November 2026', items: [
+    'New: Swap in Review. Point at a sentence in a General comment (or tap it) and press Swap to change it for another sentence about the same thing, for example another Kind and caring sentence. Press it again for the next one. A sentence you have reworded is left alone. You can hide the button in Settings.',
+  ] },
   { v: 'v3.17.28', date: '15 November 2026', items: [
     'New: Quick mode for General comments. Turn it on at the top of Build or in Settings. Build then shows one screen per category with a button for each kind of thing a student does (for example Kind and caring). Tap what fits and a sentence is chosen for you, at the student\u2019s level, avoiding sentences other students already have where it can. Tap again to take it out. Use Full list to see the usual sentences, or Search to find one. It is off unless you turn it on.'
   ] },
@@ -14307,7 +14395,7 @@ function showNextLongSentence() {
 // ══ v3.16.13 · MORE SETTINGS ═══════════════════════════════════════════════
 // Saved on this device, like the word limits. Every default leaves the app working exactly as before.
 function getSimMode() { const v = lsGet('rcb_simmode', 'top'); return v === 'mark' || v === 'off' ? v : 'top'; }
-const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch', pasteTick: 'rcb_pastetick', catOrder: 'rcb_catorder', firstName: 'rcb_firstname' };
+const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch', pasteTick: 'rcb_pastetick', catOrder: 'rcb_catorder', firstName: 'rcb_firstname', swapBtn: 'rcb_swapbtn' };
 function flagOn(name) { return lsGet(_FLAG_KEYS[name], true) !== false; }
 function _settingChanged(name) {
   try {
@@ -14352,6 +14440,8 @@ function renderMoreSettings() {
     + sw('pasteTick', 'Tick the sentences from a pasted comment', 'Ticks the bank sentences found in the comment you paste into the draft and scrolls the list to the first one. The text you paste is never changed. Off leaves a pasted comment as plain text.')
     + '<div class="sw-pane-title">Quick mode</div>'
     + `<div class="settings-row"><span class="settings-row-label">Quick mode for General comments<span class="sw-help">Build shows one screen per category with a button for each characteristic. Tap what fits and the sentences are chosen for you. Off keeps the usual lists. You can also switch it at the top of Build.</span></span><button class="settings-action-btn${quickOn() ? ' green' : ''}" role="switch" aria-checked="${quickOn()}" data-flag="quickMode" onclick="setQuick(${!quickOn()})">${quickOn() ? 'On' : 'Off'}</button></div>`
+    + '<div class="sw-pane-title">Review</div>'
+    + sw('swapBtn', 'Show the swap button in Review', 'Point at a sentence in a General comment (or tap it) and press Swap to change it for another sentence about the same thing. Sentences you have reworded and future directions are not swapped. Off hides the button.')
     + '<div class="sw-pane-title">Moving around</div>'
     + sw('topOnSwitch', 'Open each category at the top of the list', 'Also when you change student. Off keeps your place in the list.');
 }
