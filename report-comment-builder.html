@@ -650,6 +650,22 @@
   .settings-action-btn.green:hover { border-color: var(--green); }
   .syl-tag { display:inline-block; margin-left:8px; padding:0 6px; font-size:10px; line-height:16px; border-radius:999px; border:1px solid var(--border); color:var(--t2); background:var(--bg-3); vertical-align:middle; white-space:nowrap; }
   .yr-fallback { font-size:11px; color:var(--t2); padding:2px 12px 6px; font-style:italic; }
+  .quick-switch { font-family: var(--font); font-size: 12px; padding: 3px 10px; border: 1px solid var(--border-h); border-radius: 999px; background: transparent; color: var(--t2); cursor: pointer; }
+  .quick-switch.on { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+  body:not([data-subject="general"]) .quick-switch { display: none; }
+  .quick-panel { padding: 4px 0 8px; }
+  .quick-prog { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); font-weight: 500; margin-bottom: 6px; }
+  .quick-q { font-size: 16px; font-weight: 500; margin: 0 0 4px; }
+  .quick-sub { font-size: 12px; color: var(--t2); margin: 0 0 10px; }
+  .quick-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .quick-chip { font-family: var(--font); font-size: 14px; padding: 8px 14px; border: 1px solid var(--border-h); border-radius: 999px; background: var(--bg-1, #fff); color: var(--t1); cursor: pointer; }
+  .quick-chip.on { background: var(--green-bg); color: var(--green); border-color: var(--green); font-weight: 500; }
+  .quick-chip.on::before { content: "✓ "; }
+  .quick-nav { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+  .quick-go { font-family: var(--font); font-size: 14px; padding: 8px 18px; border: 1px solid var(--blue); border-radius: var(--r-sm); background: var(--blue); color: #fff; cursor: pointer; margin-left: auto; }
+  .quick-link { font-family: var(--font); font-size: 13px; background: none; border: none; color: var(--blue); cursor: pointer; text-decoration: underline; padding: 4px 2px; }
+  .quick-link:disabled { color: var(--t3); text-decoration: none; cursor: default; }
+  .quick-strip { padding: 2px 0 8px; }
   .search-wrap { padding: 4px 0 8px; }
   .search-input { width: 100%; box-sizing: border-box; font-family: var(--font); font-size: 14px; padding: 8px 10px; border: 1px solid var(--border-h); border-radius: var(--r-sm); background: var(--bg-1, #fff); color: var(--t1); }
   .search-row mark { background: var(--amber-bg2); color: inherit; border-radius: 2px; padding: 0 1px; }
@@ -1638,6 +1654,7 @@
       <div class="c-scroll">
         <div class="c-header">
           <div class="c-title" id="cTitle"></div>
+          <button type="button" class="quick-switch" id="quickBtn" role="switch" aria-checked="false" onclick="toggleQuick()" title="Quick mode: tap characteristics instead of choosing sentences">Quick mode: Off</button>
         </div>
         <div class="grade-sel-wrap" id="gradeSelWrap" style="display:none"></div>
         <div class="opts" id="optsGrid"></div>
@@ -3211,6 +3228,7 @@ function setSubject(subj) {
   _showGradeEntry = false;
   _showAllStrands = false;
   _searchOpen = false;   // v3.17.26
+  _quickEnd = false; _quickFull = false; _quickShowAll = false;   // v3.17.28
   lsSet('rcb_subject', subj);
   // Clear the destination subject's cache so we always see fresh content when switching
   // Also clear other subjects to prevent cross-subject bleed
@@ -5899,6 +5917,7 @@ function render() {
   renderOpts();
   renderOut();
   renderStuBar();
+  paintQuickBtn();   // v3.17.28
 }
 
 function paintChipScroll() {
@@ -6035,7 +6054,7 @@ function appendSearchBtn(el) {
   el.appendChild(b);
   if (!el._searchCloseBound) {   // a click on any category button closes Search (this runs before that button's own handler)
     el._searchCloseBound = true;
-    el.addEventListener('click', e => { const t = e.target.closest && e.target.closest('.cat-btn'); if (t && !t.classList.contains('search-btn')) _searchOpen = false; }, true);
+    el.addEventListener('click', e => { const t = e.target.closest && e.target.closest('.cat-btn'); if (t && !t.classList.contains('search-btn')) { _searchOpen = false; _quickEnd = false; _quickFull = false; _quickShowAll = false; } }, true);
   }
 }
 function closeSearch() { _searchOpen = false; }
@@ -6139,6 +6158,123 @@ function _searchCollect(words) {
     if (synced) autoSave();
   }
   return { groups, n };
+}
+// ── v3.17.28 · QUICK MODE (General) ──────────────────────────────────────────
+// A switch, off unless the teacher turns it on. In General, Build shows one screen per category with a chip for each characteristic
+// (GEN_TRAITS). Tapping a chip picks one sentence of that characteristic the same way a click in the bank would (toggleOpt's own steps),
+// tapping it again takes it out. Nothing is saved except the switch itself (a setting on this device); no bank sentence is changed.
+let _quickEnd = false, _quickFull = false, _quickShowAll = false, _quickLevelAsked = null;
+function quickOn() { return lsGet('rcb_quickmode', false) === true; }
+function quickActive() { return quickOn() && currentSubject === 'general'; }
+function setQuick(on) {
+  lsSet('rcb_quickmode', !!on); _quickEnd = false; _quickFull = false; _quickShowAll = false; _quickLevelAsked = null; _searchOpen = false;
+  try { if (currentView === 'build') render(); } catch (e) { console.warn('quick', e); }
+  try { renderMoreSettings(); } catch (e) {}
+}
+function toggleQuick() { setQuick(!quickOn()); }
+function paintQuickBtn() {
+  const b = document.getElementById('quickBtn'); if (!b) return;
+  const on = quickOn();
+  b.textContent = 'Quick mode: ' + (on ? 'On' : 'Off'); b.setAttribute('aria-checked', on ? 'true' : 'false'); b.classList.toggle('on', on);
+}
+// the level the student's General comment starts at: the teacher's setting, or (Semester 2) the level of their Semester 1 sentences
+function quickLevel(stu) { return generalLevel(stu) || (currentSemester === 2 ? s1LevelFor(stu) : null); }
+function _quickHasTiers(cat) { return (TIER_BOUNDARIES[cat] || {}).average != null; }
+// sentences of a characteristic that can be offered to this student now (this semester and year; not used in Semester 1; not already in the comment)
+function quickCandidates(stu, cat, t, includePicked) {
+  const s1 = currentSemester === 2 ? getS1UsedKeys(stu) : null;
+  return t.sentences.filter(x => inSemester(x) && !(s1 && s1.has(x)) && (includePicked || genSelForm(cat, x, stu) === null));
+}
+function quickTicked(stu, cat, t) { return t.sentences.some(x => genSelForm(cat, x, stu) !== null); }
+// which sentence a chip picks. No chance is used, so the same class always gives the same answer:
+// the student's level first, then the one the fewest other students use, then the one that adds the fewest repeated words, then bank order
+function quickPickFor(stu, cat, t) {
+  const cands = quickCandidates(stu, cat, t, false); if (!cands.length) return null;
+  const lv = quickLevel(stu), tiers = _quickHasTiers(cat), base = commentText(stu, 'general');
+  return cands.map(x => ({
+    x, lvl: (tiers && lv && _tierOfRaw(cat, x) === lv) ? 0 : 1,
+    use: students.filter(o => o !== stu && genSelForm(cat, x, o) !== null).length,
+    rep: repeatedWordsIn(base + ' ' + applyFC(x), stu).length,
+    ord: RAW[cat].indexOf(x)
+  })).sort((a, b) => (a.lvl - b.lvl) || (a.use - b.use) || (a.rep - b.rep) || (a.ord - b.ord))[0].x;
+}
+function quickTap(cat, id) {
+  const stu = cur(), t = (GEN_TRAITS[cat] || []).find(x => x.id === id); if (!t) return;
+  if (!stu.selected[cat]) stu.selected[cat] = [];
+  if (quickTicked(stu, cat, t)) {
+    // take out the bank sentences of this characteristic; one the teacher reworded in the draft stays
+    const ed = editedKeySet(stu, 'general'); let kept = 0;
+    t.sentences.forEach(x => { const f = genSelForm(cat, x, stu); if (f === null) return; if (ed.has(f)) { kept++; return; } genRemoveKey(cat, f); });
+    render();
+    if (kept) showToast('A sentence you reworded stays in the comment. Take it out in the draft if you want it gone.');
+    return;
+  }
+  const pick = quickPickFor(stu, cat, t);
+  if (!pick) { showToast('No sentence left for this one. Use Search or the full list.'); return; }
+  genAddKey(cat, pick); render();
+}
+function quickGo(delta) {
+  _quickShowAll = false; _quickFull = false;
+  const i = CATS.indexOf(currentTab) + delta;
+  if (i >= CATS.length) { _quickEnd = true; } else { _quickEnd = false; currentTab = CATS[Math.max(0, i)]; }
+  render();
+}
+function quickSetLevel(v) { _quickLevelAsked = (cur().uid || currentIdx); if (v) onGenLevel(currentIdx, v); render(); }
+function _quickBtn(label, cls, fn, extra) { const b = document.createElement('button'); b.type = 'button'; b.className = cls; b.textContent = label; b.onclick = fn; if (extra) Object.keys(extra).forEach(k => b.setAttribute(k, extra[k])); return b; }
+function renderQuickPanel(grid) {
+  const gs = document.getElementById('gradeSelWrap'); if (gs) gs.style.display = 'none';
+  const tools = document.getElementById('cTools'); if (tools) { tools.classList.add('tools-off'); tools.classList.add('no-tiers'); }
+  grid.classList.remove('tiered'); grid.dataset.tier = 'all';
+  const stu = cur(), box = document.createElement('div'); box.className = 'quick-panel'; box.id = 'quickPanel';
+  const uid = stu.uid || currentIdx;
+  if (!quickLevel(stu) && _quickLevelAsked !== uid && !_quickEnd) {
+    box.innerHTML = '<div class="quick-prog">Before you start</div><p class="quick-q">Which level should ' + escHtml(cn(stu) || 'this student') + '’s comment start at?</p><p class="quick-sub">You can still choose any level in the full list.</p>';
+    const row = document.createElement('div'); row.className = 'quick-chips';
+    [['strong', 'Positive'], ['average', 'Average'], ['developing', 'Developing']].forEach(([v, l]) => row.appendChild(_quickBtn(l, 'quick-chip', () => quickSetLevel(v))));
+    row.appendChild(_quickBtn('Not sure, show all', 'quick-link', () => quickSetLevel(null)));
+    box.appendChild(row); grid.appendChild(box); return;
+  }
+  if (_quickEnd) {
+    box.innerHTML = '<div class="quick-prog">All ' + CATS.length + ' categories done</div><p class="quick-q">That is every category.</p><p class="quick-sub">Search every category for anything you missed, or go on to Review.</p>';
+    const row = document.createElement('div'); row.className = 'quick-nav';
+    row.appendChild(_quickBtn('Back', 'quick-link', () => { _quickEnd = false; currentTab = CATS[CATS.length - 1]; render(); }));
+    row.appendChild(_quickBtn('Search every category', 'quick-link', () => { _searchOpen = true; render(); setTimeout(() => { const i = document.getElementById('searchInput'); if (i) i.focus(); }, 0); }));
+    row.appendChild(_quickBtn('Go to Review', 'quick-go', () => setView('publish')));
+    box.appendChild(row); grid.appendChild(box); return;
+  }
+  let idx = CATS.indexOf(currentTab); if (idx < 0) { idx = 0; currentTab = CATS[0]; }
+  const cat = CATS[idx], lv = quickLevel(stu), tiers = _quickHasTiers(cat);
+  const lvLabel = { strong: 'Positive', average: 'Average', developing: 'Developing' };
+  const head = document.createElement('div'); head.className = 'quick-prog'; head.setAttribute('aria-live', 'polite');
+  head.textContent = (idx + 1) + ' of ' + CATS.length + ' · ' + cat;
+  box.appendChild(head);
+  const traits = GEN_TRAITS[cat] || [];
+  const shown = [], hidden = [];
+  traits.forEach(t => {
+    const ticked = quickTicked(stu, cat, t), all = quickCandidates(stu, cat, t, true);
+    if (!ticked && !all.length) return;   // nothing in it is offered this semester
+    const atLevel = !tiers || !lv || all.some(x => _tierOfRaw(cat, x) === lv);
+    if (ticked || atLevel || _quickShowAll) shown.push({ t, ticked }); else hidden.push(t);
+  });
+  const sub = document.createElement('p'); sub.className = 'quick-sub';
+  sub.textContent = tiers && lv && !_quickShowAll ? 'Tap what fits. Showing the ones with a ' + lvLabel[lv] + ' sentence.' : 'Tap what fits.';
+  box.appendChild(sub);
+  const chips = document.createElement('div'); chips.className = 'quick-chips'; chips.setAttribute('role', 'group'); chips.setAttribute('aria-label', cat + ' characteristics');
+  shown.forEach(({ t, ticked }) => {
+    const b = _quickBtn(t.label, 'quick-chip' + (ticked ? ' on' : ''), () => quickTap(cat, t.id), { 'aria-pressed': ticked ? 'true' : 'false', 'data-trait': t.id });
+    chips.appendChild(b);
+  });
+  if (!shown.length) { const m = document.createElement('div'); m.className = 'yr-fallback'; m.textContent = 'Nothing in this category is offered this semester.'; chips.appendChild(m); }
+  box.appendChild(chips);
+  if (hidden.length) box.appendChild(_quickBtn('Show ' + hidden.length + ' more', 'quick-link', () => { _quickShowAll = true; render(); }));
+  const nav = document.createElement('div'); nav.className = 'quick-nav';
+  const picked = traits.some(t => quickTicked(stu, cat, t));
+  const back = _quickBtn('Back', 'quick-link', () => quickGo(-1)); if (idx === 0) back.disabled = true;
+  nav.appendChild(back);
+  nav.appendChild(_quickBtn('Full list', 'quick-link', () => { _quickFull = true; render(); }, { title: 'Show this category’s usual list of sentences' }));
+  nav.appendChild(_quickBtn(picked ? 'Next' : 'Skip', 'quick-go', () => quickGo(1)));
+  box.appendChild(nav);
+  grid.appendChild(box);
 }
 const SEARCH_MAX = 200;
 function _searchPaintResults(box) {
@@ -6391,6 +6527,12 @@ function _renderOptsCore() {
     paintBankTools(grid, false);
     renderSubjOpts(grid);
     return;
+  }
+  if (quickActive() && !_quickFull) { renderQuickPanel(grid); return; }   // v3.17.28
+  if (quickActive() && _quickFull) {   // the usual list of this category, with a way back to Quick mode
+    const st = document.createElement('div'); st.className = 'quick-strip';
+    st.appendChild(_quickBtn('← Back to Quick mode', 'quick-link', () => { _quickFull = false; render(); }));
+    grid.appendChild(st);
   }
   // Custom input box — at the top
   const _catHasTiers = (TIER_BOUNDARIES[currentTab] || {}).average != null;   // v3.13.1: Positive / Average / Developing only where the bank uses them
@@ -11145,7 +11287,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.27';
+const APP_VERSION = 'v3.17.28';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -11890,6 +12032,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.28', date: '15 November 2026', items: [
+    'New: Quick mode for General comments. Turn it on at the top of Build or in Settings. Build then shows one screen per category with a button for each kind of thing a student does (for example Kind and caring). Tap what fits and a sentence is chosen for you, at the student\u2019s level, avoiding sentences other students already have where it can. Tap again to take it out. Use Full list to see the usual sentences, or Search to find one. It is off unless you turn it on.'
+  ] },
   { v: 'v3.17.26', date: '15 November 2026', items: [
     'New: Search. A Search entry now sits after the last category in General, English and Maths. Type a word or two to find a sentence in any category, then click it to add it to the comment, just as you would in the list. In English and Maths it also finds future directions.'
   ] },
@@ -14205,6 +14350,8 @@ function renderMoreSettings() {
     + sw('catOrder', 'Put new sentences in category order', 'A sentence you add goes where its category sits in the list, among the sentences already in the draft. A sentence you moved stays where you put it. Off adds each new sentence at the end.')
     + '<div class="sw-pane-title">Pasting a finished comment</div>'
     + sw('pasteTick', 'Tick the sentences from a pasted comment', 'Ticks the bank sentences found in the comment you paste into the draft and scrolls the list to the first one. The text you paste is never changed. Off leaves a pasted comment as plain text.')
+    + '<div class="sw-pane-title">Quick mode</div>'
+    + `<div class="settings-row"><span class="settings-row-label">Quick mode for General comments<span class="sw-help">Build shows one screen per category with a button for each characteristic. Tap what fits and the sentences are chosen for you. Off keeps the usual lists. You can also switch it at the top of Build.</span></span><button class="settings-action-btn${quickOn() ? ' green' : ''}" role="switch" aria-checked="${quickOn()}" data-flag="quickMode" onclick="setQuick(${!quickOn()})">${quickOn() ? 'On' : 'Off'}</button></div>`
     + '<div class="sw-pane-title">Moving around</div>'
     + sw('topOnSwitch', 'Open each category at the top of the list', 'Also when you change student. Off keeps your place in the list.');
 }
