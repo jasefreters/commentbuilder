@@ -3729,11 +3729,15 @@ function autoSuggestFD() {
   const praised = _skPraised(cur(), currentSubject);
 
   // Sort strands by grade (lowest first = most needs improvement)
-  const strandsByNeed = Object.keys(fd).sort((a, b) => {
-    const ga = gradeOrder[grades[a] || 'C'] ?? 2;
-    const gb = gradeOrder[grades[b] || 'C'] ?? 2;
-    return ga - gb;
-  });
+  // v3.17.27: grades are stored under the bank section name (e.g. "Spelling & Grammar") and as a list, so look the
+  // strand up through FD_SECTION_STRAND and take the lowest grade ticked; no grade means C
+  const strandGrade = strand => {
+    const map = FD_SECTION_STRAND[currentSubject] || {};
+    let low = null;
+    Object.keys(map).forEach(sec => { if (map[sec] !== strand) return; normaliseGradeVal(grades[sec]).forEach(g => { if (gradeOrder[g] !== undefined && (low === null || gradeOrder[g] < gradeOrder[low])) low = g; }); });
+    return low || 'C';
+  };
+  const strandsByNeed = Object.keys(fd).sort((a, b) => gradeOrder[strandGrade(a)] - gradeOrder[strandGrade(b)]);
 
   // Pick the first suitable FD from each of the 2 neediest strands
   const suggestions = [], skipped = [];
@@ -10499,7 +10503,7 @@ function clearCurrent() {
 }
 
 function addStu(done) { saveCur(); openYearPicker(y => { _addStuNow(y); if (done) done(); }); }
-function _addStuNow(newYear) { students.push({ uid:_newUid(), name:'', pronoun:'he', year:newYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[], engSelected:{}, engOrdered:[], engGrades:{}, engDraft:null, engPublished:false, mathSelected:{}, mathOrdered:[], mathGrades:{}, mathDraft:null, mathPublished:false, engFD:[], mathFD:[], fdStage:'Stage 3', pubEditGeneral:null, pubEditEnglish:null, pubEditMaths:null, engS2Selected:{}, engS2Ordered:[], engS2Grades:{}, engS2Draft:null, mathS2Selected:{}, mathS2Ordered:[], mathS2Grades:{}, mathS2Draft:null, engS2FD:[], mathS2FD:[] }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); }
+function _addStuNow(newYear) { students.push({ uid:_newUid(), name:'', pronoun:'he', year:newYear, selected:{}, ordered:[], custom:{}, customTiers:{}, published:false, confettiShown:false, draftOverride:null, editedCat:null, orderedAfterEdit:[], orderedAtDone:[], s1Comment:null, s1Ordered:null, s1Selected:null, s2RankOrder:null, s2Ordered:[], s2Selected:{}, s2DraftOverride:null, s2EditedCat:null, s2OrderedAfterEdit:[], s2OrderedAtDone:[], engSelected:{}, engOrdered:[], engGrades:{}, engDraft:null, engPublished:false, mathSelected:{}, mathOrdered:[], mathGrades:{}, mathDraft:null, mathPublished:false, engFD:[], mathFD:[], fdStage:'Stage 3', pubEditGeneral:null, pubEditEnglish:null, pubEditMaths:null, engS2Selected:{}, engS2Ordered:[], engS2Grades:{}, engS2Draft:null, mathS2Selected:{}, mathS2Ordered:[], mathS2Grades:{}, mathS2Draft:null, engS2FD:[], mathS2FD:[] }); currentIdx = students.length-1; currentTab = CATS[0]; loadCur(); render(); updateProgress(); }
 
 function pubNavStudent(dir) {
   _releasePane();
@@ -10565,6 +10569,7 @@ function removeStu(i) {
   else currentTab = CATS[0];
   loadCur();
   render();
+  updateProgress();   // v3.17.27: the done count's total follows the class
 }
 
 function saveCur() {
@@ -11492,7 +11497,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.26';
+const APP_VERSION = 'v3.17.27';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -12237,6 +12242,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.27', date: '15 November 2026', items: [
+    'The "done" count at the top now changes straight away when you add or delete a student (it waited until the next time you marked something done). Auto-suggest for future directions now uses your grades for Oral Language, Spelling, Handwriting and Whole Numbers (it was treating them all as C), and uses the lowest grade when a strand has more than one.'
+  ] },
   { v: 'v3.17.26', date: '15 November 2026', items: [
     'Future directions no longer repeat what the comment already praises. Auto-suggest skips a future direction when you have ticked a sentence about the same skill (at the same stage or higher) and tells you which it skipped. In the list you pick from by hand, a note appears under any future direction that repeats a skill, but you can still choose it. Sentences and future directions you added yourself are compared by their words.'
   ] },

@@ -136,3 +136,36 @@ test('an older wording of a ticked sentence still counts as ticked', async () =>
   assert.ok(r.skipped || (r.n === 1 && r.tagged === 1 && r.text === true), JSON.stringify(r));
   await page.context().close();
 });
+
+test('auto-suggest finds the grade of every strand, whatever the bank section is called (v3.17.27)', async () => {
+  const page = await openApp();
+  const r = await page.evaluate(() => {
+    setSubject('english');
+    // Spelling & Grammar is E and Handwriting is A; the others are left at C, so Spelling is the neediest
+    cur().engGrades = { 'Spelling & Grammar': ['E'], 'Handwriting & Digital Transcription': ['A'], 'Oral Language & Communication': ['D', 'B'] };
+    cur().fdStage = 'Stage 3';
+    const first = autoSuggestFD().map(x => x.strand);
+    setSubject('maths');
+    cur().mathGrades = { 'Represents Numbers': ['E'] };
+    cur().fdStage = 'Stage 3';
+    return { english: first, maths: autoSuggestFD().map(x => x.strand) };
+  });
+  assert.equal(r.english[0], 'Spelling');                          // E, found through "Spelling & Grammar"
+  assert.equal(r.english[1], 'Oral Language and Communication');   // lowest of D and B is D, below the C strands
+  assert.equal(r.maths[0], 'Representing Whole Numbers');          // E, found through "Represents Numbers"
+  await page.context().close();
+});
+
+test('the done count total follows the class when a student is added or deleted (v3.17.27)', async () => {
+  const page = await openApp();
+  const r = await page.evaluate(() => {
+    const t = () => document.getElementById('classTotal').textContent;
+    updateProgress();
+    const n0 = students.length, a = t();
+    _addStuNow(5); const b = t();
+    window.confirm = () => true; removeStu(students.length - 1); const c = t();
+    return { n0, a, b, c, n1: students.length };
+  });
+  assert.equal(r.a, String(r.n0)); assert.equal(r.b, String(r.n0 + 1)); assert.equal(r.c, String(r.n0)); assert.equal(r.n1, r.n0);
+  await page.context().close();
+});
