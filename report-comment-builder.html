@@ -9720,7 +9720,7 @@ function _exportAllText() {
 function exportAll() {
   saveCur();
   const out = _exportAllText();
-  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([out], {type:'text/plain'})), download: 'report-comments-s1-2026.txt' });
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([out], {type:'text/plain'})), download: `report-comments-s${currentSemester}-2026.txt` });
   a.click();
   showToast('Exported!');
 }
@@ -11249,7 +11249,8 @@ async function adminDeleteSuggestion(id) {
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
   { v: 'v3.17.22', date: '15 November 2026', items: [
-    'Export all (.txt), the class stats and word counts, Check for issues and the Copy fallback now use the same comment text that Review and Copy show. Before, they could show older words after a change made in Review.'
+    'Export all (.txt), the class stats and word counts, Check for issues and the Copy fallback now use the same comment text that Review and Copy show. Before, they could show older words after a change made in Review.',
+    'The Export all (.txt) file is now named for the semester you are in (report-comments-s2-2026.txt in Semester 2), like the Word and CSV exports. It was always named s1.'
   ] },
   { v: 'v3.17.21', date: '15 November 2026', items: [
     'Fixed a way a comment changed on one device could be replaced by an older copy from another. Opening a comment in Review on the second device counted as changing it, so that device\u2019s older copy could win. Looking at a comment no longer counts as a change.'

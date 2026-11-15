@@ -50,6 +50,15 @@ test('Export all (.txt) shows the same words as Review and Copy', async () => {
   await page.context().close();
 });
 
+test('Export all (.txt) is named for the semester you are in', async () => {
+  const page = await openApp(); await seedClass(page);
+  const name = async () => { const d = page.waitForEvent('download'); await page.evaluate(() => exportAll()); return (await d).suggestedFilename(); };
+  assert.strictEqual(await name(), 'report-comments-s1-2026.txt');
+  await page.evaluate(() => setSemester(2)); await settle(page);
+  assert.strictEqual(await name(), 'report-comments-s2-2026.txt');
+  await page.context().close();
+});
+
 test('the class word counts use the same words as Review', async () => {
   const page = await openApp(); await seedClass(page); await typedThenReviewEdit(page);
   const r = await page.evaluate(() => {
