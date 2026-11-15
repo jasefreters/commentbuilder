@@ -7520,8 +7520,10 @@ function _upgradeLive(stu) {
 // Both semesters: the live fields hold the current semester; the other semester's copy is loaded into a spare student, upgraded, and put back.
 function _upgradeStudent(stu) {
   const before = _cmtClone(stu);
-  const r = _upgradeLive(stu);
+  const r = { changed: false, lost: false, kept: false };
   const other = currentSemester === 1 ? 2 : 1;
+  // The OTHER semester goes first: the old Done text (custom.__edited__) was never kept per semester, so the other semester still
+  // reads it while it is there. Upgrading it first keeps that semester showing exactly what it shows today.
   try {
     const hasOther = SEM_FIELDS.some(f => { const v = stu[other === 1 ? f[1] : f[2]]; return v !== undefined && v !== null && (f[0] === 'pubEditGeneral' || f[0] === 'pubEditEnglish' || f[0] === 'pubEditMaths' || f[0] === 'editedCat') && v; });
     if (hasOther) {
@@ -7536,6 +7538,8 @@ function _upgradeStudent(stu) {
       if (ro.kept) r.kept = true;
     }
   } catch (e) {}
+  const rl = _upgradeLive(stu);
+  if (rl.changed) r.changed = true; if (rl.lost) r.lost = true; if (rl.kept) r.kept = true;
   r.before = before;
   return r;
 }

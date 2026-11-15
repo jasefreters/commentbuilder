@@ -96,3 +96,20 @@ test('a new sentence ticked after Done goes into the text and shows', async () =
   assert.ok(/Typed before Done/.test(r.t), 'typed text kept');
   await page.context().close();
 });
+
+test('the other semester keeps showing what it showed, even when its Done text was shared (the old Done text was never kept per semester)', async () => {
+  const page = await openApp();
+  const r = await page.evaluate(() => {
+    const mk = () => ({ name: 'Zed', pronoun: 'he', year: '5', selected: {}, ordered: [], custom: { '__edited__': ['Zed worked well in Semester Two.'] }, editedCat: 'Personality', orderedAtDone: [], orderedAfterEdit: [], s1EditedCat: 'Personality', s1OrderedAtDone: [], s1OrderedAfterEdit: [] });
+    students = [_normStudent(mk(), 0)]; currentSemester = 2;
+    const stu = students[0];
+    semStash(stu, 2);
+    const before = (() => { const c = JSON.parse(JSON.stringify(stu)); semStash(c, 2); semLoad(c, 1); return commentText(c, 'general'); })();
+    _upgradeStudent(stu);
+    const c = JSON.parse(JSON.stringify(stu)); semLoad(c, 1);
+    return { before, after: commentText(c, 'general'), live: commentText(stu, 'general') };
+  });
+  assert.strictEqual(r.after, r.before);
+  assert.strictEqual(r.live, 'Zed worked well in Semester Two.');
+  await page.context().close();
+});
