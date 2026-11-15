@@ -1397,7 +1397,7 @@
     </div>
     <div class="progress-wrap">
       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="progress-label" id="progressLabel" onclick="editClassSize()" title="Click to change class size" style="cursor:pointer"><b>0</b> / <span id="classTotal">22</span> done ✎</div>
+      <div class="progress-label" id="progressLabel" ><b>0</b> / <span id="classTotal">22</span> done</div>
     </div>
     <!-- Settings button -->
     <button class="settings-btn" id="settingsBtn" onclick="toggleSettings()" title="Settings" aria-label="Settings">
@@ -6449,13 +6449,13 @@ function _mergeIntoLive(cs) {
   saveCur(); _ensureUids();
   const curUid = students[currentIdx] && students[currentIdx].uid;
   const cloud = { students: (cs.students || []).map((s, i) => _normStudent(s, i)), styleMemory: normaliseStyleMemory(cs.styleMemory), myBank: normaliseMyBank(cs.myBank), totalStudents: cs.totalStudents || 0 };
-  const local = { students, styleMemory, myBank, totalStudents };
+  const local = { students, styleMemory, myBank, totalStudents: students.length };
   const r = _mergeSessions(_syncBase, local, cloud);
   if (r.changedLive || r.conflicts.length) {
     if (r.conflicts.length) { r.conflicts.forEach(c => { c.otherAt = cs.savedAt || null; c.otherDevice = cs.device || ''; }); _stashConflictCopies(r.conflicts); }
     const wasName = curUid ? (students.find(s => s.uid === curUid) || {}).name : '';
     students = r.students.length ? r.students : students;
-    styleMemory = r.styleMemory; myBank = r.myBank; totalStudents = r.totalStudents;
+    styleMemory = r.styleMemory; myBank = r.myBank; totalStudents = students.length;
     _upgradeAll('sync');   // v3.17.23
     if (cs.settings) applySettingsBlob(cs.settings);
     const at = students.findIndex(s => s.uid === curUid);
@@ -6930,7 +6930,7 @@ function renderClassRail() {
       `<span class="rail-name${named ? '' : ' unnamed'}">${escHtml(stuLabelY(stu, i))}${(stu.notes || '').trim() ? ' <span class="rail-note" title="Has a private note"></span>' : ''}</span>` +
       `<span class="rail-dots">${dots}</span></button>`;
   }).join('');
-  const toAdd = totalStudents - students.length;
+  const toAdd = 0;   // v3.17.25: the class size is the number of students entered, so there is nothing left to add
   el.innerHTML =
     `<div class="rail-head"><div class="rail-title">Class · ${students.length} student${students.length === 1 ? '' : 's'}</div>` +
     `<button class="rail-add" onclick="addStuFromRail()">+ Add</button></div>` +
@@ -6959,7 +6959,7 @@ function paintStudentChrome() {
   document.body.toggleAttribute('data-noname', !(stu.name || '').trim());
   document.body.dataset.subject = currentSubject;
   const pos = document.getElementById('stuPos');
-  if (pos) pos.textContent = `Student ${currentIdx + 1} of ${Math.max(totalStudents, students.length)}`;   // v3.17.10: of the whole class
+  if (pos) pos.textContent = `Student ${currentIdx + 1} of ${students.length}`;   // v3.17.10: of the whole class
   const prev = document.getElementById('stuPrevBtn'), next = document.getElementById('stuNextBtn');
   if (prev) prev.disabled = currentIdx === 0;
   if (next) next.disabled = currentIdx >= students.length - 1;
@@ -7634,7 +7634,7 @@ function copyAllFinished() {
   navigator.clipboard.writeText(out.join('\n\n────────────────\n\n')).then(() => showToast(`Copied ${out.length} student${out.length === 1 ? '' : 's'}`), () => showToast('Could not copy. Try again.'));
 }
 function renderBoard() {
-  const N = Math.max(totalStudents, students.length);
+  const N = students.length;
   const subjects = [['general', 'General'], ['english', 'English'], ['maths', 'Maths']];
   const counts = {};
   subjects.forEach(([s]) => { counts[s] = { done: 0, draft: 0 }; students.forEach(stu => { const st = subjState(stu, s); if (st !== 'none') counts[s][st]++; }); });
@@ -7931,7 +7931,7 @@ function renderPublish() {
   // prevents any async/event timing from changing it mid-render
   const renderSubject = currentSubject;
   const subjLabel = renderSubject === 'english' ? ' — English' : renderSubject === 'maths' ? ' — Mathematics' : '';
-  { const _N = Math.max(totalStudents, students.length);   // v3.17.10: place in the class, so you can see how many are left
+  { const _N = students.length;   // v3.17.10: place in the class, so you can see how many are left
     document.getElementById('pubName').textContent = `${stu.name || '[Name]'} (${currentIdx + 1} of ${_N}) — Semester ${currentSemester} 2026${subjLabel}`; }
   document.getElementById('checkStatus').innerHTML = '';
   document.getElementById('flagLegend').style.display = 'none';
@@ -10624,7 +10624,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.24';
+const APP_VERSION = 'v3.17.25';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10677,12 +10677,12 @@ function applySettingsBlob(b) {
 }
 function buildSession() {
   _ensureUids();
-  return { students, currentIdx, totalStudents, semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob(), savedAt: new Date().toISOString(), device: _deviceLabel() };   // v3.17.17: the device name goes with the save, so the other device can say who changed what
+  return { students, currentIdx, totalStudents: students.length, semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob(), savedAt: new Date().toISOString(), device: _deviceLabel() };   // v3.17.17: the device name goes with the save, so the other device can say who changed what
 }
 // The backup file: everything in the session plus streak and badges, and the app version that wrote it.
 function buildBackup() {
   saveCur();
-  return { version: 1, appVersion: APP_VERSION, exportedAt: new Date().toISOString(), totalStudents, students, streak: getStreakData(), badges: getEarnedBadges(),
+  return { version: 1, appVersion: APP_VERSION, exportedAt: new Date().toISOString(), totalStudents: students.length, students, streak: getStreakData(), badges: getEarnedBadges(),
            semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob() };
 }
 function autoSave() {
@@ -10802,7 +10802,7 @@ function _applyPersistedState(saved) {
     students = saved.students.map((s, i) => _normStudent(s, i));
     currentIdx = Math.min(saved.currentIdx || 0, students.length - 1);
   }
-  if (saved && saved.totalStudents) totalStudents = saved.totalStudents;
+  totalStudents = students.length;   // v3.17.25: the class size is counted from the students entered, not typed in
   if (saved && saved.styleMemory) { styleMemory = normaliseStyleMemory(saved.styleMemory); _sugIndex = null; }   // v3.7.0
   if (saved && saved.myBank) myBank = normaliseMyBank(saved.myBank);   // v3.8.0
   if (saved && saved.settings) applySettingsBlob(saved.settings);   // v3.9.0
@@ -11369,6 +11369,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.25', date: '15 November 2026', items: [
+    'The class size is now counted from the students you have entered. You no longer type it in, and the progress bar can no longer show more students done than the class has (for example 23 / 22). Add or remove a student and the total follows.'
+  ] },
   { v: 'v3.17.24', date: '15 November 2026', items: [
     'Settings, AI features: the two optional settings (your own API key and your own Worker URL) are now under \u201cAdvanced: use your own AI account\u201d, with a note on when you would need them. Most people never do.'
   ] },
@@ -11872,10 +11875,10 @@ function renderStats() {
     return acc + text.trim().split(/\s+/).filter(Boolean).length;
   }, 0);
   const avgWords = done > 0 ? Math.round(genWords / done) : 0;
-  const remaining = Math.max(0, totalStudents - done);
+  const remaining = Math.max(0, students.length - done);
   const streak = getStreakData().count;
   const earned = getEarnedBadges();
-  const completion = totalStudents > 0 ? Math.round((done / totalStudents) * 100) : 0;
+  const completion = students.length > 0 ? Math.round((done / students.length) * 100) : 0;
 
   const grid = document.getElementById('statsGrid');
   if (grid) grid.innerHTML = `
@@ -11887,12 +11890,12 @@ function renderStats() {
     <div class="stat-card">
       <div class="stat-card-val" style="color:var(--subj-english-ink)">${engDone}</div>
       <div class="stat-card-label">English Done</div>
-      <div class="stat-card-sub">of ${totalStudents} students</div>
+      <div class="stat-card-sub">of ${students.length} students</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-val" style="color:var(--subj-maths-ink)">${mathDone}</div>
       <div class="stat-card-label">Maths Done</div>
-      <div class="stat-card-sub">of ${totalStudents} students</div>
+      <div class="stat-card-sub">of ${students.length} students</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-val amber">${streak}</div>
@@ -11971,49 +11974,35 @@ function updateProgress() {
 
   if (currentSubject === 'english') {
     const done = students.filter(s => s.engPublished).length;
-    const pct = Math.min(100, (done / totalStudents) * 100);
+    const pct = Math.min(100, (done / students.length) * 100);
     fill.style.width = pct + '%';
-    fill.className = 'progress-fill english' + (done >= totalStudents ? ' done' : '');
-    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${totalStudents}</span> English ✎`;
-    label.className = done >= totalStudents ? 'progress-label done' : 'progress-label';
-    checkBadges(students.filter(s => s.published).length, totalStudents, getStreakData().count);
+    fill.className = 'progress-fill english' + (done >= students.length ? ' done' : '');
+    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${students.length}</span> English`;
+    label.className = done >= students.length ? 'progress-label done' : 'progress-label';
+    checkBadges(students.filter(s => s.published).length, students.length, getStreakData().count);
     return;
   }
   if (currentSubject === 'maths') {
     const done = students.filter(s => s.mathPublished).length;
-    const pct = Math.min(100, (done / totalStudents) * 100);
+    const pct = Math.min(100, (done / students.length) * 100);
     fill.style.width = pct + '%';
-    fill.className = 'progress-fill maths' + (done >= totalStudents ? ' done' : '');
-    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${totalStudents}</span> Maths ✎`;
-    label.className = done >= totalStudents ? 'progress-label done' : 'progress-label';
-    checkBadges(students.filter(s => s.published).length, totalStudents, getStreakData().count);
+    fill.className = 'progress-fill maths' + (done >= students.length ? ' done' : '');
+    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${students.length}</span> Maths`;
+    label.className = done >= students.length ? 'progress-label done' : 'progress-label';
+    checkBadges(students.filter(s => s.published).length, students.length, getStreakData().count);
     return;
   }
 
   // General
   const done = students.filter(s => s.published).length;
-  const pct = Math.min(100, (done / totalStudents) * 100);
+  const pct = Math.min(100, (done / students.length) * 100);
   fill.style.width = pct + '%';
-  fill.className = 'progress-fill' + (done >= totalStudents ? ' done' : '');
-  label.innerHTML = `<b>${done}</b> / <span id="classTotal">${totalStudents}</span> done ✎`;
-  label.className = done >= totalStudents ? 'progress-label done' : 'progress-label';
+  fill.className = 'progress-fill' + (done >= students.length ? ' done' : '');
+  label.innerHTML = `<b>${done}</b> / <span id="classTotal">${students.length}</span> done`;
+  label.className = done >= students.length ? 'progress-label done' : 'progress-label';
   const streak = getStreakData().count;
-  checkBadges(done, totalStudents, streak);
-  if (done >= totalStudents && !lsGet('rcb_finale_played', false)) { lsSet('rcb_finale_played', true); launchFinaleConfetti(); }
-}
-
-function editClassSize() {
-  const val = prompt('How many students in your class?', totalStudents);
-  if (val === null) return;
-  const n = parseInt(val);
-  if (!isNaN(n) && n > 0 && n <= 60) {
-    totalStudents = n;
-    autoSave();
-    lsSet('rcb_finale_played', false); // reset so chime plays again for new class
-    updateProgress();
-  } else {
-    showToast('Please enter a number between 1 and 60.');
-  }
+  checkBadges(done, students.length, streak);
+  if (done >= students.length && !lsGet('rcb_finale_played', false)) { lsSet('rcb_finale_played', true); launchFinaleConfetti(); }
 }
 
 // ── CONFETTI ──────────────────────────────────────────────────────
