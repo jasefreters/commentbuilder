@@ -1546,15 +1546,19 @@
 
       <section class="sw-pane" data-swpane="ai" role="tabpanel">
         <div class="sw-pane-title">AI features</div>
-        <div class="sw-note">Polish, Check for issues and AI Re-rank work when you are signed in to cloud sync. Each account has a monthly AI allowance, which starts again on the 1st. The two settings below are only for running the AI through your own Anthropic account.</div>
-        <div class="settings-row">
-          <span class="settings-row-label">Your own API key (optional)</span>
-          <button class="settings-action-btn" onclick="promptApiKey(); toggleSettings()">Set key</button>
-        </div>
-        <div class="settings-row">
-          <span class="settings-row-label">Your own Worker URL (optional)</span>
-          <button class="settings-action-btn" onclick="showProxyGuide(); toggleSettings()">Set URL</button>
-        </div>
+        <div class="sw-note">Polish, Check for issues and AI Re-rank work when you are signed in to cloud sync. Each account has a monthly AI allowance, which starts again on the 1st. You do not need to set anything up.</div>
+        <details class="sw-advanced" style="margin-top:14px">
+          <summary style="cursor:pointer;font-weight:600;font-size:14px;color:var(--accent)">Advanced: use your own AI account</summary>
+          <div class="sw-note" style="margin-top:8px">Only needed if you reach the monthly allowance and want to keep going before it starts again, or you want the AI to run through your own Anthropic account. If you use these, the AI costs go to that account instead. If you are not sure, leave them empty.</div>
+          <div class="settings-row">
+            <span class="settings-row-label">Your own API key (optional)</span>
+            <button class="settings-action-btn" onclick="promptApiKey(); toggleSettings()">Set key</button>
+          </div>
+          <div class="settings-row">
+            <span class="settings-row-label">Your own Worker URL (optional)</span>
+            <button class="settings-action-btn" onclick="showProxyGuide(); toggleSettings()">Set URL</button>
+          </div>
+        </details>
       </section>
 
     </div>
@@ -11367,6 +11371,9 @@ async function adminDeleteSuggestion(id) {
 const RECENT_CHANGES = [
   { v: 'v3.17.25', date: '15 November 2026', items: [
     'The class size is now counted from the students you have entered. You no longer type it in, and the progress bar can no longer show more students done than the class has (for example 23 / 22). Add or remove a student and the total follows.'
+  ] },
+  { v: 'v3.17.24', date: '15 November 2026', items: [
+    'Settings, AI features: the two optional settings (your own API key and your own Worker URL) are now under \u201cAdvanced: use your own AI account\u201d, with a note on when you would need them. Most people never do.'
   ] },
   { v: 'v3.17.23', date: '15 November 2026', items: [
     'A comment\u2019s words are now kept in one place. Before, a finished comment could be stored up to four ways (typed text, the Done text, the Review copy, the ticked sentences), and a change made in Review after typing in Build could be lost or flip back later. Review changes and Done now write to the same place the Build box uses.',
