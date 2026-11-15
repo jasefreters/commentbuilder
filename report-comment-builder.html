@@ -2265,6 +2265,343 @@ function _paraRulesChanged() {
 const SENT_CAT = {};
 CATS.forEach(cat => RAW[cat].forEach(s => { SENT_CAT[s] = cat; }));
 
+// ══ v3.17.27 · GENERAL CHARACTERISTICS ═══════════════════════════════════════
+// Every General sentence belongs to exactly one characteristic (Jason approved the groups on 15 Nov 2026). Quick mode and the swap
+// button use these: a characteristic is the set of sentences that say the same kind of thing. Nothing here changes what a sentence says,
+// where it sits in RAW or what level it is at (level still comes from its position in RAW, see TIER_BOUNDARIES).
+// The sentences are listed word for word as they are in RAW; tests/09-traits-data.test.js fails if one differs or is missing.
+const GEN_TRAITS = {
+  "Personality": [
+    { id: "enthusiastic-and-curious", label: "Enthusiastic and curious", sentences: [
+      "{{N}} is an enthusiastic and curious student whose enquiring mind results in active classroom participation.",
+      "{{N}} is a confident and ambitious student who is eager to learn and develop {{pos}} understanding across all areas.",
+      "{{N}} is cheerful and consistently demonstrates an enthusiastic attitude towards learning and classroom activities.",
+      "{{N}} displays a positive attitude towards school, showing an interest in all learning areas.",
+    ] },
+    { id: "kind-and-caring", label: "Kind and caring", sentences: [
+      "{{N}} is a courteous, thoughtful and considerate student who has developed positive friendships this semester.",
+      "{{N}} is a kind and caring student who shows genuine care for {{pos}} friends and classmates.",
+      "{{N}} is a thoughtful student who displays a positive attitude to school and regularly shows genuine care for {{pos}} friends.",
+      "{{N}} is a kind and responsible student who consistently demonstrates Ambarvale All Star behaviour.",
+    ] },
+    { id: "positive-and-cheerful", label: "Positive and cheerful", sentences: [
+      "{{N}} is a positive student who enters the classroom each morning with a smile.",
+      "{{N}} is a polite and energetic member of our class.",
+      "{{N}} enters the classroom each day with a smile, ready to face new experiences.",
+      "{{N}} approaches school life with a positive attitude and demonstrates resilience when faced with challenges.",
+    ] },
+    { id: "respectful-and-well-mannered", label: "Respectful and well-mannered", sentences: [
+      "{{N}} is a sensible and respectful student who makes thoughtful and positive behaviour choices in the classroom.",
+      "{{N}} is well-mannered and kind, engaging in all learning experiences with a willingness to increase {{pos}} knowledge.",
+      "{{N}} is a well-mannered and independent learner who is popular with {{pos}} peers due to {{pos}} good sense of fun.",
+    ] },
+    { id: "quiet-and-hard-working", label: "Quiet and hard-working", sentences: [
+      "{{N}} is a quiet and hard-working student who attempts to complete challenges independently.",
+      "{{N}} is a capable student who finds success in tasks when {{s}} is determined and displays a growth mindset.",
+    ] },
+    { id: "needs-focus-and-support", label: "Needs focus and support", sentences: [
+      "{{N}} produces a pleasing standard of work when {{s}} is focused and motivated.",
+      "{{N}} is learning to manage challenges and is having success in the classroom with teacher support.",
+    ] },
+  ],
+  "Effort & Work Habits": [
+    { id: "hard-working-and-driven", label: "Hard-working and driven", sentences: [
+      "{{S}} is driven by a hard-working attitude and strives to reach {{pos}} full potential across all learning areas.",
+      "{{N}} is diligent and consistently demonstrates a strong work ethic across all learning areas.",
+      "{{N}} demonstrates a strong commitment to learning and strives to achieve {{pos}} personal best in all subjects.",
+      "{{N}} consistently demonstrates a strong work ethic and takes pride in all aspects of {{pos}} learning.",
+      "{{S}} perseveres and shows dedication to learning across all subjects, always striving to achieve {{pos}} personal best.",
+      "{{N}} has a mature and positive attitude to learning and applies {{r}} diligently to all class tasks.",
+    ] },
+    { id: "eager-to-learn", label: "Eager to learn", sentences: [
+      "{{S}} displays an excellent attitude towards learning, demonstrating genuine curiosity and eagerness to explore new concepts.",
+      "{{S}} takes ownership of {{pos}} learning and displays a genuine desire to succeed, bringing enthusiasm to class each day.",
+      "{{S}} is a conscientious student who has a love of learning and a desire to strengthen {{pos}} knowledge and skills.",
+    ] },
+    { id: "growth-mindset-and-persistence", label: "Growth mindset and persistence", sentences: [
+      "{{S}} displays a growth mindset, showing determination when facing challenging tasks or learning new concepts.",
+      "{{N}} consistently demonstrates persistence when acquiring new skills and thoughtfully refines techniques to enhance performance.",
+      "{{S}} makes a genuine effort in all subjects, usually displaying a growth mindset when {{s}} experiences difficulties.",
+    ] },
+    { id: "focused-and-attentive", label: "Focused and attentive", sentences: [
+      "{{S}} is attentive and shows great focus in all subjects, striving to achieve {{pos}} personal best.",
+      "{{S}} listens to instructions and uses feedback to improve the quality of {{pos}} work.",
+      "{{S}} demonstrates a positive attitude towards learning and applies {{r}} to tasks to the best of {{pos}} ability.",
+      "{{S}} usually maintains focus and commitment to {{pos}} learning across most learning areas.",
+    ] },
+    { id: "developing-work-habits", label: "Developing work habits", sentences: [
+      "{{S}} is striving to become an independent learner, which is resulting in improved work habits.",
+      "{{S}} often requires reminders to stay on task and complete {{pos}} work in an appropriate timeframe.",
+      "{{S}} is beginning to work productively during independent work, however can be easily distracted during lessons.",
+    ] },
+    { id: "needs-step-by-step-support", label: "Needs step-by-step support", sentences: [
+      "{{S}} requires all instructions to be short and explicit, and benefits from step-by-step guidance to begin tasks.",
+      "{{N}} needs all learning tasks broken into small, achievable parts and benefits from close guidance.",
+    ] },
+  ],
+  "Communication & Collaboration": [
+    { id: "confident-speaker", label: "Confident speaker", sentences: [
+      "{{S}} communicates with confidence and clarity and is an active participant in class discussions.",
+      "{{N}} expresses {{pos}} views clearly, which contributes to collaborative work and enriches the learning experience.",
+      "{{N}} is expressive and shares thoughts clearly during class discussions.",
+    ] },
+    { id: "thoughtful-contributor", label: "Thoughtful contributor", sentences: [
+      "{{S}} analyses information thoughtfully and justifies {{pos}} opinions with evidence.",
+      "{{S}} contributes thoughtfully during discussions and builds positive relationships with classmates.",
+    ] },
+    { id: "works-well-in-groups", label: "Works well in groups", sentences: [
+      "{{N}} communicates constructively with classmates during group activities, contributing to a positive learning environment.",
+      "{{S}} is collaborative in nature, working well with peers and often taking the lead in group activities.",
+      "{{S}} works cooperatively in groups, sharing resources and listening to the ideas of others.",
+    ] },
+    { id: "good-listener", label: "Good listener", sentences: [
+      "{{S}} listens attentively during class discussions, contributing {{pos}} own thoughts and ideas when prompted.",
+      "{{N}} is an attentive listener who is becoming more confident in contributing to class discussions.",
+    ] },
+    { id: "growing-confidence", label: "Growing confidence", sentences: [
+      "{{N}} is developing the confidence to clearly communicate {{pos}} ideas during class activities.",
+      "I would now like to see {{o}} take a more active role in class discussions as {{s}} has many valuable insights to share.",
+      "{{N}} is learning to show {{pos}} enthusiasm respectfully by raising {{pos}} hand in class discussions.",
+    ] },
+  ],
+  "Social Skills": [
+    { id: "kind-and-generous-friend", label: "Kind and generous friend", sentences: [
+      "{{N}} is a generous and kind friend who is willing to share {{pos}} time with peers and can brighten anyone's day.",
+      "{{N}} is well-liked by {{pos}} peers and demonstrates a caring and considerate nature towards others.",
+      "{{N}} is respected by {{pos}} peers, consistently showing a kind-hearted nature.",
+      "{{N}} always shows kindness, courtesy, and consideration towards others.",
+    ] },
+    { id: "friendly-and-inclusive", label: "Friendly and inclusive", sentences: [
+      "{{N}} is sociable and builds strong relationships, making the classroom a welcoming and friendly place.",
+      "{{S}} is friendly and builds strong relationships with classmates, creating a welcoming and inclusive classroom environment.",
+      "{{N}} helps others feel valued and included in group activities, often offering assistance and encouragement.",
+      "{{S}} is considerate, building strong relationships and fostering a supportive atmosphere where everyone feels valued.",
+      "{{N}} builds positive relationships with classmates and contributes to a friendly and inclusive classroom environment.",
+    ] },
+    { id: "respectful", label: "Respectful", sentences: [
+      "{{N}} is approachable and maintains a respectful demeanour, contributing positively to the classroom atmosphere.",
+      "{{S}} treats peers and teachers with respect and consideration.",
+      "{{S}} shows respect for both classmates and teachers, helping to create a calm and productive classroom environment.",
+      "{{N}} is well-liked and consistently contributes to a respectful classroom atmosphere.",
+    ] },
+    { id: "fun-and-sociable", label: "Fun and sociable", sentences: [
+      "{{N}} is an animated student who builds positive friendships and enjoys making {{pos}} classmates laugh.",
+      "{{N}} uses effective social skills in the playground to build positive relationships with {{pos}} peers and resolves minor conflicts calmly.",
+    ] },
+    { id: "developing-social-skills", label: "Developing social skills", sentences: [
+      "{{N}} participates in structured activities during break times, gaining confidence to interact with {{pos}} peers in the playground.",
+      "{{N}} is developing appropriate social skills and is learning to handle disagreements respectfully.",
+      "{{N}} is developing {{pos}} ability to communicate how {{s}} is feeling to peers and staff to improve {{pos}} emotional regulation.",
+      "{{S}} is getting better at noticing how {{pos}} actions affect others.",
+    ] },
+  ],
+  "Independence": [
+    { id: "works-independently", label: "Works independently", sentences: [
+      "{{N}} displays a high level of independence, approaching tasks with confidence and persistence.",
+      "{{N}} is capable and works independently on tasks, demonstrating confidence and initiative in managing responsibilities.",
+      "{{S}} is self-motivated and works well independently, consistently completing required tasks to the best of {{pos}} ability.",
+      "{{N}} works independently and manages tasks effectively.",
+      "{{N}} demonstrates independence when completing tasks and takes pride in achieving personal goals.",
+    ] },
+    { id: "starts-and-stays-on-task", label: "Starts and stays on task", sentences: [
+      "{{N}} works productively in both independent and group situations, diligently staying on task.",
+      "{{S}} begins tasks without prompting and generally stays focused until completion.",
+    ] },
+    { id: "organised-and-follows-routines", label: "Organised and follows routines", sentences: [
+      "{{N}} follows class routines each day, demonstrating independence and responsibility in managing tasks effectively.",
+      "{{N}} consistently organises {{pos}} work carefully.",
+    ] },
+    { id: "growing-independence", label: "Growing independence", sentences: [
+      "{{N}} is developing independence in using technology to complete research and classwork.",
+      "{{N}} is developing the confidence to request assistance while working independently or in a small group.",
+      "{{S}} works quietly alone and is beginning to stay calm, keep trying and finish tasks.",
+    ] },
+    { id: "needs-reminders", label: "Needs reminders", sentences: [
+      "{{N}} is capable of working independently and benefits from occasional reminders to take care when completing tasks.",
+      "{{N}} is productive during independent work, however often requires reminders to stay on task and complete work in an appropriate timeframe.",
+      "{{S}} is learning to refrain from talking to {{pos}} friends at inappropriate times.",
+    ] },
+  ],
+  "Leadership": [
+    { id: "natural-leader", label: "Natural leader", sentences: [
+      "{{N}} is a confident natural leader who inspires classmates and leads by example.",
+      "{{N}} demonstrates leadership qualities that inspire classmates in {{pos}} learning.",
+      "{{N}} is a role model to others and leads by example.",
+    ] },
+    { id: "takes-on-leadership-roles", label: "Takes on leadership roles", sentences: [
+      "{{N}} takes on leadership roles in group activities, ensuring tasks are completed efficiently and supporting others as needed.",
+      "{{S}} accepts leadership roles in group tasks, ensuring that peers are included.",
+      "{{N}} is a responsible student who takes on leadership roles in group activities.",
+    ] },
+    { id: "shows-initiative", label: "Shows initiative", sentences: [
+      "{{N}} shows initiative in the classroom, taking pride in helping with the daily routine and setting a positive example.",
+    ] },
+  ],
+  "Roles & Responsibilities": [
+    { id: "school-captain-or-vice-captain", label: "School captain or vice-captain", sentences: [
+      "As school captain, {{s}} excels in leadership roles and inspires peers by setting a positive example.",
+      "As vice-captain, {{N}} has diligently fulfilled {{pos}} leadership responsibilities.",
+    ] },
+    { id: "house-captain", label: "House captain", sentences: [
+      "As a house captain, {{N}} diligently fulfils {{pos}} leadership responsibilities.",
+    ] },
+    { id: "student-representative-council", label: "Student Representative Council", sentences: [
+      "{{N}} plays an active role in the Student Representative Council, completing {{pos}} responsibilities diligently and setting a strong example for others.",
+      "{{N}} is a valuable member of the Student Representative Council, where {{s}} diligently completes {{pos}} responsibilities.",
+      "{{N}} was elected by {{pos}} peers to represent the class on the Student Representative Council.",
+    ] },
+    { id: "school-prefect", label: "School prefect", sentences: [
+      "{{N}} embodies leadership qualities in {{pos}} role as a school prefect.",
+    ] },
+  ],
+  "Attendance": [
+    { id: "improved-attendance", label: "Improved attendance", sentences: [
+      "{{N}}'s improved attendance this semester has given {{o}} increased opportunities to further develop {{pos}} knowledge and skills.",
+    ] },
+    { id: "absences-affecting-learning", label: "Absences affecting learning", sentences: [
+      "Due to a high number of partial and full absences, {{n}} has missed several important learning opportunities this semester.",
+      "Due to the high number of partial and full absences, {{N}} has missed out on crucial learning opportunities this semester.",
+      "The high number of absences this semester has impacted {{pos}} learning and {{s}} is encouraged to attend school regularly and on time.",
+    ] },
+  ],
+  "Semester KLAs": [
+    { id: "science", label: "Science", sentences: [
+      "{{N}} has shown strong engagement in Science whilst exploring climate and the body's organ systems. {{S}} conducted scientific experiments.",
+      "{{N}} has shown strong engagement in Science and Technology whilst building and testing electrical circuits. {{S}} investigated which materials conduct electricity and used this knowledge to design an electrical safety game.",
+      "{{N}} has shown strong engagement in Science and Technology whilst learning about renewable and non-renewable energy sources. {{S}} researched how generating electricity affects the environment and explored cleaner ways to power a community.",
+    ] },
+    { id: "history", label: "History", sentences: [
+      "{{N}} has shown interest in History through investigating how and why Australia became a nation. {{S}} researched how significant individuals and migrant groups influenced Australian society.",
+    ] },
+    { id: "geography", label: "Geography", sentences: [
+      "{{N}} has shown strong interest in Geography through reading maps and exploring how cities, towns and remote communities are organised and connected. {{S}} also learnt how communities prepare for floods and bushfires and how Aboriginal Peoples have cared for Country using fire.",
+      "{{N}} has shown strong interest in Geography through comparing environments around the world, from tropical rainforests to polar regions. {{S}} used maps and climate graphs to explore how people rely on these environments and how human activity has changed them.",
+    ] },
+    { id: "creative-arts", label: "Creative Arts", sentences: [
+      "{{N}} has shown enthusiasm and creativity in Creative Arts by exploring Dance and Music. {{S}} learned how these express emotion and communicate ideas across cultural contexts.",
+      "{{N}} has shown strong enthusiasm and creativity in Creative Arts by planning, painting and refining a series of artworks inspired by place for the class Art Show. {{S}} also explored how Aboriginal and Torres Strait Islander artists share culture and connection to Country through their art.",
+      "{{N}} has shown strong enthusiasm and creativity in Creative Arts by creating prints and sculptures that blend ideas from the past and the future. In Drama, {{s}} wrote and performed scripts that bring characters to life.",
+    ] },
+    { id: "health", label: "Health", sentences: [
+      "{{N}} has developed an understanding of identity when learning about Health. {{S}} has explored the factors that affect health choices and strategies to support {{pos}} wellbeing.",
+      "{{N}} has shown a thoughtful approach to Health when learning about respectful relationships and how to recognise unsafe situations. {{S}} developed strategies to keep {{r}} safe and to support others.",
+      "{{N}} has shown a thoughtful approach to Health when learning how to stay safe in the sun and around water. {{S}} also explored how healthy eating, positive friendships and resolving conflict support {{pos}} wellbeing.",
+    ] },
+    { id: "physical-education", label: "Physical Education", sentences: [
+      "{{N}} has participated positively in Physical Education. {{S}} demonstrates fair play and a willingness to try a variety of physical activities.",
+    ] },
+  ],
+  "Interests & Passions": [
+    { id: "visual-arts-and-drawing", label: "Visual arts and drawing", sentences: [
+      "{{S}} approaches Creative Arts with enthusiasm, applying techniques learnt to elevate the quality and craft of {{pos}} work.",
+      "{{N}} demonstrates a strong interest in Visual Arts and confidently explores line, colour, and shape in creative ways.",
+      "{{S}} approaches art lessons with enthusiasm and creativity, drawing inspiration from famous artists around the world.",
+      "{{N}} uses techniques such as blending and shading with watercolours and oil pastels to enhance artistic effect.",
+      "{{S}} loves drawing and sculpting, and shows real confidence when trying different lines and shapes.",
+    ] },
+    { id: "technology-and-computers", label: "Technology and computers", sentences: [
+      "{{N}} has a keen interest in working with technology, which enables {{o}} to explore new ideas and develop skills.",
+      "{{N}} enjoys working on the computer, demonstrating confidence in navigating digital tools and completing learning tasks.",
+    ] },
+    { id: "dance-and-physical-education", label: "Dance and Physical Education", sentences: [
+      "{{N}} has a passion for dance, demonstrating enthusiasm by listening to instructions intently and executing sequences accurately.",
+      "In Physical Education, {{n}} works well with others in groups and teams by encouraging {{pos}} classmates and sharing responsibilities.",
+    ] },
+    { id: "science", label: "Science", sentences: [
+      "{{N}} shows a keen interest in Science, particularly in exploring how the properties of materials influence their use in everyday products.",
+    ] },
+    { id: "cultural-program", label: "Cultural program", sentences: [
+      "{{N}} is an active participant in the Aboriginal and Torres Strait Islander cultural program and is a valued member for {{pos}} contributions.",
+    ] },
+  ],
+  "Sport & Extracurricular": [
+    { id: "general-sport", label: "General sport", sentences: [
+      "{{N}} excels in Physical Education, using {{pos}} abilities to compete alongside {{pos}} peers and consistently displaying excellent sportsmanship.",
+      "{{N}} enthusiastically participates in sport, displaying a strong ability to compete in games alongside {{pos}} peers.",
+    ] },
+    { id: "zone-and-knockout-teams", label: "Zone and knockout teams", sentences: [
+      "{{N}} represented the school at the Zone Cross Country carnival, demonstrating commitment and school pride.",
+      "{{N}} competed in zone cross country and in the touch football knockout team, representing Ambarvale Public School with pride.",
+      "{{N}} competed in zone representative teams, consistently displaying excellent sportsmanship and teamwork.",
+      "{{N}} represented the school as a member of the touch football knockout team, demonstrating commitment and school pride.",
+      "{{N}} participated in knockout touch football, displaying teamwork while representing the school positively.",
+      "{{S}} competes in netball and touch football knockout teams, demonstrating good sportsmanship and representing the school with pride.",
+      "{{N}} represented the school as a member of the soccer knockout team, demonstrating commitment and school pride.",
+    ] },
+    { id: "gala-days", label: "Gala days", sentences: [
+      "{{S}} participates in soccer and cricket gala days, displaying good sportsmanship and teamwork.",
+      "{{S}} participated enthusiastically in tiger tag and touch football gala day teams, consistently displaying excellent sportsmanship and teamwork.",
+    ] },
+    { id: "dance-cheer-and-gymnastics", label: "Dance, cheer and gymnastics", sentences: [
+      "{{N}} passionately participates in the dance and cheer group, showcasing talent and enthusiasm for performance.",
+      "{{N}} enjoys participating in gymnastics and cheer groups during break times.",
+      "{{N}} enjoys participating in dance and cheer groups during break times.",
+    ] },
+    { id: "choir-and-cultural-program", label: "Choir and cultural program", sentences: [
+      "{{N}} enjoys participating in the choir during break times, which allows for the development of social skills with like-minded peers.",
+      "{{N}} participates in our cultural program, which strengthens {{pos}} connection with Aboriginal culture.",
+    ] },
+  ],
+  "EAL/D": [
+    { id: "beginning-phase", label: "Beginning phase", sentences: [
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Beginning phase. To support {{pos}} English language development, {{s}} has received targeted withdrawal sessions to expand {{pos}} growing vocabulary. {{N}} has improved in {{pos}} ability to contribute ideas during group discussions.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Beginning phase. {{S}} has worked with a teacher in a small group to learn key words and phrases, using pictures and hands-on activities to build understanding. {{N}} is beginning to use these words when sharing ideas with a partner, particularly during practical tasks such as building circuits in Science.",
+    ] },
+    { id: "developing-phase", label: "Developing phase", sentences: [
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. To support {{pos}} English language development, {{s}} has engaged in additional modelling and guided practice activities. This support has helped {{n}} use more concise vocabulary in {{pos}} writing.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. To support {{pos}} English language learning, {{s}} has benefited from modelling and guided practice activities. These strategies have led to greater confidence in speaking and expressing ideas clearly in both verbal and written forms.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. To support {{pos}} English language development, {{s}} has participated in peer interaction activities that promote language development. This support has led to a noticeable improvement in the vocabulary {{s}} uses during conversations.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. During writing lessons, {{s}} has been shown how to choose more specific words using word banks and examples. As a result, {{N}}'s written explanations, such as those in Science, are now clearer and more accurate.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. {{S}} has been given regular opportunities to rehearse what {{s}} wants to say with a partner before sharing with the class. This has helped {{o}} speak up more confidently and explain {{pos}} thinking in full sentences.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. {{S}} has regularly worked alongside classmates in group tasks such as Drama performances and design challenges, giving {{o}} many chances to practise everyday English. {{N}} is now joining conversations more readily and using a growing range of words to express {{pos}} ideas.",
+    ] },
+    { id: "consolidating-phase", label: "Consolidating phase", sentences: [
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. To support {{pos}} English language development, {{s}} has engaged in additional modelling and guided practice activities. {{N}} has gained greater confidence in speaking and expressing ideas more clearly in discussions.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. {{S}} has benefited from modelling and guided practice activities, which have supported {{pos}} language development. {{N}} has shown increased confidence when articulating ideas and is using a wider vocabulary.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. {{S}} has been supported to plan and organise {{pos}} ideas before speaking and writing, using sentence starters and planning templates. {{N}} now presents information more clearly and logically, as shown when sharing {{pos}} research in Geography.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. Through class discussions and reading about topics in Science, Geography and Health, {{s}} has been introduced to a broad range of new vocabulary. {{N}} is applying many of these words accurately when discussing and writing about what {{s}} has learnt.",
+    ] },
+  ],
+  "Closing Statement": [
+    { id: "commending-effort-and-progress", label: "Commending effort and progress", sentences: [
+      "{{N}} has demonstrated outstanding effort this semester. I congratulate {{o}} on {{pos}} progress and look forward to seeing {{pos}} continued growth in Semester 2.",
+      "{{N}} has shown excellent commitment this semester. {{S}} has been a joy to teach and I look forward to seeing {{o}} continue to grow and embrace new opportunities in Semester 2.",
+      "{{S}} has shown excellent dedication this semester. I look forward to supporting {{n}}'s continued growth and success in Semester 2.",
+      "It has been rewarding to witness {{N}}'s growth and development. I look forward to seeing {{pos}} continued success and progress next semester!",
+      "{{N}} has shown a pleasing dedication to {{pos}} studies. {{S}} has been a pleasure to teach this semester. I encourage {{N}} to continue giving {{pos}} best in Semester 2.",
+      "{{N}} has shown commitment throughout the semester. I look forward to teaching {{o}} in Semester 2!",
+      "I commend {{N}} on a successful semester and look forward to seeing further academic and social growth this year.",
+      "{{N}} should be congratulated on a successful final year of primary school. I wish {{o}} every success for 2027 as {{s}} begins high school.",
+      "{{S}} should be commended for the effort shown this year. I wish {{o}} all the best as {{s}} transitions to high school next year.",
+      "{{N}} has shown excellent dedication this year. I wish {{o}} all the best as {{s}} moves into Year 6.",
+      "{{S}} should be congratulated on a productive year. I look forward to {{pos}} continued success in Year 6.",
+      "{{N}} should be congratulated on a productive year. I wish {{o}} all the best for 2027.",
+      "{{S}} has shown excellent effort this year in both academic and extracurricular activities. I wish {{o}} all the best for 2027.",
+      "It has been rewarding to witness {{N}}'s growth this year. I wish {{o}} all the best for the future.",
+      "{{N}} consistently displays the attributes of an Ambarvale All Star. I wish {{o}} every success for 2027.",
+      "{{N}} should be proud of the growth {{s}} has achieved this year. I wish {{o}} all the best for 2027.",
+    ] },
+    { id: "a-pleasure-and-joy-to-teach", label: "A pleasure and joy to teach", sentences: [
+      "{{N}} has made a valuable contribution to our class, and I look forward to teaching {{o}} in Semester 2.",
+      "It has been a pleasure to teach {{N}} and I look forward to a successful Semester 2.",
+      "{{S}} has been a joy to teach and I hope {{N}} continues to embrace new opportunities with enthusiasm in Semester 2!",
+      "I have enjoyed getting to know {{N}} and look forward to teaching {{o}} in Semester 2.",
+      "It has been a pleasure to teach {{N}} this year. I wish {{o}} every success in high school.",
+      "It has been a pleasure to teach {{N}} this year. I wish {{o}} every success for 2027.",
+      "{{N}} has contributed positively to our class this year. I wish {{o}} every success in the years ahead.",
+      "{{N}} has been a joy to teach this year. I hope {{s}} continues to embrace new opportunities with enthusiasm.",
+    ] },
+    { id: "start-of-the-year-and-looking-ahead", label: "Start of the year and looking ahead", sentences: [
+      "{{N}} is to be congratulated on a great start to Stage 3. I look forward to seeing {{pos}} learning progress throughout the remainder of the year.",
+      "{{N}} is to be commended for a successful start to the year. I look forward to observing {{pos}} continued development and achievements.",
+      "I look forward to seeing {{pos}} continued growth and success next semester!",
+    ] },
+  ],
+};
+// sentence -> { cat, id }, built once
+const SENT_TRAIT = {};
+Object.keys(GEN_TRAITS).forEach(cat => GEN_TRAITS[cat].forEach(t => t.sentences.forEach(s => { SENT_TRAIT[s] = { cat, id: t.id }; })));
+
 // Sentences that belong to one semester only. Both sets stay in RAW so finished comments, categories and
 // the S1 "used" locks keep working; the sentence bank just hides the other semester's set.
 const SEM_ONLY = { 1: new Set(), 2: new Set() };
@@ -10808,7 +11145,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.26';
+const APP_VERSION = 'v3.17.27';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
