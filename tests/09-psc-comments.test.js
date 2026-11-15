@@ -24,7 +24,8 @@ test('148 new comments are in the bank, each with a level, in the right tier', a
       const cat = SENT_CAT[sn];
       if (!cat) { out.noLevel.push(sn); return; }
       if (!/^\{\{[NS]\}\}/.test(sn)) out.wrongHeads.push(sn);
-      const developing = /^\{\{[NS]\}\} is (beginning|learning|developing|building)\b|^\{\{N\}\} contributes to group tasks and is encouraged/.test(sn) || /benefits from|is beginning to|is learning|is developing|is building/.test(sn);
+      const reworded = Object.values(SENTENCE_REWORDS).includes(sn);   // v3.17.30: "beginning to" removed, still developing-tier
+      const developing = reworded || /^\{\{[NS]\}\} is (beginning|learning|developing|building)\b|^\{\{N\}\} contributes to group tasks and is encouraged/.test(sn) || /benefits from|is beginning to|is learning|is developing|is building/.test(sn);
       const t = _tierOfRaw(cat, sn);
       if (developing && t !== 'developing') out.badTier.push(sn);
       if (!developing && t === 'developing') out.badTier.push(sn);
