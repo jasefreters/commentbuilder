@@ -1,0 +1,67 @@
+// maths|Representing Whole Numbers  (sentences 0-33, future directions 34-62)
+// batch 1: items 0-24
+0 reading-writing-numbers+decimals
+1 place-value
+2 comparing-ordering+decimals # unsure: compares and orders decimals and percentages
+3 negative-numbers
+4 place-value
+5 comparing-ordering+rounding-estimating
+6 place-value
+7 place-value
+8 rounding-estimating
+9 reading-writing-numbers+place-value
+10 place-value+reading-writing-numbers
+11 reading-writing-numbers
+12 place-value
+13 rounding-estimating+reading-writing-numbers
+14 reading-writing-numbers+comparing-ordering
+15 place-value
+16 counting
+17 reading-writing-numbers
+18 subitising
+19 counting
+20 counting
+21 counting
+22 reading-writing-numbers+comparing-ordering
+23 place-value
+24 counting
+// batch 2: items 25-49
+25 place-value+reading-writing-numbers
+26 comparing-ordering
+27 subitising
+28 reading-writing-numbers
+29 counting
+30 negative-numbers
+31 decimals
+32 percentages+decimals
+33 percentages
+34 subitising
+35 reading-writing-numbers
+36 counting
+37 counting
+38 subitising
+39 counting
+40 counting
+41 counting
+42 reading-writing-numbers
+43 comparing-ordering
+44 counting
+45 counting
+46 rounding-estimating
+47 rounding-estimating
+48 place-value
+49 place-value
+// batch 3: items 50-62
+50 comparing-ordering
+51 reading-writing-numbers # unsure: represents numbers with materials, could be place-value
+52 comparing-ordering
+53 decimals
+54 decimals
+55 comparing-ordering
+56 comparing-ordering
+57 rounding-estimating
+58 place-value
+59 decimals
+60 negative-numbers
+61 percentages
+62 percentages

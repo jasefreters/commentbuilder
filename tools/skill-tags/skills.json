@@ -1,0 +1,1110 @@
+{
+  "english|Oral Language and Communication": [
+    {
+      "id": "following-instructions",
+      "name": "Following spoken instructions",
+      "definition": "Does what a spoken instruction asks.",
+      "examples": [
+        "Following a single instruction from the teacher.",
+        "{{S}} follows a single instruction from the teacher."
+      ]
+    },
+    {
+      "id": "listening-and-understanding",
+      "name": "Listening and understanding",
+      "definition": "Listens to the speaker and shows understanding by responding, retelling or building on what was said.",
+      "examples": [
+        "Applying active listening strategies by retelling and building on what another person has said.",
+        "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions."
+      ]
+    },
+    {
+      "id": "answering-questions",
+      "name": "Answering questions",
+      "definition": "Responds to spoken questions.",
+      "examples": [
+        "Responding to spoken questions.",
+        "{{S}} answers questions about familiar people and places."
+      ]
+    },
+    {
+      "id": "asking-questions",
+      "name": "Asking questions",
+      "definition": "Asks questions to find out, check or clarify.",
+      "examples": [
+        "Asking specific questions to clarify information.",
+        "{{S}} asks specific questions to clarify information and listens attentively to the contributions of others."
+      ]
+    },
+    {
+      "id": "sharing-ideas",
+      "name": "Sharing ideas and feelings",
+      "definition": "Puts own thoughts, ideas and feelings into words when speaking.",
+      "examples": [
+        "Sharing thoughts and feelings on a familiar topic.",
+        "{{S}} expresses {{pos}} thoughts and feelings using simple language."
+      ]
+    },
+    {
+      "id": "joining-discussions",
+      "name": "Taking part in discussions",
+      "definition": "Joins in and contributes to pair, group and class discussions.",
+      "examples": [
+        "Contributing to discussions with peers.",
+        "{{S}} actively participates in group discussions."
+      ]
+    },
+    {
+      "id": "starting-conversations",
+      "name": "Starting conversations",
+      "definition": "Begins a conversation or interaction with peers or adults.",
+      "examples": [
+        "Starting a conversation with peers and adults.",
+        "{{S}} starts social interactions with classmates and staff."
+      ]
+    },
+    {
+      "id": "turn-taking",
+      "name": "Taking turns",
+      "definition": "Waits for a turn when speaking with others.",
+      "examples": [
+        "Taking turns when speaking.",
+        "{{S}} takes turns when speaking to others."
+      ]
+    },
+    {
+      "id": "staying-on-topic",
+      "name": "Staying on topic",
+      "definition": "Keeps to the topic when speaking or discussing.",
+      "examples": [
+        "Staying on topic when speaking.",
+        "Remaining on-topic during group discussions."
+      ]
+    },
+    {
+      "id": "telling-stories",
+      "name": "Telling and retelling",
+      "definition": "Tells or retells stories and events in order, with detail.",
+      "examples": [
+        "Telling a story to peers and adults.",
+        "{{S}} tells or retells a story in order to an audience, adding detail to make it interesting."
+      ]
+    },
+    {
+      "id": "suitable-language",
+      "name": "Using language to suit the situation",
+      "definition": "Chooses and adjusts words and style for the people and setting.",
+      "examples": [
+        "Demonstrating appropriate language when interacting with others.",
+        "{{S}} uses appropriate language skills when interacting with others during class discussions."
+      ]
+    },
+    {
+      "id": "presenting",
+      "name": "Giving presentations",
+      "definition": "Plans, delivers and reflects on a speech or presentation for an audience.",
+      "examples": [
+        "Delivering presentations suited to purpose and audience.",
+        "{{S}} delivered a thoughtful and well-organised prepared speech."
+      ]
+    },
+    {
+      "id": "voice",
+      "name": "Volume, pace and expression",
+      "definition": "Changes volume, pace and expression to help the listener.",
+      "examples": [
+        "Enhancing oral presentations by changing the volume of their voice.",
+        "{{S}} appropriately adjusts {{pos}} volume and pace during class presentations to support audience engagement."
+      ]
+    }
+  ],
+  "english|Reading Comprehension": [
+    {
+      "id": "letters-sounds-words",
+      "name": "Letters, sounds and familiar words",
+      "definition": "Knows letters and sounds, blends and segments, follows print and recognises familiar words.",
+      "examples": [
+        "Recognising familiar words in texts.",
+        "{{S}} has a strong understanding of taught letters and the sounds they usually make."
+      ]
+    },
+    {
+      "id": "reading-strategies",
+      "name": "Choosing how to read",
+      "definition": "Reads for a purpose and picks a way of reading to suit, such as skimming and scanning.",
+      "examples": [
+        "Identifying different purposes and strategies for reading (e.g. skimming and scanning).",
+        "{{S}} uses reading strategies to comprehend more complex texts."
+      ]
+    },
+    {
+      "id": "asking-questions",
+      "name": "Asking questions about a text",
+      "definition": "Asks questions to clear up or deepen meaning.",
+      "examples": [
+        "Asking questions to clarify meaning when reading.",
+        "{{S}} asks questions when the meaning is unclear."
+      ]
+    },
+    {
+      "id": "monitoring-meaning",
+      "name": "Noticing and fixing lost meaning",
+      "definition": "Notices when reading stops making sense and pauses, re-reads or self-corrects.",
+      "examples": [
+        "Re-reading parts of a text to ensure meaning is understood.",
+        "{{S}} uses strategies to fix {{pos}} understanding when meaning breaks down."
+      ]
+    },
+    {
+      "id": "recalling",
+      "name": "Recalling and sequencing",
+      "definition": "Remembers characters, events and facts from a text and puts them in order.",
+      "examples": [
+        "Recalling characters and events in a text after reading.",
+        "{{S}} recalls key events and characters in a story."
+      ]
+    },
+    {
+      "id": "main-ideas",
+      "name": "Main ideas and summarising",
+      "definition": "Finds the main ideas and key details of a text and sums them up.",
+      "examples": [
+        "Summarising the main ideas of a text.",
+        "{{S}} identifies key ideas and supporting details when reading."
+      ]
+    },
+    {
+      "id": "connections",
+      "name": "Background knowledge and connections",
+      "definition": "Links a text to own experience, topic knowledge or other texts.",
+      "examples": [
+        "Using background knowledge and personal experiences to make personal connections to texts.",
+        "{{S}} makes connections between {{pos}} experiences and the events in a story."
+      ]
+    },
+    {
+      "id": "opinions",
+      "name": "Forming opinions about texts",
+      "definition": "Says what they like or think about a text and why.",
+      "examples": [
+        "Forming an opinion of a text using evidence.",
+        "{{S}} shows likes and dislikes about a story."
+      ]
+    },
+    {
+      "id": "evidence-and-inference",
+      "name": "Evidence and reading between the lines",
+      "definition": "Uses clues and evidence in the text to work out and support meaning.",
+      "examples": [
+        "Using evidence from a text to support reading comprehension.",
+        "{{S}} reads between the lines using clues in the text."
+      ]
+    },
+    {
+      "id": "finding-information",
+      "name": "Finding information",
+      "definition": "Locates and uses information in the words, pictures and features of a text.",
+      "examples": [
+        "Finding and using relevant information from different types of texts.",
+        "{{S}} locates relevant information in a text."
+      ]
+    },
+    {
+      "id": "language-features",
+      "name": "How language builds meaning",
+      "definition": "Explains how words, sentences and language features shape meaning.",
+      "examples": [
+        "Linking the meanings of key words across a text to help make connections.",
+        "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning."
+      ]
+    },
+    {
+      "id": "purpose-and-structure",
+      "name": "Text purpose and structure",
+      "definition": "Identifies why a text was written and how it is organised.",
+      "examples": [
+        "Determining a text's specific purpose.",
+        "{{S}} identifies how persuasive, informative and imaginative texts are organised."
+      ]
+    },
+    {
+      "id": "fluency",
+      "name": "Reading aloud",
+      "definition": "Reads aloud accurately with suitable pace, volume and attention to punctuation.",
+      "examples": [
+        "{{S}} stops at full stops and changes {{pos}} voice for questions when reading aloud.",
+        "{{S}} reads longer texts with accuracy and uses appropriate volume and speed when reading aloud."
+      ]
+    }
+  ],
+  "english|Creating Written Texts": [
+    {
+      "id": "pictures-and-symbols",
+      "name": "Creating texts with pictures",
+      "definition": "Uses drawings, pictures and symbols to create or support a text.",
+      "examples": [
+        "Using pictures and symbols to create texts.",
+        "{{S}} draws pictures to support {{pos}} writing."
+      ]
+    },
+    {
+      "id": "writing-with-others",
+      "name": "Writing with others",
+      "definition": "Takes part in creating a text with other people.",
+      "examples": [
+        "Participating in creating texts with others.",
+        "{{S}} takes part in creating texts with others."
+      ]
+    },
+    {
+      "id": "planning",
+      "name": "Planning and choosing ideas",
+      "definition": "Chooses a topic, gathers ideas and plans before writing.",
+      "examples": [
+        "Researching and summarising topic-related ideas when planning for writing.",
+        "{{S}} uses planning strategies effectively when creating texts."
+      ]
+    },
+    {
+      "id": "paragraphs-and-order",
+      "name": "Ordering ideas and paragraphs",
+      "definition": "Puts ideas in a logical order and groups them into paragraphs.",
+      "examples": [
+        "Writing paragraphs in a sequenced order.",
+        "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea."
+      ]
+    },
+    {
+      "id": "imaginative",
+      "name": "Writing stories",
+      "definition": "Writes imaginative texts with characters, settings and events.",
+      "examples": [
+        "Writing a text that tells a story.",
+        "{{S}} creates a beginning, a problem, and a resolution using simple paragraphs."
+      ]
+    },
+    {
+      "id": "persuasive",
+      "name": "Writing opinions and persuasive texts",
+      "definition": "Writes to give an opinion or argue a point of view.",
+      "examples": [
+        "Creating written texts to persuade a viewpoint.",
+        "{{S}} structures persuasive paragraphs with a clear statement of position and supporting ideas."
+      ]
+    },
+    {
+      "id": "informative",
+      "name": "Writing informative texts and recounts",
+      "definition": "Writes to inform, describe or recount, using the right features.",
+      "examples": [
+        "Writing informative texts using the correct features (e.g. headings, paragraphs, topic sentences).",
+        "{{S}} writes informative texts with headings and paragraphs that begin with a main idea."
+      ]
+    },
+    {
+      "id": "sentences",
+      "name": "Building and varying sentences",
+      "definition": "Writes different types and lengths of sentences, with correct tense.",
+      "examples": [
+        "Using a variety of sentence types when writing texts.",
+        "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types."
+      ]
+    },
+    {
+      "id": "punctuation",
+      "name": "Punctuation",
+      "definition": "Uses capital letters, full stops, commas and other punctuation correctly.",
+      "examples": [
+        "Using a capital letter and full stop correctly when writing sentences.",
+        "Using commas appropriately when writing."
+      ]
+    },
+    {
+      "id": "word-choice",
+      "name": "Choosing words and language features",
+      "definition": "Picks descriptive, topic or persuasive words for effect.",
+      "examples": [
+        "Experimenting with different language features for effect and to engage the reader.",
+        "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing."
+      ]
+    },
+    {
+      "id": "editing",
+      "name": "Re-reading and editing",
+      "definition": "Re-reads, revises and corrects own writing, including after feedback.",
+      "examples": [
+        "Re-reading and editing their own writing.",
+        "Re-reading, proofreading and editing own and others' writing."
+      ]
+    }
+  ],
+  "english|Spelling": [
+    {
+      "id": "letters-and-name",
+      "name": "Letters and own name",
+      "definition": "Recognises letters and spells own name.",
+      "examples": [
+        "Spelling their own name.",
+        "{{S}} writes {{pos}} first name by putting the letters in the right order."
+      ]
+    },
+    {
+      "id": "sounds-and-syllables",
+      "name": "Breaking words into sounds and syllables",
+      "definition": "Hears the sounds or syllables in a word and uses them to spell it.",
+      "examples": [
+        "Breaking words into sounds when spelling words.",
+        "{{S}} breaks words into sounds as a spelling strategy."
+      ]
+    },
+    {
+      "id": "letter-patterns",
+      "name": "Letter patterns",
+      "definition": "Uses common and uncommon letter patterns, including double letters, to spell words.",
+      "examples": [
+        "Applying uncommon letter patterns to spell words correctly.",
+        "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words."
+      ]
+    },
+    {
+      "id": "word-part-rules",
+      "name": "Rules for plurals, tenses, prefixes and suffixes",
+      "definition": "Uses spelling rules when adding to or changing a word.",
+      "examples": [
+        "Selecting the correct spelling rule when writing plurals.",
+        "{{S}} spells words with suffixes, such as -ful and -est."
+      ]
+    },
+    {
+      "id": "common-words",
+      "name": "Common and tricky words",
+      "definition": "Spells high-frequency, irregular and contraction words from memory.",
+      "examples": [
+        "Spelling high-frequency words accurately.",
+        "{{S}} spells high-frequency words correctly in {{pos}} writing."
+      ]
+    },
+    {
+      "id": "homophones",
+      "name": "Words that sound the same",
+      "definition": "Picks the right spelling for words that sound the same but mean different things.",
+      "examples": [
+        "Spelling words that sound the same but have different meanings.",
+        "Using the correct spelling of words that sound the same but have different meanings."
+      ]
+    },
+    {
+      "id": "checking-spelling",
+      "name": "Checking and correcting spelling",
+      "definition": "Finds spelling mistakes and fixes them, using a dictionary if needed.",
+      "examples": [
+        "Identifying and correcting spelling errors.",
+        "{{S}} checks {{pos}} work for spelling mistakes and uses dictionaries to correct them."
+      ]
+    },
+    {
+      "id": "grammar-and-punctuation",
+      "name": "Grammar and punctuation",
+      "definition": "Uses sentence grammar, tense and punctuation correctly (bank sentences only).",
+      "examples": [
+        "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly.",
+        "{{S}} uses commas to separate parts of a sentence and apostrophes for contractions."
+      ]
+    }
+  ],
+  "english|Handwriting": [
+    {
+      "id": "early-marks",
+      "name": "Making marks and early letter shapes",
+      "definition": "Makes marks and strokes, and forms letter shapes by tracing or with materials.",
+      "examples": [
+        "Making a mark on a page or digital device.",
+        "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger."
+      ]
+    },
+    {
+      "id": "posture-and-grip",
+      "name": "Posture, pencil grip and pressure",
+      "definition": "Sits and holds the pencil in a way that supports writing.",
+      "examples": [
+        "Using a stable and relaxed pencil grasp.",
+        "{{S}} holds {{pos}} pencil comfortably during handwriting tasks and remembers to write letters from left to right."
+      ]
+    },
+    {
+      "id": "letter-formation",
+      "name": "Forming letters",
+      "definition": "Forms letters with correct shape, size, slope, line placement and spacing.",
+      "examples": [
+        "Forming letters with consistent size and slope from memory.",
+        "{{S}} forms letters correctly and maintains appropriate spacing when writing."
+      ]
+    },
+    {
+      "id": "fluent-handwriting",
+      "name": "Joined and fluent handwriting",
+      "definition": "Joins letters and writes legibly and fluently, for longer periods or different purposes.",
+      "examples": [
+        "Joining letters using consistent size and spacing to develop handwriting fluency.",
+        "{{S}} maintains a fluent handwriting style and types efficiently using the keyboard."
+      ]
+    },
+    {
+      "id": "keyboard",
+      "name": "Typing on a keyboard",
+      "definition": "Finds keys and types words, numbers and punctuation with accuracy and speed.",
+      "examples": [
+        "Navigating the keyboard with efficiency and accuracy when typing words, numbers, punctuation and other symbols.",
+        "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation."
+      ]
+    },
+    {
+      "id": "word-processing",
+      "name": "Using word-processing tools",
+      "definition": "Uses a word-processing program and shortcuts to draft, edit and publish.",
+      "examples": [
+        "Using a word-processing program to draft and revise texts.",
+        "{{S}} uses word-processing tools to draft and edit {{pos}} writing."
+      ]
+    }
+  ],
+  "maths|Representing Whole Numbers": [
+    {
+      "id": "counting",
+      "name": "Counting forwards and backwards",
+      "definition": "Says the number sequence, counts objects and knows the number before and after.",
+      "examples": [
+        "Counting forwards to at least 30.",
+        "{{S}} counts forwards from any given number up to 120."
+      ]
+    },
+    {
+      "id": "subitising",
+      "name": "Recognising small amounts at a glance",
+      "definition": "Sees how many are in a small group or finger pattern without counting.",
+      "examples": [
+        "Recognising up to four items in small groups without counting.",
+        "{{S}} immediately recognises the number of objects in a small collection."
+      ]
+    },
+    {
+      "id": "reading-writing-numbers",
+      "name": "Reading and writing numbers",
+      "definition": "Reads, writes, selects and shows numbers as numerals, words or drawings.",
+      "examples": [
+        "Reading numerals to at least 20, including zero.",
+        "{{S}} represents numbers using drawings, words and numerals."
+      ]
+    },
+    {
+      "id": "comparing-ordering",
+      "name": "Comparing and ordering numbers",
+      "definition": "Compares numbers and puts them in order, including on a number line.",
+      "examples": [
+        "Reading and ordering numbers of up to at least four-digits.",
+        "{{S}} arranges numbers of up to six digits from lowest to highest."
+      ]
+    },
+    {
+      "id": "place-value",
+      "name": "Place value",
+      "definition": "Knows what each digit is worth and splits or regroups numbers.",
+      "examples": [
+        "Stating the place value of digits in two-digit numbers.",
+        "{{S}} states what each digit is worth in a three-digit number."
+      ]
+    },
+    {
+      "id": "rounding-estimating",
+      "name": "Rounding and estimating",
+      "definition": "Rounds numbers and estimates how many.",
+      "examples": [
+        "Rounding numbers to a specified place value.",
+        "{{S}} rounds whole numbers and decimals to estimate results."
+      ]
+    },
+    {
+      "id": "decimals",
+      "name": "Decimals",
+      "definition": "Reads, records and represents tenths, hundredths and thousandths.",
+      "examples": [
+        "Using a decimal point to record tenths and hundredths.",
+        "{{S}} tells apart decimals that end and decimals that repeat forever."
+      ]
+    },
+    {
+      "id": "negative-numbers",
+      "name": "Negative numbers",
+      "definition": "Works with numbers below zero.",
+      "examples": [
+        "Recognising the location of negative whole numbers in relation to zero.",
+        "{{S}} adds and subtracts positive and negative numbers."
+      ]
+    },
+    {
+      "id": "percentages",
+      "name": "Percentages",
+      "definition": "Uses percentages and links them to fractions and decimals.",
+      "examples": [
+        "Calculating the sale price of an item after a discount of 10%, 25% and 50%.",
+        "{{S}} finds any percentage of an amount to solve problems."
+      ]
+    }
+  ],
+  "maths|Additive Relations": [
+    {
+      "id": "combining-separating",
+      "name": "Combining and separating groups",
+      "definition": "Joins or takes apart groups of objects to model adding and subtracting.",
+      "examples": [
+        "Combining two or more groups of objects to model addition.",
+        "{{S}} combines and separates groups of items."
+      ]
+    },
+    {
+      "id": "counting-to-solve",
+      "name": "Counting to find a total or difference",
+      "definition": "Counts by ones across groups to work out how many or how many more.",
+      "examples": [
+        "Counting by ones to find the total or difference when solving questions.",
+        "{{S}} counts across two small groups to find a total."
+      ]
+    },
+    {
+      "id": "number-facts",
+      "name": "Number combinations and facts",
+      "definition": "Knows combinations to ten and twenty, doubles and related facts.",
+      "examples": [
+        "Recalling related addition and subtraction facts for numbers to at least 20.",
+        "{{S}} recalls related addition and subtraction facts for numbers to at least 20."
+      ]
+    },
+    {
+      "id": "strategies",
+      "name": "Addition and subtraction strategies",
+      "definition": "Chooses and uses mental and other strategies to add and subtract.",
+      "examples": [
+        "Applying mental strategies to add and subtract.",
+        "{{S}} applies a range of addition and subtraction strategies effectively."
+      ]
+    },
+    {
+      "id": "place-value-methods",
+      "name": "Adding and subtracting with place value",
+      "definition": "Uses tens and ones, or a written algorithm, to add and subtract larger numbers.",
+      "examples": [
+        "Using an algorithm to solve addition and subtraction problems with up to 3 digits.",
+        "{{S}} solves addition and subtraction problems by separating numbers into their place value."
+      ]
+    },
+    {
+      "id": "word-problems",
+      "name": "Word and money problems",
+      "definition": "Solves written, multi-step and money problems using addition and subtraction.",
+      "examples": [
+        "Solving word problems with multiple steps.",
+        "{{S}} uses {{pos}} knowledge of addition and subtraction to solve complex worded problems."
+      ]
+    },
+    {
+      "id": "estimating",
+      "name": "Estimating and checking",
+      "definition": "Rounds to estimate and judges if an answer is reasonable.",
+      "examples": [
+        "Rounding numbers appropriately when estimating.",
+        "{{S}} uses estimation to decide whether an answer is reasonable."
+      ]
+    },
+    {
+      "id": "equations-and-graphs",
+      "name": "Number sentences, equations and graphs",
+      "definition": "Uses the equals sign, equations and graphs (bank sentences only).",
+      "examples": [
+        "{{S}} uses the equals sign to show when two number sentences have the same total.",
+        "{{S}} uses graphs to solve simple equations."
+      ]
+    }
+  ],
+  "maths|Multiplicative Relations": [
+    {
+      "id": "patterns",
+      "name": "Making and continuing patterns",
+      "definition": "Copies, continues and creates repeating and number patterns.",
+      "examples": [
+        "Creating and continuing number patterns that increase or decrease by the same amount.",
+        "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100."
+      ]
+    },
+    {
+      "id": "equal-groups",
+      "name": "Sharing and making equal groups",
+      "definition": "Shares objects and describes collections as equal groups, rows or columns.",
+      "examples": [
+        "Modelling and describing collections of objects as 'groups of'.",
+        "{{S}} models and describes collections of objects as 'groups of', such as two groups of three."
+      ]
+    },
+    {
+      "id": "solving-and-recording",
+      "name": "Solving and recording multiplication and division",
+      "definition": "Solves problems with objects, diagrams, repeated addition or number sentences and records the answer.",
+      "examples": [
+        "Solving multiplication and division problems using objects and diagrams.",
+        "{{S}} uses strategies to solve simple division problems."
+      ]
+    },
+    {
+      "id": "facts",
+      "name": "Multiplication facts and factors",
+      "definition": "Recalls and uses times tables, doubles and factors.",
+      "examples": [
+        "Recalling multiplication facts up to 10 x 10.",
+        "{{S}} recalls some multiplication facts and uses them to support calculations."
+      ]
+    },
+    {
+      "id": "inverse",
+      "name": "Linking multiplication and division",
+      "definition": "Uses a multiplication fact to work out its division fact, and the reverse.",
+      "examples": [
+        "Relating multiplication facts to their opposite division fact.",
+        "{{S}} recognises that multiplication and division are opposites and uses one to solve the other."
+      ]
+    },
+    {
+      "id": "larger-numbers",
+      "name": "Multiplying and dividing larger numbers",
+      "definition": "Uses mental strategies and written methods with multi-digit numbers, decimals and remainders.",
+      "examples": [
+        "Solving a multiplication algorithm correctly.",
+        "{{S}} multiplies 2- and 3-digit numbers by 2-digit numbers and represents and solves division problems with whole number remainders."
+      ]
+    },
+    {
+      "id": "multi-step",
+      "name": "Brackets, order of steps and reasoning",
+      "definition": "Works through problems with brackets or several steps and explains the reasoning.",
+      "examples": [
+        "Solving problems involving brackets.",
+        "Providing reasoning when solving complex multiplication and division problems."
+      ]
+    },
+    {
+      "id": "algebra",
+      "name": "Letters for unknown numbers",
+      "definition": "Uses letters to stand for numbers (bank sentences only).",
+      "examples": [
+        "{{S}} uses letters to stand for unknown numbers when solving simple problems.",
+        "{{S}} writes expressions with letters and finds their value by replacing letters with numbers."
+      ]
+    }
+  ],
+  "maths|Representing Quantity Fractions": [
+    {
+      "id": "naming-showing",
+      "name": "Naming and showing fractions",
+      "definition": "Names fractions and shows them with objects, shapes and diagrams.",
+      "examples": [
+        "Representing fractions with halves, quarters, eighths and thirds.",
+        "{{S}} recognises and names simple fractions such as halves and quarters."
+      ]
+    },
+    {
+      "id": "number-line",
+      "name": "Fractions on a number line",
+      "definition": "Places fractions on a number line.",
+      "examples": [
+        "Determining the location of common fractions on a number line.",
+        "{{S}} accurately represents fractions on a number line."
+      ]
+    },
+    {
+      "id": "comparing-ordering",
+      "name": "Comparing and ordering fractions",
+      "definition": "Compares fractions and puts them in order.",
+      "examples": [
+        "Comparing and ordering different fractions by placing them on a number line.",
+        "Ordering common fractions using diagrams and number lines."
+      ]
+    },
+    {
+      "id": "equivalent",
+      "name": "Equal fractions",
+      "definition": "Shows that different fractions can be the same amount.",
+      "examples": [
+        "Creating fractions that are equal for half in quarters, eighths, sixths and tenths.",
+        "{{S}} shows that different fractions can represent the same amount."
+      ]
+    },
+    {
+      "id": "calculating",
+      "name": "Calculating with fractions",
+      "definition": "Adds, subtracts, multiplies or divides fractions, including in word problems.",
+      "examples": [
+        "Adding and subtracting similar fractions.",
+        "{{S}} adds and subtracts simple fractions with accuracy."
+      ]
+    },
+    {
+      "id": "fraction-of-amount",
+      "name": "Finding a fraction of an amount",
+      "definition": "Works out a part of a group or total.",
+      "examples": [
+        "Finding parts of a group including halves, quarters, fifths and tenths.",
+        "Solving real-life problems that involve finding a part of a total amount."
+      ]
+    },
+    {
+      "id": "decimals-percentages",
+      "name": "Fractions, decimals and percentages",
+      "definition": "Links fractions to decimals and percentages (bank sentences only).",
+      "examples": [
+        "{{S}} converts simple fractions to decimals.",
+        "{{S}} expresses common percentages as both fractions and decimals."
+      ]
+    }
+  ],
+  "maths|Geometric Measure": [
+    {
+      "id": "position-directions",
+      "name": "Position and directions",
+      "definition": "Follows, gives and describes position and movement.",
+      "examples": [
+        "Describing the position of an object in relation to another object.",
+        "{{S}} follows simple directions to move to a new position."
+      ]
+    },
+    {
+      "id": "maps-and-grids",
+      "name": "Maps, grids and number planes",
+      "definition": "Reads maps, uses grid references and plots points.",
+      "examples": [
+        "Accurately identifying the grid reference of locations and/or objects.",
+        "{{S}} plots and labels points on a number plane."
+      ]
+    },
+    {
+      "id": "comparing-length",
+      "name": "Comparing lengths",
+      "definition": "Matches and compares lengths directly and describes them.",
+      "examples": [
+        "Comparing the length of objects by placing them side-by-side.",
+        "{{S}} matches items of similar length and identifies if two lengths are the same or different."
+      ]
+    },
+    {
+      "id": "measuring-length",
+      "name": "Measuring and estimating length",
+      "definition": "Chooses units, estimates and measures lengths and distances.",
+      "examples": [
+        "Using a combination of centimetres and metres to measure distances.",
+        "{{S}} measures lengths using a centimetre ruler."
+      ]
+    },
+    {
+      "id": "converting-units",
+      "name": "Converting units of length",
+      "definition": "Changes between units to compare lengths and solve problems.",
+      "examples": [
+        "Converting measurements to the same unit to compare lengths and distances.",
+        "Solving a variety of problems involving different units of length."
+      ]
+    },
+    {
+      "id": "perimeter",
+      "name": "Perimeter",
+      "definition": "Estimates, measures and calculates the distance around a shape.",
+      "examples": [
+        "Calculating perimeters of common two-dimensional shapes, including squares, rectangles and triangles.",
+        "{{S}} calculates the perimeters of common two-dimensional shapes."
+      ]
+    },
+    {
+      "id": "angles",
+      "name": "Angles",
+      "definition": "Identifies, compares and measures angles.",
+      "examples": [
+        "Measuring angles of up to 360° using a protractor.",
+        "{{S}} measures angles accurately."
+      ]
+    },
+    {
+      "id": "area-volume-circles",
+      "name": "Area, volume and circles",
+      "definition": "Finds area and volume and works with circles (bank sentences only).",
+      "examples": [
+        "{{S}} uses hectares and square metres to solve area problems.",
+        "{{S}} uses formulas to find the area of circles, trapeziums and kites."
+      ]
+    }
+  ],
+  "maths|Two-Dimensional Spatial Structure": [
+    {
+      "id": "recognising-naming",
+      "name": "Recognising and naming shapes",
+      "definition": "Points to, matches and names two-dimensional shapes.",
+      "examples": [
+        "Naming two-dimensional shapes based on their sides and corners.",
+        "{{S}} identifies and names common two-dimensional shapes."
+      ]
+    },
+    {
+      "id": "features",
+      "name": "Describing, comparing and sorting shapes",
+      "definition": "Uses features such as sides, corners and parallel sides to describe, compare, sort and classify shapes.",
+      "examples": [
+        "Comparing two-dimensional shapes based on their features.",
+        "{{S}} classifies triangles and quadrilaterals based on their properties."
+      ]
+    },
+    {
+      "id": "making-designs",
+      "name": "Making pictures and shapes",
+      "definition": "Combines, splits, traces and builds shapes to make pictures and designs.",
+      "examples": [
+        "Making pictures and designs using a selection of shapes.",
+        "{{S}} makes pictures and designs by fitting shapes together."
+      ]
+    },
+    {
+      "id": "comparing-area",
+      "name": "Comparing areas",
+      "definition": "Compares the size of surfaces directly or with informal units.",
+      "examples": [
+        "Using informal units to compare the area of two-dimensional shapes.",
+        "{{S}} compares the area of two-dimensional shapes by using counters and blocks."
+      ]
+    },
+    {
+      "id": "measuring-area",
+      "name": "Measuring area with grids and units",
+      "definition": "Uses grids and square units to measure and calculate the area of rectangles.",
+      "examples": [
+        "Measuring the areas of squares and rectangles.",
+        "{{S}} creates grid structures to model the area of rectangles."
+      ]
+    },
+    {
+      "id": "area-formulas",
+      "name": "Area formulas",
+      "definition": "Uses a formula to find the area of triangles and parallelograms.",
+      "examples": [
+        "Recording and using the formula to find the area of a triangle.",
+        "Recording and using the formula to find the area of a parallelogram."
+      ]
+    },
+    {
+      "id": "transformations",
+      "name": "Flips, slides, turns and symmetry",
+      "definition": "Moves shapes and finds lines of symmetry (bank sentences only).",
+      "examples": [
+        "{{S}} slides, flips and turns shapes, recognising that the shape stays the same size.",
+        "{{S}} finds lines of symmetry in pictures, designs and shapes."
+      ]
+    },
+    {
+      "id": "unknown-angles-sides",
+      "name": "Finding unknown angles and sides",
+      "definition": "Uses shape properties to find missing angles or sides (bank sentences only).",
+      "examples": [
+        "{{S}} uses the properties of triangles and four-sided shapes to find unknown angles.",
+        "{{S}} finds a missing side of a right-angled triangle."
+      ]
+    }
+  ],
+  "maths|Three-Dimensional Spatial Structure": [
+    {
+      "id": "recognising-naming",
+      "name": "Recognising and naming objects",
+      "definition": "Selects, matches and names three-dimensional objects.",
+      "examples": [
+        "Naming three-dimensional objects, including cubes, cylinders, spheres and rectangular prisms.",
+        "{{S}} names three-dimensional objects including cubes, cylinders, spheres and rectangular prisms."
+      ]
+    },
+    {
+      "id": "features",
+      "name": "Describing and comparing features",
+      "definition": "Describes and compares the features of objects such as prisms, pyramids and cylinders.",
+      "examples": [
+        "Comparing features of prisms and pyramids.",
+        "{{S}} describes and compares three-dimensional objects."
+      ]
+    },
+    {
+      "id": "sorting",
+      "name": "Sorting objects",
+      "definition": "Sorts objects and says which feature was used.",
+      "examples": [
+        "Sorting three-dimensional objects according to features.",
+        "{{S}} participates in whole class activities to sort objects by one feature."
+      ]
+    },
+    {
+      "id": "building",
+      "name": "Building and stacking models",
+      "definition": "Stacks objects and constructs three-dimensional models.",
+      "examples": [
+        "Constructing three-dimensional models of prisms and pyramids.",
+        "{{S}} visualises and constructs prisms and pyramids."
+      ]
+    },
+    {
+      "id": "drawing-views",
+      "name": "Drawing objects and views",
+      "definition": "Sketches objects, shows depth and different views, and links objects to their two-dimensional drawings.",
+      "examples": [
+        "Drawing three-dimensional objects from different views.",
+        "{{S}} connects three-dimensional objects with their two-dimensional representations."
+      ]
+    },
+    {
+      "id": "volume-capacity",
+      "name": "Volume and capacity",
+      "definition": "Compares, measures and calculates how much space objects take up or containers hold.",
+      "examples": [
+        "Calculating volumes of rectangular prisms in cubic centimetres and cubic metres.",
+        "{{S}} compares how much different containers can hold using concrete materials."
+      ]
+    }
+  ],
+  "maths|Non-Spatial Measure": [
+    {
+      "id": "comparing-mass",
+      "name": "Comparing how heavy things are",
+      "definition": "Tells heavy from light and compares or orders objects by mass.",
+      "examples": [
+        "Comparing and ordering the mass of two objects.",
+        "{{S}} compares the weight of objects using a balance and everyday units."
+      ]
+    },
+    {
+      "id": "measuring-mass-capacity",
+      "name": "Measuring mass and capacity",
+      "definition": "Chooses units and measures and records mass or capacity.",
+      "examples": [
+        "Selecting appropriate units of measurement for mass.",
+        "{{S}} measures the mass of objects with scales in grams and kilograms."
+      ]
+    },
+    {
+      "id": "converting-mass",
+      "name": "Converting units of mass",
+      "definition": "Changes between grams, kilograms and tonnes.",
+      "examples": [
+        "Converting between kilograms and grams and between kilograms and tonnes.",
+        "{{S}} converts between kilograms, grams and tonnes."
+      ]
+    },
+    {
+      "id": "ordering-events",
+      "name": "Ordering events and routines",
+      "definition": "Puts daily events and routines in order and links them to day or night.",
+      "examples": [
+        "Sequencing events in time.",
+        "{{S}} understands the order of routines."
+      ]
+    },
+    {
+      "id": "calendar",
+      "name": "Days, months and calendars",
+      "definition": "Names and orders days and months and uses a calendar.",
+      "examples": [
+        "Naming and ordering the months of the year.",
+        "{{S}} uses a calendar to name the days of the week and the months of the year."
+      ]
+    },
+    {
+      "id": "reading-clocks",
+      "name": "Reading and recording time",
+      "definition": "Reads analog and digital clocks and records the time.",
+      "examples": [
+        "Reading analog clocks to the half hour.",
+        "{{S}} reads analog and digital clocks to the hour, such as '12 o'clock'."
+      ]
+    },
+    {
+      "id": "duration",
+      "name": "How long events take",
+      "definition": "Uses hours, minutes and seconds and works out elapsed time.",
+      "examples": [
+        "Using start and finish times to calculate the elapsed time of events.",
+        "{{S}} uses start and finish times to work out how long an event lasts."
+      ]
+    },
+    {
+      "id": "24-hour-time",
+      "name": "24-hour time and timetables",
+      "definition": "Reads, converts and uses 24-hour time, including in timetables.",
+      "examples": [
+        "Converting between 12- and 24-hour time accurately.",
+        "{{S}} converts between 12- and 24-hour time."
+      ]
+    },
+    {
+      "id": "money",
+      "name": "Money",
+      "definition": "Counts, shows and calculates with money (bank sentences only).",
+      "examples": [
+        "{{S}} calculates totals with money and compares prices.",
+        "{{S}} shows money values in different forms."
+      ]
+    }
+  ],
+  "maths|Data": [
+    {
+      "id": "collecting",
+      "name": "Collecting data and asking questions",
+      "definition": "Answers, asks and chooses questions and runs surveys to gather data.",
+      "examples": [
+        "Conducting a survey to collect a variety of data.",
+        "{{S}} creates surveys and records data using predicted categories."
+      ]
+    },
+    {
+      "id": "sorting-recording",
+      "name": "Sorting and recording data",
+      "definition": "Groups objects and records data with tally marks.",
+      "examples": [
+        "Using tally marks to record collected data.",
+        "{{S}} groups objects by one feature and joins in class activities to make a data display."
+      ]
+    },
+    {
+      "id": "making-displays",
+      "name": "Making graphs and displays",
+      "definition": "Shows data with objects, pictures, tables and graphs.",
+      "examples": [
+        "Creating data displays using objects or symbols.",
+        "{{S}} creates column graphs and answers questions related to the information."
+      ]
+    },
+    {
+      "id": "choosing-graphs",
+      "name": "Choosing a suitable graph",
+      "definition": "Decides which type of graph or display suits the data.",
+      "examples": [
+        "Recognising which type of graph is most appropriate when representing data.",
+        "{{S}} selects suitable graphs to display data."
+      ]
+    },
+    {
+      "id": "reading-graphs",
+      "name": "Reading tables and graphs",
+      "definition": "Reads and interprets information shown in tables, graphs and timelines.",
+      "examples": [
+        "Interpreting information presented in picture graphs.",
+        "{{S}} interprets data from tables and column graphs."
+      ]
+    },
+    {
+      "id": "comparing-data",
+      "name": "Comparing data and drawing conclusions",
+      "definition": "Compares categories, data sets or graphs and says what the data shows.",
+      "examples": [
+        "Comparing different sets of data shown together in a column graph.",
+        "{{S}} identifies the largest and smallest values in a data display."
+      ]
+    }
+  ]
+}

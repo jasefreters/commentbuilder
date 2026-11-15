@@ -217,3 +217,14 @@ test('the last screen offers Search and Go to Review, and Full list shows the us
   assert.strictEqual(await page.evaluate(() => currentView), 'publish');
   await page.context().close();
 });
+
+test('categories without groups (Emotional Wellbeing, Reflection & Goal Setting) keep their usual list, with a way into Quick mode', async () => {
+  const page = await ready();
+  await quickOn(page);
+  await page.evaluate(() => { currentTab = 'Emotional Wellbeing'; render(); });
+  assert.strictEqual(await page.$('#quickPanel'), null);
+  assert.ok((await page.$$('#optsGrid .opt')).length > 5);
+  await page.click('.quick-strip .quick-link'); await settle(page, 100);
+  assert.ok(/^1 of 13/.test(await page.textContent('#quickPanel .quick-prog')));
+  await page.context().close();
+});

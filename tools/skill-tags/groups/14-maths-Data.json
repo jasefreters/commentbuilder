@@ -1,0 +1,257 @@
+{
+  "subject": "maths",
+  "section": "Data",
+  "strand": "Data",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} explains how data displays can sometimes be misleading."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} interprets information in tables and identifies important features of data displays."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} chooses suitable graphs and timelines to display information, and collects and organises data effectively."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} interprets data presented in tables and graphs."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} constructs and interprets data displays where each symbol or bar stands for more than one."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} interprets data from tables, graphs and charts, and explains their key features."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} interprets data from tables and column graphs."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} interprets information from tables and column graphs and finds totals in data displays."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} accurately interprets information presented in tables, column graphs and line graphs."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} interprets information from tables and column graphs, and makes comparisons between categories."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} chooses suitable graphs and timelines to display information and organises data clearly."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} reads and interprets information from tables and graphs with growing understanding."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} identifies the largest and smallest values in a data display."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} reads information from tables and explains what is shown in column graphs."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} interprets information from tables and column graphs with growing understanding."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} selects suitable graphs to display data."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} reads basic tables and column graphs with growing understanding."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} chooses appropriate graphs and data displays to represent simple information."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} organises and presents information using appropriate graphs and tables."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} takes part in class activities to collect information from classmates and ask questions about it."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} groups objects by one feature and joins in class activities to make a data display."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} organises data into a picture graph using tally marks and symbols."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} answers questions about data represented in tallies and picture graphs."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} creates column graphs and answers questions related to the information."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} creates surveys and records data using predicted categories."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} chooses a suitable number scale to create data representations and draws graphs using both paper and digital technologies."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} answers questions about side-by-side column graphs that compare two groups."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} answers yes or no questions or chooses from options to help collect data."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} uses pictures to show collected data."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} identifies the type of data collected and chooses a graph to suit it."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} finds the average, middle value and most common value of a set of data."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} draws conclusions from data shown in tables and different graphs."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Providing a yes or no response to questions for the purpose of collecting data."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Responding to a question from a choice of at least two options."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Representing collected data using pictures."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Posing and responding to questions about information collected for a simple graph."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Grouping objects according to characteristics."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Arranging objects according to a feature to create a simple graph."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Interpreting information presented in a simple graph to answer questions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Choosing suitable questions when collecting data for a graph."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using tally marks to record collected data."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Creating data displays using objects or symbols."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Interpreting information presented in picture graphs."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing data using multiple graphs."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Comparing the same data shown in different types of graphs."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Conducting a survey to collect a variety of data."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Collecting different types of data through observations and by conducting surveys."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Recognising which type of graph is most appropriate when representing data."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Comparing different sets of data shown together in a column graph."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Understanding data on a timeline using a scale accurately."
+    }
+  ]
+}

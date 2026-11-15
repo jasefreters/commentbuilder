@@ -1,0 +1,86 @@
+// english|Oral Language and Communication  (sentences 0-38, future directions 39-80)
+// batch 1: items 0-24
+0 presenting
+1 joining-discussions+asking-questions
+2 voice
+3 listening-and-understanding
+4 presenting
+5 suitable-language
+6 joining-discussions
+7 voice
+8 asking-questions
+9 asking-questions+sharing-ideas
+10 joining-discussions+sharing-ideas
+11 joining-discussions+sharing-ideas
+12 suitable-language
+13 voice
+14 joining-discussions+sharing-ideas
+15 asking-questions+listening-and-understanding
+16 joining-discussions+sharing-ideas
+17 listening-and-understanding+joining-discussions
+18 listening-and-understanding+sharing-ideas
+19 sharing-ideas+turn-taking
+20 sharing-ideas
+21 sharing-ideas
+22 joining-discussions
+23 telling-stories
+24 sharing-ideas # unsure: speaking in longer sentences, could be suitable-language
+// batch 2: items 25-49
+25 suitable-language # unsure: correct verb tenses when speaking, no exact skill
+26 joining-discussions+staying-on-topic
+27 asking-questions+listening-and-understanding
+28 presenting
+29 listening-and-understanding
+30 answering-questions
+31 following-instructions
+32 joining-discussions+sharing-ideas
+33 sharing-ideas
+34 starting-conversations
+35 turn-taking
+36 telling-stories
+37 answering-questions
+38 joining-discussions # unsure: develops new ideas with others, could be sharing-ideas
+39 listening-and-understanding
+40 answering-questions
+41 following-instructions
+42 sharing-ideas
+43 sharing-ideas
+44 sharing-ideas
+45 starting-conversations
+46 turn-taking
+47 joining-discussions
+48 telling-stories
+49 answering-questions
+// batch 3: items 50-74
+50 answering-questions
+51 following-instructions
+52 joining-discussions
+53 starting-conversations
+54 turn-taking
+55 asking-questions
+56 telling-stories
+57 staying-on-topic
+58 asking-questions
+59 asking-questions
+60 joining-discussions
+61 joining-discussions # unsure: refining understanding by discussing, could be listening-and-understanding
+62 staying-on-topic
+63 telling-stories # unsure: speaking in a logical sequence, could be sharing-ideas
+64 joining-discussions
+65 telling-stories
+66 asking-questions
+67 listening-and-understanding
+68 listening-and-understanding
+69 joining-discussions
+70 suitable-language
+71 presenting
+72 voice
+73 joining-discussions
+74 suitable-language
+// batch 4: items 75-80
+75 asking-questions
+76 listening-and-understanding
+77 answering-questions
+78 presenting
+79 voice
+80 presenting

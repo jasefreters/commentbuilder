@@ -40,7 +40,7 @@ async function seedClass(page) {
     students.forEach((_, i) => {
       switchStu(i);
       setSubject('general');
-      gcats.forEach((c, j) => { const a = RAW[c]; toggleOpt(c, a[(i * 2 + j) % a.length]); });
+      gcats.forEach((c, j) => { const a = RAW[c].filter(x => typeof PSC_LEVEL === 'undefined' || !PSC_LEVEL[x]); toggleOpt(c, a[(i * 2 + j) % a.length]); });
       ['english', 'maths'].forEach(subj => {
         setSubject(subj);
         const bank = getBank();

@@ -1,0 +1,287 @@
+{
+  "subject": "english",
+  "section": "Spelling & Grammar",
+  "strand": "Spelling",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} automatically uses strategies in a range of contexts to spell unfamiliar words."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} identifies complex letter patterns and sounds when spelling and applies this knowledge to improve spelling accuracy."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} applies correct letter patterns and general rules when spelling words."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} applies spelling generalisations to spell most familiar and less common words correctly."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} applies correct spelling patterns and general rules when writing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} has shown improvement in spelling by identifying letter patterns to support correct spelling."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} applies some spelling patterns and general rules when writing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} selects appropriate tenses to suit different writing tasks."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} spells words with double letters and identifies the meaning of most words by recognising their spelling."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} spells simple words with common endings and uses basic strategies to spell unfamiliar words with some success."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} is learning to apply common spelling patterns in writing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} is beginning to identify nouns and verbs in simple sentences."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} spells common words correctly and sounds out unfamiliar words with care."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} writes {{pos}} first name by putting the letters in the right order."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} writes short sentences using familiar language and is improving {{pos}} use of full stops."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} adds 's' to words to show more than one, such as changing 'cat' to 'cats'."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} writes related sentences to create stories and adds phrases that show time and place."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} breaks words into sounds as a spelling strategy."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} spells high-frequency words correctly in {{pos}} writing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} breaks longer words into chunks as a strategy for spelling."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} spells words with prefixes, such as un- and re-."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} spells words with suffixes, such as -ful and -est."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} recognises common word beginnings such as 'un-' and 're-', and correctly uses them when spelling."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} checks {{pos}} work for spelling mistakes and uses dictionaries to correct them."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} uses commas to separate parts of a sentence and apostrophes for contractions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} varies sentence length to improve {{pos}} writing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} matches the letters in {{pos}} name and puts them in the correct order."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} recognises words that start with the same sound."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} identifies letters in familiar words."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Matching letters in their own name."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Putting the letters of their name in the correct order."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Recognising words that start with the same sound."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying letters in familiar words."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Spelling irregular words (e.g. to, was, come)."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Breaking words into syllables as a spelling strategy (e.g. pic-nic)."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Spelling their own name."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Experimenting with letter patterns to spell common words."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Breaking words into sounds when spelling words."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Spelling words which have double letters accurately."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Spelling high-frequency words accurately."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Selecting the correct spelling rule when writing plurals."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Selecting the correct spelling rule when changing a word between tenses."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Breaking words into syllables as a spelling strategy."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Spelling taught high-frequency contractions accurately."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Spelling words that sound the same but have different meanings."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying and correcting spelling errors."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Breaking words into syllables and letter-sounds when spelling."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Understanding that certain letter patterns change depending on where they are in a word."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Breaking longer words into syllables and sounds when spelling."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Applying uncommon letter patterns to spell words correctly."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using a dictionary or thesaurus to correct misspelled words."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using the correct spelling of words that sound the same but have different meanings."
+    }
+  ]
+}

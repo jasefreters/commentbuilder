@@ -1,0 +1,60 @@
+// maths|Geometric Measure  (sentences 0-33, future directions 34-55)
+// batch 1: items 0-24
+0 perimeter+angles
+1 maps-and-grids
+2 perimeter+angles
+3 converting-units+measuring-length
+4 maps-and-grids
+5 area-volume-circles
+6 maps-and-grids
+7 perimeter
+8 measuring-length+area-volume-circles
+9 angles
+10 measuring-length
+11 maps-and-grids
+12 measuring-length
+13 angles
+14 perimeter+area-volume-circles
+15 measuring-length+comparing-length
+16 none # unsure: making two equal parts by finding the middle, no skill in the list
+17 position-directions
+18 position-directions
+19 comparing-length
+20 measuring-length
+21 position-directions
+22 measuring-length
+23 measuring-length
+24 maps-and-grids+position-directions
+// batch 2: items 25-49
+25 measuring-length
+26 maps-and-grids+position-directions
+27 angles
+28 position-directions
+29 comparing-length
+30 area-volume-circles
+31 area-volume-circles
+32 area-volume-circles
+33 converting-units+area-volume-circles
+34 position-directions
+35 comparing-length
+36 comparing-length
+37 position-directions
+38 position-directions
+39 measuring-length
+40 comparing-length
+41 comparing-length
+42 measuring-length
+43 measuring-length
+44 measuring-length
+45 maps-and-grids
+46 maps-and-grids
+47 measuring-length
+48 angles
+49 angles
+// batch 3: items 50-55
+50 perimeter
+51 measuring-length
+52 perimeter
+53 angles
+54 converting-units
+55 converting-units

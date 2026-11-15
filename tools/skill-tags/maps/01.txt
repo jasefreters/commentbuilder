@@ -1,0 +1,97 @@
+// english|Reading Comprehension  (sentences 0-54, future directions 55-91)
+// batch 1: items 0-24
+0 evidence-and-inference
+1 reading-strategies+finding-information
+2 reading-strategies+language-features
+3 monitoring-meaning
+4 language-features
+5 main-ideas+language-features
+6 main-ideas
+7 main-ideas+evidence-and-inference
+8 connections # unsure: "connects with the ideas in texts" is vague
+9 connections
+10 reading-strategies
+11 main-ideas
+12 reading-strategies+finding-information
+13 language-features+evidence-and-inference
+14 main-ideas+language-features
+15 main-ideas
+16 main-ideas
+17 language-features
+18 none
+19 connections
+20 letters-sounds-words
+21 evidence-and-inference # unsure: understanding a character's perspective, could be connections
+22 letters-sounds-words
+23 letters-sounds-words
+24 letters-sounds-words
+// batch 2: items 25-49
+25 letters-sounds-words
+26 letters-sounds-words
+27 letters-sounds-words
+28 letters-sounds-words
+29 letters-sounds-words
+30 recalling
+31 fluency
+32 finding-information
+33 letters-sounds-words+fluency
+34 letters-sounds-words
+35 connections
+36 monitoring-meaning
+37 monitoring-meaning
+38 connections
+39 finding-information
+40 evidence-and-inference
+41 fluency
+42 monitoring-meaning
+43 finding-information
+44 purpose-and-structure
+45 purpose-and-structure # unsure: compares print and digital texts for a task, could be reading-strategies
+46 none
+47 reading-strategies
+48 opinions
+49 letters-sounds-words
+// batch 3: items 50-74
+50 asking-questions
+51 recalling
+52 recalling
+53 language-features # unsure: a text with more than one meaning
+54 purpose-and-structure
+55 reading-strategies
+56 opinions
+57 letters-sounds-words
+58 asking-questions
+59 recalling
+60 recalling
+61 monitoring-meaning
+62 monitoring-meaning
+63 asking-questions
+64 connections
+65 recalling
+66 recalling
+67 opinions
+68 monitoring-meaning
+69 recalling # unsure: who/what/when/where/why, could be main-ideas
+70 language-features # unsure: structure and purpose of a complex sentence
+71 finding-information
+72 main-ideas
+73 opinions
+74 monitoring-meaning
+// batch 4: items 75-91
+75 monitoring-meaning
+76 connections
+77 monitoring-meaning
+78 recalling
+79 reading-strategies
+80 connections
+81 connections
+82 finding-information
+83 purpose-and-structure
+84 language-features
+85 connections
+86 asking-questions
+87 monitoring-meaning
+88 evidence-and-inference
+89 main-ideas
+90 main-ideas
+91 purpose-and-structure

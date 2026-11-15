@@ -1,0 +1,237 @@
+{
+  "subject": "english",
+  "section": "Handwriting & Digital Transcription",
+  "strand": "Handwriting",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} writes with a legible and fluent handwriting style for extended periods and navigates the keyboard efficiently when typing words, numbers and punctuation."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} types accurately and presents ideas clearly in digital formats."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} writes with a fluent, legible handwriting style and navigates the keyboard efficiently when typing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} presents written work neatly and maintains consistent letter formation."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} writes with a clear and legible handwriting style and types accurately using a keyboard."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} presents written work neatly and communicates ideas clearly when typing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} uses the keyboard efficiently when publishing {{pos}} texts digitally."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} maintains a fluent handwriting style and types efficiently using the keyboard."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} presents written and digital work neatly, demonstrating a consistent and legible handwriting style."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} joins letters when writing familiar words and uses keyboard skills to type efficiently."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} joins letters when writing familiar words and uses technology appropriately when creating texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} forms most letters correctly on the line and uses appropriate spacing between words."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} is learning to form letters correctly and write on the line."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} forms letters correctly and maintains appropriate spacing when writing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} holds {{pos}} pencil comfortably during handwriting tasks and remembers to write letters from left to right."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "During structured handwriting lessons, {{S}} carefully forms letters with the correct shape."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} uses basic word-processing tools to type and edit short texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "During handwriting lessons, {{s}} uses appropriate pencil control to form letters on the line."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} forms letters with consistent size and slope."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} types texts and searches for information online."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} uses word-processing tools to draft and edit {{pos}} writing."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} makes marks and strokes on a page or digital device using writing tools."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Making a mark on a page or digital device."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Using writing tools to form strokes on paper."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Forming letters using playdough."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Tracing letter templates using a finger."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using a stable posture when handwriting or drawing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using a stable and relaxed pencil grasp."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Writing letters of the alphabet with correct formation, including capital letters."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Applying appropriate pressure when handwriting to produce legible writing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Forming letters with consistent size and slope from memory."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Locating punctuation on a keyboard."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using punctuation when typing."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Writing all letters correctly on a line consistently."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using spaces between written words."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Typing up to 5 words per minute on a keyboard."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Joining letters using consistent size and spacing to develop handwriting fluency."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using knowledge of the keyboard layout and functions to type texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using a word-processing program to draft and revise texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Writing with a legible, fluent and personal handwriting style for longer periods of time."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Navigating the keyboard with efficiency and accuracy when typing words, numbers, punctuation and other symbols."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using taught keyboard shortcuts when creating digital texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Adjusting handwriting style to suit writing purpose."
+    }
+  ]
+}
