@@ -1397,7 +1397,7 @@
     </div>
     <div class="progress-wrap">
       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="progress-label" id="progressLabel" onclick="editClassSize()" title="Click to change class size" style="cursor:pointer"><b>0</b> / <span id="classTotal">22</span> done ✎</div>
+      <div class="progress-label" id="progressLabel" ><b>0</b> / <span id="classTotal">22</span> done</div>
     </div>
     <!-- Settings button -->
     <button class="settings-btn" id="settingsBtn" onclick="toggleSettings()" title="Settings" aria-label="Settings">
@@ -1546,15 +1546,19 @@
 
       <section class="sw-pane" data-swpane="ai" role="tabpanel">
         <div class="sw-pane-title">AI features</div>
-        <div class="sw-note">Polish, Check for issues and AI Re-rank work when you are signed in to cloud sync. Each account has a monthly AI allowance, which starts again on the 1st. The two settings below are only for running the AI through your own Anthropic account.</div>
-        <div class="settings-row">
-          <span class="settings-row-label">Your own API key (optional)</span>
-          <button class="settings-action-btn" onclick="promptApiKey(); toggleSettings()">Set key</button>
-        </div>
-        <div class="settings-row">
-          <span class="settings-row-label">Your own Worker URL (optional)</span>
-          <button class="settings-action-btn" onclick="showProxyGuide(); toggleSettings()">Set URL</button>
-        </div>
+        <div class="sw-note">Polish, Check for issues and AI Re-rank work when you are signed in to cloud sync. Each account has a monthly AI allowance, which starts again on the 1st. You do not need to set anything up.</div>
+        <details class="sw-advanced" style="margin-top:14px">
+          <summary style="cursor:pointer;font-weight:600;font-size:14px;color:var(--accent)">Advanced: use your own AI account</summary>
+          <div class="sw-note" style="margin-top:8px">Only needed if you reach the monthly allowance and want to keep going before it starts again, or you want the AI to run through your own Anthropic account. If you use these, the AI costs go to that account instead. If you are not sure, leave them empty.</div>
+          <div class="settings-row">
+            <span class="settings-row-label">Your own API key (optional)</span>
+            <button class="settings-action-btn" onclick="promptApiKey(); toggleSettings()">Set key</button>
+          </div>
+          <div class="settings-row">
+            <span class="settings-row-label">Your own Worker URL (optional)</span>
+            <button class="settings-action-btn" onclick="showProxyGuide(); toggleSettings()">Set URL</button>
+          </div>
+        </details>
       </section>
 
     </div>
@@ -6360,27 +6364,34 @@ function _hsLegacy(s) { return _hash(_canon(_normStudent(s, 0))); }   // the fin
 // Fingerprint of one student (defaults filled in, key order ignored).
 // v3.17.21: looking at a comment in Review is not a change. Review keeps a copy of what it showed (pubEdit...) and a note of the
 // paragraph rules; neither goes into the fingerprint, unless the Review copy says something the comment itself does not.
-function _hs(s) {
+function _hsV2(s) {
   const c = Object.assign({}, _normStudent(s, 0));
   delete c.paraRulesSig; delete c.confettiShown;
   [['pubEditGeneral', 'general'], ['pubEditEnglish', 'english'], ['pubEditMaths', 'maths']].forEach(([k, subj]) => {
     let plain = !c[k];
-    if (!plain) { try { plain = getFinalCommentText(c, subj) === getBuiltCommentText(c, subj); } catch (e) { plain = false; } }
+    if (!plain) { try { plain = commentText(c, subj) === getBuiltCommentText(c, subj); } catch (e) { plain = false; } }
     if (plain) { delete c[k]; delete c[k + '_fdHash']; delete c[k + '_subject']; }
   });
   return _hash(_canon(c));
+}
+// v3.17.23 (v3 fingerprint): a comment is fingerprinted in its UPGRADED form, so the same words stored the old way on one device and the
+// new way on another are the same version, not a conflict.
+function _hs(s) {
+  let c;
+  try { c = _normStudent(_cmtClone(s), 0); _upgradeStudent(c); } catch (e) { c = s; }
+  return _hsV2(c);
 }
 function _newUid() { return 'u' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-3); }
 function _ensureUids() { const seen = new Set(); students.forEach(s => { if (!s.uid || seen.has(s.uid)) s.uid = _newUid(); seen.add(s.uid); }); }   // v3.17.5: two students never share an id
 function _snapshot(sess) {
   const st = {};
   (sess.students || []).forEach(s => { if (s.uid) st[s.uid] = _hs(s); });
-  return { v: 2, at: sess.savedAt || null, st, sm: _hash(_canon(sess.styleMemory || null)), mb: _hash(_canon(sess.myBank || {})), ts: sess.totalStudents || 0 };
+  return { v: 3, at: sess.savedAt || null, st, sm: _hash(_canon(sess.styleMemory || null)), mb: _hash(_canon(sess.myBank || {})), ts: sess.totalStudents || 0 };
 }
 function _setSyncBase(b) { _syncBase = b; lsSet('rcb_syncbase', b); }
 // Three-way merge of the students and the shared lists. base = fingerprints, local/cloud = { students, styleMemory, myBank, totalStudents }
 function _mergeSessions(base, local, cloud) {
-  const _hs = (base && base.v === 2) ? window._hs : _hsLegacy;   // a base saved by an older version is compared the old way, once
+  const _hs = (base && base.v === 3) ? window._hs : (base && base.v === 2) ? window._hsV2 : _hsLegacy;   // a base saved by an older version is compared the old way, once
   const conflicts = []; let changedLive = false, localChanged = false;
   const cMap = new Map(cloud.students.map(s => [s.uid, s])), lMap = new Map(local.students.map(s => [s.uid, s]));
   const out = [];
@@ -6438,13 +6449,14 @@ function _mergeIntoLive(cs) {
   saveCur(); _ensureUids();
   const curUid = students[currentIdx] && students[currentIdx].uid;
   const cloud = { students: (cs.students || []).map((s, i) => _normStudent(s, i)), styleMemory: normaliseStyleMemory(cs.styleMemory), myBank: normaliseMyBank(cs.myBank), totalStudents: cs.totalStudents || 0 };
-  const local = { students, styleMemory, myBank, totalStudents };
+  const local = { students, styleMemory, myBank, totalStudents: students.length };
   const r = _mergeSessions(_syncBase, local, cloud);
   if (r.changedLive || r.conflicts.length) {
     if (r.conflicts.length) { r.conflicts.forEach(c => { c.otherAt = cs.savedAt || null; c.otherDevice = cs.device || ''; }); _stashConflictCopies(r.conflicts); }
     const wasName = curUid ? (students.find(s => s.uid === curUid) || {}).name : '';
     students = r.students.length ? r.students : students;
-    styleMemory = r.styleMemory; myBank = r.myBank; totalStudents = r.totalStudents;
+    styleMemory = r.styleMemory; myBank = r.myBank; totalStudents = students.length;
+    _upgradeAll('sync');   // v3.17.23
     if (cs.settings) applySettingsBlob(cs.settings);
     const at = students.findIndex(s => s.uid === curUid);
     currentIdx = at >= 0 ? at : Math.min(currentIdx, students.length - 1);
@@ -6600,7 +6612,7 @@ function useOtherVersion(uid) {
   const c = _conflicts.find(x => x.uid === uid); if (!c) return;
   saveCur();
   const i = students.findIndex(s => s.uid === uid);
-  if (i >= 0) { students[i] = _normStudent(c.cloud, i); if (i === currentIdx) loadCur(); render(); updateProgress(); autoSave(); }
+  if (i >= 0) { students[i] = _normStudent(c.cloud, i); try { _upgradeStudent(students[i]); } catch (e) {} if (i === currentIdx) loadCur(); render(); updateProgress(); autoSave(); }
   _conflicts = _conflicts.filter(x => x.uid !== uid); showConflictBanner();
 }
 // Look at the cloud copy now; fold in anything another device saved. Safe to call often.
@@ -6822,16 +6834,11 @@ function doneDraft() {
   if (!_paneIsMine()) { render(); return; }   // v3.17.5
   const el = document.getElementById('outEditable');
   const editedText = _paneText(el).trim();
-  if (editedText) {
-    if (!cur().custom) cur().custom = {};
-    cur().custom['__edited__'] = [editedText];
-    cur().editedCat = currentTab;
-    // Snapshot which sentences were selected at the time of Done
-    cur().orderedAtDone = cur().ordered.slice();
-    // New sentences selected after Done go into this separate list
-    cur().orderedAfterEdit = [];
+  if (editedText) {   // v3.17.23: one store: Done keeps the words in draftOverride (the old separate "Done" text is no longer written)
+    cur().draftOverride = editedText;
+    _clearDoneText(cur());
+    cur().pubEditGeneral = null; cur().pubEditGeneral_fdHash = null; cur().pubEditGeneral_subject = null;
   }
-  cur().draftOverride = null;
   el.blur();
   render();
   autoSave();
@@ -6923,7 +6930,7 @@ function renderClassRail() {
       `<span class="rail-name${named ? '' : ' unnamed'}">${escHtml(stuLabelY(stu, i))}${(stu.notes || '').trim() ? ' <span class="rail-note" title="Has a private note"></span>' : ''}</span>` +
       `<span class="rail-dots">${dots}</span></button>`;
   }).join('');
-  const toAdd = totalStudents - students.length;
+  const toAdd = 0;   // v3.17.25: the class size is the number of students entered, so there is nothing left to add
   el.innerHTML =
     `<div class="rail-head"><div class="rail-title">Class · ${students.length} student${students.length === 1 ? '' : 's'}</div>` +
     `<button class="rail-add" onclick="addStuFromRail()">+ Add</button></div>` +
@@ -6952,7 +6959,7 @@ function paintStudentChrome() {
   document.body.toggleAttribute('data-noname', !(stu.name || '').trim());
   document.body.dataset.subject = currentSubject;
   const pos = document.getElementById('stuPos');
-  if (pos) pos.textContent = `Student ${currentIdx + 1} of ${Math.max(totalStudents, students.length)}`;   // v3.17.10: of the whole class
+  if (pos) pos.textContent = `Student ${currentIdx + 1} of ${students.length}`;   // v3.17.10: of the whole class
   const prev = document.getElementById('stuPrevBtn'), next = document.getElementById('stuNextBtn');
   if (prev) prev.disabled = currentIdx === 0;
   if (next) next.disabled = currentIdx >= students.length - 1;
@@ -7458,6 +7465,121 @@ function paneTextFromEl(el) {
   }
   return el.innerText.trim() || null;
 }
+// THE one reader of a comment (storage step 2, v3.17.22): what the teacher sees in Review, copies, exports and counts.
+// Everything that needs "the comment" calls this. The built-only readers below (getBuiltCommentText and friends) are for building it.
+function commentText(stu, subj) { return getFinalCommentText(stu, subj); }
+
+// ── v3.17.23 · ONE store for a comment (storage step 2, PR C) ────────────────────────────────────────────────
+// Before: a finished comment could live in up to four places (the typed text, the "Done" text, the Review copy, the ticked sentences)
+// and which one showed depended on the order things happened. Now the words live in ONE place: draftOverride (General) or
+// engDraft / mathDraft (English, Maths). The Review copy is only ever a cache of it.
+// Old comments are upgraded on load: keep exactly what shows today, write it to the one place, and check that the new reading gives
+// the same words. If it does not, the old fields are left exactly as they were.
+const _CMT_SUBJ = [['general', 'pubEditGeneral'], ['english', 'pubEditEnglish'], ['maths', 'pubEditMaths']];
+function _cmtClone(o) { return JSON.parse(JSON.stringify(o)); }
+function _clearReviewCopy(stu, k) { stu[k] = null; stu[k + '_fdHash'] = null; stu[k + '_subject'] = null; }
+function _clearDoneText(stu) {
+  stu.editedCat = null; stu.orderedAfterEdit = []; stu.orderedAtDone = [];
+  if (stu.custom) delete stu.custom['__edited__'];
+}
+function _hasDoneText(stu) { return !!(stu.custom && stu.custom['__edited__'] && stu.custom['__edited__'][0]); }
+const _UPG_FIELDS = {
+  general: ['draftOverride', 'editedCat', 'orderedAfterEdit', 'orderedAtDone', 'custom', 'pubEditGeneral', 'pubEditGeneral_fdHash', 'pubEditGeneral_subject'],
+  english: ['engDraft', 'engDraftEdited', 'pubEditEnglish', 'pubEditEnglish_fdHash', 'pubEditEnglish_subject'],
+  maths: ['mathDraft', 'mathDraftEdited', 'pubEditMaths', 'pubEditMaths_fdHash', 'pubEditMaths_subject']
+};
+// Upgrades ONE subject's comment on the live fields of `stu`. Returns { changed, kept, lost } where `lost` is true when an older copy with
+// different words was set aside (it goes to History as "Before upgrade").
+function _upgradeSubject(stu, subj) {
+  const k = { general: 'pubEditGeneral', english: 'pubEditEnglish', maths: 'pubEditMaths' }[subj];
+  const hasCache = !!stu[k], hasDone = subj === 'general' && (_hasDoneText(stu) || !!stu.editedCat);
+  if (!hasCache && !hasDone) return { changed: false };
+  let legacy;
+  try { legacy = commentText(stu, subj); } catch (e) { return { changed: false, kept: true }; }
+  if (!legacy || !legacy.trim()) return { changed: false };
+  let lost = false;
+  try { lost = getBuiltCommentText(stu, subj) !== legacy; } catch (e) { lost = true; }
+  // case 1: the Review copy is just a copy of what the other fields already say: drop the copy only
+  if (hasCache && !hasDone) {
+    const c1 = _cmtClone(stu); _clearReviewCopy(c1, k);
+    let same = false; try { same = commentText(c1, subj) === legacy; } catch (e) {}
+    if (same) { _clearReviewCopy(stu, k); return { changed: true, lost: false }; }
+  }
+  // case 2: write what shows now into the one store, clear the others, and check the new reading gives the same words
+  const c2 = _cmtClone(stu);
+  if (subj === 'general') { c2.draftOverride = legacy; _clearDoneText(c2); }
+  else if (subj === 'english') { c2.engDraft = legacy; c2.engDraftEdited = true; }
+  else { c2.mathDraft = legacy; c2.mathDraftEdited = true; }
+  _clearReviewCopy(c2, k);
+  let ok = false; try { ok = commentText(c2, subj) === legacy; } catch (e) {}
+  if (!ok) return { changed: false, kept: true };
+  _UPG_FIELDS[subj].forEach(f => { stu[f] = c2[f] === undefined ? stu[f] : c2[f]; });
+  return { changed: true, lost };
+}
+function _upgradeLive(stu) {
+  const r = { changed: false, lost: false, kept: false };
+  ['general', 'english', 'maths'].forEach(subj => { const x = _upgradeSubject(stu, subj); if (x.changed) r.changed = true; if (x.lost) r.lost = true; if (x.kept) r.kept = true; });
+  return r;
+}
+// Both semesters: the live fields hold the current semester; the other semester's copy is loaded into a spare student, upgraded, and put back.
+function _upgradeStudent(stu) {
+  const before = _cmtClone(stu);
+  const r = { changed: false, lost: false, kept: false };
+  const other = currentSemester === 1 ? 2 : 1;
+  // The OTHER semester goes first: the old Done text (custom.__edited__) was never kept per semester, so the other semester still
+  // reads it while it is there. Upgrading it first keeps that semester showing exactly what it shows today.
+  try {
+    const hasOther = SEM_FIELDS.some(f => { const v = stu[other === 1 ? f[1] : f[2]]; return v !== undefined && v !== null && (f[0] === 'pubEditGeneral' || f[0] === 'pubEditEnglish' || f[0] === 'pubEditMaths' || f[0] === 'editedCat') && v; });
+    if (hasOther) {
+      const o = _cmtClone(stu); semLoad(o, other);
+      const ro = _upgradeLive(o);
+      if (ro.changed) {
+        semStash(o, other);
+        SEM_FIELDS.forEach(f => { const key = other === 1 ? f[1] : f[2]; stu[key] = _semClone(o[key]); });
+        r.changed = true; if (ro.lost) r.lost = true;
+        // the other semester's custom lives inside the stash only through SEM_FIELDS; "custom" itself is not stashed, so leave it alone
+      }
+      if (ro.kept) r.kept = true;
+    }
+  } catch (e) {}
+  const rl = _upgradeLive(stu);
+  if (rl.changed) r.changed = true; if (rl.lost) r.lost = true; if (rl.kept) r.kept = true;
+  r.before = before;
+  return r;
+}
+var _pendingUpgradeHist = [];
+function _flushUpgradeHist() {
+  if (!_pendingUpgradeHist.length) return;
+  const go = () => {
+    _pendingUpgradeHist.splice(0).forEach(h => {
+      const list = _hist[h.uid] || (_hist[h.uid] = []);
+      list.push({ at: Date.now(), why: 'Before upgrade', sig: h.sig, texts: h.texts, data: h.data, sem: currentSemester });
+      while (list.length > HIST_MAX) list.shift();
+    });
+    _histPersist();
+  };
+  try { if (typeof _histReady !== 'undefined' && _histReady && _histReady.then) _histReady.then(go, go); else go(); } catch (e) { go(); }
+}
+// Upgrade every student after a load. A whole-class safety copy is kept once, before the first change.
+function _upgradeAll(why) {
+  let any = false, safety = null;
+  try {
+    students.forEach(stu => {
+      if (!stu) return;
+      const r = _upgradeStudent(stu);
+      if (!r.changed) return;
+      if (!safety && !lsGet('rcb_pre_upgrade_v3', null)) { safety = true; lsSet('rcb_pre_upgrade_v3', { at: Date.now(), why: why || 'load', students: students.map((x, i) => x === stu ? r.before : x) }); }
+      any = true;
+      if (r.lost) {
+        if (!stu.uid) _ensureUids();
+        let texts = null; try { texts = _histTexts(r.before); } catch (e) {}
+        _pendingUpgradeHist.push({ uid: stu.uid, sig: texts ? texts.general + '\u0001' + texts.english + '\u0001' + texts.maths : '', texts: texts || { general: '', english: '', maths: '' }, data: r.before });
+      }
+    });
+  } catch (e) { console.warn('comment upgrade failed', e); }
+  if (any) _flushUpgradeHist();
+  return any;
+}
 function getFinalCommentText(stu, subj) {
   const s = subj || 'general';
   const key = s === 'english' ? 'pubEditEnglish' : s === 'maths' ? 'pubEditMaths' : 'pubEditGeneral';
@@ -7475,7 +7597,7 @@ function copyComment() {
   saveCur();
   flushDraftPane();
   learnFromCurrent();
-  const text = getFinalCommentText(cur(), currentSubject);
+  const text = commentText(cur(), currentSubject);
   if (!text) { showToast('Nothing to copy yet.'); return; }
   navigator.clipboard.writeText(text).then(() => showToast('Comment copied'), () => showToast('Could not copy. Try again.'));
 }
@@ -7486,7 +7608,7 @@ function reviewAndPolish() { setView('publish'); runPolish(); }
 function countWords(t) { return (t || '').trim().split(/\s+/).filter(Boolean).length; }
 function boardWords(stu) {
   let n = 0;
-  ['general', 'english', 'maths'].forEach(s => { if (subjState(stu, s) !== 'none') n += countWords(getFinalCommentText(stu, s)); });
+  ['general', 'english', 'maths'].forEach(s => { if (subjState(stu, s) !== 'none') n += countWords(commentText(stu, s)); });
   return n;
 }
 function setBoardFilter(f) { _boardFilter = f; renderBoard(); }
@@ -7503,7 +7625,7 @@ function copyAllFinished() {
     const parts = [];
     [['general', 'General'], ['english', 'English'], ['maths', 'Maths']].forEach(([s, label]) => {
       if (subjState(stu, s) !== 'done') return;
-      const t = getFinalCommentText(stu, s);
+      const t = commentText(stu, s);
       if (t) parts.push((s === 'general' ? '' : label + '\n') + t);
     });
     if (parts.length) out.push(stuLabel(stu, i) + '\n' + parts.join('\n\n'));
@@ -7512,7 +7634,7 @@ function copyAllFinished() {
   navigator.clipboard.writeText(out.join('\n\n────────────────\n\n')).then(() => showToast(`Copied ${out.length} student${out.length === 1 ? '' : 's'}`), () => showToast('Could not copy. Try again.'));
 }
 function renderBoard() {
-  const N = Math.max(totalStudents, students.length);
+  const N = students.length;
   const subjects = [['general', 'General'], ['english', 'English'], ['maths', 'Maths']];
   const counts = {};
   subjects.forEach(([s]) => { counts[s] = { done: 0, draft: 0 }; students.forEach(stu => { const st = subjState(stu, s); if (st !== 'none') counts[s][st]++; }); });
@@ -7809,7 +7931,7 @@ function renderPublish() {
   // prevents any async/event timing from changing it mid-render
   const renderSubject = currentSubject;
   const subjLabel = renderSubject === 'english' ? ' — English' : renderSubject === 'maths' ? ' — Mathematics' : '';
-  { const _N = Math.max(totalStudents, students.length);   // v3.17.10: place in the class, so you can see how many are left
+  { const _N = students.length;   // v3.17.10: place in the class, so you can see how many are left
     document.getElementById('pubName').textContent = `${stu.name || '[Name]'} (${currentIdx + 1} of ${_N}) — Semester ${currentSemester} 2026${subjLabel}`; }
   document.getElementById('checkStatus').innerHTML = '';
   document.getElementById('flagLegend').style.display = 'none';
@@ -8201,7 +8323,7 @@ function acceptPolish() {
 
 async function runCheck() {
   // Use subject-appropriate text for English/Maths
-  const text = (currentSubject !== 'general') ? getSubjectPublishText(cur()) : getPublishedText(cur());
+  const text = commentText(cur(), currentSubject);   // the comment as Review shows it, not the built-only text
   if (!text.trim()) { showToast('Nothing to check.'); return; }
 
   const btn = document.getElementById('checkBtn');
@@ -9702,21 +9824,22 @@ function copyPublished() {
     return;
   }
   // Fallback: pane not rendered — rebuild from stored data
-  const text = currentSubject !== 'general'
-    ? getSubjectPublishText(cur())
-    : getPublishedText(cur());
+  const text = commentText(cur(), currentSubject);
   if (!text) { showToast('Nothing to copy.'); return; }
   navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
 }
 
-function exportAll() {
-  saveCur();
-  const out = students.map((stu, i) => {
+function _exportAllText() {
+  return students.map((stu, i) => {
     const name = stu.name || `Student ${i+1}`;
-    const text = getPublishedText(stu) || stu.ordered.map(s => applyRaw(resolveKey(s, stu), name, PR[stu.pronoun])).join(' ') || '(No comment)';
+    const text = commentText(stu, 'general') || stu.ordered.map(s => applyRaw(resolveKey(s, stu), name, PR[stu.pronoun])).join(' ') || '(No comment)';
     return `${name}\n${'─'.repeat(50)}\n${text}`;
   }).join('\n\n');
-  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([out], {type:'text/plain'})), download: 'report-comments-s1-2026.txt' });
+}
+function exportAll() {
+  saveCur();
+  const out = _exportAllText();
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([out], {type:'text/plain'})), download: `report-comments-s${currentSemester}-2026.txt` });
   a.click();
   showToast('Exported!');
 }
@@ -10501,7 +10624,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.21';
+const APP_VERSION = 'v3.17.25';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10554,12 +10677,12 @@ function applySettingsBlob(b) {
 }
 function buildSession() {
   _ensureUids();
-  return { students, currentIdx, totalStudents, semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob(), savedAt: new Date().toISOString(), device: _deviceLabel() };   // v3.17.17: the device name goes with the save, so the other device can say who changed what
+  return { students, currentIdx, totalStudents: students.length, semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob(), savedAt: new Date().toISOString(), device: _deviceLabel() };   // v3.17.17: the device name goes with the save, so the other device can say who changed what
 }
 // The backup file: everything in the session plus streak and badges, and the app version that wrote it.
 function buildBackup() {
   saveCur();
-  return { version: 1, appVersion: APP_VERSION, exportedAt: new Date().toISOString(), totalStudents, students, streak: getStreakData(), badges: getEarnedBadges(),
+  return { version: 1, appVersion: APP_VERSION, exportedAt: new Date().toISOString(), totalStudents: students.length, students, streak: getStreakData(), badges: getEarnedBadges(),
            semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob() };
 }
 function autoSave() {
@@ -10679,10 +10802,11 @@ function _applyPersistedState(saved) {
     students = saved.students.map((s, i) => _normStudent(s, i));
     currentIdx = Math.min(saved.currentIdx || 0, students.length - 1);
   }
-  if (saved && saved.totalStudents) totalStudents = saved.totalStudents;
+  totalStudents = students.length;   // v3.17.25: the class size is counted from the students entered, not typed in
   if (saved && saved.styleMemory) { styleMemory = normaliseStyleMemory(saved.styleMemory); _sugIndex = null; }   // v3.7.0
   if (saved && saved.myBank) myBank = normaliseMyBank(saved.myBank);   // v3.8.0
   if (saved && saved.settings) applySettingsBlob(saved.settings);   // v3.9.0
+  _upgradeAll('load');   // v3.17.23
 }
 
 // ── STREAK ────────────────────────────────────────────────────────
@@ -10956,7 +11080,7 @@ function jargonElsewhere(word) {
   const out = [], re = _jargonRe(word);
   students.forEach((stu, i) => ['general', 'english', 'maths'].forEach(subj => {
     if (i === currentIdx && subj === currentSubject) return;
-    let t = ''; try { t = getFinalCommentText(stu, subj) || ''; } catch (e) {}
+    let t = ''; try { t = commentText(stu, subj) || ''; } catch (e) {}
     re.lastIndex = 0; if (re.test(t)) out.push({ i, subj });
   }));
   return out;
@@ -11069,12 +11193,13 @@ function applyJargonEverywhere() {
 // restoring, or a change made to many students at once. Up to 40 per student.
 const HIST_MAX = 40, HIST_GAP = 3 * 60 * 1000;
 var _hist = {}, _histChecked = {};
-try { idbGet('rcb_history').then(h => { if (h && typeof h === 'object') _hist = Object.assign(h, _hist); }).catch(() => {}); } catch (e) {}
+var _histReady = null;
+try { _histReady = idbGet('rcb_history').then(h => { if (h && typeof h === 'object') _hist = Object.assign(h, _hist); }).catch(() => {}); } catch (e) {}
 let _histSaveT = null;
 function _histPersist() { clearTimeout(_histSaveT); _histSaveT = setTimeout(() => { try { idbSet('rcb_history', _hist); } catch (e) {} }, 1500); }
 function _histTexts(stu) {
   const o = {};
-  ['general', 'english', 'maths'].forEach(s => { try { o[s] = (getFinalCommentText(stu, s) || '').trim(); } catch (e) { o[s] = ''; } });
+  ['general', 'english', 'maths'].forEach(s => { try { o[s] = (commentText(stu, s) || '').trim(); } catch (e) { o[s] = ''; } });
   return o;
 }
 function snapshotStudent(stu, why, force) {
@@ -11244,6 +11369,21 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.25', date: '15 November 2026', items: [
+    'The class size is now counted from the students you have entered. You no longer type it in, and the progress bar can no longer show more students done than the class has (for example 23 / 22). Add or remove a student and the total follows.'
+  ] },
+  { v: 'v3.17.24', date: '15 November 2026', items: [
+    'Settings, AI features: the two optional settings (your own API key and your own Worker URL) are now under \u201cAdvanced: use your own AI account\u201d, with a note on when you would need them. Most people never do.'
+  ] },
+  { v: 'v3.17.23', date: '15 November 2026', items: [
+    'A comment\u2019s words are now kept in one place. Before, a finished comment could be stored up to four ways (typed text, the Done text, the Review copy, the ticked sentences), and a change made in Review after typing in Build could be lost or flip back later. Review changes and Done now write to the same place the Build box uses.',
+    'Your existing comments are upgraded the first time you open this version. Each one keeps exactly the words it shows today. If an older copy had different words, it is kept in History as \u201cBefore upgrade\u201d, and a copy of the whole class is kept on this device.',
+    'After you finish a comment or edit it in Review, ticking a new sentence now adds it into the text, in its usual place, instead of tacking it on the end.'
+  ] },
+  { v: 'v3.17.22', date: '15 November 2026', items: [
+    'Export all (.txt), the class stats and word counts, Check for issues and the Copy fallback now use the same comment text that Review and Copy show. Before, they could show older words after a change made in Review.',
+    'The Export all (.txt) file is now named for the semester you are in (report-comments-s2-2026.txt in Semester 2), like the Word and CSV exports. It was always named s1.'
+  ] },
   { v: 'v3.17.21', date: '15 November 2026', items: [
     'Fixed a way a comment changed on one device could be replaced by an older copy from another. Opening a comment in Review on the second device counted as changing it, so that device\u2019s older copy could win. Looking at a comment no longer counts as a change.'
   ] },
@@ -11705,10 +11845,7 @@ function launchFireworks() {
 
 function getTotalWordsWritten() {
   return students.reduce((acc, stu) => {
-    const genText = getPublishedText(stu) || '';
-    const engText = stu.engDraft || (stu.engOrdered||[]).join(' ');
-    const mathText = stu.mathDraft || (stu.mathOrdered||[]).join(' ');
-    return acc + [genText, engText, mathText].join(' ').trim().split(/\s+/).filter(Boolean).length;
+    return acc + ['general', 'english', 'maths'].map(k => commentText(stu, k) || '').join(' ').trim().split(/\s+/).filter(Boolean).length;
   }, 0);
 }
 
@@ -11734,14 +11871,14 @@ function renderStats() {
   const mathDone = students.filter(s => s.mathPublished).length;
   const totalWords = getTotalWordsWritten();
   const genWords = students.filter(s => s.published).reduce((acc, stu) => {
-    const text = getPublishedText(stu) || '';
+    const text = commentText(stu, 'general') || '';
     return acc + text.trim().split(/\s+/).filter(Boolean).length;
   }, 0);
   const avgWords = done > 0 ? Math.round(genWords / done) : 0;
-  const remaining = Math.max(0, totalStudents - done);
+  const remaining = Math.max(0, students.length - done);
   const streak = getStreakData().count;
   const earned = getEarnedBadges();
-  const completion = totalStudents > 0 ? Math.round((done / totalStudents) * 100) : 0;
+  const completion = students.length > 0 ? Math.round((done / students.length) * 100) : 0;
 
   const grid = document.getElementById('statsGrid');
   if (grid) grid.innerHTML = `
@@ -11753,12 +11890,12 @@ function renderStats() {
     <div class="stat-card">
       <div class="stat-card-val" style="color:var(--subj-english-ink)">${engDone}</div>
       <div class="stat-card-label">English Done</div>
-      <div class="stat-card-sub">of ${totalStudents} students</div>
+      <div class="stat-card-sub">of ${students.length} students</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-val" style="color:var(--subj-maths-ink)">${mathDone}</div>
       <div class="stat-card-label">Maths Done</div>
-      <div class="stat-card-sub">of ${totalStudents} students</div>
+      <div class="stat-card-sub">of ${students.length} students</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-val amber">${streak}</div>
@@ -11837,49 +11974,35 @@ function updateProgress() {
 
   if (currentSubject === 'english') {
     const done = students.filter(s => s.engPublished).length;
-    const pct = Math.min(100, (done / totalStudents) * 100);
+    const pct = Math.min(100, (done / students.length) * 100);
     fill.style.width = pct + '%';
-    fill.className = 'progress-fill english' + (done >= totalStudents ? ' done' : '');
-    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${totalStudents}</span> English ✎`;
-    label.className = done >= totalStudents ? 'progress-label done' : 'progress-label';
-    checkBadges(students.filter(s => s.published).length, totalStudents, getStreakData().count);
+    fill.className = 'progress-fill english' + (done >= students.length ? ' done' : '');
+    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${students.length}</span> English`;
+    label.className = done >= students.length ? 'progress-label done' : 'progress-label';
+    checkBadges(students.filter(s => s.published).length, students.length, getStreakData().count);
     return;
   }
   if (currentSubject === 'maths') {
     const done = students.filter(s => s.mathPublished).length;
-    const pct = Math.min(100, (done / totalStudents) * 100);
+    const pct = Math.min(100, (done / students.length) * 100);
     fill.style.width = pct + '%';
-    fill.className = 'progress-fill maths' + (done >= totalStudents ? ' done' : '');
-    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${totalStudents}</span> Maths ✎`;
-    label.className = done >= totalStudents ? 'progress-label done' : 'progress-label';
-    checkBadges(students.filter(s => s.published).length, totalStudents, getStreakData().count);
+    fill.className = 'progress-fill maths' + (done >= students.length ? ' done' : '');
+    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${students.length}</span> Maths`;
+    label.className = done >= students.length ? 'progress-label done' : 'progress-label';
+    checkBadges(students.filter(s => s.published).length, students.length, getStreakData().count);
     return;
   }
 
   // General
   const done = students.filter(s => s.published).length;
-  const pct = Math.min(100, (done / totalStudents) * 100);
+  const pct = Math.min(100, (done / students.length) * 100);
   fill.style.width = pct + '%';
-  fill.className = 'progress-fill' + (done >= totalStudents ? ' done' : '');
-  label.innerHTML = `<b>${done}</b> / <span id="classTotal">${totalStudents}</span> done ✎`;
-  label.className = done >= totalStudents ? 'progress-label done' : 'progress-label';
+  fill.className = 'progress-fill' + (done >= students.length ? ' done' : '');
+  label.innerHTML = `<b>${done}</b> / <span id="classTotal">${students.length}</span> done`;
+  label.className = done >= students.length ? 'progress-label done' : 'progress-label';
   const streak = getStreakData().count;
-  checkBadges(done, totalStudents, streak);
-  if (done >= totalStudents && !lsGet('rcb_finale_played', false)) { lsSet('rcb_finale_played', true); launchFinaleConfetti(); }
-}
-
-function editClassSize() {
-  const val = prompt('How many students in your class?', totalStudents);
-  if (val === null) return;
-  const n = parseInt(val);
-  if (!isNaN(n) && n > 0 && n <= 60) {
-    totalStudents = n;
-    autoSave();
-    lsSet('rcb_finale_played', false); // reset so chime plays again for new class
-    updateProgress();
-  } else {
-    showToast('Please enter a number between 1 and 60.');
-  }
+  checkBadges(done, students.length, streak);
+  if (done >= students.length && !lsGet('rcb_finale_played', false)) { lsSet('rcb_finale_played', true); launchFinaleConfetti(); }
 }
 
 // ── CONFETTI ──────────────────────────────────────────────────────
@@ -12544,11 +12667,8 @@ function syncPublishToDraft() {
   const fullText = body.map(p => p.textContent.trim()).filter(Boolean).join('\n\n');
   if (!fullText) return;
   // Store as the edited draft so the draft pane reflects it
-  if (!stu.custom) stu.custom = {};
-  stu.custom['__edited__'] = [fullText];
-  stu.editedCat = stu.editedCat || CATS[0]; // keep existing or default
-  stu.orderedAtDone = (stu.orderedAtDone || []).length ? stu.orderedAtDone : (stu.ordered || []).slice();
-  stu.orderedAfterEdit = [];
+  stu.draftOverride = fullText;   // v3.17.23: one store. The words live in draftOverride; the old "Done" text is no longer written.
+  _clearDoneText(stu);
   // Update the draft pane immediately
   const el = document.getElementById('outEditable');
   if (el) {
@@ -12949,7 +13069,7 @@ function learnFromCurrent(quiet) {
     const subj = currentSubject;
     if (currentView === 'publish' && !_draftDirty) savePublishEdits();
     const built = getBuiltCommentText(stu, subj);
-    const fin = getFinalCommentText(stu, subj);
+    const fin = commentText(stu, subj);
     if (!built || !fin || built === fin) return 0;
     let added = 0;
     diffSwaps(built, fin, _ignoreWordsFor(stu)).forEach(sw => { if (recordStyleSwap(sw.from, sw.to, stu, subj)) added++; });
@@ -13636,7 +13756,7 @@ function toneReport(stu) {
   // v3.17.7: no amber warning when one subject reads more positive than another. The "Tone across subjects" line in Review still shows each subject's tone.
   present.forEach(s => {
     let text = '';
-    try { text = getFinalCommentText(stu, s) || ''; } catch (e) {}
+    try { text = commentText(stu, s) || ''; } catch (e) {}
     const w = wordingBand(text), sb = out.bands[s];
     if (w && sb && Math.abs(TONE_RANK[w] - TONE_RANK[sb]) >= 2) {
       out.issues.push({ kind: 'wording', text: w === 'strong'
@@ -14042,7 +14162,7 @@ function exportRows(includeDrafts) {
     let any = false;
     ['general', 'english', 'maths'].forEach(s => {
       const st = subjState(stu, s);
-      if (st === 'done' || (includeDrafts && st === 'draft')) { const t = (getFinalCommentText(stu, s) || '').trim(); if (t) { row[s] = t; any = true; } }
+      if (st === 'done' || (includeDrafts && st === 'draft')) { const t = (commentText(stu, s) || '').trim(); if (t) { row[s] = t; any = true; } }
     });
     if (any) rows.push(row);
   });

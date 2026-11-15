@@ -9,6 +9,13 @@ The main rule they protect: **a change to one comment changes that comment and n
 - `02-overwrite` makes one change at a time (in Review, in Build, a future direction, Done, a semester switch,
   closing and reopening) and then looks at all 18 comments to confirm only the expected one changed.
 - `03-sync-history` runs two pretend devices on one account, and History restore.
+- `05-old-data` builds twelve made-up students stored the ways older versions stored a comment (typed text, Done text,
+  Review copies, disagreeing copies, English and Maths typed over, two semesters, glued text, paragraph layout), then checks
+  every finished comment reads the same after loading, saving, looking in Review and switching semester. The finished text
+  is also kept in `golden/old-shapes-finals.json`; if a change to the wording logic is meant, rebuild it with `UPDATE_GOLDEN=1 npm test`.
+  Three tests there are marked as known problems; they are the bugs the "one source of truth" work fixes.
+  Your own class can be checked on your own computer only (nothing from it is saved in the repo):
+  `RCB_REAL_BACKUP=backup.json RCB_REAL_BEFORE=before.json npm test`, where `before.json` is the finished text recorded from the old version.
 
 Run them with `npm install`, `npx playwright install chromium`, then `npm test`.
 They also run on GitHub for every pull request.
