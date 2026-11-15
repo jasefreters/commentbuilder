@@ -650,6 +650,27 @@
   .settings-action-btn.green:hover { border-color: var(--green); }
   .syl-tag { display:inline-block; margin-left:8px; padding:0 6px; font-size:10px; line-height:16px; border-radius:999px; border:1px solid var(--border); color:var(--t2); background:var(--bg-3); vertical-align:middle; white-space:nowrap; }
   .yr-fallback { font-size:11px; color:var(--t2); padding:2px 12px 6px; font-style:italic; }
+  .quick-switch { font-family: var(--font); font-size: 12px; padding: 3px 10px; border: 1px solid var(--border-h); border-radius: 999px; background: transparent; color: var(--t2); cursor: pointer; }
+  .quick-switch.on { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+  .swap-btn { position: fixed; z-index: 60; display: none; font-family: var(--font); font-size: 12px; padding: 3px 10px; border: 1px solid var(--border-h); border-radius: 999px; background: var(--bg, #fff); color: var(--t1, #333); cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.18); }
+  .swap-btn:hover { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+  @media print { .swap-btn { display: none !important; } }
+  .quick-panel { padding: 4px 0 8px; }
+  .quick-prog { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--t2); font-weight: 500; margin-bottom: 6px; }
+  .quick-q { font-size: 16px; font-weight: 500; margin: 0 0 4px; }
+  .quick-sub { font-size: 12px; color: var(--t2); margin: 0 0 10px; }
+  .quick-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .quick-chip { font-family: var(--font); font-size: 14px; padding: 8px 14px; border: 1px solid var(--border-h); border-radius: 999px; background: var(--bg-1, #fff); color: var(--t1); cursor: pointer; }
+  .quick-chip.on { background: var(--green-bg); color: var(--green); border-color: var(--green); font-weight: 500; }
+  .quick-chip.on::before { content: "✓ "; }
+  .quick-nav { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+  .quick-go { font-family: var(--font); font-size: 14px; padding: 8px 18px; border: 1px solid var(--blue); border-radius: var(--r-sm); background: var(--blue); color: #fff; cursor: pointer; margin-left: auto; }
+  .quick-link { font-family: var(--font); font-size: 13px; background: none; border: none; color: var(--blue); cursor: pointer; text-decoration: underline; padding: 4px 2px; }
+  .quick-link:disabled { color: var(--t3); text-decoration: none; cursor: default; }
+  .quick-strip { padding: 2px 0 8px; }
+  .search-wrap { padding: 4px 0 8px; }
+  .search-input { width: 100%; box-sizing: border-box; font-family: var(--font); font-size: 14px; padding: 8px 10px; border: 1px solid var(--border-h); border-radius: var(--r-sm); background: var(--bg-1, #fff); color: var(--t1); }
+  .search-row mark { background: var(--amber-bg2); color: inherit; border-radius: 2px; padding: 0 1px; }
   .year-edit { border:1px solid var(--border); background:var(--bg-3); color:var(--t1); border-radius:var(--r-sm); cursor:pointer; padding:0 8px; font-size:13px; }
   .yp-ov { position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:900; display:flex; align-items:center; justify-content:center; padding:16px; }
   .yp-box { background:var(--bg-1); border:1px solid var(--border-h); border-radius:var(--r-md); padding:18px; max-width:340px; width:100%; box-shadow:0 8px 28px rgba(0,0,0,.45); }
@@ -1635,6 +1656,7 @@
       <div class="c-scroll">
         <div class="c-header">
           <div class="c-title" id="cTitle"></div>
+          <button type="button" class="quick-switch" id="quickBtn" role="switch" aria-checked="false" onclick="toggleQuick()" title="Quick mode: tap characteristics (skills in English and Maths) instead of choosing sentences">Quick mode: Off</button>
         </div>
         <div class="grade-sel-wrap" id="gradeSelWrap" style="display:none"></div>
         <div class="opts" id="optsGrid"></div>
@@ -2417,6 +2439,1717 @@ function _paraRulesChanged() {
 const SENT_CAT = {};
 CATS.forEach(cat => RAW[cat].forEach(s => { SENT_CAT[s] = cat; }));
 
+// ══ v3.17.27 · GENERAL CHARACTERISTICS ═══════════════════════════════════════
+// Every General sentence belongs to exactly one characteristic (Jason approved the groups on 15 Nov 2026). Quick mode and the swap
+// button use these: a characteristic is the set of sentences that say the same kind of thing. Nothing here changes what a sentence says,
+// where it sits in RAW or what level it is at (level still comes from its position in RAW, see TIER_BOUNDARIES).
+// The sentences are listed word for word as they are in RAW; tests/09-traits-data.test.js fails if one differs or is missing.
+const GEN_TRAITS = {
+  "Personality": [
+    { id: "enthusiastic-and-curious", label: "Enthusiastic and curious", sentences: [
+      "{{N}} is an enthusiastic and curious student whose enquiring mind results in active classroom participation.",
+      "{{N}} is a confident and ambitious student who is eager to learn and develop {{pos}} understanding across all areas.",
+      "{{N}} is cheerful and consistently demonstrates an enthusiastic attitude towards learning and classroom activities.",
+      "{{N}} displays a positive attitude towards school, showing an interest in all learning areas.",
+    ] },
+    { id: "kind-and-caring", label: "Kind and caring", sentences: [
+      "{{N}} is a courteous, thoughtful and considerate student who has developed positive friendships this semester.",
+      "{{N}} is a kind and caring student who shows genuine care for {{pos}} friends and classmates.",
+      "{{N}} is a thoughtful student who displays a positive attitude to school and regularly shows genuine care for {{pos}} friends.",
+      "{{N}} is a kind and responsible student who consistently demonstrates Ambarvale All Star behaviour.",
+    ] },
+    { id: "positive-and-cheerful", label: "Positive and cheerful", sentences: [
+      "{{N}} is a positive student who enters the classroom each morning with a smile.",
+      "{{N}} is a polite and energetic member of our class.",
+      "{{N}} enters the classroom each day with a smile, ready to face new experiences.",
+      "{{N}} approaches school life with a positive attitude and demonstrates resilience when faced with challenges.",
+    ] },
+    { id: "respectful-and-well-mannered", label: "Respectful and well-mannered", sentences: [
+      "{{N}} is a sensible and respectful student who makes thoughtful and positive behaviour choices in the classroom.",
+      "{{N}} is well-mannered and kind, engaging in all learning experiences with a willingness to increase {{pos}} knowledge.",
+      "{{N}} is a well-mannered and independent learner who is popular with {{pos}} peers due to {{pos}} good sense of fun.",
+    ] },
+    { id: "quiet-and-hard-working", label: "Quiet and hard-working", sentences: [
+      "{{N}} is a quiet and hard-working student who attempts to complete challenges independently.",
+      "{{N}} is a capable student who finds success in tasks when {{s}} is determined and displays a growth mindset.",
+    ] },
+    { id: "needs-focus-and-support", label: "Needs focus and support", sentences: [
+      "{{N}} produces a pleasing standard of work when {{s}} is focused and motivated.",
+      "{{N}} is learning to manage challenges and is having success in the classroom with teacher support.",
+    ] },
+  ],
+  "Effort & Work Habits": [
+    { id: "hard-working-and-driven", label: "Hard-working and driven", sentences: [
+      "{{S}} is driven by a hard-working attitude and strives to reach {{pos}} full potential across all learning areas.",
+      "{{N}} is diligent and consistently demonstrates a strong work ethic across all learning areas.",
+      "{{N}} demonstrates a strong commitment to learning and strives to achieve {{pos}} personal best in all subjects.",
+      "{{N}} consistently demonstrates a strong work ethic and takes pride in all aspects of {{pos}} learning.",
+      "{{S}} perseveres and shows dedication to learning across all subjects, always striving to achieve {{pos}} personal best.",
+      "{{N}} has a mature and positive attitude to learning and applies {{r}} diligently to all class tasks.",
+    ] },
+    { id: "eager-to-learn", label: "Eager to learn", sentences: [
+      "{{S}} displays an excellent attitude towards learning, demonstrating genuine curiosity and eagerness to explore new concepts.",
+      "{{S}} takes ownership of {{pos}} learning and displays a genuine desire to succeed, bringing enthusiasm to class each day.",
+      "{{S}} is a conscientious student who has a love of learning and a desire to strengthen {{pos}} knowledge and skills.",
+    ] },
+    { id: "growth-mindset-and-persistence", label: "Growth mindset and persistence", sentences: [
+      "{{S}} displays a growth mindset, showing determination when facing challenging tasks or learning new concepts.",
+      "{{N}} consistently demonstrates persistence when acquiring new skills and thoughtfully refines techniques to enhance performance.",
+      "{{S}} makes a genuine effort in all subjects, usually displaying a growth mindset when {{s}} experiences difficulties.",
+    ] },
+    { id: "focused-and-attentive", label: "Focused and attentive", sentences: [
+      "{{S}} is attentive and shows great focus in all subjects, striving to achieve {{pos}} personal best.",
+      "{{S}} listens to instructions and uses feedback to improve the quality of {{pos}} work.",
+      "{{S}} demonstrates a positive attitude towards learning and applies {{r}} to tasks to the best of {{pos}} ability.",
+      "{{S}} usually maintains focus and commitment to {{pos}} learning across most learning areas.",
+    ] },
+    { id: "developing-work-habits", label: "Developing work habits", sentences: [
+      "{{S}} is striving to become an independent learner, which is resulting in improved work habits.",
+      "{{S}} often requires reminders to stay on task and complete {{pos}} work in an appropriate timeframe.",
+      "{{S}} is beginning to work productively during independent work, however can be easily distracted during lessons.",
+    ] },
+    { id: "needs-step-by-step-support", label: "Needs step-by-step support", sentences: [
+      "{{S}} requires all instructions to be short and explicit, and benefits from step-by-step guidance to begin tasks.",
+      "{{N}} needs all learning tasks broken into small, achievable parts and benefits from close guidance.",
+    ] },
+  ],
+  "Communication & Collaboration": [
+    { id: "confident-speaker", label: "Confident speaker", sentences: [
+      "{{S}} communicates with confidence and clarity and is an active participant in class discussions.",
+      "{{N}} expresses {{pos}} views clearly, which contributes to collaborative work and enriches the learning experience.",
+      "{{N}} is expressive and shares thoughts clearly during class discussions.",
+    ] },
+    { id: "thoughtful-contributor", label: "Thoughtful contributor", sentences: [
+      "{{S}} analyses information thoughtfully and justifies {{pos}} opinions with evidence.",
+      "{{S}} contributes thoughtfully during discussions and builds positive relationships with classmates.",
+    ] },
+    { id: "works-well-in-groups", label: "Works well in groups", sentences: [
+      "{{N}} communicates constructively with classmates during group activities, contributing to a positive learning environment.",
+      "{{S}} is collaborative in nature, working well with peers and often taking the lead in group activities.",
+      "{{S}} works cooperatively in groups, sharing resources and listening to the ideas of others.",
+    ] },
+    { id: "good-listener", label: "Good listener", sentences: [
+      "{{S}} listens attentively during class discussions, contributing {{pos}} own thoughts and ideas when prompted.",
+      "{{N}} is an attentive listener who is becoming more confident in contributing to class discussions.",
+    ] },
+    { id: "growing-confidence", label: "Growing confidence", sentences: [
+      "{{N}} is developing the confidence to clearly communicate {{pos}} ideas during class activities.",
+      "I would now like to see {{o}} take a more active role in class discussions as {{s}} has many valuable insights to share.",
+      "{{N}} is learning to show {{pos}} enthusiasm respectfully by raising {{pos}} hand in class discussions.",
+    ] },
+  ],
+  "Social Skills": [
+    { id: "kind-and-generous-friend", label: "Kind and generous friend", sentences: [
+      "{{N}} is a generous and kind friend who is willing to share {{pos}} time with peers and can brighten anyone's day.",
+      "{{N}} is well-liked by {{pos}} peers and demonstrates a caring and considerate nature towards others.",
+      "{{N}} is respected by {{pos}} peers, consistently showing a kind-hearted nature.",
+      "{{N}} always shows kindness, courtesy, and consideration towards others.",
+    ] },
+    { id: "friendly-and-inclusive", label: "Friendly and inclusive", sentences: [
+      "{{N}} is sociable and builds strong relationships, making the classroom a welcoming and friendly place.",
+      "{{S}} is friendly and builds strong relationships with classmates, creating a welcoming and inclusive classroom environment.",
+      "{{N}} helps others feel valued and included in group activities, often offering assistance and encouragement.",
+      "{{S}} is considerate, building strong relationships and fostering a supportive atmosphere where everyone feels valued.",
+      "{{N}} builds positive relationships with classmates and contributes to a friendly and inclusive classroom environment.",
+    ] },
+    { id: "respectful", label: "Respectful", sentences: [
+      "{{N}} is approachable and maintains a respectful demeanour, contributing positively to the classroom atmosphere.",
+      "{{S}} treats peers and teachers with respect and consideration.",
+      "{{S}} shows respect for both classmates and teachers, helping to create a calm and productive classroom environment.",
+      "{{N}} is well-liked and consistently contributes to a respectful classroom atmosphere.",
+    ] },
+    { id: "fun-and-sociable", label: "Fun and sociable", sentences: [
+      "{{N}} is an animated student who builds positive friendships and enjoys making {{pos}} classmates laugh.",
+      "{{N}} uses effective social skills in the playground to build positive relationships with {{pos}} peers and resolves minor conflicts calmly.",
+    ] },
+    { id: "developing-social-skills", label: "Developing social skills", sentences: [
+      "{{N}} participates in structured activities during break times, gaining confidence to interact with {{pos}} peers in the playground.",
+      "{{N}} is developing appropriate social skills and is learning to handle disagreements respectfully.",
+      "{{S}} is getting better at noticing how {{pos}} actions affect others.",
+    ] },
+  ],
+  "Independence": [
+    { id: "works-independently", label: "Works independently", sentences: [
+      "{{N}} displays a high level of independence, approaching tasks with confidence and persistence.",
+      "{{N}} is capable and works independently on tasks, demonstrating confidence and initiative in managing responsibilities.",
+      "{{S}} is self-motivated and works well independently, consistently completing required tasks to the best of {{pos}} ability.",
+      "{{N}} works independently and manages tasks effectively.",
+      "{{N}} demonstrates independence when completing tasks and takes pride in achieving personal goals.",
+    ] },
+    { id: "starts-and-stays-on-task", label: "Starts and stays on task", sentences: [
+      "{{N}} works productively in both independent and group situations, diligently staying on task.",
+      "{{S}} begins tasks without prompting and generally stays focused until completion.",
+    ] },
+    { id: "organised-and-follows-routines", label: "Organised and follows routines", sentences: [
+      "{{N}} follows class routines each day, demonstrating independence and responsibility in managing tasks effectively.",
+      "{{N}} consistently organises {{pos}} work carefully.",
+    ] },
+    { id: "growing-independence", label: "Growing independence", sentences: [
+      "{{N}} is developing independence in using technology to complete research and classwork.",
+      "{{N}} is developing the confidence to request assistance while working independently or in a small group.",
+      "{{S}} works quietly alone and is beginning to stay calm, keep trying and finish tasks.",
+    ] },
+    { id: "needs-reminders", label: "Needs reminders", sentences: [
+      "{{N}} is capable of working independently and benefits from occasional reminders to take care when completing tasks.",
+      "{{N}} is productive during independent work, however often requires reminders to stay on task and complete work in an appropriate timeframe.",
+      "{{S}} is learning to refrain from talking to {{pos}} friends at inappropriate times.",
+    ] },
+  ],
+  "Leadership": [
+    { id: "natural-leader", label: "Natural leader", sentences: [
+      "{{N}} is a confident natural leader who inspires classmates and leads by example.",
+      "{{N}} demonstrates leadership qualities that inspire classmates in {{pos}} learning.",
+      "{{N}} is a role model to others and leads by example.",
+    ] },
+    { id: "takes-on-leadership-roles", label: "Takes on leadership roles", sentences: [
+      "{{N}} takes on leadership roles in group activities, ensuring tasks are completed efficiently and supporting others as needed.",
+      "{{S}} accepts leadership roles in group tasks, ensuring that peers are included.",
+      "{{N}} is a responsible student who takes on leadership roles in group activities.",
+    ] },
+    { id: "shows-initiative", label: "Shows initiative", sentences: [
+      "{{N}} shows initiative in the classroom, taking pride in helping with the daily routine and setting a positive example.",
+    ] },
+  ],
+  "Roles & Responsibilities": [
+    { id: "school-captain-or-vice-captain", label: "School captain or vice-captain", sentences: [
+      "As school captain, {{s}} excels in leadership roles and inspires peers by setting a positive example.",
+      "As vice-captain, {{N}} has diligently fulfilled {{pos}} leadership responsibilities.",
+    ] },
+    { id: "house-captain", label: "House captain", sentences: [
+      "As a house captain, {{N}} diligently fulfils {{pos}} leadership responsibilities.",
+    ] },
+    { id: "student-representative-council", label: "Student Representative Council", sentences: [
+      "{{N}} plays an active role in the Student Representative Council, completing {{pos}} responsibilities diligently and setting a strong example for others.",
+      "{{N}} is a valuable member of the Student Representative Council, where {{s}} diligently completes {{pos}} responsibilities.",
+      "{{N}} was elected by {{pos}} peers to represent the class on the Student Representative Council.",
+    ] },
+    { id: "school-prefect", label: "School prefect", sentences: [
+      "{{N}} embodies leadership qualities in {{pos}} role as a school prefect.",
+    ] },
+  ],
+  "Attendance": [
+    { id: "improved-attendance", label: "Improved attendance", sentences: [
+      "{{N}}'s improved attendance this semester has given {{o}} increased opportunities to further develop {{pos}} knowledge and skills.",
+    ] },
+    { id: "absences-affecting-learning", label: "Absences affecting learning", sentences: [
+      "Due to a high number of partial and full absences, {{n}} has missed several important learning opportunities this semester.",
+      "Due to the high number of partial and full absences, {{N}} has missed out on crucial learning opportunities this semester.",
+      "The high number of absences this semester has impacted {{pos}} learning and {{s}} is encouraged to attend school regularly and on time.",
+    ] },
+  ],
+  "Semester KLAs": [
+    { id: "science", label: "Science", sentences: [
+      "{{N}} has shown strong engagement in Science whilst exploring climate and the body's organ systems. {{S}} conducted scientific experiments.",
+      "{{N}} has shown strong engagement in Science and Technology whilst building and testing electrical circuits. {{S}} investigated which materials conduct electricity and used this knowledge to design an electrical safety game.",
+      "{{N}} has shown strong engagement in Science and Technology whilst learning about renewable and non-renewable energy sources. {{S}} researched how generating electricity affects the environment and explored cleaner ways to power a community.",
+    ] },
+    { id: "history", label: "History", sentences: [
+      "{{N}} has shown interest in History through investigating how and why Australia became a nation. {{S}} researched how significant individuals and migrant groups influenced Australian society.",
+    ] },
+    { id: "geography", label: "Geography", sentences: [
+      "{{N}} has shown strong interest in Geography through reading maps and exploring how cities, towns and remote communities are organised and connected. {{S}} also learnt how communities prepare for floods and bushfires and how Aboriginal Peoples have cared for Country using fire.",
+      "{{N}} has shown strong interest in Geography through comparing environments around the world, from tropical rainforests to polar regions. {{S}} used maps and climate graphs to explore how people rely on these environments and how human activity has changed them.",
+    ] },
+    { id: "creative-arts", label: "Creative Arts", sentences: [
+      "{{N}} has shown enthusiasm and creativity in Creative Arts by exploring Dance and Music. {{S}} learned how these express emotion and communicate ideas across cultural contexts.",
+      "{{N}} has shown strong enthusiasm and creativity in Creative Arts by planning, painting and refining a series of artworks inspired by place for the class Art Show. {{S}} also explored how Aboriginal and Torres Strait Islander artists share culture and connection to Country through their art.",
+      "{{N}} has shown strong enthusiasm and creativity in Creative Arts by creating prints and sculptures that blend ideas from the past and the future. In Drama, {{s}} wrote and performed scripts that bring characters to life.",
+    ] },
+    { id: "health", label: "Health", sentences: [
+      "{{N}} has developed an understanding of identity when learning about Health. {{S}} has explored the factors that affect health choices and strategies to support {{pos}} wellbeing.",
+      "{{N}} has shown a thoughtful approach to Health when learning about respectful relationships and how to recognise unsafe situations. {{S}} developed strategies to keep {{r}} safe and to support others.",
+      "{{N}} has shown a thoughtful approach to Health when learning how to stay safe in the sun and around water. {{S}} also explored how healthy eating, positive friendships and resolving conflict support {{pos}} wellbeing.",
+    ] },
+    { id: "physical-education", label: "Physical Education", sentences: [
+      "{{N}} has participated positively in Physical Education. {{S}} demonstrates fair play and a willingness to try a variety of physical activities.",
+    ] },
+  ],
+  "Interests & Passions": [
+    { id: "visual-arts-and-drawing", label: "Visual arts and drawing", sentences: [
+      "{{S}} approaches Creative Arts with enthusiasm, applying techniques learnt to elevate the quality and craft of {{pos}} work.",
+      "{{N}} demonstrates a strong interest in Visual Arts and confidently explores line, colour, and shape in creative ways.",
+      "{{S}} approaches art lessons with enthusiasm and creativity, drawing inspiration from famous artists around the world.",
+      "{{N}} uses techniques such as blending and shading with watercolours and oil pastels to enhance artistic effect.",
+      "{{S}} loves drawing and sculpting, and shows real confidence when trying different lines and shapes.",
+    ] },
+    { id: "technology-and-computers", label: "Technology and computers", sentences: [
+      "{{N}} has a keen interest in working with technology, which enables {{o}} to explore new ideas and develop skills.",
+      "{{N}} enjoys working on the computer, demonstrating confidence in navigating digital tools and completing learning tasks.",
+    ] },
+    { id: "dance-and-physical-education", label: "Dance and Physical Education", sentences: [
+      "{{N}} has a passion for dance, demonstrating enthusiasm by listening to instructions intently and executing sequences accurately.",
+      "In Physical Education, {{n}} works well with others in groups and teams by encouraging {{pos}} classmates and sharing responsibilities.",
+    ] },
+    { id: "science", label: "Science", sentences: [
+      "{{N}} shows a keen interest in Science, particularly in exploring how the properties of materials influence their use in everyday products.",
+    ] },
+    { id: "cultural-program", label: "Cultural program", sentences: [
+      "{{N}} is an active participant in the Aboriginal and Torres Strait Islander cultural program and is a valued member for {{pos}} contributions.",
+    ] },
+  ],
+  "Sport & Extracurricular": [
+    { id: "general-sport", label: "General sport", sentences: [
+      "{{N}} excels in Physical Education, using {{pos}} abilities to compete alongside {{pos}} peers and consistently displaying excellent sportsmanship.",
+      "{{N}} enthusiastically participates in sport, displaying a strong ability to compete in games alongside {{pos}} peers.",
+    ] },
+    { id: "zone-and-knockout-teams", label: "Zone and knockout teams", sentences: [
+      "{{N}} represented the school at the Zone Cross Country carnival, demonstrating commitment and school pride.",
+      "{{N}} competed in zone cross country and in the touch football knockout team, representing Ambarvale Public School with pride.",
+      "{{N}} competed in zone representative teams, consistently displaying excellent sportsmanship and teamwork.",
+      "{{N}} represented the school as a member of the touch football knockout team, demonstrating commitment and school pride.",
+      "{{N}} participated in knockout touch football, displaying teamwork while representing the school positively.",
+      "{{S}} competes in netball and touch football knockout teams, demonstrating good sportsmanship and representing the school with pride.",
+      "{{N}} represented the school as a member of the soccer knockout team, demonstrating commitment and school pride.",
+    ] },
+    { id: "gala-days", label: "Gala days", sentences: [
+      "{{S}} participates in soccer and cricket gala days, displaying good sportsmanship and teamwork.",
+      "{{S}} participated enthusiastically in tiger tag and touch football gala day teams, consistently displaying excellent sportsmanship and teamwork.",
+    ] },
+    { id: "dance-cheer-and-gymnastics", label: "Dance, cheer and gymnastics", sentences: [
+      "{{N}} passionately participates in the dance and cheer group, showcasing talent and enthusiasm for performance.",
+      "{{N}} enjoys participating in gymnastics and cheer groups during break times.",
+      "{{N}} enjoys participating in dance and cheer groups during break times.",
+    ] },
+    { id: "choir-and-cultural-program", label: "Choir and cultural program", sentences: [
+      "{{N}} enjoys participating in the choir during break times, which allows for the development of social skills with like-minded peers.",
+      "{{N}} participates in our cultural program, which strengthens {{pos}} connection with Aboriginal culture.",
+    ] },
+  ],
+  "EAL/D": [
+    { id: "beginning-phase", label: "Beginning phase", sentences: [
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Beginning phase. To support {{pos}} English language development, {{s}} has received targeted withdrawal sessions to expand {{pos}} growing vocabulary. {{N}} has improved in {{pos}} ability to contribute ideas during group discussions.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Beginning phase. {{S}} has worked with a teacher in a small group to learn key words and phrases, using pictures and hands-on activities to build understanding. {{N}} is beginning to use these words when sharing ideas with a partner, particularly during practical tasks such as building circuits in Science.",
+    ] },
+    { id: "developing-phase", label: "Developing phase", sentences: [
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. To support {{pos}} English language development, {{s}} has engaged in additional modelling and guided practice activities. This support has helped {{n}} use more concise vocabulary in {{pos}} writing.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. To support {{pos}} English language learning, {{s}} has benefited from modelling and guided practice activities. These strategies have led to greater confidence in speaking and expressing ideas clearly in both verbal and written forms.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. To support {{pos}} English language development, {{s}} has participated in peer interaction activities that promote language development. This support has led to a noticeable improvement in the vocabulary {{s}} uses during conversations.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. During writing lessons, {{s}} has been shown how to choose more specific words using word banks and examples. As a result, {{N}}'s written explanations, such as those in Science, are now clearer and more accurate.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. {{S}} has been given regular opportunities to rehearse what {{s}} wants to say with a partner before sharing with the class. This has helped {{o}} speak up more confidently and explain {{pos}} thinking in full sentences.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Developing phase. {{S}} has regularly worked alongside classmates in group tasks such as Drama performances and design challenges, giving {{o}} many chances to practise everyday English. {{N}} is now joining conversations more readily and using a growing range of words to express {{pos}} ideas.",
+    ] },
+    { id: "consolidating-phase", label: "Consolidating phase", sentences: [
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. To support {{pos}} English language development, {{s}} has engaged in additional modelling and guided practice activities. {{N}} has gained greater confidence in speaking and expressing ideas more clearly in discussions.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. {{S}} has benefited from modelling and guided practice activities, which have supported {{pos}} language development. {{N}} has shown increased confidence when articulating ideas and is using a wider vocabulary.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. {{S}} has been supported to plan and organise {{pos}} ideas before speaking and writing, using sentence starters and planning templates. {{N}} now presents information more clearly and logically, as shown when sharing {{pos}} research in Geography.",
+      "{{N}}'s English proficiency has been assessed using the EAL/D Learning Progression at the Consolidating phase. Through class discussions and reading about topics in Science, Geography and Health, {{s}} has been introduced to a broad range of new vocabulary. {{N}} is applying many of these words accurately when discussing and writing about what {{s}} has learnt.",
+    ] },
+  ],
+  "Closing Statement": [
+    { id: "commending-effort-and-progress", label: "Commending effort and progress", sentences: [
+      "{{N}} has demonstrated outstanding effort this semester. I congratulate {{o}} on {{pos}} progress and look forward to seeing {{pos}} continued growth in Semester 2.",
+      "{{N}} has shown excellent commitment this semester. {{S}} has been a joy to teach and I look forward to seeing {{o}} continue to grow and embrace new opportunities in Semester 2.",
+      "{{S}} has shown excellent dedication this semester. I look forward to supporting {{n}}'s continued growth and success in Semester 2.",
+      "It has been rewarding to witness {{N}}'s growth and development. I look forward to seeing {{pos}} continued success and progress next semester!",
+      "{{N}} has shown a pleasing dedication to {{pos}} studies. {{S}} has been a pleasure to teach this semester. I encourage {{N}} to continue giving {{pos}} best in Semester 2.",
+      "{{N}} has shown commitment throughout the semester. I look forward to teaching {{o}} in Semester 2!",
+      "I commend {{N}} on a successful semester and look forward to seeing further academic and social growth this year.",
+      "{{N}} should be congratulated on a successful final year of primary school. I wish {{o}} every success for 2027 as {{s}} begins high school.",
+      "{{S}} should be commended for the effort shown this year. I wish {{o}} all the best as {{s}} transitions to high school next year.",
+      "{{N}} has shown excellent dedication this year. I wish {{o}} all the best as {{s}} moves into Year 6.",
+      "{{S}} should be congratulated on a productive year. I look forward to {{pos}} continued success in Year 6.",
+      "{{N}} should be congratulated on a productive year. I wish {{o}} all the best for 2027.",
+      "{{S}} has shown excellent effort this year in both academic and extracurricular activities. I wish {{o}} all the best for 2027.",
+      "It has been rewarding to witness {{N}}'s growth this year. I wish {{o}} all the best for the future.",
+      "{{N}} consistently displays the attributes of an Ambarvale All Star. I wish {{o}} every success for 2027.",
+      "{{N}} should be proud of the growth {{s}} has achieved this year. I wish {{o}} all the best for 2027.",
+    ] },
+    { id: "a-pleasure-and-joy-to-teach", label: "A pleasure and joy to teach", sentences: [
+      "{{N}} has made a valuable contribution to our class, and I look forward to teaching {{o}} in Semester 2.",
+      "It has been a pleasure to teach {{N}} and I look forward to a successful Semester 2.",
+      "{{S}} has been a joy to teach and I hope {{N}} continues to embrace new opportunities with enthusiasm in Semester 2!",
+      "I have enjoyed getting to know {{N}} and look forward to teaching {{o}} in Semester 2.",
+      "It has been a pleasure to teach {{N}} this year. I wish {{o}} every success in high school.",
+      "It has been a pleasure to teach {{N}} this year. I wish {{o}} every success for 2027.",
+      "{{N}} has contributed positively to our class this year. I wish {{o}} every success in the years ahead.",
+      "{{N}} has been a joy to teach this year. I hope {{s}} continues to embrace new opportunities with enthusiasm.",
+    ] },
+    { id: "start-of-the-year-and-looking-ahead", label: "Start of the year and looking ahead", sentences: [
+      "{{N}} is to be congratulated on a great start to Stage 3. I look forward to seeing {{pos}} learning progress throughout the remainder of the year.",
+      "{{N}} is to be commended for a successful start to the year. I look forward to observing {{pos}} continued development and achievements.",
+      "I look forward to seeing {{pos}} continued growth and success next semester!",
+    ] },
+  ],
+};
+// sentence -> { cat, id }, built once
+const SENT_TRAIT = {};
+Object.keys(GEN_TRAITS).forEach(cat => GEN_TRAITS[cat].forEach(t => t.sentences.forEach(s => { SENT_TRAIT[s] = { cat, id: t.id }; })));
+// v3.17.30 · English and Maths characteristics for Quick mode and swapping. The 14 skill-tagged sections use the approved skill lists (tools/skill-tags);
+// Vocabulary, Understanding and Responding to Literature and Chance use the groups approved on 15 Nov 2026. A sentence tagged "none" has no group (the full list and Search still offer it).
+// Nothing here changes a bank sentence: each string is a sentence of that section's "U" list.
+const SUBJ_TRAITS = {
+ "english": {
+  "Oral Language & Communication": [
+   {
+    "id": "following-instructions",
+    "label": "Following spoken instructions",
+    "sentences": [
+     "{{S}} follows a single instruction from the teacher."
+    ]
+   },
+   {
+    "id": "listening-and-understanding",
+    "label": "Listening and understanding",
+    "sentences": [
+     "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions.",
+     "{{S}} listens to others and is beginning to respond appropriately in conversations.",
+     "{{S}} listens closely to others and shares {{pos}} thoughts during play-based activities.",
+     "{{S}} looks at the person who is speaking."
+    ]
+   },
+   {
+    "id": "answering-questions",
+    "label": "Answering questions",
+    "sentences": [
+     "{{S}} answers yes or no questions.",
+     "{{S}} answers questions about familiar people and places."
+    ]
+   },
+   {
+    "id": "asking-questions",
+    "label": "Asking questions",
+    "sentences": [
+     "{{S}} seeks clarification during discussions and uses this to build a clearer understanding of texts.",
+     "{{S}} poses thoughtful questions to deepen interpretation and supports {{pos}} thinking with clear reasons.",
+     "{{S}} asks specific questions to clarify information and listens attentively to the contributions of others.",
+     "{{S}} asks questions to check or extend {{pos}} understanding and retells spoken texts in {{pos}} own words."
+    ]
+   },
+   {
+    "id": "sharing-ideas",
+    "label": "Sharing ideas and feelings",
+    "sentences": [
+     "{{S}} shares {{pos}} thoughts during class discussions and takes turns when speaking.",
+     "{{S}} speaks clearly to communicate {{pos}} ideas.",
+     "{{S}} expresses {{pos}} thoughts and feelings using simple language.",
+     "{{S}} speaks in longer sentences during conversations.",
+     "{{S}} communicates one idea, or two connected ideas, when speaking to the teacher."
+    ]
+   },
+   {
+    "id": "joining-discussions",
+    "label": "Taking part in discussions",
+    "sentences": [
+     "{{S}} actively participates in class discussions, asking specific questions to clarify information and deepen {{pos}} understanding.",
+     "{{S}} actively participates in group discussions.",
+     "{{S}} participates positively in discussions and is becoming more confident when expressing opinions about texts.",
+     "{{S}} participates positively in class discussions and shares ideas about characters, themes and author choices.",
+     "{{S}} participates in class discussions and is learning to express ideas more clearly.",
+     "{{S}} participates in class discussions with support and is learning to express ideas more clearly when speaking.",
+     "{{S}} participates in partner and group conversations when responding to texts.",
+     "{{S}} joins in discussions, stays on topic, and builds on the ideas of others.",
+     "{{S}} takes part in class discussions by sharing thoughts and feelings about a familiar topic.",
+     "{{S}} explores and develops new ideas with others."
+    ]
+   },
+   {
+    "id": "starting-conversations",
+    "label": "Starting conversations",
+    "sentences": [
+     "{{S}} starts social interactions with classmates and staff."
+    ]
+   },
+   {
+    "id": "turn-taking",
+    "label": "Taking turns",
+    "sentences": [
+     "{{S}} takes turns when speaking to others."
+    ]
+   },
+   {
+    "id": "telling-stories",
+    "label": "Telling and retelling",
+    "sentences": [
+     "{{S}} tells or retells a story in order to an audience, adding detail to make it interesting.",
+     "{{S}} retells parts of a familiar story."
+    ]
+   },
+   {
+    "id": "suitable-language",
+    "label": "Using language to suit the situation",
+    "sentences": [
+     "{{S}} communicates clearly and uses appropriate language during class discussions.",
+     "{{S}} uses appropriate language skills when interacting with others during class discussions.",
+     "{{S}} uses verbs that match past, present and future events when speaking."
+    ]
+   },
+   {
+    "id": "presenting",
+    "label": "Giving presentations",
+    "sentences": [
+     "{{S}} delivered a thoughtful and well-organised prepared speech.",
+     "{{S}} presented a thoughtful and well-organised prepared speech.",
+     "{{S}} plans a presentation to suit the audience, then reflects on how well it went."
+    ]
+   },
+   {
+    "id": "voice",
+    "label": "Volume, pace and expression",
+    "sentences": [
+     "{{S}} adjusts {{pos}} volume, pace and expression when reading aloud to suit the purpose and complexity of the text.",
+     "{{S}} appropriately adjusts {{pos}} volume and pace during class presentations to support audience engagement.",
+     "{{S}} is developing the ability to change {{pos}} volume and pace to support audience engagement during class presentations."
+    ]
+   }
+  ],
+  "Reading Comprehension": [
+   {
+    "id": "letters-sounds-words",
+    "label": "Letters, sounds and familiar words",
+    "sentences": [
+     "{{S}} reads simple, familiar texts and is building confidence in recognising high-frequency words.",
+     "{{S}} tracks print from left to right.",
+     "{{S}} knows the front and back of a book.",
+     "{{S}} identifies the spaces between words in a text.",
+     "{{S}} hears and says the first, middle and final sounds in familiar spoken words.",
+     "{{S}} blends chunks of spoken words to make new words, such as 'talk-ing'.",
+     "{{S}} has a strong understanding of taught letters and the sounds they usually make.",
+     "{{S}} recognises some taught letters of the alphabet and the sounds they make.",
+     "{{S}} participates in whole class reading activities to blend and segment words.",
+     "{{S}} segments and blends words to read decodable texts with improved fluency and comprehension.",
+     "{{S}} can identify the beginning and final sound in words.",
+     "{{S}} recognises familiar words in texts."
+    ]
+   },
+   {
+    "id": "reading-strategies",
+    "label": "Choosing how to read",
+    "sentences": [
+     "{{S}} reads with confidence and uses context, grammar knowledge and skimming strategies to locate information in moderately complex texts.",
+     "{{S}} applies reading strategies to interpret complex texts and explains how these texts communicate meaning.",
+     "{{S}} uses reading strategies to comprehend more complex texts.",
+     "{{S}} reads with confidence and uses skimming strategies to identify key ideas, locate details and understand unfamiliar words.",
+     "{{S}} engages with texts for different purposes."
+    ]
+   },
+   {
+    "id": "asking-questions",
+    "label": "Asking questions about a text",
+    "sentences": [
+     "{{S}} asks questions when the meaning is unclear."
+    ]
+   },
+   {
+    "id": "monitoring-meaning",
+    "label": "Noticing and fixing lost meaning",
+    "sentences": [
+     "{{S}} monitors {{pos}} understanding and recognises when meaning breaks down.",
+     "{{S}} self-corrects when {{pos}} fluency or meaning is interrupted.",
+     "{{S}} has shown growth in recognising and re-reading when meaning has been interrupted.",
+     "{{S}} uses strategies to fix {{pos}} understanding when meaning breaks down."
+    ]
+   },
+   {
+    "id": "recalling",
+    "label": "Recalling and sequencing",
+    "sentences": [
+     "{{S}} listens to familiar stories that are read to {{o}} and recalls basic events that occurred.",
+     "{{S}} recalls key events and characters in a story.",
+     "{{S}} recalls key facts from an information text."
+    ]
+   },
+   {
+    "id": "main-ideas",
+    "label": "Main ideas and summarising",
+    "sentences": [
+     "{{S}} interprets key ideas in narratives and digital texts, and recognises how authors use language to shape meaning.",
+     "{{S}} comprehends digital texts and advertisements and identifies key ideas in narratives.",
+     "{{S}} identifies main ideas, understands simple inferences and explains how authors use evidence to support ideas.",
+     "{{S}} identifies key ideas and supporting details when reading.",
+     "{{S}} identifies main ideas and is beginning to recognise how language features help build meaning.",
+     "{{S}} reads predictable texts with growing confidence and identifies key ideas to support comprehension.",
+     "{{S}} reads simple texts with support and is working towards identifying key information and following the main ideas."
+    ]
+   },
+   {
+    "id": "connections",
+    "label": "Background knowledge and connections",
+    "sentences": [
+     "{{S}} reads with confidence and connects with the ideas in texts.",
+     "{{S}} uses background knowledge and reading skills to better understand texts.",
+     "{{S}} reads predictable texts with guidance and draws basic connections to gain a clearer understanding of the stories.",
+     "{{S}} uses background knowledge and personal experiences to connect with texts when reading.",
+     "{{S}} makes connections between {{pos}} experiences and the events in a story."
+    ]
+   },
+   {
+    "id": "opinions",
+    "label": "Forming opinions about texts",
+    "sentences": [
+     "{{S}} shows likes and dislikes about a story."
+    ]
+   },
+   {
+    "id": "evidence-and-inference",
+    "label": "Evidence and reading between the lines",
+    "sentences": [
+     "{{S}} makes observations and supports them with evidence from the text to enhance {{pos}} understanding of stories and information.",
+     "{{S}} comprehends predictable imaginative texts from the main character's perspective.",
+     "{{S}} reads between the lines using clues in the text."
+    ]
+   },
+   {
+    "id": "finding-information",
+    "label": "Finding information",
+    "sentences": [
+     "{{S}} uses pictures to help {{o}} understand stories that are read to {{o}}.",
+     "{{S}} uses headings, pictures and links to find information in a text.",
+     "{{S}} locates relevant information in a text."
+    ]
+   },
+   {
+    "id": "language-features",
+    "label": "How language builds meaning",
+    "sentences": [
+     "{{S}} explains how authors make deliberate choices to shape the reader's perception.",
+     "{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts.",
+     "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.",
+     "{{S}} explains how a text can carry more than one meaning."
+    ]
+   },
+   {
+    "id": "purpose-and-structure",
+    "label": "Text purpose and structure",
+    "sentences": [
+     "{{S}} identifies how persuasive, informative and imaginative texts are organised.",
+     "{{S}} compares print and digital texts to decide which is most useful for a task.",
+     "{{S}} reads texts with complex ideas and explains how the author built them."
+    ]
+   },
+   {
+    "id": "fluency",
+    "label": "Reading aloud",
+    "sentences": [
+     "{{S}} stops at full stops and changes {{pos}} voice for questions when reading aloud.",
+     "{{S}} reads longer texts with accuracy and uses appropriate volume and speed when reading aloud."
+    ]
+   }
+  ],
+  "Vocabulary": [
+   {
+    "id": "choosing-words-for-effect",
+    "label": "Choosing words for effect",
+    "sentences": [
+     "{{S}} explains how word choices can make writing entertaining or informative in both fiction and non-fiction texts.",
+     "{{S}} selects words that persuade the reader and uses language that creates emotion in poetry.",
+     "{{S}} considers {{pos}} word choices carefully to make {{pos}} writing more engaging for the reader.",
+     "{{S}} explains how vocabulary choices can enhance the entertainment value of narratives.",
+     "{{S}} selects vocabulary that enhances meaning.",
+     "{{S}} chooses words to give {{pos}} writing a particular style."
+    ]
+   },
+   {
+    "id": "wide-and-varied-vocabulary",
+    "label": "Wide and varied vocabulary",
+    "sentences": [
+     "{{S}} draws vocabulary from texts {{s}} has read.",
+     "{{S}} uses a varied vocabulary in {{pos}} own writing.",
+     "{{S}} experiments with different styles and incorporates vocabulary drawn from other texts.",
+     "{{S}} uses a growing vocabulary to enhance {{pos}} writing."
+    ]
+   },
+   {
+    "id": "new-and-subject-words",
+    "label": "Learning new and subject words",
+    "sentences": [
+     "{{S}} is beginning to use known words and picture clues to help understand new vocabulary.",
+     "{{S}} uses new words from stories and class topics when talking about {{pos}} learning.",
+     "{{S}} uses taught subject-specific words when writing informative sentences."
+    ]
+   },
+   {
+    "id": "descriptive-language",
+    "label": "Descriptive language",
+    "sentences": [
+     "{{S}} applies known vocabulary effectively and is beginning to experiment with descriptive language to add detail.",
+     "{{S}} selects a basic vocabulary to enhance writing.",
+     "{{S}} includes describing words to add detail and variety to writing.",
+     "{{S}} uses basic descriptive language in {{pos}} writing.",
+     "{{S}} describes objects using words for size, shape, colour and position."
+    ]
+   },
+   {
+    "id": "words-with-more-than-one-meaning",
+    "label": "Words with more than one meaning",
+    "sentences": [
+     "{{S}} recognises that words can have multiple meanings and applies this knowledge to understand and create texts.",
+     "{{S}} understands that words can have multiple meanings and uses a varied vocabulary.",
+     "{{S}} recognises that words can have different meanings."
+    ]
+   },
+   {
+    "id": "wordplay-rhyme-figurative",
+    "label": "Wordplay, rhyme and figurative language",
+    "sentences": [
+     "{{S}} joins in songs and identifies words that rhyme, including 'bat' and 'rat'.",
+     "{{S}} identifies and understands wordplay and rhyme in texts and can use these features in {{pos}} own writing.",
+     "{{S}} talks about the meaning of figurative language, such as similes and idioms."
+    ]
+   },
+   {
+    "id": "synonyms-and-language-change",
+    "label": "Synonyms and how language changes",
+    "sentences": [
+     "{{S}} brainstorms words that have the same or opposite meaning and uses these to avoid repetition.",
+     "{{S}} understands the way language is used has changed over time."
+    ]
+   }
+  ],
+  "Creating Written Texts": [
+   {
+    "id": "pictures-and-symbols",
+    "label": "Creating texts with pictures",
+    "sentences": [
+     "{{S}} draws pictures to represent {{pos}} ideas and writes short sentences using words displayed in the classroom.",
+     "{{S}} draws pictures to show {{pos}} ideas and labels {{pos}} work using words displayed in the classroom.",
+     "{{S}} uses pictures and symbols to create texts.",
+     "{{S}} draws pictures to support {{pos}} writing."
+    ]
+   },
+   {
+    "id": "writing-with-others",
+    "label": "Writing with others",
+    "sentences": [
+     "{{S}} takes part in creating texts with others.",
+     "{{S}} works with others to write texts that bring together different ideas and values."
+    ]
+   },
+   {
+    "id": "planning",
+    "label": "Planning and choosing ideas",
+    "sentences": [
+     "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with appropriate detail.",
+     "{{S}} uses planning strategies effectively when creating texts.",
+     "{{S}} plans {{pos}} writing and improves it after feedback.",
+     "{{S}} chooses topics to write about."
+    ]
+   },
+   {
+    "id": "paragraphs-and-order",
+    "label": "Ordering ideas and paragraphs",
+    "sentences": [
+     "{{S}} structures writing in a clear and organised way and includes detail to support ideas.",
+     "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea.",
+     "{{S}} forms simple paragraphs to express {{pos}} ideas and edits {{pos}} work for correct punctuation."
+    ]
+   },
+   {
+    "id": "imaginative",
+    "label": "Writing stories",
+    "sentences": [
+     "{{S}} experiments with narrative writing features, showcasing creativity and thoughtfulness.",
+     "{{S}} creates a beginning, a problem, and a resolution using simple paragraphs.",
+     "{{S}} maintains a consistent point of view throughout imaginative writing."
+    ]
+   },
+   {
+    "id": "persuasive",
+    "label": "Writing opinions and persuasive texts",
+    "sentences": [
+     "{{S}} shows a strong understanding of how to plan, structure and revise persuasive texts.",
+     "{{S}} plans, drafts and revises persuasive texts effectively.",
+     "{{S}} is developing skills in structuring and editing persuasive texts.",
+     "{{S}} structures persuasive paragraphs with a clear statement of position and supporting ideas.",
+     "{{S}} argues against opposing views to strengthen {{pos}} persuasive writing.",
+     "{{S}} backs up a clear main argument about a text with evidence from it."
+    ]
+   },
+   {
+    "id": "informative",
+    "label": "Writing informative texts and recounts",
+    "sentences": [
+     "{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader.",
+     "{{S}} plans and organises information reports.",
+     "{{S}} organises recounts and attempts informative texts with emerging control.",
+     "{{S}} writes for different purposes, such as to describe, explain, give an opinion or tell a story.",
+     "{{S}} writes informative texts with headings and paragraphs that begin with a main idea."
+    ]
+   },
+   {
+    "id": "sentences",
+    "label": "Building and varying sentences",
+    "sentences": [
+     "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types.",
+     "{{S}} applies a variety of tenses to suit different writing tasks.",
+     "{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks.",
+     "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.",
+     "{{S}} writes simple sentences using words displayed in the classroom.",
+     "{{S}} writes simple and compound sentences about characters and events using correct punctuation."
+    ]
+   },
+   {
+    "id": "word-choice",
+    "label": "Choosing words and language features",
+    "sentences": [
+     "{{S}} includes specific details in {{pos}} writing to make {{pos}} ideas clearer and more engaging.",
+     "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing."
+    ]
+   },
+   {
+    "id": "editing",
+    "label": "Re-reading and editing",
+    "sentences": [
+     "{{S}} reflects on how planning and revising changes the clarity of {{pos}} writing."
+    ]
+   }
+  ],
+  "Spelling & Grammar": [
+   {
+    "id": "letters-and-name",
+    "label": "Letters and own name",
+    "sentences": [
+     "{{S}} writes {{pos}} first name by putting the letters in the right order.",
+     "{{S}} matches the letters in {{pos}} name and puts them in the correct order.",
+     "{{S}} identifies letters in familiar words."
+    ]
+   },
+   {
+    "id": "sounds-and-syllables",
+    "label": "Breaking words into sounds and syllables",
+    "sentences": [
+     "{{S}} breaks words into sounds as a spelling strategy.",
+     "{{S}} breaks longer words into chunks as a strategy for spelling.",
+     "{{S}} recognises words that start with the same sound."
+    ]
+   },
+   {
+    "id": "letter-patterns",
+    "label": "Letter patterns",
+    "sentences": [
+     "{{S}} identifies complex letter patterns and sounds when spelling and applies this knowledge to improve spelling accuracy.",
+     "{{S}} applies correct letter patterns and general rules when spelling words.",
+     "{{S}} applies spelling generalisations to spell most familiar and less common words correctly.",
+     "{{S}} applies correct spelling patterns and general rules when writing.",
+     "{{S}} has shown improvement in spelling by identifying letter patterns to support correct spelling.",
+     "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy.",
+     "{{S}} applies some spelling patterns and general rules when writing.",
+     "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words.",
+     "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.",
+     "{{S}} spells words with double letters and identifies the meaning of most words by recognising their spelling.",
+     "{{S}} is learning to apply common spelling patterns in writing."
+    ]
+   },
+   {
+    "id": "word-part-rules",
+    "label": "Rules for plurals, tenses, prefixes and suffixes",
+    "sentences": [
+     "{{S}} spells simple words with common endings and uses basic strategies to spell unfamiliar words with some success.",
+     "{{S}} adds 's' to words to show more than one, such as changing 'cat' to 'cats'.",
+     "{{S}} spells words with prefixes, such as un- and re-.",
+     "{{S}} spells words with suffixes, such as -ful and -est.",
+     "{{S}} recognises common word beginnings such as 'un-' and 're-', and correctly uses them when spelling."
+    ]
+   },
+   {
+    "id": "common-words",
+    "label": "Common and tricky words",
+    "sentences": [
+     "{{S}} spells common words correctly and sounds out unfamiliar words with care.",
+     "{{S}} spells high-frequency words correctly in {{pos}} writing."
+    ]
+   },
+   {
+    "id": "checking-spelling",
+    "label": "Checking and correcting spelling",
+    "sentences": [
+     "{{S}} checks {{pos}} work for spelling mistakes and uses dictionaries to correct them."
+    ]
+   },
+   {
+    "id": "grammar-and-punctuation",
+    "label": "Grammar and punctuation",
+    "sentences": [
+     "{{S}} selects appropriate tenses to suit different writing tasks.",
+     "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly.",
+     "{{S}} is beginning to identify nouns and verbs in simple sentences.",
+     "{{S}} writes short sentences using familiar language and is improving {{pos}} use of full stops.",
+     "{{S}} writes related sentences to create stories and adds phrases that show time and place.",
+     "{{S}} uses commas to separate parts of a sentence and apostrophes for contractions.",
+     "{{S}} varies sentence length to improve {{pos}} writing."
+    ]
+   }
+  ],
+  "Handwriting & Digital Transcription": [
+   {
+    "id": "early-marks",
+    "label": "Making marks and early letter shapes",
+    "sentences": [
+     "{{S}} makes marks and strokes on a page or digital device using writing tools.",
+     "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger."
+    ]
+   },
+   {
+    "id": "posture-and-grip",
+    "label": "Posture, pencil grip and pressure",
+    "sentences": [
+     "{{S}} holds {{pos}} pencil comfortably during handwriting tasks and remembers to write letters from left to right."
+    ]
+   },
+   {
+    "id": "letter-formation",
+    "label": "Forming letters",
+    "sentences": [
+     "{{S}} presents written work neatly and maintains consistent letter formation.",
+     "{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts.",
+     "{{S}} forms most letters correctly on the line and uses appropriate spacing between words.",
+     "{{S}} is learning to form letters correctly and write on the line.",
+     "{{S}} forms letters correctly and maintains appropriate spacing when writing.",
+     "During structured handwriting lessons, {{S}} carefully forms letters with the correct shape.",
+     "During handwriting lessons, {{s}} uses appropriate pencil control to form letters on the line.",
+     "{{S}} forms letters with consistent size and slope."
+    ]
+   },
+   {
+    "id": "fluent-handwriting",
+    "label": "Joined and fluent handwriting",
+    "sentences": [
+     "{{S}} writes with a legible and fluent handwriting style for extended periods and navigates the keyboard efficiently when typing words, numbers and punctuation.",
+     "{{S}} writes with a fluent, legible handwriting style and navigates the keyboard efficiently when typing.",
+     "{{S}} writes with a clear and legible handwriting style and types accurately using a keyboard.",
+     "{{S}} presents written work neatly and communicates ideas clearly when typing.",
+     "{{S}} maintains a fluent handwriting style and types efficiently using the keyboard.",
+     "{{S}} presents written and digital work neatly, demonstrating a consistent and legible handwriting style.",
+     "{{S}} joins letters when writing familiar words and uses keyboard skills to type efficiently.",
+     "{{S}} joins letters when writing familiar words and uses technology appropriately when creating texts."
+    ]
+   },
+   {
+    "id": "keyboard",
+    "label": "Typing on a keyboard",
+    "sentences": [
+     "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation.",
+     "{{S}} types accurately and presents ideas clearly in digital formats.",
+     "{{S}} uses the keyboard efficiently when publishing {{pos}} texts digitally.",
+     "{{S}} types texts and searches for information online."
+    ]
+   },
+   {
+    "id": "word-processing",
+    "label": "Using word-processing tools",
+    "sentences": [
+     "{{S}} uses basic word-processing tools to type and edit short texts.",
+     "{{S}} uses word-processing tools to draft and edit {{pos}} writing."
+    ]
+   }
+  ],
+  "Understanding and Responding to Literature": [
+   {
+    "id": "poetry-and-emotion",
+    "label": "Poetry and emotion",
+    "sentences": [
+     "{{S}} explains how language in poetry can evoke emotion and shows creativity when developing ideas.",
+     "{{S}} explores how language can evoke emotions in poems and creates poems with a clear, consistent theme.",
+     "{{S}} analyses and creates poems with a clear focus and consistent theme, showing creativity and thoughtfulness.",
+     "{{S}} identifies how language creates emotions in poetry and explores how an author's choices influence meaning.",
+     "{{S}} explores how language can evoke emotions in poems."
+    ]
+   },
+   {
+    "id": "how-characters-are-built",
+    "label": "How characters are built",
+    "sentences": [
+     "{{S}} understands how language evokes emotions and describes characters through their traits and actions.",
+     "{{S}} understands how language can evoke emotion and identifies how characters are developed through their traits and actions.",
+     "{{S}} describes how characters are built through their actions and viewpoints.",
+     "{{S}} identifies how characters are developed through their traits and actions.",
+     "{{S}} explains how characters are developed in stories and describes how authors can show different points of view.",
+     "{{S}} recognises how authors create characters and structure stories to engage the reader."
+    ]
+   },
+   {
+    "id": "characters-feelings-choices",
+    "label": "Characters, feelings and choices",
+    "sentences": [
+     "{{S}} talks about how stories build feelings and compares characters in different texts.",
+     "{{S}} describes how a character's choices affect a storyline.",
+     "{{S}} explains how the way characters treat each other reflects real relationships."
+    ]
+   },
+   {
+    "id": "themes-and-main-ideas",
+    "label": "Themes and main ideas",
+    "sentences": [
+     "{{S}} identifies and applies themes in various texts.",
+     "{{S}} identifies themes in narratives and applies them when creating {{pos}} own texts.",
+     "{{S}} identifies main ideas in narratives and uses these when creating original texts.",
+     "{{S}} identifies themes in narratives and connects with key ideas in a variety of stories.",
+     "{{S}} explains how repeated words and patterns in a text communicate its big ideas."
+    ]
+   },
+   {
+    "id": "persuasive-and-informative-texts",
+    "label": "Persuasive and informative texts",
+    "sentences": [
+     "{{S}} describes the structure of persuasive texts and discusses how language can be used to evoke emotion.",
+     "{{S}} identifies words and phrases that are used to persuade the reader.",
+     "{{S}} identifies how advertisements are organised and describes features of both fiction and non-fiction texts.",
+     "{{S}} describes features of fiction and non-fiction texts and how pictures and words contribute to meaning.",
+     "{{S}} identifies the difference between language that expresses opinion versus fact and uses this knowledge to describe the purpose of a text."
+    ]
+   },
+   {
+    "id": "enjoying-and-responding-to-stories",
+    "label": "Enjoying and responding to stories",
+    "sentences": [
+     "{{S}} shows enjoyment when listening to stories and expresses {{pos}} opinions about characters and events.",
+     "{{S}} joins in class discussions about stories to identify the beginning, middle and end.",
+     "{{S}} names {{pos}} favourite stories and characters in class discussions.",
+     "{{S}} writes related sentences to create stories.",
+     "{{S}} uses {{pos}} experiences to help {{o}} understand and form opinions about a text."
+    ]
+   },
+   {
+    "id": "creative-and-figurative-language",
+    "label": "Creative and figurative language",
+    "sentences": [
+     "{{S}} enjoys creative language such as sound words and rhymes.",
+     "{{S}} tries creative language in {{pos}} own telling and writing.",
+     "{{S}} finds figurative language, wordplay and symbols in texts.",
+     "{{S}} uses figurative language or wordplay in {{pos}} own writing.",
+     "{{S}} identifies how authors use words in unexpected ways to make stories interesting."
+    ]
+   },
+   {
+    "id": "texts-in-their-context",
+    "label": "Texts in their context",
+    "sentences": [
+     "{{S}} explains how a text can draw on other texts to add meaning.",
+     "{{S}} explains how a story has been changed to suit a new audience or purpose.",
+     "{{S}} explains why people in different places and times may appreciate a text differently."
+    ]
+   }
+  ]
+ },
+ "maths": {
+  "Represents Numbers": [
+   {
+    "id": "counting",
+    "label": "Counting forwards and backwards",
+    "sentences": [
+     "{{S}} counts objects carefully to find the total when solving mathematical problems with the class.",
+     "{{S}} counts forwards and backwards from 40.",
+     "{{S}} knows one more and one less of numbers up to 100.",
+     "{{S}} counts forwards from any given number up to 120.",
+     "{{S}} identifies the number before and after a given three-digit number.",
+     "{{S}} says number words in order and points to or touches objects as {{s}} counts."
+    ]
+   },
+   {
+    "id": "subitising",
+    "label": "Recognising small amounts at a glance",
+    "sentences": [
+     "{{S}} immediately recognises the number of objects in a small collection.",
+     "{{S}} recognises different finger patterns for the same number."
+    ]
+   },
+   {
+    "id": "reading-writing-numbers",
+    "label": "Reading and writing numbers",
+    "sentences": [
+     "{{S}} works confidently with large numbers, reads and writes values in the millions, and understands decimals to the hundredths and thousandths.",
+     "{{S}} reads and represents numbers using place value knowledge.",
+     "{{S}} reads, writes, and interprets numbers in a variety of ways.",
+     "{{S}} is learning to read and represent numbers in different ways and can order numbers up to four digits.",
+     "{{S}} represents numbers using drawings, words and numerals.",
+     "{{S}} reads, writes and orders three-digit numbers.",
+     "{{S}} selects numerals using eye contact, gestures or touch."
+    ]
+   },
+   {
+    "id": "comparing-ordering",
+    "label": "Comparing and ordering numbers",
+    "sentences": [
+     "{{S}} compares and orders decimals and percentages.",
+     "{{S}} compares and orders whole numbers and fractions and rounds decimals accurately.",
+     "{{S}} arranges numbers of up to six digits from lowest to highest."
+    ]
+   },
+   {
+    "id": "place-value",
+    "label": "Place value",
+    "sentences": [
+     "{{S}} confidently works with large numbers and applies place value knowledge to understand numbers in the millions.",
+     "{{S}} works confidently with large numbers in the millions and applies place value to solve a range of problems.",
+     "{{S}} applies {{pos}} knowledge of place value to work confidently with large numbers.",
+     "{{S}} works confidently with large numbers and applies place value to solve problems.",
+     "{{S}} uses place value to read, write and work with large numbers and represents them in different ways.",
+     "{{S}} works with whole numbers and applies place value to solve problems.",
+     "{{S}} separates numbers into groups of tens and ones.",
+     "{{S}} states what each digit is worth in a three-digit number.",
+     "{{S}} understands that one thousand is made up of ten hundreds and represents numbers using words and drawings."
+    ]
+   },
+   {
+    "id": "rounding-estimating",
+    "label": "Rounding and estimating",
+    "sentences": [
+     "{{S}} rounds whole numbers and decimals to estimate results.",
+     "{{S}} rounds numbers to estimate results and records numbers in different ways."
+    ]
+   },
+   {
+    "id": "decimals",
+    "label": "Decimals",
+    "sentences": [
+     "{{S}} tells apart decimals that end and decimals that repeat forever."
+    ]
+   },
+   {
+    "id": "negative-numbers",
+    "label": "Negative numbers",
+    "sentences": [
+     "{{S}} adds and subtracts positive and negative numbers.",
+     "{{S}} multiplies and divides positive and negative numbers."
+    ]
+   },
+   {
+    "id": "percentages",
+    "label": "Percentages",
+    "sentences": [
+     "{{S}} writes one amount as a fraction, decimal or percentage of another.",
+     "{{S}} finds any percentage of an amount to solve problems."
+    ]
+   }
+  ],
+  "Additive Relations": [
+   {
+    "id": "combining-separating",
+    "label": "Combining and separating groups",
+    "sentences": [
+     "{{S}} adds two small groups of counters to solve mathematical problems.",
+     "{{S}} uses concrete materials to model addition and subtraction problems involving two-digit numbers.",
+     "{{S}} combines and separates groups of items."
+    ]
+   },
+   {
+    "id": "counting-to-solve",
+    "label": "Counting to find a total or difference",
+    "sentences": [
+     "{{S}} counts across two small groups to find a total."
+    ]
+   },
+   {
+    "id": "number-facts",
+    "label": "Number combinations and facts",
+    "sentences": [
+     "{{S}} uses known number facts and basic strategies to solve addition and subtraction problems.",
+     "{{S}} shows different ways to make numbers up to ten using counters, such as '4 and 3 makes 7'.",
+     "{{S}} knows some combinations of numbers up to 10, such as '3 and 3 makes 6', and draws pictures to show {{pos}} thinking.",
+     "{{S}} solves simple addition problems by doubling, such as '6 and 6 makes 12'.",
+     "{{S}} recalls related addition and subtraction facts for numbers to at least 20."
+    ]
+   },
+   {
+    "id": "strategies",
+    "label": "Addition and subtraction strategies",
+    "sentences": [
+     "{{S}} applies a range of addition and subtraction strategies effectively.",
+     "{{S}} applies known strategies to solve addition and subtraction problems.",
+     "{{S}} applies different strategies to solve addition and subtraction problems.",
+     "{{S}} uses taught strategies to solve addition and subtraction problems with combinations up to 20.",
+     "{{S}} solves addition and subtraction problems using appropriate mental strategies.",
+     "{{S}} solves addition and subtraction problems with numbers of any size using a range of strategies."
+    ]
+   },
+   {
+    "id": "place-value-methods",
+    "label": "Adding and subtracting with place value",
+    "sentences": [
+     "{{S}} solves subtraction with three-digit numbers.",
+     "{{S}} solves addition and subtraction problems by separating numbers into their place value."
+    ]
+   },
+   {
+    "id": "word-problems",
+    "label": "Word and money problems",
+    "sentences": [
+     "{{S}} uses {{pos}} knowledge of addition and subtraction to solve complex worded problems."
+    ]
+   },
+   {
+    "id": "estimating",
+    "label": "Estimating and checking",
+    "sentences": [
+     "{{S}} uses estimation to decide whether an answer is reasonable."
+    ]
+   },
+   {
+    "id": "equations-and-graphs",
+    "label": "Number sentences, equations and graphs",
+    "sentences": [
+     "{{S}} uses the equals sign to show when two number sentences have the same total.",
+     "{{S}} plots pairs of numbers on a grid to show a straight-line pattern.",
+     "{{S}} uses graphs to solve simple equations."
+    ]
+   }
+  ],
+  "Multiplicative Relations": [
+   {
+    "id": "patterns",
+    "label": "Making and continuing patterns",
+    "sentences": [
+     "{{S}} creates number patterns using known multiplication facts.",
+     "{{S}} generates number patterns using times tables.",
+     "{{S}} creates and continues patterns by lining up objects according to their colour or shape.",
+     "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100.",
+     "{{S}} copies a continuing pattern."
+    ]
+   },
+   {
+    "id": "equal-groups",
+    "label": "Sharing and making equal groups",
+    "sentences": [
+     "{{S}} counts by twos, threes and fives to recognise simple division and creates equal groups to show multiplication.",
+     "{{S}} models and describes collections of objects as 'groups of', such as two groups of three.",
+     "{{S}} organises objects into equal rows and columns as part of {{pos}} multiplication knowledge.",
+     "{{S}} points to or touches objects as they are shared into smaller equal groups.",
+     "{{S}} identifies the number of objects in a group."
+    ]
+   },
+   {
+    "id": "solving-and-recording",
+    "label": "Solving and recording multiplication and division",
+    "sentences": [
+     "{{S}} uses strategies to solve simple division problems.",
+     "{{S}} records how objects were shared using drawings, words and numbers."
+    ]
+   },
+   {
+    "id": "facts",
+    "label": "Multiplication facts and factors",
+    "sentences": [
+     "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders.",
+     "{{S}} recalls some multiplication facts and uses them to support calculations.",
+     "{{S}} uses visual representations to find multiplication facts.",
+     "{{S}} recognises that doubling a number gives the same answer as multiplying by 2.",
+     "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems.",
+     "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts."
+    ]
+   },
+   {
+    "id": "inverse",
+    "label": "Linking multiplication and division",
+    "sentences": [
+     "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+     "{{S}} recognises that multiplication and division are opposites and uses one to solve the other."
+    ]
+   },
+   {
+    "id": "larger-numbers",
+    "label": "Multiplying and dividing larger numbers",
+    "sentences": [
+     "{{S}} multiplies and divides decimals accurately and works through calculations with several steps in the correct order.",
+     "{{S}} multiplies 2- and 3-digit numbers by 2-digit numbers and represents and solves division problems with whole number remainders.",
+     "{{S}} solves division problems with whole number remainders."
+    ]
+   },
+   {
+    "id": "algebra",
+    "label": "Letters for unknown numbers",
+    "sentences": [
+     "{{S}} uses letters to stand for unknown numbers and recognises numbers multiplied by themselves, such as 4 × 4.",
+     "{{S}} uses letters to stand for unknown numbers when solving simple problems.",
+     "{{S}} writes expressions with letters and finds their value by replacing letters with numbers."
+    ]
+   }
+  ],
+  "Representing Quantity Fractions": [
+   {
+    "id": "naming-showing",
+    "label": "Naming and showing fractions",
+    "sentences": [
+     "{{S}} recognises and represents fractions of a length and records numbers in different forms.",
+     "{{S}} recognises simple fractions such as halves and quarters and records numbers as decimals.",
+     "{{S}} represents fractions with halves, quarters and thirds.",
+     "{{S}} represents common fractions using models and number lines.",
+     "{{S}} recognises and names simple fractions such as halves and quarters.",
+     "{{S}} is learning to recognise, name and represent simple fractions.",
+     "{{S}} divides objects into equal halves, quarters and eighths to represent fractions."
+    ]
+   },
+   {
+    "id": "number-line",
+    "label": "Fractions on a number line",
+    "sentences": [
+     "{{S}} accurately represents fractions on a number line."
+    ]
+   },
+   {
+    "id": "comparing-ordering",
+    "label": "Comparing and ordering fractions",
+    "sentences": [
+     "{{S}} compares and orders fractions, decimals and percentages and explains how they are related.",
+     "{{S}} compares amounts using ratios, such as 2 to 3, and explains how they connect to fractions."
+    ]
+   },
+   {
+    "id": "equivalent",
+    "label": "Equal fractions",
+    "sentences": [
+     "{{S}} shows that different fractions can represent the same amount."
+    ]
+   },
+   {
+    "id": "calculating",
+    "label": "Calculating with fractions",
+    "sentences": [
+     "{{S}} adds, subtracts, multiplies and divides fractions.",
+     "{{S}} solves problems involving the multiplication and division of fractions.",
+     "{{S}} adds and subtracts simple fractions with accuracy."
+    ]
+   },
+   {
+    "id": "fraction-of-amount",
+    "label": "Finding a fraction of an amount",
+    "sentences": [
+     "{{S}} calculates percentage discounts and finds fractions of whole numbers.",
+     "{{S}} models halves, quarters, and eighths of a collection using counters."
+    ]
+   },
+   {
+    "id": "decimals-percentages",
+    "label": "Fractions, decimals and percentages",
+    "sentences": [
+     "{{S}} works with fractions and decimals and identifies prime numbers.",
+     "{{S}} demonstrates an understanding of the connection between common fractions, decimals and percentages.",
+     "{{S}} expresses common percentages as both fractions and decimals.",
+     "{{S}} works with fractions and decimals with growing accuracy.",
+     "{{S}} understands common fractions and writes them as decimals.",
+     "{{S}} recognises fractions and decimals and applies them in simple problems.",
+     "{{S}} converts simple fractions to decimals.",
+     "{{S}} writes tenths and hundredths as decimal numbers."
+    ]
+   }
+  ],
+  "Geometric Measure": [
+   {
+    "id": "position-directions",
+    "label": "Position and directions",
+    "sentences": [
+     "{{S}} follows simple directions to move to a new position.",
+     "{{S}} uses words such as 'under', 'next to' and 'behind' to describe where objects are.",
+     "{{S}} gives and follows directions between familiar places, using turns to the left or right.",
+     "{{S}} responds to simple instructions about position or movement."
+    ]
+   },
+   {
+    "id": "maps-and-grids",
+    "label": "Maps, grids and number planes",
+    "sentences": [
+     "{{S}} identifies and plots points on a number plane.",
+     "{{S}} plots and labels points on a number plane.",
+     "{{S}} identifies and plots points in the first quadrant of a number plane.",
+     "{{S}} identifies and plots points in the first quadrant of a number plane with support.",
+     "{{S}} reads simple maps and plans a path from one place to another.",
+     "{{S}} describes a path on a map using important places and compass directions."
+    ]
+   },
+   {
+    "id": "comparing-length",
+    "label": "Comparing lengths",
+    "sentences": [
+     "{{S}} uses words such as 'bigger' and 'longer' to describe the length of an object.",
+     "{{S}} matches items of similar length and identifies if two lengths are the same or different."
+    ]
+   },
+   {
+    "id": "measuring-length",
+    "label": "Measuring and estimating length",
+    "sentences": [
+     "{{S}} measures length, area and capacity using appropriate units.",
+     "{{S}} uses metres and kilometres to estimate and measure distances.",
+     "{{S}} selects appropriate units of measurement to determine length.",
+     "{{S}} measures and compares lengths in centimetres and metres.",
+     "{{S}} measures and records the length of objects using concrete materials such as blocks and tiles.",
+     "{{S}} measures lengths using a centimetre ruler.",
+     "{{S}} records lengths and distances using the abbreviation 'm' for metres.",
+     "{{S}} uses both centimetres and metres to find distances."
+    ]
+   },
+   {
+    "id": "converting-units",
+    "label": "Converting units of length",
+    "sentences": [
+     "{{S}} measures length using appropriate units and converts between centimetres, metres and kilometres.",
+     "{{S}} converts between units of area, volume and capacity."
+    ]
+   },
+   {
+    "id": "perimeter",
+    "label": "Perimeter",
+    "sentences": [
+     "{{S}} calculates the perimeter of two-dimensional shapes and precisely measures angles with a protractor.",
+     "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor.",
+     "{{S}} calculates the perimeters of common two-dimensional shapes.",
+     "{{S}} is beginning to measure perimeter and calculate the area of familiar two-dimensional shapes."
+    ]
+   },
+   {
+    "id": "angles",
+    "label": "Angles",
+    "sentences": [
+     "{{S}} measures angles accurately.",
+     "{{S}} identifies right angles in shapes.",
+     "{{S}} compares angles with a right angle, describing them as smaller, larger or the same size."
+    ]
+   },
+   {
+    "id": "area-volume-circles",
+    "label": "Area, volume and circles",
+    "sentences": [
+     "{{S}} uses hectares and square metres to solve area problems.",
+     "{{S}} explains how the radius, diameter and circumference of a circle are related.",
+     "{{S}} uses formulas to find the area of circles, trapeziums and kites.",
+     "{{S}} finds the volume of prisms and cylinders using formulas."
+    ]
+   }
+  ],
+  "Two-Dimensional Spatial Structure": [
+   {
+    "id": "recognising-naming",
+    "label": "Recognising and naming shapes",
+    "sentences": [
+     "{{S}} identifies and names common two-dimensional shapes.",
+     "{{S}} names basic shapes in {{pos}} environment and describes their features.",
+     "{{S}} points to a square, triangle, circle or rectangle when asked and matches them to images."
+    ]
+   },
+   {
+    "id": "features",
+    "label": "Describing, comparing and sorting shapes",
+    "sentences": [
+     "{{S}} classifies triangles and quadrilaterals by their features.",
+     "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations.",
+     "{{S}} identifies and classifies triangles and quadrilaterals based on their properties.",
+     "{{S}} identifies and classifies triangles and quadrilaterals by their features.",
+     "{{S}} classifies triangles and quadrilaterals based on their properties.",
+     "{{S}} classifies triangles and quadrilaterals.",
+     "{{S}} sorts two-dimensional shapes based on their sides and corners.",
+     "{{S}} compares and describes the features of shapes, such as parallel sides or equal sides.",
+     "{{S}} sorts shapes into groups."
+    ]
+   },
+   {
+    "id": "making-designs",
+    "label": "Making pictures and shapes",
+    "sentences": [
+     "{{S}} makes pictures and designs by fitting shapes together.",
+     "{{S}} makes shapes by tracing around objects, drawing and building.",
+     "{{S}} combines shapes to make new shapes and designs.",
+     "{{S}} splits a shape into smaller shapes and describes the result."
+    ]
+   },
+   {
+    "id": "comparing-area",
+    "label": "Comparing areas",
+    "sentences": [
+     "{{S}} compares the surfaces of two shapes to see which is bigger.",
+     "{{S}} compares the area of two-dimensional shapes by using counters and blocks.",
+     "{{S}} compares the areas of shapes by estimating first, then measuring on a square grid."
+    ]
+   },
+   {
+    "id": "measuring-area",
+    "label": "Measuring area with grids and units",
+    "sentences": [
+     "{{S}} calculates areas and matches three-dimensional objects with their two-dimensional drawings.",
+     "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles.",
+     "{{S}} calculates the area of two-dimensional shapes.",
+     "{{S}} creates rows and columns to model the area of rectangles.",
+     "{{S}} creates grid structures to model the area of rectangles."
+    ]
+   },
+   {
+    "id": "transformations",
+    "label": "Flips, slides, turns and symmetry",
+    "sentences": [
+     "{{S}} slides, flips and turns shapes, recognising that the shape stays the same size.",
+     "{{S}} finds lines of symmetry in pictures, designs and shapes.",
+     "{{S}} creates patterns by flipping, sliding and turning shapes."
+    ]
+   },
+   {
+    "id": "unknown-angles-sides",
+    "label": "Finding unknown angles and sides",
+    "sentences": [
+     "{{S}} finds missing angles when a line crosses a pair of parallel lines.",
+     "{{S}} uses the properties of triangles and four-sided shapes to find unknown angles.",
+     "{{S}} finds a missing side of a right-angled triangle."
+    ]
+   }
+  ],
+  "Three-Dimensional Spatial Structure": [
+   {
+    "id": "recognising-naming",
+    "label": "Recognising and naming objects",
+    "sentences": [
+     "{{S}} identifies basic three-dimensional objects and describes their features.",
+     "{{S}} names three-dimensional objects including cubes, cylinders, spheres and rectangular prisms.",
+     "{{S}} names and describes the features of common three-dimensional objects.",
+     "{{S}} selects objects by pointing or touching as they are named.",
+     "{{S}} matches objects to given shapes."
+    ]
+   },
+   {
+    "id": "features",
+    "label": "Describing and comparing features",
+    "sentences": [
+     "{{S}} compares and constructs three-dimensional objects such as prisms and pyramids.",
+     "{{S}} compares basic three-dimensional objects and explains how to connect them with their two-dimensional representations.",
+     "{{S}} describes and compares three-dimensional objects.",
+     "{{S}} describes the features of prisms, pyramids and cylinders by building models of them."
+    ]
+   },
+   {
+    "id": "sorting",
+    "label": "Sorting objects",
+    "sentences": [
+     "{{S}} participates in whole class activities to sort objects by one feature."
+    ]
+   },
+   {
+    "id": "building",
+    "label": "Building and stacking models",
+    "sentences": [
+     "{{S}} predicts which objects will stack and packs blocks into a given space.",
+     "{{S}} builds shapes from connecting cubes to compare how much space they take up.",
+     "{{S}} stacks objects such as blocks."
+    ]
+   },
+   {
+    "id": "drawing-views",
+    "label": "Drawing objects and views",
+    "sentences": [
+     "{{S}} efficiently connects three-dimensional objects with their two-dimensional representations.",
+     "{{S}} connects three-dimensional objects with their two-dimensional representations.",
+     "{{S}} connects three-dimensional objects with two-dimensional drawings and representations.",
+     "{{S}} visualises and constructs prisms and pyramids.",
+     "{{S}} sketches objects from different views and builds models from drawings.",
+     "{{S}} describes how objects made by joining prisms look from different views."
+    ]
+   },
+   {
+    "id": "volume-capacity",
+    "label": "Volume and capacity",
+    "sentences": [
+     "{{S}} experiments with filling and pouring to compare how much containers can hold.",
+     "{{S}} compares how much space different block models take up.",
+     "{{S}} compares how much different containers can hold using concrete materials.",
+     "{{S}} measures how much containers hold in litres, linking the litre to everyday containers.",
+     "{{S}} orders the amounts different containers can hold that have been measured in millilitres."
+    ]
+   }
+  ],
+  "Non-Spatial Measure": [
+   {
+    "id": "comparing-mass",
+    "label": "Comparing how heavy things are",
+    "sentences": [
+     "{{S}} lifts objects to feel which is heavier or lighter.",
+     "{{S}} compares the weight of objects using a balance and everyday units.",
+     "{{S}} identifies whether an object is heavy or light."
+    ]
+   },
+   {
+    "id": "measuring-mass-capacity",
+    "label": "Measuring mass and capacity",
+    "sentences": [
+     "{{S}} chooses appropriate units for measuring capacity and mass.",
+     "{{S}} solves problems involving capacity and mass.",
+     "{{S}} measures weight, perimeter and area accurately.",
+     "{{S}} measures mass using appropriate units.",
+     "{{S}} uses scaled instruments to measure capacities in millilitres and litres.",
+     "{{S}} estimates which objects have a mass of about one kilogram.",
+     "{{S}} measures the mass of objects with scales in grams and kilograms."
+    ]
+   },
+   {
+    "id": "converting-mass",
+    "label": "Converting units of mass",
+    "sentences": [
+     "{{S}} converts between kilograms, grams and tonnes.",
+     "{{S}} solves problems that involve different units of mass."
+    ]
+   },
+   {
+    "id": "ordering-events",
+    "label": "Ordering events and routines",
+    "sentences": [
+     "{{S}} uses words like 'morning' and 'afternoon' to explain the order of events in {{pos}} day.",
+     "{{S}} understands the order of routines.",
+     "{{S}} identifies events that happen in the daytime or at night-time."
+    ]
+   },
+   {
+    "id": "calendar",
+    "label": "Days, months and calendars",
+    "sentences": [
+     "{{S}} uses a calendar to name the days of the week and the months of the year."
+    ]
+   },
+   {
+    "id": "reading-clocks",
+    "label": "Reading and recording time",
+    "sentences": [
+     "{{S}} reads and records time using hours and minutes.",
+     "{{S}} reads and records time using hours and minutes and uses a calendar to find the number of days to a date.",
+     "{{S}} reads analog and digital clocks to the hour, such as '12 o'clock'.",
+     "{{S}} reads analog clocks and describes minute hand movement using appropriate 'o'clock' and 'half past' language.",
+     "{{S}} locates the hour hand and the minute hand on an analog clock."
+    ]
+   },
+   {
+    "id": "duration",
+    "label": "How long events take",
+    "sentences": [
+     "{{S}} measures and compares the duration of events in minutes.",
+     "{{S}} compares and orders the duration of events measured in minutes.",
+     "{{S}} uses start and finish times to work out how long an event lasts."
+    ]
+   },
+   {
+    "id": "24-hour-time",
+    "label": "24-hour time and timetables",
+    "sentences": [
+     "{{S}} converts between 12-hour and 24-hour time systems.",
+     "{{S}} solves problems involving time by converting between 12-hour and 24-hour formats.",
+     "{{S}} converts between 12- and 24-hour time.",
+     "{{S}} solves time problems that use both 12- and 24-hour times."
+    ]
+   },
+   {
+    "id": "money",
+    "label": "Money",
+    "sentences": [
+     "{{S}} calculates totals with money and compares prices.",
+     "{{S}} adds amounts of money and compares prices in familiar situations.",
+     "{{S}} represents money in different ways and counts collections of coins and notes in familiar situations.",
+     "{{S}} shows money values in different forms."
+    ]
+   }
+  ],
+  "Data": [
+   {
+    "id": "collecting",
+    "label": "Collecting data and asking questions",
+    "sentences": [
+     "{{S}} takes part in class activities to collect information from classmates and ask questions about it.",
+     "{{S}} creates surveys and records data using predicted categories.",
+     "{{S}} answers yes or no questions or chooses from options to help collect data."
+    ]
+   },
+   {
+    "id": "sorting-recording",
+    "label": "Sorting and recording data",
+    "sentences": [
+     "{{S}} groups objects by one feature and joins in class activities to make a data display."
+    ]
+   },
+   {
+    "id": "making-displays",
+    "label": "Making graphs and displays",
+    "sentences": [
+     "{{S}} constructs and interprets data displays where each symbol or bar stands for more than one.",
+     "{{S}} organises and presents information using appropriate graphs and tables.",
+     "{{S}} organises data into a picture graph using tally marks and symbols.",
+     "{{S}} creates column graphs and answers questions related to the information.",
+     "{{S}} chooses a suitable number scale to create data representations and draws graphs using both paper and digital technologies.",
+     "{{S}} uses pictures to show collected data."
+    ]
+   },
+   {
+    "id": "choosing-graphs",
+    "label": "Choosing a suitable graph",
+    "sentences": [
+     "{{S}} chooses suitable graphs and timelines to display information, and collects and organises data effectively.",
+     "{{S}} chooses suitable graphs and timelines to display information and organises data clearly.",
+     "{{S}} selects suitable graphs to display data.",
+     "{{S}} chooses appropriate graphs and data displays to represent simple information.",
+     "{{S}} identifies the type of data collected and chooses a graph to suit it."
+    ]
+   },
+   {
+    "id": "reading-graphs",
+    "label": "Reading tables and graphs",
+    "sentences": [
+     "{{S}} explains how data displays can sometimes be misleading.",
+     "{{S}} interprets information in tables and identifies important features of data displays.",
+     "{{S}} interprets data presented in tables and graphs.",
+     "{{S}} interprets data from tables, graphs and charts, and explains their key features.",
+     "{{S}} interprets data from tables and column graphs.",
+     "{{S}} interprets information from tables and column graphs and finds totals in data displays.",
+     "{{S}} accurately interprets information presented in tables, column graphs and line graphs.",
+     "{{S}} interprets information from tables and column graphs, and makes comparisons between categories.",
+     "{{S}} reads and interprets information from tables and graphs with growing understanding.",
+     "{{S}} identifies the largest and smallest values in a data display.",
+     "{{S}} reads information from tables and explains what is shown in column graphs.",
+     "{{S}} interprets information from tables and column graphs with growing understanding.",
+     "{{S}} reads basic tables and column graphs with growing understanding.",
+     "{{S}} answers questions about data represented in tallies and picture graphs."
+    ]
+   },
+   {
+    "id": "comparing-data",
+    "label": "Comparing data and drawing conclusions",
+    "sentences": [
+     "{{S}} answers questions about side-by-side column graphs that compare two groups.",
+     "{{S}} finds the average, middle value and most common value of a set of data.",
+     "{{S}} draws conclusions from data shown in tables and different graphs."
+    ]
+   }
+  ],
+  "Chance": [
+   {
+    "id": "describing-likelihood-in-words",
+    "label": "Describing likelihood in words",
+    "sentences": [
+     "{{S}} describes the likelihood of events using probability language.",
+     "{{S}} describes the likelihood of outcomes in chance experiments using appropriate language.",
+     "{{S}} describes the likelihood of outcomes in chance experiments using everyday language.",
+     "{{S}} describes the chance of events occurring using the terms equally likely, likely and unlikely.",
+     "{{S}} identifies possible outcomes of events and describes them as more or less likely to happen.",
+     "{{S}} describes the chance of different outcomes in everyday situations."
+    ]
+   },
+   {
+    "id": "identifying-outcomes",
+    "label": "Identifying outcomes",
+    "sentences": [
+     "{{S}} identifies likely outcomes from chance experiments.",
+     "{{S}} identifies possible outcomes of events and describes them using everyday language.",
+     "{{S}} describes outcomes in simple chance experiments."
+    ]
+   },
+   {
+    "id": "predicting-testing-comparing",
+    "label": "Predicting, testing and comparing",
+    "sentences": [
+     "{{S}} predicts what might happen in simple experiments, tests it and compares the results.",
+     "{{S}} explains why chance experiment results can differ from what was expected.",
+     "{{S}} records results when the outcomes of an experiment are not equally likely."
+    ]
+   },
+   {
+    "id": "measuring-chance-with-numbers",
+    "label": "Measuring chance with numbers",
+    "sentences": [
+     "{{S}} uses fractions, decimals and percentages to show how likely events are.",
+     "{{S}} works out the chance that an event will not happen."
+    ]
+   },
+   {
+    "id": "events-that-affect-each-other",
+    "label": "Events that affect each other",
+    "sentences": [
+     "{{S}} discusses whether one event changes the chance of the next one."
+    ]
+   }
+  ]
+ }
+};
+const SUBJ_SENT_TRAIT = { english: {}, maths: {} };
+['english', 'maths'].forEach(sj => Object.keys(SUBJ_TRAITS[sj]).forEach(cat => SUBJ_TRAITS[sj][cat].forEach(t => t.sentences.forEach(s => { SUBJ_SENT_TRAIT[sj][s] = { cat, id: t.id }; }))));
+
 // Sentences that belong to one semester only. Both sets stay in RAW so finished comments, categories and
 // the S1 "used" locks keep working; the sentence bank just hides the other semester's set.
 const SEM_ONLY = { 1: new Set(), 2: new Set() };
@@ -3025,6 +4758,8 @@ function setSubject(subj) {
   currentSubject = subj;
   _showGradeEntry = false;
   _showAllStrands = false;
+  _searchOpen = false;   // v3.17.26
+  _quickEnd = false; _quickFull = false; _quickShowAll = false;   // v3.17.28
   lsSet('rcb_subject', subj);
   // Clear the destination subject's cache so we always see fresh content when switching
   // Also clear other subjects to prevent cross-subject bleed
@@ -6585,6 +8320,7 @@ function render() {
   renderOpts();
   renderOut();
   renderStuBar();
+  paintQuickBtn();   // v3.17.28
 }
 
 function paintChipScroll() {
@@ -6674,6 +8410,7 @@ function renderSidebar() {
     fdBtn.innerHTML = `<span class="cat-name">Future Directions</span>${fdCount ? `<span class="cat-count">${fdCount}</span>` : ''}`;
     fdBtn.onclick = () => { currentTab = 'Future Directions'; render(); };
     el.appendChild(fdBtn);
+    appendSearchBtn(el);   // v3.17.26
     return;
   }
 
@@ -6702,6 +8439,484 @@ function renderSidebar() {
     btn.onclick = () => { currentTab = cat; render(); };
     el.appendChild(btn);
   });
+  appendSearchBtn(el);   // v3.17.26
+}
+
+// ── v3.17.26 · SEARCH ────────────────────────────────────────────────────────
+// A Search entry after the last category. It finds a sentence in any category of the open subject (General, English or Maths).
+// It is a flag, not a category: currentTab stays a real category. A click on any category, or a change of subject, closes it.
+// Nothing here is saved; clicking a result calls the same handler as the bank row.
+let _searchOpen = false, _searchQuery = '', _searchFocusKey = null, _searchCaret = null, _searchTimer = null;
+function appendSearchBtn(el) {
+  const d = document.createElement('div'); d.className = 'cat-div'; el.appendChild(d);
+  const b = document.createElement('button');
+  b.className = 'cat-btn search-btn' + (_searchOpen ? ' active' : '');
+  b.innerHTML = '<span class="cat-name">Search</span>';
+  b.setAttribute('aria-label', 'Search every category');
+  b.onclick = () => { _searchOpen = true; render(); setTimeout(() => { const i = document.getElementById('searchInput'); if (i) i.focus(); }, 0); };
+  el.appendChild(b);
+  if (!el._searchCloseBound) {   // a click on any category button closes Search (this runs before that button's own handler)
+    el._searchCloseBound = true;
+    el.addEventListener('click', e => { const t = e.target.closest && e.target.closest('.cat-btn'); if (t && !t.classList.contains('search-btn')) { _searchOpen = false; _quickEnd = false; _quickFull = false; _quickShowAll = false; } }, true);
+  }
+}
+function closeSearch() { _searchOpen = false; }
+// the words typed, lower case; every word must appear in a sentence for it to match
+function _searchWords(q) { return String(q || '').toLowerCase().split(/\s+/).filter(Boolean); }
+function _searchHit(text, words) { const t = String(text).toLowerCase(); return words.every(w => t.indexOf(w) !== -1); }
+// the sentence with the matched words in <mark>; the text is cut into pieces first and each piece is escaped, so typed text can never become markup
+function _searchMarkHtml(text, words) {
+  const re = new RegExp(words.slice().sort((a, b) => b.length - a.length).map(escapeRegex).join('|'), 'gi');
+  let out = '', last = 0, m;
+  while ((m = re.exec(text)) !== null) {
+    if (!m[0].length) { re.lastIndex++; continue; }
+    out += escHtml(text.slice(last, m.index)) + '<mark>' + escHtml(m[0]) + '</mark>';
+    last = m.index + m[0].length;
+  }
+  return out + escHtml(text.slice(last));
+}
+// every sentence the open subject offers this student, as { cat, rows: [{ key, text, btnClass, tag, title, onclick }] }
+function _searchCollect(words) {
+  const stu = cur(), groups = [];
+  const subj = currentSubject;
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun], yrAl = yrA(stu, subj);
+  let n = 0;
+  const add = (cat, row) => {
+    if (!_searchHit(row.text, words)) return;
+    let g = groups[groups.length - 1];
+    if (!g || g.cat !== cat) { g = groups.find(x => x.cat === cat); if (!g) { g = { cat, rows: [] }; groups.push(g); } }
+    g.rows.push(row); n++;
+  };
+  if (subj === 'general') {
+    const isS2 = currentSemester === 2, s1Keys = isS2 ? getS1UsedKeys(stu) : new Set();
+    let synced = false;
+    CATS.forEach(cat => {
+      if (syncMyBank(stu, cat)) synced = true;
+      const bounds = TIER_BOUNDARIES[cat] || { average: null, developing: null };
+      const tierLabels = { strong: 'Positive', average: 'Average', developing: 'Developing' };
+      (RAW[cat] || []).forEach(s => {
+        // the same sentences the bank shows: the other semester's are hidden unless picked (retired ones stay if picked or used in Semester 1)
+        if (!(inSemester(s) || (stu.selected[cat] || []).includes(s) || (RETIRED.has(s) && isS2 && s1Keys.has(s)))) return;
+        const f = genSelForm(cat, s), isSel = f !== null, used = isS2 && s1Keys.has(s);
+        const tier = bounds.average === null ? null : _tierOfRaw(cat, s);
+        add(cat, {
+          key: cat + '|' + s, text: isSel ? applyFC(f, f) : applyFC(s), sel: isSel,
+          btnClass: 'opt' + (tier ? ' tier-' + tier : ' tier-strong') + (isSel ? ' sel' : '') + (used ? ' s1-used' : ''),
+          tag: tier ? tierLabels[tier] : '', title: used ? 'Used in Semester 1. Click to continue it in Semester 2.' : '',
+          onclick: used ? () => openContinueS1(cat, s) : () => toggleOpt(cat, s)
+        });
+      });
+      const customs = (stu.custom || {})[cat] || [], cTiers = (stu.customTiers || {})[cat] || [];
+      customs.forEach((s, i) => {
+        if (s === null || s === undefined) return;
+        const key = '__custom__' + cat + '__' + i, isSel = (stu.selected[cat] || []).includes(key), tier = cTiers[i] || 'strong';
+        add(cat, {
+          key: cat + '|' + key, text: isSel ? applyFC(s, key) : applyFC(s), sel: isSel,
+          btnClass: 'opt custom tier-' + tier + (isSel ? ' sel' : ''), tag: isMineSentence(cat, s) ? 'Mine' : 'Yours', title: '',
+          onclick: () => toggleCustomOpt(cat, i)
+        });
+      });
+    });
+    if (synced) autoSave();
+  } else {
+    const bank = getBank(), sel = getSubjSelected(), s1 = currentSemester === 2;
+    const customKey = subj === 'english' ? 'engCustom' : 'mathCustom';
+    let synced = false;
+    getCatList().forEach(cat => {
+      if (cat === 'Future Directions') return;
+      const cs = bank[cat] || {};
+      const lists = yearAllGrades(cs);   // { A..E: [...] } (the bank's own rule for the student's year; no year gives the stored grades)
+      const placed = new Set();
+      GRADE_ORDER.forEach(g => (lists[g] || []).forEach(s => {
+        if (typeof s !== 'string' || placed.has(s)) return; placed.add(s);
+        const isSel = subjSelectedForm(sel[cat], s) !== null;
+        const used = !isSel && subjS1Used(cat, s);
+        add(cat, {
+          key: cat + '|' + s, text: applyRaw(s, name, p, yrAl), sel: isSel,
+          btnClass: 'opt' + (isSel ? ' sel' : '') + (used ? ' s1-used' : ''),
+          tag: SENT_TAG[s] ? sylTagLabel(SENT_TAG[s]) : ('Grade ' + g), title: used ? 'Used in Semester 1. You can still choose it again.' : '',
+          onclick: () => toggleSubjOpt(cat, s)
+        });
+      }));
+      if (syncMyBankSubj(stu, subj, cat)) synced = true;
+      ((stu[customKey] && stu[customKey][cat]) || []).filter(x => typeof x === 'string').forEach(s => {
+        const isSel = (sel[cat] || []).includes(s);
+        add(cat, {
+          key: cat + '|' + s, text: applyRaw(s, name, p, yrAl), sel: isSel, btnClass: 'opt custom' + (isSel ? ' sel' : ''),
+          tag: isMineSentence(mineKey(cat), s) ? 'Mine' : 'Yours', title: '', onclick: () => toggleSubjOpt(cat, s)
+        });
+      });
+    });
+    // future directions of every stage (the picker still allows two)
+    const curFD = getCurFD(), cust = getCustomFD();
+    Object.entries(getFDBank()).forEach(([strand, stages]) => FD_STAGES.forEach(stage => {
+      [...(stages[stage] || []), ...(((cust[strand] || {})[stage]) || [])].forEach(t => {
+        const isSel = curFD.includes(t), locked = curFD.length >= 2 && !isSel;
+        add('Future Directions', {
+          key: 'FD|' + strand + '|' + stage + '|' + t, text: t, sel: isSel, btnClass: 'opt' + (isSel ? ' sel' : '') + (locked ? ' opts-locked' : ''),
+          tag: strand + ' · ' + stage, title: locked ? '2 future directions are chosen. Take one out to choose this.' : '', onclick: locked ? null : () => toggleFD(t)
+        });
+      });
+    }));
+    if (synced) autoSave();
+  }
+  return { groups, n };
+}
+// ── v3.17.28 · QUICK MODE (General) ──────────────────────────────────────────
+// A switch, off unless the teacher turns it on. In General, Build shows one screen per category with a chip for each characteristic
+// (GEN_TRAITS). Tapping a chip picks one sentence of that characteristic the same way a click in the bank would (toggleOpt's own steps),
+// tapping it again takes it out. Nothing is saved except the switch itself (a setting on this device); no bank sentence is changed.
+let _quickEnd = false, _quickFull = false, _quickShowAll = false, _quickLevelAsked = null;
+function quickOn() { return lsGet('rcb_quickmode', false) === true; }
+function quickActive() { return quickOn(); }
+function setQuick(on) {
+  lsSet('rcb_quickmode', !!on); _quickEnd = false; _quickFull = false; _quickShowAll = false; _quickLevelAsked = null; _searchOpen = false;
+  try { if (currentView === 'build') render(); } catch (e) { console.warn('quick', e); }
+  try { renderMoreSettings(); } catch (e) {}
+}
+function toggleQuick() { setQuick(!quickOn()); }
+// v3.17.29 · Swap a sentence in Review (General). The sentence is found through the same matcher the draft uses (_draftMatches),
+// so a sentence the teacher reworded is never swapped. The button sits outside #pubContent so the save observer never sees it.
+let _swapSpan = null, _swapHideT = null;
+function _swapBtnEl() {
+  let b = document.getElementById('swapBtn');
+  if (!b) {
+    b = document.createElement('button'); b.id = 'swapBtn'; b.type = 'button'; b.className = 'swap-btn';
+    b.textContent = '⇄ Swap'; b.title = 'Swap for another sentence about the same thing'; b.setAttribute('aria-label', 'Swap this sentence for another about the same thing');
+    b.addEventListener('mousedown', e => e.preventDefault());
+    b.addEventListener('mouseenter', () => clearTimeout(_swapHideT));
+    b.addEventListener('mouseleave', () => { _swapHideT = setTimeout(_swapHide, 500); });
+    b.addEventListener('click', () => { if (_swapSpan && _swapSpan.isConnected) swapSentence(_swapSpan); });
+    document.body.appendChild(b);
+  }
+  return b;
+}
+function _swapHide() { clearTimeout(_swapHideT); const b = document.getElementById('swapBtn'); if (b) b.style.display = 'none'; _swapSpan = null; }
+function _swapShow(span) {
+  if (currentView !== 'publish' || !flagOn('swapBtn')) return;
+  if (!span || span.closest('.fd-para')) return;
+  clearTimeout(_swapHideT);
+  _swapSpan = span;
+  const rs = span.getClientRects(); if (!rs.length) return;
+  const r = rs[rs.length - 1], b = _swapBtnEl();
+  b.style.display = 'block';
+  const w = b.offsetWidth || 70;
+  b.style.left = Math.max(4, Math.min(window.innerWidth - w - 8, r.right + 6)) + 'px';
+  b.style.top = Math.max(4, r.top + (r.height - (b.offsetHeight || 24)) / 2) + 'px';
+}
+document.addEventListener('mouseover', e => { const sp = e.target.closest && e.target.closest('#pubContent span[data-pi][data-si]'); if (sp) _swapShow(sp); });
+document.addEventListener('mouseout', e => { if (e.target.closest && e.target.closest('#pubContent')) _swapHideT = setTimeout(_swapHide, 500); });
+document.addEventListener('click', e => { const sp = e.target.closest && e.target.closest('#pubContent span[data-pi][data-si]'); if (sp) _swapShow(sp); });
+window.addEventListener('scroll', () => _swapHide(), true);
+// Which bank sentence is this span? Only an unchanged, one-sentence match counts.
+function _swapFind(stu, span) {
+  const content = document.getElementById('pubContent'); if (!content) return null;
+  const spans = Array.from(content.querySelectorAll('p.pub-para:not(.fd-para) > span[data-si]'));
+  const idx = spans.indexOf(span); if (idx < 0) return null;
+  const text = Array.from(content.querySelectorAll('p.pub-para:not(.fd-para)')).map(p => p.textContent.trim()).filter(Boolean).join('\n\n');
+  if (splitSentences(text).length !== spans.length) return null;
+  const subj = currentSubject, m = _draftMatches(stu, subj === 'general' ? null : subj, (subj === 'general' ? stu.ordered : getSubjOrdered()).slice(), text);
+  for (const [key, r] of m) if (r.status === 'same' && r.from === idx && r.to === idx + 1) return key;
+  return null;
+}
+function _swapReplaceKey(stu, oldKey, newKey) {
+  const swapIn = arr => { if (!Array.isArray(arr)) return; const i = arr.indexOf(oldKey); if (i !== -1) arr[i] = newKey; };
+  if (currentSubject !== 'general') { const sel = getSubjSelected(); Object.keys(sel).forEach(c => swapIn(sel[c])); swapIn(getSubjOrdered()); return; }
+  Object.keys(stu.selected || {}).forEach(c => swapIn(stu.selected[c]));
+  swapIn(stu.ordered); swapIn(stu.orderedAfterEdit); swapIn(stu.orderedAtDone);
+}
+function _swapMoveLayout(stu, oldSig, newSig) {
+  const L = stu[_layoutKey(currentSubject)]; if (!L || oldSig === newSig) return;
+  if (L.__v === 2) {
+    if (L.starts && Object.prototype.hasOwnProperty.call(L.starts, oldSig)) { L.starts[newSig] = L.starts[oldSig]; delete L.starts[oldSig]; }
+    if (Array.isArray(L.order)) L.order = L.order.map(g => g === oldSig ? newSig : g);
+  } else if (Object.prototype.hasOwnProperty.call(L, oldSig)) { L[newSig] = L[oldSig]; delete L[oldSig]; }
+}
+function swapSentence(span) {
+  _swapHide();
+  const stu = cur();
+  if (currentView !== 'publish' || !stu) return;
+  const subj = currentSubject;
+  if (subj === 'general' && stu.editedCat) { showToast('This comment was edited in an older way, so sentences cannot be swapped.'); return; }
+  const key = _swapFind(stu, span);
+  if (!key) { showToast('This sentence has been edited, so it cannot be swapped.'); return; }
+  let t, cands, at;
+  if (subj === 'general') {
+    const tr = SENT_TRAIT[key] || SENT_TRAIT[GEN_OLD2NEW[key]];
+    if (!tr) { showToast('This sentence is not in a group, so it cannot be swapped.'); return; }
+    t = GEN_TRAITS[tr.cat].find(x => x.id === tr.id);
+    cands = quickCandidates(stu, tr.cat, t, false);
+    at = t.sentences.indexOf(SENT_TRAIT[key] ? key : GEN_OLD2NEW[key]);
+  } else {
+    let tr = null, x = key, n = 0; while (x !== undefined && !tr && n++ < 6) { tr = SUBJ_SENT_TRAIT[subj][x] || null; if (!tr) x = SUBJ_ALIASES[x]; }
+    if (!tr) { showToast('This sentence is not in a skill group, so it cannot be swapped.'); return; }
+    t = SUBJ_TRAITS[subj][tr.cat].find(y => y.id === tr.id);
+    cands = quickSubjCandidates(stu, tr.cat, t, false);
+    at = t.sentences.indexOf(x);
+  }
+  if (!cands.length) { showToast('No other sentence for ' + t.label + ' is available' + (subj === 'general' ? '.' : ' at this year and mark.')); return; }
+  const pick = cands.find(y => t.sentences.indexOf(y) > at) || cands[0];
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
+  const oldTxt = span.textContent.trim();
+  const nt = applyAlternation(subj === 'general' ? resolveKey(pick, stu) : pick, name, p, { value: oldTxt.startsWith(name) ? 0 : 1 }, yr);
+  _swapMoveLayout(stu, _paraSig(oldTxt, stu), _paraSig(nt, stu));
+  _swapReplaceKey(stu, key, pick);
+  span.textContent = nt;
+  const content = document.getElementById('pubContent');
+  try { enforceAlternationDOM(content); } catch (e) {}
+  _afterReviewEdit();
+  showToast('Swapped (' + t.label + '). Press Swap again for another.');
+}
+function paintQuickBtn() {
+  const b = document.getElementById('quickBtn'); if (!b) return;
+  const on = quickOn();
+  b.textContent = 'Quick mode: ' + (on ? 'On' : 'Off'); b.setAttribute('aria-checked', on ? 'true' : 'false'); b.classList.toggle('on', on);
+}
+// the level the student's General comment starts at: the teacher's setting, or (Semester 2) the level of their Semester 1 sentences
+function quickLevel(stu) { return generalLevel(stu) || (currentSemester === 2 ? s1LevelFor(stu) : null); }
+function _quickHasTiers(cat) { return (TIER_BOUNDARIES[cat] || {}).average != null; }
+// sentences of a characteristic that can be offered to this student now (this semester and year; not used in Semester 1; not already in the comment)
+function quickCandidates(stu, cat, t, includePicked) {
+  const s1 = currentSemester === 2 ? getS1UsedKeys(stu) : null;
+  return t.sentences.filter(x => inSemester(x) && !(s1 && s1.has(x)) && (includePicked || genSelForm(cat, x, stu) === null));
+}
+function quickTicked(stu, cat, t) { return t.sentences.some(x => genSelForm(cat, x, stu) !== null); }
+// which sentence a chip picks. No chance is used, so the same class always gives the same answer:
+// the student's level first, then the one the fewest other students use, then the one that adds the fewest repeated words, then bank order
+function quickPickFor(stu, cat, t) {
+  const cands = quickCandidates(stu, cat, t, false); if (!cands.length) return null;
+  const lv = quickLevel(stu), tiers = _quickHasTiers(cat), base = commentText(stu, 'general');
+  return cands.map(x => ({
+    x, lvl: (tiers && lv && _tierOfRaw(cat, x) === lv) ? 0 : 1,
+    use: students.filter(o => o !== stu && genSelForm(cat, x, o) !== null).length,
+    rep: repeatedWordsIn(base + ' ' + applyFC(x), stu).length,
+    ord: RAW[cat].indexOf(x)
+  })).sort((a, b) => (a.lvl - b.lvl) || (a.use - b.use) || (a.rep - b.rep) || (a.ord - b.ord))[0].x;
+}
+function quickTap(cat, id) {
+  if (currentSubject !== 'general') { quickTapSubj(cat, id); return; }
+  const stu = cur(), t = (GEN_TRAITS[cat] || []).find(x => x.id === id); if (!t) return;
+  if (!stu.selected[cat]) stu.selected[cat] = [];
+  if (quickTicked(stu, cat, t)) {
+    // take out the bank sentences of this characteristic; one the teacher reworded in the draft stays
+    const ed = editedKeySet(stu, 'general'); let kept = 0;
+    t.sentences.forEach(x => { const f = genSelForm(cat, x, stu); if (f === null) return; if (ed.has(f)) { kept++; return; } genRemoveKey(cat, f); });
+    render();
+    if (kept) showToast('A sentence you reworded stays in the comment. Take it out in the draft if you want it gone.');
+    return;
+  }
+  const pick = quickPickFor(stu, cat, t);
+  if (!pick) { showToast('No sentence left for this one. Use Search or the full list.'); return; }
+  genAddKey(cat, pick); render();
+}
+function _quickCatList() { return currentSubject === 'general' ? CATS.filter(c => GEN_TRAITS[c]) : getCatList().filter(c => SUBJ_TRAITS[currentSubject] && SUBJ_TRAITS[currentSubject][c]); }
+function quickGo(delta) {
+  _quickShowAll = false; _quickFull = false;
+  const L = _quickCatList(), i = L.indexOf(currentTab) + delta;
+  if (i >= L.length) { _quickEnd = true; } else { _quickEnd = false; currentTab = L[Math.max(0, i)]; }
+  render();
+}
+function quickSetLevel(v) { _quickLevelAsked = (cur().uid || currentIdx); if (v) onGenLevel(currentIdx, v); render(); }
+function _quickBtn(label, cls, fn, extra) { const b = document.createElement('button'); b.type = 'button'; b.className = cls; b.textContent = label; b.onclick = fn; if (extra) Object.keys(extra).forEach(k => b.setAttribute(k, extra[k])); return b; }
+// English and Maths: the characteristics are skills (SUBJ_TRAITS). The comments offered are the ones the bank offers this student for the strand:
+// the year and the mark set for the strand (grades honoured as in the usual list), and not used in Semester 1.
+let _quickMarkAsked = {};
+function _quickSubjElig(cat) {
+  const cs = getBank()[cat] || {}, grades = getCurGrade(cat), out = [], seen = new Set();
+  const lists = grades.length ? grades.map(g => yearSents(cs, g).list) : (() => { const a = yearAllGrades(cs); return GRADE_ORDER.map(g => a[g] || []); })();
+  lists.forEach(l => l.forEach(x => { if (typeof x === 'string' && !seen.has(x)) { seen.add(x); out.push(x); } }));
+  return out;
+}
+function quickSubjCandidates(stu, cat, t, includePicked) {
+  const elig = new Set(_quickSubjElig(cat)), sel = getSubjSelected()[cat] || [];
+  return t.sentences.filter(x => elig.has(x) && !subjS1Used(cat, x) && (includePicked || subjSelectedForm(sel, x) === null));
+}
+function quickSubjTicked(cat, t) { const sel = getSubjSelected()[cat] || []; return t.sentences.some(x => subjSelectedForm(sel, x) !== null); }
+function quickSubjPick(stu, cat, t) {
+  const cands = quickSubjCandidates(stu, cat, t, false); if (!cands.length) return null;
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, currentSubject), base = commentText(stu, currentSubject), ok = currentSubject === 'english' ? 'engSelected' : 'mathSelected';
+  return cands.map((x, i) => ({
+    x, ord: i,
+    use: students.filter(o => o !== stu && subjSelectedForm((o[ok] || {})[cat] || [], x) !== null).length,
+    rep: repeatedWordsIn(base + ' ' + applyRaw(x, name, p, yr), stu).length
+  })).sort((a, b) => (a.use - b.use) || (a.rep - b.rep) || (a.ord - b.ord))[0].x;
+}
+function quickTapSubj(cat, id) {
+  const stu = cur(), t = ((SUBJ_TRAITS[currentSubject] || {})[cat] || []).find(x => x.id === id); if (!t) return;
+  const sel0 = getSubjSelected()[cat] || [], ticked = t.sentences.map(x => subjSelectedForm(sel0, x)).filter(x => x !== null);
+  if (ticked.length) {
+    const ed = editedKeySet(stu, currentSubject); let kept = 0;
+    ticked.forEach(f => { if (ed.has(f)) { kept++; return; } toggleSubjOpt(cat, f); });
+    if (!ticked.length || kept === ticked.length) render();
+    if (kept) showToast('A sentence you reworded stays in the comment. Take it out in the draft if you want it gone.');
+    return;
+  }
+  const pick = quickSubjPick(stu, cat, t);
+  if (!pick) { showToast('No comment left for this one at this year and mark. Use Search or the full list.'); return; }
+  toggleSubjOpt(cat, pick);
+}
+function renderQuickSubj(grid) {
+  const gs = document.getElementById('gradeSelWrap'); if (gs) gs.style.display = 'none';
+  const tools = document.getElementById('cTools'); if (tools) { tools.classList.add('tools-off'); tools.classList.add('no-tiers'); }
+  grid.classList.remove('tiered'); grid.dataset.tier = 'all';
+  const stu = cur(), L = _quickCatList(), box = document.createElement('div'); box.className = 'quick-panel'; box.id = 'quickPanel';
+  const subjName = currentSubject === 'english' ? 'English' : 'Maths';
+  if (_quickEnd) {
+    box.innerHTML = '<div class="quick-prog">All ' + L.length + ' strands done</div><p class="quick-q">That is every ' + subjName + ' strand.</p><p class="quick-sub">Choose future directions, search every strand for anything you missed, or go on to Review.</p>';
+    const row = document.createElement('div'); row.className = 'quick-nav';
+    row.appendChild(_quickBtn('Back', 'quick-link', () => { _quickEnd = false; currentTab = L[L.length - 1]; render(); }));
+    row.appendChild(_quickBtn('Future directions', 'quick-link', () => { _quickEnd = false; currentTab = 'Future Directions'; render(); }));
+    row.appendChild(_quickBtn('Search every strand', 'quick-link', () => { _searchOpen = true; render(); setTimeout(() => { const i = document.getElementById('searchInput'); if (i) i.focus(); }, 0); }));
+    row.appendChild(_quickBtn('Go to Review', 'quick-go', () => setView('publish')));
+    box.appendChild(row); grid.appendChild(box); return;
+  }
+  let idx = L.indexOf(currentTab); if (idx < 0) { idx = 0; currentTab = L[0]; }
+  const cat = L[idx];
+  const head = document.createElement('div'); head.className = 'quick-prog'; head.setAttribute('aria-live', 'polite');
+  head.textContent = (idx + 1) + ' of ' + L.length + ' · ' + cat;
+  box.appendChild(head);
+  const nav = document.createElement('div'); nav.className = 'quick-nav';
+  const back = _quickBtn('Back', 'quick-link', () => quickGo(-1)); if (idx === 0) back.disabled = true;
+  const fullBtn = _quickBtn('Full list', 'quick-link', () => { _quickFull = true; render(); }, { title: 'Show this strand’s usual list of comments' });
+  if (!stu.year) {
+    box.insertAdjacentHTML('beforeend', '<p class="quick-q">Choose ' + escHtml(cn(stu) || 'this student') + '’s year first.</p><p class="quick-sub">Quick mode picks comments for the student’s year and the mark set for each strand.</p>');
+    nav.appendChild(back); nav.appendChild(_quickBtn('Skip', 'quick-go', () => quickGo(1))); box.appendChild(nav); grid.appendChild(box); return;
+  }
+  const grades = getCurGrade(cat), uid = (stu.uid || currentIdx) + '|' + currentSubject + '|' + cat;
+  if (!grades.length && !_quickMarkAsked[uid]) {
+    box.insertAdjacentHTML('beforeend', '<p class="quick-q">Which mark for ' + escHtml(cat) + '?</p><p class="quick-sub">Comments are chosen to suit it. You can still choose any mark in the full list.</p>');
+    const row = document.createElement('div'); row.className = 'quick-chips';
+    GRADE_ORDER.forEach(g => row.appendChild(_quickBtn(g + ' ' + GRADE_LABELS[g], 'quick-chip', () => { setCurGrade(cat, g); }, { 'data-grade': g })));
+    row.appendChild(_quickBtn('Not sure, show all', 'quick-link', () => { _quickMarkAsked[uid] = true; render(); }));
+    box.appendChild(row);
+    nav.appendChild(back); nav.appendChild(fullBtn); nav.appendChild(_quickBtn('Skip', 'quick-go', () => quickGo(1))); box.appendChild(nav); grid.appendChild(box); return;
+  }
+  const traits = (SUBJ_TRAITS[currentSubject] || {})[cat] || [], shown = [];
+  traits.forEach(t => { const ticked = quickSubjTicked(cat, t); if (ticked || quickSubjCandidates(stu, cat, t, true).length) shown.push({ t, ticked }); });
+  const sub = document.createElement('p'); sub.className = 'quick-sub';
+  sub.textContent = grades.length ? 'Tap what fits. Mark ' + grades.join(' and ') + ' (' + grades.map(g => GRADE_LABELS[g]).join(', ') + ').' : 'Tap what fits. No mark set, so every mark is offered.';
+  box.appendChild(sub);
+  const chips = document.createElement('div'); chips.className = 'quick-chips'; chips.setAttribute('role', 'group'); chips.setAttribute('aria-label', cat + ' skills');
+  shown.forEach(({ t, ticked }) => chips.appendChild(_quickBtn(t.label, 'quick-chip' + (ticked ? ' on' : ''), () => quickTap(cat, t.id), { 'aria-pressed': ticked ? 'true' : 'false', 'data-trait': t.id })));
+  if (!shown.length) { const m = document.createElement('div'); m.className = 'yr-fallback'; m.textContent = 'No comments for ' + yearWord(stu.year) + (grades.length ? ' at this mark' : '') + ' in this strand yet. Use the full list to write your own.'; chips.appendChild(m); }
+  box.appendChild(chips);
+  box.appendChild(_quickBtn(grades.length ? 'Change mark' : 'Set a mark', 'quick-link', () => { delete _quickMarkAsked[uid]; if (grades.length) { const g = cur()[currentSubject === 'english' ? 'engGrades' : 'mathGrades']; if (g) delete g[cat]; } render(); autoSave(); }));
+  const picked = traits.some(t => quickSubjTicked(cat, t));
+  nav.appendChild(back); nav.appendChild(fullBtn); nav.appendChild(_quickBtn(picked ? 'Next' : 'Skip', 'quick-go', () => quickGo(1)));
+  box.appendChild(nav); grid.appendChild(box);
+}
+function renderQuickPanel(grid) {
+  if (currentSubject !== 'general') { renderQuickSubj(grid); return; }
+  const gs = document.getElementById('gradeSelWrap'); if (gs) gs.style.display = 'none';
+  const tools = document.getElementById('cTools'); if (tools) { tools.classList.add('tools-off'); tools.classList.add('no-tiers'); }
+  grid.classList.remove('tiered'); grid.dataset.tier = 'all';
+  const stu = cur(), box = document.createElement('div'); box.className = 'quick-panel'; box.id = 'quickPanel';
+  const uid = stu.uid || currentIdx;
+  if (!quickLevel(stu) && _quickLevelAsked !== uid && !_quickEnd) {
+    box.innerHTML = '<div class="quick-prog">Before you start</div><p class="quick-q">Which level should ' + escHtml(cn(stu) || 'this student') + '’s comment start at?</p><p class="quick-sub">You can still choose any level in the full list.</p>';
+    const row = document.createElement('div'); row.className = 'quick-chips';
+    [['strong', 'Positive'], ['average', 'Average'], ['developing', 'Developing']].forEach(([v, l]) => row.appendChild(_quickBtn(l, 'quick-chip', () => quickSetLevel(v))));
+    row.appendChild(_quickBtn('Not sure, show all', 'quick-link', () => quickSetLevel(null)));
+    box.appendChild(row); grid.appendChild(box); return;
+  }
+  if (_quickEnd) {
+    box.innerHTML = '<div class="quick-prog">All ' + _quickCatList().length + ' categories done</div><p class="quick-q">That is every category.</p><p class="quick-sub">Search every category for anything you missed, or go on to Review.</p>';
+    const row = document.createElement('div'); row.className = 'quick-nav';
+    row.appendChild(_quickBtn('Back', 'quick-link', () => { _quickEnd = false; const _l = _quickCatList(); currentTab = _l[_l.length - 1]; render(); }));
+    row.appendChild(_quickBtn('Search every category', 'quick-link', () => { _searchOpen = true; render(); setTimeout(() => { const i = document.getElementById('searchInput'); if (i) i.focus(); }, 0); }));
+    row.appendChild(_quickBtn('Go to Review', 'quick-go', () => setView('publish')));
+    box.appendChild(row); grid.appendChild(box); return;
+  }
+  const _GL = _quickCatList();
+  let idx = _GL.indexOf(currentTab); if (idx < 0) { idx = 0; currentTab = _GL[0]; }
+  const cat = _GL[idx], lv = quickLevel(stu), tiers = _quickHasTiers(cat);
+  const lvLabel = { strong: 'Positive', average: 'Average', developing: 'Developing' };
+  const head = document.createElement('div'); head.className = 'quick-prog'; head.setAttribute('aria-live', 'polite');
+  head.textContent = (idx + 1) + ' of ' + _GL.length + ' · ' + cat;
+  box.appendChild(head);
+  const traits = GEN_TRAITS[cat] || [];
+  const shown = [], hidden = [];
+  traits.forEach(t => {
+    const ticked = quickTicked(stu, cat, t), all = quickCandidates(stu, cat, t, true);
+    if (!ticked && !all.length) return;   // nothing in it is offered this semester
+    const atLevel = !tiers || !lv || all.some(x => _tierOfRaw(cat, x) === lv);
+    if (ticked || atLevel || _quickShowAll) shown.push({ t, ticked }); else hidden.push(t);
+  });
+  const sub = document.createElement('p'); sub.className = 'quick-sub';
+  sub.textContent = tiers && lv && !_quickShowAll ? 'Tap what fits. Showing the ones with a ' + lvLabel[lv] + ' sentence.' : 'Tap what fits.';
+  box.appendChild(sub);
+  const chips = document.createElement('div'); chips.className = 'quick-chips'; chips.setAttribute('role', 'group'); chips.setAttribute('aria-label', cat + ' characteristics');
+  shown.forEach(({ t, ticked }) => {
+    const b = _quickBtn(t.label, 'quick-chip' + (ticked ? ' on' : ''), () => quickTap(cat, t.id), { 'aria-pressed': ticked ? 'true' : 'false', 'data-trait': t.id });
+    chips.appendChild(b);
+  });
+  if (!shown.length) { const m = document.createElement('div'); m.className = 'yr-fallback'; m.textContent = 'Nothing in this category is offered this semester.'; chips.appendChild(m); }
+  box.appendChild(chips);
+  if (hidden.length) box.appendChild(_quickBtn('Show ' + hidden.length + ' more', 'quick-link', () => { _quickShowAll = true; render(); }));
+  const nav = document.createElement('div'); nav.className = 'quick-nav';
+  const picked = traits.some(t => quickTicked(stu, cat, t));
+  const back = _quickBtn('Back', 'quick-link', () => quickGo(-1)); if (idx === 0) back.disabled = true;
+  nav.appendChild(back);
+  nav.appendChild(_quickBtn('Full list', 'quick-link', () => { _quickFull = true; render(); }, { title: 'Show this category’s usual list of sentences' }));
+  nav.appendChild(_quickBtn(picked ? 'Next' : 'Skip', 'quick-go', () => quickGo(1)));
+  box.appendChild(nav);
+  grid.appendChild(box);
+}
+const SEARCH_MAX = 200;
+function _searchPaintResults(box) {
+  const words = _searchWords(_searchQuery);
+  box.innerHTML = '';
+  if (_searchQuery.trim().length < 2) { const m = document.createElement('div'); m.className = 'yr-fallback'; m.textContent = 'Type a word or two to search every category.'; box.appendChild(m); return; }
+  const { groups, n } = _searchCollect(words);
+  if (!n) { const m = document.createElement('div'); m.className = 'yr-fallback'; m.id = 'searchNone'; m.textContent = 'No sentences match. Try fewer words.'; box.appendChild(m); return; }
+  let shown = 0;
+  const order = groups.slice().sort((a, b) => (a.cat === 'Future Directions') - (b.cat === 'Future Directions'));   // future directions come last, as in the sidebar
+  order.forEach(g => {
+    if (shown >= SEARCH_MAX) return;
+    const h = document.createElement('div'); h.className = 'grade-divider search-head';
+    h.innerHTML = '<div class="grade-divider-line"></div><span class="grade-divider-label C">' + escHtml(g.cat) + '</span><div class="grade-divider-line"></div>';
+    box.appendChild(h);
+    g.rows.forEach(r => {
+      if (shown >= SEARCH_MAX) return; shown++;
+      const b = document.createElement('button');
+      b.className = r.btnClass + ' search-row'; b.dataset.sk = r.key;
+      b.innerHTML = _searchMarkHtml(r.text, words);
+      if (r.tag) { const t = document.createElement('span'); t.className = 'term-tag'; t.textContent = r.tag; b.appendChild(t); }
+      if (r.title) b.title = r.title;
+      if (r.onclick) b.onclick = () => { _searchFocusKey = r.key; r.onclick(); };
+      box.appendChild(b);
+    });
+  });
+  if (n > shown) { const m = document.createElement('div'); m.className = 'yr-fallback'; m.textContent = 'Showing the first ' + shown + ' of ' + n + '. Type more words to narrow it down.'; box.appendChild(m); }
+}
+function renderSearchPanel(grid) {
+  const gs = document.getElementById('gradeSelWrap'); if (gs) gs.style.display = 'none';
+  const tools = document.getElementById('cTools'); if (tools) { tools.classList.add('tools-off'); tools.classList.add('no-tiers'); }
+  grid.classList.remove('tiered'); grid.dataset.tier = 'all';
+  if (currentSubject !== 'general' && !(cur() && cur().year)) {
+    const yh = document.createElement('div'); yh.className = 'yr-fallback'; yh.id = 'noYearHint';
+    yh.textContent = 'Choose this student’s year to see the Kindergarten to Year 6 comments for each strand.';
+    grid.appendChild(yh);
+  }
+  const wrap = document.createElement('div'); wrap.className = 'search-wrap';
+  const lab = document.createElement('label'); lab.className = 'custom-label'; lab.setAttribute('for', 'searchInput'); lab.innerHTML = '<span>Search all ' + (currentSubject === 'general' ? 'General' : currentSubject === 'english' ? 'English' : 'Maths') + ' sentences</span>';
+  const inp = document.createElement('input'); inp.type = 'search'; inp.id = 'searchInput'; inp.className = 'search-input'; inp.autocomplete = 'off';
+  inp.placeholder = 'Type a word or two'; inp.value = _searchQuery;
+  wrap.appendChild(lab); wrap.appendChild(inp); grid.appendChild(wrap);
+  const box = document.createElement('div'); box.id = 'searchResults'; grid.appendChild(box);
+  inp.addEventListener('input', () => {
+    _searchQuery = inp.value; _searchFocusKey = null; _searchCaret = inp.selectionStart;
+    clearTimeout(_searchTimer); _searchTimer = setTimeout(() => { const b = document.getElementById('searchResults'); if (b) _searchPaintResults(b); }, 150);
+  });
+  _searchPaintResults(box);
+  // after a click on a result the grid is rebuilt: put the focus back on the same result (or the box)
+  if (_searchFocusKey) {
+    const f = Array.from(box.querySelectorAll('.search-row')).find(x => x.dataset.sk === _searchFocusKey);
+    if (f) f.focus(); else inp.focus();
+    _searchFocusKey = null;
+  } else if (_searchCaret !== null && document.activeElement && document.activeElement.id === 'searchInput') {
+    inp.setSelectionRange(_searchCaret, _searchCaret);
+  }
 }
 
 
@@ -6874,9 +9089,10 @@ function scrollListToTop() {
 function _renderOptsCore() {
   if (currentSemester === 2) seedS2Grades(cur());
   _edSet = editedKeySet(cur(), currentSubject);   // v3.9.2: sentences the teacher has reworded in the draft
-  document.getElementById('cTitle').textContent = currentTab;
+  document.getElementById('cTitle').textContent = _searchOpen ? 'Search' : currentTab;
   const grid = document.getElementById('optsGrid');
   grid.innerHTML = '';
+  if (_searchOpen) { renderSearchPanel(grid); return; }   // v3.17.26
 
   // Show grade selector for English/Maths
   const gradeSel = document.getElementById('gradeSelWrap');
@@ -6896,9 +9112,26 @@ function _renderOptsCore() {
 
   // For English/Maths, use the subject bank
   if (currentSubject !== 'general') {
+    if (quickActive() && !_showGradeEntry && !_showAllStrands) {   // v3.17.30
+      const _ql = _quickCatList(), _inQ = _ql.indexOf(currentTab) !== -1;
+      if (_inQ && !_quickFull) { renderQuickPanel(grid); return; }
+      const st = document.createElement('div'); st.className = 'quick-strip';
+      if (_inQ) st.appendChild(_quickBtn('← Back to Quick mode', 'quick-link', () => { _quickFull = false; render(); }));
+      else if (currentTab === 'Future Directions') st.appendChild(_quickBtn('← Back to Quick mode', 'quick-link', () => { _quickEnd = true; render(); }));
+      else st.appendChild(_quickBtn('Start Quick mode →', 'quick-link', () => { _quickFull = false; _quickEnd = false; currentTab = _ql[0]; render(); }));
+      grid.appendChild(st);
+    }
     paintBankTools(grid, false);
     renderSubjOpts(grid);
     return;
+  }
+  const _gq = quickActive() && _quickCatList().indexOf(currentTab) !== -1;   // categories with characteristics; the newer categories (Emotional Wellbeing, Reflection & Goal Setting) keep their usual list until they are grouped
+  if (_gq && !_quickFull) { renderQuickPanel(grid); return; }   // v3.17.28
+  if (quickActive()) {   // the usual list of this category, with a way back to Quick mode
+    const st = document.createElement('div'); st.className = 'quick-strip';
+    if (_gq) st.appendChild(_quickBtn('← Back to Quick mode', 'quick-link', () => { _quickFull = false; render(); }));
+    else st.appendChild(_quickBtn('Start Quick mode →', 'quick-link', () => { _quickFull = false; _quickEnd = false; currentTab = _quickCatList()[0]; render(); }));
+    grid.appendChild(st);
   }
   // Custom input box — at the top
   const _catHasTiers = (TIER_BOUNDARIES[currentTab] || {}).average != null;   // v3.13.1: Positive / Average / Developing only where the bank uses them
@@ -8952,6 +11185,7 @@ function getFDTextForStu(stu, subj) {
 }
 
 function renderPublish() {
+  try { _swapHide(); } catch (e) {}
   if (_synOpenSpan && !_synOpenSpan.isConnected) closeSynDropdown();   // v3.17.15: a different comment is on screen now
   _dismissedMerges = []; // reset dismissed flow suggestions on each publish render
   const stu = cur();
@@ -11655,7 +13889,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.28';
+const APP_VERSION = 'v3.17.29';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -12400,6 +14634,12 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.29', date: '15 November 2026', items: [
+    'New: Search. A Search entry now sits after the last category in General, English and Maths. Type a word or two to find a sentence in any category, then click it to add it to the comment, just as you would in the list. In English and Maths it also finds future directions.',
+    'New: Quick mode for General comments. Turn it on at the top of Build or in Settings. Build then shows one screen per category with a button for each kind of thing a student does (for example Kind and caring). Tap what fits and a sentence is chosen for you, at the student\u2019s level, avoiding sentences other students already have where it can. Tap again to take it out. Use Full list to see the usual sentences, or Search to find one. It is off unless you turn it on.',
+    'New: Swap in Review. Point at a sentence in a General comment (or tap it) and press Swap to change it for another sentence about the same thing, for example another Kind and caring sentence. Press it again for the next one. A sentence you have reworded is left alone. You can hide the button in Settings.',
+    'New: Quick mode and Swap now work in English and Maths. With Quick mode on, each strand shows a button for each skill (for example Rounding). Tap one and a comment is chosen for the student\u2019s year and the mark set for the strand. Tap again to take it out. Introduction, Below Expectations and Future Directions keep their usual lists. In Review, point at an English or Maths sentence and press Swap to change it for another comment about the same skill.'
+  ] },
   { v: 'v3.17.28', date: '15 November 2026', items: [
     '148 new General comments written from the NSW Personal and Social Capability continuum: an "at level" and a "working towards" comment for each skill at each level, from Early Kindergarten to the end of Year 6. Each one shows a small level tag (for example "Level 2 · End of Year 2") so you can see the year it is written to.',
     'Two new General categories: Emotional Wellbeing (after Personality) and Reflection & Goal Setting (after Effort & Work Habits). The line about communicating feelings moved from Social Skills to Emotional Wellbeing; comments that already use it keep it.',
@@ -14680,7 +16920,7 @@ function showNextLongSentence() {
 // ══ v3.16.13 · MORE SETTINGS ═══════════════════════════════════════════════
 // Saved on this device, like the word limits. Every default leaves the app working exactly as before.
 function getSimMode() { const v = lsGet('rcb_simmode', 'top'); return v === 'mark' || v === 'off' ? v : 'top'; }
-const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch', pasteTick: 'rcb_pastetick', catOrder: 'rcb_catorder', firstName: 'rcb_firstname' };
+const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch', pasteTick: 'rcb_pastetick', catOrder: 'rcb_catorder', firstName: 'rcb_firstname', swapBtn: 'rcb_swapbtn' };
 function flagOn(name) { return lsGet(_FLAG_KEYS[name], true) !== false; }
 function _settingChanged(name) {
   try {
@@ -14723,6 +16963,10 @@ function renderMoreSettings() {
     + sw('catOrder', 'Put new sentences in category order', 'A sentence you add goes where its category sits in the list, among the sentences already in the draft. A sentence you moved stays where you put it. Off adds each new sentence at the end.')
     + '<div class="sw-pane-title">Pasting a finished comment</div>'
     + sw('pasteTick', 'Tick the sentences from a pasted comment', 'Ticks the bank sentences found in the comment you paste into the draft and scrolls the list to the first one. The text you paste is never changed. Off leaves a pasted comment as plain text.')
+    + '<div class="sw-pane-title">Quick mode</div>'
+    + `<div class="settings-row"><span class="settings-row-label">Quick mode<span class="sw-help">Build shows one screen per category with a button for each characteristic (in English and Maths, each skill). In English and Maths it uses the student’s year and the mark set for the strand. Tap what fits and the sentences are chosen for you. Off keeps the usual lists. You can also switch it at the top of Build.</span></span><button class="settings-action-btn${quickOn() ? ' green' : ''}" role="switch" aria-checked="${quickOn()}" data-flag="quickMode" onclick="setQuick(${!quickOn()})">${quickOn() ? 'On' : 'Off'}</button></div>`
+    + '<div class="sw-pane-title">Review</div>'
+    + sw('swapBtn', 'Show the swap button in Review', 'Point at a sentence in a comment (or tap it) and press Swap to change it for another sentence about the same thing. Sentences you have reworded and future directions are not swapped. Off hides the button.')
     + '<div class="sw-pane-title">Moving around</div>'
     + sw('topOnSwitch', 'Open each category at the top of the list', 'Also when you change student. Off keeps your place in the list.');
 }
