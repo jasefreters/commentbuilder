@@ -1,0 +1,83 @@
+// english|Creating Written Texts  (sentences 0-35, future directions 36-77)
+// batch 1: items 0-24
+0 imaginative
+1 planning+paragraphs-and-order
+2 informative+persuasive # unsure: plans and structures informative and persuasive texts, three skills named
+3 persuasive+planning
+4 sentences
+5 word-choice
+6 paragraphs-and-order
+7 persuasive+planning
+8 planning
+9 informative+planning
+10 sentences
+11 persuasive+editing
+12 informative
+13 sentences+paragraphs-and-order
+14 word-choice+paragraphs-and-order
+15 sentences+paragraphs-and-order
+16 paragraphs-and-order
+17 pictures-and-symbols+sentences
+18 sentences
+19 pictures-and-symbols
+20 planning+editing
+21 sentences+punctuation
+22 informative+persuasive # unsure: four purposes named (describe, explain, opinion, story)
+23 imaginative+paragraphs-and-order
+24 informative+paragraphs-and-order
+// batch 2: items 25-49
+25 persuasive+paragraphs-and-order
+26 paragraphs-and-order+editing # unsure: also punctuation
+27 imaginative
+28 writing-with-others
+29 pictures-and-symbols
+30 planning
+31 pictures-and-symbols
+32 persuasive
+33 persuasive
+34 writing-with-others
+35 editing+planning
+36 writing-with-others
+37 pictures-and-symbols
+38 planning
+39 pictures-and-symbols
+40 paragraphs-and-order # unsure: a text with at least 2 related ideas
+41 paragraphs-and-order
+42 persuasive
+43 informative
+44 sentences # unsure: phrases showing time or place, could be word-choice
+45 punctuation
+46 punctuation
+47 editing
+48 informative
+49 persuasive
+// batch 3: items 50-74
+50 imaginative
+51 paragraphs-and-order
+52 paragraphs-and-order
+53 sentences
+54 punctuation
+55 punctuation
+56 editing
+57 paragraphs-and-order
+58 persuasive
+59 persuasive
+60 sentences
+61 word-choice
+62 informative
+63 informative
+64 punctuation
+65 punctuation
+66 planning
+67 imaginative
+68 imaginative
+69 informative
+70 paragraphs-and-order
+71 persuasive
+72 persuasive # unsure: persuasive language, could be word-choice
+73 sentences
+74 sentences
+// batch 4: items 75-77
+75 word-choice
+76 editing # unsure: print or digital tools to plan, create, revise and publish
+77 editing

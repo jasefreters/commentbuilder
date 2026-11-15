@@ -1,0 +1,287 @@
+{
+  "subject": "maths",
+  "section": "Geometric Measure",
+  "strand": "Geometric Measure",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} calculates the perimeter of two-dimensional shapes and precisely measures angles with a protractor."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A+B",
+      "text": "{{S}} identifies and plots points on a number plane."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} measures length using appropriate units and converts between centimetres, metres and kilometres."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} plots and labels points on a number plane."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} uses hectares and square metres to solve area problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} identifies and plots points in the first quadrant of a number plane."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} calculates the perimeters of common two-dimensional shapes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} measures length, area and capacity using appropriate units."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} measures angles accurately."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} uses metres and kilometres to estimate and measure distances."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} identifies and plots points in the first quadrant of a number plane with support."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} selects appropriate units of measurement to determine length."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} identifies right angles in shapes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} is beginning to measure perimeter and calculate the area of familiar two-dimensional shapes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} measures and compares lengths in centimetres and metres."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} experiments with making two equal parts by finding the middle."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} follows simple directions to move to a new position."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses words such as 'under', 'next to' and 'behind' to describe where objects are."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses words such as 'bigger' and 'longer' to describe the length of an object."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} measures and records the length of objects using concrete materials such as blocks and tiles."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} gives and follows directions between familiar places, using turns to the left or right."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} measures lengths using a centimetre ruler."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} records lengths and distances using the abbreviation 'm' for metres."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} reads simple maps and plans a path from one place to another."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} uses both centimetres and metres to find distances."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} describes a path on a map using important places and compass directions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} compares angles with a right angle, describing them as smaller, larger or the same size."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} responds to simple instructions about position or movement."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} matches items of similar length and identifies if two lengths are the same or different."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} explains how the radius, diameter and circumference of a circle are related."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} uses formulas to find the area of circles, trapeziums and kites."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} finds the volume of prisms and cylinders using formulas."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} converts between units of area, volume and capacity."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Responding to simple instructions to demonstrate position or movement."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Matching items of a similar length."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying if the length of two items is the same or different."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Following simple directions to position themselves or objects."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Describing the position of an object in relation to another object."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Identifying length as a measure of an object from one end to the other."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Comparing the length of objects by placing them side-by-side."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Comparing the lengths of two or more objects using appropriate units."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Estimating lengths and distances to the nearest centimetre."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Selecting appropriate units to measure the length of an object."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Estimating lengths and distances to the nearest metre."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Describing a route taken on a map using landmarks and directional language."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Accurately identifying the grid reference of locations and/or objects."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using a combination of centimetres and metres to measure distances."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying angles in real-life situations."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying right angles in shapes."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Estimating and measuring the perimeters of squares and rectangles."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Estimating lengths and distances using an appropriate unit."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Calculating perimeters of common two-dimensional shapes, including squares, rectangles and triangles."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Measuring angles of up to 360° using a protractor."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Converting measurements to the same unit to compare lengths and distances."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving a variety of problems involving different units of length."
+    }
+  ]
+}

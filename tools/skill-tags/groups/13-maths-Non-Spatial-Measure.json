@@ -1,0 +1,302 @@
+{
+  "subject": "maths",
+  "section": "Non-Spatial Measure",
+  "strand": "Non-Spatial Measure",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} chooses appropriate units for measuring capacity and mass."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} solves problems involving capacity and mass."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} converts between 12-hour and 24-hour time systems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} measures weight, perimeter and area accurately."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} solves problems involving time by converting between 12-hour and 24-hour formats."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} measures mass using appropriate units."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} converts between 12- and 24-hour time."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} calculates totals with money and compares prices."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} adds amounts of money and compares prices in familiar situations."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} reads and records time using hours and minutes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} uses scaled instruments to measure capacities in millilitres and litres."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} reads and records time using hours and minutes and uses a calendar to find the number of days to a date."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} represents money in different ways and counts collections of coins and notes in familiar situations."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} shows money values in different forms."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} lifts objects to feel which is heavier or lighter."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} reads analog and digital clocks to the hour, such as '12 o'clock'."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses words like 'morning' and 'afternoon' to explain the order of events in {{pos}} day."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} reads analog clocks and describes minute hand movement using appropriate 'o'clock' and 'half past' language."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} uses a calendar to name the days of the week and the months of the year."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} compares the weight of objects using a balance and everyday units."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} measures and compares the duration of events in minutes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} estimates which objects have a mass of about one kilogram."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} compares and orders the duration of events measured in minutes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} measures the mass of objects with scales in grams and kilograms."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} identifies whether an object is heavy or light."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} understands the order of routines."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} identifies events that happen in the daytime or at night-time."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} locates the hour hand and the minute hand on an analog clock."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} converts between kilograms, grams and tonnes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} solves problems that involve different units of mass."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} uses start and finish times to work out how long an event lasts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} solves time problems that use both 12- and 24-hour times."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} reads and draws graphs that show distance travelled over time."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying if an object is heavy or light."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Understanding the order of routines."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying events that can happen at daytime or night-time."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Locating the hour hand and minute hand on an analog clock."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Identifying that objects can be heavy or light."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Comparing weight by lifting objects."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Reading analog and digital clocks to the hour using the term 'o'clock.'"
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Sequencing events in time."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Naming and ordering the days of the week."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Comparing and ordering the mass of two objects."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Naming and ordering the months of the year."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Reading analog clocks to the half hour."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using a calendar to calculate the number of days to a future event."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using the terms hour, minute and second."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Reading analog clocks to the quarter-hour."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recognising the need for a formal unit to measure mass."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recording masses using the abbreviation for kilograms (kg)."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using 5-minute intervals to read time on an analog clock."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Using minutes to describe the duration of events."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recording times using the colon notation with am and pm."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Selecting appropriate units of measurement for mass."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Converting between kilograms and grams and between kilograms and tonnes."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Reading 24-hour time correctly."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Converting between 12- and 24-hour time accurately."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using timetables from real-life situations involving 12- and 24-hour time."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using start and finish times to calculate the elapsed time of events."
+    }
+  ]
+}

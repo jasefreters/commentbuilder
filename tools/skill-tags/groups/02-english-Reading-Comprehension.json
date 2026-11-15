@@ -1,0 +1,467 @@
+{
+  "subject": "english",
+  "section": "Reading Comprehension",
+  "strand": "Reading Comprehension",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} makes observations and supports them with evidence from the text to enhance {{pos}} understanding of stories and information."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} reads with confidence and uses context, grammar knowledge and skimming strategies to locate information in moderately complex texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} applies reading strategies to interpret complex texts and explains how these texts communicate meaning."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} monitors {{pos}} understanding and recognises when meaning breaks down."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} explains how authors make deliberate choices to shape the reader's perception."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} interprets key ideas in narratives and digital texts, and recognises how authors use language to shape meaning."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} comprehends digital texts and advertisements and identifies key ideas in narratives."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} identifies main ideas, understands simple inferences and explains how authors use evidence to support ideas."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} reads with confidence and connects with the ideas in texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses background knowledge and reading skills to better understand texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} uses reading strategies to comprehend more complex texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} identifies key ideas and supporting details when reading."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} reads with confidence and uses skimming strategies to identify key ideas, locate details and understand unfamiliar words."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} identifies main ideas and is beginning to recognise how language features help build meaning."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} reads predictable texts with growing confidence and identifies key ideas to support comprehension."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} reads simple texts with support and is working towards identifying key information and following the main ideas."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} understands simple, predictable texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} reads predictable texts with guidance and draws basic connections to gain a clearer understanding of the stories."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} reads simple, familiar texts and is building confidence in recognising high-frequency words."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} comprehends predictable imaginative texts from the main character's perspective."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} tracks print from left to right."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} knows the front and back of a book."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} identifies the spaces between words in a text."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} hears and says the first, middle and final sounds in familiar spoken words."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} blends chunks of spoken words to make new words, such as 'talk-ing'."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} has a strong understanding of taught letters and the sounds they usually make."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} recognises some taught letters of the alphabet and the sounds they make."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} participates in whole class reading activities to blend and segment words."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} listens to familiar stories that are read to {{o}} and recalls basic events that occurred."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} stops at full stops and changes {{pos}} voice for questions when reading aloud."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses pictures to help {{o}} understand stories that are read to {{o}}."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} segments and blends words to read decodable texts with improved fluency and comprehension."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} can identify the beginning and final sound in words."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} uses background knowledge and personal experiences to connect with texts when reading."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} self-corrects when {{pos}} fluency or meaning is interrupted."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} has shown growth in recognising and re-reading when meaning has been interrupted."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} makes connections between {{pos}} experiences and the events in a story."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} uses headings, pictures and links to find information in a text."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} reads between the lines using clues in the text."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} reads longer texts with accuracy and uses appropriate volume and speed when reading aloud."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} uses strategies to fix {{pos}} understanding when meaning breaks down."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} locates relevant information in a text."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} identifies how persuasive, informative and imaginative texts are organised."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} compares print and digital texts to decide which is most useful for a task."
+    },
+    {
+      "kind": "sentence",
+      "stage": "",
+      "text": "{{S}} takes on teacher feedback to improve {{pos}} skills when reading texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} engages with texts for different purposes."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} shows likes and dislikes about a story."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} recognises familiar words in texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} asks questions when the meaning is unclear."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} recalls key events and characters in a story."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} recalls key facts from an information text."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} explains how a text can carry more than one meaning."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} reads texts with complex ideas and explains how the author built them."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Engaging in texts for different purposes."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Indicating likes and dislikes in a story."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Recognising familiar words in texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Asking questions when meaning is unknown."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Recalling key events and characters in a story."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Recalling key facts from an information text."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Pausing when meaning has been disrupted while reading aloud."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Re-reading to check if an error was made."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Asking questions to clarify meaning when reading."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using background knowledge to identify connections between a story and own experiences."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Recalling characters and events in a text after reading."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Recalling the sequence of events in a text after reading."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Using information or events from a text to form an opinion."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Pausing to clarify the meaning of unknown words."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Identifying the who, what, when, where and why in texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Understanding the structure and purpose of a complex sentence."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Making meaning when reading using multiple sources (e.g. images and text)."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Recounting main ideas from a text."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Forming an opinion of a text using evidence."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Recognising when meaning is interrupted during reading."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Re-reading parts of a text to ensure meaning is understood."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Using background knowledge and personal experiences to make personal connections to texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Monitoring understanding while reading."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Sequencing and explaining events from a text."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying different purposes and strategies for reading (e.g. skimming and scanning)."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Making connections to different texts to compare and analyse them."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Building and using topic knowledge during reading to deepen understanding."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Finding and using relevant information from different types of texts."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Determining a text's specific purpose."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Linking the meanings of key words across a text to help make connections."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Identifying how their background knowledge is used to create understanding in a text."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Asking questions to promote deeper understanding of a text."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Identifying where meaning breaks down when reading."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using evidence from a text to support reading comprehension."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Categorising information or ideas to aid recall and support summaries."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Summarising the main ideas of a text."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Comparing the purposes for different texts and considering why authors and illustrators have structured texts in particular ways."
+    }
+  ]
+}

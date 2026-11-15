@@ -1,0 +1,55 @@
+// maths|Two-Dimensional Spatial Structure  (sentences 0-29, future directions 30-50)
+// batch 1: items 0-24
+0 measuring-area
+1 features
+2 measuring-area+area-formulas
+3 measuring-area
+4 features
+5 features
+6 features
+7 features
+8 features
+9 recognising-naming
+10 recognising-naming+features
+11 making-designs
+12 comparing-area
+13 making-designs
+14 features
+15 comparing-area
+16 transformations
+17 measuring-area
+18 features
+19 transformations
+20 measuring-area
+21 transformations
+22 comparing-area+measuring-area
+23 making-designs
+24 making-designs
+// batch 2: items 25-49
+25 recognising-naming
+26 features
+27 unknown-angles-sides
+28 unknown-angles-sides
+29 unknown-angles-sides
+30 recognising-naming
+31 features
+32 recognising-naming
+33 features
+34 features
+35 making-designs
+36 comparing-area
+37 features
+38 recognising-naming
+39 features
+40 comparing-area
+41 features
+42 features
+43 measuring-area
+44 measuring-area
+45 measuring-area
+46 features
+47 measuring-area
+48 measuring-area
+49 area-formulas
+// batch 3: item 50
+50 area-formulas

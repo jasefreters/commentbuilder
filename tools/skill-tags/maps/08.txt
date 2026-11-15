@@ -1,0 +1,39 @@
+// maths|Representing Quantity Fractions  (sentences 0-23, future directions 24-35)
+// batch 1: items 0-24
+0 calculating
+1 comparing-ordering+decimals-percentages
+2 calculating
+3 comparing-ordering # unsure: ratios, no skill in the list covers ratios
+4 fraction-of-amount+decimals-percentages
+5 calculating
+6 decimals-percentages # unsure: also prime numbers
+7 decimals-percentages
+8 decimals-percentages
+9 decimals-percentages
+10 decimals-percentages
+11 naming-showing
+12 decimals-percentages+naming-showing
+13 naming-showing+decimals-percentages
+14 decimals-percentages
+15 naming-showing
+16 number-line
+17 decimals-percentages
+18 naming-showing+number-line
+19 naming-showing
+20 naming-showing
+21 fraction-of-amount+naming-showing
+22 naming-showing
+23 equivalent
+24 naming-showing
+// batch 2: items 25-35
+25 naming-showing
+26 equivalent
+27 naming-showing
+28 number-line
+29 comparing-ordering
+30 calculating
+31 calculating
+32 comparing-ordering
+33 equivalent
+34 fraction-of-amount
+35 fraction-of-amount

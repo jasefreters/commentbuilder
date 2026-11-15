@@ -1,0 +1,53 @@
+// maths|Data  (sentences 0-31, future directions 32-49)
+// batch 1: items 0-24
+0 reading-graphs # unsure: explains how displays can mislead, could be comparing-data
+1 reading-graphs
+2 choosing-graphs+collecting
+3 reading-graphs
+4 making-displays+reading-graphs
+5 reading-graphs
+6 reading-graphs
+7 reading-graphs
+8 reading-graphs
+9 reading-graphs+comparing-data
+10 choosing-graphs+sorting-recording
+11 reading-graphs
+12 reading-graphs
+13 reading-graphs
+14 reading-graphs
+15 choosing-graphs
+16 reading-graphs
+17 choosing-graphs
+18 making-displays+choosing-graphs
+19 collecting
+20 sorting-recording+making-displays
+21 making-displays+sorting-recording
+22 reading-graphs
+23 making-displays+reading-graphs
+24 collecting
+// batch 2: items 25-49
+25 making-displays
+26 comparing-data+reading-graphs
+27 collecting
+28 making-displays
+29 choosing-graphs
+30 comparing-data # unsure: average, middle and most common value, no exact skill
+31 comparing-data
+32 collecting
+33 collecting
+34 making-displays
+35 collecting
+36 sorting-recording
+37 making-displays
+38 reading-graphs
+39 collecting
+40 sorting-recording
+41 making-displays
+42 reading-graphs
+43 making-displays
+44 comparing-data
+45 collecting
+46 collecting
+47 choosing-graphs
+48 comparing-data
+49 reading-graphs

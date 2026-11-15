@@ -1,0 +1,45 @@
+// maths|Three-Dimensional Spatial Structure  (sentences 0-23, future directions 24-41)
+// batch 1: items 0-24
+0 drawing-views
+1 features+building
+2 drawing-views
+3 drawing-views
+4 drawing-views+building
+5 features+drawing-views
+6 recognising-naming+features
+7 features
+8 recognising-naming
+9 recognising-naming+features
+10 sorting
+11 volume-capacity
+12 building+volume-capacity
+13 volume-capacity
+14 building+volume-capacity
+15 volume-capacity
+16 features+building
+17 volume-capacity
+18 drawing-views+building
+19 volume-capacity
+20 recognising-naming
+21 recognising-naming
+22 building
+23 drawing-views
+24 recognising-naming
+// batch 2: items 25-41
+25 recognising-naming
+26 building
+27 features
+28 building
+29 sorting
+30 recognising-naming
+31 sorting
+32 recognising-naming
+33 volume-capacity
+34 features
+35 building
+36 features
+37 drawing-views
+38 features
+39 drawing-views
+40 building
+41 volume-capacity

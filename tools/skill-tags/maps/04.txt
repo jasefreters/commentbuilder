@@ -1,0 +1,49 @@
+// english|Handwriting  (sentences 0-24, future directions 25-45)
+// batch 1: items 0-24
+0 fluent-handwriting+keyboard
+1 keyboard
+2 keyboard
+3 fluent-handwriting+keyboard
+4 letter-formation
+5 fluent-handwriting+keyboard
+6 fluent-handwriting+keyboard # unsure: neat work and clear typing, could be letter-formation
+7 keyboard+word-processing
+8 fluent-handwriting+keyboard
+9 letter-formation+keyboard
+10 fluent-handwriting
+11 fluent-handwriting+keyboard
+12 fluent-handwriting+word-processing
+13 letter-formation
+14 letter-formation
+15 letter-formation
+16 posture-and-grip
+17 letter-formation
+18 word-processing
+19 letter-formation+posture-and-grip
+20 letter-formation
+21 keyboard
+22 word-processing
+23 early-marks
+24 early-marks
+// batch 2: items 25-45
+25 early-marks
+26 early-marks
+27 early-marks
+28 early-marks
+29 posture-and-grip
+30 posture-and-grip
+31 letter-formation
+32 posture-and-grip
+33 letter-formation
+34 keyboard
+35 keyboard
+36 letter-formation
+37 letter-formation
+38 keyboard
+39 fluent-handwriting
+40 keyboard
+41 word-processing
+42 fluent-handwriting
+43 keyboard
+44 word-processing
+45 fluent-handwriting

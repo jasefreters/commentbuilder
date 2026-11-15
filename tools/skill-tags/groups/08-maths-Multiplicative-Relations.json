@@ -1,0 +1,247 @@
+{
+  "subject": "maths",
+  "section": "Multiplicative Relations",
+  "strand": "Multiplicative Relations",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} uses letters to stand for unknown numbers and recognises numbers multiplied by themselves, such as 4 × 4."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3B",
+      "text": "{{S}} multiplies and divides decimals accurately and works through calculations with several steps in the correct order."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} uses letters to stand for unknown numbers when solving simple problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} multiplies 2- and 3-digit numbers by 2-digit numbers and represents and solves division problems with whole number remainders."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} creates number patterns using known multiplication facts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} generates number patterns using times tables."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3A",
+      "text": "{{S}} solves division problems with whole number remainders."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} recalls some multiplication facts and uses them to support calculations."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} counts by twos, threes and fives to recognise simple division and creates equal groups to show multiplication."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} uses visual representations to find multiplication facts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} uses strategies to solve simple division problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} creates and continues patterns by lining up objects according to their colour or shape."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} records how objects were shared using drawings, words and numbers."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} models and describes collections of objects as 'groups of', such as two groups of three."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1A",
+      "text": "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1B",
+      "text": "{{S}} organises objects into equal rows and columns as part of {{pos}} multiplication knowledge."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} has developed {{pos}} understanding of related multiplication and division facts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} recognises that multiplication and division are opposites and uses one to solve the other."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2A",
+      "text": "{{S}} recognises that doubling a number gives the same answer as multiplying by 2."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2B",
+      "text": "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} copies a continuing pattern."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} points to or touches objects as they are shared into smaller equal groups."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} identifies the number of objects in a group."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} writes expressions with letters and finds their value by replacing letters with numbers."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Copying a continuing pattern."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Pointing to or touching objects as they are being shared into smaller equal groups."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Identifying the number of objects in a group."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Continuing repeating patterns using sounds and/or actions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Creating repeating patterns using shapes, objects, images or pictures."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Dividing objects into smaller groups and recognising whether the number in each group is equal or not."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Grouping and sharing concrete materials by distributing objects one by one."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Modelling and describing collections of objects as 'groups of'."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Solving multiplication problems using repeated addition."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Solving multiplication and division problems using objects and diagrams."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Recording answers to multiplication and division problems using drawings, words or numerals."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Creating and continuing number patterns that increase or decrease by the same amount."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Understanding doubling is multiplying a number by two."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Relating multiplication facts to their opposite division fact."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Recalling multiplication facts up to 10 x 10."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Representing and solving multiplication and division word problems using number sentences."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Determining factors for a given whole number."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Using mental strategies to multiply one-digit numbers by 10, 100, 1000."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving a multiplication algorithm correctly."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Selecting and using efficient strategies to multiply whole numbers."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Solving problems involving brackets."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Providing reasoning when solving complex multiplication and division problems."
+    }
+  ]
+}

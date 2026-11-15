@@ -1,0 +1,412 @@
+{
+  "subject": "english",
+  "section": "Oral Language & Communication",
+  "strand": "Oral Language and Communication",
+  "items": [
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} delivered a thoughtful and well-organised prepared speech."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} actively participates in class discussions, asking specific questions to clarify information and deepen {{pos}} understanding."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} adjusts {{pos}} volume, pace and expression when reading aloud to suit the purpose and complexity of the text."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} presented a thoughtful and well-organised prepared speech."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} communicates clearly and uses appropriate language during class discussions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} actively participates in group discussions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} appropriately adjusts {{pos}} volume and pace during class presentations to support audience engagement."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} seeks clarification during discussions and uses this to build a clearer understanding of texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S3",
+      "text": "{{S}} poses thoughtful questions to deepen interpretation and supports {{pos}} thinking with clear reasons."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} participates positively in discussions and is becoming more confident when expressing opinions about texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} participates positively in class discussions and shares ideas about characters, themes and author choices."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} uses appropriate language skills when interacting with others during class discussions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} is developing the ability to change {{pos}} volume and pace to support audience engagement during class presentations."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} participates in class discussions and is learning to express ideas more clearly."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} asks specific questions to clarify information and listens attentively to the contributions of others."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} participates in class discussions with support and is learning to express ideas more clearly when speaking."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} listens to others and is beginning to respond appropriately in conversations."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} listens closely to others and shares {{pos}} thoughts during play-based activities."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} shares {{pos}} thoughts during class discussions and takes turns when speaking."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} speaks clearly to communicate {{pos}} ideas."
+    },
+    {
+      "kind": "sentence",
+      "stage": "ES1",
+      "text": "{{S}} expresses {{pos}} thoughts and feelings using simple language."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} participates in partner and group conversations when responding to texts."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} tells or retells a story in order to an audience, adding detail to make it interesting."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} speaks in longer sentences during conversations."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S1",
+      "text": "{{S}} uses verbs that match past, present and future events when speaking."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} joins in discussions, stays on topic, and builds on the ideas of others."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} asks questions to check or extend {{pos}} understanding and retells spoken texts in {{pos}} own words."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S2",
+      "text": "{{S}} plans a presentation to suit the audience, then reflects on how well it went."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} looks at the person who is speaking."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} answers yes or no questions."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} follows a single instruction from the teacher."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} takes part in class discussions by sharing thoughts and feelings about a familiar topic."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} communicates one idea, or two connected ideas, when speaking to the teacher."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} starts social interactions with classmates and staff."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} takes turns when speaking to others."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} retells parts of a familiar story."
+    },
+    {
+      "kind": "sentence",
+      "stage": "AP",
+      "text": "{{S}} answers questions about familiar people and places."
+    },
+    {
+      "kind": "sentence",
+      "stage": "S4",
+      "text": "{{S}} explores and develops new ideas with others."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Looking at and acknowledging someone when they are speaking."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Responding to a yes or no question appropriately."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Following a single instruction from the teacher."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Sharing thoughts and feelings on a familiar topic."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Communicating a single idea when speaking to a teacher."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Communicating two connected ideas when speaking to a teacher."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Starting social interactions with peers and staff."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Taking turns when speaking to others."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Participating in class discussions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Retelling parts of a familiar story."
+    },
+    {
+      "kind": "fd",
+      "stage": "Access Points",
+      "text": "Answering questions about familiar people and places."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Responding to spoken questions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Following 3-step spoken instructions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Contributing to group conversations."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Starting a conversation with peers and adults."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Taking turns when speaking."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Asking questions using who, what, when, where, why or how."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Telling a story to peers and adults."
+    },
+    {
+      "kind": "fd",
+      "stage": "Early Stage 1",
+      "text": "Staying on topic when speaking."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Asking for support when unsure of a spoken message."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Asking relevant questions to extend their knowledge."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Interacting with peers during partner or group work."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Refining their understanding by discussing with others."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Remaining on-topic during group discussions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Speaking in a logical sequence."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Comparing ideas with others during group discussions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 1",
+      "text": "Including key details when describing events and stories."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Asking specific questions to clarify information."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Listening actively to others' contributions."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Understanding vocabulary within a spoken text."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Contributing to discussions with peers."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Demonstrating appropriate language when interacting with others."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Delivering oral presentations using language to suit purpose and audience."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 2",
+      "text": "Enhancing oral presentations by changing the volume of their voice."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Initiating and contributing to discussions and evaluating shared information."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Interacting in a range of contexts and deliberately adjusting language and style."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Asking and responding to a range of questions about literature that contribute to own or others' understanding."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Applying active listening strategies by retelling and building on what another person has said."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Responding to questions with elaboration and detail."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Delivering presentations suited to purpose and audience."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Experimenting with volume, pace and expression to enhance meaning when presenting and reciting."
+    },
+    {
+      "kind": "fd",
+      "stage": "Stage 3",
+      "text": "Reflecting on and monitoring own and peer presentations according to given criteria."
+    }
+  ]
+}
