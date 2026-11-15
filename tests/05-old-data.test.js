@@ -91,7 +91,7 @@ test('the same class saved a second time reads the same (nothing drifts between 
 // ── Known problems the one-source-of-truth work fixes (see the audit, drift routes 1 and 2) ──
 // Opening a comment whose saved copies disagree must not change what it says. Today the newest wording shows only while a
 // Review copy is still valid; opening the student clears it and the older typed text comes back (a real class was found in this state).
-test('opening a comment whose saved copies disagree does not change its words', { todo: 'drift route 1b: opening the student clears the Review copy and the older typed text shows' }, async () => {
+test('opening a comment whose saved copies disagree does not change its words', async () => {
   const page = await loadSaved(sessionJson);
   const g = () => page.evaluate(() => getFinalCommentText(students.find(s => s.name === 'Faye'), 'general'));
   const before = await g();
@@ -111,7 +111,7 @@ async function typedThenReviewEdit(page) {
 }
 const { seedClass } = require('./helpers');
 
-test('a Review change made after typing in Build survives a save, a load and a tab change', { todo: 'drift route 1: the typed text keeps the old words until the next navigation' }, async () => {
+test('a Review change made after typing in Build survives a save, a load and a tab change', async () => {
   const page = await openApp(); await seedClass(page); await typedThenReviewEdit(page);
   const saved = await page.evaluate(() => JSON.stringify(buildSession()));   // a save made right after the edit
   const p2 = await loadSaved(saved);

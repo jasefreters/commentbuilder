@@ -59,10 +59,13 @@ async function buildOldShapes(page) {
 
     // Review visits and edits (these write the Review copy)
     for (let i = 0; i < shapes.length; i++) for (const subj of ['general', 'english', 'maths']) await review(i, subj);
-    await reviewEdit(at('Dana'), 'general', 'really');
+    // Since v3.17.23 a Review edit writes the one store (draftOverride). These fixtures stand for data saved by OLDER versions, so the
+    // General Review edit is rewritten here the way those versions saved it: the words in the Done text, the typed text empty.
+    const asOlderVersion = n => { const s = students[at(n)]; s.custom = s.custom || {}; s.custom['__edited__'] = [s.draftOverride]; s.editedCat = gcats[0]; s.orderedAtDone = s.ordered.slice(); s.orderedAfterEdit = []; s.draftOverride = null; };
+    await reviewEdit(at('Dana'), 'general', 'really'); asOlderVersion('Dana');
     await reviewEdit(at('Hana'), 'maths', 'really');
-    await reviewEdit(at('Leo'), 'general', 'really');
-    await reviewEdit(at('Faye'), 'general', 'again');
+    await reviewEdit(at('Leo'), 'general', 'really'); asOlderVersion('Leo');
+    await reviewEdit(at('Faye'), 'general', 'again'); asOlderVersion('Faye');
     // Eli: the Review copy goes stale
     { const s = students[at('Eli')]; s.pubEditGeneral = (s.pubEditGeneral || '').replace(/<span /, '<span data-old="1" '); s.pubEditGeneral_fdHash = 'general|["not what it was"]'; }
     // Kim: split and join paragraphs by hand
