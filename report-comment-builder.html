@@ -6365,7 +6365,7 @@ function _hs(s) {
   delete c.paraRulesSig; delete c.confettiShown;
   [['pubEditGeneral', 'general'], ['pubEditEnglish', 'english'], ['pubEditMaths', 'maths']].forEach(([k, subj]) => {
     let plain = !c[k];
-    if (!plain) { try { plain = getFinalCommentText(c, subj) === getBuiltCommentText(c, subj); } catch (e) { plain = false; } }
+    if (!plain) { try { plain = commentText(c, subj) === getBuiltCommentText(c, subj); } catch (e) { plain = false; } }
     if (plain) { delete c[k]; delete c[k + '_fdHash']; delete c[k + '_subject']; }
   });
   return _hash(_canon(c));
@@ -7458,6 +7458,9 @@ function paneTextFromEl(el) {
   }
   return el.innerText.trim() || null;
 }
+// THE one reader of a comment (storage step 2, v3.17.22): what the teacher sees in Review, copies, exports and counts.
+// Everything that needs "the comment" calls this. The built-only readers below (getBuiltCommentText and friends) are for building it.
+function commentText(stu, subj) { return getFinalCommentText(stu, subj); }
 function getFinalCommentText(stu, subj) {
   const s = subj || 'general';
   const key = s === 'english' ? 'pubEditEnglish' : s === 'maths' ? 'pubEditMaths' : 'pubEditGeneral';
@@ -7475,7 +7478,7 @@ function copyComment() {
   saveCur();
   flushDraftPane();
   learnFromCurrent();
-  const text = getFinalCommentText(cur(), currentSubject);
+  const text = commentText(cur(), currentSubject);
   if (!text) { showToast('Nothing to copy yet.'); return; }
   navigator.clipboard.writeText(text).then(() => showToast('Comment copied'), () => showToast('Could not copy. Try again.'));
 }
@@ -7486,7 +7489,7 @@ function reviewAndPolish() { setView('publish'); runPolish(); }
 function countWords(t) { return (t || '').trim().split(/\s+/).filter(Boolean).length; }
 function boardWords(stu) {
   let n = 0;
-  ['general', 'english', 'maths'].forEach(s => { if (subjState(stu, s) !== 'none') n += countWords(getFinalCommentText(stu, s)); });
+  ['general', 'english', 'maths'].forEach(s => { if (subjState(stu, s) !== 'none') n += countWords(commentText(stu, s)); });
   return n;
 }
 function setBoardFilter(f) { _boardFilter = f; renderBoard(); }
@@ -7503,7 +7506,7 @@ function copyAllFinished() {
     const parts = [];
     [['general', 'General'], ['english', 'English'], ['maths', 'Maths']].forEach(([s, label]) => {
       if (subjState(stu, s) !== 'done') return;
-      const t = getFinalCommentText(stu, s);
+      const t = commentText(stu, s);
       if (t) parts.push((s === 'general' ? '' : label + '\n') + t);
     });
     if (parts.length) out.push(stuLabel(stu, i) + '\n' + parts.join('\n\n'));
@@ -8201,7 +8204,7 @@ function acceptPolish() {
 
 async function runCheck() {
   // Use subject-appropriate text for English/Maths
-  const text = (currentSubject !== 'general') ? getSubjectPublishText(cur()) : getPublishedText(cur());
+  const text = commentText(cur(), currentSubject);   // the comment as Review shows it, not the built-only text
   if (!text.trim()) { showToast('Nothing to check.'); return; }
 
   const btn = document.getElementById('checkBtn');
@@ -9702,20 +9705,21 @@ function copyPublished() {
     return;
   }
   // Fallback: pane not rendered — rebuild from stored data
-  const text = currentSubject !== 'general'
-    ? getSubjectPublishText(cur())
-    : getPublishedText(cur());
+  const text = commentText(cur(), currentSubject);
   if (!text) { showToast('Nothing to copy.'); return; }
   navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
 }
 
-function exportAll() {
-  saveCur();
-  const out = students.map((stu, i) => {
+function _exportAllText() {
+  return students.map((stu, i) => {
     const name = stu.name || `Student ${i+1}`;
-    const text = getPublishedText(stu) || stu.ordered.map(s => applyRaw(resolveKey(s, stu), name, PR[stu.pronoun])).join(' ') || '(No comment)';
+    const text = commentText(stu, 'general') || stu.ordered.map(s => applyRaw(resolveKey(s, stu), name, PR[stu.pronoun])).join(' ') || '(No comment)';
     return `${name}\n${'─'.repeat(50)}\n${text}`;
   }).join('\n\n');
+}
+function exportAll() {
+  saveCur();
+  const out = _exportAllText();
   const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([out], {type:'text/plain'})), download: 'report-comments-s1-2026.txt' });
   a.click();
   showToast('Exported!');
@@ -10501,7 +10505,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.21';
+const APP_VERSION = 'v3.17.22';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -10956,7 +10960,7 @@ function jargonElsewhere(word) {
   const out = [], re = _jargonRe(word);
   students.forEach((stu, i) => ['general', 'english', 'maths'].forEach(subj => {
     if (i === currentIdx && subj === currentSubject) return;
-    let t = ''; try { t = getFinalCommentText(stu, subj) || ''; } catch (e) {}
+    let t = ''; try { t = commentText(stu, subj) || ''; } catch (e) {}
     re.lastIndex = 0; if (re.test(t)) out.push({ i, subj });
   }));
   return out;
@@ -11074,7 +11078,7 @@ let _histSaveT = null;
 function _histPersist() { clearTimeout(_histSaveT); _histSaveT = setTimeout(() => { try { idbSet('rcb_history', _hist); } catch (e) {} }, 1500); }
 function _histTexts(stu) {
   const o = {};
-  ['general', 'english', 'maths'].forEach(s => { try { o[s] = (getFinalCommentText(stu, s) || '').trim(); } catch (e) { o[s] = ''; } });
+  ['general', 'english', 'maths'].forEach(s => { try { o[s] = (commentText(stu, s) || '').trim(); } catch (e) { o[s] = ''; } });
   return o;
 }
 function snapshotStudent(stu, why, force) {
@@ -11244,6 +11248,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.22', date: '15 November 2026', items: [
+    'Export all (.txt), the class stats and word counts, Check for issues and the Copy fallback now use the same comment text that Review and Copy show. Before, they could show older words after a change made in Review.'
+  ] },
   { v: 'v3.17.21', date: '15 November 2026', items: [
     'Fixed a way a comment changed on one device could be replaced by an older copy from another. Opening a comment in Review on the second device counted as changing it, so that device\u2019s older copy could win. Looking at a comment no longer counts as a change.'
   ] },
@@ -11705,10 +11712,7 @@ function launchFireworks() {
 
 function getTotalWordsWritten() {
   return students.reduce((acc, stu) => {
-    const genText = getPublishedText(stu) || '';
-    const engText = stu.engDraft || (stu.engOrdered||[]).join(' ');
-    const mathText = stu.mathDraft || (stu.mathOrdered||[]).join(' ');
-    return acc + [genText, engText, mathText].join(' ').trim().split(/\s+/).filter(Boolean).length;
+    return acc + ['general', 'english', 'maths'].map(k => commentText(stu, k) || '').join(' ').trim().split(/\s+/).filter(Boolean).length;
   }, 0);
 }
 
@@ -11734,7 +11738,7 @@ function renderStats() {
   const mathDone = students.filter(s => s.mathPublished).length;
   const totalWords = getTotalWordsWritten();
   const genWords = students.filter(s => s.published).reduce((acc, stu) => {
-    const text = getPublishedText(stu) || '';
+    const text = commentText(stu, 'general') || '';
     return acc + text.trim().split(/\s+/).filter(Boolean).length;
   }, 0);
   const avgWords = done > 0 ? Math.round(genWords / done) : 0;
@@ -12949,7 +12953,7 @@ function learnFromCurrent(quiet) {
     const subj = currentSubject;
     if (currentView === 'publish' && !_draftDirty) savePublishEdits();
     const built = getBuiltCommentText(stu, subj);
-    const fin = getFinalCommentText(stu, subj);
+    const fin = commentText(stu, subj);
     if (!built || !fin || built === fin) return 0;
     let added = 0;
     diffSwaps(built, fin, _ignoreWordsFor(stu)).forEach(sw => { if (recordStyleSwap(sw.from, sw.to, stu, subj)) added++; });
@@ -13636,7 +13640,7 @@ function toneReport(stu) {
   // v3.17.7: no amber warning when one subject reads more positive than another. The "Tone across subjects" line in Review still shows each subject's tone.
   present.forEach(s => {
     let text = '';
-    try { text = getFinalCommentText(stu, s) || ''; } catch (e) {}
+    try { text = commentText(stu, s) || ''; } catch (e) {}
     const w = wordingBand(text), sb = out.bands[s];
     if (w && sb && Math.abs(TONE_RANK[w] - TONE_RANK[sb]) >= 2) {
       out.issues.push({ kind: 'wording', text: w === 'strong'
@@ -14042,7 +14046,7 @@ function exportRows(includeDrafts) {
     let any = false;
     ['general', 'english', 'maths'].forEach(s => {
       const st = subjState(stu, s);
-      if (st === 'done' || (includeDrafts && st === 'draft')) { const t = (getFinalCommentText(stu, s) || '').trim(); if (t) { row[s] = t; any = true; } }
+      if (st === 'done' || (includeDrafts && st === 'draft')) { const t = (commentText(stu, s) || '').trim(); if (t) { row[s] = t; any = true; } }
     });
     if (any) rows.push(row);
   });
