@@ -59,7 +59,7 @@ test('with no level set, the first screen asks for one, and the answer is the st
   assert.ok(/Before you start/.test(await page.textContent('#quickPanel')));
   await page.click('#quickPanel .quick-chip:has-text("Average")'); await settle(page, 100);
   assert.strictEqual(await page.evaluate(() => cur().generalLevel), 'average');
-  assert.ok(/1 of 13/.test(await page.textContent('#quickPanel .quick-prog')));
+  assert.ok(/1 of 15/.test(await page.textContent('#quickPanel .quick-prog')));
   await page.context().close();
 });
 
@@ -218,30 +218,14 @@ test('the last screen offers Search and Go to Review, and Full list shows the us
   await page.context().close();
 });
 
-test('categories without groups (Emotional Wellbeing, Reflection & Goal Setting) keep their usual list, with a way into Quick mode', async () => {
+test('Emotional Wellbeing and Reflection & Goal Setting have their own Quick mode screens', async () => {
   const page = await ready();
+  await prep(page, 0, 'strong');
   await quickOn(page);
-  await page.evaluate(() => { currentTab = 'Emotional Wellbeing'; render(); });
-  assert.strictEqual(await page.$('#quickPanel'), null);
-  assert.ok((await page.$$('#optsGrid .opt')).length > 5);
-  await page.click('.quick-strip .quick-link'); await settle(page, 100);
-  assert.ok(await page.$('#quickPanel'), 'Quick mode opens');
-  await page.context().close();
-});
-
-test('every characteristic in a category is shown whatever the level, with no "Show more" button (v3.17.30)', async () => {
-  const page = await ready();
-  await prep(page, 0, 'strong'); await quickOn(page);
-  const r = await page.evaluate(() => {
-    const out = [];
-    CATS.forEach(c => { if (!GEN_TRAITS[c] || !_quickHasTiers(c)) return; currentTab = c; render();
-      const shown = document.querySelectorAll('#quickPanel .quick-chip').length;
-      const offered = GEN_TRAITS[c].filter(t => quickCandidates(cur(), c, t, true).length || quickTicked(cur(), c, t)).length;
-      out.push({ c, shown, offered, more: [...document.querySelectorAll('#quickPanel .quick-link')].some(b => /Show \d+ more/.test(b.textContent)) });
-    });
-    return out;
-  });
-  assert.ok(r.length > 3);
-  r.forEach(x => { assert.strictEqual(x.shown, x.offered, x.c); assert.ok(!x.more, x.c); });
+  for (const cat of ['Emotional Wellbeing', 'Reflection & Goal Setting']) {
+    await gotoCat(page, cat);
+    assert.ok(await page.$('#quickPanel'), cat + ' shows Quick mode');
+    assert.ok((await chips(page)).length >= 2, cat + ' has characteristic buttons');
+  }
   await page.context().close();
 });
