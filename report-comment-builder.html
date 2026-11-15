@@ -650,6 +650,9 @@
   .settings-action-btn.green:hover { border-color: var(--green); }
   .syl-tag { display:inline-block; margin-left:8px; padding:0 6px; font-size:10px; line-height:16px; border-radius:999px; border:1px solid var(--border); color:var(--t2); background:var(--bg-3); vertical-align:middle; white-space:nowrap; }
   .yr-fallback { font-size:11px; color:var(--t2); padding:2px 12px 6px; font-style:italic; }
+  .search-wrap { padding: 4px 0 8px; }
+  .search-input { width: 100%; box-sizing: border-box; font-family: var(--font); font-size: 14px; padding: 8px 10px; border: 1px solid var(--border-h); border-radius: var(--r-sm); background: var(--bg-1, #fff); color: var(--t1); }
+  .search-row mark { background: var(--amber-bg2); color: inherit; border-radius: 2px; padding: 0 1px; }
   .year-edit { border:1px solid var(--border); background:var(--bg-3); color:var(--t1); border-radius:var(--r-sm); cursor:pointer; padding:0 8px; font-size:13px; }
   .yp-ov { position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:900; display:flex; align-items:center; justify-content:center; padding:16px; }
   .yp-box { background:var(--bg-1); border:1px solid var(--border-h); border-radius:var(--r-md); padding:18px; max-width:340px; width:100%; box-shadow:0 8px 28px rgba(0,0,0,.45); }
@@ -2870,6 +2873,7 @@ function setSubject(subj) {
   currentSubject = subj;
   _showGradeEntry = false;
   _showAllStrands = false;
+  _searchOpen = false;   // v3.17.26
   lsSet('rcb_subject', subj);
   // Clear the destination subject's cache so we always see fresh content when switching
   // Also clear other subjects to prevent cross-subject bleed
@@ -5647,6 +5651,7 @@ function renderSidebar() {
     fdBtn.innerHTML = `<span class="cat-name">Future Directions</span>${fdCount ? `<span class="cat-count">${fdCount}</span>` : ''}`;
     fdBtn.onclick = () => { currentTab = 'Future Directions'; render(); };
     el.appendChild(fdBtn);
+    appendSearchBtn(el);   // v3.17.26
     return;
   }
 
@@ -5675,6 +5680,184 @@ function renderSidebar() {
     btn.onclick = () => { currentTab = cat; render(); };
     el.appendChild(btn);
   });
+  appendSearchBtn(el);   // v3.17.26
+}
+
+// ── v3.17.26 · SEARCH ────────────────────────────────────────────────────────
+// A Search entry after the last category. It finds a sentence in any category of the open subject (General, English or Maths).
+// It is a flag, not a category: currentTab stays a real category. A click on any category, or a change of subject, closes it.
+// Nothing here is saved; clicking a result calls the same handler as the bank row.
+let _searchOpen = false, _searchQuery = '', _searchFocusKey = null, _searchCaret = null, _searchTimer = null;
+function appendSearchBtn(el) {
+  const d = document.createElement('div'); d.className = 'cat-div'; el.appendChild(d);
+  const b = document.createElement('button');
+  b.className = 'cat-btn search-btn' + (_searchOpen ? ' active' : '');
+  b.innerHTML = '<span class="cat-name">Search</span>';
+  b.setAttribute('aria-label', 'Search every category');
+  b.onclick = () => { _searchOpen = true; render(); setTimeout(() => { const i = document.getElementById('searchInput'); if (i) i.focus(); }, 0); };
+  el.appendChild(b);
+  if (!el._searchCloseBound) {   // a click on any category button closes Search (this runs before that button's own handler)
+    el._searchCloseBound = true;
+    el.addEventListener('click', e => { const t = e.target.closest && e.target.closest('.cat-btn'); if (t && !t.classList.contains('search-btn')) _searchOpen = false; }, true);
+  }
+}
+function closeSearch() { _searchOpen = false; }
+// the words typed, lower case; every word must appear in a sentence for it to match
+function _searchWords(q) { return String(q || '').toLowerCase().split(/\s+/).filter(Boolean); }
+function _searchHit(text, words) { const t = String(text).toLowerCase(); return words.every(w => t.indexOf(w) !== -1); }
+// the sentence with the matched words in <mark>; the text is cut into pieces first and each piece is escaped, so typed text can never become markup
+function _searchMarkHtml(text, words) {
+  const re = new RegExp(words.slice().sort((a, b) => b.length - a.length).map(escapeRegex).join('|'), 'gi');
+  let out = '', last = 0, m;
+  while ((m = re.exec(text)) !== null) {
+    if (!m[0].length) { re.lastIndex++; continue; }
+    out += escHtml(text.slice(last, m.index)) + '<mark>' + escHtml(m[0]) + '</mark>';
+    last = m.index + m[0].length;
+  }
+  return out + escHtml(text.slice(last));
+}
+// every sentence the open subject offers this student, as { cat, rows: [{ key, text, btnClass, tag, title, onclick }] }
+function _searchCollect(words) {
+  const stu = cur(), groups = [];
+  const subj = currentSubject;
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun], yrAl = yrA(stu, subj);
+  let n = 0;
+  const add = (cat, row) => {
+    if (!_searchHit(row.text, words)) return;
+    let g = groups[groups.length - 1];
+    if (!g || g.cat !== cat) { g = groups.find(x => x.cat === cat); if (!g) { g = { cat, rows: [] }; groups.push(g); } }
+    g.rows.push(row); n++;
+  };
+  if (subj === 'general') {
+    const isS2 = currentSemester === 2, s1Keys = isS2 ? getS1UsedKeys(stu) : new Set();
+    let synced = false;
+    CATS.forEach(cat => {
+      if (syncMyBank(stu, cat)) synced = true;
+      const bounds = TIER_BOUNDARIES[cat] || { average: null, developing: null };
+      const tierLabels = { strong: 'Positive', average: 'Average', developing: 'Developing' };
+      (RAW[cat] || []).forEach(s => {
+        // the same sentences the bank shows: the other semester's are hidden unless picked (retired ones stay if picked or used in Semester 1)
+        if (!(inSemester(s) || (stu.selected[cat] || []).includes(s) || (RETIRED.has(s) && isS2 && s1Keys.has(s)))) return;
+        const f = genSelForm(cat, s), isSel = f !== null, used = isS2 && s1Keys.has(s);
+        const tier = bounds.average === null ? null : _tierOfRaw(cat, s);
+        add(cat, {
+          key: cat + '|' + s, text: isSel ? applyFC(f, f) : applyFC(s), sel: isSel,
+          btnClass: 'opt' + (tier ? ' tier-' + tier : ' tier-strong') + (isSel ? ' sel' : '') + (used ? ' s1-used' : ''),
+          tag: tier ? tierLabels[tier] : '', title: used ? 'Used in Semester 1. Click to continue it in Semester 2.' : '',
+          onclick: used ? () => openContinueS1(cat, s) : () => toggleOpt(cat, s)
+        });
+      });
+      const customs = (stu.custom || {})[cat] || [], cTiers = (stu.customTiers || {})[cat] || [];
+      customs.forEach((s, i) => {
+        if (s === null || s === undefined) return;
+        const key = '__custom__' + cat + '__' + i, isSel = (stu.selected[cat] || []).includes(key), tier = cTiers[i] || 'strong';
+        add(cat, {
+          key: cat + '|' + key, text: isSel ? applyFC(s, key) : applyFC(s), sel: isSel,
+          btnClass: 'opt custom tier-' + tier + (isSel ? ' sel' : ''), tag: isMineSentence(cat, s) ? 'Mine' : 'Yours', title: '',
+          onclick: () => toggleCustomOpt(cat, i)
+        });
+      });
+    });
+    if (synced) autoSave();
+  } else {
+    const bank = getBank(), sel = getSubjSelected(), s1 = currentSemester === 2;
+    const customKey = subj === 'english' ? 'engCustom' : 'mathCustom';
+    let synced = false;
+    getCatList().forEach(cat => {
+      if (cat === 'Future Directions') return;
+      const cs = bank[cat] || {};
+      const lists = yearAllGrades(cs);   // { A..E: [...] } (the bank's own rule for the student's year; no year gives the stored grades)
+      const placed = new Set();
+      GRADE_ORDER.forEach(g => (lists[g] || []).forEach(s => {
+        if (typeof s !== 'string' || placed.has(s)) return; placed.add(s);
+        const isSel = subjSelectedForm(sel[cat], s) !== null;
+        const used = !isSel && subjS1Used(cat, s);
+        add(cat, {
+          key: cat + '|' + s, text: applyRaw(s, name, p, yrAl), sel: isSel,
+          btnClass: 'opt' + (isSel ? ' sel' : '') + (used ? ' s1-used' : ''),
+          tag: SENT_TAG[s] ? sylTagLabel(SENT_TAG[s]) : ('Grade ' + g), title: used ? 'Used in Semester 1. You can still choose it again.' : '',
+          onclick: () => toggleSubjOpt(cat, s)
+        });
+      }));
+      if (syncMyBankSubj(stu, subj, cat)) synced = true;
+      ((stu[customKey] && stu[customKey][cat]) || []).filter(x => typeof x === 'string').forEach(s => {
+        const isSel = (sel[cat] || []).includes(s);
+        add(cat, {
+          key: cat + '|' + s, text: applyRaw(s, name, p, yrAl), sel: isSel, btnClass: 'opt custom' + (isSel ? ' sel' : ''),
+          tag: isMineSentence(mineKey(cat), s) ? 'Mine' : 'Yours', title: '', onclick: () => toggleSubjOpt(cat, s)
+        });
+      });
+    });
+    // future directions of every stage (the picker still allows two)
+    const curFD = getCurFD(), cust = getCustomFD();
+    Object.entries(getFDBank()).forEach(([strand, stages]) => FD_STAGES.forEach(stage => {
+      [...(stages[stage] || []), ...(((cust[strand] || {})[stage]) || [])].forEach(t => {
+        const isSel = curFD.includes(t), locked = curFD.length >= 2 && !isSel;
+        add('Future Directions', {
+          key: 'FD|' + strand + '|' + stage + '|' + t, text: t, sel: isSel, btnClass: 'opt' + (isSel ? ' sel' : '') + (locked ? ' opts-locked' : ''),
+          tag: strand + ' · ' + stage, title: locked ? '2 future directions are chosen. Take one out to choose this.' : '', onclick: locked ? null : () => toggleFD(t)
+        });
+      });
+    }));
+    if (synced) autoSave();
+  }
+  return { groups, n };
+}
+const SEARCH_MAX = 200;
+function _searchPaintResults(box) {
+  const words = _searchWords(_searchQuery);
+  box.innerHTML = '';
+  if (_searchQuery.trim().length < 2) { const m = document.createElement('div'); m.className = 'yr-fallback'; m.textContent = 'Type a word or two to search every category.'; box.appendChild(m); return; }
+  const { groups, n } = _searchCollect(words);
+  if (!n) { const m = document.createElement('div'); m.className = 'yr-fallback'; m.id = 'searchNone'; m.textContent = 'No sentences match. Try fewer words.'; box.appendChild(m); return; }
+  let shown = 0;
+  const order = groups.slice().sort((a, b) => (a.cat === 'Future Directions') - (b.cat === 'Future Directions'));   // future directions come last, as in the sidebar
+  order.forEach(g => {
+    if (shown >= SEARCH_MAX) return;
+    const h = document.createElement('div'); h.className = 'grade-divider search-head';
+    h.innerHTML = '<div class="grade-divider-line"></div><span class="grade-divider-label C">' + escHtml(g.cat) + '</span><div class="grade-divider-line"></div>';
+    box.appendChild(h);
+    g.rows.forEach(r => {
+      if (shown >= SEARCH_MAX) return; shown++;
+      const b = document.createElement('button');
+      b.className = r.btnClass + ' search-row'; b.dataset.sk = r.key;
+      b.innerHTML = _searchMarkHtml(r.text, words);
+      if (r.tag) { const t = document.createElement('span'); t.className = 'term-tag'; t.textContent = r.tag; b.appendChild(t); }
+      if (r.title) b.title = r.title;
+      if (r.onclick) b.onclick = () => { _searchFocusKey = r.key; r.onclick(); };
+      box.appendChild(b);
+    });
+  });
+  if (n > shown) { const m = document.createElement('div'); m.className = 'yr-fallback'; m.textContent = 'Showing the first ' + shown + ' of ' + n + '. Type more words to narrow it down.'; box.appendChild(m); }
+}
+function renderSearchPanel(grid) {
+  const gs = document.getElementById('gradeSelWrap'); if (gs) gs.style.display = 'none';
+  const tools = document.getElementById('cTools'); if (tools) { tools.classList.add('tools-off'); tools.classList.add('no-tiers'); }
+  grid.classList.remove('tiered'); grid.dataset.tier = 'all';
+  if (currentSubject !== 'general' && !(cur() && cur().year)) {
+    const yh = document.createElement('div'); yh.className = 'yr-fallback'; yh.id = 'noYearHint';
+    yh.textContent = 'Choose this student’s year to see the Kindergarten to Year 6 comments for each strand.';
+    grid.appendChild(yh);
+  }
+  const wrap = document.createElement('div'); wrap.className = 'search-wrap';
+  const lab = document.createElement('label'); lab.className = 'custom-label'; lab.setAttribute('for', 'searchInput'); lab.innerHTML = '<span>Search all ' + (currentSubject === 'general' ? 'General' : currentSubject === 'english' ? 'English' : 'Maths') + ' sentences</span>';
+  const inp = document.createElement('input'); inp.type = 'search'; inp.id = 'searchInput'; inp.className = 'search-input'; inp.autocomplete = 'off';
+  inp.placeholder = 'Type a word or two'; inp.value = _searchQuery;
+  wrap.appendChild(lab); wrap.appendChild(inp); grid.appendChild(wrap);
+  const box = document.createElement('div'); box.id = 'searchResults'; grid.appendChild(box);
+  inp.addEventListener('input', () => {
+    _searchQuery = inp.value; _searchFocusKey = null; _searchCaret = inp.selectionStart;
+    clearTimeout(_searchTimer); _searchTimer = setTimeout(() => { const b = document.getElementById('searchResults'); if (b) _searchPaintResults(b); }, 150);
+  });
+  _searchPaintResults(box);
+  // after a click on a result the grid is rebuilt: put the focus back on the same result (or the box)
+  if (_searchFocusKey) {
+    const f = Array.from(box.querySelectorAll('.search-row')).find(x => x.dataset.sk === _searchFocusKey);
+    if (f) f.focus(); else inp.focus();
+    _searchFocusKey = null;
+  } else if (_searchCaret !== null && document.activeElement && document.activeElement.id === 'searchInput') {
+    inp.setSelectionRange(_searchCaret, _searchCaret);
+  }
 }
 
 
@@ -5845,9 +6028,10 @@ function scrollListToTop() {
 function _renderOptsCore() {
   if (currentSemester === 2) seedS2Grades(cur());
   _edSet = editedKeySet(cur(), currentSubject);   // v3.9.2: sentences the teacher has reworded in the draft
-  document.getElementById('cTitle').textContent = currentTab;
+  document.getElementById('cTitle').textContent = _searchOpen ? 'Search' : currentTab;
   const grid = document.getElementById('optsGrid');
   grid.innerHTML = '';
+  if (_searchOpen) { renderSearchPanel(grid); return; }   // v3.17.26
 
   // Show grade selector for English/Maths
   const gradeSel = document.getElementById('gradeSelWrap');
@@ -10624,7 +10808,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.25';
+const APP_VERSION = 'v3.17.26';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -11369,6 +11553,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.26', date: '15 November 2026', items: [
+    'New: Search. A Search entry now sits after the last category in General, English and Maths. Type a word or two to find a sentence in any category, then click it to add it to the comment, just as you would in the list. In English and Maths it also finds future directions.'
+  ] },
   { v: 'v3.17.25', date: '15 November 2026', items: [
     'The class size is now counted from the students you have entered. You no longer type it in, and the progress bar can no longer show more students done than the class has (for example 23 / 22). Add or remove a student and the total follows.'
   ] },
