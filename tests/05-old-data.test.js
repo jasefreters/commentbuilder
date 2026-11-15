@@ -123,12 +123,7 @@ test('a Review change made after typing in Build survives a save, a load and a t
   await page.context().close(); await p2.context().close();
 });
 
-test('Export all (.txt) shows the same words as Review and Copy', { todo: 'drift route 2: Export all ignores Review changes made after typing in Build' }, async () => {
-  const page = await openApp(); await seedClass(page); await typedThenReviewEdit(page);
-  const r = await page.evaluate(() => { const s = students.find(x => x.name === 'Ava'); const n = t => String(t || '').replace(/\s+/g, ' ').trim(); return { final: n(getFinalCommentText(s, 'general')), exported: n(getPublishedText(s)) }; });
-  assert.strictEqual(r.exported, r.final);
-  await page.context().close();
-});
+// (The "Export all (.txt) shows the same words as Review and Copy" problem is fixed in v3.17.22; its test is in 06-one-reader.test.js.)
 
 // ── Your own class, checked on your own computer only (nothing from it is ever committed) ──
 // RCB_REAL_BACKUP=/path/backup.json RCB_REAL_BEFORE=/path/before.json npm test
