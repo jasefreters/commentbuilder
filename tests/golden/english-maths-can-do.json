@@ -1,0 +1,98 @@
+[
+ {
+  "old": "{{S}} is developing {{pos}} knowledge of all concepts taught in English.",
+  "new": "{{S}} demonstrates knowledge of all concepts taught in English."
+ },
+ {
+  "old": "{{S}} is developing the ability to change {{pos}} volume and pace to support audience engagement during class presentations.",
+  "new": "{{S}} changes {{pos}} volume and pace to support audience engagement during class presentations."
+ },
+ {
+  "old": "{{S}} participates in class discussions and is learning to express ideas more clearly.",
+  "new": "{{S}} participates in class discussions and expresses {{pos}} ideas."
+ },
+ {
+  "old": "{{S}} participates in class discussions with support and is learning to express ideas more clearly when speaking.",
+  "new": "{{S}} participates in class discussions and, with support, expresses ideas when speaking."
+ },
+ {
+  "old": "{{S}} listens to others and is beginning to respond appropriately in conversations.",
+  "new": "{{S}} listens to others and responds appropriately in conversations."
+ },
+ {
+  "old": "{{S}} identifies main ideas and is beginning to recognise how language features help build meaning.",
+  "new": "{{S}} identifies main ideas and recognises how language features help build meaning."
+ },
+ {
+  "old": "{{S}} reads simple texts with support and is working towards identifying key information and following the main ideas.",
+  "new": "{{S}} reads simple texts with support and identifies key information and the main ideas."
+ },
+ {
+  "old": "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.",
+  "new": "{{S}} explains how language features, such as word choices and text clues, contribute to meaning."
+ },
+ {
+  "old": "{{S}} applies known vocabulary effectively and is beginning to experiment with descriptive language to add detail.",
+  "new": "{{S}} applies known vocabulary effectively and experiments with descriptive language to add detail."
+ },
+ {
+  "old": "{{S}} is beginning to use known words and picture clues to help understand new vocabulary.",
+  "new": "{{S}} uses known words and picture clues to help understand new vocabulary."
+ },
+ {
+  "old": "{{S}} is developing skills in structuring and editing persuasive texts.",
+  "new": "{{S}} structures and edits persuasive texts."
+ },
+ {
+  "old": "{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks.",
+  "new": "{{S}} writes simple sentences and organises ideas in written tasks."
+ },
+ {
+  "old": "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing.",
+  "new": "{{S}} includes basic descriptive language and organises ideas in {{pos}} writing."
+ },
+ {
+  "old": "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.",
+  "new": "{{S}} writes simple sentences and organises ideas into short paragraphs."
+ },
+ {
+  "old": "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea.",
+  "new": "{{S}} organises {{pos}} ideas into paragraphs and starts each paragraph with its main idea."
+ },
+ {
+  "old": "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words.",
+  "new": "{{S}} applies familiar spelling patterns and spells less common words with growing accuracy."
+ },
+ {
+  "old": "{{S}} is learning to apply common spelling patterns in writing.",
+  "new": "{{S}} applies common spelling patterns in writing."
+ },
+ {
+  "old": "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly.",
+  "new": "{{S}} constructs sentences that include basic punctuation and uses capital letters and full stops correctly."
+ },
+ {
+  "old": "{{S}} is beginning to identify nouns and verbs in simple sentences.",
+  "new": "{{S}} identifies nouns and verbs in simple sentences."
+ },
+ {
+  "old": "{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts.",
+  "new": "{{S}} forms letters consistently with even spacing and uses the keyboard with increasing accuracy when creating digital texts."
+ },
+ {
+  "old": "{{S}} is learning to form letters correctly and write on the line.",
+  "new": "{{S}} forms letters correctly and writes on the line."
+ },
+ {
+  "old": "{{S}} is learning to read and represent numbers in different ways and can order numbers up to four digits.",
+  "new": "{{S}} reads and represents numbers in different ways and can order numbers up to four digits."
+ },
+ {
+  "old": "{{S}} is learning to recognise, name and represent simple fractions.",
+  "new": "{{S}} recognises, names and represents simple fractions."
+ },
+ {
+  "old": "{{S}} is beginning to measure perimeter and calculate the area of familiar two-dimensional shapes.",
+  "new": "{{S}} measures perimeter and calculates the area of familiar two-dimensional shapes."
+ }
+]

@@ -61,7 +61,7 @@
     {
       "kind": "sentence",
       "stage": "S2",
-      "text": "{{S}} is developing skills in structuring and editing persuasive texts."
+      "text": "{{S}} structures and edits persuasive texts."
     },
     {
       "kind": "sentence",
@@ -71,22 +71,22 @@
     {
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks."
+      "text": "{{S}} writes simple sentences and organises ideas in written tasks."
     },
     {
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing."
+      "text": "{{S}} includes basic descriptive language and organises ideas in {{pos}} writing."
     },
     {
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs."
+      "text": "{{S}} writes simple sentences and organises ideas into short paragraphs."
     },
     {
       "kind": "sentence",
-      "stage": "S1",
-      "text": "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea."
+      "stage": "S2",
+      "text": "{{S}} organises {{pos}} ideas into paragraphs and starts each paragraph with its main idea."
     },
     {
       "kind": "sentence",

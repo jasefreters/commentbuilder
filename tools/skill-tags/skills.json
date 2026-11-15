@@ -215,7 +215,7 @@
       "definition": "Explains how words, sentences and language features shape meaning.",
       "examples": [
         "Linking the meanings of key words across a text to help make connections.",
-        "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning."
+        "{{S}} explains how language features, such as word choices and text clues, contribute to meaning."
       ]
     },
     {
@@ -271,7 +271,7 @@
       "definition": "Puts ideas in a logical order and groups them into paragraphs.",
       "examples": [
         "Writing paragraphs in a sequenced order.",
-        "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea."
+        "{{S}} organises {{pos}} ideas into paragraphs and starts each paragraph with its main idea."
       ]
     },
     {
@@ -325,7 +325,7 @@
       "definition": "Picks descriptive, topic or persuasive words for effect.",
       "examples": [
         "Experimenting with different language features for effect and to engage the reader.",
-        "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing."
+        "{{S}} includes basic descriptive language and organises ideas in {{pos}} writing."
       ]
     },
     {
@@ -407,7 +407,7 @@
       "name": "Grammar and punctuation",
       "definition": "Uses sentence grammar, tense and punctuation correctly (bank sentences only).",
       "examples": [
-        "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly.",
+        "{{S}} constructs sentences that include basic punctuation and uses capital letters and full stops correctly.",
         "{{S}} uses commas to separate parts of a sentence and apostrophes for contractions."
       ]
     }

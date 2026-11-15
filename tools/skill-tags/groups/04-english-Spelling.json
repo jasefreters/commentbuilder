@@ -51,7 +51,7 @@
     {
       "kind": "sentence",
       "stage": "S2",
-      "text": "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words."
+      "text": "{{S}} applies familiar spelling patterns and spells less common words with growing accuracy."
     },
     {
       "kind": "sentence",
@@ -71,17 +71,17 @@
     {
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} is learning to apply common spelling patterns in writing."
+      "text": "{{S}} applies common spelling patterns in writing."
     },
     {
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly."
+      "text": "{{S}} constructs sentences that include basic punctuation and uses capital letters and full stops correctly."
     },
     {
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} is beginning to identify nouns and verbs in simple sentences."
+      "text": "{{S}} identifies nouns and verbs in simple sentences."
     },
     {
       "kind": "sentence",

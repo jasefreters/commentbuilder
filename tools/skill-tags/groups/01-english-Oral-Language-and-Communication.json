@@ -70,13 +70,13 @@
     },
     {
       "kind": "sentence",
-      "stage": "S2",
-      "text": "{{S}} is developing the ability to change {{pos}} volume and pace to support audience engagement during class presentations."
+      "stage": "S1",
+      "text": "{{S}} changes {{pos}} volume and pace to support audience engagement during class presentations."
     },
     {
       "kind": "sentence",
       "stage": "ES1",
-      "text": "{{S}} participates in class discussions and is learning to express ideas more clearly."
+      "text": "{{S}} participates in class discussions and expresses {{pos}} ideas."
     },
     {
       "kind": "sentence",
@@ -86,12 +86,12 @@
     {
       "kind": "sentence",
       "stage": "ES1",
-      "text": "{{S}} participates in class discussions with support and is learning to express ideas more clearly when speaking."
+      "text": "{{S}} participates in class discussions and, with support, expresses ideas when speaking."
     },
     {
       "kind": "sentence",
-      "stage": "S1",
-      "text": "{{S}} listens to others and is beginning to respond appropriately in conversations."
+      "stage": "ES1",
+      "text": "{{S}} listens to others and responds appropriately in conversations."
     },
     {
       "kind": "sentence",

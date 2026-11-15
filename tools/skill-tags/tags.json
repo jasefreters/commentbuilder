@@ -98,15 +98,15 @@
     {
       "group": "english|Oral Language and Communication",
       "kind": "sentence",
-      "stage": "S2",
-      "text": "{{S}} is developing the ability to change {{pos}} volume and pace to support audience engagement during class presentations.",
+      "stage": "S1",
+      "text": "{{S}} changes {{pos}} volume and pace to support audience engagement during class presentations.",
       "skill": "voice"
     },
     {
       "group": "english|Oral Language and Communication",
       "kind": "sentence",
       "stage": "ES1",
-      "text": "{{S}} participates in class discussions and is learning to express ideas more clearly.",
+      "text": "{{S}} participates in class discussions and expresses {{pos}} ideas.",
       "skill": "joining-discussions",
       "skill2": "sharing-ideas"
     },
@@ -122,15 +122,15 @@
       "group": "english|Oral Language and Communication",
       "kind": "sentence",
       "stage": "ES1",
-      "text": "{{S}} participates in class discussions with support and is learning to express ideas more clearly when speaking.",
+      "text": "{{S}} participates in class discussions and, with support, expresses ideas when speaking.",
       "skill": "joining-discussions",
       "skill2": "sharing-ideas"
     },
     {
       "group": "english|Oral Language and Communication",
       "kind": "sentence",
-      "stage": "S1",
-      "text": "{{S}} listens to others and is beginning to respond appropriately in conversations.",
+      "stage": "ES1",
+      "text": "{{S}} listens to others and responds appropriately in conversations.",
       "skill": "listening-and-understanding",
       "skill2": "joining-discussions"
     },
@@ -688,7 +688,7 @@
       "group": "english|Reading Comprehension",
       "kind": "sentence",
       "stage": "S2",
-      "text": "{{S}} identifies main ideas and is beginning to recognise how language features help build meaning.",
+      "text": "{{S}} identifies main ideas and recognises how language features help build meaning.",
       "skill": "main-ideas",
       "skill2": "language-features"
     },
@@ -703,14 +703,14 @@
       "group": "english|Reading Comprehension",
       "kind": "sentence",
       "stage": "ES1",
-      "text": "{{S}} reads simple texts with support and is working towards identifying key information and following the main ideas.",
+      "text": "{{S}} reads simple texts with support and identifies key information and the main ideas.",
       "skill": "main-ideas"
     },
     {
       "group": "english|Reading Comprehension",
       "kind": "sentence",
       "stage": "S2",
-      "text": "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.",
+      "text": "{{S}} explains how language features, such as word choices and text clues, contribute to meaning.",
       "skill": "language-features"
     },
     {
@@ -1318,7 +1318,7 @@
       "group": "english|Creating Written Texts",
       "kind": "sentence",
       "stage": "S2",
-      "text": "{{S}} is developing skills in structuring and editing persuasive texts.",
+      "text": "{{S}} structures and edits persuasive texts.",
       "skill": "persuasive",
       "skill2": "editing"
     },
@@ -1333,7 +1333,7 @@
       "group": "english|Creating Written Texts",
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks.",
+      "text": "{{S}} writes simple sentences and organises ideas in written tasks.",
       "skill": "sentences",
       "skill2": "paragraphs-and-order"
     },
@@ -1341,7 +1341,7 @@
       "group": "english|Creating Written Texts",
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing.",
+      "text": "{{S}} includes basic descriptive language and organises ideas in {{pos}} writing.",
       "skill": "word-choice",
       "skill2": "paragraphs-and-order"
     },
@@ -1349,15 +1349,15 @@
       "group": "english|Creating Written Texts",
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.",
+      "text": "{{S}} writes simple sentences and organises ideas into short paragraphs.",
       "skill": "sentences",
       "skill2": "paragraphs-and-order"
     },
     {
       "group": "english|Creating Written Texts",
       "kind": "sentence",
-      "stage": "S1",
-      "text": "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea.",
+      "stage": "S2",
+      "text": "{{S}} organises {{pos}} ideas into paragraphs and starts each paragraph with its main idea.",
       "skill": "paragraphs-and-order"
     },
     {
@@ -1868,7 +1868,7 @@
       "group": "english|Spelling",
       "kind": "sentence",
       "stage": "S2",
-      "text": "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words.",
+      "text": "{{S}} applies familiar spelling patterns and spells less common words with growing accuracy.",
       "skill": "letter-patterns"
     },
     {
@@ -1898,21 +1898,21 @@
       "group": "english|Spelling",
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} is learning to apply common spelling patterns in writing.",
+      "text": "{{S}} applies common spelling patterns in writing.",
       "skill": "letter-patterns"
     },
     {
       "group": "english|Spelling",
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly.",
+      "text": "{{S}} constructs sentences that include basic punctuation and uses capital letters and full stops correctly.",
       "skill": "grammar-and-punctuation"
     },
     {
       "group": "english|Spelling",
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} is beginning to identify nouns and verbs in simple sentences.",
+      "text": "{{S}} identifies nouns and verbs in simple sentences.",
       "skill": "grammar-and-punctuation"
     },
     {
@@ -2269,7 +2269,7 @@
       "group": "english|Handwriting",
       "kind": "sentence",
       "stage": "S2",
-      "text": "{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts.",
+      "text": "{{S}} forms letters consistently with even spacing and uses the keyboard with increasing accuracy when creating digital texts.",
       "skill": "letter-formation",
       "skill2": "keyboard"
     },
@@ -2307,7 +2307,7 @@
       "group": "english|Handwriting",
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} is learning to form letters correctly and write on the line.",
+      "text": "{{S}} forms letters correctly and writes on the line.",
       "skill": "letter-formation"
     },
     {
@@ -2636,7 +2636,7 @@
       "group": "maths|Representing Whole Numbers",
       "kind": "sentence",
       "stage": "S2A",
-      "text": "{{S}} is learning to read and represent numbers in different ways and can order numbers up to four digits.",
+      "text": "{{S}} reads and represents numbers in different ways and can order numbers up to four digits.",
       "skill": "reading-writing-numbers",
       "skill2": "comparing-ordering"
     },
@@ -3788,7 +3788,7 @@
       "group": "maths|Representing Quantity Fractions",
       "kind": "sentence",
       "stage": "S1A",
-      "text": "{{S}} is learning to recognise, name and represent simple fractions.",
+      "text": "{{S}} recognises, names and represents simple fractions.",
       "skill": "naming-showing"
     },
     {
@@ -4003,7 +4003,7 @@
       "group": "maths|Geometric Measure",
       "kind": "sentence",
       "stage": "S2B",
-      "text": "{{S}} is beginning to measure perimeter and calculate the area of familiar two-dimensional shapes.",
+      "text": "{{S}} measures perimeter and calculates the area of familiar two-dimensional shapes.",
       "skill": "perimeter",
       "skill2": "area-volume-circles"
     },

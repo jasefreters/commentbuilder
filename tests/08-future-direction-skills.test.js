@@ -11,9 +11,9 @@ const MONITOR_S2 = '{{S}} uses strategies to fix {{pos}} understanding when mean
 const FD_MONITOR_S3 = 'Identifying where meaning breaks down when reading.';                                      // monitoring-meaning, Stage 3
 const FD_MONITOR_S1 = 'Recognising when meaning is interrupted during reading.';                                  // monitoring-meaning, Stage 1
 const FD_EVIDENCE_S3 = 'Using evidence from a text to support reading comprehension.';                           // evidence-and-inference, Stage 3
-const LANG_S2 = '{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts.';   // language-features, Stage 2
-const LANG_BEGINNING = '{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.';   // language-features, Stage 2, "beginning"
-const FD_LANG_S2 = 'Linking the meanings of key words across a text to help make connections.';                  // language-features, Stage 2
+const LANG_S2 = '{{S}} uses background knowledge and reading skills to better understand texts.';   // connections, Early Stage 1
+const LANG_BEGINNING = '{{S}} reads predictable texts with guidance and draws basic connections to gain a clearer understanding of the stories.';   // connections, Early Stage 1, "with guidance"
+const FD_LANG_S2 = 'Using background knowledge to identify connections between a story and own experiences.';                  // connections, Early Stage 1
 
 async function student(page, ticks = []) {
   await page.evaluate(([rc, ticks]) => {
@@ -81,9 +81,9 @@ test('a sentence at a lower stage is a next step, not a repeat; one at the same 
 
 test('a sentence that says the student needs support does not count as praise', async () => {
   const page = await openApp(); await student(page, [LANG_BEGINNING]);
-  assert.equal(await repeats(page, 'Stage 2', FD_LANG_S2), null);
+  assert.equal(await repeats(page, 'Early Stage 1', FD_LANG_S2), null);
   await page.evaluate(([rc, s]) => toggleSubjOpt(rc, s), [RC, LANG_S2]);
-  assert.equal(await repeats(page, 'Stage 2', FD_LANG_S2), LANG_S2, 'the same skill with no support wording is a repeat');
+  assert.equal(await repeats(page, 'Early Stage 1', FD_LANG_S2), LANG_S2, 'the same skill with no support wording is a repeat');
   await page.context().close();
 });
 
