@@ -16,6 +16,10 @@ The main rule they protect: **a change to one comment changes that comment and n
   Three tests there are marked as known problems; they are the bugs the "one source of truth" work fixes.
   Your own class can be checked on your own computer only (nothing from it is saved in the repo):
   `RCB_REAL_BACKUP=backup.json RCB_REAL_BEFORE=before.json npm test`, where `before.json` is the finished text recorded from the old version.
+- `08-future-direction-skills` checks future directions that repeat a skill the comment already praises: the tag data in the app
+  matches `tools/skill-tags/tags.json`, auto-suggest skips a repeat and says so, a lower stage is a next step, "needs support"
+  wording does not count, the by-hand list shows a note but still allows the pick, and items you added are compared by their words.
+  If you change `tools/skill-tags/tags.json`, run `node tools/skill-tags/build-data.js` to put the change into the app.
 
 Run them with `npm install`, `npx playwright install chromium`, then `npm test`.
 They also run on GitHub for every pull request.
