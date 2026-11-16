@@ -1,0 +1,14 @@
+const L = require('./lib')('ac9/08.json'); const { keep, add, drop } = L;
+keep(12, 3, 'AC9M3M01'); keep(42, 3, 'AC9M3M01');
+keep(15, 3, 'AC9M3M02', 'formal units start in Year 3 here'); keep(18, 3, 'AC9M3M02'); keep(19, 3, 'AC9M3M02'); keep(21, 3, 'AC9M3M02'); keep(44, 3, 'AC9M3M02');
+keep(41, 3, 'AC9M3M03'); keep(43, 3, 'AC9M3M03');
+keep(33, 3, 'AC9M3M04'); keep(35, [2, 3], ['AC9M2M03', 'AC9M3M04']);
+keep(13, 3, 'AC9M3M05'); add('{{S}} describes angles as amounts of turn and compares them with a right angle in everyday objects.', 3, 'AC9M3M05');
+keep(31, 3, 'AC9M3M06'); keep(32, 3, 'AC9M3M06'); keep(36, 3, 'AC9M3M06'); keep(37, 3, 'AC9M3M06');
+keep(34, 4, 'AC9M4M01'); add('{{S}} reads scaled instruments such as measuring jugs and kitchen scales and records measures between marked units.', 4, 'AC9M4M01');
+keep(14, 4, 'AC9M4M02'); keep(27, 4, 'AC9M4M02');
+keep(47, 4, 'AC9M4M03', 'working out how long an event lasts is Year 4 here'); add('{{S}} solves duration problems involving am and pm and converts between hours and minutes.', 4, 'AC9M4M03');
+keep(23, 4, 'AC9M4M04'); add('{{S}} estimates the size of angles and orders them from smallest to largest.', 4, 'AC9M4M04');
+[17, 20, 22, 1, 4, 6, 11].forEach(i => drop(i, 'Position, direction and the number plane are Space; handled in the Space batch'));
+L.rest('decided in batch 07 or 09');
+L.save();

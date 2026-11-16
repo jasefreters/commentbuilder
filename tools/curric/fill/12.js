@@ -1,0 +1,13 @@
+const L = require('./lib')('ac9/12.json'); const { keep, add, drop } = L;
+[28, 29, 30, 31, 33, 36].forEach(i => keep(i, 5, 'AC9M5SP01')); keep(32, [5, 6], ['AC9M5SP01', 'AC9M6SP01']);
+add('{{S}} compares slices through solid objects and links them to right prisms.', 6, 'AC9M6SP01');
+keep(0, [5, 6], ['AC9M5SP02', 'AC9M6SP02']); [1, 2, 3].forEach(i => keep(i, 5, 'AC9M5SP02'));
+add('{{S}} plots and describes points in all four quadrants of the number plane.', 6, 'AC9M6SP02');
+keep(21, 5, 'AC9M5SP03'); add('{{S}} slides, flips and turns a shape and describes what changes and what stays the same.', 5, 'AC9M5SP03');
+add('{{S}} combines flips, slides and turns to make tessellations and patterns.', 6, 'AC9M6SP03');
+add('{{S}} creates tessellating patterns using shapes and describes the transformations used.', 6, 'AC9M6SP03');
+[9, 11, 12, 20, 22].forEach(i => drop(i, 'Area is Measurement; handled in the Measurement extra batch'));
+[5, 6, 7, 8, 25, 26, 27, 38].forEach(i => drop(i, 'Year 7 or above'));
+[10, 13, 14, 15, 16, 17].forEach(i => drop(i, 'Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)'));
+L.rest('decided in batch 10 or 11');
+L.save();

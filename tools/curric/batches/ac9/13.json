@@ -1,0 +1,449 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Statistics",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9MFST01",
+   "year": "F",
+   "text": "Collect, sort and compare data shown by objects and images to answer given questions about familiar situations"
+  },
+  {
+   "id": "AC9M1ST01",
+   "year": "1",
+   "text": "Acquire and record categorical data in various ways (digital tools, objects, images, drawings, lists, tally marks, symbols)"
+  },
+  {
+   "id": "AC9M2ST01",
+   "year": "2",
+   "text": "Acquire categorical data through surveys, observation, experiments and digital tools; sort into categories and display in lists and tables"
+  },
+  {
+   "id": "AC9M1ST02",
+   "year": "1",
+   "text": "Represent collected categorical data using one-to-one displays and digital tools; compare frequencies and discuss findings"
+  },
+  {
+   "id": "AC9M2ST02",
+   "year": "2",
+   "text": "Create different graphical representations of data using software where appropriate; compare them and describe common and distinctive features"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} interprets information in tables and identifies important features of data displays.",
+   "tab": "Data",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets data presented in tables and graphs.",
+   "tab": "Data",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets data from tables, graphs and charts, and explains their key features.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets data from tables and column graphs.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs and finds totals in data displays.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs, and makes comparisons between categories.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads and interprets information from tables and graphs with growing understanding.",
+   "tab": "Data",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies the largest and smallest values in a data display.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads information from tables and explains what is shown in column graphs.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs with growing understanding.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects suitable graphs to display data.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads basic tables and column graphs with growing understanding.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} chooses appropriate graphs and data displays to represent simple information.",
+   "tab": "Data",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} organises and presents information using appropriate graphs and tables.",
+   "tab": "Data",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} takes part in class activities to collect information from classmates and ask questions about it.",
+   "tab": "Data",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} groups objects by one feature and joins in class activities to make a data display.",
+   "tab": "Data",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} organises data into a picture graph using tally marks and symbols.",
+   "tab": "Data",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} answers questions about data represented in tallies and picture graphs.",
+   "tab": "Data",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates column graphs and answers questions related to the information.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates surveys and records data using predetermined categories.",
+   "tab": "Data",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} answers yes or no questions or chooses from options to help collect data.",
+   "tab": "Data",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses pictures to show collected data.",
+   "tab": "Data",
+   "stageTag": "AP",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} takes part in class activities to collect information from classmates and ask questions about it.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFST01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} groups objects by one feature and joins in class activities to make a data display.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFST01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} organises data into a picture graph using tally marks and symbols.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1ST01",
+    "AC9M1ST02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} collects information using tally marks and objects and records it in a list.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1ST01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} answers questions about data represented in tallies and picture graphs.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1ST02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": "picture graphs are Year 1 here, not Year 2"
+  },
+  {
+   "text": "{{S}} organises and presents information using appropriate graphs and tables.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2ST01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} creates surveys and records data using predetermined categories.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2ST01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": "surveys are Year 2 here"
+  },
+  {
+   "text": "{{S}} interprets information in tables and identifies important features of data displays.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2ST02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} interprets data presented in tables and graphs.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2ST02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads and interprets information from tables and graphs with growing understanding.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2ST02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} chooses appropriate graphs and data displays to represent simple information.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2ST02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} answers yes or no questions or chooses from options to help collect data.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} uses pictures to show collected data.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} interprets data from tables, graphs and charts, and explains their key features.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 14 or 15"
+  },
+  {
+   "text": "{{S}} interprets data from tables and column graphs.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 14 or 15"
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs and finds totals in data displays.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 14 or 15"
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs, and makes comparisons between categories.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 14 or 15"
+  },
+  {
+   "text": "{{S}} identifies the largest and smallest values in a data display.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 14 or 15"
+  },
+  {
+   "text": "{{S}} reads information from tables and explains what is shown in column graphs.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 14 or 15"
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs with growing understanding.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 14 or 15"
+  },
+  {
+   "text": "{{S}} selects suitable graphs to display data.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 14 or 15"
+  },
+  {
+   "text": "{{S}} reads basic tables and column graphs with growing understanding.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 14 or 15"
+  },
+  {
+   "text": "{{S}} creates column graphs and answers questions related to the information.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 14 or 15"
+  }
+ ]
+}

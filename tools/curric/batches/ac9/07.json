@@ -1,0 +1,883 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Measurement",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9MFM01",
+   "year": "F",
+   "text": "Identify and compare attributes of objects and events (length, capacity, mass, duration) using direct comparison and explain reasoning"
+  },
+  {
+   "id": "AC9M1M01",
+   "year": "1",
+   "text": "Compare directly and indirectly, and order objects and events by length, mass, capacity and duration, explaining reasoning"
+  },
+  {
+   "id": "AC9M2M01",
+   "year": "2",
+   "text": "Measure and compare objects by length, capacity and mass using uniform informal units, and smaller units when more accuracy is needed"
+  },
+  {
+   "id": "AC9MFM02",
+   "year": "F",
+   "text": "Sequence days of the week and times of day and link them to familiar events"
+  },
+  {
+   "id": "AC9M1M02",
+   "year": "1",
+   "text": "Measure lengths of shapes and objects with informal units that are uniform and placed end-to-end"
+  },
+  {
+   "id": "AC9M2M02",
+   "year": "2",
+   "text": "Identify common uses of halves, quarters and eighths with shapes, objects and events, and represent them"
+  },
+  {
+   "id": "AC9M1M03",
+   "year": "1",
+   "text": "Describe the duration and sequence of events using years, months, weeks, days and hours"
+  },
+  {
+   "id": "AC9M2M03",
+   "year": "2",
+   "text": "Identify dates and find the number of days between events using calendars"
+  },
+  {
+   "id": "AC9M2M04",
+   "year": "2",
+   "text": "Recognise and read time on an analog clock to the hour, half-hour and quarter-hour"
+  },
+  {
+   "id": "AC9M2M05",
+   "year": "2",
+   "text": "Identify, describe and show quarter, half, three-quarter and full turns in everyday situations"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} selects appropriate units of measurement to determine length.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies right angles in shapes.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is beginning to measure perimeter and calculate the area of familiar two-dimensional shapes.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures and compares lengths in centimetres and metres.",
+   "tab": "Geometric Measure",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} experiments with making two equal parts by finding the middle.",
+   "tab": "Geometric Measure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} follows simple directions to move to a new position.",
+   "tab": "Geometric Measure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses words such as 'under', 'next to' and 'behind' to describe where objects are.",
+   "tab": "Geometric Measure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses words such as 'bigger' and 'longer' to describe the length of an object.",
+   "tab": "Geometric Measure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures and records the length of objects using concrete materials such as blocks and tiles.",
+   "tab": "Geometric Measure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} gives and follows directions between familiar places, using turns to the left or right.",
+   "tab": "Geometric Measure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures lengths using a centimetre ruler.",
+   "tab": "Geometric Measure",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} records lengths and distances using the abbreviation 'm' for metres.",
+   "tab": "Geometric Measure",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads simple maps and plans a path from one place to another.",
+   "tab": "Geometric Measure",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses both centimetres and metres to find distances.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes a path on a map using important places and compass directions.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares angles with a right angle, describing them as smaller, larger or the same size.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} responds to simple instructions about position or movement.",
+   "tab": "Geometric Measure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} matches items of similar length and identifies if two lengths are the same or different.",
+   "tab": "Geometric Measure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures weight, perimeter and area accurately.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} calculates totals with money and compares prices.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} adds amounts of money and compares prices in familiar situations.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads and records time using hours and minutes.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses scaled instruments to measure capacities in millilitres and litres.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads and records time using hours and minutes and uses a calendar to find the number of days to a date.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} represents money in different ways and counts collections of coins and notes in familiar situations.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} shows money values in different forms.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} lifts objects to feel which is heavier or lighter.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads analog and digital clocks to the hour, such as '12 o'clock'.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses words like 'morning' and 'afternoon' to explain the order of events in {{pos}} day.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads analog clocks and describes minute hand movement using appropriate 'o'clock' and 'half past' language.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses a calendar to name the days of the week and the months of the year.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares the weight of objects using a balance and everyday units.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures and compares the duration of events in minutes.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} estimates which objects have a mass of about one kilogram.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares and orders the duration of events measured in minutes.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures the mass of objects with scales in grams and kilograms.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies whether an object is heavy or light.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} understands the order of routines.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies events that happen in the daytime or at night-time.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} locates the hour hand and the minute hand on an analog clock.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "AP",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} uses words such as 'bigger' and 'longer' to describe the length of an object.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFM01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} lifts objects to feel which is heavier or lighter.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFM01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses words like 'morning' and 'afternoon' to explain the order of events in {{pos}} day.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFM02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} says the days of the week in order and links them to familiar events.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFM02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} compares two objects directly and says which is longer, heavier or holds more.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} orders three objects by length or mass and explains how {{s}} decided.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} measures and records the length of objects using concrete materials such as blocks and tiles.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} measures the length of an object by placing equal units end to end without gaps.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads analog and digital clocks to the hour, such as '12 o'clock'.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1M03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": "reading hours on a clock is tied to describing time in hours"
+  },
+  {
+   "text": "{{S}} uses a calendar to name the days of the week and the months of the year.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1M03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} compares the weight of objects using a balance and everyday units.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} measures length, mass and capacity using equal informal units and uses smaller units when needed.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} experiments with making two equal parts by finding the middle.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} shows halves, quarters and eighths of shapes, objects and groups in everyday situations.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses a calendar to find dates and works out how many days are between two events.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2M03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads analog clocks and describes minute hand movement using appropriate 'o'clock' and 'half past' language.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2M04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads an analog clock to the hour, half hour and quarter hour.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2M04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes and shows quarter, half and full turns in everyday situations.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2M05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} follows instructions that use quarter and half turns to change direction.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2M05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} follows simple directions to move to a new position.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Position, direction and maps are Space; handled in the Space batch"
+  },
+  {
+   "text": "{{S}} uses words such as 'under', 'next to' and 'behind' to describe where objects are.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Position, direction and maps are Space; handled in the Space batch"
+  },
+  {
+   "text": "{{S}} gives and follows directions between familiar places, using turns to the left or right.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Position, direction and maps are Space; handled in the Space batch"
+  },
+  {
+   "text": "{{S}} reads simple maps and plans a path from one place to another.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Position, direction and maps are Space; handled in the Space batch"
+  },
+  {
+   "text": "{{S}} describes a path on a map using important places and compass directions.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Position, direction and maps are Space; handled in the Space batch"
+  },
+  {
+   "text": "{{S}} responds to simple instructions about position or movement.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} matches items of similar length and identifies if two lengths are the same or different.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} identifies whether an object is heavy or light.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} understands the order of routines.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} identifies events that happen in the daytime or at night-time.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} locates the hour hand and the minute hand on an analog clock.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} selects appropriate units of measurement to determine length.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} identifies right angles in shapes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} is beginning to measure perimeter and calculate the area of familiar two-dimensional shapes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} measures and compares lengths in centimetres and metres.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} measures lengths using a centimetre ruler.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} records lengths and distances using the abbreviation 'm' for metres.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} uses both centimetres and metres to find distances.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} compares angles with a right angle, describing them as smaller, larger or the same size.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} measures weight, perimeter and area accurately.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} calculates totals with money and compares prices.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} adds amounts of money and compares prices in familiar situations.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} reads and records time using hours and minutes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} uses scaled instruments to measure capacities in millilitres and litres.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} reads and records time using hours and minutes and uses a calendar to find the number of days to a date.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} represents money in different ways and counts collections of coins and notes in familiar situations.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} shows money values in different forms.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} measures and compares the duration of events in minutes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} estimates which objects have a mass of about one kilogram.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} compares and orders the duration of events measured in minutes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  },
+  {
+   "text": "{{S}} measures the mass of objects with scales in grams and kilograms.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 08 or 09"
+  }
+ ]
+}

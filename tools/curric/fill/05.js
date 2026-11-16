@@ -1,0 +1,11 @@
+const L = require('./lib')('ac9/05.json'); const { keep, add } = L;
+keep(3, 3, 'AC9M3A03', 'tagged Year 3 here: times tables for 3, 4, 5 and 10'); keep(4, 3, 'AC9M3A03'); keep(6, 3, 'AC9M3A03');
+add('{{S}} explains that addition and subtraction undo each other and uses this to find unknown numbers.', 3, 'AC9M3A01');
+add('{{S}} splits numbers into parts to solve number sentences with a missing number.', 3, 'AC9M3A01');
+add('{{S}} uses addition and subtraction facts to 20 to work out larger sums mentally.', 3, 'AC9M3A02');
+add('{{S}} builds quick mental strategies for adding and subtracting larger numbers without a calculator.', 3, 'AC9M3A02');
+keep(2, 4, 'AC9M4A02'); keep(9, 4, 'AC9M4A02'); keep(10, 4, 'AC9M4A02', 'swapping the order of numbers (commutative property)');
+add('{{S}} finds the missing number in addition and subtraction equations and explains the method used.', 4, 'AC9M4A01');
+add('{{S}} uses number properties to find unknown values in equations.', 4, 'AC9M4A01');
+L.rest('decided in batch 04 or 06');
+L.save();

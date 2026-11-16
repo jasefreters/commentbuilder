@@ -1,0 +1,13 @@
+const L = require('./lib')('ac9/14.json'); const { keep, add } = L;
+add('{{S}} collects categorical and number data to answer a question and records it in a frequency table.', 3, 'AC9M3ST01');
+add('{{S}} uses a spreadsheet or table to record data gathered by observing and asking questions.', 3, 'AC9M3ST01');
+[5, 6, 7, 14, 15, 16].forEach(i => keep(i, 3, 'AC9M3ST02'));
+add('{{S}} carries out a guided investigation by collecting data and displaying it in a graph.', 3, 'AC9M3ST03');
+add('{{S}} describes what a data display shows about a question of interest.', 3, 'AC9M3ST03');
+[4, 9, 12, 13, 21, 23].forEach(i => keep(i, 4, 'AC9M4ST01'));
+add('{{S}} explains which graph best shows and compares the data and why.', 4, 'AC9M4ST02');
+add('{{S}} describes the shape of a set of data and how much the results vary.', 4, 'AC9M4ST02');
+add('{{S}} plans and carries out a survey and displays the results using digital tools.', 4, 'AC9M4ST03');
+add('{{S}} communicates the results of an investigation and explains what the data shows.', 4, 'AC9M4ST03');
+L.rest('decided in batch 13 or 15');
+L.save();

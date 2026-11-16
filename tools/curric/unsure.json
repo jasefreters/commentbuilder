@@ -73,5 +73,35 @@
    }
   ],
   "why": "No Year 3 to 6 description in the source summary mentions numbers in the millions. Check the official text."
+ },
+ {
+  "batch": "ac9/04",
+  "text": "{{S}} uses the equals sign to show when two number sentences have the same total.",
+  "options": [
+   {
+    "year": 2,
+    "ref": "AC9M2N04"
+   },
+   {
+    "year": 4,
+    "ref": "AC9M4A01"
+   }
+  ],
+  "why": "Equals sign and equivalence has no matching description in the source summary."
+ },
+ {
+  "batch": "ac9/10,19",
+  "text": "{{S}} predicts which objects will stack and packs blocks into a given space.",
+  "options": [
+   {
+    "year": "F",
+    "ref": "AC9MFM01"
+   },
+   {
+    "year": "F",
+    "ref": "AC9MFSP02"
+   }
+  ],
+  "why": "Packing and stacking has no matching description in the source summary."
  }
 ]

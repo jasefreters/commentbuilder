@@ -1,0 +1,12 @@
+const L = require('./lib')('ac9/15.json'); const { keep, add, drop } = L;
+add('{{S}} collects data, checks that it makes sense and displays it using software.', 5, 'AC9M5ST01');
+add('{{S}} describes the mode and the shape of a data display.', 5, 'AC9M5ST01');
+keep(6, 5, 'AC9M5ST02'); add('{{S}} reads line graphs that show change over time and explains what they tell us.', 5, 'AC9M5ST02');
+keep(1, 5, 'AC9M5ST03'); keep(8, 5, 'AC9M5ST03');
+keep(17, 6, 'AC9M6ST01'); add('{{S}} compares two data sets using their mode, range and the shape of their displays.', 6, 'AC9M6ST01');
+keep(0, 6, 'AC9M6ST02'); add('{{S}} questions claims made in the media by looking at how the data is collected and shown.', 6, 'AC9M6ST02');
+add('{{S}} poses a question, collects data to answer it and explains what the results show.', 6, 'AC9M6ST03');
+add('{{S}} refines {{pos}} investigation question after looking at early data and communicates the findings clearly.', 6, 'AC9M6ST03');
+[18, 19, 20].forEach(i => drop(i, 'Year 7 or above'));
+L.rest('decided in batch 13 or 14');
+L.save();

@@ -1,0 +1,16 @@
+const L = require('./lib')('ac9/19.json'); const { keep, reword, drop, ap } = L;
+reword(2, '{{S}} calculates the areas of rectangles by applying the area formula accurately.', 6, 'AC9M6M02', 'finding the area of triangles is Year 7');
+keep(3, 5, 'AC9M5M02');
+keep(9, 'F', 'AC9MFM01', 'comparing which surface is bigger is an attribute comparison');
+keep(10, 4, 'AC9M4M02', 'area with informal units starts in Year 4 here'); keep(12, 4, 'AC9M4M02'); keep(14, 4, 'AC9M4M02');
+keep(13, 5, 'AC9M5M02');
+keep(20, 'F', 'AC9MFM01');
+keep(22, 1, 'AC9M1M01'); keep(23, 1, 'AC9M1M01'); keep(24, 1, 'AC9M1M01');
+keep(25, 3, 'AC9M3M02'); keep(26, 4, 'AC9M4M01');
+drop(21, 'unsure; see unsure.json (packing and stacking has no matching description in the source summary)');
+drop(0, 'Two ideas in one sentence; area and the 3D-to-2D link are covered by other sentences');
+drop(11, 'Transformations are Year 5 (AC9M5SP03); this sentence is tagged Stage 1 so is not carried');
+[1, 4, 5, 6, 7, 8].forEach(i => drop(i, 'Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)'));
+[17, 18, 19, 30].forEach(i => drop(i, 'Year 7 or above'));
+ap(15, 16, 27, 28, 29);
+L.save();

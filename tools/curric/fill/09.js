@@ -1,0 +1,16 @@
+const L = require('./lib')('ac9/09.json'); const { keep, add, drop } = L;
+keep(8, 5, 'AC9M5M01'); keep(10, 5, 'AC9M5M01'); keep(22, 5, 'AC9M5M01'); keep(23, 5, 'AC9M5M01'); keep(27, 5, 'AC9M5M01');
+keep(0, 5, ['AC9M5M02', 'AC9M5M04']); keep(2, 5, ['AC9M5M02', 'AC9M5M04']); keep(5, 5, 'AC9M5M02'); keep(7, 5, 'AC9M5M02');
+keep(24, 5, 'AC9M5M03'); keep(26, 5, 'AC9M5M03'); keep(28, 5, 'AC9M5M03'); keep(41, 5, 'AC9M5M03');
+keep(9, 5, 'AC9M5M04');
+keep(3, 6, 'AC9M6M01'); keep(38, 6, 'AC9M6M01'); keep(39, 6, 'AC9M6M01');
+add('{{S}} uses the formula for the area of a rectangle to solve practical problems.', 6, 'AC9M6M02');
+add('{{S}} explains why multiplying length by width gives the area of a rectangle.', 6, 'AC9M6M02');
+add('{{S}} reads timetables and itineraries to plan a trip and works out how long each part takes.', 6, 'AC9M6M03');
+add('{{S}} calculates the duration of events and journeys using timetables.', 6, 'AC9M6M03');
+add('{{S}} uses angle relationships on a straight line and at a point to find unknown angles.', 6, 'AC9M6M04');
+add('{{S}} finds unknown angles in diagrams with vertically opposite angles and explains the reasoning.', 6, 'AC9M6M04');
+[1, 4, 6, 11].forEach(i => drop(i, 'The number plane is Space; handled in the Space batch'));
+[18, 19, 20, 21, 42].forEach(i => drop(i, 'Year 7 or above (circles, volume, graphs)'));
+L.rest('decided in batch 07 or 08');
+L.save();

@@ -1,0 +1,919 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Measurement",
+ "years": [
+  "4",
+  "5",
+  "6"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9M4M01",
+   "year": "4",
+   "text": "Interpret unmarked and partial units when measuring length, mass, capacity, duration and temperature, using scaled and digital instruments"
+  },
+  {
+   "id": "AC9M5M01",
+   "year": "5",
+   "text": "Choose appropriate metric units for length, mass and capacity; use smaller units or combined units for greater accuracy"
+  },
+  {
+   "id": "AC9M6M01",
+   "year": "6",
+   "text": "Convert between common metric units of length, mass and capacity; use decimal metric measurements suited to the problem's context"
+  },
+  {
+   "id": "AC9M4M02",
+   "year": "4",
+   "text": "Recognise ways to measure and approximate perimeter and area of shapes and enclosed spaces using formal and informal units"
+  },
+  {
+   "id": "AC9M5M02",
+   "year": "5",
+   "text": "Solve practical problems involving perimeter and area of regular and irregular shapes using appropriate metric units"
+  },
+  {
+   "id": "AC9M6M02",
+   "year": "6",
+   "text": "Establish the formula for the area of a rectangle and use it to solve practical problems"
+  },
+  {
+   "id": "AC9M4M03",
+   "year": "4",
+   "text": "Solve problems involving duration, including am and pm situations and conversions between time units"
+  },
+  {
+   "id": "AC9M5M03",
+   "year": "5",
+   "text": "Compare 12-hour and 24-hour time systems and solve practical problems converting between them"
+  },
+  {
+   "id": "AC9M6M03",
+   "year": "6",
+   "text": "Interpret and use timetables and itineraries to plan activities and find durations of events and journeys"
+  },
+  {
+   "id": "AC9M4M04",
+   "year": "4",
+   "text": "Estimate and compare angles using names (acute, obtuse, straight, reflex, revolution) and relate them to a right angle"
+  },
+  {
+   "id": "AC9M5M04",
+   "year": "5",
+   "text": "Estimate, construct and measure angles in degrees with a protractor; relate measures to angle names"
+  },
+  {
+   "id": "AC9M6M04",
+   "year": "6",
+   "text": "Identify relationships between angles on a straight line, angles at a point and vertically opposite angles; use them to find unknown angles and explain reasoning"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} calculates the perimeter of two-dimensional shapes and precisely measures angles with a protractor.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and plots points on a number plane.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A+B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures length using appropriate units and converts between centimetres, metres and kilometres.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} plots and labels points on a number plane.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses hectares and square metres to solve area problems.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and plots points in the first quadrant of a number plane.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} calculates the perimeters of common two-dimensional shapes.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures length, area and capacity using appropriate units.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures angles accurately.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses metres and kilometres to estimate and measure distances.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and plots points in the first quadrant of a number plane with support.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects appropriate units of measurement to determine length.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies right angles in shapes.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is beginning to measure perimeter and calculate the area of familiar two-dimensional shapes.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses both centimetres and metres to find distances.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes a path on a map using important places and compass directions.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares angles with a right angle, describing them as smaller, larger or the same size.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} explains how the radius, diameter and circumference of a circle are related.",
+   "tab": "Geometric Measure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses formulas to find the area of circles, trapeziums and kites.",
+   "tab": "Geometric Measure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} finds the volume of prisms and cylinders using formulas.",
+   "tab": "Geometric Measure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} converts between units of area, volume and capacity.",
+   "tab": "Geometric Measure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} chooses appropriate units for measuring capacity and mass.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} solves problems involving capacity and mass.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} converts between 12-hour and 24-hour time systems.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures weight, perimeter and area accurately.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} solves problems involving time by converting between 12-hour and 24-hour formats.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures mass using appropriate units.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} converts between 12- and 24-hour time.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} calculates totals with money and compares prices.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} adds amounts of money and compares prices in familiar situations.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads and records time using hours and minutes.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses scaled instruments to measure capacities in millilitres and litres.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads and records time using hours and minutes and uses a calendar to find the number of days to a date.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures and compares the duration of events in minutes.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} estimates which objects have a mass of about one kilogram.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares and orders the duration of events measured in minutes.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures the mass of objects with scales in grams and kilograms.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} converts between kilograms, grams and tonnes.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} solves problems that involve different units of mass.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses start and finish times to work out how long an event lasts.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} solves time problems that use both 12- and 24-hour times.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads and draws graphs that show distance travelled over time.",
+   "tab": "Non-Spatial Measure",
+   "stageTag": "S4",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} measures length, area and capacity using appropriate units.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses metres and kilometres to estimate and measure distances.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} chooses appropriate units for measuring capacity and mass.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} solves problems involving capacity and mass.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} measures mass using appropriate units.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} calculates the perimeter of two-dimensional shapes and precisely measures angles with a protractor.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M02",
+    "AC9M5M04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M02",
+    "AC9M5M04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses hectares and square metres to solve area problems.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} calculates the perimeters of common two-dimensional shapes.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} converts between 12-hour and 24-hour time systems.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} solves problems involving time by converting between 12-hour and 24-hour formats.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} converts between 12- and 24-hour time.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} solves time problems that use both 12- and 24-hour times.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} measures angles accurately.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} measures length using appropriate units and converts between centimetres, metres and kilometres.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} converts between kilograms, grams and tonnes.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} solves problems that involve different units of mass.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses the formula for the area of a rectangle to solve practical problems.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains why multiplying length by width gives the area of a rectangle.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads timetables and itineraries to plan a trip and works out how long each part takes.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6M03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} calculates the duration of events and journeys using timetables.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6M03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses angle relationships on a straight line and at a point to find unknown angles.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6M04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} finds unknown angles in diagrams with vertically opposite angles and explains the reasoning.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6M04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies and plots points on a number plane.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "The number plane is Space; handled in the Space batch"
+  },
+  {
+   "text": "{{S}} plots and labels points on a number plane.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "The number plane is Space; handled in the Space batch"
+  },
+  {
+   "text": "{{S}} identifies and plots points in the first quadrant of a number plane.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "The number plane is Space; handled in the Space batch"
+  },
+  {
+   "text": "{{S}} identifies and plots points in the first quadrant of a number plane with support.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "The number plane is Space; handled in the Space batch"
+  },
+  {
+   "text": "{{S}} explains how the radius, diameter and circumference of a circle are related.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above (circles, volume, graphs)"
+  },
+  {
+   "text": "{{S}} uses formulas to find the area of circles, trapeziums and kites.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above (circles, volume, graphs)"
+  },
+  {
+   "text": "{{S}} finds the volume of prisms and cylinders using formulas.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above (circles, volume, graphs)"
+  },
+  {
+   "text": "{{S}} converts between units of area, volume and capacity.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above (circles, volume, graphs)"
+  },
+  {
+   "text": "{{S}} reads and draws graphs that show distance travelled over time.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above (circles, volume, graphs)"
+  },
+  {
+   "text": "{{S}} selects appropriate units of measurement to determine length.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} identifies right angles in shapes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} is beginning to measure perimeter and calculate the area of familiar two-dimensional shapes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} uses both centimetres and metres to find distances.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} describes a path on a map using important places and compass directions.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} compares angles with a right angle, describing them as smaller, larger or the same size.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} measures weight, perimeter and area accurately.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} calculates totals with money and compares prices.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} adds amounts of money and compares prices in familiar situations.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} reads and records time using hours and minutes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} uses scaled instruments to measure capacities in millilitres and litres.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} reads and records time using hours and minutes and uses a calendar to find the number of days to a date.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} measures and compares the duration of events in minutes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} estimates which objects have a mass of about one kilogram.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} compares and orders the duration of events measured in minutes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} measures the mass of objects with scales in grams and kilograms.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  },
+  {
+   "text": "{{S}} uses start and finish times to work out how long an event lasts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 07 or 08"
+  }
+ ]
+}

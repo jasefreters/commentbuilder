@@ -1,0 +1,808 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Space",
+ "years": [
+  "4",
+  "5",
+  "6"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9M4SP01",
+   "year": "4",
+   "text": "Represent and approximate composite shapes and objects using combinations of familiar shapes"
+  },
+  {
+   "id": "AC9M5SP01",
+   "year": "5",
+   "text": "Connect objects to their nets and build objects from nets using spatial and geometric reasoning"
+  },
+  {
+   "id": "AC9M6SP01",
+   "year": "6",
+   "text": "Compare parallel cross-sections of objects and recognise their relationship to right prisms"
+  },
+  {
+   "id": "AC9M4SP02",
+   "year": "4",
+   "text": "Create and interpret grid reference systems to locate and describe positions and pathways"
+  },
+  {
+   "id": "AC9M5SP02",
+   "year": "5",
+   "text": "Construct a grid coordinate system to locate positions; use coordinates and directional language to describe position and movement"
+  },
+  {
+   "id": "AC9M6SP02",
+   "year": "6",
+   "text": "Locate points in the four quadrants of a Cartesian plane; describe coordinate changes when a point moves"
+  },
+  {
+   "id": "AC9M4SP03",
+   "year": "4",
+   "text": "Recognise line and rotational symmetry in shapes and create symmetrical patterns and pictures, using dynamic geometry software where appropriate"
+  },
+  {
+   "id": "AC9M5SP03",
+   "year": "5",
+   "text": "Describe and perform translations, reflections and rotations of shapes; identify what changes, what stays the same, and any symmetries"
+  },
+  {
+   "id": "AC9M6SP03",
+   "year": "6",
+   "text": "Use combinations of transformations to create tessellations and other geometric patterns, using dynamic geometry software where appropriate"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} identifies and plots points on a number plane.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A+B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} plots and labels points on a number plane.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and plots points in the first quadrant of a number plane.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and plots points in the first quadrant of a number plane with support.",
+   "tab": "Geometric Measure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes a path on a map using important places and compass directions.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} explains how the radius, diameter and circumference of a circle are related.",
+   "tab": "Geometric Measure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses formulas to find the area of circles, trapeziums and kites.",
+   "tab": "Geometric Measure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} finds the volume of prisms and cylinders using formulas.",
+   "tab": "Geometric Measure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} converts between units of area, volume and capacity.",
+   "tab": "Geometric Measure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} calculates areas and matches three-dimensional objects with their two-dimensional drawings.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals by their features.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} calculates the area of two-dimensional shapes.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and classifies triangles and quadrilaterals based on their properties.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and classifies triangles and quadrilaterals by their features.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals based on their properties.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares and describes the features of shapes, such as parallel sides or equal sides.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} finds lines of symmetry in pictures, designs and shapes.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates grid structures to model the area of rectangles.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates patterns by flipping, sliding and turning shapes.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares the areas of shapes by estimating first, then measuring on a square grid.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} combines shapes to make new shapes and designs.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} splits a shape into smaller shapes and describes the result.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} finds missing angles when a line crosses a pair of parallel lines.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses the properties of triangles and four-sided shapes to find unknown angles.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} finds a missing side of a right-angled triangle.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} efficiently connects three-dimensional objects with their two-dimensional representations.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares and constructs three-dimensional objects such as prisms and pyramids.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} connects three-dimensional objects with their two-dimensional representations.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} connects three-dimensional objects with two-dimensional drawings and representations.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} visualises and constructs prisms and pyramids.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S3A+B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares basic three-dimensional objects and explains how to connect them with their two-dimensional representations.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes the features of prisms, pyramids and cylinders by building models of them.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures how much containers hold in litres, linking the litre to everyday containers.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} sketches objects from different views and builds models from drawings.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} orders the amounts different containers can hold that have been measured in millilitres.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes how objects made by joining prisms look from different views.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S4",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} efficiently connects three-dimensional objects with their two-dimensional representations.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} compares and constructs three-dimensional objects such as prisms and pyramids.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} connects three-dimensional objects with their two-dimensional representations.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} connects three-dimensional objects with two-dimensional drawings and representations.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} compares basic three-dimensional objects and explains how to connect them with their two-dimensional representations.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} sketches objects from different views and builds models from drawings.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} visualises and constructs prisms and pyramids.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5",
+    "6"
+   ],
+   "refs": [
+    "AC9M5SP01",
+    "AC9M6SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} compares slices through solid objects and links them to right prisms.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies and plots points on a number plane.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5",
+    "6"
+   ],
+   "refs": [
+    "AC9M5SP02",
+    "AC9M6SP02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} plots and labels points on a number plane.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5SP02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies and plots points in the first quadrant of a number plane.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5SP02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies and plots points in the first quadrant of a number plane with support.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5SP02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} plots and describes points in all four quadrants of the number plane.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6SP02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} creates patterns by flipping, sliding and turning shapes.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5SP03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} slides, flips and turns a shape and describes what changes and what stays the same.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5SP03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} combines flips, slides and turns to make tessellations and patterns.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6SP03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} creates tessellating patterns using shapes and describes the transformations used.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6SP03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} calculates areas and matches three-dimensional objects with their two-dimensional drawings.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Area is Measurement; handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Area is Measurement; handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} calculates the area of two-dimensional shapes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Area is Measurement; handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} creates grid structures to model the area of rectangles.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Area is Measurement; handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} compares the areas of shapes by estimating first, then measuring on a square grid.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Area is Measurement; handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} explains how the radius, diameter and circumference of a circle are related.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} uses formulas to find the area of circles, trapeziums and kites.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} finds the volume of prisms and cylinders using formulas.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} converts between units of area, volume and capacity.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} finds missing angles when a line crosses a pair of parallel lines.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} uses the properties of triangles and four-sided shapes to find unknown angles.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} finds a missing side of a right-angled triangle.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} describes how objects made by joining prisms look from different views.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals by their features.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} identifies and classifies triangles and quadrilaterals based on their properties.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} identifies and classifies triangles and quadrilaterals by their features.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals based on their properties.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} describes a path on a map using important places and compass directions.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 10 or 11"
+  },
+  {
+   "text": "{{S}} compares and describes the features of shapes, such as parallel sides or equal sides.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 10 or 11"
+  },
+  {
+   "text": "{{S}} finds lines of symmetry in pictures, designs and shapes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 10 or 11"
+  },
+  {
+   "text": "{{S}} combines shapes to make new shapes and designs.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 10 or 11"
+  },
+  {
+   "text": "{{S}} splits a shape into smaller shapes and describes the result.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 10 or 11"
+  },
+  {
+   "text": "{{S}} describes the features of prisms, pyramids and cylinders by building models of them.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 10 or 11"
+  },
+  {
+   "text": "{{S}} measures how much containers hold in litres, linking the litre to everyday containers.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 10 or 11"
+  },
+  {
+   "text": "{{S}} orders the amounts different containers can hold that have been measured in millilitres.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 10 or 11"
+  }
+ ]
+}

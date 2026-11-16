@@ -1,0 +1,341 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Algebra",
+ "years": [
+  "2",
+  "3",
+  "4"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9M2A01",
+   "year": "2",
+   "text": "Recognise, describe and create additive patterns that increase or decrease by a constant amount, and identify missing elements"
+  },
+  {
+   "id": "AC9M3A01",
+   "year": "3",
+   "text": "Explain addition and subtraction as inverse operations; use this to partition numbers and find unknowns in number sentences"
+  },
+  {
+   "id": "AC9M4A01",
+   "year": "4",
+   "text": "Find unknown values in addition and subtraction equations, using properties of numbers and operations"
+  },
+  {
+   "id": "AC9M2A02",
+   "year": "2",
+   "text": "Demonstrate proficiency with addition facts to 20; extend them to develop related subtraction facts"
+  },
+  {
+   "id": "AC9M3A02",
+   "year": "3",
+   "text": "Extend addition and subtraction facts to 20 to build efficient mental strategies for larger numbers without a calculator"
+  },
+  {
+   "id": "AC9M4A02",
+   "year": "4",
+   "text": "Demonstrate proficiency with multiplication facts up to 10 x 10 and related division facts; extend to efficient mental strategies without a calculator"
+  },
+  {
+   "id": "AC9M2A03",
+   "year": "2",
+   "text": "Demonstrate proficiency with multiplication facts for twos; extend to related division facts using doubling and halving"
+  },
+  {
+   "id": "AC9M3A03",
+   "year": "3",
+   "text": "Demonstrate proficiency with multiplication facts for 3, 4, 5 and 10; extend to related division facts"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} uses the equals sign to show when two number sentences have the same total.",
+   "tab": "Additive Relations",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls related addition and subtraction facts for numbers to at least 20.",
+   "tab": "Additive Relations",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates number patterns using known multiplication facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} generates number patterns using times tables.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls some multiplication facts and uses them to support calculations.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that multiplication and division are opposites and uses one to solve the other.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that doubling a number gives the same answer as multiplying by 2.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} generates number patterns using times tables.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9M3A03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": "tagged Year 3 here: times tables for 3, 4, 5 and 10"
+  },
+  {
+   "text": "{{S}} recalls some multiplication facts and uses them to support calculations.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9M3A03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9M3A03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains that addition and subtraction undo each other and uses this to find unknown numbers.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9M3A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} splits numbers into parts to solve number sentences with a missing number.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9M3A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses addition and subtraction facts to 20 to work out larger sums mentally.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9M3A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} builds quick mental strategies for adding and subtracting larger numbers without a calculator.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9M3A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} creates number patterns using known multiplication facts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9M4A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9M4A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9M4A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": "swapping the order of numbers (commutative property)"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} finds the missing number in addition and subtraction equations and explains the method used.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9M4A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses number properties to find unknown values in equations.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9M4A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses the equals sign to show when two number sentences have the same total.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 06"
+  },
+  {
+   "text": "{{S}} recalls related addition and subtraction facts for numbers to at least 20.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 06"
+  },
+  {
+   "text": "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 06"
+  },
+  {
+   "text": "{{S}} recognises that multiplication and division are opposites and uses one to solve the other.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 06"
+  },
+  {
+   "text": "{{S}} recognises that doubling a number gives the same answer as multiplying by 2.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 06"
+  }
+ ]
+}

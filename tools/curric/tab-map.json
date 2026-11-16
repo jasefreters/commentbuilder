@@ -2,19 +2,63 @@
   "_note": "NSW tab -> sub-strands per curriculum. A tab may feed several sub-strands and vice versa. Hand-written; the Number sub-strand feeds four NSW tabs.",
   "ac9": {
     "maths": {
-      "Number": ["Represents Numbers", "Additive Relations", "Multiplicative Relations", "Representing Quantity Fractions"],
-      "Algebra": ["Additive Relations", "Multiplicative Relations"],
-      "Measurement": ["Geometric Measure", "Non-Spatial Measure"],
-      "Space": ["Two-Dimensional Spatial Structure", "Three-Dimensional Spatial Structure"],
-      "Statistics": ["Data"],
-      "Probability": ["Chance"]
+      "Number": [
+        "Represents Numbers",
+        "Additive Relations",
+        "Multiplicative Relations",
+        "Representing Quantity Fractions"
+      ],
+      "Algebra": [
+        "Additive Relations",
+        "Multiplicative Relations"
+      ],
+      "Measurement": [
+        "Geometric Measure",
+        "Non-Spatial Measure"
+      ],
+      "Space": [
+        "Two-Dimensional Spatial Structure",
+        "Three-Dimensional Spatial Structure",
+        "Geometric Measure"
+      ],
+      "Statistics": [
+        "Data"
+      ],
+      "Probability": [
+        "Chance"
+      ],
+      "Measurement extra": {
+        "cds": "Measurement",
+        "tabs": [
+          "Two-Dimensional Spatial Structure",
+          "Three-Dimensional Spatial Structure"
+        ]
+      }
     },
     "english": {
-      "Language for interacting with others": ["Oral Language & Communication"],
-      "Text structure and organisation": ["Reading Comprehension", "Creating Written Texts"],
-      "Language for expressing and developing ideas": ["Vocabulary", "Spelling & Grammar", "Creating Written Texts"],
-      "Literature": ["Understanding and Responding to Literature"],
-      "Literacy": ["Oral Language & Communication", "Reading Comprehension", "Vocabulary", "Creating Written Texts", "Spelling & Grammar", "Handwriting & Digital Transcription"]
+      "Language for interacting with others": [
+        "Oral Language & Communication"
+      ],
+      "Text structure and organisation": [
+        "Reading Comprehension",
+        "Creating Written Texts"
+      ],
+      "Language for expressing and developing ideas": [
+        "Vocabulary",
+        "Spelling & Grammar",
+        "Creating Written Texts"
+      ],
+      "Literature": [
+        "Understanding and Responding to Literature"
+      ],
+      "Literacy": [
+        "Oral Language & Communication",
+        "Reading Comprehension",
+        "Vocabulary",
+        "Creating Written Texts",
+        "Spelling & Grammar",
+        "Handwriting & Digital Transcription"
+      ]
     }
   }
 }

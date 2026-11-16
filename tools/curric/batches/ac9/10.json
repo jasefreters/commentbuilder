@@ -1,0 +1,821 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Space",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9MFSP01",
+   "year": "F",
+   "text": "Sort, name and create familiar shapes; recognise familiar shapes in the environment and give reasons"
+  },
+  {
+   "id": "AC9M1SP01",
+   "year": "1",
+   "text": "Make, compare and classify familiar shapes; recognise shapes and objects in the environment and identify similarities and differences"
+  },
+  {
+   "id": "AC9M2SP01",
+   "year": "2",
+   "text": "Recognise, compare and classify shapes by number of sides, using terms such as opposite, parallel, curved and straight"
+  },
+  {
+   "id": "AC9MFSP02",
+   "year": "F",
+   "text": "Describe the position of oneself and objects relative to other people and objects in a familiar space"
+  },
+  {
+   "id": "AC9M1SP02",
+   "year": "1",
+   "text": "Give and follow directions to move people and objects to different locations within a space"
+  },
+  {
+   "id": "AC9M2SP02",
+   "year": "2",
+   "text": "Locate positions on two-dimensional representations of a familiar space; move positions by following directions and pathways"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} follows simple directions to move to a new position.",
+   "tab": "Geometric Measure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses words such as 'under', 'next to' and 'behind' to describe where objects are.",
+   "tab": "Geometric Measure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} gives and follows directions between familiar places, using turns to the left or right.",
+   "tab": "Geometric Measure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads simple maps and plans a path from one place to another.",
+   "tab": "Geometric Measure",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes a path on a map using important places and compass directions.",
+   "tab": "Geometric Measure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} responds to simple instructions about position or movement.",
+   "tab": "Geometric Measure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} matches items of similar length and identifies if two lengths are the same or different.",
+   "tab": "Geometric Measure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and names common two-dimensional shapes.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} names basic shapes in {{pos}} environment and describes their features.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} makes pictures and designs by fitting shapes together.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares the surfaces of two shapes to see which is bigger.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} makes shapes by tracing around objects, drawing and building.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} sorts two-dimensional shapes based on their sides and corners.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares the area of two-dimensional shapes by using counters and blocks.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} slides, flips and turns shapes, recognising that the shape stays the same size.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates rows and columns to model the area of rectangles.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares and describes the features of shapes, such as parallel sides or equal sides.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} finds lines of symmetry in pictures, designs and shapes.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates grid structures to model the area of rectangles.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates patterns by flipping, sliding and turning shapes.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares the areas of shapes by estimating first, then measuring on a square grid.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} combines shapes to make new shapes and designs.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} splits a shape into smaller shapes and describes the result.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} points to a square, triangle, circle or rectangle when asked and matches them to images.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} sorts shapes into groups.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies basic three-dimensional objects and describes their features.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes and compares three-dimensional objects.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} names three-dimensional objects including cubes, cylinders, spheres and rectangular prisms.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} names and describes the features of common three-dimensional objects.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} participates in whole class activities to sort objects by one feature.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} experiments with filling and pouring to compare how much containers can hold.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} predicts which objects will stack and packs blocks into a given space.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares how much space different block models take up.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} builds shapes from connecting cubes to compare how much space they take up.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares how much different containers can hold using concrete materials.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes the features of prisms, pyramids and cylinders by building models of them.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures how much containers hold in litres, linking the litre to everyday containers.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} sketches objects from different views and builds models from drawings.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} orders the amounts different containers can hold that have been measured in millilitres.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects objects by pointing or touching as they are named.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} matches objects to given shapes.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} stacks objects such as blocks.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "AP",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} names basic shapes in {{pos}} environment and describes their features.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFSP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} makes pictures and designs by fitting shapes together.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFSP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} makes shapes by tracing around objects, drawing and building.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFSP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} participates in whole class activities to sort objects by one feature.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFSP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} follows simple directions to move to a new position.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFSP02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses words such as 'under', 'next to' and 'behind' to describe where objects are.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFSP02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies and names common two-dimensional shapes.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} sorts two-dimensional shapes based on their sides and corners.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies basic three-dimensional objects and describes their features.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} describes and compares three-dimensional objects.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} names three-dimensional objects including cubes, cylinders, spheres and rectangular prisms.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} names and describes the features of common three-dimensional objects.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} gives and follows directions between familiar places, using turns to the left or right.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1SP02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} gives and follows directions to move a person or object to a new place.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1SP02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} compares and describes the features of shapes, such as parallel sides or equal sides.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} sorts shapes by the number of sides and uses words such as parallel and curved.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2SP01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads simple maps and plans a path from one place to another.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2SP02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} follows directions along a path on a simple map and describes where {{s}} ends up.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2SP02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} responds to simple instructions about position or movement.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} matches items of similar length and identifies if two lengths are the same or different.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} points to a square, triangle, circle or rectangle when asked and matches them to images.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} sorts shapes into groups.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} selects objects by pointing or touching as they are named.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} matches objects to given shapes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} stacks objects such as blocks.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} compares the surfaces of two shapes to see which is bigger.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Area is Measurement (AC9M4M02 onward); handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} compares the area of two-dimensional shapes by using counters and blocks.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Area is Measurement (AC9M4M02 onward); handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} creates rows and columns to model the area of rectangles.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Area is Measurement (AC9M4M02 onward); handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} creates grid structures to model the area of rectangles.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Area is Measurement (AC9M4M02 onward); handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} compares the areas of shapes by estimating first, then measuring on a square grid.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Area is Measurement (AC9M4M02 onward); handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} experiments with filling and pouring to compare how much containers can hold.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Capacity and volume are Measurement; handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} compares how much space different block models take up.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Capacity and volume are Measurement; handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} builds shapes from connecting cubes to compare how much space they take up.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Capacity and volume are Measurement; handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} compares how much different containers can hold using concrete materials.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Capacity and volume are Measurement; handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} measures how much containers hold in litres, linking the litre to everyday containers.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Capacity and volume are Measurement; handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} orders the amounts different containers can hold that have been measured in millilitres.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Capacity and volume are Measurement; handled in the Measurement extra batch"
+  },
+  {
+   "text": "{{S}} predicts which objects will stack and packs blocks into a given space.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "unsure; see unsure.json (packing and stacking has no matching description in the source summary)"
+  },
+  {
+   "text": "{{S}} slides, flips and turns shapes, recognising that the shape stays the same size.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Transformations are Year 5 (AC9M5SP03); this sentence is not in the Year 4 to 6 batch"
+  },
+  {
+   "text": "{{S}} describes a path on a map using important places and compass directions.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 11 or 12"
+  },
+  {
+   "text": "{{S}} finds lines of symmetry in pictures, designs and shapes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 11 or 12"
+  },
+  {
+   "text": "{{S}} creates patterns by flipping, sliding and turning shapes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 11 or 12"
+  },
+  {
+   "text": "{{S}} combines shapes to make new shapes and designs.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 11 or 12"
+  },
+  {
+   "text": "{{S}} splits a shape into smaller shapes and describes the result.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 11 or 12"
+  },
+  {
+   "text": "{{S}} describes the features of prisms, pyramids and cylinders by building models of them.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 11 or 12"
+  },
+  {
+   "text": "{{S}} sketches objects from different views and builds models from drawings.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 11 or 12"
+  }
+ ]
+}

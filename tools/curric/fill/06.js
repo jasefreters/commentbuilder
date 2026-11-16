@@ -1,0 +1,13 @@
+const L = require('./lib')('ac9/06.json'); const { keep, add, drop } = L;
+keep(8, 5, 'AC9M5A01', 'inverse operations are Year 5 here, not Year 3'); add('{{S}} uses multiplication and division facts together to build families of related facts.', 5, 'AC9M5A01');
+add('{{S}} finds the missing number in multiplication and division equations.', 5, 'AC9M5A02');
+add('{{S}} uses properties of numbers to work out unknown values in multiplication and division equations and explains the steps.', 5, 'AC9M5A02');
+add('{{S}} uses a rule to continue and describe growing patterns made with shapes or numbers.', 6, 'AC9M6A01');
+add('{{S}} creates number patterns that involve fractions or decimals by following a rule.', 6, 'AC9M6A01');
+add('{{S}} finds unknown values in equations that include brackets and more than one operation.', 6, 'AC9M6A02');
+add('{{S}} solves equations with several operations by working through them in the correct order.', 6, 'AC9M6A02');
+add('{{S}} writes a sequence of steps with decisions that uses a rule to build a set of numbers.', 6, 'AC9M6A03');
+add('{{S}} explains the pattern that appears when {{s}} follows a number rule.', 6, 'AC9M6A03');
+[0, 1, 2, 3, 12].forEach(i => drop(i, 'Year 7 or above (algebra with letters and graphs)'));
+L.rest('decided in batch 04 or 05');
+L.save();

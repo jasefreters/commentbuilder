@@ -1,0 +1,390 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Algebra",
+ "years": [
+  "4",
+  "5",
+  "6"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9M4A01",
+   "year": "4",
+   "text": "Find unknown values in addition and subtraction equations, using properties of numbers and operations"
+  },
+  {
+   "id": "AC9M5A01",
+   "year": "5",
+   "text": "Explain multiplication and division as inverse operations and use this to build families of number facts"
+  },
+  {
+   "id": "AC9M6A01",
+   "year": "6",
+   "text": "Recognise and use rules that generate visually growing patterns and number patterns involving rational numbers"
+  },
+  {
+   "id": "AC9M4A02",
+   "year": "4",
+   "text": "Demonstrate proficiency with multiplication facts up to 10 x 10 and related division facts; extend to efficient mental strategies without a calculator"
+  },
+  {
+   "id": "AC9M5A02",
+   "year": "5",
+   "text": "Find unknown values in multiplication and division equations using properties of numbers and operations"
+  },
+  {
+   "id": "AC9M6A02",
+   "year": "6",
+   "text": "Find unknown values in equations involving brackets and combinations of arithmetic operations, using properties of numbers and operations"
+  },
+  {
+   "id": "AC9M6A03",
+   "year": "6",
+   "text": "Create and use algorithms with sequences of steps and decisions that use rules to generate number sets; identify and explain emerging patterns"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} plots pairs of numbers on a grid to show a straight-line pattern.",
+   "tab": "Additive Relations",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses graphs to solve simple equations.",
+   "tab": "Additive Relations",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses letters to stand for unknown numbers and recognises numbers multiplied by themselves, such as 4 × 4.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses letters to stand for unknown numbers when solving simple problems.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates number patterns using known multiplication facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} generates number patterns using times tables.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls some multiplication facts and uses them to support calculations.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that multiplication and division are opposites and uses one to solve the other.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that doubling a number gives the same answer as multiplying by 2.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes expressions with letters and finds their value by replacing letters with numbers.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S4",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} recognises that multiplication and division are opposites and uses one to solve the other.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": "inverse operations are Year 5 here, not Year 3"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses multiplication and division facts together to build families of related facts.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} finds the missing number in multiplication and division equations.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses properties of numbers to work out unknown values in multiplication and division equations and explains the steps.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses a rule to continue and describe growing patterns made with shapes or numbers.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} creates number patterns that involve fractions or decimals by following a rule.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} finds unknown values in equations that include brackets and more than one operation.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} solves equations with several operations by working through them in the correct order.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes a sequence of steps with decisions that uses a rule to build a set of numbers.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6A03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains the pattern that appears when {{s}} follows a number rule.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6A03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} plots pairs of numbers on a grid to show a straight-line pattern.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above (algebra with letters and graphs)"
+  },
+  {
+   "text": "{{S}} uses graphs to solve simple equations.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above (algebra with letters and graphs)"
+  },
+  {
+   "text": "{{S}} uses letters to stand for unknown numbers and recognises numbers multiplied by themselves, such as 4 × 4.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above (algebra with letters and graphs)"
+  },
+  {
+   "text": "{{S}} uses letters to stand for unknown numbers when solving simple problems.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above (algebra with letters and graphs)"
+  },
+  {
+   "text": "{{S}} writes expressions with letters and finds their value by replacing letters with numbers.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above (algebra with letters and graphs)"
+  },
+  {
+   "text": "{{S}} creates number patterns using known multiplication facts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 05"
+  },
+  {
+   "text": "{{S}} generates number patterns using times tables.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 05"
+  },
+  {
+   "text": "{{S}} recalls some multiplication facts and uses them to support calculations.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 05"
+  },
+  {
+   "text": "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 05"
+  },
+  {
+   "text": "{{S}} recognises that doubling a number gives the same answer as multiplying by 2.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 05"
+  },
+  {
+   "text": "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 05"
+  },
+  {
+   "text": "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 04 or 05"
+  }
+ ]
+}

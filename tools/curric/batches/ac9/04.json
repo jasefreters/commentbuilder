@@ -1,0 +1,447 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Algebra",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9MFA01",
+   "year": "F",
+   "text": "Recognise, copy and continue repeating patterns shown in different ways"
+  },
+  {
+   "id": "AC9M1A01",
+   "year": "1",
+   "text": "Recognise, continue and create pattern sequences with numbers, symbols, shapes and objects formed by skip counting, starting with twos, fives and tens"
+  },
+  {
+   "id": "AC9M2A01",
+   "year": "2",
+   "text": "Recognise, describe and create additive patterns that increase or decrease by a constant amount, and identify missing elements"
+  },
+  {
+   "id": "AC9M1A02",
+   "year": "1",
+   "text": "Recognise, continue and create repeating patterns with numbers, symbols, shapes and objects, identifying the repeating unit"
+  },
+  {
+   "id": "AC9M2A02",
+   "year": "2",
+   "text": "Demonstrate proficiency with addition facts to 20; extend them to develop related subtraction facts"
+  },
+  {
+   "id": "AC9M2A03",
+   "year": "2",
+   "text": "Demonstrate proficiency with multiplication facts for twos; extend to related division facts using doubling and halving"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} uses the equals sign to show when two number sentences have the same total.",
+   "tab": "Additive Relations",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls related addition and subtraction facts for numbers to at least 20.",
+   "tab": "Additive Relations",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} combines and separates groups of items.",
+   "tab": "Additive Relations",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} counts across two small groups to find a total.",
+   "tab": "Additive Relations",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates number patterns using known multiplication facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} generates number patterns using times tables.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls some multiplication facts and uses them to support calculations.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates and continues patterns by lining up objects according to their colour or shape.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that multiplication and division are opposites and uses one to solve the other.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that doubling a number gives the same answer as multiplying by 2.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} copies a continuing pattern.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} points to or touches objects as they are shared into smaller equal groups.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies the number of objects in a group.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "AP",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} creates and continues patterns by lining up objects according to their colour or shape.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFA01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} copies and continues a repeating pattern made with shapes, colours or sounds.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFA01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} continues counting patterns by twos, fives and tens and creates a pattern of {{pos}} own.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} creates a repeating pattern with objects or shapes and names the part that repeats.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} continues repeating patterns with numbers and symbols and finds the part that repeats.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes how an additive pattern grows or shrinks and continues it.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} finds the missing numbers in a pattern that increases or decreases by the same amount.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2A01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recalls related addition and subtraction facts for numbers to at least 20.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recalls addition facts to 20 quickly and uses them to work out related subtraction facts.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2A02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises that doubling a number gives the same answer as multiplying by 2.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2A03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recalls the two times table and uses halving to work out related division facts.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2A03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses the equals sign to show when two number sentences have the same total.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "unsure; see unsure.json (equals sign and equivalence has no matching description in the source summary)"
+  },
+  {
+   "text": "{{S}} combines and separates groups of items.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} counts across two small groups to find a total.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} copies a continuing pattern.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} points to or touches objects as they are shared into smaller equal groups.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} identifies the number of objects in a group.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} creates number patterns using known multiplication facts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 05 or 06"
+  },
+  {
+   "text": "{{S}} generates number patterns using times tables.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 05 or 06"
+  },
+  {
+   "text": "{{S}} recalls some multiplication facts and uses them to support calculations.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 05 or 06"
+  },
+  {
+   "text": "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 05 or 06"
+  },
+  {
+   "text": "{{S}} recognises that multiplication and division are opposites and uses one to solve the other.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 05 or 06"
+  },
+  {
+   "text": "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 05 or 06"
+  },
+  {
+   "text": "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 3 to 6 sentence; decided in batch 05 or 06"
+  }
+ ]
+}

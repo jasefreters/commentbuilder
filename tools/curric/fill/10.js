@@ -1,0 +1,13 @@
+const L = require('./lib')('ac9/10.json'); const { keep, add, ap, drop } = L;
+[8, 9, 11, 29].forEach(i => keep(i, 'F', 'AC9MFSP01')); keep(0, 'F', 'AC9MFSP02'); keep(1, 'F', 'AC9MFSP02');
+[7, 12, 25, 26, 27, 28].forEach(i => keep(i, 1, 'AC9M1SP01'));
+keep(2, 1, 'AC9M1SP02'); add('{{S}} gives and follows directions to move a person or object to a new place.', 1, 'AC9M1SP02');
+keep(16, 2, 'AC9M2SP01'); add('{{S}} sorts shapes by the number of sides and uses words such as parallel and curved.', 2, 'AC9M2SP01');
+keep(3, 2, 'AC9M2SP02'); add('{{S}} follows directions along a path on a simple map and describes where {{s}} ends up.', 2, 'AC9M2SP02');
+ap(5, 6, 23, 24, 39, 40, 41);
+[10, 13, 15, 18, 20].forEach(i => drop(i, 'Area is Measurement (AC9M4M02 onward); handled in the Measurement extra batch'));
+[30, 32, 33, 34, 36, 38].forEach(i => drop(i, 'Capacity and volume are Measurement; handled in the Measurement extra batch'));
+drop(31, 'unsure; see unsure.json (packing and stacking has no matching description in the source summary)');
+drop(14, 'Transformations are Year 5 (AC9M5SP03); this sentence is not in the Year 4 to 6 batch');
+L.rest('Year 3 to 6 sentence; decided in batch 11 or 12');
+L.save();

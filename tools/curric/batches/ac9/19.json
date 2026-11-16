@@ -1,0 +1,709 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Measurement",
+ "years": [
+  "F",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9MFM01",
+   "year": "F",
+   "text": "Identify and compare attributes of objects and events (length, capacity, mass, duration) using direct comparison and explain reasoning"
+  },
+  {
+   "id": "AC9M1M01",
+   "year": "1",
+   "text": "Compare directly and indirectly, and order objects and events by length, mass, capacity and duration, explaining reasoning"
+  },
+  {
+   "id": "AC9M2M01",
+   "year": "2",
+   "text": "Measure and compare objects by length, capacity and mass using uniform informal units, and smaller units when more accuracy is needed"
+  },
+  {
+   "id": "AC9M3M01",
+   "year": "3",
+   "text": "Identify which metric units measure everyday items; use known measurements to make estimates"
+  },
+  {
+   "id": "AC9M4M01",
+   "year": "4",
+   "text": "Interpret unmarked and partial units when measuring length, mass, capacity, duration and temperature, using scaled and digital instruments"
+  },
+  {
+   "id": "AC9M5M01",
+   "year": "5",
+   "text": "Choose appropriate metric units for length, mass and capacity; use smaller units or combined units for greater accuracy"
+  },
+  {
+   "id": "AC9M6M01",
+   "year": "6",
+   "text": "Convert between common metric units of length, mass and capacity; use decimal metric measurements suited to the problem's context"
+  },
+  {
+   "id": "AC9MFM02",
+   "year": "F",
+   "text": "Sequence days of the week and times of day and link them to familiar events"
+  },
+  {
+   "id": "AC9M1M02",
+   "year": "1",
+   "text": "Measure lengths of shapes and objects with informal units that are uniform and placed end-to-end"
+  },
+  {
+   "id": "AC9M2M02",
+   "year": "2",
+   "text": "Identify common uses of halves, quarters and eighths with shapes, objects and events, and represent them"
+  },
+  {
+   "id": "AC9M3M02",
+   "year": "3",
+   "text": "Measure and compare objects using familiar metric units of length, mass and capacity, and instruments with labelled markings"
+  },
+  {
+   "id": "AC9M4M02",
+   "year": "4",
+   "text": "Recognise ways to measure and approximate perimeter and area of shapes and enclosed spaces using formal and informal units"
+  },
+  {
+   "id": "AC9M5M02",
+   "year": "5",
+   "text": "Solve practical problems involving perimeter and area of regular and irregular shapes using appropriate metric units"
+  },
+  {
+   "id": "AC9M6M02",
+   "year": "6",
+   "text": "Establish the formula for the area of a rectangle and use it to solve practical problems"
+  },
+  {
+   "id": "AC9M1M03",
+   "year": "1",
+   "text": "Describe the duration and sequence of events using years, months, weeks, days and hours"
+  },
+  {
+   "id": "AC9M2M03",
+   "year": "2",
+   "text": "Identify dates and find the number of days between events using calendars"
+  },
+  {
+   "id": "AC9M3M03",
+   "year": "3",
+   "text": "Use the relationship between formal time units (days, hours, minutes, seconds) to estimate and compare event durations"
+  },
+  {
+   "id": "AC9M4M03",
+   "year": "4",
+   "text": "Solve problems involving duration, including am and pm situations and conversions between time units"
+  },
+  {
+   "id": "AC9M5M03",
+   "year": "5",
+   "text": "Compare 12-hour and 24-hour time systems and solve practical problems converting between them"
+  },
+  {
+   "id": "AC9M6M03",
+   "year": "6",
+   "text": "Interpret and use timetables and itineraries to plan activities and find durations of events and journeys"
+  },
+  {
+   "id": "AC9M2M04",
+   "year": "2",
+   "text": "Recognise and read time on an analog clock to the hour, half-hour and quarter-hour"
+  },
+  {
+   "id": "AC9M3M04",
+   "year": "3",
+   "text": "Describe the relationship between hours and minutes on analog and digital clocks; read time to the nearest minute"
+  },
+  {
+   "id": "AC9M4M04",
+   "year": "4",
+   "text": "Estimate and compare angles using names (acute, obtuse, straight, reflex, revolution) and relate them to a right angle"
+  },
+  {
+   "id": "AC9M5M04",
+   "year": "5",
+   "text": "Estimate, construct and measure angles in degrees with a protractor; relate measures to angle names"
+  },
+  {
+   "id": "AC9M6M04",
+   "year": "6",
+   "text": "Identify relationships between angles on a straight line, angles at a point and vertically opposite angles; use them to find unknown angles and explain reasoning"
+  },
+  {
+   "id": "AC9M2M05",
+   "year": "2",
+   "text": "Identify, describe and show quarter, half, three-quarter and full turns in everyday situations"
+  },
+  {
+   "id": "AC9M3M05",
+   "year": "3",
+   "text": "Identify angles as measures of turn and compare them with right angles in everyday situations"
+  },
+  {
+   "id": "AC9M3M06",
+   "year": "3",
+   "text": "Recognise relationships between dollars and cents and represent money values in different ways"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} calculates areas and matches three-dimensional objects with their two-dimensional drawings.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals by their features.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} calculates the area of two-dimensional shapes.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and classifies triangles and quadrilaterals based on their properties.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and classifies triangles and quadrilaterals by their features.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals based on their properties.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares the surfaces of two shapes to see which is bigger.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares the area of two-dimensional shapes by using counters and blocks.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} slides, flips and turns shapes, recognising that the shape stays the same size.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates rows and columns to model the area of rectangles.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates grid structures to model the area of rectangles.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares the areas of shapes by estimating first, then measuring on a square grid.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} points to a square, triangle, circle or rectangle when asked and matches them to images.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} sorts shapes into groups.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} finds missing angles when a line crosses a pair of parallel lines.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses the properties of triangles and four-sided shapes to find unknown angles.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} finds a missing side of a right-angled triangle.",
+   "tab": "Two-Dimensional Spatial Structure",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} experiments with filling and pouring to compare how much containers can hold.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} predicts which objects will stack and packs blocks into a given space.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares how much space different block models take up.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} builds shapes from connecting cubes to compare how much space they take up.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares how much different containers can hold using concrete materials.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} measures how much containers hold in litres, linking the litre to everyday containers.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} orders the amounts different containers can hold that have been measured in millilitres.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects objects by pointing or touching as they are named.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} matches objects to given shapes.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} stacks objects such as blocks.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes how objects made by joining prisms look from different views.",
+   "tab": "Three-Dimensional Spatial Structure",
+   "stageTag": "S4",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles.",
+   "action": "reword",
+   "newText": "{{S}} calculates the areas of rectangles by applying the area formula accurately.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": "finding the area of triangles is Year 7"
+  },
+  {
+   "text": "{{S}} calculates the area of two-dimensional shapes.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} compares the surfaces of two shapes to see which is bigger.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFM01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": "comparing which surface is bigger is an attribute comparison"
+  },
+  {
+   "text": "{{S}} compares the area of two-dimensional shapes by using counters and blocks.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9M4M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": "area with informal units starts in Year 4 here"
+  },
+  {
+   "text": "{{S}} creates rows and columns to model the area of rectangles.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9M4M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} compares the areas of shapes by estimating first, then measuring on a square grid.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9M4M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} creates grid structures to model the area of rectangles.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} experiments with filling and pouring to compare how much containers can hold.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFM01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} compares how much space different block models take up.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} builds shapes from connecting cubes to compare how much space they take up.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} compares how much different containers can hold using concrete materials.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} measures how much containers hold in litres, linking the litre to everyday containers.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9M3M02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} orders the amounts different containers can hold that have been measured in millilitres.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9M4M01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} predicts which objects will stack and packs blocks into a given space.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "unsure; see unsure.json (packing and stacking has no matching description in the source summary)"
+  },
+  {
+   "text": "{{S}} calculates areas and matches three-dimensional objects with their two-dimensional drawings.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Two ideas in one sentence; area and the 3D-to-2D link are covered by other sentences"
+  },
+  {
+   "text": "{{S}} slides, flips and turns shapes, recognising that the shape stays the same size.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Transformations are Year 5 (AC9M5SP03); this sentence is tagged Stage 1 so is not carried"
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals by their features.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} identifies and classifies triangles and quadrilaterals based on their properties.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} identifies and classifies triangles and quadrilaterals by their features.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals based on their properties.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} classifies triangles and quadrilaterals.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)"
+  },
+  {
+   "text": "{{S}} finds missing angles when a line crosses a pair of parallel lines.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} uses the properties of triangles and four-sided shapes to find unknown angles.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} finds a missing side of a right-angled triangle.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} describes how objects made by joining prisms look from different views.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} points to a square, triangle, circle or rectangle when asked and matches them to images.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} sorts shapes into groups.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} selects objects by pointing or touching as they are named.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} matches objects to given shapes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} stacks objects such as blocks.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  }
+ ]
+}

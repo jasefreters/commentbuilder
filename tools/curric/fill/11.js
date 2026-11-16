@@ -1,0 +1,12 @@
+const L = require('./lib')('ac9/11.json'); const { keep, add, drop } = L;
+keep(39, 3, 'AC9M3SP01'); add('{{S}} makes and compares objects and explains why their features suit their use.', 3, 'AC9M3SP01');
+keep(6, 3, 'AC9M3SP02'); add('{{S}} draws a simple map of a familiar place and shows where landmarks are in relation to each other.', 3, 'AC9M3SP02');
+keep(26, 4, 'AC9M4SP01'); keep(27, 4, 'AC9M4SP01');
+add('{{S}} uses a grid reference to find a position on a map and describes a path between two places.', 4, 'AC9M4SP02');
+add('{{S}} creates a simple grid map and gives grid references for objects on it.', 4, 'AC9M4SP02');
+keep(22, 4, 'AC9M4SP03'); add('{{S}} creates symmetrical patterns and pictures and explains where the line of symmetry is.', 4, 'AC9M4SP03');
+[7, 9, 10, 18, 20, 23, 25].forEach(i => drop(i, 'Area is Measurement (AC9M4M02 onward); handled in the Measurement extra batch'));
+[38, 40, 42].forEach(i => drop(i, 'Capacity is Measurement; handled in the Measurement extra batch'));
+[8, 11, 12, 13, 14, 15].forEach(i => drop(i, 'Classifying triangles and quadrilaterals is Year 7 content (belongs above Year 6)'));
+L.rest('decided in batch 10 or 12');
+L.save();

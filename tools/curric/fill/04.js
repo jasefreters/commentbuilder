@@ -1,0 +1,13 @@
+const L = require('./lib')('ac9/04.json'); const { keep, add, ap, drop } = L;
+keep(7, 'F', 'AC9MFA01'); add('{{S}} copies and continues a repeating pattern made with shapes, colours or sounds.', 'F', 'AC9MFA01');
+keep(8, 1, 'AC9M1A01'); add('{{S}} continues counting patterns by twos, fives and tens and creates a pattern of {{pos}} own.', 1, 'AC9M1A01');
+add('{{S}} creates a repeating pattern with objects or shapes and names the part that repeats.', 1, 'AC9M1A02');
+add('{{S}} continues repeating patterns with numbers and symbols and finds the part that repeats.', 1, 'AC9M1A02');
+add('{{S}} describes how an additive pattern grows or shrinks and continues it.', 2, 'AC9M2A01');
+add('{{S}} finds the missing numbers in a pattern that increases or decreases by the same amount.', 2, 'AC9M2A01');
+keep(1, 2, 'AC9M2A02'); add('{{S}} recalls addition facts to 20 quickly and uses them to work out related subtraction facts.', 2, 'AC9M2A02');
+keep(11, 2, 'AC9M2A03'); add('{{S}} recalls the two times table and uses halving to work out related division facts.', 2, 'AC9M2A03');
+drop(0, 'unsure; see unsure.json (equals sign and equivalence has no matching description in the source summary)');
+ap(2, 3, 14, 15, 16);
+L.rest('Year 3 to 6 sentence; decided in batch 05 or 06');
+L.save();

@@ -1,0 +1,516 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Statistics",
+ "years": [
+  "4",
+  "5",
+  "6"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9M4ST01",
+   "year": "4",
+   "text": "Acquire categorical and discrete numerical data using digital tools; display with many-to-one pictographs, column graphs and other visualisations; interpret and discuss"
+  },
+  {
+   "id": "AC9M5ST01",
+   "year": "5",
+   "text": "Acquire, validate and represent nominal, ordinal and discrete numerical data using software; discuss distributions in terms of mode and shape"
+  },
+  {
+   "id": "AC9M6ST01",
+   "year": "6",
+   "text": "Interpret and compare data sets for ordinal, nominal, discrete and continuous variables using comparative displays and digital tools; compare mode, range and shape"
+  },
+  {
+   "id": "AC9M4ST02",
+   "year": "4",
+   "text": "Evaluate how effective different displays are at illustrating and comparing distributions; discuss distribution shape and data variation"
+  },
+  {
+   "id": "AC9M5ST02",
+   "year": "5",
+   "text": "Interpret line graphs showing change over time; discuss the relationships shown and conclusions that can be drawn"
+  },
+  {
+   "id": "AC9M6ST02",
+   "year": "6",
+   "text": "Identify statistically informed arguments in traditional and digital media; discuss and critique methods, representations and conclusions"
+  },
+  {
+   "id": "AC9M4ST03",
+   "year": "4",
+   "text": "Conduct statistical investigations, collecting data through surveys and other methods; record and display with digital tools; interpret and communicate results"
+  },
+  {
+   "id": "AC9M5ST03",
+   "year": "5",
+   "text": "Plan and conduct investigations by posing questions or identifying problems, collecting data, choosing displays, and communicating findings in context"
+  },
+  {
+   "id": "AC9M6ST03",
+   "year": "6",
+   "text": "Plan and conduct investigations by posing and refining questions, collecting data, analysing and interpreting it, and communicating findings in context"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} explains how data displays can sometimes be misleading.",
+   "tab": "Data",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} chooses suitable graphs and timelines to display information, and collects and organises data effectively.",
+   "tab": "Data",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} constructs and interprets data displays where each symbol or bar stands for more than one.",
+   "tab": "Data",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets data from tables, graphs and charts, and explains their key features.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets data from tables and column graphs.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs and finds totals in data displays.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} accurately interprets information presented in tables, column graphs and line graphs.",
+   "tab": "Data",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs, and makes comparisons between categories.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} chooses suitable graphs and timelines to display information and organises data clearly.",
+   "tab": "Data",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies the largest and smallest values in a data display.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads information from tables and explains what is shown in column graphs.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs with growing understanding.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects suitable graphs to display data.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads basic tables and column graphs with growing understanding.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates column graphs and answers questions related to the information.",
+   "tab": "Data",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates surveys and records data using predetermined categories.",
+   "tab": "Data",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} chooses a suitable number scale to create data representations and draws graphs using both paper and digital technologies.",
+   "tab": "Data",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} answers questions about side-by-side column graphs that compare two groups.",
+   "tab": "Data",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies the type of data collected and chooses a graph to suit it.",
+   "tab": "Data",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} finds the average, middle value and most common value of a set of data.",
+   "tab": "Data",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} draws conclusions from data shown in tables and different graphs.",
+   "tab": "Data",
+   "stageTag": "S4",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} collects data, checks that it makes sense and displays it using software.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5ST01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes the mode and the shape of a data display.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5ST01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} accurately interprets information presented in tables, column graphs and line graphs.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5ST02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads line graphs that show change over time and explains what they tell us.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5ST02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} chooses suitable graphs and timelines to display information, and collects and organises data effectively.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5ST03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} chooses suitable graphs and timelines to display information and organises data clearly.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5ST03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} answers questions about side-by-side column graphs that compare two groups.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6ST01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} compares two data sets using their mode, range and the shape of their displays.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6ST01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} explains how data displays can sometimes be misleading.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6ST02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} questions claims made in the media by looking at how the data is collected and shown.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6ST02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} poses a question, collects data to answer it and explains what the results show.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6ST03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} refines {{pos}} investigation question after looking at early data and communicates the findings clearly.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6ST03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies the type of data collected and chooses a graph to suit it.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} finds the average, middle value and most common value of a set of data.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} draws conclusions from data shown in tables and different graphs.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} constructs and interprets data displays where each symbol or bar stands for more than one.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} interprets data from tables, graphs and charts, and explains their key features.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} interprets data from tables and column graphs.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs and finds totals in data displays.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs, and makes comparisons between categories.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} identifies the largest and smallest values in a data display.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} reads information from tables and explains what is shown in column graphs.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} interprets information from tables and column graphs with growing understanding.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} selects suitable graphs to display data.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} reads basic tables and column graphs with growing understanding.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} creates column graphs and answers questions related to the information.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} creates surveys and records data using predetermined categories.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  },
+  {
+   "text": "{{S}} chooses a suitable number scale to create data representations and draws graphs using both paper and digital technologies.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 13 or 14"
+  }
+ ]
+}

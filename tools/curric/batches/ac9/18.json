@@ -1,0 +1,321 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Probability",
+ "years": [
+  "4",
+  "5",
+  "6"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9M4P01",
+   "year": "4",
+   "text": "Describe everyday events and chance experiment outcomes; order outcomes by likelihood; identify independent and dependent events"
+  },
+  {
+   "id": "AC9M5P01",
+   "year": "5",
+   "text": "List possible outcomes of chance experiments with equally likely outcomes and compare with those that are not equally likely"
+  },
+  {
+   "id": "AC9M6P01",
+   "year": "6",
+   "text": "Recognise probabilities on a 0-1 or 0%-100% scale; estimate event likelihoods using common fractions, percentages and decimals"
+  },
+  {
+   "id": "AC9M4P02",
+   "year": "4",
+   "text": "Conduct repeated chance experiments to observe relationships between outcomes; describe variation in results"
+  },
+  {
+   "id": "AC9M5P02",
+   "year": "5",
+   "text": "Conduct repeated chance experiments with and without equally likely outcomes; use frequency to compare outcomes and estimate likelihoods"
+  },
+  {
+   "id": "AC9M6P02",
+   "year": "6",
+   "text": "Run repeated experiments and simulations with increasing trials using digital tools; compare with expected results and discuss how more trials affect variation"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} describes the likelihood of events using probability language.",
+   "tab": "Chance",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes the likelihood of outcomes in chance experiments using appropriate language.",
+   "tab": "Chance",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes the likelihood of outcomes in chance experiments using everyday language.",
+   "tab": "Chance",
+   "stageTag": "S3A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies likely outcomes from chance experiments.",
+   "tab": "Chance",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies possible outcomes of events and describes them using everyday language.",
+   "tab": "Chance",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes outcomes in simple chance experiments.",
+   "tab": "Chance",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes the chance of events occurring using the terms equally likely, likely and unlikely.",
+   "tab": "Chance",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} predicts what might happen in simple experiments, tests it and compares the results.",
+   "tab": "Chance",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} discusses whether one event changes the chance of the next one.",
+   "tab": "Chance",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} explains why chance experiment results can differ from what was expected.",
+   "tab": "Chance",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses fractions, decimals and percentages to show how likely events are.",
+   "tab": "Chance",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} records results when the outcomes of an experiment are not equally likely.",
+   "tab": "Chance",
+   "stageTag": "S3B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} works out the chance that an event will not happen.",
+   "tab": "Chance",
+   "stageTag": "S4",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} describes the chance of events occurring using the terms equally likely, likely and unlikely.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5P01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": "equally likely is Year 5 here"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} lists all the possible outcomes of an experiment and says whether they are equally likely.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5P01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} describes the likelihood of outcomes in chance experiments using appropriate language.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5P02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} describes the likelihood of outcomes in chance experiments using everyday language.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5P02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} records results when the outcomes of an experiment are not equally likely.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9M5P02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses fractions, decimals and percentages to show how likely events are.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6P01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} places events on a scale from zero to one and estimates their likelihood as fractions or percentages.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6P01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} explains why chance experiment results can differ from what was expected.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6P02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses digital tools to run an experiment many times and explains how more trials affect the results.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9M6P02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} works out the chance that an event will not happen.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} describes the likelihood of events using probability language.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 17"
+  },
+  {
+   "text": "{{S}} identifies likely outcomes from chance experiments.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 17"
+  },
+  {
+   "text": "{{S}} identifies possible outcomes of events and describes them using everyday language.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 17"
+  },
+  {
+   "text": "{{S}} describes outcomes in simple chance experiments.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 17"
+  },
+  {
+   "text": "{{S}} predicts what might happen in simple experiments, tests it and compares the results.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 17"
+  },
+  {
+   "text": "{{S}} discusses whether one event changes the chance of the next one.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 17"
+  }
+ ]
+}

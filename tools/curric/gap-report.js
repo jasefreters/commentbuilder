@@ -1,0 +1,24 @@
+// Usage: node gap-report.js <cur> <subject>  -> markdown. Final status per sentence across all batches, counts by year and strand, thin content descriptions.
+const fs = require('fs'), path = require('path');
+const [cur, subject] = process.argv.slice(2);
+const hover = require('./hover/' + cur + '.json'), src = require('./source/' + cur + '/' + subject + '.json'); const cdById = {}; src.forEach(r => cdById[r.id] = r);
+const dir = path.join(__dirname, 'batches', cur);
+const batches = fs.readdirSync(dir).sort().map(f => ({ f, ...JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')) })).filter(b => b.subject === subject);
+const weak = x => /^(out of span|decided in|Year [0-9] or|Year 1 or 2|Year 3 (or|to)|AC9 has no)/.test(x.note || '');
+const final = new Map(), added = [];
+batches.forEach(b => b.rows.forEach(r => { if (r.action === 'new') { added.push(r); return; } const c = final.get(r.text); if (r.action !== 'drop') final.set(r.text, r); else if (!c || (c.action === 'drop' && weak(c) && !weak(r))) final.set(r.text, r); }));
+const live = [...final.values()].filter(r => r.action !== 'drop').concat(added);
+const yl = y => y === 'F' ? 'F' : y;
+const strands = [...new Set(src.map(r => r.strand))], years = ['F', '1', '2', '3', '4', '5', '6'];
+const cell = (y, s) => live.filter(r => r.year[0] === y && cdById[r.refs[0]] && cdById[r.refs[0]].strand === s).length;
+const out = [`# Gap report: ${cur} ${subject}`, '', `Batches: ${batches.length}. NSW ${subject} sentences: ${[...final.values()].length}. Kept ${[...final.values()].filter(r => r.action === 'keep').length}, reworded ${[...final.values()].filter(r => r.action === 'reword').length}, new ${added.length}, not used ${[...final.values()].filter(r => r.action === 'drop').length}.`, '', '## Sentences per year and strand (row year = first year on the row)', '', '| Year | ' + strands.join(' | ') + ' | Total |', '|---|' + strands.map(() => '---').join('|') + '|---|'];
+years.forEach(y => { const c = strands.map(s => cell(y, s)); out.push(`| ${y} | ${c.join(' | ')} | ${c.reduce((a, b) => a + b, 0)} |`); });
+const refCount = {}; live.forEach(r => r.refs.forEach(id => refCount[id] = (refCount[id] || 0) + 1));
+const thin = src.filter(r => r.year <= 6 && (refCount[r.id] || 0) < 2);
+out.push('', '## Content descriptions with fewer than two sentences', '', thin.length ? thin.map(r => `- ${r.id} (${refCount[r.id] || 0})`).join('\n') : 'None.');
+const noHover = src.filter(r => r.year <= 6 && !hover[r.id]); out.push('', '## Content descriptions without a hover note', '', noHover.length ? noHover.map(r => '- ' + r.id).join('\n') : 'None.');
+const why = {}; [...final.values()].filter(r => r.action === 'drop').forEach(r => { const k = (r.note || '').replace(/;.*$/, '').replace(/\(.*?\)/g, '').trim().slice(0, 80); why[k] = (why[k] || 0) + 1; });
+out.push('', '## Why sentences were not used', '', ...Object.entries(why).sort((a, b) => b[1] - a[1]).map(([k, v]) => `- ${v} × ${k}`));
+const un = fs.existsSync(path.join(__dirname, 'unsure.json')) ? require('./unsure.json') : [];
+out.push('', `## Unsure (${un.length} sentences, ${(100 * un.length / final.size).toFixed(1)}% of the bank)`, '', ...un.map(u => `- ${u.text} (${u.why})`));
+console.log(out.join('\n'));

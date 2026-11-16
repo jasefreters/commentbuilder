@@ -1,0 +1,17 @@
+const L = require('./lib')('ac9/07.json'); const { keep, add, ap, drop } = L;
+keep(7, 'F', 'AC9MFM01'); keep(26, 'F', 'AC9MFM01');
+keep(28, 'F', 'AC9MFM02'); add('{{S}} says the days of the week in order and links them to familiar events.', 'F', 'AC9MFM02');
+add('{{S}} compares two objects directly and says which is longer, heavier or holds more.', 1, 'AC9M1M01');
+add('{{S}} orders three objects by length or mass and explains how {{s}} decided.', 1, 'AC9M1M01');
+keep(8, 1, 'AC9M1M02'); add('{{S}} measures the length of an object by placing equal units end to end without gaps.', 1, 'AC9M1M02');
+keep(27, 1, 'AC9M1M03', 'reading hours on a clock is tied to describing time in hours'); keep(30, 1, 'AC9M1M03');
+keep(31, 2, 'AC9M2M01'); add('{{S}} measures length, mass and capacity using equal informal units and uses smaller units when needed.', 2, 'AC9M2M01');
+keep(4, 2, 'AC9M2M02'); add('{{S}} shows halves, quarters and eighths of shapes, objects and groups in everyday situations.', 2, 'AC9M2M02');
+add('{{S}} uses a calendar to find dates and works out how many days are between two events.', 2, 'AC9M2M03');
+keep(29, 2, 'AC9M2M04'); add('{{S}} reads an analog clock to the hour, half hour and quarter hour.', 2, 'AC9M2M04');
+add('{{S}} describes and shows quarter, half and full turns in everyday situations.', 2, 'AC9M2M05');
+add('{{S}} follows instructions that use quarter and half turns to change direction.', 2, 'AC9M2M05');
+[5, 6, 9, 12, 14].forEach(i => drop(i, 'Position, direction and maps are Space; handled in the Space batch'));
+ap(16, 17, 36, 37, 38, 39);
+L.rest('decided in batch 08 or 09');
+L.save();

@@ -1,0 +1,144 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Probability",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [],
+ "sentences": [
+  {
+   "text": "{{S}} identifies likely outcomes from chance experiments.",
+   "tab": "Chance",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies possible outcomes of events and describes them using everyday language.",
+   "tab": "Chance",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes outcomes in simple chance experiments.",
+   "tab": "Chance",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes the chance of events occurring using the terms equally likely, likely and unlikely.",
+   "tab": "Chance",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies possible outcomes of events and describes them as more or less likely to happen.",
+   "tab": "Chance",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes the chance of different outcomes in everyday situations.",
+   "tab": "Chance",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} predicts what might happen in simple experiments, tests it and compares the results.",
+   "tab": "Chance",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} discusses whether one event changes the chance of the next one.",
+   "tab": "Chance",
+   "stageTag": "S2B",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} identifies likely outcomes from chance experiments.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "AC9 has no Year 1 or 2 chance description (probability starts in Year 3); decided in batch 17"
+  },
+  {
+   "text": "{{S}} identifies possible outcomes of events and describes them using everyday language.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "AC9 has no Year 1 or 2 chance description (probability starts in Year 3); decided in batch 17"
+  },
+  {
+   "text": "{{S}} describes outcomes in simple chance experiments.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "AC9 has no Year 1 or 2 chance description (probability starts in Year 3); decided in batch 17"
+  },
+  {
+   "text": "{{S}} describes the chance of events occurring using the terms equally likely, likely and unlikely.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "AC9 has no Year 1 or 2 chance description (probability starts in Year 3); decided in batch 17"
+  },
+  {
+   "text": "{{S}} identifies possible outcomes of events and describes them as more or less likely to happen.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "AC9 has no Year 1 or 2 chance description (probability starts in Year 3); decided in batch 17"
+  },
+  {
+   "text": "{{S}} describes the chance of different outcomes in everyday situations.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "AC9 has no Year 1 or 2 chance description (probability starts in Year 3); decided in batch 17"
+  },
+  {
+   "text": "{{S}} predicts what might happen in simple experiments, tests it and compares the results.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "AC9 has no Year 1 or 2 chance description (probability starts in Year 3); decided in batch 17"
+  },
+  {
+   "text": "{{S}} discusses whether one event changes the chance of the next one.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "AC9 has no Year 1 or 2 chance description (probability starts in Year 3); decided in batch 17"
+  }
+ ]
+}
