@@ -5939,7 +5939,7 @@ function renderFDInGradeEntry(container) {
     items.forEach((text, ti) => {
       const isCustom = ti >= stdItems.length;
       const isSel = curFD.includes(text);
-      const locked = curFD.length >= 2 && !isSel;
+      const locked = false;   // v3.17.37: no limit on future directions
       const row = document.createElement('div');
       row.style.cssText = 'display:flex;align-items:flex-start;gap:6px;padding:3px 0;';
 
@@ -5963,12 +5963,6 @@ function renderFDInGradeEntry(container) {
     });
   });
 
-  if (curFD.length >= 2) {
-    const note = document.createElement('div');
-    note.style.cssText = 'font-size:11px;color:var(--amber);padding:6px 0 2px;';
-    note.textContent = '2 selected. Deselect one to choose another.';
-    container.appendChild(note);
-  }
 
   const selDiv = document.createElement('div');
   selDiv.style.cssText = 'margin-top:8px;';
@@ -6230,7 +6224,7 @@ function renderFDPanel(grid) {
     items.forEach((text, ti) => {
       const isCustom = ti >= stdItems.length;
       const isSel = curFD.includes(text);
-      const locked = curFD.length >= 2 && !isSel;
+      const locked = false;   // v3.17.37: no limit on future directions
       const btn = document.createElement('button');
       btn.className = 'opt' + (isSel ? ' sel' : '') + (locked ? ' opts-locked' : '');
       btn.style.cssText = 'font-size:12px;line-height:1.5;';
@@ -6252,12 +6246,6 @@ function renderFDPanel(grid) {
     });
   });
 
-  if (curFD.length >= 2) {
-    const note = document.createElement('div');
-    note.style.cssText = 'padding:8px 12px;font-size:11px;color:var(--amber);border-top:1px solid var(--border);margin-top:4px;';
-    note.textContent = '2 future directions selected. Deselect one to choose a different one.';
-    grid.appendChild(note);
-  }
 }
 
 function toggleFD(text) {
@@ -6265,7 +6253,7 @@ function toggleFD(text) {
   const idx = curFD.indexOf(text);
   if (idx !== -1) {
     curFD.splice(idx, 1);
-  } else if (curFD.length < 2) {
+  } else {
     curFD.push(text);
   }
   setCurFD(curFD);
@@ -9086,7 +9074,7 @@ function _searchCollect(words) {
     const curFD = getCurFD(), cust = getCustomFD();
     Object.entries(getFDBank()).forEach(([strand, stages]) => FD_STAGES.forEach(stage => {
       [...(stages[stage] || []), ...(((cust[strand] || {})[stage]) || [])].forEach(t => {
-        const isSel = curFD.includes(t), locked = curFD.length >= 2 && !isSel;
+        const isSel = curFD.includes(t), locked = false;
         add('Future Directions', {
           key: 'FD|' + strand + '|' + stage + '|' + t, text: t, sel: isSel, btnClass: 'opt' + (isSel ? ' sel' : '') + (locked ? ' opts-locked' : ''),
           tag: strand + ' · ' + stage, title: locked ? '2 future directions are chosen. Take one out to choose this.' : '', onclick: locked ? null : () => toggleFD(t)
@@ -14574,7 +14562,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.36';
+const APP_VERSION = 'v3.17.37';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15319,6 +15307,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.37', date: '16 November 2026', items: [
+    'There is no longer a limit of two future directions. Choose as many as you need in English and Maths.'
+  ] },
   { v: 'v3.17.36', date: '16 November 2026', items: [
     'The Swap button now also works on the draft in Build: point at a sentence (or tap it) and press Swap to change it for another about the same thing. Only that sentence changes. Sentences you have reworded and future directions are not swapped. In the future directions list, the note "Repeats a skill the comment already praises" now sits on the card it is about.'
   ] },

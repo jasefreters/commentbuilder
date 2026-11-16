@@ -166,12 +166,12 @@ test('English with no year shows the year hint', async () => {
   await page.context().close();
 });
 
-test('with two future directions chosen, another one found by Search is locked, as in the picker', async () => {
+test('with two future directions chosen, another one found by Search is not locked (no limit)', async () => {
   const page = await ready();
   const t = await page.evaluate(() => { switchStu(4); setSubject('english'); const fd = getCurFD(); const other = Object.values(ENGLISH_FD).flatMap(st => st['Stage 3']).find(x => !fd.includes(x)); return { n: fd.length, other }; });
   assert.strictEqual(t.n, 2);
   await search(page, t.other.split(/\s+/).slice(0, 4).join(' '));
   const cls = await page.$eval('#searchResults .search-row', e => e.className);
-  assert.ok(/opts-locked/.test(cls), cls);
+  assert.ok(!/opts-locked/.test(cls), cls);
   await page.context().close();
 });
