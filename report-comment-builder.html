@@ -161,6 +161,9 @@
   .c-hint { font-size: 12px; color: var(--t2); }
   .opts { display: flex; flex-direction: column; gap: 5px; }
   .opt { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--r-md); padding: 11px 14px; font-size: 14px; line-height: 1.7; color: var(--t1); cursor: pointer; text-align: left; font-family: var(--font); transition: border-color .12s, background .12s, color .12s; width: 100%; }
+  /* v3.17.36: the note sits on the card above it, like a tab, so it is clear which future direction it is about */
+  .fd-repeat-note { font-size: 11px; color: var(--amber); margin: -3px 10px 10px; padding: 3px 10px; border: 1px solid var(--amber); border-top: none; border-radius: 0 0 8px 8px; }
+  .fd-repeat-note::before { content: '\2191  '; }
   .opt:hover { border-color: var(--border-h); background: var(--bg-2); color: var(--t0); }
   .opt.sel { border-color: var(--green-bd); background: var(--green-bg); color: var(--on-green); }
   .opt.sel:hover { border-color: var(--green); }
@@ -6236,7 +6239,6 @@ function renderFDPanel(grid) {
       grid.appendChild(btn);
       if (_skClash(praised, strand, stage, text)) {
         const rep = document.createElement('div'); rep.className = 'fd-repeat-note';
-        rep.style.cssText = 'font-size:10px;color:var(--amber);padding:0 12px 4px;';
         rep.textContent = isSel ? 'Repeats a skill the comment already praises. You may want a different one.' : 'Repeats a skill the comment already praises.';
         grid.appendChild(rep);
       }
@@ -9110,7 +9112,7 @@ function setQuick(on) {
 function toggleQuick() { setQuick(!quickOn()); }
 // v3.17.29 · Swap a sentence in Review (General). The sentence is found through the same matcher the draft uses (_draftMatches),
 // so a sentence the teacher reworded is never swapped. The button sits outside #pubContent so the save observer never sees it.
-let _swapSpan = null, _swapHideT = null, _swapMoveT = null, _swapPinned = false, _swapPending = null;
+let _swapSpan = null, _swapHideT = null, _swapMoveT = null, _swapPinned = false, _swapId = null, _swapBuild = null;
 function _swapBtnEl() {
   let b = document.getElementById('swapBtn');
   if (!b) {
@@ -9120,40 +9122,48 @@ function _swapBtnEl() {
     // v3.17.35: reaching the button keeps it where it is (the pointer crosses the next sentence on the way)
     b.addEventListener('mouseenter', () => { clearTimeout(_swapHideT); clearTimeout(_swapMoveT); });
     b.addEventListener('mouseleave', () => { if (!_swapPinned) { clearTimeout(_swapHideT); _swapHideT = setTimeout(_swapHide, 500); } });
-    b.addEventListener('click', () => { if (_swapSpan && _swapSpan.isConnected) swapSentence(_swapSpan); });
+    b.addEventListener('click', () => { if (_swapBuild != null) swapBuildSentence(_swapBuild); else if (_swapSpan && _swapSpan.isConnected) swapSentence(_swapSpan); });
     document.body.appendChild(b);
   }
   return b;
 }
-function _swapHide() { clearTimeout(_swapHideT); clearTimeout(_swapMoveT); _swapPinned = false; const b = document.getElementById('swapBtn'); if (b) b.style.display = 'none'; _swapSpan = null; }
+function _swapHide() { clearTimeout(_swapHideT); clearTimeout(_swapMoveT); _swapPinned = false; const b = document.getElementById('swapBtn'); if (b) b.style.display = 'none'; _swapSpan = null; _swapBuild = null; _swapId = null; }
+function _swapPlace(rect) {
+  const b = _swapBtnEl(); b.style.display = 'block';
+  const w = b.offsetWidth || 70;
+  b.style.left = Math.max(4, Math.min(window.innerWidth - w - 8, rect.right + 6)) + 'px';
+  b.style.top = Math.max(4, rect.top + (rect.height - (b.offsetHeight || 24)) / 2) + 'px';
+}
 function _swapShow(span) {
   if (currentView !== 'publish' || !flagOn('swapBtn')) return;
   if (!span || span.closest('.fd-para')) return;
   clearTimeout(_swapHideT); clearTimeout(_swapMoveT);
-  _swapSpan = span;
   const rs = span.getClientRects(); if (!rs.length) return;
-  const r = rs[rs.length - 1], b = _swapBtnEl();
-  b.style.display = 'block';
-  const w = b.offsetWidth || 70;
-  b.style.left = Math.max(4, Math.min(window.innerWidth - w - 8, r.right + 6)) + 'px';
-  b.style.top = Math.max(4, r.top + (r.height - (b.offsetHeight || 24)) / 2) + 'px';
+  _swapSpan = span; _swapBuild = null; _swapId = span;
+  _swapPlace(rs[rs.length - 1]);
+}
+// v3.17.36: the same button for a sentence in the Build draft box. idx is the sentence's place in the draft text.
+function _swapShowBuild(idx, rect) {
+  if (currentView !== 'build' || !flagOn('swapBtn') || !rect) return;
+  clearTimeout(_swapHideT); clearTimeout(_swapMoveT);
+  _swapSpan = null; _swapBuild = idx; _swapId = 'b' + idx;
+  _swapPlace(rect);
+}
+// show the button for a target at once when none is showing; otherwise move it only once the pointer rests on the new target
+function _swapOffer(id, showFn) {
+  if (_swapPinned) return;
+  const b = document.getElementById('swapBtn'), visible = b && b.style.display === 'block';
+  if (!visible || id === _swapId) { showFn(); return; }
+  clearTimeout(_swapMoveT); clearTimeout(_swapHideT); _swapMoveT = setTimeout(showFn, 300);
 }
 function _swapSpanAt(e) { const sp = e.target.closest && e.target.closest('#pubContent span[data-pi][data-si]'); return sp && !sp.closest('.fd-para') ? sp : null; }
-document.addEventListener('mouseover', e => {
-  const sp = _swapSpanAt(e); if (!sp || _swapPinned) return;
-  const b = document.getElementById('swapBtn'), visible = b && b.style.display === 'block';
-  if (!visible || sp === _swapSpan) { _swapShow(sp); return; }
-  // v3.17.35: the pointer is passing over another sentence, possibly on its way to the button; move only if it stays
-  _swapPending = sp; clearTimeout(_swapMoveT); clearTimeout(_swapHideT); _swapMoveT = setTimeout(() => _swapShow(sp), 300);
-});
-// the button moves to another sentence only once the pointer rests on it, not while the pointer is still travelling
-document.addEventListener('mousemove', e => { if (!_swapPending || _swapPinned) return; const sp = _swapSpanAt(e); if (sp === _swapPending && sp !== _swapSpan) { clearTimeout(_swapMoveT); _swapMoveT = setTimeout(() => _swapShow(sp), 300); } });
+document.addEventListener('mousemove', e => { const sp = _swapSpanAt(e); if (sp) _swapOffer(sp, () => _swapShow(sp)); });
 document.addEventListener('mouseout', e => { if (_swapPinned) return; if (e.target.closest && e.target.closest('#pubContent')) { clearTimeout(_swapMoveT); clearTimeout(_swapHideT); _swapHideT = setTimeout(_swapHide, 700); } });
 // a click or tap on a sentence keeps the button there until Swap, Escape, or a click elsewhere
 document.addEventListener('click', e => {
   const sp = _swapSpanAt(e);
   if (sp) { _swapShow(sp); if (_swapSpan === sp) _swapPinned = true; return; }
-  if (e.target.closest && e.target.closest('#swapBtn')) return;
+  if (e.target.closest && (e.target.closest('#swapBtn') || e.target.closest('#outEditable'))) return;
   if (_swapPinned) _swapHide();
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && _swapPinned) _swapHide(); });
@@ -9182,6 +9192,30 @@ function _swapMoveLayout(stu, oldSig, newSig) {
     if (Array.isArray(L.order)) L.order = L.order.map(g => g === oldSig ? newSig : g);
   } else if (Object.prototype.hasOwnProperty.call(L, oldSig)) { L[newSig] = L[oldSig]; delete L[oldSig]; }
 }
+// v3.17.36 · the part of a swap that does not depend on where the comment is shown: which group the sentence is in and which sentence replaces it.
+// Returns { t, pick } or { msg } (a plain-English reason it cannot be swapped).
+function _swapChoose(stu, subj, key) {
+  let t, cands, at;
+  if (subj === 'general') {
+    const tr = SENT_TRAIT[key] || SENT_TRAIT[GEN_OLD2NEW[key]];
+    if (!tr) return { msg: 'This sentence is not in a group, so it cannot be swapped.' };
+    t = GEN_TRAITS[tr.cat].find(x => x.id === tr.id);
+    cands = quickCandidates(stu, tr.cat, t, false);
+    at = t.sentences.indexOf(SENT_TRAIT[key] ? key : GEN_OLD2NEW[key]);
+  } else {
+    let tr = null, x = key, n = 0; while (x !== undefined && !tr && n++ < 6) { tr = SUBJ_SENT_TRAIT[subj][x] || null; if (!tr) x = SUBJ_ALIASES[x]; }
+    if (!tr) return { msg: 'This sentence is not in a skill group, so it cannot be swapped.' };
+    t = SUBJ_TRAITS[subj][tr.cat].find(y => y.id === tr.id);
+    cands = quickSubjCandidates(stu, tr.cat, t, false);
+    at = t.sentences.indexOf(x);
+  }
+  if (!cands.length) return { msg: 'No other sentence for ' + t.label + ' is available' + (subj === 'general' ? '.' : ' at this year and mark.') };
+  return { t, pick: cands.find(y => t.sentences.indexOf(y) > at) || cands[0] };
+}
+function _swapNewText(stu, subj, pick, oldTxt) {
+  const name = cn(stu) || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
+  return applyAlternation(subj === 'general' ? resolveKey(pick, stu) : pick, name, p, { value: oldTxt.startsWith(name) ? 0 : 1 }, yr);
+}
 function swapSentence(span) {
   _swapHide();
   const stu = cur();
@@ -9190,25 +9224,11 @@ function swapSentence(span) {
   if (subj === 'general' && stu.editedCat) { showToast('This comment was edited in an older way, so sentences cannot be swapped.'); return; }
   const key = _swapFind(stu, span);
   if (!key) { showToast('This sentence has been edited, so it cannot be swapped.'); return; }
-  let t, cands, at;
-  if (subj === 'general') {
-    const tr = SENT_TRAIT[key] || SENT_TRAIT[GEN_OLD2NEW[key]];
-    if (!tr) { showToast('This sentence is not in a group, so it cannot be swapped.'); return; }
-    t = GEN_TRAITS[tr.cat].find(x => x.id === tr.id);
-    cands = quickCandidates(stu, tr.cat, t, false);
-    at = t.sentences.indexOf(SENT_TRAIT[key] ? key : GEN_OLD2NEW[key]);
-  } else {
-    let tr = null, x = key, n = 0; while (x !== undefined && !tr && n++ < 6) { tr = SUBJ_SENT_TRAIT[subj][x] || null; if (!tr) x = SUBJ_ALIASES[x]; }
-    if (!tr) { showToast('This sentence is not in a skill group, so it cannot be swapped.'); return; }
-    t = SUBJ_TRAITS[subj][tr.cat].find(y => y.id === tr.id);
-    cands = quickSubjCandidates(stu, tr.cat, t, false);
-    at = t.sentences.indexOf(x);
-  }
-  if (!cands.length) { showToast('No other sentence for ' + t.label + ' is available' + (subj === 'general' ? '.' : ' at this year and mark.')); return; }
-  const pick = cands.find(y => t.sentences.indexOf(y) > at) || cands[0];
-  const name = cn(stu) || '[Name]', p = PR[stu.pronoun] || PR.he, yr = yrA(stu, subj);
+  const ch = _swapChoose(stu, subj, key);
+  if (ch.msg) { showToast(ch.msg); return; }
+  const { t, pick } = ch;
   const oldTxt = span.textContent.trim();
-  const nt = applyAlternation(subj === 'general' ? resolveKey(pick, stu) : pick, name, p, { value: oldTxt.startsWith(name) ? 0 : 1 }, yr);
+  const nt = _swapNewText(stu, subj, pick, oldTxt);
   _swapMoveLayout(stu, _paraSig(oldTxt, stu), _paraSig(nt, stu));
   _swapReplaceKey(stu, key, pick);
   span.textContent = nt;
@@ -9217,6 +9237,97 @@ function swapSentence(span) {
   _afterReviewEdit();
   showToast('Swapped (' + t.label + '). Press Swap again for another.');
 }
+// ── Swap in the Build draft box (v3.17.36) ───────────────────────────────────────────────────────
+// The box is plain text (no markup inside it). A sentence is found by its place in the text; only a sentence the draft still matches to a bank sentence
+// is swapped. Where the teacher has typed over the draft, only that one sentence of the text changes.
+function _buildCore(el) {
+  const full = _paneText(el), core = currentSubject === 'general' ? full : (stripFDFromDraftText(full) || '');
+  const sents = splitSentences(core), spans = []; let pos = 0;
+  sents.forEach(x => { const i = full.indexOf(x, pos); if (i < 0) { spans.push(null); return; } spans.push([i, i + x.length]); pos = i + x.length; });
+  return { full, sents, spans };
+}
+// the DOM points for text positions [s, e) of the box, counting a line break as one character as _paneText does
+function _paneRange(el, s, e) {
+  let pos = 0, a = null, z = null;
+  const touch = (node, len, isText) => {
+    if (!a && s < pos + len + (isText ? 0 : 0) && s >= pos) a = isText ? [node, s - pos] : [node.parentNode, Array.prototype.indexOf.call(node.parentNode.childNodes, node)];
+    if (!z && e <= pos + len && e > pos) z = isText ? [node, e - pos] : [node.parentNode, Array.prototype.indexOf.call(node.parentNode.childNodes, node)];
+  };
+  const walk = n => n.childNodes.forEach(c => {
+    if (c.nodeType === 3) { touch(c, c.nodeValue.length, true); pos += c.nodeValue.length; }
+    else if (c.nodeName === 'BR') pos += 1;
+    else if (c.nodeType === 1) { const blk = /^(DIV|P|LI)$/.test(c.nodeName); if (blk && pos) pos += 1; walk(c); }
+  });
+  walk(el);
+  if (!a || !z) return null;
+  const r = document.createRange(); r.setStart(a[0], a[1]); r.setEnd(z[0], z[1]); return r;
+}
+function _buildIdxAt(el, x, y) {
+  let c = null;
+  if (document.caretPositionFromPoint) { const cp = document.caretPositionFromPoint(x, y); if (cp) c = { n: cp.offsetNode, o: cp.offset }; }
+  else if (document.caretRangeFromPoint) { const r = document.caretRangeFromPoint(x, y); if (r) c = { n: r.startContainer, o: r.startOffset }; }
+  if (!c || !el.contains(c.n)) return -1;
+  const pre = document.createRange(); pre.selectNodeContents(el); pre.setEnd(c.n, c.o);
+  const tmp = document.createElement('div'); tmp.appendChild(pre.cloneContents());
+  const at = _paneText(tmp).length, { spans } = _buildCore(el);
+  return spans.findIndex(sp => sp && at >= sp[0] && at <= sp[1]);
+}
+function _buildShow(idx) {
+  const el = document.getElementById('outEditable'); if (!el || !_paneIsMine()) return;
+  const { spans } = _buildCore(el), sp = spans[idx]; if (!sp) return;
+  const r = _paneRange(el, sp[0], sp[1]); if (!r) return;
+  const rs = r.getClientRects(); if (!rs.length) return;
+  _swapShowBuild(idx, rs[rs.length - 1]);
+}
+function swapBuildSentence(idx) {
+  _swapHide();
+  const stu = cur(), el = document.getElementById('outEditable'), subj = currentSubject;
+  if (!stu || !el || currentView !== 'build' || !_paneIsMine()) return;
+  if (subj === 'general' && stu.editedCat) { showToast('This comment was edited in an older way, so sentences cannot be swapped.'); return; }
+  const { full, sents, spans } = _buildCore(el);
+  if (!spans[idx]) return;
+  const keys = (subj === 'general' ? stu.ordered : getSubjOrdered()).slice();
+  const m = _draftMatches(stu, subj === 'general' ? null : subj, keys, sents.join(' '));
+  let key = null; for (const [k, r] of m) if (r.status === 'same' && r.from === idx && r.to === idx + 1) { key = k; break; }
+  if (!key) { showToast('This sentence has been edited, so it cannot be swapped.'); return; }
+  const ch = _swapChoose(stu, subj, key);
+  if (ch.msg) { showToast(ch.msg); return; }
+  const oldTxt = sents[idx], nt = _swapNewText(stu, subj, ch.pick, oldTxt);
+  const newFull = full.slice(0, spans[idx][0]) + nt + full.slice(spans[idx][1]);
+  const typedOver = !!_handDraft(stu, subj) || stu.draftOverride;
+  _swapMoveLayout(stu, _paraSig(oldTxt, stu), _paraSig(nt, stu));
+  _swapReplaceKey(stu, key, ch.pick);
+  el.innerText = newFull; _stampPane();
+  if (typedOver) onDraftInput();   // the same save and reconcile as typing; the other words are byte for byte as they were
+  else { render(); if (document.activeElement === el) { el.innerText = newFull; _stampPane(); } }
+  showToast('Swapped (' + ch.t.label + '). Press Swap again for another.');
+}
+let _buildMoveRaf = 0;
+function _buildPointer(e) {
+  if (_buildMoveRaf || _swapPinned) return; const x = e.clientX, y = e.clientY;
+  _buildMoveRaf = requestAnimationFrame(() => { _buildMoveRaf = 0;
+    const el = document.getElementById('outEditable'); if (!el || currentView !== 'build' || !flagOn('swapBtn') || !_paneIsMine()) return;
+    const idx = _buildIdxAt(el, x, y); if (idx < 0) return;
+    _swapOffer('b' + idx, () => _buildShow(idx));
+  });
+}
+function _buildTap() {
+  const el = document.getElementById('outEditable'); if (!el || currentView !== 'build' || !flagOn('swapBtn') || !_paneIsMine()) return;
+  const sel = window.getSelection(); if (!sel || !sel.rangeCount || !el.contains(sel.anchorNode)) return;
+  const pre = document.createRange(); pre.selectNodeContents(el); pre.setEnd(sel.anchorNode, sel.anchorOffset);
+  const tmp = document.createElement('div'); tmp.appendChild(pre.cloneContents());
+  const at = _paneText(tmp).length, idx = _buildCore(el).spans.findIndex(sp => sp && at >= sp[0] && at <= sp[1]);
+  if (idx < 0) { _swapHide(); return; }
+  _buildShow(idx); if (_swapBuild === idx) _swapPinned = true;
+}
+(function () {
+  const wire = () => { const el = document.getElementById('outEditable'); if (!el || el.dataset.swapWired) return; el.dataset.swapWired = '1';
+    el.addEventListener('mousemove', _buildPointer);
+    el.addEventListener('mouseleave', () => { if (!_swapPinned && _swapBuild != null) { clearTimeout(_swapHideT); _swapHideT = setTimeout(_swapHide, 700); } });
+    el.addEventListener('input', () => { if (_swapBuild != null) _swapHide(); });
+    el.addEventListener('click', () => setTimeout(_buildTap, 0)); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire); else wire();
+})();
 function paintQuickBtn() {
   const b = document.getElementById('quickBtn'); if (!b) return;
   const on = quickOn();
@@ -14463,7 +14574,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.35';
+const APP_VERSION = 'v3.17.36';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15208,6 +15319,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.36', date: '16 November 2026', items: [
+    'The Swap button now also works on the draft in Build: point at a sentence (or tap it) and press Swap to change it for another about the same thing. Only that sentence changes. Sentences you have reworded and future directions are not swapped. In the future directions list, the note "Repeats a skill the comment already praises" now sits on the card it is about.'
+  ] },
   { v: 'v3.17.35', date: '16 November 2026', items: [
     'The Swap button now stays when you move the pointer to it, and tapping a sentence keeps it there until you press Swap, press Escape or tap elsewhere. The paragraph menu also has Swap this sentence. The line under the draft heading about pasting or typing was taken out, and the Settings icon is now a cog.'
   ] },
