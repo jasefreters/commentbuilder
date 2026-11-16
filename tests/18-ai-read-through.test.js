@@ -47,7 +47,8 @@ test('a suggestion renders escaped, only real sentences count, and applying a fi
   });
   assert.strictEqual(r.items, 1); assert.ok(!r.injected); assert.ok(r.escaped);
   assert.strictEqual(r.changed, 1, JSON.stringify(r)); assert.strictEqual(r.len[0], r.len[1]);
-  assert.match(r.second, /^(Sam|He) tries hard\.$/);   // the app's own name and pronoun alternation may turn the name into a pronoun assert.strictEqual(r.left, 0);
+  assert.match(r.second, /^(Sam|He) tries hard\.$/);   // the app's own name and pronoun alternation may turn the name into a pronoun
+  assert.strictEqual(r.left, 0);
   await page.context().close();
 });
 
