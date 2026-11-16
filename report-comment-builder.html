@@ -551,6 +551,13 @@
 
   /* SEMESTER TOGGLE */
   .sem-toggle { display: flex; background: var(--bg-3); border: 1px solid var(--border); border-radius: 999px; padding: 3px; gap: 2px; flex-shrink: 0; }
+  .sem-sel { font-family: var(--font); font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 999px; border: none; background: none; color: var(--t1); cursor: pointer; }
+  .sem-sel.s1 { background: var(--blue-bg); color: var(--blue); }
+  .sem-sel.s2 { background: var(--green-bg); color: var(--green); }
+  .board-btn { border: 1px solid var(--border); background: var(--bg-3); padding: 5px 14px; }
+  .board-btn.active { background: var(--bg-0); color: var(--t0); font-weight: 500; border-color: var(--border-h); }
+  .progress-wrap[role=button] { cursor: pointer; border-radius: 8px; }
+  .progress-wrap[role=button]:hover .progress-label { text-decoration: underline; }
   .sem-btn { font-family: var(--font); font-size: 12px; padding: 4px 14px; border-radius: 999px; border: none; background: none; color: var(--t1); cursor: pointer; transition: all .15s; white-space: nowrap; font-weight: 500; }
   .sem-btn.active.s1 { background: var(--blue-bg); color: var(--blue); }
   .sem-btn.active.s2 { background: var(--green-bg); color: var(--green); }
@@ -991,7 +998,6 @@
   @media (max-width: 1400px) { .c-hint, .c-nav #stuPos { display: none; } .c-name { width: 200px; } }
   @media (max-width: 1180px) {
     .progress-track { display: none; }
-    .save-indicator #saveLabel { display: none; }
     .logo { font-size: 13px; }
   }
   @media (max-width: 1080px) {
@@ -1022,8 +1028,8 @@
     /* top bar: two rows (semester + settings, then Build / Review / Class board) */
     header { height: auto; flex-wrap: wrap; padding: 8px 10px; gap: 8px; justify-content: space-between; }
     .logo, .version-badge, .progress-track { display: none; }
-    .sem-toggle { order: 1; flex: 1 1 auto; }
-    .sem-toggle .sem-btn { flex: 1; min-height: 40px; padding: 6px 8px; }
+    .sem-toggle { order: 1; flex: 0 0 auto; }
+    .sem-toggle .sem-sel { min-height: 40px; padding: 6px 10px; font-size: 14px; }
     .hdr-right { order: 2; gap: 8px; margin-left: 0; }
     .save-indicator #saveLabel { display: none; }
     .progress-label { font-size: 12px; white-space: nowrap; }
@@ -1409,22 +1415,24 @@
 <header>
   <div class="logo">Report Ready</div>
   <div class="sem-toggle" role="group" aria-label="Semester">
-    <button class="sem-btn active s1" id="semS1" onclick="setSemester(1)">Semester 1</button>
-    <button class="sem-btn s2" id="semS2" onclick="setSemester(2)">Semester 2</button>
+    <select class="sem-sel s1" id="semSel" aria-label="Semester" title="Choose the semester" onchange="setSemester(+this.value)">
+      <option value="1">Semester 1</option>
+      <option value="2">Semester 2</option>
+    </select>
   </div>
   <div class="view-toggle" role="group" aria-label="View">
     <button class="vbtn active" id="vBuild" onclick="setView('build')">Build</button>
     <button class="vbtn" id="vPublish" onclick="setView('publish')" title="Read the finished comment, check it and polish it">Review</button>
-    <button class="vbtn" id="vStats" onclick="setView('stats')">Class board</button>
   </div>
   <div class="hdr-right">
+    <button class="vbtn board-btn" id="vStats" onclick="setView('stats')" title="See every student's progress">Class board</button>
     <div class="save-indicator" id="saveIndicator" title="Auto-save status">
       <div class="save-dot" id="saveDot" aria-hidden="true"></div>
       <span id="saveLabel">Not saved</span>
     </div>
-    <div class="progress-wrap">
+    <div class="progress-wrap" id="progressWrap" role="button" tabindex="0" title="Open the Class board" onclick="setView('stats')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setView('stats')}">
       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="progress-label" id="progressLabel" ><b>0</b> / <span id="classTotal">22</span> done</div>
+      <div class="progress-label" id="progressLabel" ><b>0</b> of <span id="classTotal">22</span> General done</div>
     </div>
     <!-- Settings button -->
     <button class="settings-btn" id="settingsBtn" onclick="toggleSettings()" title="Settings" aria-label="Settings">
@@ -1432,10 +1440,6 @@
         <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/>
         <path d="M10.3 2.8h3.4l.5 2.4a7.4 7.4 0 0 1 1.9 1.1l2.3-.8 1.7 2.9-1.8 1.6a7.6 7.6 0 0 1 0 2.2l1.8 1.6-1.7 2.9-2.3-.8a7.4 7.4 0 0 1-1.9 1.1l-.5 2.4h-3.4l-.5-2.4a7.4 7.4 0 0 1-1.9-1.1l-2.3.8-1.7-2.9 1.8-1.6a7.6 7.6 0 0 1 0-2.2L3.9 9.4l1.7-2.9 2.3.8a7.4 7.4 0 0 1 1.9-1.1z"/>
       </svg>
-    </button>
-    <!-- Admin button — only visible when cloud sync is active -->
-    <button class="settings-btn" id="adminBtn" onclick="toggleAdminPanel()" title="Admin" style="display:none;opacity:0.6;font-size:11px;font-weight:600;letter-spacing:.04em;padding:0 8px;width:auto">
-      ADMIN
     </button>
   </div>
 </header>
@@ -1515,6 +1519,10 @@
       <div class="settings-row">
         <span class="settings-row-label">Sync now</span>
         <button class="settings-action-btn green" onclick="cloudSave(true); toggleSettings()">Sync</button>
+      </div>
+      <div class="settings-row">
+        <span class="settings-row-label">Admin</span>
+        <button class="settings-action-btn" id="adminBtn" onclick="toggleSettings(); toggleAdminPanel()" style="display:none">Open admin panel</button>
       </div>
       <div class="settings-row" style="justify-content:center">
         <button style="font-family:var(--font);font-size:11px;color:var(--t2);background:none;border:none;cursor:pointer;text-decoration:underline;padding:2px 0" onclick="cloudShowChangeCredentials()">Change username or PIN</button>
@@ -6347,8 +6355,7 @@ function semLoad(stu, sem) {             // stored copy for semester `sem` -> li
   });
 }
 function _paintSemesterUI() {
-  document.getElementById('semS1').className = 'sem-btn' + (currentSemester === 1 ? ' active s1' : '');
-  document.getElementById('semS2').className = 'sem-btn' + (currentSemester === 2 ? ' active s2' : '');
+  const _ss = document.getElementById('semSel'); if (_ss) { _ss.value = String(currentSemester); _ss.className = 'sem-sel s' + currentSemester; }
   document.getElementById('s2Banner').className = 's2-banner';   // v3.14.2: the Semester 2 banner is no longer shown
   lsSet('rcb_semester', currentSemester);
 }
@@ -13989,7 +13996,7 @@ function updateAdminButtonVisibility() {
   if (!btn) return;
   // Admin button only shows if the user is signed in with cloud
   // (so it's not visible to non-cloud users)
-  btn.style.display = getCloudToken() ? 'flex' : 'none';
+  btn.style.display = getCloudToken() ? '' : 'none';
 }
 
 function updateCloudStatus() {
@@ -14562,7 +14569,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.37';
+const APP_VERSION = 'v3.17.38';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15262,7 +15269,7 @@ function _fbMarkSeen(ids) { try { localStorage.setItem('rcb_fbSeen', JSON.string
 function _paintFbBadge(n) {
   const b = document.getElementById('adminFbBtn'), hb = document.getElementById('adminBtn');
   if (b && b.textContent !== 'Accounts') b.innerHTML = 'Suggestions' + (n ? ` <span class="fb-badge">${n} new</span>` : '');
-  if (hb) { hb.innerHTML = 'ADMIN' + (n ? ' <span class="fb-dot" title="' + n + ' new suggestion' + (n === 1 ? '' : 's') + '"></span>' : ''); }
+  if (hb) { hb.innerHTML = 'Open admin panel' + (n ? ' <span class="fb-dot" title="' + n + ' new suggestion' + (n === 1 ? '' : 's') + '"></span>' : ''); }
 }
 async function checkSuggestionCount() {
   if (!_adminKey) return;
@@ -15307,6 +15314,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.38', date: '16 November 2026', items: [
+    'Top bar: Class board is now its own button on the right, away from Build and Review. Clicking the progress count opens it. The count now reads, for example, "23 of 24 Maths done". The semester choice is a small menu. The save status word stays on screen on smaller windows. ADMIN moved into Settings (Cloud sync).'
+  ] },
   { v: 'v3.17.37', date: '16 November 2026', items: [
     'There is no longer a limit of two future directions. Choose as many as you need in English and Maths.'
   ] },
@@ -15956,7 +15966,7 @@ function updateProgress() {
     const pct = Math.min(100, (done / students.length) * 100);
     fill.style.width = pct + '%';
     fill.className = 'progress-fill english' + (done >= students.length ? ' done' : '');
-    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${students.length}</span> English`;
+    label.innerHTML = `<b>${done}</b> of <span id="classTotal">${students.length}</span> English done`;
     label.className = done >= students.length ? 'progress-label done' : 'progress-label';
     checkBadges(students.filter(s => s.published).length, students.length, getStreakData().count);
     return;
@@ -15966,7 +15976,7 @@ function updateProgress() {
     const pct = Math.min(100, (done / students.length) * 100);
     fill.style.width = pct + '%';
     fill.className = 'progress-fill maths' + (done >= students.length ? ' done' : '');
-    label.innerHTML = `<b>${done}</b> / <span id="classTotal">${students.length}</span> Maths`;
+    label.innerHTML = `<b>${done}</b> of <span id="classTotal">${students.length}</span> Maths done`;
     label.className = done >= students.length ? 'progress-label done' : 'progress-label';
     checkBadges(students.filter(s => s.published).length, students.length, getStreakData().count);
     return;
@@ -15977,7 +15987,7 @@ function updateProgress() {
   const pct = Math.min(100, (done / students.length) * 100);
   fill.style.width = pct + '%';
   fill.className = 'progress-fill' + (done >= students.length ? ' done' : '');
-  label.innerHTML = `<b>${done}</b> / <span id="classTotal">${students.length}</span> done`;
+  label.innerHTML = `<b>${done}</b> of <span id="classTotal">${students.length}</span> General done`;
   label.className = done >= students.length ? 'progress-label done' : 'progress-label';
   const streak = getStreakData().count;
   checkBadges(done, students.length, streak);
