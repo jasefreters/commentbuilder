@@ -1,0 +1,1703 @@
+[
+ {
+  "id": "AC9EFLA01",
+  "code": "AC9EFLA01",
+  "year": 0,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Explore how language differs at home and school depending on relationships"
+ },
+ {
+  "id": "AC9E1LA01",
+  "code": "AC9E1LA01",
+  "year": 1,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Understand how language, facial expressions and gestures are used to ask, inform, offer, exclaim, request and command"
+ },
+ {
+  "id": "AC9E2LA01",
+  "code": "AC9E2LA01",
+  "year": 2,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Investigate how interpersonal language choices vary with context and the roles people take on"
+ },
+ {
+  "id": "AC9E3LA01",
+  "code": "AC9E3LA01",
+  "year": 3,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Understand that cooperation relies on shared social conventions, including turn-taking language, which vary with formality"
+ },
+ {
+  "id": "AC9E4LA01",
+  "code": "AC9E4LA01",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Explore language used to build relationships in formal and informal situations"
+ },
+ {
+  "id": "AC9E5LA01",
+  "code": "AC9E5LA01",
+  "year": 5,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Understand that language is chosen for social contexts and signals social roles and relationships"
+ },
+ {
+  "id": "AC9E6LA01",
+  "code": "AC9E6LA01",
+  "year": 6,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Understand that language varies with levels of formality and social distance"
+ },
+ {
+  "id": "AC9EFLA02",
+  "code": "AC9EFLA02",
+  "year": 0,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Explore different ways of using language to express preferences, likes and dislikes"
+ },
+ {
+  "id": "AC9E1LA02",
+  "code": "AC9E1LA02",
+  "year": 1,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Explore language used to give reasons for likes, dislikes and preferences"
+ },
+ {
+  "id": "AC9E2LA02",
+  "code": "AC9E2LA02",
+  "year": 2,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Explore language for appreciating texts and giving reasons for preferences"
+ },
+ {
+  "id": "AC9E3LA02",
+  "code": "AC9E3LA02",
+  "year": 3,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Understand how evaluative and emotive language, such as modal verbs, can be varied to be more or less forceful"
+ },
+ {
+  "id": "AC9E4LA02",
+  "code": "AC9E4LA02",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Identify subjective language of opinion and feeling, and objective language of factual reporting"
+ },
+ {
+  "id": "AC9E5LA02",
+  "code": "AC9E5LA02",
+  "year": 5,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Understand how to go beyond bare assertions by considering differing ideas, opinions and authoritative sources"
+ },
+ {
+  "id": "AC9E6LA02",
+  "code": "AC9E6LA02",
+  "year": 6,
+  "strand": "Language",
+  "subStrand": "Language for interacting with others",
+  "subKey": "LA-I",
+  "text": "Understand the uses of objective and subjective language and identify bias"
+ },
+ {
+  "id": "AC9EFLA03",
+  "code": "AC9EFLA03",
+  "year": 0,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Understand that texts take many forms, such as signs, books and digital texts"
+ },
+ {
+  "id": "AC9E1LA03",
+  "code": "AC9E1LA03",
+  "year": 1,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Explore how texts are organised by purpose, such as to recount, narrate, express opinion, inform, report and explain"
+ },
+ {
+  "id": "AC9E2LA03",
+  "code": "AC9E2LA03",
+  "year": 2,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Identify how curriculum texts are organised differently and use language features depending on purpose"
+ },
+ {
+  "id": "AC9E3LA03",
+  "code": "AC9E3LA03",
+  "year": 3,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Describe how curriculum texts use different language features and structures relevant to their purpose"
+ },
+ {
+  "id": "AC9E4LA03",
+  "code": "AC9E4LA03",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Identify how texts have different language features and are typically organised into characteristic stages by purpose"
+ },
+ {
+  "id": "AC9E5LA03",
+  "code": "AC9E5LA03",
+  "year": 5,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Describe how spoken, written and multimodal texts use language features and characteristic stages and phases"
+ },
+ {
+  "id": "AC9E6LA03",
+  "code": "AC9E6LA03",
+  "year": 6,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Explain how curriculum texts are organised into stages and phases by purpose, noting that authors adapt structures and features"
+ },
+ {
+  "id": "AC9EFLA04",
+  "code": "AC9EFLA04",
+  "year": 0,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Understand conventions of print and screen, including how books and simple digital texts are organised"
+ },
+ {
+  "id": "AC9E1LA04",
+  "code": "AC9E1LA04",
+  "year": 1,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Explore how repetition, rhyme and rhythm create cohesion in simple poems, chants and songs"
+ },
+ {
+  "id": "AC9E2LA04",
+  "code": "AC9E2LA04",
+  "year": 2,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Understand how texts are made cohesive through personal and possessive pronouns and omitting inferable words"
+ },
+ {
+  "id": "AC9E3LA04",
+  "code": "AC9E3LA04",
+  "year": 3,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Understand that paragraphs organise written texts by grouping related information together"
+ },
+ {
+  "id": "AC9E4LA04",
+  "code": "AC9E4LA04",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Identify how connectives (temporal and conditional words) and topic word associations sequence and connect ideas"
+ },
+ {
+  "id": "AC9E5LA04",
+  "code": "AC9E5LA04",
+  "year": 5,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Understand how sentence or paragraph starting points give prominence to the message and guide the reader"
+ },
+ {
+  "id": "AC9E6LA04",
+  "code": "AC9E6LA04",
+  "year": 6,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Understand that cohesion can be created through intentional repetition and word associations"
+ },
+ {
+  "id": "AC9E1LA05",
+  "code": "AC9E1LA05",
+  "year": 1,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Understand how print and screen texts use features such as page numbers, contents, headings, titles, navigation buttons, links and images"
+ },
+ {
+  "id": "AC9E2LA05",
+  "code": "AC9E2LA05",
+  "year": 2,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Navigate print and screen texts using chapters, contents, indexes, side-bar or drop-down menus, and links"
+ },
+ {
+  "id": "AC9E3LA05",
+  "code": "AC9E3LA05",
+  "year": 3,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Identify the purpose of layout features in print and digital texts, and the words used for navigation"
+ },
+ {
+  "id": "AC9E4LA05",
+  "code": "AC9E4LA05",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Text structure and organisation",
+  "subKey": "LA-T",
+  "text": "Identify online text navigation features that enhance readability, such as headlines, drop-down menus, links, graphics and layout"
+ },
+ {
+  "id": "AC9EFLA05",
+  "code": "AC9EFLA05",
+  "year": 0,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Recognise that sentences are key units for expressing ideas"
+ },
+ {
+  "id": "AC9E1LA06",
+  "code": "AC9E1LA06",
+  "year": 1,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand that a simple sentence has a single independent clause representing one event or idea"
+ },
+ {
+  "id": "AC9E2LA06",
+  "code": "AC9E2LA06",
+  "year": 2,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand that compound sentences link two or more independent clauses, usually with a coordinating conjunction, to connect ideas"
+ },
+ {
+  "id": "AC9E3LA06",
+  "code": "AC9E3LA06",
+  "year": 3,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand that a clause is a unit of grammar, usually with a subject and verb that must agree"
+ },
+ {
+  "id": "AC9E4LA06",
+  "code": "AC9E4LA06",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand that complex sentences have one independent clause and at least one dependent clause, joined by subordinating conjunctions to show time and cause"
+ },
+ {
+  "id": "AC9E5LA05",
+  "code": "AC9E5LA05",
+  "year": 5,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand that a complex sentence has a main clause and at least one dependent clause, and how writers use this for effect"
+ },
+ {
+  "id": "AC9E6LA05",
+  "code": "AC9E6LA05",
+  "year": 6,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand how embedded clauses expand complex sentences to elaborate, extend and explain ideas"
+ },
+ {
+  "id": "AC9EFLA06",
+  "code": "AC9EFLA06",
+  "year": 0,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Recognise that sentences are groups of words working together to make meaning"
+ },
+ {
+  "id": "AC9E1LA07",
+  "code": "AC9E1LA07",
+  "year": 1,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand word classes: nouns (including pronouns), verbs, adjectives and adverbs, and what each represents"
+ },
+ {
+  "id": "AC9E2LA07",
+  "code": "AC9E2LA07",
+  "year": 2,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand that nouns can extend into noun groups with articles and adjectives, and verbs can form verb groups"
+ },
+ {
+  "id": "AC9E3LA07",
+  "code": "AC9E3LA07",
+  "year": 3,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand how verbs represent processes of doing, feeling, thinking, saying and relating"
+ },
+ {
+  "id": "AC9E4LA07",
+  "code": "AC9E4LA07",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Investigate how quoted (direct) and reported (indirect) speech are used"
+ },
+ {
+  "id": "AC9E5LA06",
+  "code": "AC9E5LA06",
+  "year": 5,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand how noun groups can be expanded to give fuller descriptions of a person, place, thing or idea"
+ },
+ {
+  "id": "AC9E6LA06",
+  "code": "AC9E6LA06",
+  "year": 6,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand how ideas can be expanded and sharpened through verb choice, elaborated tenses and adverb groups"
+ },
+ {
+  "id": "AC9E3LA08",
+  "code": "AC9E3LA08",
+  "year": 3,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand that verbs are anchored in time through tense"
+ },
+ {
+  "id": "AC9E4LA08",
+  "code": "AC9E4LA08",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand how adverb groups and prepositional phrases give circumstantial details about an activity"
+ },
+ {
+  "id": "AC9E4LA09",
+  "code": "AC9E4LA09",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-E",
+  "text": "Understand past, present and future tenses and their impact on meaning in a sentence"
+ },
+ {
+  "id": "AC9EFLA07",
+  "code": "AC9EFLA07",
+  "year": 0,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-IM",
+  "text": "Explore how images and words contribute to meaning in stories and informative texts"
+ },
+ {
+  "id": "AC9E1LA08",
+  "code": "AC9E1LA08",
+  "year": 1,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-IM",
+  "text": "Compare how images in different text types contribute to meaning"
+ },
+ {
+  "id": "AC9E2LA08",
+  "code": "AC9E2LA08",
+  "year": 2,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-IM",
+  "text": "Understand that images add to or multiply the meanings of a text"
+ },
+ {
+  "id": "AC9E3LA09",
+  "code": "AC9E3LA09",
+  "year": 3,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-IM",
+  "text": "Identify how images extend the meaning of a text"
+ },
+ {
+  "id": "AC9E4LA10",
+  "code": "AC9E4LA10",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-IM",
+  "text": "Explore the effect of framing, element placement and salience on the composition of still and moving images"
+ },
+ {
+  "id": "AC9E5LA07",
+  "code": "AC9E5LA07",
+  "year": 5,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-IM",
+  "text": "Explain how the sequence of images in print, digital and film texts affects meaning"
+ },
+ {
+  "id": "AC9E6LA07",
+  "code": "AC9E6LA07",
+  "year": 6,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-IM",
+  "text": "Identify and explain how images, figures, tables, diagrams, maps and graphs contribute to meaning"
+ },
+ {
+  "id": "AC9EFLA08",
+  "code": "AC9EFLA08",
+  "year": 0,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-V",
+  "text": "Recognise and develop awareness of vocabulary from familiar contexts, personal interests and school topics"
+ },
+ {
+  "id": "AC9E1LA09",
+  "code": "AC9E1LA09",
+  "year": 1,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-V",
+  "text": "Recognise the vocabulary of learning area topics"
+ },
+ {
+  "id": "AC9E2LA09",
+  "code": "AC9E2LA09",
+  "year": 2,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-V",
+  "text": "Experiment with and begin making conscious vocabulary choices to suit the topic"
+ },
+ {
+  "id": "AC9E3LA10",
+  "code": "AC9E3LA10",
+  "year": 3,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-V",
+  "text": "Extend topic-specific and technical vocabulary, and know that words can have different meanings in different contexts"
+ },
+ {
+  "id": "AC9E4LA11",
+  "code": "AC9E4LA11",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-V",
+  "text": "Expand vocabulary by exploring synonyms and antonyms and using words met in a range of sources"
+ },
+ {
+  "id": "AC9E5LA08",
+  "code": "AC9E5LA08",
+  "year": 5,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-V",
+  "text": "Understand how vocabulary, including specialist and technical terms, gives precision of meaning, and explore word histories"
+ },
+ {
+  "id": "AC9E6LA08",
+  "code": "AC9E6LA08",
+  "year": 6,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-V",
+  "text": "Identify authors' use of vivid, emotive vocabulary such as metaphors, similes, personification, idioms, imagery and hyperbole"
+ },
+ {
+  "id": "AC9EFLA09",
+  "code": "AC9EFLA09",
+  "year": 0,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-P",
+  "text": "Identify punctuation as a feature of written text that differs from letters; capitals mark names and sentence starts; punctuation marks sentence ends"
+ },
+ {
+  "id": "AC9E1LA10",
+  "code": "AC9E1LA10",
+  "year": 1,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-P",
+  "text": "Understand full stops, question marks and exclamation marks, and capitals for familiar proper nouns"
+ },
+ {
+  "id": "AC9E2LA10",
+  "code": "AC9E2LA10",
+  "year": 2,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-P",
+  "text": "Recognise capitals in titles and commas separating items in lists"
+ },
+ {
+  "id": "AC9E3LA11",
+  "code": "AC9E3LA11",
+  "year": 3,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-P",
+  "text": "Understand apostrophes for contractions and for singular and plural possession"
+ },
+ {
+  "id": "AC9E4LA12",
+  "code": "AC9E4LA12",
+  "year": 4,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-P",
+  "text": "Understand quotation marks signal dialogue, dialogue capitalisation conventions, and commas and boundary punctuation"
+ },
+ {
+  "id": "AC9E5LA09",
+  "code": "AC9E5LA09",
+  "year": 5,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-P",
+  "text": "Use commas to set off prepositional phrases, and apostrophes for multiple possession"
+ },
+ {
+  "id": "AC9E6LA09",
+  "code": "AC9E6LA09",
+  "year": 6,
+  "strand": "Language",
+  "subStrand": "Language for expressing and developing ideas",
+  "subKey": "LA-P",
+  "text": "Use commas for lists, to separate a dependent clause from an independent clause, and in dialogue"
+ },
+ {
+  "id": "AC9EFLE01",
+  "code": "AC9EFLE01",
+  "year": 0,
+  "strand": "Literature",
+  "subStrand": "LE-C",
+  "subKey": "LE-C",
+  "text": "Share ideas about stories, poems and images, reflecting on similar or different experiences, using First Nations Australian and wider Australian and world texts"
+ },
+ {
+  "id": "AC9E1LE01",
+  "code": "AC9E1LE01",
+  "year": 1,
+  "strand": "Literature",
+  "subStrand": "LE-C",
+  "subKey": "LE-C",
+  "text": "Discuss how language and images create characters, settings and events in these literary texts"
+ },
+ {
+  "id": "AC9E2LE01",
+  "code": "AC9E2LE01",
+  "year": 2,
+  "strand": "Literature",
+  "subStrand": "LE-C",
+  "subKey": "LE-C",
+  "text": "Discuss how characters and settings are connected in these literary texts"
+ },
+ {
+  "id": "AC9E3LE01",
+  "code": "AC9E3LE01",
+  "year": 3,
+  "strand": "Literature",
+  "subStrand": "LE-C",
+  "subKey": "LE-C",
+  "text": "Discuss characters, events and settings in different contexts in these literary texts"
+ },
+ {
+  "id": "AC9E4LE01",
+  "code": "AC9E4LE01",
+  "year": 4,
+  "strand": "Literature",
+  "subStrand": "LE-C",
+  "subKey": "LE-C",
+  "text": "Recognise similar storylines, ideas and relationships in different contexts in these literary texts"
+ },
+ {
+  "id": "AC9E5LE01",
+  "code": "AC9E5LE01",
+  "year": 5,
+  "strand": "Literature",
+  "subStrand": "LE-C",
+  "subKey": "LE-C",
+  "text": "Identify aspects of literary texts that show historical, social and cultural contexts"
+ },
+ {
+  "id": "AC9E6LE01",
+  "code": "AC9E6LE01",
+  "year": 6,
+  "strand": "Literature",
+  "subStrand": "LE-C",
+  "subKey": "LE-C",
+  "text": "Identify responses to characters and events in literary texts drawn from historical, social or cultural contexts"
+ },
+ {
+  "id": "AC9EFLE02",
+  "code": "AC9EFLE02",
+  "year": 0,
+  "strand": "Literature",
+  "subStrand": "LE-R",
+  "subKey": "LE-R",
+  "text": "Respond to stories and share feelings and thoughts about events and characters"
+ },
+ {
+  "id": "AC9E1LE02",
+  "code": "AC9E1LE02",
+  "year": 1,
+  "strand": "Literature",
+  "subStrand": "LE-R",
+  "subKey": "LE-R",
+  "text": "Discuss literary texts and share responses by connecting them to students' own experiences"
+ },
+ {
+  "id": "AC9E2LE02",
+  "code": "AC9E2LE02",
+  "year": 2,
+  "strand": "Literature",
+  "subStrand": "LE-R",
+  "subKey": "LE-R",
+  "text": "Identify features of literary texts, such as characters and settings, and give reasons for personal preferences"
+ },
+ {
+  "id": "AC9E3LE02",
+  "code": "AC9E3LE02",
+  "year": 3,
+  "strand": "Literature",
+  "subStrand": "LE-R",
+  "subKey": "LE-R",
+  "text": "Discuss connections between personal experiences and character experiences, and share preferences"
+ },
+ {
+  "id": "AC9E4LE02",
+  "code": "AC9E4LE02",
+  "year": 4,
+  "strand": "Literature",
+  "subStrand": "LE-R",
+  "subKey": "LE-R",
+  "text": "Describe the effects of text structures and language features when responding to and sharing opinions"
+ },
+ {
+  "id": "AC9E5LE02",
+  "code": "AC9E5LE02",
+  "year": 5,
+  "strand": "Literature",
+  "subStrand": "LE-R",
+  "subKey": "LE-R",
+  "text": "Present an opinion on a literary text using specific terms for literary devices, structures and features, and reflect on others' views"
+ },
+ {
+  "id": "AC9E6LE02",
+  "code": "AC9E6LE02",
+  "year": 6,
+  "strand": "Literature",
+  "subStrand": "LE-R",
+  "subKey": "LE-R",
+  "text": "Identify similarities and differences between literary texts on similar topics, themes or plots"
+ },
+ {
+  "id": "AC9EFLE03",
+  "code": "AC9EFLE03",
+  "year": 0,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Recognise types of literary texts and their features, including events, characters, beginnings and endings"
+ },
+ {
+  "id": "AC9E1LE03",
+  "code": "AC9E1LE03",
+  "year": 1,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Discuss plot, character and setting as features of stories"
+ },
+ {
+  "id": "AC9E2LE03",
+  "code": "AC9E2LE03",
+  "year": 2,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Discuss the characters and settings of a range of texts and how language presents them in different ways"
+ },
+ {
+  "id": "AC9E3LE03",
+  "code": "AC9E3LE03",
+  "year": 3,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Discuss how authors and illustrators use language and illustrations to portray characters and settings, and how settings and events shape mood"
+ },
+ {
+  "id": "AC9E4LE03",
+  "code": "AC9E4LE03",
+  "year": 4,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Discuss how authors and illustrators make stories engaging through character, setting and plot tension"
+ },
+ {
+  "id": "AC9E5LE03",
+  "code": "AC9E5LE03",
+  "year": 5,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Recognise that point of view shapes how readers interpret and respond to events and characters"
+ },
+ {
+  "id": "AC9E6LE03",
+  "code": "AC9E6LE03",
+  "year": 6,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Identify and explain characteristics that define an author's individual style"
+ },
+ {
+  "id": "AC9EFLE04",
+  "code": "AC9EFLE04",
+  "year": 0,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Explore and replicate rhythms and sound patterns in poems, rhymes and songs"
+ },
+ {
+  "id": "AC9E1LE04",
+  "code": "AC9E1LE04",
+  "year": 1,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Listen to and discuss poems, chants, rhymes and songs; imitate and invent sound patterns, including alliteration and rhyme"
+ },
+ {
+  "id": "AC9E2LE04",
+  "code": "AC9E2LE04",
+  "year": 2,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Identify, reproduce and experiment with rhythmic sound and word patterns in poems, chants, rhymes or songs"
+ },
+ {
+  "id": "AC9E3LE04",
+  "code": "AC9E3LE04",
+  "year": 3,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Discuss how literary devices such as rhythm and onomatopoeia in poetry and prose shape meaning and reader reaction"
+ },
+ {
+  "id": "AC9E4LE04",
+  "code": "AC9E4LE04",
+  "year": 4,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Examine literary devices and deliberate word play, including in poetry, that shape meaning"
+ },
+ {
+  "id": "AC9E5LE04",
+  "code": "AC9E5LE04",
+  "year": 5,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Examine imagery (simile, metaphor, personification) and sound devices in narratives, poetry and songs"
+ },
+ {
+  "id": "AC9E6LE04",
+  "code": "AC9E6LE04",
+  "year": 6,
+  "strand": "Literature",
+  "subStrand": "LE-X",
+  "subKey": "LE-X",
+  "text": "Explain how authors use sound and imagery to create meaning and effect in poetry"
+ },
+ {
+  "id": "AC9EFLE05",
+  "code": "AC9EFLE05",
+  "year": 0,
+  "strand": "Literature",
+  "subStrand": "LE-CR",
+  "subKey": "LE-CR",
+  "text": "Retell and adapt familiar literary texts through play, performance, images or writing"
+ },
+ {
+  "id": "AC9E1LE05",
+  "code": "AC9E1LE05",
+  "year": 1,
+  "strand": "Literature",
+  "subStrand": "LE-CR",
+  "subKey": "LE-CR",
+  "text": "Orally retell or adapt a familiar story using plot, characters, vocabulary and structure through role-play, writing, drawing or digital tools"
+ },
+ {
+  "id": "AC9E2LE05",
+  "code": "AC9E2LE05",
+  "year": 2,
+  "strand": "Literature",
+  "subStrand": "LE-CR",
+  "subKey": "LE-CR",
+  "text": "Create and edit literary texts by adapting structures and language features of familiar texts through drawing, writing, performance and digital tools"
+ },
+ {
+  "id": "AC9E3LE05",
+  "code": "AC9E3LE05",
+  "year": 3,
+  "strand": "Literature",
+  "subStrand": "LE-CR",
+  "subKey": "LE-CR",
+  "text": "Create and edit imaginative texts using or adapting language features, characters, settings, plot structures and ideas from literary texts"
+ },
+ {
+  "id": "AC9E4LE05",
+  "code": "AC9E4LE05",
+  "year": 4,
+  "strand": "Literature",
+  "subStrand": "LE-CR",
+  "subKey": "LE-CR",
+  "text": "Create and edit literary texts by developing storylines, characters and settings"
+ },
+ {
+  "id": "AC9E5LE05",
+  "code": "AC9E5LE05",
+  "year": 5,
+  "strand": "Literature",
+  "subStrand": "LE-CR",
+  "subKey": "LE-CR",
+  "text": "Create and edit literary texts, experimenting with figurative language, storylines, characters and settings from texts students have experienced"
+ },
+ {
+  "id": "AC9E6LE05",
+  "code": "AC9E6LE05",
+  "year": 6,
+  "strand": "Literature",
+  "subStrand": "LE-CR",
+  "subKey": "LE-CR",
+  "text": "Create and edit literary texts that adapt plot structure, characters, settings or ideas from experienced texts, and experiment with literary devices"
+ },
+ {
+  "id": "AC9EFLY01",
+  "code": "AC9EFLY01",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-T",
+  "subKey": "LY-T",
+  "text": "Identify familiar texts, such as stories and informative texts, and their purposes"
+ },
+ {
+  "id": "AC9E1LY01",
+  "code": "AC9E1LY01",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-T",
+  "subKey": "LY-T",
+  "text": "Discuss different texts and identify features that indicate their purposes"
+ },
+ {
+  "id": "AC9E2LY01",
+  "code": "AC9E2LY01",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-T",
+  "subKey": "LY-T",
+  "text": "Identify how similar topics and information are presented in different text types"
+ },
+ {
+  "id": "AC9E3LY01",
+  "code": "AC9E3LY01",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-T",
+  "subKey": "LY-T",
+  "text": "Recognise how texts can share similar purposes but target different audiences"
+ },
+ {
+  "id": "AC9E4LY01",
+  "code": "AC9E4LY01",
+  "year": 4,
+  "strand": "Literacy",
+  "subStrand": "LY-T",
+  "subKey": "LY-T",
+  "text": "Compare texts from different times with similar purposes and audiences, noting differences in how events are depicted"
+ },
+ {
+  "id": "AC9E5LY01",
+  "code": "AC9E5LY01",
+  "year": 5,
+  "strand": "Literacy",
+  "subStrand": "LY-T",
+  "subKey": "LY-T",
+  "text": "Describe how a text reflects the time and place in which it was created"
+ },
+ {
+  "id": "AC9E6LY01",
+  "code": "AC9E6LY01",
+  "year": 6,
+  "strand": "Literacy",
+  "subStrand": "LY-T",
+  "subKey": "LY-T",
+  "text": "Examine texts, including media texts, that represent ideas and events, and identify how they reflect their creation context"
+ },
+ {
+  "id": "AC9EFLY02",
+  "code": "AC9EFLY02",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-I",
+  "subKey": "LY-I",
+  "text": "Interact in informal and structured situations by listening while others speak and using voice features, including volume"
+ },
+ {
+  "id": "AC9E1LY02",
+  "code": "AC9E1LY02",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-I",
+  "subKey": "LY-I",
+  "text": "Use interaction skills: turn-taking, clear speech, active listening, responding to others, and contributing ideas and questions"
+ },
+ {
+  "id": "AC9E2LY02",
+  "code": "AC9E2LY02",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-I",
+  "subKey": "LY-I",
+  "text": "Use interaction skills to engage with topics, receive and give instructions, extend ideas, and express and respond to opinions"
+ },
+ {
+  "id": "AC9E3LY02",
+  "code": "AC9E3LY02",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-I",
+  "subKey": "LY-I",
+  "text": "Use interaction skills to contribute to conversations and discussions, sharing information and ideas"
+ },
+ {
+  "id": "AC9E4LY02",
+  "code": "AC9E4LY02",
+  "year": 4,
+  "strand": "Literacy",
+  "subStrand": "LY-I",
+  "subKey": "LY-I",
+  "text": "Listen for key points to carry out tasks and contribute to discussions, acknowledging other opinions, linking responses to the topic, and extending ideas"
+ },
+ {
+  "id": "AC9E5LY02",
+  "code": "AC9E5LY02",
+  "year": 5,
+  "strand": "Literacy",
+  "subStrand": "LY-I",
+  "subKey": "LY-I",
+  "text": "Use paraphrasing and questioning to clarify meaning, connect to experience, and present and justify an opinion or idea"
+ },
+ {
+  "id": "AC9E6LY02",
+  "code": "AC9E6LY02",
+  "year": 6,
+  "strand": "Literacy",
+  "subStrand": "LY-I",
+  "subKey": "LY-I",
+  "text": "Use paraphrasing, questioning and clarifying, with awareness of formality, to develop and support arguments and evaluate information and opinions"
+ },
+ {
+  "id": "AC9EFLY03",
+  "code": "AC9EFLY03",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Identify some differences between imaginative and informative texts"
+ },
+ {
+  "id": "AC9E1LY03",
+  "code": "AC9E1LY03",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Describe similarities and differences among imaginative, informative and persuasive texts"
+ },
+ {
+  "id": "AC9E2LY03",
+  "code": "AC9E2LY03",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Identify the purpose and audience of imaginative, informative and persuasive texts"
+ },
+ {
+  "id": "AC9E3LY03",
+  "code": "AC9E3LY03",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Identify audience and purpose of these text types through language features and/or images"
+ },
+ {
+  "id": "AC9E4LY03",
+  "code": "AC9E4LY03",
+  "year": 4,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Identify characteristic features these text types use to meet their purpose"
+ },
+ {
+  "id": "AC9E5LY03",
+  "code": "AC9E5LY03",
+  "year": 5,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Explain characteristic features these text types use to meet their purpose"
+ },
+ {
+  "id": "AC9E6LY03",
+  "code": "AC9E6LY03",
+  "year": 6,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Analyse how text structures and language features work together to meet purpose and engage and influence audiences"
+ },
+ {
+  "id": "AC9EFLY04",
+  "code": "AC9EFLY04",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Read decodable and authentic texts using developing phonic knowledge, and monitor meaning using context and emerging grammar"
+ },
+ {
+  "id": "AC9E1LY04",
+  "code": "AC9E1LY04",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Read decodable and authentic texts with developing phonic knowledge, phrasing and fluency, monitoring meaning with context and grammar"
+ },
+ {
+  "id": "AC9E2LY04",
+  "code": "AC9E2LY04",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Read texts with phrasing and fluency using phonic and word knowledge, re-reading and self-correcting"
+ },
+ {
+  "id": "AC9E3LY04",
+  "code": "AC9E3LY04",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Read a range of texts using phonic, semantic and grammatical knowledge, accurately and fluently, re-reading and self-correcting"
+ },
+ {
+  "id": "AC9E4LY04",
+  "code": "AC9E4LY04",
+  "year": 4,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Read different text types, integrating phonic, semantic and grammatical knowledge to read accurately and fluently"
+ },
+ {
+  "id": "AC9E5LY04",
+  "code": "AC9E5LY04",
+  "year": 5,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Navigate and read texts for specific purposes, monitoring meaning with skimming, scanning and confirming"
+ },
+ {
+  "id": "AC9E6LY04",
+  "code": "AC9E6LY04",
+  "year": 6,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Select, navigate and read texts for a range of purposes, monitoring meaning and evaluating structural features such as contents, glossary, headings and subheadings"
+ },
+ {
+  "id": "AC9EFLY05",
+  "code": "AC9EFLY05",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Use comprehension strategies such as visualising, predicting, connecting, summarising and questioning to understand and discuss texts"
+ },
+ {
+  "id": "AC9E1LY05",
+  "code": "AC9E1LY05",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Use comprehension strategies while listening, viewing and reading to build literal and inferred meaning, using vocabulary, context and text structures"
+ },
+ {
+  "id": "AC9E2LY05",
+  "code": "AC9E2LY05",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Use comprehension strategies, including monitoring, to build literal and inferred meaning"
+ },
+ {
+  "id": "AC9E3LY05",
+  "code": "AC9E3LY05",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Use comprehension strategies while listening and viewing to build meaning, and begin evaluating texts"
+ },
+ {
+  "id": "AC9E4LY05",
+  "code": "AC9E4LY05",
+  "year": 4,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Use comprehension strategies, including monitoring, to build meaning, expand topic knowledge and evaluate texts"
+ },
+ {
+  "id": "AC9E5LY05",
+  "code": "AC9E5LY05",
+  "year": 5,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Use comprehension strategies, including monitoring, to build meaning and evaluate information and ideas"
+ },
+ {
+  "id": "AC9E6LY05",
+  "code": "AC9E6LY05",
+  "year": 6,
+  "strand": "Literacy",
+  "subStrand": "LY-A",
+  "subKey": "LY-A",
+  "text": "Use comprehension strategies, including monitoring, to build meaning and connect and compare content from a variety of sources"
+ },
+ {
+  "id": "AC9EFLY06",
+  "code": "AC9EFLY06",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Create and take part in shared editing of short written texts to record and report ideas and events, using learnt vocabulary, basic punctuation and some CVC words spelled correctly"
+ },
+ {
+  "id": "AC9E1LY06",
+  "code": "AC9E1LY06",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Create and re-read to edit short texts that report, express opinion or recount events, using simple grammatical sentences, topic vocabulary, end punctuation and some one- and two-syllable words spelled correctly"
+ },
+ {
+  "id": "AC9E2LY06",
+  "code": "AC9E2LY06",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Create and edit short imaginative, informative and persuasive texts for familiar audiences, using purpose-appropriate structure, simple and compound sentences, noun and verb groups, and common two-syllable words"
+ },
+ {
+  "id": "AC9E3LY06",
+  "code": "AC9E3LY06",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Plan, create, edit and publish imaginative, informative and persuasive texts with visual features, layout, simple paragraphs, mostly correct tense and most high-frequency words spelled correctly"
+ },
+ {
+  "id": "AC9E4LY06",
+  "code": "AC9E4LY06",
+  "year": 4,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Plan, create, edit and publish texts with visual features, linked ideas, complex sentences, appropriate tense, synonyms, antonyms, correctly spelled multisyllabic words and simple punctuation"
+ },
+ {
+  "id": "AC9E5LY06",
+  "code": "AC9E5LY06",
+  "year": 5,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Plan, create, edit and publish texts with visual features, suitable structure, text connectives, expanded noun groups, specialist vocabulary and dialogue punctuation"
+ },
+ {
+  "id": "AC9E6LY06",
+  "code": "AC9E6LY06",
+  "year": 6,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Plan, create, edit and publish texts with paragraphs, varied complex sentences, expanded verb groups, tense, vivid vocabulary, punctuation, spelling and visual features"
+ },
+ {
+  "id": "AC9EFLY07",
+  "code": "AC9EFLY07",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Create and deliver short spoken texts to report ideas and events to peers, using appropriate volume"
+ },
+ {
+  "id": "AC9E1LY07",
+  "code": "AC9E1LY07",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Create and deliver short oral or multimodal presentations with an opening, middle and concluding statement, using topic vocabulary, gesture, volume and pace"
+ },
+ {
+  "id": "AC9E2LY07",
+  "code": "AC9E2LY07",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Create, rehearse and deliver short presentations for familiar audiences, using purpose-appropriate structure, topic vocabulary, and varied tone, volume and pace"
+ },
+ {
+  "id": "AC9E3LY07",
+  "code": "AC9E3LY07",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Plan, rehearse and deliver short presentations to inform, express opinions or tell stories, with clear structure, elaborated details, precise vocabulary, visual features and suitable delivery"
+ },
+ {
+  "id": "AC9E4LY07",
+  "code": "AC9E4LY07",
+  "year": 4,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Plan, rehearse and deliver structured presentations to report, tell stories, recount events or argue, using subjective and objective language, complex sentences and visual features"
+ },
+ {
+  "id": "AC9E5LY07",
+  "code": "AC9E5LY07",
+  "year": 5,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Plan, rehearse and deliver presentations with elaborated, sequenced ideas, complex sentences, specialist vocabulary, delivery features and visual or digital features"
+ },
+ {
+  "id": "AC9E6LY07",
+  "code": "AC9E6LY07",
+  "year": 6,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Plan, rehearse and deliver presentations that develop a theme through arguments and details, using precise vocabulary, delivery features and visual or digital features"
+ },
+ {
+  "id": "AC9EFLY08",
+  "code": "AC9EFLY08",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Form most lower-case and upper-case letters using learnt letter formations"
+ },
+ {
+  "id": "AC9E1LY08",
+  "code": "AC9E1LY08",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Write words using unjoined lower-case and upper-case letters"
+ },
+ {
+  "id": "AC9E2LY08",
+  "code": "AC9E2LY08",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Write words legibly, with growing fluency, using unjoined upper-case and lower-case letters"
+ },
+ {
+  "id": "AC9E3LY08",
+  "code": "AC9E3LY08",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Write words using joined letters that are clearly formed and consistent in size"
+ },
+ {
+  "id": "AC9E4LY08",
+  "code": "AC9E4LY08",
+  "year": 4,
+  "strand": "Literacy",
+  "subStrand": "LY-C",
+  "subKey": "LY-C",
+  "text": "Write words using clearly formed joined letters, with developing fluency and automaticity"
+ },
+ {
+  "id": "AC9EFLY09",
+  "code": "AC9EFLY09",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Recognise and generate rhyming words, alliteration, syllables and phonemes in spoken words (phonological awareness)"
+ },
+ {
+  "id": "AC9E1LY09",
+  "code": "AC9E1LY09",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Segment words into separate phonemes, including consonant blends or clusters at the beginning and end of words"
+ },
+ {
+  "id": "AC9E2LY09",
+  "code": "AC9E2LY09",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Manipulate more complex sounds in spoken words, using blending, segmenting, phoneme deletion and substitution to read and write words"
+ },
+ {
+  "id": "AC9EFLY10",
+  "code": "AC9EFLY10",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Segment sentences into words; blend and segment single-syllable words; isolate, blend and manipulate phonemes"
+ },
+ {
+  "id": "AC9E1LY10",
+  "code": "AC9E1LY10",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Orally manipulate initial, medial and final phonemes by addition, deletion and substitution to generate new words"
+ },
+ {
+  "id": "AC9EFLY11",
+  "code": "AC9EFLY11",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Recognise and name upper- and lower-case letters and know the most common sound each letter represents"
+ },
+ {
+  "id": "AC9E1LY11",
+  "code": "AC9E1LY11",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Read one- and two-syllable words"
+ },
+ {
+  "id": "AC9E2LY10",
+  "code": "AC9E2LY10",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Use short and common long vowels, consonant blends and digraphs to write and blend words; read consonant clusters and silent letters in words of one or more syllables, including compound words"
+ },
+ {
+  "id": "AC9E3LY09",
+  "code": "AC9E3LY09",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Blend and segment to read and write multisyllabic words with more complex letter patterns fluently"
+ },
+ {
+  "id": "AC9E4LY09",
+  "code": "AC9E4LY09",
+  "year": 4,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Read and write words with more complex letter combinations, including a variety of vowel sounds and known prefixes and suffixes"
+ },
+ {
+  "id": "AC9E5LY08",
+  "code": "AC9E5LY08",
+  "year": 5,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Use phoneme-grapheme matches, syllables and common letter patterns that have different pronunciations to read and write words"
+ },
+ {
+  "id": "AC9E6LY08",
+  "code": "AC9E6LY08",
+  "year": 6,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Apply phonological and morphological knowledge to read and write increasingly complex words"
+ },
+ {
+  "id": "AC9EFLY12",
+  "code": "AC9EFLY12",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Write CVC words by representing sounds with letters, and blend sounds when reading CVC words"
+ },
+ {
+  "id": "AC9E1LY12",
+  "code": "AC9E1LY12",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Understand that a letter can represent more than one sound and that every syllable must contain a vowel sound"
+ },
+ {
+  "id": "AC9EFLY13",
+  "code": "AC9EFLY13",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Use knowledge of letters and sounds to spell words"
+ },
+ {
+  "id": "AC9E1LY13",
+  "code": "AC9E1LY13",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Spell one- and two-syllable words with common letter patterns"
+ },
+ {
+  "id": "AC9E2LY11",
+  "code": "AC9E2LY11",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Use spelling patterns and morphemes to read and write words not fully predictable from sounds, including high-frequency words"
+ },
+ {
+  "id": "AC9E3LY10",
+  "code": "AC9E3LY10",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Apply common base words, prefixes, suffixes and suffix-adding generalisations to read and understand new multimorphemic words"
+ },
+ {
+  "id": "AC9E4LY10",
+  "code": "AC9E4LY10",
+  "year": 4,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Use letter patterns (including double letters), spelling generalisations, word families, prefixes, suffixes and word origins to spell more complex words"
+ },
+ {
+  "id": "AC9E5LY09",
+  "code": "AC9E5LY09",
+  "year": 5,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Build and spell new words from known words, base words, prefixes, suffixes, word origins, letter patterns and spelling generalisations"
+ },
+ {
+  "id": "AC9E6LY09",
+  "code": "AC9E6LY09",
+  "year": 6,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Spell new words, including technical words, using word origins (including Latin and Greek roots), base words, affixes, letter patterns and generalisations"
+ },
+ {
+  "id": "AC9EFLY14",
+  "code": "AC9EFLY14",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Read and write some high-frequency and familiar words"
+ },
+ {
+  "id": "AC9E1LY14",
+  "code": "AC9E1LY14",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Read and write an increasing number of high-frequency words"
+ },
+ {
+  "id": "AC9E2LY12",
+  "code": "AC9E2LY12",
+  "year": 2,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Build morphemic word families using knowledge of prefixes and suffixes"
+ },
+ {
+  "id": "AC9E3LY11",
+  "code": "AC9E3LY11",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Use phoneme-grapheme relationships and less common letter patterns to spell words"
+ },
+ {
+  "id": "AC9E3LY12",
+  "code": "AC9E3LY12",
+  "year": 3,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Recognise and write most high-frequency words, including some homophones"
+ },
+ {
+  "id": "AC9E4LY11",
+  "code": "AC9E4LY11",
+  "year": 4,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Read and write high-frequency words, including homophones, and use context to identify correct spelling"
+ },
+ {
+  "id": "AC9E5LY10",
+  "code": "AC9E5LY10",
+  "year": 5,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Explore less common plurals, and understand how a suffix changes a word's meaning or grammatical form"
+ },
+ {
+  "id": "AC9EFLY15",
+  "code": "AC9EFLY15",
+  "year": 0,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Understand that words are units of meaning and can be made of more than one meaningful part"
+ },
+ {
+  "id": "AC9E1LY15",
+  "code": "AC9E1LY15",
+  "year": 1,
+  "strand": "Literacy",
+  "subStrand": "LY-P",
+  "subKey": "LY-P",
+  "text": "Recognise and use grammatical morphemes to create word families"
+ }
+]

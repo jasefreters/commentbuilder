@@ -1,0 +1,4643 @@
+{
+ "sentences": [
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} has demonstrated a strong understanding of important language concepts this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} has demonstrated a strong understanding of English skills this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} is an engaged learner who has made significant progress in English.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} enthusiastically participates in all English activities.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{S}} has shown a solid knowledge of English skills this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} has demonstrated a strong understanding of key English concepts this semester and engages thoughtfully in all learning activities.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} is an engaged learner who consistently demonstrates interest and participation in English lessons.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} has made steady progress in English this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} has made pleasing progress in {{pos}} understanding of concepts taught in English.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} has demonstrated a sound understanding of English concepts this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} has improved {{pos}} knowledge of all concepts taught in English.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} is making pleasing progress in {{pos}} understanding of all concepts taught in English.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} concentrates well during English lessons.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{S}} is developing {{pos}} knowledge of all concepts taught in English.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} is developing {{pos}} understanding of key English concepts.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} is developing {{pos}} understanding of English skills.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} has made some progress in English.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} concentrates during English lessons and has shown some growth this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} is developing basic English skills with growing confidence.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} has made limited progress in English.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Introduction",
+   "text": "{{N}} has made minimal progress in English.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below stage expectations and is demonstrating progress in English that aligns with Year [X] requirements.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Below Expectations",
+   "text": "{{S}} is building {{pos}} confidence in English and needs assistance to meet grade expectations.",
+   "tag": "BEK",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Below Expectations",
+   "text": "{{S}} is beginning to develop {{pos}} skills in English and is working towards achieving grade expectations.",
+   "tag": "BEK",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Below Expectations",
+   "text": "{{S}} is building {{pos}} understanding in English and is working towards achieving Kindergarten expectations.",
+   "tag": "BEK",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below stage expectations and is continuing to build {{pos}} English skills at a Year [X] level.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Below Expectations",
+   "text": "{{S}} is currently working significantly below grade expectations and is developing {{pos}} skills at a Year [X] level.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below Year [X] expectations in English.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below Year [X] expectations, in line with Year [Y] outcomes.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Below Expectations",
+   "text": "Although {{S}} is working significantly below stage expectations in English, {{s}} consistently tries {{pos}} best.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below stage expectations in English and requires ongoing support to complete learning activities successfully.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below stage expectations in English and benefits from tasks being broken into smaller, manageable steps.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} delivered a thoughtful and well-organised prepared speech.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} actively participates in class discussions, asking specific questions to clarify information and deepen {{pos}} understanding.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} adjusts {{pos}} volume, pace and expression when reading aloud to suit the purpose and complexity of the text.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} presented a thoughtful and well-organised prepared speech.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} communicates clearly and uses appropriate language during class discussions.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} actively participates in group discussions.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} appropriately adjusts {{pos}} volume and pace during class presentations to support audience engagement.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} seeks clarification during discussions and uses this to build a clearer understanding of texts.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} poses thoughtful questions to deepen interpretation and supports {{pos}} thinking with clear reasons.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} participates positively in discussions and is becoming more confident when expressing opinions about texts.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} participates positively in class discussions and shares ideas about characters, themes and author choices.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} uses appropriate language skills when interacting with others during class discussions.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} is developing the ability to change {{pos}} volume and pace to support audience engagement during class presentations.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} participates in class discussions and is learning to express ideas more clearly.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} asks specific questions to clarify information and listens attentively to the contributions of others.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} participates in class discussions with support and is learning to express ideas more clearly when speaking.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} listens to others and is beginning to respond appropriately in conversations.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} listens closely to others and shares {{pos}} thoughts during play-based activities.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} shares {{pos}} thoughts during class discussions and takes turns when speaking.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} speaks clearly to communicate {{pos}} ideas.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} expresses {{pos}} thoughts and feelings using simple language.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} participates in partner and group conversations when responding to texts.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} tells or retells a story in order to an audience, adding detail to make it interesting.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} speaks in longer sentences during conversations.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} uses verbs that match past, present and future events when speaking.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} joins in discussions, stays on topic, and builds on the ideas of others.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} asks questions to check or extend {{pos}} understanding and retells spoken texts in {{pos}} own words.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} plans a presentation to suit the audience, then reflects on how well it went.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} looks at the person who is speaking.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} answers yes or no questions.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} follows a single instruction from the teacher.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} takes part in class discussions by sharing thoughts and feelings about a familiar topic.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} communicates one idea, or two connected ideas, when speaking to the teacher.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} starts social interactions with classmates and staff.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} takes turns when speaking to others.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} retells parts of a familiar story.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} answers questions about familiar people and places.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Oral Language & Communication",
+   "text": "{{S}} explores and develops new ideas with others.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} makes observations and supports them with evidence from the text to enhance {{pos}} understanding of stories and information.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} reads with confidence and uses context, grammar knowledge and skimming strategies to locate information in moderately complex texts.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} applies reading strategies to interpret complex texts and explains how these texts communicate meaning.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} monitors {{pos}} understanding and recognises when meaning breaks down.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} explains how authors make deliberate choices to shape the reader's perception.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} interprets key ideas in narratives and digital texts, and recognises how authors use language to shape meaning.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} comprehends digital texts and advertisements and identifies key ideas in narratives.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} identifies main ideas, understands simple inferences and explains how authors use evidence to support ideas.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} reads with confidence and connects with the ideas in texts.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} uses background knowledge and reading skills to better understand texts.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} uses reading strategies to comprehend more complex texts.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} identifies key ideas and supporting details when reading.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} reads with confidence and uses skimming strategies to identify key ideas and locate details, and uses context to understand unfamiliar words.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} identifies main ideas and is beginning to recognise how language features help build meaning.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} reads predictable texts with growing confidence and identifies key ideas to support comprehension.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} reads simple texts with support and is working towards identifying key information and following the main ideas.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} understands simple, predictable texts.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} reads predictable texts with guidance and draws basic connections to gain a clearer understanding of the stories.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} reads simple, familiar texts and is building confidence in recognising high-frequency words.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} comprehends predictable imaginative texts from the main character's perspective.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} tracks print from left to right.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} knows the front and back of a book.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} identifies the spaces between words in a text.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} hears and says the first, middle and final sounds in familiar spoken words.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} blends chunks of spoken words to make new words, such as 'talk-ing'.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} has a strong understanding of taught letters and the sounds they usually make.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} recognises some taught letters of the alphabet and the sounds they make.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} participates in whole class reading activities to blend and segment words.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} listens to familiar stories that are read to {{o}} and recalls basic events that occurred.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} stops at full stops and changes {{pos}} voice for questions when reading aloud.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} uses pictures to help {{o}} understand stories that are read to {{o}}.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} segments and blends words to read decodable texts with improved fluency and comprehension.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} can identify the beginning and final sound in words.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} uses background knowledge and personal experiences to connect with texts when reading.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} self-corrects when {{pos}} fluency or meaning is interrupted.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} has shown growth in recognising and re-reading when meaning has been interrupted.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} makes connections between {{pos}} experiences and the events in a story.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} uses headings, pictures and captions to find information in a text.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} reads between the lines using clues in the text.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} reads longer texts with accuracy and uses appropriate volume and speed when reading aloud.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} uses strategies to fix {{pos}} understanding when meaning breaks down.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} locates relevant information in a text.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} identifies how persuasive, informative and imaginative texts are organised.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} compares print and digital texts to decide which is most useful for a task.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} uses teacher feedback to improve {{pos}} skills when reading texts.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} engages with texts for different purposes.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} shows likes and dislikes about a story.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} recognises familiar words in texts.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} asks questions when the meaning is unclear.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} recalls key events and characters in a story.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} recalls key facts from an information text.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} explains how a text can carry more than one meaning.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Reading Comprehension",
+   "text": "{{S}} reads texts with complex ideas and explains how the author built them.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} explains how word choices can make writing entertaining or informative in both fiction and non-fiction texts.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} selects words that persuade the reader and uses language that creates emotion in poetry.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} draws vocabulary from texts {{s}} has read.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} considers {{pos}} word choices carefully to make {{pos}} writing more engaging for the reader.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} explains how vocabulary choices can enhance the entertainment value of narratives.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} selects vocabulary that enhances meaning.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} applies known vocabulary effectively and is beginning to experiment with descriptive language to add detail.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} uses a varied vocabulary in {{pos}} own writing.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} experiments with different styles and incorporates vocabulary drawn from other texts.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} selects a basic vocabulary to enhance writing.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} includes describing words to add detail and variety to writing.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} uses a growing vocabulary to enhance {{pos}} writing.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} recognises that words can have multiple meanings and applies this knowledge to understand and create texts.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} understands that words can have multiple meanings and uses a varied vocabulary.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} uses basic descriptive language in {{pos}} writing.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} is beginning to use known words and picture clues to help understand new vocabulary.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} recognises that words can have different meanings.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} uses new words from stories and class topics when talking about {{pos}} learning.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} describes objects using words for size, shape, colour and position.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} uses taught subject-specific words when writing informative sentences.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} joins in songs and identifies words that rhyme, including 'bat' and 'rat'.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} identifies and understands wordplay and rhyme in texts and can use these features in {{pos}} own writing.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} brainstorms words that have the same or opposite meaning and uses these to avoid repetition.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} talks about the meaning of figurative language, such as similes and idioms.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} chooses words to give {{pos}} writing a particular style.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Vocabulary",
+   "text": "{{S}} understands the way language is used has changed over time.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} experiments with narrative writing features, showcasing creativity and thoughtfulness.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with appropriate detail.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} shows a strong understanding of how to plan, structure and revise persuasive texts.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} includes specific details in {{pos}} writing to make {{pos}} ideas clearer and more engaging.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} structures writing in a clear and organised way and includes detail to support ideas.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} plans, drafts and revises persuasive texts effectively.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} uses planning strategies effectively when creating texts.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} plans and organises information reports.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} applies a variety of tenses to suit different writing tasks.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} is developing skills in structuring and editing persuasive texts.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} organises recounts and attempts informative texts with emerging control.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} draws pictures to represent {{pos}} ideas and writes short sentences using words displayed in the classroom.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} writes simple sentences using words displayed in the classroom.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} draws pictures to show {{pos}} ideas and labels {{pos}} work using words displayed in the classroom.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} plans {{pos}} writing and improves it after feedback.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} writes simple and compound sentences about characters and events using correct punctuation.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} writes for different purposes, such as to describe, explain, give an opinion or tell a story.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} creates a beginning, a problem, and a resolution using simple paragraphs.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} writes informative texts with headings and paragraphs that begin with a main idea.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} structures persuasive paragraphs with a clear statement of position and supporting ideas.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} forms simple paragraphs to express {{pos}} ideas and edits {{pos}} work for correct punctuation.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} maintains a consistent point of view throughout imaginative writing.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} takes part in creating texts with others.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} uses pictures and symbols to create texts.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} chooses topics to write about.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} draws pictures to support {{pos}} writing.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} argues against opposing views to strengthen {{pos}} persuasive writing.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} backs up a clear main argument about a text with evidence from it.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} works with others to write texts that bring together different ideas and values.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Creating Written Texts",
+   "text": "{{S}} reflects on how planning and revising changes the clarity of {{pos}} writing.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} automatically uses strategies in a range of contexts to spell unfamiliar words.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} identifies complex letter patterns and sounds when spelling and applies this knowledge to improve spelling accuracy.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} applies correct letter patterns and general rules when spelling words.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} applies spelling generalisations to spell most familiar and less common words correctly.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} applies correct spelling patterns and general rules when writing.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} has shown improvement in spelling by identifying letter patterns to support correct spelling.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} applies some spelling patterns and general rules when writing.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} selects appropriate tenses to suit different writing tasks.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} spells words with double letters and identifies the meaning of most words by recognising their spelling.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} spells simple words with common endings and uses basic strategies to spell unfamiliar words with some success.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} is learning to apply common spelling patterns in writing.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} is beginning to identify nouns and verbs in simple sentences.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} spells common words correctly and sounds out unfamiliar words with care.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} writes {{pos}} first name by putting the letters in the right order.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} writes short sentences using familiar language and is improving {{pos}} use of full stops.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} adds 's' to words to show more than one, such as changing 'cat' to 'cats'.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} writes related sentences to create stories and adds phrases that show time and place.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} breaks words into sounds as a spelling strategy.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} spells high-frequency words correctly in {{pos}} writing.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} breaks longer words into chunks as a strategy for spelling.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} spells words with prefixes, such as un- and re-.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} spells words with suffixes, such as -ful and -est.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} recognises common word beginnings such as 'un-' and 're-', and correctly uses them when spelling.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} checks {{pos}} work for spelling mistakes and uses dictionaries to correct them.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} uses commas to separate parts of a sentence and apostrophes for contractions.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} varies sentence length to improve {{pos}} writing.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} matches the letters in {{pos}} name and puts them in the correct order.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} recognises words that start with the same sound.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Spelling & Grammar",
+   "text": "{{S}} identifies letters in familiar words.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} writes with a legible and fluent handwriting style for extended periods and types words, numbers and punctuation efficiently.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} types words, numbers and punctuation efficiently.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} types accurately and presents ideas clearly in digital formats.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} writes with a fluent, legible handwriting style and types efficiently.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} presents written work neatly and maintains consistent letter formation.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} writes with a clear and legible handwriting style and types accurately using a keyboard.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} presents written work neatly and communicates ideas clearly when typing.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} uses the keyboard efficiently when publishing {{pos}} texts digitally.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} maintains a fluent handwriting style and types efficiently using the keyboard.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} presents written and digital work neatly, demonstrating a consistent and legible handwriting style.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} joins letters when writing familiar words and uses keyboard skills to type efficiently.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} joins letters when writing familiar words and uses technology appropriately when creating texts.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} forms most letters correctly on the line and uses appropriate spacing between words.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} is learning to form letters correctly and write on the line.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} forms letters correctly and maintains appropriate spacing when writing.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} holds {{pos}} pencil comfortably during handwriting tasks and remembers to write letters from left to right.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "During structured handwriting lessons, {{S}} carefully forms letters with the correct shape.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} uses basic word-processing tools to type and edit short texts.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "During handwriting lessons, {{s}} uses appropriate pencil control to form letters on the line.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} forms letters with consistent size and slope.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} types texts and searches for information online.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} uses word-processing tools to draft and edit {{pos}} writing.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} makes marks and strokes on a page or digital device using writing tools.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Handwriting & Digital Transcription",
+   "text": "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} explains how language in poetry can evoke emotion and shows creativity when developing ideas.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} explores how language can evoke emotions in poems and creates poems with a clear, consistent theme.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} analyses and creates poems with a clear focus and consistent theme, showing creativity and thoughtfulness.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} understands how language evokes emotions and describes characters through their traits and actions.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} understands how language can evoke emotion and identifies how characters are developed through their traits and actions.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} identifies and applies themes in various texts.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} describes how characters are built through their actions and viewpoints.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} identifies how language creates emotions in poetry and explores how an author's choices influence meaning.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} identifies themes in narratives and applies them when creating {{pos}} own texts.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} explores how language can evoke emotions in poems.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} describes the structure of persuasive texts and discusses how language can be used to evoke emotion.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} identifies how characters are developed through their traits and actions.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} identifies main ideas in narratives and uses these when creating original texts.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} explains how characters are developed in stories and describes how authors can show different points of view.",
+   "tag": "S3",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} identifies words and phrases that are used to persuade the reader.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} identifies themes in narratives and connects with key ideas in a variety of stories.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} identifies how advertisements are organised and describes features of both fiction and non-fiction texts.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} describes features of fiction and non-fiction texts and how pictures and words contribute to meaning.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} recognises how authors create characters and structure stories to engage the reader.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} shows enjoyment when listening to stories and expresses {{pos}} opinions about characters and events.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} joins in class discussions about stories to identify the beginning, middle and end.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} names {{pos}} favourite stories and characters in class discussions.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} enjoys creative language such as sound words and rhymes.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} tries creative language in {{pos}} own telling and writing.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} writes related sentences to create stories.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} talks about how stories build feelings and compares characters in different texts.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} finds figurative language, wordplay and symbols in texts.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} uses figurative language or wordplay in {{pos}} own writing.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} uses {{pos}} experiences to help {{o}} understand and form opinions about a text.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} identifies how authors use words in unexpected ways to make stories interesting.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} describes how a character's choices affect a storyline.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} identifies the difference between language that expresses opinion versus fact and uses this knowledge to describe the purpose of a text.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} explains how the way characters treat each other reflects real relationships.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} explains how a text can draw on other texts to add meaning.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} explains how a story has been changed to suit a new audience or purpose.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} explains why people in different places and times may appreciate a text differently.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "english",
+   "tab": "Understanding and Responding to Literature",
+   "text": "{{S}} explains how repeated words and patterns in a text communicate its big ideas.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} demonstrates an outstanding understanding of mathematical concepts this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} concentrates during mathematics and often effectively applies {{pos}} understanding of concepts during independent tasks.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} has demonstrated a strong understanding of key mathematical concepts this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} concentrates during mathematics and demonstrates {{pos}} understanding by explaining {{pos}} thinking clearly.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} has demonstrated a sound understanding of key mathematical concepts this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} has demonstrated a sound understanding of mathematical concepts this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} has demonstrated a sound understanding of key mathematical concepts.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} concentrates well during mathematics lessons and has made steady progress across number and measurement concepts.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} concentrates during mathematics lessons and has shown some growth this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} is developing {{pos}} understanding of mathematical concepts this semester.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} concentrates well during mathematics lessons.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} concentrates well during mathematics lessons and participates confidently in number activities.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} is developing {{pos}} understanding of mathematical concepts.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Introduction",
+   "text": "{{N}} concentrates during mathematics lessons and is building confidence across key areas.",
+   "tag": null,
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below stage expectations and is demonstrating progress in Mathematics that aligns with Year [X] requirements.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below stage expectations and is demonstrating progress in Mathematics that aligns with Year [X] outcomes.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Below Expectations",
+   "text": "{{S}} is building {{pos}} understanding in Mathematics and is working towards achieving Kindergarten expectations.",
+   "tag": "BEK",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Below Expectations",
+   "text": "{{S}} is building {{pos}} confidence in Mathematics and needs assistance to meet grade expectations.",
+   "tag": "BEK",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Below Expectations",
+   "text": "{{S}} is beginning to develop {{pos}} skills in Mathematics and is working towards achieving grade expectations.",
+   "tag": "BEK",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below stage expectations and is developing {{pos}} Mathematics skills at a Year [X] level.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below grade expectations and is building {{pos}} Mathematics skills in line with Year [X] learning outcomes.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below Year [X] outcomes and is achieving at a Year [Y] level.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Below Expectations",
+   "text": "Although {{S}} is working significantly below stage expectations in Mathematics, {{s}} consistently tries {{pos}} best.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below stage expectations in Mathematics and requires ongoing support to complete learning activities successfully.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Below Expectations",
+   "text": "{{S}} is working significantly below stage expectations in Mathematics and benefits from tasks being broken into smaller, manageable steps.",
+   "tag": "BEY",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} works confidently with large numbers, reads and writes values in the millions, and understands decimals to the hundredths and thousandths.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} confidently works with large numbers and applies place value knowledge to understand numbers in the millions.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} compares and orders decimals and percentages.",
+   "tag": "S3A+B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} adds and subtracts positive and negative numbers.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} works confidently with large numbers in the millions and applies place value to solve a range of problems.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} compares and orders whole numbers and fractions and rounds decimals accurately.",
+   "tag": "S3A+B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} applies {{pos}} knowledge of place value to work confidently with large numbers.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} works confidently with large numbers and applies place value to solve problems.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} rounds whole numbers and decimals to estimate results.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} reads and represents numbers using place value knowledge.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} uses place value to read, write and work with large numbers and represents them in different ways.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} reads, writes, and interprets numbers in a variety of ways.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} works with whole numbers and applies place value to solve problems.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} rounds numbers to estimate results and records numbers in different ways.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} is learning to read and represent numbers in different ways and can order numbers up to four digits.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} separates numbers into groups of tens and ones.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} counts objects carefully to find the total when solving mathematical problems with the class.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} represents numbers using drawings, words and numerals.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} immediately recognises the number of objects in a small collection.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} counts forwards and backwards from 40.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} knows one more and one less of numbers up to 100.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} counts forwards from any given number up to 120.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} reads, writes and orders three-digit numbers.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} states what each digit is worth in a three-digit number.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} identifies the number before and after a given three-digit number.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} understands that one thousand is made up of ten hundreds and represents numbers using words and drawings.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} arranges numbers of up to six digits from lowest to highest.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} recognises different finger patterns for the same number.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} selects numerals using eye contact, gestures or touch.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} says number words in order and points to or touches objects as {{s}} counts.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} multiplies and divides positive and negative numbers.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} tells apart decimals that end and decimals that repeat forever.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} writes one amount as a fraction, decimal or percentage of another.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Represents Numbers",
+   "text": "{{S}} finds any percentage of an amount to solve problems.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} applies a range of addition and subtraction strategies effectively.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} applies known strategies to solve addition and subtraction problems.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} uses {{pos}} knowledge of addition and subtraction to solve complex worded problems.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} applies different strategies to solve addition and subtraction problems.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} uses known number facts and basic strategies to solve addition and subtraction problems.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} solves subtraction with three-digit numbers.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} adds two small groups of counters to solve mathematical problems.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} shows different ways to make numbers up to ten using counters, such as '4 and 3 makes 7'.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} knows some combinations of numbers up to 10, such as '3 and 3 makes 6', and draws pictures to show {{pos}} thinking.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} solves simple addition problems by doubling, such as '6 and 6 makes 12'.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} uses taught strategies to solve addition and subtraction problems with combinations up to 20.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} uses concrete materials to model addition and subtraction problems involving two-digit numbers.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} uses the equals sign to show when two number sentences have the same total.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} recalls related addition and subtraction facts for numbers to at least 20.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} solves addition and subtraction problems by separating numbers into their place value.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} solves addition and subtraction problems using appropriate mental strategies.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} uses estimation to decide whether an answer is reasonable.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} solves addition and subtraction problems with numbers of any size using a range of strategies.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} combines and separates groups of items.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} counts across two small groups to find a total.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} plots pairs of numbers on a grid to show a straight-line pattern.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Additive Relations",
+   "text": "{{S}} uses graphs to solve simple equations.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} uses letters to stand for unknown numbers and recognises numbers multiplied by themselves, such as 4 × 4.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} multiplies and divides decimals accurately and works through calculations with several steps in the correct order.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} uses letters to stand for unknown numbers when solving simple problems.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} multiplies 2- and 3-digit numbers by 2-digit numbers and represents and solves division problems with whole number remainders.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} recalls multiplication facts to support calculations and solves division problems with remainders.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} creates number patterns using known multiplication facts.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} generates number patterns using times tables.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} solves division problems with whole number remainders.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} recalls some multiplication facts and uses them to support calculations.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} counts by twos, threes and fives to recognise simple division and creates equal groups to show multiplication.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} uses visual representations to find multiplication facts.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} uses strategies to solve simple division problems.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} creates and continues patterns by lining up objects according to their colour or shape.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} records how objects were shared using drawings, words and numbers.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} models and describes collections of objects as 'groups of', such as two groups of three.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} organises objects into equal rows and columns as part of {{pos}} multiplication knowledge.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} recognises that multiplication and division are opposites and uses one to solve the other.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} recognises that doubling a number gives the same answer as multiplying by 2.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} copies a continuing pattern.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} points to or touches objects as they are shared into smaller equal groups.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} identifies the number of objects in a group.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Multiplicative Relations",
+   "text": "{{S}} writes expressions with letters and finds their value by replacing letters with numbers.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} adds, subtracts, multiplies and divides fractions.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} compares and orders fractions, decimals and percentages and explains how they are related.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} solves problems involving the multiplication and division of fractions.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} compares amounts using ratios, such as 2 to 3, and explains how they connect to fractions.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} calculates percentage discounts and finds fractions of whole numbers.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} adds and subtracts simple fractions with accuracy.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} works with fractions and decimals and identifies prime numbers.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} demonstrates an understanding of the connection between common fractions, decimals and percentages.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} expresses common percentages as both fractions and decimals.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} works with fractions and decimals with growing accuracy.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} understands common fractions and writes them as decimals.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} recognises and represents fractions of a length and records numbers in different forms.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} recognises fractions and decimals and applies them in simple problems.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} recognises simple fractions such as halves and quarters and records numbers as decimals.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} converts simple fractions to decimals.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} represents fractions with halves, quarters and thirds.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} accurately represents fractions on a number line.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} writes tenths and hundredths as decimal numbers.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} represents common fractions using models and number lines.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} recognises and names simple fractions such as halves and quarters.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} is learning to recognise, name and represent simple fractions.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} models halves, quarters, and eighths of a collection using counters.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} divides objects into equal halves, quarters and eighths to represent fractions.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Representing Quantity Fractions",
+   "text": "{{S}} shows that different fractions can represent the same amount.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} calculates the perimeter of two-dimensional shapes and precisely measures angles with a protractor.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} identifies and plots points on a number plane.",
+   "tag": "S3A+B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} calculates the perimeter of common two-dimensional shapes and accurately measures angles with a protractor.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} measures length using appropriate units and converts between centimetres, metres and kilometres.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} plots and labels points on a number plane.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} uses hectares and square metres to solve area problems.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} identifies and plots points in the first quadrant of a number plane.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} calculates the perimeters of common two-dimensional shapes.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} measures length, area and capacity using appropriate units.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} measures angles accurately.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} uses metres and kilometres to estimate and measure distances.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} identifies and plots points in the first quadrant of a number plane with support.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} selects appropriate units of measurement to determine length.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} identifies right angles in shapes.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} is beginning to measure perimeter and calculate the area of familiar two-dimensional shapes.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} measures and compares lengths in centimetres and metres.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} experiments with making two equal parts by finding the middle.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} follows simple directions to move to a new position.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} uses words such as 'under', 'next to' and 'behind' to describe where objects are.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} uses words such as 'bigger' and 'longer' to describe the length of an object.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} measures and records the length of objects using concrete materials such as blocks and tiles.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} gives and follows directions between familiar places, using turns to the left or right.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} measures lengths using a centimetre ruler.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} records lengths and distances using the abbreviation 'm' for metres.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} reads simple maps and plans a path from one place to another.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} uses both centimetres and metres to find distances.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} describes a path on a map using important places and compass directions.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} compares angles with a right angle, describing them as smaller, larger or the same size.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} responds to simple instructions about position or movement.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} matches items of similar length and identifies if two lengths are the same or different.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} explains how the radius, diameter and circumference of a circle are related.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} uses formulas to find the area of circles, trapeziums and kites.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} finds the volume of prisms and cylinders using formulas.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Geometric Measure",
+   "text": "{{S}} converts between units of area, volume and capacity.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} calculates areas and matches three-dimensional objects with their two-dimensional drawings.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} classifies triangles and quadrilaterals by their features.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} calculates areas of rectangles and applies the formula to find the area of triangles.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} calculates the area of two-dimensional shapes.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} classifies triangles and quadrilaterals by their features and connects three-dimensional objects with their two-dimensional representations.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} identifies and classifies triangles and quadrilaterals based on their properties.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} identifies and classifies triangles and quadrilaterals by their features.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} classifies triangles and quadrilaterals based on their properties.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} classifies triangles and quadrilaterals.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} identifies and names common two-dimensional shapes.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} names basic shapes in {{pos}} environment and describes their features.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} makes pictures and designs by fitting shapes together.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} compares the surfaces of two shapes to see which is bigger.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} makes shapes by tracing around objects, drawing and building.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} sorts two-dimensional shapes based on their sides and corners.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} compares the area of two-dimensional shapes by using counters and blocks.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} slides, flips and turns shapes, recognising that the shape stays the same size.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} creates rows and columns to model the area of rectangles.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} compares and describes the features of shapes, such as parallel sides or equal sides.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} finds lines of symmetry in pictures, designs and shapes.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} creates grid structures to model the area of rectangles.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} creates patterns by flipping, sliding and turning shapes.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} compares the areas of shapes by estimating first, then measuring on a square grid.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} combines shapes to make new shapes and designs.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} splits a shape into smaller shapes and describes the result.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} points to a square, triangle, circle or rectangle when asked and matches them to images.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} sorts shapes into groups.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} finds missing angles when a line crosses a pair of parallel lines.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} uses the properties of triangles and four-sided shapes to find unknown angles.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Two-Dimensional Spatial Structure",
+   "text": "{{S}} finds a missing side of a right-angled triangle.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} efficiently connects three-dimensional objects with their two-dimensional representations.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} compares and constructs three-dimensional objects such as prisms and pyramids.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} connects three-dimensional objects with their two-dimensional representations.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} connects three-dimensional objects with two-dimensional drawings and representations.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} visualises and constructs prisms and pyramids.",
+   "tag": "S3A+B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} compares basic three-dimensional objects and explains how to connect them with their two-dimensional representations.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} identifies basic three-dimensional objects and describes their features.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} describes and compares three-dimensional objects.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} names three-dimensional objects including cubes, cylinders, spheres and rectangular prisms.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} names and describes the features of common three-dimensional objects.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} participates in whole class activities to sort objects by one feature.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} experiments with filling and pouring to compare how much containers can hold.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} predicts which objects will stack and packs blocks into a given space.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} compares how much space different block models take up.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} builds shapes from connecting cubes to compare how much space they take up.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} compares how much different containers can hold using concrete materials.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} describes the features of prisms, pyramids and cylinders by building models of them.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} measures how much containers hold in litres, linking the litre to everyday containers.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} sketches objects from different views and builds models from drawings.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} orders the amounts different containers can hold that have been measured in millilitres.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} selects objects by pointing or touching as they are named.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} matches objects to given shapes.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} stacks objects such as blocks.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Three-Dimensional Spatial Structure",
+   "text": "{{S}} describes how objects made by joining prisms look from different views.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} chooses appropriate units for measuring capacity and mass.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} solves problems involving capacity and mass.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} converts between 12-hour and 24-hour time systems.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} measures weight, perimeter and area accurately.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} solves problems involving time by converting between 12-hour and 24-hour formats.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} measures mass using appropriate units.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} converts between 12- and 24-hour time.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} calculates totals with money and compares prices.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} adds amounts of money and compares prices in familiar situations.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} reads and records time using hours and minutes.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} uses scaled instruments to measure capacities in millilitres and litres.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} reads and records time using hours and minutes and uses a calendar to find the number of days to a date.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} represents money in different ways and counts collections of coins and notes in familiar situations.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} shows money values in different forms.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} lifts objects to feel which is heavier or lighter.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} reads analog and digital clocks to the hour, such as '12 o'clock'.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} uses words like 'morning' and 'afternoon' to explain the order of events in {{pos}} day.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} reads analog clocks and describes minute hand movement using appropriate 'o'clock' and 'half past' language.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} uses a calendar to name the days of the week and the months of the year.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} compares the weight of objects using a balance and everyday units.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} measures and compares the duration of events in minutes.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} estimates which objects have a mass of about one kilogram.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} compares and orders the duration of events measured in minutes.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} measures the mass of objects with scales in grams and kilograms.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} identifies whether an object is heavy or light.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} understands the order of routines.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} identifies events that happen in the daytime or at night-time.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} locates the hour hand and the minute hand on an analog clock.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} converts between kilograms, grams and tonnes.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} solves problems that involve different units of mass.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} uses start and finish times to work out how long an event lasts.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} solves time problems that use both 12- and 24-hour times.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Non-Spatial Measure",
+   "text": "{{S}} reads and draws graphs that show distance travelled over time.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} explains how data displays can sometimes be misleading.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} interprets information in tables and identifies important features of data displays.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} chooses suitable graphs and timelines to display information, and collects and organises data effectively.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} interprets data presented in tables and graphs.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} constructs and interprets data displays where each symbol or bar stands for more than one.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} interprets data from tables, graphs and charts, and explains their key features.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} interprets data from tables and column graphs.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} interprets information from tables and column graphs and finds totals in data displays.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} accurately interprets information presented in tables, column graphs and line graphs.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} interprets information from tables and column graphs, and makes comparisons between categories.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} chooses suitable graphs and timelines to display information and organises data clearly.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} reads and interprets information from tables and graphs with growing understanding.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} identifies the largest and smallest values in a data display.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} reads information from tables and explains what is shown in column graphs.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} interprets information from tables and column graphs with growing understanding.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} selects suitable graphs to display data.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} reads basic tables and column graphs with growing understanding.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} chooses appropriate graphs and data displays to represent simple information.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} organises and presents information using appropriate graphs and tables.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} takes part in class activities to collect information from classmates and ask questions about it.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} groups objects by one feature and joins in class activities to make a data display.",
+   "tag": "ES1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} organises data into a picture graph using tally marks and symbols.",
+   "tag": "S1",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} answers questions about data represented in tallies and picture graphs.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} creates column graphs and answers questions related to the information.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} creates surveys and records data using predetermined categories.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} chooses a suitable number scale to create data representations and draws graphs using both paper and digital technologies.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} answers questions about side-by-side column graphs that compare two groups.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} answers yes or no questions or chooses from options to help collect data.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} uses pictures to show collected data.",
+   "tag": "AP",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} identifies the type of data collected and chooses a graph to suit it.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} finds the average, middle value and most common value of a set of data.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Data",
+   "text": "{{S}} draws conclusions from data shown in tables and different graphs.",
+   "tag": "S4",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} describes the likelihood of events using probability language.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} describes the likelihood of outcomes in chance experiments using appropriate language.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} describes the likelihood of outcomes in chance experiments using everyday language.",
+   "tag": "S3A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} identifies likely outcomes from chance experiments.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} identifies possible outcomes of events and describes them using everyday language.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} describes outcomes in simple chance experiments.",
+   "tag": "S2A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} describes the chance of events occurring using the terms equally likely, likely and unlikely.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} identifies possible outcomes of events and describes them as more or less likely to happen.",
+   "tag": "S1B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} describes the chance of different outcomes in everyday situations.",
+   "tag": "S1A",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} predicts what might happen in simple experiments, tests it and compares the results.",
+   "tag": "S2",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} discusses whether one event changes the chance of the next one.",
+   "tag": "S2B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} explains why chance experiment results can differ from what was expected.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} uses fractions, decimals and percentages to show how likely events are.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} records results when the outcomes of an experiment are not equally likely.",
+   "tag": "S3B",
+   "skill": null
+  },
+  {
+   "subject": "maths",
+   "tab": "Chance",
+   "text": "{{S}} works out the chance that an event will not happen.",
+   "tag": "S4",
+   "skill": null
+  }
+ ],
+ "englishCats": [
+  "Introduction",
+  "Below Expectations",
+  "Oral Language & Communication",
+  "Reading Comprehension",
+  "Understanding and Responding to Literature",
+  "Creating Written Texts",
+  "Vocabulary",
+  "Spelling & Grammar",
+  "Handwriting & Digital Transcription",
+  "Future Directions"
+ ],
+ "mathsCats": [
+  "Introduction",
+  "Below Expectations",
+  "Represents Numbers",
+  "Additive Relations",
+  "Multiplicative Relations",
+  "Representing Quantity Fractions",
+  "Geometric Measure",
+  "Two-Dimensional Spatial Structure",
+  "Three-Dimensional Spatial Structure",
+  "Non-Spatial Measure",
+  "Data",
+  "Chance",
+  "Future Directions"
+ ],
+ "yearRules": {
+  "1|M|1|A": [
+   "S3B",
+   "S4",
+   "S2B",
+   "S3A",
+   "S2A"
+  ],
+  "1|M|1|B": [
+   "S1B",
+   "S1A"
+  ],
+  "1|M|1|C": [
+   "S1A",
+   "ES1"
+  ],
+  "1|M|1|D": [
+   "ES1"
+  ],
+  "1|M|1|E": [
+   "AP"
+  ],
+  "1|M|2|A": [
+   "S2B",
+   "S3A",
+   "S3B",
+   "S4"
+  ],
+  "1|M|2|B": [
+   "S2A",
+   "S2B"
+  ],
+  "1|M|2|C": [
+   "S1B",
+   "S1A"
+  ],
+  "1|M|2|D": [
+   "S1A"
+  ],
+  "1|M|2|E": [
+   "AP",
+   "ES1"
+  ],
+  "1|M|3|A": [
+   "S3B",
+   "S4",
+   "S3A"
+  ],
+  "1|M|3|B": [
+   "S2B",
+   "S2A"
+  ],
+  "1|M|3|C": [
+   "S2A",
+   "S1B"
+  ],
+  "1|M|3|D": [
+   "S1B"
+  ],
+  "1|M|3|E": [
+   "ES1",
+   "AP"
+  ],
+  "1|M|4|A": [
+   "S3B",
+   "S4"
+  ],
+  "1|M|4|B": [
+   "S3A",
+   "S2B"
+  ],
+  "1|M|4|C": [
+   "S2B",
+   "S2A"
+  ],
+  "1|M|4|D": [
+   "S2A"
+  ],
+  "1|M|4|E": [
+   "ES1",
+   "S1A",
+   "S1B",
+   "AP"
+  ],
+  "1|M|5|A": [
+   "S4"
+  ],
+  "1|M|5|B": [
+   "S3B",
+   "S3A"
+  ],
+  "1|M|5|C": [
+   "S3A",
+   "S2B"
+  ],
+  "1|M|5|D": [
+   "S2B"
+  ],
+  "1|M|5|E": [
+   "ES1",
+   "S1A",
+   "S1B",
+   "AP",
+   "S2A"
+  ],
+  "1|M|6|A": [
+   "S4"
+  ],
+  "1|M|6|B": [
+   "S3B"
+  ],
+  "1|M|6|C": [
+   "S3B",
+   "S3A"
+  ],
+  "1|M|6|D": [
+   "S3A"
+  ],
+  "1|M|6|E": [
+   "ES1",
+   "S1A",
+   "S1B",
+   "S2A",
+   "AP"
+  ],
+  "1|M|K|A": [
+   "S1B",
+   "S2A",
+   "S2B",
+   "S3A",
+   "S3B",
+   "S4"
+  ],
+  "1|M|K|B": [
+   "ES1",
+   "S1A"
+  ],
+  "1|M|K|C": [
+   "ES1"
+  ],
+  "1|M|K|D": [
+   "AP"
+  ],
+  "1|M|K|E": [
+   "AP"
+  ],
+  "1|E|1|A": [
+   "S2",
+   "S4",
+   "S3"
+  ],
+  "1|E|1|B": [
+   "S1"
+  ],
+  "1|E|1|C": [
+   "S1",
+   "ES1"
+  ],
+  "1|E|1|D": [
+   "ES1"
+  ],
+  "1|E|1|E": [
+   "AP"
+  ],
+  "1|E|2|A": [
+   "S2",
+   "S3",
+   "S4"
+  ],
+  "1|E|2|B": [
+   "S1",
+   "S2"
+  ],
+  "1|E|2|C": [
+   "S1"
+  ],
+  "1|E|2|D": [
+   "S1"
+  ],
+  "1|E|2|E": [
+   "AP",
+   "ES1"
+  ],
+  "1|E|3|A": [
+   "S3",
+   "S4"
+  ],
+  "1|E|3|B": [
+   "S2"
+  ],
+  "1|E|3|C": [
+   "S2",
+   "S1"
+  ],
+  "1|E|3|D": [
+   "S1"
+  ],
+  "1|E|3|E": [
+   "AP",
+   "ES1"
+  ],
+  "1|E|4|A": [
+   "S3",
+   "S4"
+  ],
+  "1|E|4|B": [
+   "S2",
+   "S3"
+  ],
+  "1|E|4|C": [
+   "S2"
+  ],
+  "1|E|4|D": [
+   "S2"
+  ],
+  "1|E|4|E": [
+   "S1",
+   "ES1",
+   "AP"
+  ],
+  "1|E|5|A": [
+   "S3",
+   "S4"
+  ],
+  "1|E|5|B": [
+   "S3"
+  ],
+  "1|E|5|C": [
+   "S3",
+   "S2"
+  ],
+  "1|E|5|D": [
+   "S2"
+  ],
+  "1|E|5|E": [
+   "S1",
+   "S2",
+   "ES1",
+   "AP"
+  ],
+  "1|E|6|A": [
+   "S4"
+  ],
+  "1|E|6|B": [
+   "S3",
+   "S4"
+  ],
+  "1|E|6|C": [
+   "S3"
+  ],
+  "1|E|6|D": [
+   "S3"
+  ],
+  "1|E|6|E": [
+   "S2",
+   "ES1",
+   "S1",
+   "AP"
+  ],
+  "1|E|K|A": [
+   "S2",
+   "S3",
+   "S4"
+  ],
+  "1|E|K|B": [
+   "S1"
+  ],
+  "1|E|K|C": [
+   "ES1"
+  ],
+  "1|E|K|D": [
+   "AP"
+  ],
+  "1|E|K|E": [
+   "AP"
+  ],
+  "2|M|1|A": [
+   "S2B",
+   "S3A",
+   "S3B",
+   "S4",
+   "S2A"
+  ],
+  "2|M|1|B": [
+   "S1B"
+  ],
+  "2|M|1|C": [
+   "S1A"
+  ],
+  "2|M|1|D": [
+   "ES1"
+  ],
+  "2|M|1|E": [
+   "AP"
+  ],
+  "2|M|2|A": [
+   "S2B",
+   "S3A",
+   "S3B",
+   "S4"
+  ],
+  "2|M|2|B": [
+   "S2A"
+  ],
+  "2|M|2|C": [
+   "S1B"
+  ],
+  "2|M|2|D": [
+   "S1A"
+  ],
+  "2|M|2|E": [
+   "AP",
+   "ES1"
+  ],
+  "2|M|3|A": [
+   "S3B",
+   "S4",
+   "S3A"
+  ],
+  "2|M|3|B": [
+   "S2B"
+  ],
+  "2|M|3|C": [
+   "S2A"
+  ],
+  "2|M|3|D": [
+   "S1B"
+  ],
+  "2|M|3|E": [
+   "AP",
+   "ES1",
+   "S1A",
+   "S1B"
+  ],
+  "2|M|4|A": [
+   "S3B",
+   "S4"
+  ],
+  "2|M|4|B": [
+   "S3A"
+  ],
+  "2|M|4|C": [
+   "S2B"
+  ],
+  "2|M|4|D": [
+   "S2A"
+  ],
+  "2|M|4|E": [
+   "ES1",
+   "AP",
+   "S1B",
+   "S1A"
+  ],
+  "2|M|5|A": [
+   "S4"
+  ],
+  "2|M|5|B": [
+   "S3B"
+  ],
+  "2|M|5|C": [
+   "S3A"
+  ],
+  "2|M|5|D": [
+   "S2B"
+  ],
+  "2|M|5|E": [
+   "ES1",
+   "S1A",
+   "AP",
+   "S1B",
+   "S2A"
+  ],
+  "2|M|6|A": [
+   "S4"
+  ],
+  "2|M|6|C": [
+   "S3B"
+  ],
+  "2|M|6|D": [
+   "S3A"
+  ],
+  "2|M|6|E": [
+   "ES1",
+   "S1A",
+   "S1B",
+   "AP",
+   "S2A",
+   "S2B"
+  ],
+  "2|M|K|A": [
+   "S1B",
+   "S2A",
+   "S2B",
+   "S3A",
+   "S4",
+   "S3B"
+  ],
+  "2|M|K|B": [
+   "S1A"
+  ],
+  "2|M|K|C": [
+   "ES1"
+  ],
+  "2|M|K|D": [
+   "AP"
+  ],
+  "2|M|K|E": [
+   "AP"
+  ],
+  "2|E|1|A": [
+   "S2",
+   "S3",
+   "S4"
+  ],
+  "2|E|1|B": [
+   "S1"
+  ],
+  "2|E|1|C": [
+   "S1"
+  ],
+  "2|E|1|D": [
+   "ES1"
+  ],
+  "2|E|1|E": [
+   "AP"
+  ],
+  "2|E|2|A": [
+   "S2",
+   "S3",
+   "S4"
+  ],
+  "2|E|2|B": [
+   "S2"
+  ],
+  "2|E|2|C": [
+   "S1"
+  ],
+  "2|E|2|D": [
+   "S1"
+  ],
+  "2|E|2|E": [
+   "AP",
+   "ES1"
+  ],
+  "2|E|3|A": [
+   "S3",
+   "S4"
+  ],
+  "2|E|3|B": [
+   "S2"
+  ],
+  "2|E|3|C": [
+   "S2"
+  ],
+  "2|E|3|D": [
+   "S1"
+  ],
+  "2|E|3|E": [
+   "AP",
+   "ES1",
+   "S1"
+  ],
+  "2|E|4|A": [
+   "S4",
+   "S3"
+  ],
+  "2|E|4|B": [
+   "S3"
+  ],
+  "2|E|4|C": [
+   "S2"
+  ],
+  "2|E|4|D": [
+   "S2"
+  ],
+  "2|E|4|E": [
+   "ES1",
+   "AP",
+   "S1"
+  ],
+  "2|E|5|A": [
+   "S4"
+  ],
+  "2|E|5|B": [
+   "S3"
+  ],
+  "2|E|5|C": [
+   "S3"
+  ],
+  "2|E|5|D": [
+   "S2"
+  ],
+  "2|E|5|E": [
+   "ES1",
+   "AP",
+   "S1",
+   "S2"
+  ],
+  "2|E|6|A": [
+   "S4"
+  ],
+  "2|E|6|B": [
+   "S4"
+  ],
+  "2|E|6|C": [
+   "S3"
+  ],
+  "2|E|6|D": [
+   "S3"
+  ],
+  "2|E|6|E": [
+   "ES1",
+   "S1",
+   "AP",
+   "S2"
+  ],
+  "2|E|K|A": [
+   "S1",
+   "S2",
+   "S3",
+   "S4"
+  ],
+  "2|E|K|B": [
+   "S1"
+  ],
+  "2|E|K|C": [
+   "ES1"
+  ],
+  "2|E|K|D": [
+   "AP"
+  ],
+  "2|E|K|E": [
+   "AP"
+  ],
+  "2|M|6|B": [
+   "S4"
+  ]
+ }
+}

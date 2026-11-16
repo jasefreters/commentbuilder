@@ -1,0 +1,458 @@
+[
+ {
+  "id": "WAM-PP-understanding-number-0",
+  "code": null,
+  "year": 0,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding number",
+  "text": "Count and order numbers to 20; subitise, partition and compare small collections; explore grouping, sharing and halves"
+ },
+ {
+  "id": "WAM-1-understanding-number-1",
+  "code": null,
+  "year": 1,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding number",
+  "text": "Read, write and order numbers to 120; skip count by twos, fives and tens; partition collections into groups of ten; part-part-whole"
+ },
+ {
+  "id": "WAM-2-understanding-number-2",
+  "code": null,
+  "year": 2,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding number",
+  "text": "Read, write and order numbers to at least 1020; partition two- and three-digit numbers; skip count by twos, threes, fives and tens; halves, quarters and eighths"
+ },
+ {
+  "id": "WAM-3-understanding-number-3",
+  "code": null,
+  "year": 3,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding number",
+  "text": "Read, write and order numbers to at least four digits; use place value to partition; read decimals to two places; represent unit and common fractions"
+ },
+ {
+  "id": "WAM-4-understanding-number-4",
+  "code": null,
+  "year": 4,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding number",
+  "text": "Read, write and order numbers to six digits; odd and even numbers; place value and percentages; multiplication, division and factors through arrays"
+ },
+ {
+  "id": "WAM-5-understanding-number-5",
+  "code": null,
+  "year": 5,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding number",
+  "text": "Read and order seven-digit numbers; integers on number lines; place value with decimals; percentages, fractions and decimals"
+ },
+ {
+  "id": "WAM-6-understanding-number-6",
+  "code": null,
+  "year": 6,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding number",
+  "text": "Explain multiplicative place value including decimals; order integers and fractions; prime, composite and square numbers; fractions and percentages"
+ },
+ {
+  "id": "WAM-1-understanding-equalities-and-inequalities-7",
+  "code": null,
+  "year": 1,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding equalities and inequalities",
+  "text": "Use the equality symbol to show both sides of an addition or subtraction sentence have the same value"
+ },
+ {
+  "id": "WAM-2-understanding-equalities-and-inequalities-8",
+  "code": null,
+  "year": 2,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding equalities and inequalities",
+  "text": "Create and judge whether addition and subtraction sentences using the equality symbol are true"
+ },
+ {
+  "id": "WAM-3-understanding-equalities-and-inequalities-9",
+  "code": null,
+  "year": 3,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding equalities and inequalities",
+  "text": "Use greater than, less than and equality symbols to compare whole numbers and simple addition and subtraction statements"
+ },
+ {
+  "id": "WAM-4-understanding-equalities-and-inequalities-10",
+  "code": null,
+  "year": 4,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding equalities and inequalities",
+  "text": "Decide whether equality and inequality statements using all four operations are true and explain, sometimes without calculating"
+ },
+ {
+  "id": "WAM-5-understanding-equalities-and-inequalities-11",
+  "code": null,
+  "year": 5,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding equalities and inequalities",
+  "text": "Complete and check equality and inequality statements with all four operations, brackets and order of operations"
+ },
+ {
+  "id": "WAM-6-understanding-equalities-and-inequalities-12",
+  "code": null,
+  "year": 6,
+  "strand": "Number and algebra",
+  "subStrand": "Understanding equalities and inequalities",
+  "text": "Complete, check and construct equality and inequality statements with brackets and order of operations and explain the reasoning"
+ },
+ {
+  "id": "WAM-PP-patterns-and-relationships-13",
+  "code": null,
+  "year": 0,
+  "strand": "Number and algebra",
+  "subStrand": "Patterns and relationships",
+  "text": "Copy and continue repeating patterns in everyday settings using materials, sounds and movement and predict what comes next"
+ },
+ {
+  "id": "WAM-1-patterns-and-relationships-14",
+  "code": null,
+  "year": 1,
+  "strand": "Number and algebra",
+  "subStrand": "Patterns and relationships",
+  "text": "Continue and create repeating patterns, label the repeating unit, link patterns to everyday sequences"
+ },
+ {
+  "id": "WAM-2-patterns-and-relationships-15",
+  "code": null,
+  "year": 2,
+  "strand": "Number and algebra",
+  "subStrand": "Patterns and relationships",
+  "text": "Recognise and continue increasing or decreasing additive patterns with collections and numbers and identify missing elements"
+ },
+ {
+  "id": "WAM-3-patterns-and-relationships-16",
+  "code": null,
+  "year": 3,
+  "strand": "Number and algebra",
+  "subStrand": "Patterns and relationships",
+  "text": "Create and represent increasing or decreasing additive patterns from any starting point and describe rules"
+ },
+ {
+  "id": "WAM-4-patterns-and-relationships-17",
+  "code": null,
+  "year": 4,
+  "strand": "Number and algebra",
+  "subStrand": "Patterns and relationships",
+  "text": "Create and represent increasing multiplicative patterns with materials and numbers and describe the rules"
+ },
+ {
+  "id": "WAM-5-patterns-and-relationships-18",
+  "code": null,
+  "year": 5,
+  "strand": "Number and algebra",
+  "subStrand": "Patterns and relationships",
+  "text": "Follow rules to create additive and multiplicative patterns and use the rules to predict unknown values"
+ },
+ {
+  "id": "WAM-6-patterns-and-relationships-19",
+  "code": null,
+  "year": 6,
+  "strand": "Number and algebra",
+  "subStrand": "Patterns and relationships",
+  "text": "Create and represent increasing or decreasing patterns and use words to generalise rules linking each element to its position"
+ },
+ {
+  "id": "WAM-PP-calculating-with-number-20",
+  "code": null,
+  "year": 0,
+  "strand": "Number and algebra",
+  "subStrand": "Calculating with number",
+  "text": "Add and subtract quantities to 20 and beyond by counting on and back, partitioning and part-part-whole knowledge"
+ },
+ {
+  "id": "WAM-1-calculating-with-number-21",
+  "code": null,
+  "year": 1,
+  "strand": "Number and algebra",
+  "subStrand": "Calculating with number",
+  "text": "Use non-count-by-one strategies such as doubles, near doubles, bridging to 10 and jump counting to add and subtract within 20"
+ },
+ {
+  "id": "WAM-2-calculating-with-number-22",
+  "code": null,
+  "year": 2,
+  "strand": "Number and algebra",
+  "subStrand": "Calculating with number",
+  "text": "Add and subtract one- and two-digit numbers using partitioning, rearranging, bridging to 10 and number-line jumps"
+ },
+ {
+  "id": "WAM-3-calculating-with-number-23",
+  "code": null,
+  "year": 3,
+  "strand": "Number and algebra",
+  "subStrand": "Calculating with number",
+  "text": "Add and subtract two- and three-digit numbers using partitioning, rearranging, number lines, bar models and part-part-whole models"
+ },
+ {
+  "id": "WAM-4-calculating-with-number-24",
+  "code": null,
+  "year": 4,
+  "strand": "Number and algebra",
+  "subStrand": "Calculating with number",
+  "text": "Add and subtract whole numbers up to four digits and fractions with the same denominator using flexible strategies"
+ },
+ {
+  "id": "WAM-5-calculating-with-number-25",
+  "code": null,
+  "year": 5,
+  "strand": "Number and algebra",
+  "subStrand": "Calculating with number",
+  "text": "Add and subtract any whole numbers and fractions with related denominators; multiply and divide whole numbers using efficient strategies"
+ },
+ {
+  "id": "WAM-6-calculating-with-number-26",
+  "code": null,
+  "year": 6,
+  "strand": "Number and algebra",
+  "subStrand": "Calculating with number",
+  "text": "Choose efficient strategies for all four operations with whole numbers, decimals and fractions, apply order of operations, use estimation to check"
+ },
+ {
+  "id": "WAM-PP-financial-mathematics-27",
+  "code": null,
+  "year": 0,
+  "strand": "Number and algebra",
+  "subStrand": "Financial mathematics",
+  "text": "Explore making purchases with coins, notes and debit cards using the language of dollars and cents in role-play"
+ },
+ {
+  "id": "WAM-1-financial-mathematics-28",
+  "code": null,
+  "year": 1,
+  "strand": "Number and algebra",
+  "subStrand": "Financial mathematics",
+  "text": "Identify and arrange Australian coins and notes by value; role-play transactions involving sufficient money and change"
+ },
+ {
+  "id": "WAM-2-financial-mathematics-29",
+  "code": null,
+  "year": 2,
+  "strand": "Number and algebra",
+  "subStrand": "Financial mathematics",
+  "text": "Describe the relationship between dollars and cents; discuss saving and donating; compare prices of familiar items"
+ },
+ {
+  "id": "WAM-3-financial-mathematics-30",
+  "code": null,
+  "year": 3,
+  "strand": "Number and algebra",
+  "subStrand": "Financial mathematics",
+  "text": "Investigate financial transactions, equivalent values using different coins and notes, and calculating change"
+ },
+ {
+  "id": "WAM-4-financial-mathematics-31",
+  "code": null,
+  "year": 4,
+  "strand": "Number and algebra",
+  "subStrand": "Financial mathematics",
+  "text": "Explore saving and spending when money is limited; compare savings over different time periods; influences on spending"
+ },
+ {
+  "id": "WAM-5-financial-mathematics-32",
+  "code": null,
+  "year": 5,
+  "strand": "Number and algebra",
+  "subStrand": "Financial mathematics",
+  "text": "Identify features of budgets and create a simple budget, comparing total costs, costs per person and prices"
+ },
+ {
+  "id": "WAM-6-financial-mathematics-33",
+  "code": null,
+  "year": 6,
+  "strand": "Number and algebra",
+  "subStrand": "Financial mathematics",
+  "text": "Create a savings plan for a goal; predict expenses; check receipts and discounts; explain how banks pay interest"
+ },
+ {
+  "id": "WAM-PP-modelling-with-number-34",
+  "code": null,
+  "year": 0,
+  "strand": "Number and algebra",
+  "subStrand": "Modelling with number",
+  "text": "Role-play and use materials to represent adding, removing, grouping and sharing small collections from simple stories"
+ },
+ {
+  "id": "WAM-1-modelling-with-number-35",
+  "code": null,
+  "year": 1,
+  "strand": "Number and algebra",
+  "subStrand": "Modelling with number",
+  "text": "Represent real-world adding, taking away, sharing and equal grouping situations and describe answers in context"
+ },
+ {
+  "id": "WAM-2-modelling-with-number-36",
+  "code": null,
+  "year": 2,
+  "strand": "Number and algebra",
+  "subStrand": "Modelling with number",
+  "text": "Represent real-world addition, subtraction, simple multiplication and division situations with labelled objects or diagrams and interpret answers"
+ },
+ {
+  "id": "WAM-3-modelling-with-number-37",
+  "code": null,
+  "year": 3,
+  "strand": "Number and algebra",
+  "subStrand": "Modelling with number",
+  "text": "Represent real-world additive and multiplicative situations using part-part-whole models and arrays; write and interpret number sentences"
+ },
+ {
+  "id": "WAM-4-modelling-with-number-38",
+  "code": null,
+  "year": 4,
+  "strand": "Number and algebra",
+  "subStrand": "Modelling with number",
+  "text": "Represent real-world additive and multiplicative situations with diagrams and equations, solve efficiently and interpret results"
+ },
+ {
+  "id": "WAM-5-modelling-with-number-39",
+  "code": null,
+  "year": 5,
+  "strand": "Number and algebra",
+  "subStrand": "Modelling with number",
+  "text": "Identify and represent real-world additive and multiplicative situations with equations and diagrams, interpret and communicate findings"
+ },
+ {
+  "id": "WAM-6-modelling-with-number-40",
+  "code": null,
+  "year": 6,
+  "strand": "Number and algebra",
+  "subStrand": "Modelling with number",
+  "text": "Analyse multistep real-world situations with whole numbers, order of operations and fractions, represent with equations and justify decisions"
+ },
+ {
+  "id": "WAM-3-non-spatial-measurement-41",
+  "code": null,
+  "year": 3,
+  "strand": "Measurement and geometry",
+  "subStrand": "Non-spatial measurement",
+  "text": "Compare everyday objects with benchmark masses and tell time to the minute on analogue and digital clocks"
+ },
+ {
+  "id": "WAM-4-non-spatial-measurement-42",
+  "code": null,
+  "year": 4,
+  "strand": "Measurement and geometry",
+  "subStrand": "Non-spatial measurement",
+  "text": "Estimate and measure mass in grams and kilograms; convert between units of time and durations"
+ },
+ {
+  "id": "WAM-5-non-spatial-measurement-43",
+  "code": null,
+  "year": 5,
+  "strand": "Measurement and geometry",
+  "subStrand": "Non-spatial measurement",
+  "text": "Choose suitable units and devices for mass, read digital scales with decimals, use 12- and 24-hour time"
+ },
+ {
+  "id": "WAM-6-non-spatial-measurement-44",
+  "code": null,
+  "year": 6,
+  "strand": "Measurement and geometry",
+  "subStrand": "Non-spatial measurement",
+  "text": "Link decimal and whole-number mass values; use timetables and itineraries to work out durations"
+ },
+ {
+  "id": "WAM-3-modelling-with-measurement-and-geometry-45",
+  "code": null,
+  "year": 3,
+  "strand": "Measurement and geometry",
+  "subStrand": "Modelling with measurement and geometry",
+  "text": "Solve real-world problems with length, capacity, mass, grid maps and time conversions and explain findings"
+ },
+ {
+  "id": "WAM-4-modelling-with-measurement-and-geometry-46",
+  "code": null,
+  "year": 4,
+  "strand": "Measurement and geometry",
+  "subStrand": "Modelling with measurement and geometry",
+  "text": "Solve real-world problems involving shapes, nets, grid references, area, volume and time and explain results"
+ },
+ {
+  "id": "WAM-5-modelling-with-measurement-and-geometry-47",
+  "code": null,
+  "year": 5,
+  "strand": "Measurement and geometry",
+  "subStrand": "Modelling with measurement and geometry",
+  "text": "Solve real-world problems with transformations, prisms, pyramids, metric measures and durations and justify decisions"
+ },
+ {
+  "id": "WAM-6-modelling-with-measurement-and-geometry-48",
+  "code": null,
+  "year": 6,
+  "strand": "Measurement and geometry",
+  "subStrand": "Modelling with measurement and geometry",
+  "text": "Plan real-world tasks such as trips or designs using maps, timetables and metric measures and justify choices"
+ },
+ {
+  "id": "WAM-3-probability-49",
+  "code": null,
+  "year": 3,
+  "strand": "Probability and statistics",
+  "subStrand": "Probability",
+  "text": "Use chance words such as likely and impossible and list all possible outcomes of simple everyday events"
+ },
+ {
+  "id": "WAM-4-probability-50",
+  "code": null,
+  "year": 4,
+  "strand": "Probability and statistics",
+  "subStrand": "Probability",
+  "text": "Order everyday chance events from least to most likely; recognise past results do not change later outcomes"
+ },
+ {
+  "id": "WAM-5-probability-51",
+  "code": null,
+  "year": 5,
+  "strand": "Probability and statistics",
+  "subStrand": "Probability",
+  "text": "Sort chance events into equally likely and unequally likely groups"
+ },
+ {
+  "id": "WAM-6-probability-52",
+  "code": null,
+  "year": 6,
+  "strand": "Probability and statistics",
+  "subStrand": "Probability",
+  "text": "Place chance events on a 0 to 1 scale; run repeated experiments and simulations to see results approach predictions"
+ },
+ {
+  "id": "WAM-3-statistics-53",
+  "code": null,
+  "year": 3,
+  "strand": "Probability and statistics",
+  "subStrand": "Statistics",
+  "text": "Read and interpret dot plots and column graphs with scale intervals of one using real-life data"
+ },
+ {
+  "id": "WAM-4-statistics-54",
+  "code": null,
+  "year": 4,
+  "strand": "Probability and statistics",
+  "subStrand": "Statistics",
+  "text": "Read and interpret many-to-one pictographs and column graphs and discuss benefits and challenges"
+ },
+ {
+  "id": "WAM-5-statistics-55",
+  "code": null,
+  "year": 5,
+  "strand": "Probability and statistics",
+  "subStrand": "Statistics",
+  "text": "Pose and refine questions, collect categorical or numerical data and display it in dot plots, tables or graphs"
+ },
+ {
+  "id": "WAM-6-statistics-56",
+  "code": null,
+  "year": 6,
+  "strand": "Probability and statistics",
+  "subStrand": "Statistics",
+  "text": "Read line graphs and side-by-side column graphs using mode, range and shape; judge how displays can influence audiences"
+ }
+]

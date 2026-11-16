@@ -1,0 +1,1494 @@
+{
+ "cur": "ac9",
+ "subject": "maths",
+ "subStrand": "Number",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9MFN01",
+   "year": "F",
+   "text": "Name, represent and order numbers including zero to at least 20"
+  },
+  {
+   "id": "AC9MFN02",
+   "year": "F",
+   "text": "Recognise and name the number of objects in a collection up to 5 by subitising"
+  },
+  {
+   "id": "AC9MFN03",
+   "year": "F",
+   "text": "Quantify and compare collections to at least 20 by counting, with reasoning"
+  },
+  {
+   "id": "AC9MFN04",
+   "year": "F",
+   "text": "Partition and combine collections up to 10 using part-part-whole relationships"
+  },
+  {
+   "id": "AC9MFN05",
+   "year": "F",
+   "text": "Represent practical addition, subtraction and quantification situations; use counting or subitising"
+  },
+  {
+   "id": "AC9MFN06",
+   "year": "F",
+   "text": "Represent practical equal sharing and grouping situations; use counting or subitising"
+  },
+  {
+   "id": "AC9M1N01",
+   "year": "1",
+   "text": "Recognise, represent and order numbers to at least 120"
+  },
+  {
+   "id": "AC9M1N02",
+   "year": "1",
+   "text": "Partition one- and two-digit numbers in different ways, including into tens and ones"
+  },
+  {
+   "id": "AC9M1N03",
+   "year": "1",
+   "text": "Quantify sets to at least 120 by partitioning into equal groups and skip counting"
+  },
+  {
+   "id": "AC9M1N04",
+   "year": "1",
+   "text": "Add and subtract numbers within 20 using part-part-whole knowledge and strategies"
+  },
+  {
+   "id": "AC9M1N05",
+   "year": "1",
+   "text": "Model practical additive problems, including simple money transactions, and solve them"
+  },
+  {
+   "id": "AC9M1N06",
+   "year": "1",
+   "text": "Model practical equal sharing and grouping problems and solve them"
+  },
+  {
+   "id": "AC9M2N01",
+   "year": "2",
+   "text": "Recognise, represent and order numbers to at least 1000"
+  },
+  {
+   "id": "AC9M2N02",
+   "year": "2",
+   "text": "Partition, rearrange and regroup two- and three-digit numbers; recognise the role of zero in place value"
+  },
+  {
+   "id": "AC9M2N03",
+   "year": "2",
+   "text": "Recognise one-half as one of 2 equal parts; connect halves, quarters and eighths by repeated halving"
+  },
+  {
+   "id": "AC9M2N04",
+   "year": "2",
+   "text": "Add and subtract one- and two-digit numbers using number sentences and part-part-whole reasoning"
+  },
+  {
+   "id": "AC9M2N05",
+   "year": "2",
+   "text": "Multiply and divide by one-digit numbers using repeated addition, equal grouping, arrays and partitioning"
+  },
+  {
+   "id": "AC9M2N06",
+   "year": "2",
+   "text": "Model practical additive and multiplicative problems, including money, and interpret the solutions"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} reads and represents numbers using place value knowledge.",
+   "tab": "Represents Numbers",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads, writes, and interprets numbers in a variety of ways.",
+   "tab": "Represents Numbers",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} works with whole numbers and applies place value to solve problems.",
+   "tab": "Represents Numbers",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} rounds numbers to estimate results and records numbers in different ways.",
+   "tab": "Represents Numbers",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is learning to read and represent numbers in different ways and can order numbers up to four digits.",
+   "tab": "Represents Numbers",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} separates numbers into groups of tens and ones.",
+   "tab": "Represents Numbers",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} counts objects carefully to find the total when solving mathematical problems with the class.",
+   "tab": "Represents Numbers",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} represents numbers using drawings, words and numerals.",
+   "tab": "Represents Numbers",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} immediately recognises the number of objects in a small collection.",
+   "tab": "Represents Numbers",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} counts forwards and backwards from 40.",
+   "tab": "Represents Numbers",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} knows one more and one less of numbers up to 100.",
+   "tab": "Represents Numbers",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} counts forwards from any given number up to 120.",
+   "tab": "Represents Numbers",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads, writes and orders three-digit numbers.",
+   "tab": "Represents Numbers",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} states what each digit is worth in a three-digit number.",
+   "tab": "Represents Numbers",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies the number before and after a given three-digit number.",
+   "tab": "Represents Numbers",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} understands that one thousand is made up of ten hundreds and represents numbers using words and drawings.",
+   "tab": "Represents Numbers",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} arranges numbers of up to six digits from lowest to highest.",
+   "tab": "Represents Numbers",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises different finger patterns for the same number.",
+   "tab": "Represents Numbers",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects numerals using eye contact, gestures or touch.",
+   "tab": "Represents Numbers",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} says number words in order and points to or touches objects as {{s}} counts.",
+   "tab": "Represents Numbers",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses known number facts and basic strategies to solve addition and subtraction problems.",
+   "tab": "Additive Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} solves subtraction with three-digit numbers.",
+   "tab": "Additive Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} adds two small groups of counters to solve mathematical problems.",
+   "tab": "Additive Relations",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} shows different ways to make numbers up to ten using counters, such as '4 and 3 makes 7'.",
+   "tab": "Additive Relations",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} knows some combinations of numbers up to 10, such as '3 and 3 makes 6', and draws pictures to show {{pos}} thinking.",
+   "tab": "Additive Relations",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} solves simple addition problems by doubling, such as '6 and 6 makes 12'.",
+   "tab": "Additive Relations",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses taught strategies to solve addition and subtraction problems with combinations up to 20.",
+   "tab": "Additive Relations",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses concrete materials to model addition and subtraction problems involving two-digit numbers.",
+   "tab": "Additive Relations",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses the equals sign to show when two number sentences have the same total.",
+   "tab": "Additive Relations",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls related addition and subtraction facts for numbers to at least 20.",
+   "tab": "Additive Relations",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} solves addition and subtraction problems by separating numbers into their place value.",
+   "tab": "Additive Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} solves addition and subtraction problems using appropriate mental strategies.",
+   "tab": "Additive Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses estimation to decide whether an answer is reasonable.",
+   "tab": "Additive Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} combines and separates groups of items.",
+   "tab": "Additive Relations",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} counts across two small groups to find a total.",
+   "tab": "Additive Relations",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates number patterns using known multiplication facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} generates number patterns using times tables.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls some multiplication facts and uses them to support calculations.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} counts by twos, threes and fives to recognise simple division and creates equal groups to show multiplication.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses visual representations to find multiplication facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses strategies to solve simple division problems.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates and continues patterns by lining up objects according to their colour or shape.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} records how objects were shared using drawings, words and numbers.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} models and describes collections of objects as 'groups of', such as two groups of three.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} organises objects into equal rows and columns as part of {{pos}} multiplication knowledge.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that multiplication and division are opposites and uses one to solve the other.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that doubling a number gives the same answer as multiplying by 2.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} copies a continuing pattern.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} points to or touches objects as they are shared into smaller equal groups.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies the number of objects in a group.",
+   "tab": "Multiplicative Relations",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} works with fractions and decimals with growing accuracy.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises and represents fractions of a length and records numbers in different forms.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises fractions and decimals and applies them in simple problems.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises simple fractions such as halves and quarters and records numbers as decimals.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} converts simple fractions to decimals.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} represents fractions with halves, quarters and thirds.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S2A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} accurately represents fractions on a number line.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes tenths and hundredths as decimal numbers.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S2B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} represents common fractions using models and number lines.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises and names simple fractions such as halves and quarters.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is learning to recognise, name and represent simple fractions.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S1A",
+   "skill": null
+  },
+  {
+   "text": "{{S}} models halves, quarters, and eighths of a collection using counters.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} divides objects into equal halves, quarters and eighths to represent fractions.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S1B",
+   "skill": null
+  },
+  {
+   "text": "{{S}} shows that different fractions can represent the same amount.",
+   "tab": "Representing Quantity Fractions",
+   "stageTag": "S2B",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} represents numbers using drawings, words and numerals.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} says number names in order to 20 and matches each name to a numeral.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} immediately recognises the number of objects in a small collection.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises small groups of up to five objects without counting them one by one.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} counts objects carefully to find the total when solving mathematical problems with the class.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} counts collections of up to 20 objects and says which group has more.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} shows different ways to make numbers up to ten using counters, such as '4 and 3 makes 7'.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} knows some combinations of numbers up to 10, such as '3 and 3 makes 6', and draws pictures to show {{pos}} thinking.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} adds two small groups of counters to solve mathematical problems.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} acts out simple story problems by joining and separating groups of objects.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} records how objects were shared using drawings, words and numbers.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} shares objects equally between friends and explains how {{s}} knows each has the same.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9MFN06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads and represents numbers using place value knowledge.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N01",
+    "AC9M1N02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} separates numbers into groups of tens and ones.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} counts forwards and backwards from 40.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} knows one more and one less of numbers up to 100.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} counts forwards from any given number up to 120.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} models and describes collections of objects as 'groups of', such as two groups of three.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} counts groups of objects by twos, fives and tens to find the total.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} solves simple addition problems by doubling, such as '6 and 6 makes 12'.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses taught strategies to solve addition and subtraction problems with combinations up to 20.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} solves story problems that involve adding or taking away and uses coins to pay for small items.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how {{s}} found the answer to an addition story problem using objects or drawings.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} shares a collection into equal groups to solve practical problems and explains {{pos}} thinking.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} makes equal groups of objects and says how many are in each group.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9M1N06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads, writes, and interprets numbers in a variety of ways.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads, writes and orders three-digit numbers.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies the number before and after a given three-digit number.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} works with whole numbers and applies place value to solve problems.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} states what each digit is worth in a three-digit number.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises and names simple fractions such as halves and quarters.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} is learning to recognise, name and represent simple fractions.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} models halves, quarters, and eighths of a collection using counters.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} divides objects into equal halves, quarters and eighths to represent fractions.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses concrete materials to model addition and subtraction problems involving two-digit numbers.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": "two-digit numbers belong to Year 2, not Year 1 (Year 1 stays within 20)"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} adds and subtracts one- and two-digit numbers and writes a number sentence to match the problem.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} counts by twos, threes and fives to recognise simple division and creates equal groups to show multiplication.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses visual representations to find multiplication facts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses strategies to solve simple division problems.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} organises objects into equal rows and columns as part of {{pos}} multiplication knowledge.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} chooses addition, subtraction, equal groups or sharing to solve practical problems and checks that the answer makes sense.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} solves money problems by adding amounts and working out change from small purchases.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9M2N06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses the equals sign to show when two number sentences have the same total.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Equals sign and equivalence is Algebra; handled in the Algebra batch"
+  },
+  {
+   "text": "{{S}} recalls related addition and subtraction facts for numbers to at least 20.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Fact recall is Algebra (AC9M2A02); handled in the Algebra batch"
+  },
+  {
+   "text": "{{S}} creates and continues patterns by lining up objects according to their colour or shape.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Pattern work is Algebra (AC9MFA01); handled in the Algebra batch"
+  },
+  {
+   "text": "{{S}} recognises and continues number patterns that increase by twos, fives, and tens past 100.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Skip-counting patterns are Algebra (AC9M1A01); handled in the Algebra batch"
+  },
+  {
+   "text": "{{S}} recognises different finger patterns for the same number.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} selects numerals using eye contact, gestures or touch.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} says number words in order and points to or touches objects as {{s}} counts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} combines and separates groups of items.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} counts across two small groups to find a total.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} copies a continuing pattern.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} points to or touches objects as they are shared into smaller equal groups.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} identifies the number of objects in a group.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} rounds numbers to estimate results and records numbers in different ways.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} is learning to read and represent numbers in different ways and can order numbers up to four digits.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} understands that one thousand is made up of ten hundreds and represents numbers using words and drawings.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} arranges numbers of up to six digits from lowest to highest.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} uses known number facts and basic strategies to solve addition and subtraction problems.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} solves subtraction with three-digit numbers.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} solves addition and subtraction problems by separating numbers into their place value.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} solves addition and subtraction problems using appropriate mental strategies.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} uses estimation to decide whether an answer is reasonable.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} creates number patterns using known multiplication facts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} generates number patterns using times tables.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} recalls some multiplication facts and uses them to support calculations.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} has developed {{pos}} understanding of related multiplication and division facts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} recognises that multiplication and division are opposites and uses one to solve the other.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} recognises that doubling a number gives the same answer as multiplying by 2.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} recalls multiplication facts up to 10 × 10 and uses them to solve worded problems.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} uses number properties, such as swapping the order of numbers, to work out related multiplication facts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} works with fractions and decimals with growing accuracy.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} recognises and represents fractions of a length and records numbers in different forms.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} recognises fractions and decimals and applies them in simple problems.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} recognises simple fractions such as halves and quarters and records numbers as decimals.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} converts simple fractions to decimals.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} represents fractions with halves, quarters and thirds.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} accurately represents fractions on a number line.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} writes tenths and hundredths as decimal numbers.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} represents common fractions using models and number lines.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} shows that different fractions can represent the same amount.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  }
+ ]
+}

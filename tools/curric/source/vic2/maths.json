@@ -1,0 +1,1146 @@
+[
+ {
+  "id": "VC2MFN01",
+  "code": "VC2MFN01",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Name, represent and order numbers including zero to at least 20"
+ },
+ {
+  "id": "VC2MFN02",
+  "code": "VC2MFN02",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise and name how many objects are in a collection of up to 5 by subitising"
+ },
+ {
+  "id": "VC2MFN03",
+  "code": "VC2MFN03",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Quantify and compare collections to at least 20 by counting, and explain reasoning"
+ },
+ {
+  "id": "VC2MFN04",
+  "code": "VC2MFN04",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Partition and combine collections up to 10 using part-part-whole relationships and subitising"
+ },
+ {
+  "id": "VC2MFN05",
+  "code": "VC2MFN05",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Represent practical addition, subtraction and quantification situations using counting or subitising"
+ },
+ {
+  "id": "VC2MFN06",
+  "code": "VC2MFN06",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Represent practical equal sharing and grouping situations using counting or subitising"
+ },
+ {
+  "id": "VC2MFA01",
+  "code": "VC2MFA01",
+  "year": 0,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Follow a short sequence of instructions; recognise, copy, continue and create repeating patterns"
+ },
+ {
+  "id": "VC2MFST01",
+  "code": "VC2MFST01",
+  "year": 0,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Collect, sort and compare data shown by objects and images, answering investigative questions with two outcomes"
+ },
+ {
+  "id": "VC2MFM01",
+  "code": "VC2MFM01",
+  "year": 0,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify and compare attributes of objects and events (length, capacity, mass, duration) using direct comparison"
+ },
+ {
+  "id": "VC2MFM02",
+  "code": "VC2MFM02",
+  "year": 0,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Sequence days of the week and times of day and link them to familiar events"
+ },
+ {
+  "id": "VC2MFSP01",
+  "code": "VC2MFSP01",
+  "year": 0,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Sort, name and create familiar shapes; recognise and describe familiar shapes in the environment"
+ },
+ {
+  "id": "VC2MFSP02",
+  "code": "VC2MFSP02",
+  "year": 0,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Describe the position of oneself and objects relative to other people and objects in a familiar space"
+ },
+ {
+  "id": "VC2M1N01",
+  "code": "VC2M1N01",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise, represent and order numbers up to at least 120"
+ },
+ {
+  "id": "VC2M1N02",
+  "code": "VC2M1N02",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Partition one- and two-digit numbers in different ways, including tens and ones"
+ },
+ {
+  "id": "VC2M1N03",
+  "code": "VC2M1N03",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Quantify sets up to at least 120 by splitting into equal groups using number knowledge and skip counting"
+ },
+ {
+  "id": "VC2M1N04",
+  "code": "VC2M1N04",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Add and subtract numbers within 20 using part-part-whole knowledge to 10 and a range of strategies"
+ },
+ {
+  "id": "VC2M1N05",
+  "code": "VC2M1N05",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Use mathematical modelling to solve practical additive problems, including simple money transactions"
+ },
+ {
+  "id": "VC2M1N06",
+  "code": "VC2M1N06",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Use mathematical modelling to solve practical equal sharing and grouping problems"
+ },
+ {
+  "id": "VC2M1A01",
+  "code": "VC2M1A01",
+  "year": 1,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Recognise, continue and create pattern sequences formed by skip counting, starting with twos, fives and tens"
+ },
+ {
+  "id": "VC2M1A02",
+  "code": "VC2M1A02",
+  "year": 1,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Recognise, continue and create repeating patterns and identify the repeating unit"
+ },
+ {
+  "id": "VC2M1ST01",
+  "code": "VC2M1ST01",
+  "year": 1,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Gather and record categorical data in various ways, including digital tools, lists, tally marks and symbols"
+ },
+ {
+  "id": "VC2M1ST02",
+  "code": "VC2M1ST02",
+  "year": 1,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Show collected categorical data using one-to-one displays; compare frequencies and discuss findings"
+ },
+ {
+  "id": "VC2M1M01",
+  "code": "VC2M1M01",
+  "year": 1,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Compare objects and events directly and indirectly, and order them by length, mass, capacity or duration"
+ },
+ {
+  "id": "VC2M1M02",
+  "code": "VC2M1M02",
+  "year": 1,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Measure the length of shapes and objects using uniform informal units placed end-to-end"
+ },
+ {
+  "id": "VC2M1M03",
+  "code": "VC2M1M03",
+  "year": 1,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Describe the duration and sequence of events using years, months, weeks, days and hours"
+ },
+ {
+  "id": "VC2M1SP01",
+  "code": "VC2M1SP01",
+  "year": 1,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Make, compare and classify familiar shapes; recognise shapes in the environment and identify similarities and differences"
+ },
+ {
+  "id": "VC2M1SP02",
+  "code": "VC2M1SP02",
+  "year": 1,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Give and follow directions to move people and objects to different locations within a space"
+ },
+ {
+  "id": "VC2M2N01",
+  "code": "VC2M2N01",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise, represent and order numbers to at least 1000"
+ },
+ {
+  "id": "VC2M2N02",
+  "code": "VC2M2N02",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Partition, rearrange, regroup and rename two- and three-digit numbers; recognise the role of zero in place value"
+ },
+ {
+  "id": "VC2M2N03",
+  "code": "VC2M2N03",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise one-half as one of two equal parts; connect halves, quarters and eighths through repeated halving"
+ },
+ {
+  "id": "VC2M2N04",
+  "code": "VC2M2N04",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Add and subtract one- and two-digit numbers, write problems as number sentences, solve using part-part-whole reasoning"
+ },
+ {
+  "id": "VC2M2N05",
+  "code": "VC2M2N05",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Multiply and divide by one-digit numbers using repeated addition, equal grouping, arrays and partitioning"
+ },
+ {
+  "id": "VC2M2N06",
+  "code": "VC2M2N06",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Use mathematical modelling for practical additive and multiplicative problems, including money"
+ },
+ {
+  "id": "VC2M2A01",
+  "code": "VC2M2A01",
+  "year": 2,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Recognise, describe and create additive patterns that increase or decrease by a constant amount; find missing elements"
+ },
+ {
+  "id": "VC2M2A02",
+  "code": "VC2M2A02",
+  "year": 2,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Show fluency with addition facts to 20, then extend them to related subtraction facts"
+ },
+ {
+  "id": "VC2M2A03",
+  "code": "VC2M2A03",
+  "year": 2,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Show fluency with multiplication facts for twos, then use doubling and halving for related division facts"
+ },
+ {
+  "id": "VC2M2A04",
+  "code": "VC2M2A04",
+  "year": 2,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Apply repetition in operations: multiplication as repeated addition and division as repeated subtraction"
+ },
+ {
+  "id": "VC2M2M01",
+  "code": "VC2M2M01",
+  "year": 2,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Measure and compare objects by length, capacity and mass using uniform informal units, smaller units when accuracy requires"
+ },
+ {
+  "id": "VC2M2M02",
+  "code": "VC2M2M02",
+  "year": 2,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify common uses of halves, quarters and eighths and represent them with shapes, objects and events"
+ },
+ {
+  "id": "VC2M2M03",
+  "code": "VC2M2M03",
+  "year": 2,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify dates and determine the number of days between events using calendars"
+ },
+ {
+  "id": "VC2M2M04",
+  "code": "VC2M2M04",
+  "year": 2,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Recognise and read time on an analog clock to the hour, half-hour and quarter-hour"
+ },
+ {
+  "id": "VC2M2M05",
+  "code": "VC2M2M05",
+  "year": 2,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify, describe and demonstrate quarter, half, three-quarter and full turns in everyday situations"
+ },
+ {
+  "id": "VC2M2ST01",
+  "code": "VC2M2ST01",
+  "year": 2,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Collect categorical data through surveys, observation, experiments and digital tools; sort and display in lists and tables"
+ },
+ {
+  "id": "VC2M2ST02",
+  "code": "VC2M2ST02",
+  "year": 2,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Create different graphical representations of data; compare them and describe common and distinctive features"
+ },
+ {
+  "id": "VC2M2SP01",
+  "code": "VC2M2SP01",
+  "year": 2,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Recognise, compare and classify shapes by number of sides, using terms such as opposite, parallel, curved and straight"
+ },
+ {
+  "id": "VC2M2SP02",
+  "code": "VC2M2SP02",
+  "year": 2,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Locate positions in two-dimensional representations of a familiar space; follow directions and pathways"
+ },
+ {
+  "id": "VC2M3N01",
+  "code": "VC2M3N01",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Name, justify and apply the features of odd and even numbers"
+ },
+ {
+  "id": "VC2M3N02",
+  "code": "VC2M3N02",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise, display and sequence whole numbers above 10 000"
+ },
+ {
+  "id": "VC2M3N03",
+  "code": "VC2M3N03",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Show unit fractions (1/2, 1/4, 1/3, 1/5, 1/10) and their multiples in varied ways; join same-denominator fractions to make a whole"
+ },
+ {
+  "id": "VC2M3N04",
+  "code": "VC2M3N04",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Add and subtract 2- and 3-digit numbers without a calculator, using place value to split, reorder and regroup"
+ },
+ {
+  "id": "VC2M3N05",
+  "code": "VC2M3N05",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Multiply and divide 1- and 2-digit numbers, modelling problems with number sentences, diagrams and arrays"
+ },
+ {
+  "id": "VC2M3N06",
+  "code": "VC2M3N06",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Estimate how many items are in a group; use estimates to judge whether calculated answers are sensible"
+ },
+ {
+  "id": "VC2M3N07",
+  "code": "VC2M3N07",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Understand how dollars relate to cents and show money amounts in more than one form"
+ },
+ {
+  "id": "VC2M3N08",
+  "code": "VC2M3N08",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Use mathematical modelling for practical additive and multiplicative problems, including financial ones"
+ },
+ {
+  "id": "VC2M3N09",
+  "code": "VC2M3N09",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Follow and create step-by-step procedures with decisions to explore numbers; describe emerging patterns"
+ },
+ {
+  "id": "VC2M3A01",
+  "code": "VC2M3A01",
+  "year": 3,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Explain how addition and subtraction undo each other; use this to split numbers and solve for unknowns"
+ },
+ {
+  "id": "VC2M3A02",
+  "code": "VC2M3A02",
+  "year": 3,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Use addition and subtraction facts within 20 to build quick mental methods for larger numbers without a calculator"
+ },
+ {
+  "id": "VC2M3A03",
+  "code": "VC2M3A03",
+  "year": 3,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Recall multiplication facts for 3, 4, 5 and 10 fluently and use them for related division facts"
+ },
+ {
+  "id": "VC2M3SP01",
+  "code": "VC2M3SP01",
+  "year": 3,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Make, compare and sort objects by their key features, explaining why those features suit their purpose"
+ },
+ {
+  "id": "VC2M3SP02",
+  "code": "VC2M3SP02",
+  "year": 3,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Create and interpret 2D representations of familiar places, locating landmarks and objects relative to each other"
+ },
+ {
+  "id": "VC2M3M01",
+  "code": "VC2M3M01",
+  "year": 3,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Name the metric units suited to everyday items; estimate using known measures of familiar things"
+ },
+ {
+  "id": "VC2M3M02",
+  "code": "VC2M3M02",
+  "year": 3,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Measure and compare length, mass and capacity with familiar metric units and instruments with marked scales"
+ },
+ {
+  "id": "VC2M3M03",
+  "code": "VC2M3M03",
+  "year": 3,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Understand how days, hours, minutes and seconds relate; estimate and compare how long events last"
+ },
+ {
+  "id": "VC2M3M04",
+  "code": "VC2M3M04",
+  "year": 3,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Explain how hours and minutes connect on analogue and digital clocks; read time to the nearest minute"
+ },
+ {
+  "id": "VC2M3M05",
+  "code": "VC2M3M05",
+  "year": 3,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Treat angles as amounts of turn and compare them with right angles in everyday situations"
+ },
+ {
+  "id": "VC2M3ST01",
+  "code": "VC2M3ST01",
+  "year": 3,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Gather data on categorical and discrete numerical variables to answer a question; record in tables or spreadsheets"
+ },
+ {
+  "id": "VC2M3ST02",
+  "code": "VC2M3ST02",
+  "year": 3,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Create and compare different graphs of data sets, using software where useful; interpret them in context"
+ },
+ {
+  "id": "VC2M3ST03",
+  "code": "VC2M3ST03",
+  "year": 3,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Carry out guided statistical investigations collecting, representing and interpreting categorical or discrete numerical data"
+ },
+ {
+  "id": "VC2M3P01",
+  "code": "VC2M3P01",
+  "year": 3,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Identify everyday chance activities; label outcomes likely, unlikely, certain or impossible and explain reasoning"
+ },
+ {
+  "id": "VC2M3P02",
+  "code": "VC2M3P02",
+  "year": 3,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Run chance experiments repeatedly; identify and record possible outcomes and discuss variation"
+ },
+ {
+  "id": "VC2M4N01",
+  "code": "VC2M4N01",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Extend place value to tenths and hundredths and use decimal notation to name and show decimals"
+ },
+ {
+  "id": "VC2M4N02",
+  "code": "VC2M4N02",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Investigate number sequences that count in multiples of 3, 4, 6, 7, 8 and 9"
+ },
+ {
+  "id": "VC2M4N03",
+  "code": "VC2M4N03",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Find equivalent fractions using related denominators; link fractions to decimal notation"
+ },
+ {
+  "id": "VC2M4N04",
+  "code": "VC2M4N04",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Count in quarters, halves and thirds (including mixed numerals) and place these on number lines"
+ },
+ {
+  "id": "VC2M4N05",
+  "code": "VC2M4N05",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Multiply or divide whole numbers by multiples and powers of 10 without a calculator, using place value"
+ },
+ {
+  "id": "VC2M4N06",
+  "code": "VC2M4N06",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Build efficient mental and written strategies, with digital tools, for adding, subtracting, and multiplying or dividing with no remainder"
+ },
+ {
+  "id": "VC2M4N07",
+  "code": "VC2M4N07",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Use estimation and rounding to check that calculations, including financial ones, are reasonable and to explain why"
+ },
+ {
+  "id": "VC2M4N08",
+  "code": "VC2M4N08",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Solve purchase and change problems to the nearest 5 cents, with or without digital tools"
+ },
+ {
+  "id": "VC2M4N09",
+  "code": "VC2M4N09",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Model practical additive and multiplicative problems, including financial ones, with number sentences and communicated solutions"
+ },
+ {
+  "id": "VC2M4N10",
+  "code": "VC2M4N10",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Follow and create step-by-step algorithms with decisions that use addition or multiplication to generate number sets; describe patterns"
+ },
+ {
+  "id": "VC2M4A01",
+  "code": "VC2M4A01",
+  "year": 4,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Find unknown values in addition and subtraction number sentences using number properties and operations"
+ },
+ {
+  "id": "VC2M4A02",
+  "code": "VC2M4A02",
+  "year": 4,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Recall multiplication facts to 10 x 10 and related division facts, explain their patterns, apply them to larger numbers"
+ },
+ {
+  "id": "VC2M4SP01",
+  "code": "VC2M4SP01",
+  "year": 4,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Explain and compare geometric properties of 2D shapes and 3D objects"
+ },
+ {
+  "id": "VC2M4SP02",
+  "code": "VC2M4SP02",
+  "year": 4,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Represent and approximate composite shapes and environmental objects using familiar shapes and objects"
+ },
+ {
+  "id": "VC2M4SP03",
+  "code": "VC2M4SP03",
+  "year": 4,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Create and interpret grid reference systems to locate positions and describe pathways"
+ },
+ {
+  "id": "VC2M4SP04",
+  "code": "VC2M4SP04",
+  "year": 4,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Recognise line and rotational symmetry; create symmetrical patterns and pictures, using dynamic geometry software where suitable"
+ },
+ {
+  "id": "VC2M4M01",
+  "code": "VC2M4M01",
+  "year": 4,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Use scaled and digital instruments with unmarked or partial units to measure and compare length, mass, capacity, duration and temperature"
+ },
+ {
+  "id": "VC2M4M02",
+  "code": "VC2M4M02",
+  "year": 4,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Recognise ways to measure or approximate perimeter and area of shapes and enclosed spaces using formal and informal units"
+ },
+ {
+  "id": "VC2M4M03",
+  "code": "VC2M4M03",
+  "year": 4,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Solve duration problems, including am/pm situations and conversions between time units"
+ },
+ {
+  "id": "VC2M4M04",
+  "code": "VC2M4M04",
+  "year": 4,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Estimate and compare angles by name (acute, obtuse, straight, reflex, revolution) and relate them to a right angle"
+ },
+ {
+  "id": "VC2M4ST01",
+  "code": "VC2M4ST01",
+  "year": 4,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Collect categorical and discrete numerical data with digital tools; display in many-to-one pictographs and column graphs; interpret"
+ },
+ {
+  "id": "VC2M4ST02",
+  "code": "VC2M4ST02",
+  "year": 4,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Assess how well different displays show and compare data distributions; discuss distribution shape and variation"
+ },
+ {
+  "id": "VC2M4ST03",
+  "code": "VC2M4ST03",
+  "year": 4,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Carry out statistical investigations using surveys and other methods; record and display data digitally; communicate results"
+ },
+ {
+  "id": "VC2M4P01",
+  "code": "VC2M4P01",
+  "year": 4,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Describe everyday events and possible chance outcomes, order them by likelihood, identify independent or dependent events"
+ },
+ {
+  "id": "VC2M4P02",
+  "code": "VC2M4P02",
+  "year": 4,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Run repeated chance experiments to see relationships between outcomes and describe variation in results"
+ },
+ {
+  "id": "VC2M5N01",
+  "code": "VC2M5N01",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Interpret, compare and order decimals with more than 2 places on a number line"
+ },
+ {
+  "id": "VC2M5N02",
+  "code": "VC2M5N02",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Write natural numbers as products of factors; recognise multiples and divisibility"
+ },
+ {
+  "id": "VC2M5N03",
+  "code": "VC2M5N03",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Compare and order common unit fractions with same or related denominators"
+ },
+ {
+  "id": "VC2M5N04",
+  "code": "VC2M5N04",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Connect 100% as the whole with percentages and their decimal and fraction equivalents"
+ },
+ {
+  "id": "VC2M5N05",
+  "code": "VC2M5N05",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Add and subtract fractions with same or related denominators"
+ },
+ {
+  "id": "VC2M5N06",
+  "code": "VC2M5N06",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Multiply larger numbers by 1- or 2-digit numbers using efficient strategies"
+ },
+ {
+  "id": "VC2M5N07",
+  "code": "VC2M5N07",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Solve division problems and express remainders as whole numbers, decimals or fractions"
+ },
+ {
+  "id": "VC2M5N08",
+  "code": "VC2M5N08",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Check and explain whether solutions are reasonable using estimation"
+ },
+ {
+  "id": "VC2M5N09",
+  "code": "VC2M5N09",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Use mathematical modelling for additive and multiplicative practical problems"
+ },
+ {
+  "id": "VC2M5N10",
+  "code": "VC2M5N10",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Follow and create algorithms with branching and repetition"
+ },
+ {
+  "id": "VC2M5A01",
+  "code": "VC2M5A01",
+  "year": 5,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Explain multiplication and division as inverse operations; build fact families"
+ },
+ {
+  "id": "VC2M5A02",
+  "code": "VC2M5A02",
+  "year": 5,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Find unknown values in multiplication and division equations"
+ },
+ {
+  "id": "VC2M5SP01",
+  "code": "VC2M5SP01",
+  "year": 5,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Connect objects to their nets and build objects from nets"
+ },
+ {
+  "id": "VC2M5SP02",
+  "code": "VC2M5SP02",
+  "year": 5,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Build grid coordinate systems; use coordinates and directional language"
+ },
+ {
+  "id": "VC2M5SP03",
+  "code": "VC2M5SP03",
+  "year": 5,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Describe and perform translations, reflections and rotations; identify symmetry"
+ },
+ {
+  "id": "VC2M5M01",
+  "code": "VC2M5M01",
+  "year": 5,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Choose appropriate metric units for length, mass and capacity"
+ },
+ {
+  "id": "VC2M5M02",
+  "code": "VC2M5M02",
+  "year": 5,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Solve practical problems on perimeter and area of regular and irregular shapes"
+ },
+ {
+  "id": "VC2M5M03",
+  "code": "VC2M5M03",
+  "year": 5,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Compare 12- and 24-hour time and convert between them"
+ },
+ {
+  "id": "VC2M5M04",
+  "code": "VC2M5M04",
+  "year": 5,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Estimate, construct and measure angles in degrees with a protractor"
+ },
+ {
+  "id": "VC2M5ST01",
+  "code": "VC2M5ST01",
+  "year": 5,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Acquire, validate and represent data; discuss mode and distribution shape"
+ },
+ {
+  "id": "VC2M5ST02",
+  "code": "VC2M5ST02",
+  "year": 5,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Interpret line graphs showing change over time"
+ },
+ {
+  "id": "VC2M5ST03",
+  "code": "VC2M5ST03",
+  "year": 5,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Plan and conduct statistical investigations and communicate findings"
+ },
+ {
+  "id": "VC2M5P01",
+  "code": "VC2M5P01",
+  "year": 5,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "List possible outcomes of chance experiments, comparing equally and unequally likely outcomes"
+ },
+ {
+  "id": "VC2M5P02",
+  "code": "VC2M5P02",
+  "year": 5,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Conduct repeated chance experiments and use frequency to estimate likelihoods"
+ },
+ {
+  "id": "VC2M6N01",
+  "code": "VC2M6N01",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise situations, including financial ones, that use integers; locate and represent integers on a number line and as Cartesian coordinates"
+ },
+ {
+  "id": "VC2M6N02",
+  "code": "VC2M6N02",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Identify and describe prime, composite, square and triangular numbers; use these properties to solve problems"
+ },
+ {
+  "id": "VC2M6N03",
+  "code": "VC2M6N03",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Use equivalence to compare, order and represent common fractions on one number line, and justify the order"
+ },
+ {
+  "id": "VC2M6N04",
+  "code": "VC2M6N04",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Use place value to add and subtract decimals, with digital tools where suitable; check with estimation and rounding"
+ },
+ {
+  "id": "VC2M6N05",
+  "code": "VC2M6N05",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Solve problems adding and subtracting fractions by using equivalent fractions"
+ },
+ {
+  "id": "VC2M6N06",
+  "code": "VC2M6N06",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Multiply and divide decimals by multiples of powers of 10 without a calculator"
+ },
+ {
+  "id": "VC2M6N07",
+  "code": "VC2M6N07",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Solve problems finding a familiar fraction, decimal or percentage of a quantity, including percentage discounts"
+ },
+ {
+  "id": "VC2M6N08",
+  "code": "VC2M6N08",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Approximate numerical solutions to problems with rational numbers and percentages"
+ },
+ {
+  "id": "VC2M6N09",
+  "code": "VC2M6N09",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Use mathematical modelling for practical problems with rational numbers and percentages, including financial ones; justify solutions"
+ },
+ {
+  "id": "VC2M6A01",
+  "code": "VC2M6A01",
+  "year": 6,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Recognise and use rules that generate visually growing patterns and number patterns involving rational numbers"
+ },
+ {
+  "id": "VC2M6A02",
+  "code": "VC2M6A02",
+  "year": 6,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Find unknown values in numerical equations with brackets and combined arithmetic operations"
+ },
+ {
+  "id": "VC2M6A03",
+  "code": "VC2M6A03",
+  "year": 6,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Design and use algorithms with steps and decisions that use rules to generate sets of numbers; explain emerging patterns"
+ },
+ {
+  "id": "VC2M6SP01",
+  "code": "VC2M6SP01",
+  "year": 6,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Compare the parallel cross-sections of objects and recognise their relationship to right prisms"
+ },
+ {
+  "id": "VC2M6SP02",
+  "code": "VC2M6SP02",
+  "year": 6,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Locate points in all four quadrants of the Cartesian plane; describe how coordinates change when a point moves"
+ },
+ {
+  "id": "VC2M6SP03",
+  "code": "VC2M6SP03",
+  "year": 6,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Use combinations of transformations to create tessellations and other geometric patterns"
+ },
+ {
+  "id": "VC2M6M01",
+  "code": "VC2M6M01",
+  "year": 6,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Convert between common metric units of length, mass and capacity; use decimal metric measurements suited to the context"
+ },
+ {
+  "id": "VC2M6M02",
+  "code": "VC2M6M02",
+  "year": 6,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Establish the area formula for a rectangle and use it to solve practical problems"
+ },
+ {
+  "id": "VC2M6M03",
+  "code": "VC2M6M03",
+  "year": 6,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Measure, calculate and compare elapsed time; interpret and use timetables and itineraries"
+ },
+ {
+  "id": "VC2M6M04",
+  "code": "VC2M6M04",
+  "year": 6,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify relationships between angles on a straight line, angles at a point and vertically opposite angles; find unknown angles"
+ },
+ {
+  "id": "VC2M6ST01",
+  "code": "VC2M6ST01",
+  "year": 6,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Interpret and compare data sets for categorical and numerical variables using comparative displays; compare mode, range and shape"
+ },
+ {
+  "id": "VC2M6ST02",
+  "code": "VC2M6ST02",
+  "year": 6,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Identify statistically informed arguments in traditional and digital media; discuss and critique methods and conclusions"
+ },
+ {
+  "id": "VC2M6ST03",
+  "code": "VC2M6ST03",
+  "year": 6,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Plan and conduct statistical investigations by posing and refining questions, collecting data, analysing it and communicating findings"
+ },
+ {
+  "id": "VC2M6P01",
+  "code": "VC2M6P01",
+  "year": 6,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Describe probabilities using fractions, decimals and percentages on a 0-1 or 0%-100% scale; estimate probabilities in context"
+ },
+ {
+  "id": "VC2M6P02",
+  "code": "VC2M6P02",
+  "year": 6,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Conduct repeated chance experiments and run simulations with increasing trials using digital tools; discuss how more trials affect variation"
+ }
+]

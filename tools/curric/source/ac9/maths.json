@@ -1,0 +1,1114 @@
+[
+ {
+  "id": "AC9MFN01",
+  "code": "AC9MFN01",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Name, represent and order numbers including zero to at least 20"
+ },
+ {
+  "id": "AC9MFN02",
+  "code": "AC9MFN02",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise and name the number of objects in a collection up to 5 by subitising"
+ },
+ {
+  "id": "AC9MFN03",
+  "code": "AC9MFN03",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Quantify and compare collections to at least 20 by counting, with reasoning"
+ },
+ {
+  "id": "AC9MFN04",
+  "code": "AC9MFN04",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Partition and combine collections up to 10 using part-part-whole relationships"
+ },
+ {
+  "id": "AC9MFN05",
+  "code": "AC9MFN05",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Represent practical addition, subtraction and quantification situations; use counting or subitising"
+ },
+ {
+  "id": "AC9MFN06",
+  "code": "AC9MFN06",
+  "year": 0,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Represent practical equal sharing and grouping situations; use counting or subitising"
+ },
+ {
+  "id": "AC9M1N01",
+  "code": "AC9M1N01",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise, represent and order numbers to at least 120"
+ },
+ {
+  "id": "AC9M1N02",
+  "code": "AC9M1N02",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Partition one- and two-digit numbers in different ways, including into tens and ones"
+ },
+ {
+  "id": "AC9M1N03",
+  "code": "AC9M1N03",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Quantify sets to at least 120 by partitioning into equal groups and skip counting"
+ },
+ {
+  "id": "AC9M1N04",
+  "code": "AC9M1N04",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Add and subtract numbers within 20 using part-part-whole knowledge and strategies"
+ },
+ {
+  "id": "AC9M1N05",
+  "code": "AC9M1N05",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Model practical additive problems, including simple money transactions, and solve them"
+ },
+ {
+  "id": "AC9M1N06",
+  "code": "AC9M1N06",
+  "year": 1,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Model practical equal sharing and grouping problems and solve them"
+ },
+ {
+  "id": "AC9M2N01",
+  "code": "AC9M2N01",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise, represent and order numbers to at least 1000"
+ },
+ {
+  "id": "AC9M2N02",
+  "code": "AC9M2N02",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Partition, rearrange and regroup two- and three-digit numbers; recognise the role of zero in place value"
+ },
+ {
+  "id": "AC9M2N03",
+  "code": "AC9M2N03",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise one-half as one of 2 equal parts; connect halves, quarters and eighths by repeated halving"
+ },
+ {
+  "id": "AC9M2N04",
+  "code": "AC9M2N04",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Add and subtract one- and two-digit numbers using number sentences and part-part-whole reasoning"
+ },
+ {
+  "id": "AC9M2N05",
+  "code": "AC9M2N05",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Multiply and divide by one-digit numbers using repeated addition, equal grouping, arrays and partitioning"
+ },
+ {
+  "id": "AC9M2N06",
+  "code": "AC9M2N06",
+  "year": 2,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Model practical additive and multiplicative problems, including money, and interpret the solutions"
+ },
+ {
+  "id": "AC9M3N01",
+  "code": "AC9M3N01",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise, represent and order natural numbers beyond 10 000"
+ },
+ {
+  "id": "AC9M3N02",
+  "code": "AC9M3N02",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise and represent unit fractions and their multiples; combine fractions with the same denominator"
+ },
+ {
+  "id": "AC9M3N03",
+  "code": "AC9M3N03",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Add and subtract two- and three-digit numbers without a calculator, using place value"
+ },
+ {
+  "id": "AC9M3N04",
+  "code": "AC9M3N04",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Multiply and divide one- and two-digit numbers using number sentences, diagrams and arrays"
+ },
+ {
+  "id": "AC9M3N05",
+  "code": "AC9M3N05",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Estimate quantities in collections and use estimates to check problem-solving calculations"
+ },
+ {
+  "id": "AC9M3N06",
+  "code": "AC9M3N06",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Model additive and multiplicative problems, including financial contexts, and interpret the solutions"
+ },
+ {
+  "id": "AC9M3N07",
+  "code": "AC9M3N07",
+  "year": 3,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Follow and create algorithms with steps and decisions to investigate numbers; describe patterns"
+ },
+ {
+  "id": "AC9M4N01",
+  "code": "AC9M4N01",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise and extend place value to tenths and hundredths; name and represent decimals"
+ },
+ {
+  "id": "AC9M4N02",
+  "code": "AC9M4N02",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Explain and use the properties of odd and even numbers"
+ },
+ {
+  "id": "AC9M4N03",
+  "code": "AC9M4N03",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Find equivalent fractions using related denominators; connect fractions and decimal notation"
+ },
+ {
+  "id": "AC9M4N04",
+  "code": "AC9M4N04",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Count by fractions, including mixed numerals; locate them on number lines"
+ },
+ {
+  "id": "AC9M4N05",
+  "code": "AC9M4N05",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Solve problems multiplying or dividing natural numbers by multiples and powers of 10"
+ },
+ {
+  "id": "AC9M4N06",
+  "code": "AC9M4N06",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Develop efficient strategies and use digital tools for addition, subtraction, multiplication and division"
+ },
+ {
+  "id": "AC9M4N07",
+  "code": "AC9M4N07",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Use estimation and rounding to check and explain the reasonableness of calculations"
+ },
+ {
+  "id": "AC9M4N08",
+  "code": "AC9M4N08",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Model additive and multiplicative problems, including financial contexts, using number sentences"
+ },
+ {
+  "id": "AC9M4N09",
+  "code": "AC9M4N09",
+  "year": 4,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Follow and create algorithms using addition or multiplication to generate sets of numbers; describe patterns"
+ },
+ {
+  "id": "AC9M5N01",
+  "code": "AC9M5N01",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Interpret, compare and order numbers with more than 2 decimal places; represent them on a number line"
+ },
+ {
+  "id": "AC9M5N02",
+  "code": "AC9M5N02",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Express natural numbers as products of factors; recognise multiples; test divisibility"
+ },
+ {
+  "id": "AC9M5N03",
+  "code": "AC9M5N03",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Compare and order fractions with the same or related denominators, including mixed numerals"
+ },
+ {
+  "id": "AC9M5N04",
+  "code": "AC9M5N04",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise that 100% is the whole; use percentages and connect them to decimals and fractions"
+ },
+ {
+  "id": "AC9M5N05",
+  "code": "AC9M5N05",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Solve problems adding and subtracting fractions with the same or related denominators"
+ },
+ {
+  "id": "AC9M5N06",
+  "code": "AC9M5N06",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Solve problems multiplying larger numbers by one- or two-digit numbers; check answers"
+ },
+ {
+  "id": "AC9M5N07",
+  "code": "AC9M5N07",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Solve division problems, interpreting remainders according to context"
+ },
+ {
+  "id": "AC9M5N08",
+  "code": "AC9M5N08",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Check and explain the reasonableness of solutions, including financial contexts, using estimation"
+ },
+ {
+  "id": "AC9M5N09",
+  "code": "AC9M5N09",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Model practical additive and multiplicative problems, including financial contexts, and communicate solutions"
+ },
+ {
+  "id": "AC9M5N10",
+  "code": "AC9M5N10",
+  "year": 5,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Create and use algorithms and digital tools to experiment with factors, multiples and divisibility"
+ },
+ {
+  "id": "AC9M6N01",
+  "code": "AC9M6N01",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Recognise situations using integers; locate and represent integers on number lines and the Cartesian plane"
+ },
+ {
+  "id": "AC9M6N02",
+  "code": "AC9M6N02",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Identify and describe prime, composite and square numbers; use them to solve problems"
+ },
+ {
+  "id": "AC9M6N03",
+  "code": "AC9M6N03",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Compare, order and represent common fractions on one number line; justify their order"
+ },
+ {
+  "id": "AC9M6N04",
+  "code": "AC9M6N04",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Add and subtract decimals using place value and digital tools; check answers by estimation"
+ },
+ {
+  "id": "AC9M6N05",
+  "code": "AC9M6N05",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Solve problems adding and subtracting fractions using equivalent fractions"
+ },
+ {
+  "id": "AC9M6N06",
+  "code": "AC9M6N06",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Multiply and divide decimals by multiples of powers of 10 without a calculator"
+ },
+ {
+  "id": "AC9M6N07",
+  "code": "AC9M6N07",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Solve problems finding familiar fractions, decimals or percentages of a quantity, including discounts"
+ },
+ {
+  "id": "AC9M6N08",
+  "code": "AC9M6N08",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Approximate numerical solutions to problems involving rational numbers and percentages"
+ },
+ {
+  "id": "AC9M6N09",
+  "code": "AC9M6N09",
+  "year": 6,
+  "strand": "Number",
+  "subStrand": "Number",
+  "text": "Model practical problems involving natural and rational numbers and percentages; justify choices made"
+ },
+ {
+  "id": "AC9MFA01",
+  "code": "AC9MFA01",
+  "year": 0,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Recognise, copy and continue repeating patterns shown in different ways"
+ },
+ {
+  "id": "AC9M1A01",
+  "code": "AC9M1A01",
+  "year": 1,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Recognise, continue and create pattern sequences with numbers, symbols, shapes and objects formed by skip counting, starting with twos, fives and tens"
+ },
+ {
+  "id": "AC9M2A01",
+  "code": "AC9M2A01",
+  "year": 2,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Recognise, describe and create additive patterns that increase or decrease by a constant amount, and identify missing elements"
+ },
+ {
+  "id": "AC9M3A01",
+  "code": "AC9M3A01",
+  "year": 3,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Explain addition and subtraction as inverse operations; use this to partition numbers and find unknowns in number sentences"
+ },
+ {
+  "id": "AC9M4A01",
+  "code": "AC9M4A01",
+  "year": 4,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Find unknown values in addition and subtraction equations, using properties of numbers and operations"
+ },
+ {
+  "id": "AC9M5A01",
+  "code": "AC9M5A01",
+  "year": 5,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Explain multiplication and division as inverse operations and use this to build families of number facts"
+ },
+ {
+  "id": "AC9M6A01",
+  "code": "AC9M6A01",
+  "year": 6,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Recognise and use rules that generate visually growing patterns and number patterns involving rational numbers"
+ },
+ {
+  "id": "AC9M1A02",
+  "code": "AC9M1A02",
+  "year": 1,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Recognise, continue and create repeating patterns with numbers, symbols, shapes and objects, identifying the repeating unit"
+ },
+ {
+  "id": "AC9M2A02",
+  "code": "AC9M2A02",
+  "year": 2,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Demonstrate proficiency with addition facts to 20; extend them to develop related subtraction facts"
+ },
+ {
+  "id": "AC9M3A02",
+  "code": "AC9M3A02",
+  "year": 3,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Extend addition and subtraction facts to 20 to build efficient mental strategies for larger numbers without a calculator"
+ },
+ {
+  "id": "AC9M4A02",
+  "code": "AC9M4A02",
+  "year": 4,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Demonstrate proficiency with multiplication facts up to 10 x 10 and related division facts; extend to efficient mental strategies without a calculator"
+ },
+ {
+  "id": "AC9M5A02",
+  "code": "AC9M5A02",
+  "year": 5,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Find unknown values in multiplication and division equations using properties of numbers and operations"
+ },
+ {
+  "id": "AC9M6A02",
+  "code": "AC9M6A02",
+  "year": 6,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Find unknown values in equations involving brackets and combinations of arithmetic operations, using properties of numbers and operations"
+ },
+ {
+  "id": "AC9M2A03",
+  "code": "AC9M2A03",
+  "year": 2,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Demonstrate proficiency with multiplication facts for twos; extend to related division facts using doubling and halving"
+ },
+ {
+  "id": "AC9M3A03",
+  "code": "AC9M3A03",
+  "year": 3,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Demonstrate proficiency with multiplication facts for 3, 4, 5 and 10; extend to related division facts"
+ },
+ {
+  "id": "AC9M6A03",
+  "code": "AC9M6A03",
+  "year": 6,
+  "strand": "Algebra",
+  "subStrand": "Algebra",
+  "text": "Create and use algorithms with sequences of steps and decisions that use rules to generate number sets; identify and explain emerging patterns"
+ },
+ {
+  "id": "AC9MFM01",
+  "code": "AC9MFM01",
+  "year": 0,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify and compare attributes of objects and events (length, capacity, mass, duration) using direct comparison and explain reasoning"
+ },
+ {
+  "id": "AC9M1M01",
+  "code": "AC9M1M01",
+  "year": 1,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Compare directly and indirectly, and order objects and events by length, mass, capacity and duration, explaining reasoning"
+ },
+ {
+  "id": "AC9M2M01",
+  "code": "AC9M2M01",
+  "year": 2,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Measure and compare objects by length, capacity and mass using uniform informal units, and smaller units when more accuracy is needed"
+ },
+ {
+  "id": "AC9M3M01",
+  "code": "AC9M3M01",
+  "year": 3,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify which metric units measure everyday items; use known measurements to make estimates"
+ },
+ {
+  "id": "AC9M4M01",
+  "code": "AC9M4M01",
+  "year": 4,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Interpret unmarked and partial units when measuring length, mass, capacity, duration and temperature, using scaled and digital instruments"
+ },
+ {
+  "id": "AC9M5M01",
+  "code": "AC9M5M01",
+  "year": 5,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Choose appropriate metric units for length, mass and capacity; use smaller units or combined units for greater accuracy"
+ },
+ {
+  "id": "AC9M6M01",
+  "code": "AC9M6M01",
+  "year": 6,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Convert between common metric units of length, mass and capacity; use decimal metric measurements suited to the problem's context"
+ },
+ {
+  "id": "AC9MFM02",
+  "code": "AC9MFM02",
+  "year": 0,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Sequence days of the week and times of day and link them to familiar events"
+ },
+ {
+  "id": "AC9M1M02",
+  "code": "AC9M1M02",
+  "year": 1,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Measure lengths of shapes and objects with informal units that are uniform and placed end-to-end"
+ },
+ {
+  "id": "AC9M2M02",
+  "code": "AC9M2M02",
+  "year": 2,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify common uses of halves, quarters and eighths with shapes, objects and events, and represent them"
+ },
+ {
+  "id": "AC9M3M02",
+  "code": "AC9M3M02",
+  "year": 3,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Measure and compare objects using familiar metric units of length, mass and capacity, and instruments with labelled markings"
+ },
+ {
+  "id": "AC9M4M02",
+  "code": "AC9M4M02",
+  "year": 4,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Recognise ways to measure and approximate perimeter and area of shapes and enclosed spaces using formal and informal units"
+ },
+ {
+  "id": "AC9M5M02",
+  "code": "AC9M5M02",
+  "year": 5,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Solve practical problems involving perimeter and area of regular and irregular shapes using appropriate metric units"
+ },
+ {
+  "id": "AC9M6M02",
+  "code": "AC9M6M02",
+  "year": 6,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Establish the formula for the area of a rectangle and use it to solve practical problems"
+ },
+ {
+  "id": "AC9M1M03",
+  "code": "AC9M1M03",
+  "year": 1,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Describe the duration and sequence of events using years, months, weeks, days and hours"
+ },
+ {
+  "id": "AC9M2M03",
+  "code": "AC9M2M03",
+  "year": 2,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify dates and find the number of days between events using calendars"
+ },
+ {
+  "id": "AC9M3M03",
+  "code": "AC9M3M03",
+  "year": 3,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Use the relationship between formal time units (days, hours, minutes, seconds) to estimate and compare event durations"
+ },
+ {
+  "id": "AC9M4M03",
+  "code": "AC9M4M03",
+  "year": 4,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Solve problems involving duration, including am and pm situations and conversions between time units"
+ },
+ {
+  "id": "AC9M5M03",
+  "code": "AC9M5M03",
+  "year": 5,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Compare 12-hour and 24-hour time systems and solve practical problems converting between them"
+ },
+ {
+  "id": "AC9M6M03",
+  "code": "AC9M6M03",
+  "year": 6,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Interpret and use timetables and itineraries to plan activities and find durations of events and journeys"
+ },
+ {
+  "id": "AC9M2M04",
+  "code": "AC9M2M04",
+  "year": 2,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Recognise and read time on an analog clock to the hour, half-hour and quarter-hour"
+ },
+ {
+  "id": "AC9M3M04",
+  "code": "AC9M3M04",
+  "year": 3,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Describe the relationship between hours and minutes on analog and digital clocks; read time to the nearest minute"
+ },
+ {
+  "id": "AC9M4M04",
+  "code": "AC9M4M04",
+  "year": 4,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Estimate and compare angles using names (acute, obtuse, straight, reflex, revolution) and relate them to a right angle"
+ },
+ {
+  "id": "AC9M5M04",
+  "code": "AC9M5M04",
+  "year": 5,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Estimate, construct and measure angles in degrees with a protractor; relate measures to angle names"
+ },
+ {
+  "id": "AC9M6M04",
+  "code": "AC9M6M04",
+  "year": 6,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify relationships between angles on a straight line, angles at a point and vertically opposite angles; use them to find unknown angles and explain reasoning"
+ },
+ {
+  "id": "AC9M2M05",
+  "code": "AC9M2M05",
+  "year": 2,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify, describe and show quarter, half, three-quarter and full turns in everyday situations"
+ },
+ {
+  "id": "AC9M3M05",
+  "code": "AC9M3M05",
+  "year": 3,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Identify angles as measures of turn and compare them with right angles in everyday situations"
+ },
+ {
+  "id": "AC9M3M06",
+  "code": "AC9M3M06",
+  "year": 3,
+  "strand": "Measurement",
+  "subStrand": "Measurement",
+  "text": "Recognise relationships between dollars and cents and represent money values in different ways"
+ },
+ {
+  "id": "AC9MFSP01",
+  "code": "AC9MFSP01",
+  "year": 0,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Sort, name and create familiar shapes; recognise familiar shapes in the environment and give reasons"
+ },
+ {
+  "id": "AC9M1SP01",
+  "code": "AC9M1SP01",
+  "year": 1,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Make, compare and classify familiar shapes; recognise shapes and objects in the environment and identify similarities and differences"
+ },
+ {
+  "id": "AC9M2SP01",
+  "code": "AC9M2SP01",
+  "year": 2,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Recognise, compare and classify shapes by number of sides, using terms such as opposite, parallel, curved and straight"
+ },
+ {
+  "id": "AC9M3SP01",
+  "code": "AC9M3SP01",
+  "year": 3,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Make, compare and classify objects by key features, explaining why those features suit their uses"
+ },
+ {
+  "id": "AC9M4SP01",
+  "code": "AC9M4SP01",
+  "year": 4,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Represent and approximate composite shapes and objects using combinations of familiar shapes"
+ },
+ {
+  "id": "AC9M5SP01",
+  "code": "AC9M5SP01",
+  "year": 5,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Connect objects to their nets and build objects from nets using spatial and geometric reasoning"
+ },
+ {
+  "id": "AC9M6SP01",
+  "code": "AC9M6SP01",
+  "year": 6,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Compare parallel cross-sections of objects and recognise their relationship to right prisms"
+ },
+ {
+  "id": "AC9MFSP02",
+  "code": "AC9MFSP02",
+  "year": 0,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Describe the position of oneself and objects relative to other people and objects in a familiar space"
+ },
+ {
+  "id": "AC9M1SP02",
+  "code": "AC9M1SP02",
+  "year": 1,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Give and follow directions to move people and objects to different locations within a space"
+ },
+ {
+  "id": "AC9M2SP02",
+  "code": "AC9M2SP02",
+  "year": 2,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Locate positions on two-dimensional representations of a familiar space; move positions by following directions and pathways"
+ },
+ {
+  "id": "AC9M3SP02",
+  "code": "AC9M3SP02",
+  "year": 3,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Interpret and create two-dimensional representations of familiar environments, locating landmarks and objects relative to each other"
+ },
+ {
+  "id": "AC9M4SP02",
+  "code": "AC9M4SP02",
+  "year": 4,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Create and interpret grid reference systems to locate and describe positions and pathways"
+ },
+ {
+  "id": "AC9M5SP02",
+  "code": "AC9M5SP02",
+  "year": 5,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Construct a grid coordinate system to locate positions; use coordinates and directional language to describe position and movement"
+ },
+ {
+  "id": "AC9M6SP02",
+  "code": "AC9M6SP02",
+  "year": 6,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Locate points in the four quadrants of a Cartesian plane; describe coordinate changes when a point moves"
+ },
+ {
+  "id": "AC9M4SP03",
+  "code": "AC9M4SP03",
+  "year": 4,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Recognise line and rotational symmetry in shapes and create symmetrical patterns and pictures, using dynamic geometry software where appropriate"
+ },
+ {
+  "id": "AC9M5SP03",
+  "code": "AC9M5SP03",
+  "year": 5,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Describe and perform translations, reflections and rotations of shapes; identify what changes, what stays the same, and any symmetries"
+ },
+ {
+  "id": "AC9M6SP03",
+  "code": "AC9M6SP03",
+  "year": 6,
+  "strand": "Space",
+  "subStrand": "Space",
+  "text": "Use combinations of transformations to create tessellations and other geometric patterns, using dynamic geometry software where appropriate"
+ },
+ {
+  "id": "AC9MFST01",
+  "code": "AC9MFST01",
+  "year": 0,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Collect, sort and compare data shown by objects and images to answer given questions about familiar situations"
+ },
+ {
+  "id": "AC9M1ST01",
+  "code": "AC9M1ST01",
+  "year": 1,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Acquire and record categorical data in various ways (digital tools, objects, images, drawings, lists, tally marks, symbols)"
+ },
+ {
+  "id": "AC9M2ST01",
+  "code": "AC9M2ST01",
+  "year": 2,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Acquire categorical data through surveys, observation, experiments and digital tools; sort into categories and display in lists and tables"
+ },
+ {
+  "id": "AC9M3ST01",
+  "code": "AC9M3ST01",
+  "year": 3,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Acquire categorical and discrete numerical data to answer a question by observing, collecting and accessing data sets; record in frequency tables and spreadsheets"
+ },
+ {
+  "id": "AC9M4ST01",
+  "code": "AC9M4ST01",
+  "year": 4,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Acquire categorical and discrete numerical data using digital tools; display with many-to-one pictographs, column graphs and other visualisations; interpret and discuss"
+ },
+ {
+  "id": "AC9M5ST01",
+  "code": "AC9M5ST01",
+  "year": 5,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Acquire, validate and represent nominal, ordinal and discrete numerical data using software; discuss distributions in terms of mode and shape"
+ },
+ {
+  "id": "AC9M6ST01",
+  "code": "AC9M6ST01",
+  "year": 6,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Interpret and compare data sets for ordinal, nominal, discrete and continuous variables using comparative displays and digital tools; compare mode, range and shape"
+ },
+ {
+  "id": "AC9M1ST02",
+  "code": "AC9M1ST02",
+  "year": 1,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Represent collected categorical data using one-to-one displays and digital tools; compare frequencies and discuss findings"
+ },
+ {
+  "id": "AC9M2ST02",
+  "code": "AC9M2ST02",
+  "year": 2,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Create different graphical representations of data using software where appropriate; compare them and describe common and distinctive features"
+ },
+ {
+  "id": "AC9M3ST02",
+  "code": "AC9M3ST02",
+  "year": 3,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Create and compare different graphical representations of data sets, using software where appropriate; interpret data in context"
+ },
+ {
+  "id": "AC9M4ST02",
+  "code": "AC9M4ST02",
+  "year": 4,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Evaluate how effective different displays are at illustrating and comparing distributions; discuss distribution shape and data variation"
+ },
+ {
+  "id": "AC9M5ST02",
+  "code": "AC9M5ST02",
+  "year": 5,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Interpret line graphs showing change over time; discuss the relationships shown and conclusions that can be drawn"
+ },
+ {
+  "id": "AC9M6ST02",
+  "code": "AC9M6ST02",
+  "year": 6,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Identify statistically informed arguments in traditional and digital media; discuss and critique methods, representations and conclusions"
+ },
+ {
+  "id": "AC9M3ST03",
+  "code": "AC9M3ST03",
+  "year": 3,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Conduct guided statistical investigations collecting, representing and interpreting categorical and discrete numerical data about questions of interest"
+ },
+ {
+  "id": "AC9M4ST03",
+  "code": "AC9M4ST03",
+  "year": 4,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Conduct statistical investigations, collecting data through surveys and other methods; record and display with digital tools; interpret and communicate results"
+ },
+ {
+  "id": "AC9M5ST03",
+  "code": "AC9M5ST03",
+  "year": 5,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Plan and conduct investigations by posing questions or identifying problems, collecting data, choosing displays, and communicating findings in context"
+ },
+ {
+  "id": "AC9M6ST03",
+  "code": "AC9M6ST03",
+  "year": 6,
+  "strand": "Statistics",
+  "subStrand": "Statistics",
+  "text": "Plan and conduct investigations by posing and refining questions, collecting data, analysing and interpreting it, and communicating findings in context"
+ },
+ {
+  "id": "AC9M3P01",
+  "code": "AC9M3P01",
+  "year": 3,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Identify chance activities and everyday events; describe outcomes as likely, unlikely, certain or impossible, explaining reasoning"
+ },
+ {
+  "id": "AC9M4P01",
+  "code": "AC9M4P01",
+  "year": 4,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Describe everyday events and chance experiment outcomes; order outcomes by likelihood; identify independent and dependent events"
+ },
+ {
+  "id": "AC9M5P01",
+  "code": "AC9M5P01",
+  "year": 5,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "List possible outcomes of chance experiments with equally likely outcomes and compare with those that are not equally likely"
+ },
+ {
+  "id": "AC9M6P01",
+  "code": "AC9M6P01",
+  "year": 6,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Recognise probabilities on a 0-1 or 0%-100% scale; estimate event likelihoods using common fractions, percentages and decimals"
+ },
+ {
+  "id": "AC9M3P02",
+  "code": "AC9M3P02",
+  "year": 3,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Conduct repeated chance experiments; identify possible outcomes, record results, and discuss variation"
+ },
+ {
+  "id": "AC9M4P02",
+  "code": "AC9M4P02",
+  "year": 4,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Conduct repeated chance experiments to observe relationships between outcomes; describe variation in results"
+ },
+ {
+  "id": "AC9M5P02",
+  "code": "AC9M5P02",
+  "year": 5,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Conduct repeated chance experiments with and without equally likely outcomes; use frequency to compare outcomes and estimate likelihoods"
+ },
+ {
+  "id": "AC9M6P02",
+  "code": "AC9M6P02",
+  "year": 6,
+  "strand": "Probability",
+  "subStrand": "Probability",
+  "text": "Run repeated experiments and simulations with increasing trials using digital tools; compare with expected results and discuss how more trials affect variation"
+ }
+]

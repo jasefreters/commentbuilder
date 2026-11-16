@@ -1,0 +1,77 @@
+[
+ {
+  "batch": "ac9/03",
+  "text": "{{S}} confidently works with large numbers and applies place value knowledge to understand numbers in the millions.",
+  "options": [
+   {
+    "year": 5,
+    "ref": "AC9M5N01"
+   },
+   {
+    "year": 3,
+    "ref": "AC9M3N01"
+   }
+  ],
+  "why": "No Year 3 to 6 description in the source summary mentions numbers in the millions. Check the official text."
+ },
+ {
+  "batch": "ac9/03",
+  "text": "{{S}} works confidently with large numbers in the millions and applies place value to solve a range of problems.",
+  "options": [
+   {
+    "year": 5,
+    "ref": "AC9M5N01"
+   },
+   {
+    "year": 3,
+    "ref": "AC9M3N01"
+   }
+  ],
+  "why": "No Year 3 to 6 description in the source summary mentions numbers in the millions. Check the official text."
+ },
+ {
+  "batch": "ac9/03",
+  "text": "{{S}} applies {{pos}} knowledge of place value to work confidently with large numbers.",
+  "options": [
+   {
+    "year": 5,
+    "ref": "AC9M5N01"
+   },
+   {
+    "year": 3,
+    "ref": "AC9M3N01"
+   }
+  ],
+  "why": "No Year 3 to 6 description in the source summary mentions numbers in the millions. Check the official text."
+ },
+ {
+  "batch": "ac9/03",
+  "text": "{{S}} works confidently with large numbers and applies place value to solve problems.",
+  "options": [
+   {
+    "year": 5,
+    "ref": "AC9M5N01"
+   },
+   {
+    "year": 3,
+    "ref": "AC9M3N01"
+   }
+  ],
+  "why": "No Year 3 to 6 description in the source summary mentions numbers in the millions. Check the official text."
+ },
+ {
+  "batch": "ac9/03",
+  "text": "{{S}} uses place value to read, write and work with large numbers and represents them in different ways.",
+  "options": [
+   {
+    "year": 5,
+    "ref": "AC9M5N01"
+   },
+   {
+    "year": 3,
+    "ref": "AC9M3N01"
+   }
+  ],
+  "why": "No Year 3 to 6 description in the source summary mentions numbers in the millions. Check the official text."
+ }
+]
