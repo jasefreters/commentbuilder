@@ -661,7 +661,12 @@
   .quick-sub { font-size: 12px; color: var(--t2); margin: 0 0 10px; }
   .quick-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
   .quick-chip { font-family: var(--font); font-size: 14px; padding: 8px 14px; border: 1px solid var(--border-h); border-radius: 999px; background: var(--bg-1, #fff); color: var(--t1); cursor: pointer; }
-  .quick-chip.on { background: var(--green-bg); color: var(--green); border-color: var(--green); font-weight: 500; }
+  .quick-chip.on, .quick-mk.on { background: var(--green-bg); color: var(--green); border-color: var(--green); font-weight: 500; }
+  .quick-mk { font-family: var(--font); font-size: 13px; padding: 5px 12px; border: 1px solid var(--border-h); border-radius: 999px; background: var(--bg-1, #fff); color: var(--t1); cursor: pointer; }
+  .quick-rowlab { font-size: 13px; color: var(--t2); align-self: center; }
+  .quick-mark { margin-bottom: 6px; }
+  .quick-warn { color: var(--amber, #92600a); }
+  .quick-mk.on::before { content: "✓ "; }
   .quick-chip.on::before { content: "✓ "; }
   .quick-nav { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
   .quick-go { font-family: var(--font); font-size: 14px; padding: 8px 18px; border: 1px solid var(--blue); border-radius: var(--r-sm); background: var(--blue); color: #fff; cursor: pointer; margin-left: auto; }
@@ -9253,6 +9258,26 @@ function quickGo(delta) {
   render();
 }
 function quickSetLevel(v) { _quickLevelAsked = (cur().uid || currentIdx); if (v) onGenLevel(currentIdx, v); render(); }
+// v3.17.34: change the mark (English, Maths) or the level (General) on the groups screen itself; the strand is left with exactly one mark
+function quickSetMark(cat, g) {
+  const cs = getCurGrade(cat); if (cs.length === 1 && cs[0] === g && !gradeFromS1(cur(), currentSubject, cat)) return;
+  const stu = cur(), o = currentSubject === 'english' ? stu.engGrades : stu.mathGrades;
+  if (o) delete o[cat];
+  if (stu.s2GradeSeeded) delete stu.s2GradeSeeded[(currentSubject === 'english' ? 'eng' : 'math') + '|' + cat];
+  setCurGrade(cat, g); render();
+}
+function _quickMarkRow(cat) {
+  const grades = getCurGrade(cat), row = document.createElement('div'); row.className = 'quick-chips quick-mark'; row.setAttribute('role', 'group'); row.setAttribute('aria-label', 'Mark for ' + cat);
+  const lab = document.createElement('span'); lab.className = 'quick-rowlab'; lab.textContent = 'Mark:'; row.appendChild(lab);
+  GRADE_ORDER.forEach(g => { const on = grades.length === 1 && grades[0] === g; row.appendChild(_quickBtn(g, 'quick-mk' + (on ? ' on' : ''), () => quickSetMark(cat, g), { 'aria-pressed': on ? 'true' : 'false', 'data-grade': g, title: g + ' ' + GRADE_LABELS[g] })); });
+  return row;
+}
+function _quickLevelRow(stu) {
+  const cur0 = quickLevel(stu), row = document.createElement('div'); row.className = 'quick-chips quick-mark'; row.setAttribute('role', 'group'); row.setAttribute('aria-label', 'Level');
+  const lab = document.createElement('span'); lab.className = 'quick-rowlab'; lab.textContent = 'Level:'; row.appendChild(lab);
+  [['strong', 'Positive'], ['average', 'Average'], ['developing', 'Developing']].forEach(([v, l]) => { const on = cur0 === v; row.appendChild(_quickBtn(l, 'quick-mk' + (on ? ' on' : ''), () => { if (!on) { onGenLevel(currentIdx, v); render(); } }, { 'aria-pressed': on ? 'true' : 'false', 'data-level': v })); });
+  return row;
+}
 function _quickBtn(label, cls, fn, extra) { const b = document.createElement('button'); b.type = 'button'; b.className = cls; b.textContent = label; b.onclick = fn; if (extra) Object.keys(extra).forEach(k => b.setAttribute(k, extra[k])); return b; }
 // English and Maths: the characteristics are skills (SUBJ_TRAITS). The comments offered are the ones the bank offers this student for the strand:
 // the year and the mark set for the strand (grades honoured as in the usual list), and not used in Semester 1.
@@ -9329,14 +9354,14 @@ function renderQuickSubj(grid) {
   }
   const traits = (SUBJ_TRAITS[currentSubject] || {})[cat] || [], shown = [];
   traits.forEach(t => { const ticked = quickSubjTicked(cat, t); if (ticked || quickSubjCandidates(stu, cat, t, true).length) shown.push({ t, ticked }); });
-  const sub = document.createElement('p'); sub.className = 'quick-sub';
-  sub.textContent = grades.length ? 'Tap what fits. Mark ' + grades.join(' and ') + ' (' + grades.map(g => GRADE_LABELS[g]).join(', ') + ').' : 'Tap what fits. No mark set, so every mark is offered.';
+  box.appendChild(_quickMarkRow(cat));
+  const sub = document.createElement('p'); sub.className = 'quick-sub' + (grades.length ? '' : ' quick-warn');
+  sub.textContent = grades.length ? 'Tap what fits. Comments suit mark ' + grades.join(' and ') + ' (' + grades.map(g => GRADE_LABELS[g]).join(', ') + ').' : 'Choose a mark above so the comments suit it. With no mark, every mark is offered.';
   box.appendChild(sub);
   const chips = document.createElement('div'); chips.className = 'quick-chips'; chips.setAttribute('role', 'group'); chips.setAttribute('aria-label', cat + ' skills');
   shown.forEach(({ t, ticked }) => chips.appendChild(_quickBtn(t.label, 'quick-chip' + (ticked ? ' on' : ''), () => quickTap(cat, t.id), { 'aria-pressed': ticked ? 'true' : 'false', 'data-trait': t.id })));
   if (!shown.length) { const m = document.createElement('div'); m.className = 'yr-fallback'; m.textContent = 'No comments for ' + yearWord(stu.year) + (grades.length ? ' at this mark' : '') + ' in this strand yet. Use the full list to write your own.'; chips.appendChild(m); }
   box.appendChild(chips);
-  box.appendChild(_quickBtn(grades.length ? 'Change mark' : 'Set a mark', 'quick-link', () => { delete _quickMarkAsked[uid]; if (grades.length) { const g = cur()[currentSubject === 'english' ? 'engGrades' : 'mathGrades']; if (g) delete g[cat]; } render(); autoSave(); }));
   const picked = traits.some(t => quickSubjTicked(cat, t));
   nav.appendChild(back); nav.appendChild(fullBtn); nav.appendChild(_quickBtn(picked ? 'Next' : 'Skip', 'quick-go', () => quickGo(1)));
   box.appendChild(nav); grid.appendChild(box);
@@ -9377,8 +9402,9 @@ function renderQuickPanel(grid) {
     if (!ticked && !all.length) return;   // nothing in it is offered this semester
     shown.push({ t, ticked });   // v3.17.30: every group is always shown (no "Show more"); the level only decides which sentence is picked first
   });
-  const sub = document.createElement('p'); sub.className = 'quick-sub';
-  sub.textContent = 'Tap what fits.';
+  box.appendChild(_quickLevelRow(stu));
+  const sub = document.createElement('p'); sub.className = 'quick-sub' + (lv && stu.year ? '' : ' quick-warn');
+  sub.textContent = !stu.year ? 'Set ' + (cn(stu) || 'the student') + '’s year (in the student details) so the comments suit it. ' + (lv ? '' : 'Choose a level above too.') : !lv ? 'Choose a level above so the comments suit ' + (cn(stu) || 'the student') + '. With no level, the first comment in each group is offered.' : 'Tap what fits.';
   box.appendChild(sub);
   const chips = document.createElement('div'); chips.className = 'quick-chips'; chips.setAttribute('role', 'group'); chips.setAttribute('aria-label', cat + ' characteristics');
   shown.forEach(({ t, ticked }) => {
@@ -14423,7 +14449,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.33';
+const APP_VERSION = 'v3.17.34';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15168,6 +15194,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.34', date: '16 November 2026', items: [
+    'Quick mode: you can now change the mark (A to E in English and Maths) or the level (Positive, Average, Developing in General) on the same screen as the groups. A note tells you when the mark, level or year is missing, because the comments chosen suit them.'
+  ] },
   { v: 'v3.17.33', date: '16 November 2026', items: [
     'Quick mode and Swap now choose the Personal and Social Capability comment that suits the student\'s year (Kindergarten, Years 1 and 2, Years 3 and 4, Years 5 and 6), not the first one in the list.'
   ] },
