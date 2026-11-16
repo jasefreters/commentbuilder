@@ -229,3 +229,63 @@ test('Emotional Wellbeing and Reflection & Goal Setting have their own Quick mod
   }
   await page.context().close();
 });
+
+// v3.17.33: the comment offered suits the student's year
+const pscPicks = (page, year, sem, lv) => page.evaluate(([year, sem, lv]) => {
+  switchStu(0); setSubject('general'); const s = cur();
+  CATS.forEach(c => (s.selected[c] || []).slice().forEach(k => genRemoveKey(c, k)));
+  s.year = year; currentSemester = sem; onGenLevel(currentIdx, lv);
+  const out = [];
+  CATS.forEach(c => (GEN_TRAITS[c] || []).forEach(t => { if (!t.sentences.some(x => PSC_LEVEL[x])) return; const p = quickPickFor(s, c, t); out.push({ c, lv: PSC_LEVEL[p], tier: _tierOfRaw(c, p) }); }));
+  return out;
+}, [year, sem, lv]);
+
+test('Quick mode picks the level the student\'s year leads up to (Year 5 and 6 get Level 4, never Kindergarten)', async () => {
+  const page = await ready();
+  for (const yr of ['5', '6']) for (const lv of ['strong', 'average']) {
+    const r = await pscPicks(page, yr, 1, lv);
+    assert.strictEqual(r.length, 16);
+    r.forEach(x => { assert.strictEqual(x.lv, '4', yr + ' ' + lv + ' ' + x.c); assert.notStrictEqual(x.tier, 'developing', x.c); });
+  }
+  const d = await pscPicks(page, '5', 1, 'developing');
+  d.forEach(x => { assert.ok(['3', '4'].includes(x.lv), x.c); assert.strictEqual(x.tier, 'developing', x.c); });
+  assert.ok(d.filter(x => x.lv === '4').length >= 12);
+  await page.context().close();
+});
+
+test('Quick mode: Year 3 gets Level 3, Year 2 gets Level 2, Kindergarten gets 1a in Semester 1 and 1b in Semester 2', async () => {
+  const page = await ready();
+  (await pscPicks(page, '3', 1, 'strong')).forEach(x => assert.strictEqual(x.lv, '3'));
+  (await pscPicks(page, '2', 1, 'strong')).forEach(x => assert.strictEqual(x.lv, '2'));
+  (await pscPicks(page, '2', 1, 'developing')).forEach(x => assert.ok(!x.lv || ['1b', '2'].includes(x.lv)));
+  const k1 = await pscPicks(page, 'K', 1, 'strong'); k1.forEach(x => assert.ok(['1a', '1b'].includes(x.lv)));
+  assert.ok(k1.filter(x => x.lv === '1a').length >= 8);
+  (await pscPicks(page, 'K', 2, 'strong')).forEach(x => assert.strictEqual(x.lv, '1b'));
+  await page.context().close();
+});
+
+test('with no year set, Quick mode picks as it did before the year rule', async () => {
+  const page = await ready();
+  const r = await page.evaluate(() => {
+    switchStu(0); setSubject('general'); const s = cur(); s.year = ''; onGenLevel(currentIdx, 'strong');
+    const t = GEN_TRAITS['Emotional Wellbeing'][0];
+    return { home: pscHomeLevel(s), cands: quickCandidates(s, 'Emotional Wellbeing', t, true).length, all: t.sentences.filter(x => inSemester(x)).length };
+  });
+  assert.strictEqual(r.home, null); assert.strictEqual(r.cands, r.all);
+  await page.context().close();
+});
+
+test('a Kindergarten comment already holding a Year 5 sentence keeps its tick, and Swap in Review moves it to a fitting one', async () => {
+  const page = await ready();
+  const r = await page.evaluate(() => {
+    switchStu(0); setSubject('general'); const s = cur(); CATS.forEach(c => (s.selected[c] || []).slice().forEach(k => genRemoveKey(c, k)));
+    s.year = '5'; onGenLevel(currentIdx, 'strong');
+    const c = 'Emotional Wellbeing', t = GEN_TRAITS[c][0], kg = t.sentences.find(x => PSC_LEVEL[x] === '1a');
+    genAddKey(c, kg);
+    const ticked = quickTicked(s, c, t);
+    const offered = quickCandidates(s, c, t, false).map(x => PSC_LEVEL[x]);
+    return { ticked, offered };
+  });
+  assert.ok(r.ticked); r.offered.forEach(l => assert.ok(['3', '4'].includes(l), l));
+  await page.context().close();
+});
