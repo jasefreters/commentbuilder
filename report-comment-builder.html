@@ -14587,7 +14587,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.39';
+const APP_VERSION = 'v3.17.40';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15332,6 +15332,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.40', date: '16 November 2026', items: [
+    'The synonym window now reads the whole sentence (without the student\'s name) and only offers words that keep its meaning, such as no more "terms" for "words". Curriculum words like words, meaning, sentences and texts are no longer marked as repeats or offered for swapping, and swaps of them learned earlier are cleared from Your usual swaps.'
+  ] },
   { v: 'v3.17.39', date: '16 November 2026', items: [
     'Eight comments reworded after the Semester 2 final check: "predetermined categories", "fractions with the same denominator" (two future directions), "types efficiently" (three typing comments), "pictures and captions", "uses context to understand unfamiliar words", "uses teacher feedback", "is respected by her peers and consistently shows a kind-hearted nature" and "genuine concern for". Comments already built with the old wording stay as they are and still show as picked.'
   ] },
@@ -16257,6 +16260,18 @@ const REPORT_WHITELIST = new Set([
   'approach','approaches','interest','interests','feedback',
 ]);
 
+// v3.17.40 · curriculum words. They are not marked as repeats and never offered for swapping (the synonym picker once turned "words" into "terms",
+// "meaning" into "sense", "sentences" into "statements"). Forms with s, es, ed and ing are covered by isProtectedWord.
+const PROTECTED_WORDS = new Set(['word','meaning','sentence','text','number','fraction','decimal','paragraph','spelling','punctuation','grammar','vocabulary','data','graph','angle','shape','pattern','addition','subtraction','multiplication','division','add','subtract','multiply','divide','sum','read','write','story','stories','character','author','audience','noun','verb','adjective','syllable','sound','letter','digit','place','value','measure','length','area','volume','mass','time','money','chance','problem','strategy','strategies','reading','writing','speaking','listening','handwriting','typing','keyboard','denominator','numerator','equation','operation','question','answer','topic','idea','information','passage','paragraphs','heading','caption']);
+function isProtectedWord(w) {
+  w = String(w || '').toLowerCase().replace(/[^a-z]/g, ''); if (!w) return false;
+  if (PROTECTED_WORDS.has(w)) return true;
+  const cands = [w.replace(/s$/, ''), w.replace(/es$/, ''), w.replace(/ies$/, 'y'), w.replace(/ed$/, ''), w.replace(/ed$/, 'e'), w.replace(/ing$/, ''), w.replace(/ing$/, 'e'), w.replace(/ings$/, '')];
+  return cands.some(c => c !== w && c.length > 2 && PROTECTED_WORDS.has(c));
+}
+// the plain forms are also left out of the repeated-word marks (Build and Review)
+PROTECTED_WORDS.forEach(b => { [b, b + 's', b + 'es', b + 'ed', b + 'ing', b.replace(/e$/, '') + 'ing', b.replace(/y$/, 'ies')].forEach(f => REPORT_WHITELIST.add(f)); });
+
 // ── WORD FAMILIES (v3.16.5) ──────────────────────────────────────
 // Words from the same root count as one repeated word: enthusiasm / enthusiastic / enthusiastically,
 // creative / creativity, participate / participation / participated, confidence / confidently.
@@ -16736,12 +16751,23 @@ async function openSynDropdown(event, markEl) {
   showSynonymsPanel(word, markEl);
 }
 
+// v3.17.40: the sentence a marked word sits in, with the student's name (and any part of it) replaced by "the student", for the synonym request
+function _synSentenceFor(markEl, word) {
+  const sp = markEl && markEl.closest ? markEl.closest('span[data-si]') : null;
+  let t = sp ? sp.textContent : String(word || '');
+  const stu = cur(), names = new Set();
+  if (stu && stu.name) { names.add(String(stu.name).trim()); String(stu.name).split(/[\s-]+/).forEach(x => x && x.length > 1 && names.add(x)); names.add(cn(stu)); }
+  Array.from(names).filter(Boolean).sort((a, b) => b.length - a.length).forEach(n => { t = t.replace(new RegExp('(?<![A-Za-z])' + n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z])', 'gi'), 'the student'); });
+  return t.trim().replace(/\s+/g, ' ');
+}
 async function showSynonymsPanel(word, markEl) {
   word = word || (_synOpenMark ? _synOpenMark.dataset.word : '');
   markEl = markEl || _synOpenMark;
   const panel = document.getElementById('synPanel');
   panel.innerHTML = styleUsualRowHtml(word) + '<div id="synList"><div class="syn-loading"><div class="spinner"></div><span>Finding synonyms…</span></div></div>';
   const list = document.getElementById('synList');
+  if (isProtectedWord(word)) { list.innerHTML = '<div class="syn-none">This is a curriculum word, so it is best left as it is.</div>'; return; }
+  const sentence = _synSentenceFor(markEl, word);
 
   const commentText = document.getElementById('pubContent').textContent.toLowerCase();
   const usedWords = new Set(commentText.match(/\b[a-z]+\b/g) || []);
@@ -16755,15 +16781,19 @@ async function showSynonymsPanel(word, markEl) {
         role: 'user',
         content: `You are helping an Australian primary school teacher vary word choice in student report comments written for parents. Use Australian English spelling and grammar throughout (e.g. 'recognise' not 'recognize', 'colour' not 'color', 'organise' not 'organize'). Do not use the Oxford comma.
 
-Give 6 synonyms for the word "${word}" that meet ALL of these criteria:
-- Simple and easy for any parent to understand (avoid academic, rare or unusual words)
-- Common everyday English — ideally words a Year 5 student would know
-- Natural-sounding in a school report sentence
-- One or two syllables where possible
-- No jargon, no overly formal words
+Here is the sentence the word sits in. The student is called "the student".
+Sentence: ${sentence}
+Word to replace: "${word}"
 
-Return ONLY a JSON array of 6 lowercase strings, no explanation, no markdown:
-["word1","word2","word3","word4","word5","word6"]`
+Give up to 6 words or short phrases that could replace "${word}" in this sentence and keep its meaning exactly. Each must meet ALL of these criteria:
+- It fits the sentence as written (same tense, number and grammar) and means the same thing here
+- Simple and easy for any parent to understand (avoid academic, rare or unusual words)
+- Common everyday English, ideally words a Year 5 student would know
+- Not a different subject word (for example do not replace "words" with "terms" or "texts" with "passages")
+If no replacement keeps the meaning, return an empty array.
+
+Return ONLY a JSON array of lowercase strings (or []), no explanation, no markdown:
+["word1","word2"]`
       }]
     });
 
@@ -16776,7 +16806,7 @@ Return ONLY a JSON array of 6 lowercase strings, no explanation, no markdown:
 
     list.innerHTML = '';
     if (!unused.length && !used.length) {
-      list.innerHTML = '<div class="syn-none">No synonyms found.</div>';
+      list.innerHTML = '<div class="syn-none">No replacement keeps the meaning of this sentence.</div>';
       return;
     }
 
@@ -16963,7 +16993,7 @@ function normaliseStyleMemory(m) {
   if (!m || typeof m !== 'object') return out;
   Object.keys(m.pairs || {}).forEach(k => {
     const p = m.pairs[k];
-    if (p && typeof p.from === 'string' && typeof p.to === 'string' && p.from && p.to) {
+    if (p && typeof p.from === 'string' && typeof p.to === 'string' && p.from && p.to && !isProtectedWord(p.from)) {   // v3.17.40: swaps of curriculum words learned earlier are dropped
       out.pairs[k] = { from: p.from, to: p.to, n: Math.max(1, p.n | 0), last: p.last || 0 };
     }
   });
@@ -17047,7 +17077,7 @@ function _studentSeen(stu, subj) {
 // Records one swap. Each swap is counted once per student, subject and semester. Returns true if it was new.
 function recordStyleSwap(from, to, stu, subj) {
   from = (from || '').toLowerCase().trim(); to = (to || '').toLowerCase().trim();
-  if (!from || !to || from === to) return false;
+  if (!from || !to || from === to || isProtectedWord(from)) return false;
   const key = from + '>' + to;
   if (styleMemory.blocked[key]) return false;
   const seen = _studentSeen(stu, subj);
@@ -17136,7 +17166,7 @@ function buildSugIndex() {
 function getSugIndex() { return _sugIndex || (_sugIndex = buildSugIndex()); }
 function matchCase(src, repl) { return src[0] !== src[0].toLowerCase() ? repl.charAt(0).toUpperCase() + repl.slice(1) : repl; }
 function styleSugFor(word) {
-  if (!word || !styleSugOn()) return null;
+  if (!word || !styleSugOn() || isProtectedWord(word)) return null;
   const hit = getSugIndex().get(word.toLowerCase().replace(/’/g, "'"));
   return hit ? { to: matchCase(word, hit.to), key: hit.key, derived: hit.derived } : null;
 }
