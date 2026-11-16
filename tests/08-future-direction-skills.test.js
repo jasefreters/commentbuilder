@@ -169,3 +169,10 @@ test('the done count total follows the class when a student is added or deleted 
   assert.equal(r.a, String(r.n0)); assert.equal(r.b, String(r.n0 + 1)); assert.equal(r.c, String(r.n0)); assert.equal(r.n1, r.n0);
   await page.context().close();
 });
+
+test('there is no limit on future directions: a third can be picked by hand', async () => {
+  const page = await openApp(); await student(page, [MONITOR]);
+  const n = await page.evaluate(() => { currentTab = 'Future Directions'; renderOpts(); setCurFD([]); const all = Object.values(ENGLISH_FD).flatMap(st => st['Stage 3']).slice(0, 4); all.forEach(t => toggleFD(t)); return { n: getCurFD().length, locked: document.querySelectorAll('.opts-locked').length }; });
+  assert.strictEqual(n.n, 4); assert.strictEqual(n.locked, 0);
+  await page.context().close();
+});
