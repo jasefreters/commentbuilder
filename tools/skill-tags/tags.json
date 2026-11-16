@@ -672,7 +672,7 @@
       "group": "english|Reading Comprehension",
       "kind": "sentence",
       "stage": "S3",
-      "text": "{{S}} reads with confidence and uses skimming strategies to identify key ideas, locate details and understand unfamiliar words.",
+      "text": "{{S}} reads with confidence and uses skimming strategies to identify key ideas and locate details, and uses context to understand unfamiliar words.",
       "skill": "reading-strategies",
       "skill2": "finding-information"
     },
@@ -865,7 +865,7 @@
       "group": "english|Reading Comprehension",
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} uses headings, pictures and links to find information in a text.",
+      "text": "{{S}} uses headings, pictures and captions to find information in a text.",
       "skill": "finding-information"
     },
     {
@@ -914,7 +914,7 @@
       "group": "english|Reading Comprehension",
       "kind": "sentence",
       "stage": "",
-      "text": "{{S}} takes on teacher feedback to improve {{pos}} skills when reading texts.",
+      "text": "{{S}} uses teacher feedback to improve {{pos}} skills when reading texts.",
       "skill": "none"
     },
     {
@@ -2200,7 +2200,7 @@
       "group": "english|Handwriting",
       "kind": "sentence",
       "stage": "S3",
-      "text": "{{S}} writes with a legible and fluent handwriting style for extended periods and navigates the keyboard efficiently when typing words, numbers and punctuation.",
+      "text": "{{S}} writes with a legible and fluent handwriting style for extended periods and types words, numbers and punctuation efficiently.",
       "skill": "fluent-handwriting",
       "skill2": "keyboard"
     },
@@ -2208,7 +2208,7 @@
       "group": "english|Handwriting",
       "kind": "sentence",
       "stage": "S3",
-      "text": "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation.",
+      "text": "{{S}} types words, numbers and punctuation efficiently.",
       "skill": "keyboard"
     },
     {
@@ -2222,7 +2222,7 @@
       "group": "english|Handwriting",
       "kind": "sentence",
       "stage": "S3",
-      "text": "{{S}} writes with a fluent, legible handwriting style and navigates the keyboard efficiently when typing.",
+      "text": "{{S}} writes with a fluent, legible handwriting style and types efficiently.",
       "skill": "fluent-handwriting",
       "skill2": "keyboard"
     },
@@ -3859,14 +3859,14 @@
       "group": "maths|Representing Quantity Fractions",
       "kind": "fd",
       "stage": "Stage 3",
-      "text": "Adding and subtracting similar fractions.",
+      "text": "Adding and subtracting fractions with the same denominator.",
       "skill": "calculating"
     },
     {
       "group": "maths|Representing Quantity Fractions",
       "kind": "fd",
       "stage": "Stage 3",
-      "text": "Solving word problems that involve similar fractions.",
+      "text": "Solving word problems that involve fractions with the same denominator.",
       "skill": "calculating"
     },
     {
@@ -5555,7 +5555,7 @@
       "group": "maths|Data",
       "kind": "sentence",
       "stage": "S2B",
-      "text": "{{S}} creates surveys and records data using predicted categories.",
+      "text": "{{S}} creates surveys and records data using predetermined categories.",
       "skill": "collecting"
     },
     {

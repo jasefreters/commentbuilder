@@ -66,7 +66,7 @@
     {
       "kind": "sentence",
       "stage": "S3",
-      "text": "{{S}} reads with confidence and uses skimming strategies to identify key ideas, locate details and understand unfamiliar words."
+      "text": "{{S}} reads with confidence and uses skimming strategies to identify key ideas and locate details, and uses context to understand unfamiliar words."
     },
     {
       "kind": "sentence",
@@ -201,7 +201,7 @@
     {
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} uses headings, pictures and links to find information in a text."
+      "text": "{{S}} uses headings, pictures and captions to find information in a text."
     },
     {
       "kind": "sentence",
@@ -236,7 +236,7 @@
     {
       "kind": "sentence",
       "stage": "",
-      "text": "{{S}} takes on teacher feedback to improve {{pos}} skills when reading texts."
+      "text": "{{S}} uses teacher feedback to improve {{pos}} skills when reading texts."
     },
     {
       "kind": "sentence",

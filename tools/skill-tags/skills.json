@@ -455,7 +455,7 @@
       "definition": "Finds keys and types words, numbers and punctuation with accuracy and speed.",
       "examples": [
         "Navigating the keyboard with efficiency and accuracy when typing words, numbers, punctuation and other symbols.",
-        "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation."
+        "{{S}} types words, numbers and punctuation efficiently."
       ]
     },
     {
@@ -741,7 +741,7 @@
       "name": "Calculating with fractions",
       "definition": "Adds, subtracts, multiplies or divides fractions, including in word problems.",
       "examples": [
-        "Adding and subtracting similar fractions.",
+        "Adding and subtracting fractions with the same denominator.",
         "{{S}} adds and subtracts simple fractions with accuracy."
       ]
     },
@@ -1058,7 +1058,7 @@
       "definition": "Answers, asks and chooses questions and runs surveys to gather data.",
       "examples": [
         "Conducting a survey to collect a variety of data.",
-        "{{S}} creates surveys and records data using predicted categories."
+        "{{S}} creates surveys and records data using predetermined categories."
       ]
     },
     {

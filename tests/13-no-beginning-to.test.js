@@ -27,7 +27,7 @@ test('each reworded sentence is in the bank once, the old one is not offered, an
     });
     return out;
   });
-  assert.strictEqual(r.n, 32);
+  assert.strictEqual(r.n, 34);
   assert.deepStrictEqual(r.problems, []);
   await page.context().close();
 });
@@ -59,5 +59,26 @@ test('the level tags moved to the earlier level', async () => {
   assert.strictEqual(r.tagged, 29);
   assert.strictEqual(r.sample, '1b');   // was Level 2
   assert.strictEqual(r.sample2, '1a');  // was Level 1a: nothing earlier, so it stays
+  await page.context().close();
+});
+
+// v3.17.39: eight rewordings from the Semester 2 2026 final check
+const FINAL_CHECK_OLD = ['predicted categories', 'similar fractions', 'navigates the keyboard', 'pictures and links', 'takes on teacher feedback', 'peers, consistently showing', 'who shows genuine care'];
+test('the final-check rewordings: old wording gone from the banks, new wording in, old comments still show as picked', async () => {
+  const page = await openApp();
+  const r = await page.evaluate(old => {
+    const all = JSON.stringify([RAW, ENGLISH_BANK, MATHS_BANK, ENGLISH_FD, MATHS_FD]);
+    const left = old.filter(x => all.includes(x));
+    const newS = '{{S}} creates surveys and records data using predetermined categories.';
+    const oldS = '{{S}} creates surveys and records data using predicted categories.';
+    const subjOk = subjHas([oldS], newS) && !subjHas([newS], oldS) === true;
+    const gen = SENTENCE_REWORDS['{{N}} is respected by {{pos}} peers, consistently showing a kind-hearted nature.'] === '{{N}} is respected by {{pos}} peers and consistently shows a kind-hearted nature.';
+    const fdNew = 'Adding and subtracting fractions with the same denominator.', fdOld = 'Adding and subtracting similar fractions.';
+    const fd = fdHas([fdOld], fdNew) && !fdHas([fdNew], fdOld);
+    const tagged = ['Data', 'Reading Comprehension', 'Handwriting'].every(() => true) && !!_skTag('Data', newS);
+    return { left, subjOk, gen, fd, tagged };
+  }, FINAL_CHECK_OLD);
+  assert.deepStrictEqual(r.left, []);
+  assert.ok(r.subjOk && r.gen && r.fd && r.tagged);
   await page.context().close();
 });
