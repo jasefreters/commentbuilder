@@ -175,3 +175,31 @@ test('a reworded English sentence is not swapped, and future directions have no 
   assert.deepStrictEqual(await page.$$eval('#pubContent span[data-pi][data-si]', e => e.map(x => x.textContent.trim())), before);
   await page.context().close();
 });
+
+// v3.17.34: change the mark on the groups screen itself
+const marks = page => page.$$eval('#quickPanel .quick-mk', els => els.map(e => ({ g: e.dataset.grade, on: e.classList.contains('on') })));
+for (const subj of ['english', 'maths']) {
+  test('Quick mode ' + subj + ': the mark row shows the mark, a tap changes it in place and leaves exactly one mark', async () => {
+    const page = await ready();
+    const cat = await page.evaluate(s => Object.keys(SUBJ_TRAITS[s]).find(c => c !== 'Introduction'), subj);
+    await prep(page, subj, cat, 'B'); await quickOn(page);
+    let m = await marks(page); assert.deepStrictEqual(m.map(x => x.g), ['A', 'B', 'C', 'D', 'E']); assert.deepStrictEqual(m.filter(x => x.on).map(x => x.g), ['B']);
+    await page.click('#quickPanel .quick-mk[data-grade="D"]'); await settle(page, 100);
+    assert.deepStrictEqual(await page.evaluate(c => getCurGrade(c), cat), ['D']);
+    m = await marks(page); assert.deepStrictEqual(m.filter(x => x.on).map(x => x.g), ['D']);
+    await page.click('#quickPanel .quick-mk[data-grade="D"]'); await settle(page, 100);
+    assert.deepStrictEqual(await page.evaluate(c => getCurGrade(c), cat), ['D'], 'tapping the chosen mark again does not clear it');
+    await page.context().close();
+  });
+}
+
+test('Quick mode: with no mark set a note asks for one, and choosing it clears the note', async () => {
+  const page = await ready();
+  const cat = await page.evaluate(() => Object.keys(SUBJ_TRAITS.english).find(c => c !== 'Introduction'));
+  await prep(page, 'english', cat, null); await quickOn(page);
+  await page.evaluate(c => { _quickMarkAsked[(cur().uid || currentIdx) + '|english|' + c] = true; render(); }, cat);
+  assert.ok(await page.$('#quickPanel .quick-warn'));
+  await page.click('#quickPanel .quick-mk[data-grade="C"]'); await settle(page, 100);
+  assert.strictEqual(await page.$('#quickPanel .quick-warn'), null);
+  await page.context().close();
+});

@@ -289,3 +289,17 @@ test('a Kindergarten comment already holding a Year 5 sentence keeps its tick, a
   assert.ok(r.ticked); r.offered.forEach(l => assert.ok(['3', '4'].includes(l), l));
   await page.context().close();
 });
+
+// v3.17.34: change the level on the groups screen itself
+test('General Quick mode: the level row changes the level in place, and a note shows when level or year is missing', async () => {
+  const page = await ready();
+  await prep(page, 0, 'average'); await quickOn(page);
+  const lv = () => page.$$eval('#quickPanel .quick-mk', els => els.filter(e => e.classList.contains('on')).map(e => e.dataset.level));
+  assert.deepStrictEqual(await lv(), ['average']);
+  await page.click('#quickPanel .quick-mk[data-level="developing"]'); await settle(page, 100);
+  assert.strictEqual(await page.evaluate(() => cur().generalLevel), 'developing');
+  assert.deepStrictEqual(await lv(), ['developing']);
+  await page.evaluate(() => { cur().year = ''; render(); });
+  assert.ok(await page.$('#quickPanel .quick-warn'));
+  await page.context().close();
+});
