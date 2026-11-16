@@ -130,3 +130,55 @@ test('a swap carries the paragraph the teacher chose with it', async () => {
   assert.strictEqual(Object.values(L)[0], false);
   await page.context().close();
 });
+
+// v3.17.35: the button stays reachable, taps keep it, the paragraph menu has Swap
+async function firstSpanPoint(page) { return page.$$eval('#pubContent span[data-pi][data-si]', els => { const f = els[0].getClientRects()[0]; return { x: f.left + 20, y: f.top + 8 }; }); }
+const btnState = page => page.evaluate(() => { const b = document.getElementById('swapBtn'); if (!b || b.style.display !== 'block') return null; const r = b.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
+
+test('moving the pointer from a sentence to the Swap button keeps the button in place, and it can be pressed', async () => {
+  const page = await ready(); const name = await setup(page);
+  await page.setViewportSize({ width: 1300, height: 900 });
+  await openReview(page, name, 'general');
+  const p = await firstSpanPoint(page); await page.mouse.move(p.x, p.y); await settle(page, 100);
+  const b = await btnState(page); assert.ok(b, 'the button shows');
+  for (let i = 1; i <= 25; i++) { await page.mouse.move(p.x + (b.x - p.x) * i / 25, p.y + (b.y - p.y) * i / 25); await page.waitForTimeout(25); }
+  await page.waitForTimeout(900);
+  assert.deepStrictEqual(await btnState(page), b, 'the button did not move or hide');
+  const before = (await spanTexts(page))[0];
+  await page.mouse.down(); await page.mouse.up(); await settle(page);
+  assert.notStrictEqual((await spanTexts(page))[0], before);
+  await page.context().close();
+});
+
+test('tapping a sentence keeps the button until Escape or a tap elsewhere', async () => {
+  const page = await ready(); const name = await setup(page);
+  await page.setViewportSize({ width: 1300, height: 900 });
+  await openReview(page, name, 'general');
+  const p = await firstSpanPoint(page); await page.mouse.click(p.x, p.y); await settle(page, 100);
+  await page.mouse.move(5, 5); await page.waitForTimeout(1000);
+  assert.ok(await btnState(page), 'still there after the pointer leaves');
+  await page.keyboard.press('Escape'); assert.strictEqual(await btnState(page), null);
+  await page.mouse.click(p.x, p.y); await settle(page, 100); assert.ok(await btnState(page));
+  await page.mouse.click(5, 5); await settle(page, 100); assert.strictEqual(await btnState(page), null);
+  await page.context().close();
+});
+
+test('the paragraph menu has Swap this sentence, and it swaps', async () => {
+  const page = await ready(); const name = await setup(page);
+  await page.setViewportSize({ width: 1300, height: 900 });
+  await openReview(page, name, 'general');
+  const before = (await spanTexts(page))[0];
+  await page.evaluate(() => { const sp = document.querySelector('#pubContent p.pub-para:not(.fd-para) > span[data-si]'); _paraSpan = sp; openParaMenu(); });
+  const item = await page.$('#paraMenu button:text("Swap this sentence")'); assert.ok(item);
+  await item.click(); await settle(page);
+  assert.notStrictEqual((await spanTexts(page))[0], before);
+  await page.context().close();
+});
+
+test('the draft pane no longer carries the "Pasting or typing" line, and Settings shows a cog', async () => {
+  const page = await ready();
+  assert.strictEqual(await page.$('#draftLock'), null);
+  assert.ok(!(await page.content()).includes('Pasting or typing here changes'));
+  assert.strictEqual(await page.$$eval('#settingsBtn svg path', e => e.length), 2);
+  await page.context().close();
+});
