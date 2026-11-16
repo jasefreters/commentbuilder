@@ -15970,19 +15970,25 @@ function finalCheck(stu, subj, text, others) {
     // The same word twice in a row
     { const dd = fixed.replace(/\b([A-Za-z]{2,})\s+\1\b/gi, '$1');
       if (dd !== fixed) { kinds.push('doubled'); notes.push('A word is repeated.'); fixed = dd; } }
-    // Another student's name
-    (others || []).forEach(n => {
-      if (!n || n.length < 3 || own.includes(n.toLowerCase())) return;
-      const re = new RegExp('(?<![A-Za-z0-9-])' + n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z0-9-])', 'g');
-      if (re.test(fixed)) { kinds.push('name'); notes.push('Mentions ' + n + ', who is another student in the class.'); fixed = fixed.replace(re, cn(stu) || stu.name || n); }
-    });
     // Spacing and punctuation
-    let sp = fixed.replace(/[ \t]{2,}/g, ' ').replace(/\s+([,.;:!?])/g, '$1').replace(/([,;:])(?=[A-Za-z])/g, '$1 ').replace(/([a-z])\.(?=[A-Z][a-z])/g, '$1. ').replace(/\.{2,}(?!\.)/g, '.').replace(/,\s*,/g, ',');
+    let sp = fixed.replace(/[ \t]{2,}/g, ' ').replace(/\s+([,.;:!?])/g, '$1').replace(/([,;:])(?=[A-Za-z])/g, '$1 ').replace(/([a-z])\.(?=[A-Z][a-z])/g, '$1. ').replace(/(?<![.])\.\.(?![.])/g, '.').replace(/,\s*,/g, ',');
     if (sp !== fixed) { kinds.push('spacing'); notes.push('Spacing or punctuation needs tidying.'); fixed = sp; }
     if (!/[.!?]["')\]]*$/.test(fixed.trim())) { kinds.push('ending'); notes.push('The sentence does not end with a full stop.'); fixed = fixed.trim() + '.'; }
-    if (kinds.length) out.push({ kinds, sentence: sent, fixed: fixed !== sent ? fixed : null, partial: !canFix, note: notes.join(' ') });
+    if (kinds.length && fixed !== sent || kinds.includes('pronoun')) out.push({ kinds, sentence: sent, fixed: fixed !== sent ? fixed : null, partial: !canFix, note: notes.join(' ') });
+    // Another student's name: flagged only, never changed automatically
+    const ownFull = String(stu && stu.name || '').trim().toLowerCase(), ownFirst = String(cn(stu) || '').toLowerCase();
+    const hit = (others || []).filter(n => n && n.length >= 3 && !own.includes(n.toLowerCase()) && n.toLowerCase() !== ownFull && n.toLowerCase() !== ownFirst && !_fcCommonWord(n) && new RegExp('(?<![A-Za-z0-9-])' + n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z0-9-])').test(sent));
+    if (hit.length) out.push({ kinds: ['othername'], sentence: sent, fixed: null, partial: true, note: 'Mentions ' + hit.join(' and ') + ', who ' + (hit.length === 1 ? 'is' : 'are') + ' in the class. Open the comment to check it.' });
   });
   return out;
+}
+const FC_COMMON_NAMES = new Set(['will', 'may', 'mark', 'rose', 'hope', 'joy', 'faith', 'grace', 'pat', 'bill', 'art', 'ray', 'jack', 'bob', 'drew', 'dawn', 'summer', 'sky', 'lily', 'daisy', 'ivy', 'amber', 'ruby', 'pearl', 'page', 'bay', 'sue', 'chase', 'miles', 'frank', 'max', 'sandy', 'storm', 'river', 'rich', 'heath', 'earl', 'dean', 'reed', 'wade', 'cliff', 'lane', 'noel', 'clay', 'brook', 'hunter', 'baker', 'taylor', 'rob', 'rod', 'gene', 'don', 'sam', 'tom', 'lee', 'ben', 'ron']);
+let _fcBankWords = null;
+function _fcCommonWord(n) {   // a name that is also an everyday word ("Will", "May", "Mark") would give false alarms
+  const w = String(n).toLowerCase();
+  if (FC_COMMON_NAMES.has(w) && !/^(sam|tom|lee|ben|ron|rob|don)$/.test(w)) return true;
+  if (!_fcBankWords) { _fcBankWords = new Set(); try { JSON.stringify(RAW).toLowerCase().replace(/[^a-z' ]+/g, ' ').split(/\s+/).forEach(x => { if (x) _fcBankWords.add(x); }); } catch (e) {} }
+  return _fcBankWords.has(w);
 }
 let _fc = { ran: false, items: [], ignored: new Set(), msg: '' };
 function _fcAllFirstNames() { return students.map(s => String(s.name || '').trim().split(/[\s]+/)[0]).filter(Boolean); }
@@ -16008,7 +16014,7 @@ function renderFinalCheck() {
   const live = _fc.items.filter(x => !_fc.ignored.has(x.key));
   const nPron = live.filter(x => x.kinds.includes('pronoun') && x.fixed && !x.partial).length;
   const nSp = live.filter(x => x.kinds.length === 1 && x.kinds[0] === 'spacing' && x.fixed).length;
-  const label = { pronoun: 'Pronoun', name: 'Name', spacing: 'Spacing', doubled: 'Repeated word', ending: 'Full stop' };
+  const label = { pronoun: 'Pronoun', name: 'Name', othername: 'Other student', spacing: 'Spacing', doubled: 'Repeated word', ending: 'Full stop' };
   const subjName = { general: 'General', english: 'English', maths: 'Maths' };
   const rows = live.map(x => {
     const s = students[x.stuIdx]; if (!s) return '';
@@ -16048,7 +16054,13 @@ function _fcApply(list) {
   const groups = new Map();
   list.forEach(x => { const g = x.stuIdx + '|' + x.subj; if (!groups.has(g)) groups.set(g, { i: x.stuIdx, subj: x.subj, fixes: [] }); groups.get(g).fixes.push(x); });
   let n = 0, miss = 0;
+  const wasIdx = currentIdx, wasSubj = currentSubject;
   groups.forEach(g => { const d = _fcApplyGroup(g.i, g.subj, g.fixes); n += d; miss += g.fixes.length - d; });
+  try {   // put the teacher back where they were
+    if (currentIdx !== wasIdx) switchStu(wasIdx);
+    if (currentSubject !== wasSubj) setSubject(wasSubj);
+    setView('stats');
+  } catch (e) {}
   runFinalCheck();
   _fc.msg = n ? `Fixed ${n} sentence${n === 1 ? '' : 's'}.` + (miss ? ` ${miss} could not be found, so open ${miss === 1 ? 'it' : 'them'} instead.` : '') : 'Nothing could be fixed automatically. Use Open instead.';
   renderFinalCheck();

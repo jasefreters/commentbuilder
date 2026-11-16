@@ -31,7 +31,7 @@ test('finalCheck finds another student\'s name and spacing slips, and fixes them
       s: finalCheck(sam, 'general', 'Sam  reads well , and writes clearly.Next term.', [])[0],
     };
   });
-  assert.deepStrictEqual(r.n.kinds, ['name']); assert.strictEqual(r.n.fixed, 'Sam works well with Sam.');
+  assert.deepStrictEqual(r.n.kinds, ['othername']); assert.strictEqual(r.n.fixed, null);
   assert.deepStrictEqual(r.s.kinds, ['spacing']); assert.ok(!/  | ,/.test(r.s.fixed), r.s.fixed);
   await page.context().close();
 });
@@ -92,5 +92,31 @@ test('every bank sentence passes the pronoun check for he, she and they', async 
     return bad.slice(0, 5);
   });
   assert.deepStrictEqual(r, []);
+  await page.context().close();
+});
+
+test('review fixes: own hyphenated name is not flagged, common-word names are skipped, pronoun fix leaves names alone, ellipsis kept, teacher put back', async () => {
+  const page = await openApp();
+  await seedClass(page); await settle(page);
+  const r = await page.evaluate(() => {
+    const rl = { name: 'Ruby-Lee', pronoun: 'she' }, sam = { name: 'Sam', pronoun: 'he' };
+    const own = finalCheck(rl, 'general', 'Ruby-Lee is kind and shares her work.', ['Ruby-Lee', 'Sam']);
+    const common = finalCheck(sam, 'general', 'Will Sam try harder? Sam may improve in May.', ['Will', 'May', 'Grace']);
+    const combo = finalCheck(sam, 'general', 'Sam helps Zara with her work.', ['Zara']);
+    const ell = finalCheck(sam, 'general', 'Sam wrote "Wait..." today.', []);
+    switchStu(1); setSubject('english'); setView('publish');
+    const sp = Array.from(document.querySelectorAll('#pubContent span[data-si]')).filter(x => !x.classList.contains('fd-line'))[1];
+    sp.textContent = sp.textContent.replace(/\b(She|she)\b/, m => m === 'She' ? 'He' : 'he').replace(/\b(her)\b/, 'his');
+    _afterReviewEdit(); setView('stats');
+    switchStu(3); setSubject('maths'); setView('stats');
+    runFinalCheck();
+    const its = _fc.items.filter(x => x.stuIdx === 1 && x.kinds.includes('pronoun') && x.fixed && !x.partial);
+    _fcApply(its);
+    return { own: own.length, common: common.length, combo: combo.map(x => [x.kinds, x.fixed]), ell: ell.length, pos: [currentIdx, currentSubject, currentView], n: its.length };
+  });
+  assert.strictEqual(r.own, 0, JSON.stringify(r)); assert.strictEqual(r.common, 0, JSON.stringify(r.common));
+  assert.deepStrictEqual(r.combo, [[['pronoun'], 'Sam helps Zara with his work.'], [['othername'], null]]);
+  assert.strictEqual(r.ell, 0); assert.ok(r.n >= 1);
+  assert.deepStrictEqual(r.pos, [3, 'maths', 'stats']);
   await page.context().close();
 });
