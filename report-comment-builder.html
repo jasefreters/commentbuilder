@@ -924,6 +924,19 @@
   .board-head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px 24px; }
   .board-head h1 { font-size: 30px; line-height: 1.15; font-weight: 700; }
   .board-sub { font-size: 14px; color: var(--t2); margin-top: 6px; }
+  .fc-panel { background: var(--surface, #fff); border: 1px solid var(--border, #ddd); border-radius: 12px; padding: 16px; margin: 0 0 16px; }
+  .fc-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .fc-head h2 { margin: 0; font-size: 18px; }
+  .fc-sum, .fc-msg { margin: 8px 0; font-size: 14px; }
+  .fc-all { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+  .fc-row { border-top: 1px solid var(--border, #ddd); padding: 10px 0; display: grid; gap: 4px; }
+  .fc-meta { font-size: 13px; color: var(--t2); }
+  .fc-sent { font-size: 14px; }
+  .fc-fix { font-size: 14px; border-left: 3px solid var(--hl-tense, #3a8); padding-left: 8px; }
+  .fc-note { font-size: 13px; color: var(--t2); }
+  .fc-ai { border: 1px solid var(--border, #ddd); border-radius: 10px; padding: 10px 12px; margin: 8px 0; font-size: 14px; }
+  .fc-sample { white-space: pre-wrap; font: 13px/1.4 inherit; background: color-mix(in srgb, var(--t2, #666) 8%, transparent); border-radius: 8px; padding: 8px 10px; max-height: 220px; overflow: auto; }
+  .fc-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
   .board-actions { margin-left: auto; display: flex; flex-wrap: wrap; gap: 10px; }
   .board-actions .btn-primary { width: auto; min-height: 44px; padding: 0 18px; font-size: 14px; border-radius: 10px; }
   .board-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -1811,11 +1824,15 @@
           <label class="export-drafts" title="Also export comments that are not marked done"><input type="checkbox" id="exportDrafts"> Include drafts</label>
           <button class="btn-sec" onclick="exportWord()" title="One student per page">Export Word</button>
           <button class="btn-sec" onclick="exportCsv()" title="One row per student">Export CSV</button>
+          <button class="btn-sec" onclick="runFinalCheck()" title="Look for wrong pronouns, other students' names and spacing. Nothing changes until you fix it.">Final check</button>
+          <button class="btn-sec" onclick="startAiReadThrough()" title="Ask the AI to read the comments for odd word choices and grammar. Names are removed first.">AI read-through</button>
           <button class="btn-sec" onclick="openGrades()" title="Upload, check and export each student's grades">Grades</button>
           <button class="btn-sec" onclick="exportAll()">Export text</button>
           <button class="btn-primary" onclick="copyAllFinished()">Copy all finished comments</button>
         </div>
       </div>
+
+      <div class="fc-panel" id="fcPanel" hidden onclick="fcClick(event)"></div>
 
       <div class="board-cards" id="boardCards"></div>
 
@@ -14587,7 +14604,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.40';
+const APP_VERSION = 'v3.17.42';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15332,6 +15349,12 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.42', date: '16 November 2026', items: [
+    'New AI read-through button on the Class board. It only runs when you press it, shows you what will be sent (every name replaced with "Student"), then reads one student at a time and adds suggestions to the Final check list with two fixes to choose from. You can stop it at any time.'
+  ] },
+  { v: 'v3.17.41', date: '16 November 2026', items: [
+    'New Final check button on the Class board. It reads every comment and lists wrong pronouns (including pasted comments), other students\' names and spacing slips. Nothing changes until you press Fix, and you can fix, open or ignore each one, or fix all pronouns or all spacing at once.'
+  ] },
   { v: 'v3.17.40', date: '16 November 2026', items: [
     'The synonym window now reads the whole sentence (without the student\'s name) and only offers words that keep its meaning, such as no more "terms" for "words". Curriculum words like words, meaning, sentences and texts are no longer marked as repeats or offered for swapping, and swaps of them learned earlier are cleared from Your usual swaps.'
   ] },
@@ -15877,8 +15900,300 @@ function checkBadges(done, total, streak) {
     newlyEarned.forEach(b => showBadgeNotif(b));
   }
 }
+// ── v3.17.41 · Final check (Class board) ───────────────────────────────
+// Reads every finished-or-drafted comment and lists things to fix. Running it changes nothing. Each fix is one click.
+const FC_SETS = {
+  he:   { subj: ['he'],   obj: ['him'],  pos: ['his'], refl: ['himself'] },
+  she:  { subj: ['she'],  obj: ['her'],  pos: ['her'], refl: ['herself'] },
+  they: { subj: ['they'], obj: ['them'], pos: ['their'], refl: ['themselves'] }
+};
+const FC_PRON_ALL = /\b(he|she|they|him|them|his|their|hers|himself|herself|themselves|her)\b/gi;
+const FC_NEXT_NOUN_BLOCK = /^(?:[.,;:!?)]|$)/;
+function _fcCase(src, w) { return src[0] === src[0].toUpperCase() && src[0] !== src[0].toLowerCase() ? w[0].toUpperCase() + w.slice(1) : w; }
+// Which pronoun group a word belongs to: returns {who:'he'|'she'|'they', role:'subj'|'obj'|'pos'|'refl'|'her'}
+function _fcWordInfo(w) {
+  w = w.toLowerCase();
+  if (w === 'he') return { who: 'he', role: 'subj' };
+  if (w === 'she') return { who: 'she', role: 'subj' };
+  if (w === 'they') return { who: 'they', role: 'subj' };
+  if (w === 'him') return { who: 'he', role: 'obj' };
+  if (w === 'them') return { who: 'they', role: 'obj' };
+  if (w === 'his') return { who: 'he', role: 'pos' };
+  if (w === 'their') return { who: 'they', role: 'pos' };
+  if (w === 'himself') return { who: 'he', role: 'refl' };
+  if (w === 'herself') return { who: 'she', role: 'refl' };
+  if (w === 'themselves') return { who: 'they', role: 'refl' };
+  if (w === 'her') return { who: 'she', role: 'her' };   // object or possessive, decided by what follows
+  return null;
+}
+// The right word for the student, or null when a safe automatic fix does not exist.
+function _fcReplacement(word, after, target) {
+  const info = _fcWordInfo(word); if (!info || info.who === target) return null;
+  let role = info.role;
+  if (role === 'her') role = FC_NEXT_NOUN_BLOCK.test(after.trim()) || /^(?:and|or|but|to|in|on|for|with|at|by|from|as|so|when|while|because|that|which|who)\b/i.test(after.trim()) ? 'obj' : 'pos';
+  // "he / she / they" change the verb ("they are" / "he is"), so a subject swap to or from "they" is flagged, not fixed
+  if (role === 'subj' && (target === 'they' || info.who === 'they')) return null;
+  const to = FC_SETS[target][role === 'obj' ? 'obj' : role === 'pos' ? 'pos' : role === 'refl' ? 'refl' : 'subj'][0];
+  return _fcCase(word, to);
+}
+function _fcNameTokens(stu) { return String(stu && stu.name || '').split(/[\s-]+/).map(x => x.toLowerCase()).filter(Boolean); }
+// Pure: returns a list of {kind, sentence, fixed|null, note}. `others` is a list of other students' first names.
+function finalCheck(stu, subj, text, others) {
+  const out = [];
+  if (!text) return out;
+  const target = stu && stu.pronoun && FC_SETS[stu.pronoun] ? stu.pronoun : null;
+  const own = _fcNameTokens(stu);
+  splitSentences(text).forEach(sent => {
+    let fixed = sent, kinds = [], notes = [], canFix = true;
+    // Pronouns
+    if (target) {
+      let bad = 0, unfixable = 0, rel = false;
+      fixed = fixed.replace(FC_PRON_ALL, (m, w, off, whole) => {
+        const info = _fcWordInfo(w); if (!info || info.who === target) return m;
+        if (info.who === 'they' && target !== 'they') return m;   // in a he/she comment, they/them/their usually mean other people or things ("share them"), so they are not flagged
+        // "her" in a he/they comment, or "they" in a she comment, is only wrong when it is about this student, so we flag and let the teacher decide
+        bad++;
+        // "her mother", "his friend": the pronoun may be about someone else, so show it as a check and leave the fix to the teacher
+        if (/\b(mother|father|mum|mom|dad|parent|parents|sister|brother|friend|partner|teacher|peer|classmate|character|author|grandmother|grandfather|nan|pop)\b/i.test(whole.slice(0, off) + ' ' + whole.slice(off + m.length).split(/[.,;:!?]/)[0].split(/\s+/).slice(0, 2).join(' '))) { unfixable++; rel = true; return m; }
+        const r = _fcReplacement(w, whole.slice(off + m.length), target);
+        if (r === null) { unfixable++; return m; }
+        return r;
+      });
+      if (bad) {
+        kinds.push('pronoun');
+        notes.push('Uses ' + (bad === 1 ? 'a pronoun' : 'pronouns') + ' that ' + (bad === 1 ? 'does' : 'do') + ' not match ' + ({ he: 'he/him', she: 'she/her', they: 'they/them' })[target] + '.');
+        if (unfixable) { canFix = false; notes.push(rel ? 'Check this one: it may be about someone else.' : 'The verb needs changing too, so open the comment to fix it.'); }
+      }
+    }
+    // Half of a hyphenated first name on its own ("Mary" for "Mary-Jane")
+    { const full = cn(stu) || '';
+      if (full.indexOf('-') > 0) full.split('-').forEach(part => {
+        if (part.length < 2) return;
+        const re = new RegExp('(?<![A-Za-z0-9-])' + part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z0-9-])', 'g');
+        if (re.test(fixed)) { kinds.push('name'); notes.push('Uses "' + part + '" where the name is "' + full + '".'); fixed = fixed.replace(re, full); }
+      });
+    }
+    // The same word twice in a row
+    { const dd = fixed.replace(/\b([A-Za-z]{2,})\s+\1\b/gi, '$1');
+      if (dd !== fixed) { kinds.push('doubled'); notes.push('A word is repeated.'); fixed = dd; } }
+    // Spacing and punctuation
+    let sp = fixed.replace(/[ \t]{2,}/g, ' ').replace(/\s+([,.;:!?])/g, '$1').replace(/([,;:])(?=[A-Za-z])/g, '$1 ').replace(/([a-z])\.(?=[A-Z][a-z])/g, '$1. ').replace(/(?<![.])\.\.(?![.])/g, '.').replace(/,\s*,/g, ',');
+    if (sp !== fixed) { kinds.push('spacing'); notes.push('Spacing or punctuation needs tidying.'); fixed = sp; }
+    if (!/[.!?]["')\]]*$/.test(fixed.trim())) { kinds.push('ending'); notes.push('The sentence does not end with a full stop.'); fixed = fixed.trim() + '.'; }
+    if (kinds.length && fixed !== sent || kinds.includes('pronoun')) out.push({ kinds, sentence: sent, fixed: fixed !== sent ? fixed : null, partial: !canFix, note: notes.join(' ') });
+    // Another student's name: flagged only, never changed automatically
+    const ownFull = String(stu && stu.name || '').trim().toLowerCase(), ownFirst = String(cn(stu) || '').toLowerCase();
+    const hit = (others || []).filter(n => n && n.length >= 3 && !own.includes(n.toLowerCase()) && n.toLowerCase() !== ownFull && n.toLowerCase() !== ownFirst && !_fcCommonWord(n) && new RegExp('(?<![A-Za-z0-9-])' + n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z0-9-])').test(sent));
+    if (hit.length) out.push({ kinds: ['othername'], sentence: sent, fixed: null, partial: true, note: 'Mentions ' + hit.join(' and ') + ', who ' + (hit.length === 1 ? 'is' : 'are') + ' in the class. Open the comment to check it.' });
+  });
+  return out;
+}
+const FC_COMMON_NAMES = new Set(['will', 'may', 'mark', 'rose', 'hope', 'joy', 'faith', 'grace', 'pat', 'bill', 'art', 'ray', 'jack', 'bob', 'drew', 'dawn', 'summer', 'sky', 'lily', 'daisy', 'ivy', 'amber', 'ruby', 'pearl', 'page', 'bay', 'sue', 'chase', 'miles', 'frank', 'max', 'sandy', 'storm', 'river', 'rich', 'heath', 'earl', 'dean', 'reed', 'wade', 'cliff', 'lane', 'noel', 'clay', 'brook', 'hunter', 'baker', 'taylor', 'rob', 'rod', 'gene', 'don', 'sam', 'tom', 'lee', 'ben', 'ron']);
+let _fcBankWords = null;
+function _fcCommonWord(n) {   // a name that is also an everyday word ("Will", "May", "Mark") would give false alarms
+  const w = String(n).toLowerCase();
+  if (FC_COMMON_NAMES.has(w) && !/^(sam|tom|lee|ben|ron|rob|don)$/.test(w)) return true;
+  if (!_fcBankWords) { _fcBankWords = new Set(); try { JSON.stringify(RAW).toLowerCase().replace(/[^a-z' ]+/g, ' ').split(/\s+/).forEach(x => { if (x) _fcBankWords.add(x); }); } catch (e) {} }
+  return _fcBankWords.has(w);
+}
+let _fc = { ran: false, items: [], ignored: new Set(), msg: '' };
+function _fcAllFirstNames() { return students.map(s => String(s.name || '').trim().split(/[\s]+/)[0]).filter(Boolean); }
+function runFinalCheck() {
+  try { saveCur(); } catch (e) {}
+  const firsts = _fcAllFirstNames();
+  const items = [];
+  students.forEach((stu, i) => {
+    const others = firsts.filter(n => !_fcNameTokens(stu).includes(n.toLowerCase()));
+    ['general', 'english', 'maths'].forEach(subj => {
+      if (subjState(stu, subj) === 'none') return;
+      let t = ''; try { t = commentText(stu, subj); } catch (e) {}
+      finalCheck(stu, subj, t, others).forEach(it => items.push(Object.assign({ stuIdx: i, uid: stu.uid || stu.name, subj, key: i + '|' + subj + '|' + it.sentence }, it)));
+    });
+  });
+  _fc = { ran: true, items, ignored: _fc.ignored, msg: '' };
+  renderFinalCheck();
+}
+function renderFinalCheck() {
+  const box = document.getElementById('fcPanel'); if (!box) return;
+  if (!_fc.ran && !_ai.active) { box.hidden = true; box.innerHTML = ''; return; }
+  box.hidden = false;
+  const live = (_fc.ran ? _fc.items : []).concat(_ai.items).filter(x => !_fc.ignored.has(x.key));
+  const nPron = live.filter(x => !x.ai && x.kinds.includes('pronoun') && x.fixed && !x.partial).length;
+  const nSp = live.filter(x => !x.ai && x.kinds.length === 1 && x.kinds[0] === 'spacing' && x.fixed).length;
+  const label = { pronoun: 'Pronoun', name: 'Name', othername: 'Other student', spacing: 'Spacing', doubled: 'Repeated word', ending: 'Full stop', ai: 'AI suggestion' };
+  const subjName = { general: 'General', english: 'English', maths: 'Maths' };
+  const rows = live.map(x => {
+    const s = students[x.stuIdx]; if (!s) return '';
+    const k = escHtml(x.key).replace(/'/g, '&#39;');
+    const fixBtns = x.ai
+      ? x.fixes.map((f, n) => `<button class="btn-sec" data-fc="aifix" data-n="${n}" data-k="${k}">Use fix ${n + 1}</button>`).join('')
+      : (x.fixed && !x.partial ? `<button class="btn-sec" data-fc="fix" data-k="${k}">Fix</button>` : '');
+    const fixTxt = x.ai ? x.fixes.map((f, n) => `<div class="fc-fix">${n + 1}. ${escHtml(f)}</div>`).join('') : (x.fixed && !x.partial ? `<div class="fc-fix">${escHtml(x.fixed)}</div>` : '');
+    return `<div class="fc-row"><div class="fc-meta"><b>${escHtml(stuLabel(s, x.stuIdx))}</b> · ${subjName[x.subj]} · ${x.ai ? label.ai : x.kinds.map(z => label[z]).join(', ')}</div>
+      <div class="fc-sent">${escHtml(x.sentence)}</div>
+      ${fixTxt}
+      <div class="fc-note">${escHtml(x.note)}</div>
+      <div class="fc-btns">${fixBtns}<button class="btn-sec" data-fc="open" data-k="${k}">Open</button><button class="btn-sec" data-fc="ignore" data-k="${k}">Ignore</button></div></div>`;
+  }).join('');
+  let aiBlock = '';
+  if (_ai.stage === 'confirm') {
+    aiBlock = `<div class="fc-ai"><p><b>AI read-through.</b> This sends ${_ai.jobs.length} student${_ai.jobs.length === 1 ? '' : 's'}\u2019 comments to the AI, one student at a time. Every name is replaced with \u201CStudent\u201D and no class or school name is sent. It uses part of your AI allowance. Here is the first one as it will be sent:</p><pre class="fc-sample">${escHtml(_ai.sample)}</pre><div class="fc-btns"><button class="btn-primary" data-fc="aigo">Continue</button><button class="btn-sec" data-fc="aicancel">Cancel</button></div></div>`;
+  } else if (_ai.stage === 'running') {
+    aiBlock = `<div class="fc-ai"><p>AI read-through: ${_ai.done} of ${_ai.jobs.length} read.</p><div class="fc-btns"><button class="btn-sec" data-fc="aistop">Stop</button></div></div>`;
+  } else if (_ai.stage === 'done') {
+    aiBlock = `<div class="fc-ai"><p>${_ai.stopped ? 'Stopped' : 'AI read-through finished'}: ${_ai.done} of ${_ai.jobs.length} read. ${_ai.items.length ? _ai.items.length + ' suggestion' + (_ai.items.length === 1 ? '' : 's') + ' below.' : 'No suggestions.'}</p>${_ai.err ? `<p class="fc-msg">${escHtml(_ai.err)}</p>` : ''}</div>`;
+  }
+  box.innerHTML = `<div class="fc-head"><h2>Final check</h2><button class="btn-sec" data-fc="close">Close</button></div>
+    ${_fc.ran ? `<p class="fc-sum">${_fc.items.filter(x => !_fc.ignored.has(x.key)).length ? `${_fc.items.filter(x => !_fc.ignored.has(x.key)).length} thing${_fc.items.filter(x => !_fc.ignored.has(x.key)).length === 1 ? '' : 's'} to look at across ${students.length} student${students.length === 1 ? '' : 's'}. Nothing has been changed.` : 'No problems found. Pronouns, names and spacing all look right.'}</p>` : ''}
+    ${_fc.msg ? `<p class="fc-msg">${escHtml(_fc.msg)}</p>` : ''}
+    ${aiBlock}
+    ${(nPron || nSp) ? `<div class="fc-all">${nPron ? `<button class="btn-sec" data-fc="allpron">Fix all pronouns (${nPron})</button>` : ''}${nSp ? `<button class="btn-sec" data-fc="allsp">Fix all spacing (${nSp})</button>` : ''}</div>` : ''}
+    <div class="fc-list">${rows}</div>`;
+}
+function _fcNorm(t) { return String(t || '').replace(/\s+/g, ' ').trim(); }
+// The write path: open that student's Review page, change the sentence in place, and let the normal Review save run.
+function _fcApplyGroup(stuIdx, subj, fixes) {
+  const prevIdx = currentIdx, prevSubj = currentSubject;
+  let done = 0;
+  try {
+    if (currentIdx !== stuIdx) switchStu(stuIdx);
+    if (currentSubject !== subj) setSubject(subj);
+    setView('publish');
+    const spans = Array.from(document.querySelectorAll('#pubContent span[data-si]'));
+    fixes.forEach(f => {
+      const sp = spans.find(s => _fcNorm(s.textContent) === _fcNorm(f.sentence));
+      if (sp) { sp.textContent = f.fixed; done++; }
+    });
+    if (done) _afterReviewEdit();
+  } catch (e) { console.warn('final check fix', e); }
+  try { setView('stats'); } catch (e) {}
+  return done;
+}
+function _fcApply(list) {
+  const groups = new Map();
+  list.forEach(x => { const g = x.stuIdx + '|' + x.subj; if (!groups.has(g)) groups.set(g, { i: x.stuIdx, subj: x.subj, fixes: [] }); groups.get(g).fixes.push(x); });
+  let n = 0, miss = 0;
+  const wasIdx = currentIdx, wasSubj = currentSubject;
+  groups.forEach(g => { const d = _fcApplyGroup(g.i, g.subj, g.fixes); n += d; miss += g.fixes.length - d; });
+  try {   // put the teacher back where they were
+    if (currentIdx !== wasIdx) switchStu(wasIdx);
+    if (currentSubject !== wasSubj) setSubject(wasSubj);
+    setView('stats');
+  } catch (e) {}
+  runFinalCheck();
+  _fc.msg = n ? `Fixed ${n} sentence${n === 1 ? '' : 's'}.` + (miss ? ` ${miss} could not be found, so open ${miss === 1 ? 'it' : 'them'} instead.` : '') : 'Nothing could be fixed automatically. Use Open instead.';
+  renderFinalCheck();
+}
+function fcClick(ev) {
+  const b = ev.target.closest('[data-fc]'); if (!b) return;
+  const act = b.dataset.fc, k = b.dataset.k;
+  const it = k ? _fc.items.concat(_ai.items).find(x => x.key === k) : null;
+  if (act === 'close') { _fc.ran = false; _ai.run++; _ai = { active: false, stage: '', jobs: [], done: 0, items: [], stop: false, err: '', sample: '', stopped: false, run: _ai.run }; renderFinalCheck(); return; }
+  if (act === 'aigo') { _aiLoop(); return; }
+  if (act === 'aicancel') { _ai.active = false; _ai.stage = ''; renderFinalCheck(); return; }
+  if (act === 'aistop') { _ai.stop = true; return; }
+  if (act === 'aifix' && it && it.ai) { _aiApply(it, parseInt(b.dataset.n, 10)); return; }
+  if (act === 'ignore' && it) { _fc.ignored.add(k); renderFinalCheck(); return; }
+  if (act === 'open' && it) { openFromBoard(it.stuIdx); if (currentSubject !== it.subj) setSubject(it.subj); setView('publish'); return; }
+  if (act === 'fix' && it && it.fixed && !it.ai) { _fcApply([it]); return; }
+  if (act === 'allpron') { if (confirm('Fix every pronoun listed? Each change keeps the rest of the sentence as it is.')) _fcApply(_fc.items.filter(x => !_fc.ignored.has(x.key) && x.kinds.includes('pronoun') && x.fixed && !x.partial)); return; }
+  if (act === 'allsp') { if (confirm('Fix all the spacing listed?')) _fcApply(_fc.items.filter(x => !_fc.ignored.has(x.key) && x.kinds.length === 1 && x.kinds[0] === 'spacing' && x.fixed)); return; }
+}
+
+
+// ── v3.17.42 · AI read-through (Class board) ───────────────────────────
+// Off unless clicked. Sends one student at a time with every name replaced by "Student". Suggestions join the Final check list.
+let _ai = { active: false, stage: '', jobs: [], done: 0, items: [], stop: false, err: '', sample: '', stopped: false, run: 0 };
+function _aiNameWords() {
+  const set = new Set();
+  students.forEach(st => {
+    const full = String(st.name || '').trim(); if (!full) return;
+    set.add(full.replace(/\s+/g, ' '));
+    full.split(/[\s-]+/).forEach(p => { if (p.length >= 2) set.add(p); });
+  });
+  return Array.from(set).sort((a, b) => b.length - a.length);
+}
+function _aiAnon(text, words) {
+  let t = String(text || '');
+  words.forEach(w => { t = t.replace(new RegExp('(?<![A-Za-z0-9])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+') + '(?![A-Za-z0-9])', 'g'), 'Student'); });
+  return t;
+}
+function _aiBack(text, stu) { return String(text || '').replace(/\bStudent\b/g, cn(stu) || 'Student'); }
+function _aiBuildJobs() {
+  const words = _aiNameWords(), jobs = [];
+  students.forEach((stu, i) => {
+    const parts = [];
+    ['general', 'english', 'maths'].forEach(subj => {
+      if (subjState(stu, subj) === 'none') return;
+      let t = ''; try { t = commentText(stu, subj); } catch (e) {}
+      if (t && t.trim()) parts.push({ subj, text: t, sentences: splitSentences(t) });
+    });
+    if (parts.length) jobs.push({ stuIdx: i, parts, anon: parts.map(p => ({ subj: p.subj, text: _aiAnon(p.text, words) })) });
+  });
+  return jobs;
+}
+function startAiReadThrough() {
+  try { saveCur(); } catch (e) {}
+  if (_ai.stage === 'running') return;
+  const jobs = _aiBuildJobs();
+  if (!jobs.length) { showToast('No comments to read yet.'); return; }
+  _ai = { active: true, stage: 'confirm', jobs, done: 0, items: [], stop: false, err: '', stopped: false, run: _ai.run + 1,
+    sample: jobs[0].anon.map(p => ({ general: 'General', english: 'English', maths: 'Maths' })[p.subj] + ':\n' + p.text).join('\n\n') };
+  renderFinalCheck();
+  const box = document.getElementById('fcPanel'); if (box && box.scrollIntoView) { try { box.scrollIntoView({ block: 'nearest' }); } catch (e) {} }
+}
+function _aiPrompt(job) {
+  const body = job.anon.map(p => `[${p.subj}]\n${p.text}`).join('\n\n');
+  return `You are proofreading student report comments written by an Australian primary school teacher for parents. Use Australian English. The student is called "Student".
+
+Find only: wrong or odd word choices, grammar faults, and sentences that do not make sense. Do not flag style preferences, curriculum terms, a missing Oxford comma, or sentences that are fine. If a comment reads well, return an empty array.
+
+Return ONLY a JSON array, no explanation, no markdown. Each item:
+{"subject":"general|english|maths","sentence":"the sentence copied exactly as written","problem":"what is wrong, in one short plain sentence","fix1":"a corrected full sentence","fix2":"a different corrected full sentence"}
+
+Comments:
+${body}`;
+}
+async function _aiRunOne(job) {
+  const res = await anthropicFetch({ model: 'claude-sonnet-4-6', max_tokens: 1500, system: AI_JSON_SYSTEM, messages: [{ role: 'user', content: _aiPrompt(job) }] });
+  if (!res.ok) throw new Error('API error ' + res.status);
+  const data = await res.json();
+  const arr = parseAiJson(data.content?.find(b => b.type === 'text')?.text || '[]', 'array');
+  const stu = students[job.stuIdx], out = [];
+  (Array.isArray(arr) ? arr : []).forEach(it => {
+    if (!it || typeof it !== 'object') return;
+    const part = job.parts.find(p => p.subj === String(it.subject || '').toLowerCase()); if (!part) return;
+    const anonSents = splitSentences(job.anon.find(p => p.subj === part.subj).text);
+    const idx = anonSents.findIndex(x => _fcNorm(x) === _fcNorm(it.sentence)); if (idx < 0 || !part.sentences[idx]) return;   // only sentences that are really in the comment
+    const fixes = [it.fix1, it.fix2].filter(f => typeof f === 'string' && f.trim() && f.length < 600).map(f => _aiBack(f.trim(), stu));
+    if (!fixes.length || typeof it.problem !== 'string') return;
+    const sentence = part.sentences[idx];
+    out.push({ ai: true, kinds: ['ai'], stuIdx: job.stuIdx, subj: part.subj, sentence, fixes, note: String(it.problem).slice(0, 300).replace(/Student/g, cn(stu) || 'Student'), key: 'ai|' + job.stuIdx + '|' + part.subj + '|' + sentence, fixed: null });
+  });
+  return out;
+}
+async function _aiLoop() {
+  const run = _ai.run; _ai.stage = 'running'; _ai.stop = false; renderFinalCheck();
+  for (let n = 0; n < _ai.jobs.length; n++) {
+    if (_ai.run !== run) return;
+    if (_ai.stop) { _ai.stopped = true; break; }
+    try { const got = await _aiRunOne(_ai.jobs[n]); if (_ai.run !== run) return; _ai.items = _ai.items.concat(got); }
+    catch (e) { if (_ai.run !== run) return; _ai.err = aiErrText(e) || 'The AI read-through could not finish. Suggestions found so far are shown.'; _ai.stage = 'done'; renderFinalCheck(); return; }
+    _ai.done = n + 1; renderFinalCheck();
+  }
+  if (_ai.run !== run) return;
+  _ai.stage = 'done'; renderFinalCheck();
+}
+function _aiApply(it, n) {
+  const f = it.fixes[n]; if (!f) return;
+  _fcApply([{ stuIdx: it.stuIdx, subj: it.subj, sentence: it.sentence, fixed: f }]);
+  _ai.items = _ai.items.filter(x => !(x.stuIdx === it.stuIdx && x.subj === it.subj && x.sentence === it.sentence));   // the sentence has changed, so its suggestions are done
+  renderFinalCheck();
+}
+
 function renderStats() {
   renderBoard();
+  try { renderFinalCheck(); } catch (e) {}
   const done = students.filter(s => s.published).length;
   const engDone = students.filter(s => s.engPublished).length;
   const mathDone = students.filter(s => s.mathPublished).length;
