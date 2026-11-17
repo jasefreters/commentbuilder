@@ -36,29 +36,75 @@
       }
     },
     "english": {
-      "Language for interacting with others": [
-        "Oral Language & Communication"
-      ],
-      "Text structure and organisation": [
-        "Reading Comprehension",
-        "Creating Written Texts"
-      ],
-      "Language for expressing and developing ideas": [
-        "Vocabulary",
-        "Spelling & Grammar",
-        "Creating Written Texts"
-      ],
-      "Literature": [
-        "Understanding and Responding to Literature"
-      ],
-      "Literacy": [
-        "Oral Language & Communication",
-        "Reading Comprehension",
-        "Vocabulary",
-        "Creating Written Texts",
-        "Spelling & Grammar",
-        "Handwriting & Digital Transcription"
-      ]
+      "Interacting": {
+        "keys": [
+          "LA-I",
+          "LY-I"
+        ],
+        "extra": "LY07$",
+        "tabs": [
+          "Oral Language & Communication"
+        ]
+      },
+      "Reading": {
+        "keys": [
+          "LY-T",
+          "LY-A",
+          "LY-P",
+          "LA-T"
+        ],
+        "tabs": [
+          "Reading Comprehension"
+        ]
+      },
+      "Vocabulary": {
+        "keys": [
+          "LA-V",
+          "LA-IM",
+          "LA-E"
+        ],
+        "tabs": [
+          "Vocabulary"
+        ]
+      },
+      "Writing": {
+        "keys": [
+          "LY-C",
+          "LA-T"
+        ],
+        "tabs": [
+          "Creating Written Texts"
+        ]
+      },
+      "Spelling and grammar": {
+        "keys": [
+          "LA-E",
+          "LA-P",
+          "LY-P"
+        ],
+        "tabs": [
+          "Spelling & Grammar"
+        ]
+      },
+      "Handwriting": {
+        "keys": [
+          "LY-C"
+        ],
+        "tabs": [
+          "Handwriting & Digital Transcription"
+        ]
+      },
+      "Literature": {
+        "keys": [
+          "LE-C",
+          "LE-R",
+          "LE-X",
+          "LE-CR"
+        ],
+        "tabs": [
+          "Understanding and Responding to Literature"
+        ]
+      }
     }
   }
 }

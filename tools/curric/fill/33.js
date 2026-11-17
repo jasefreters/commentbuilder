@@ -1,0 +1,35 @@
+const L = require('./lib')('ac9/33.json'); const { keep, add } = L;
+keep(4,3,'AC9E3LY11'); keep(5,3,'AC9E3LY09'); keep(6,4,'AC9E4LY10'); keep(7,3,'AC9E3LA11'); keep(8,4,'AC9E4LA06'); keep(3,4,'AC9E4LA09');
+// Year 3
+add('{{S}} writes sentences with a clear clause that has a subject and a verb that agree.',3,'AC9E3LA06');
+add('{{S}} identifies the subject and the verb in a clause and checks that they agree.',3,'AC9E3LA06');
+add('{{S}} uses verbs that show doing, feeling, thinking, saying and relating.',3,'AC9E3LA07');
+add('{{S}} chooses verbs to describe what characters do, feel, think and say.',3,'AC9E3LA07');
+add('{{S}} uses verb tense to show when something happens.',3,'AC9E3LA08');
+add('{{S}} keeps the tense of verbs consistent throughout a piece of writing.',3,'AC9E3LA08');
+add('{{S}} uses apostrophes for contractions and for singular and plural possession.',3,'AC9E3LA11');
+add('{{S}} blends and segments sounds to read and write longer words with more complex letter patterns.',3,'AC9E3LY09');
+add('{{S}} spells multisyllabic words by breaking them into sounds and syllables.',3,'AC9E3LY09');
+add('{{S}} applies base words, prefixes, suffixes and suffix-adding rules to spell and understand words.',3,'AC9E3LY10');
+add('{{S}} uses base words and common endings to work out the meaning of new words.',3,'AC9E3LY10');
+add('{{S}} uses sound and letter relationships and less common letter patterns to spell words.',3,'AC9E3LY11');
+add('{{S}} recognises and writes most high-frequency words, including some homophones.',3,'AC9E3LY12');
+add('{{S}} chooses the correct homophone, such as there and their, when writing.',3,'AC9E3LY12');
+// Year 4
+add('{{S}} writes complex sentences with one main clause and at least one dependent clause.',4,'AC9E4LA06');
+add('{{S}} uses linking words such as because, although and when to build complex sentences.',4,'AC9E4LA06');
+add('{{S}} uses quoted speech and reported speech correctly in {{pos}} writing.',4,'AC9E4LA07');
+add('{{S}} explains the difference between direct and reported speech.',4,'AC9E4LA07');
+add('{{S}} adds detail to sentences using adverb groups and prepositional phrases.',4,'AC9E4LA08');
+add('{{S}} uses words such as quickly, in the morning and near the river to say how, when and where.',4,'AC9E4LA08');
+add('{{S}} uses past, present and future tense and knows how tense changes meaning.',4,'AC9E4LA09');
+add('{{S}} uses quotation marks and capitals correctly when writing dialogue.',4,'AC9E4LA12');
+add('{{S}} starts a new line for each speaker when writing dialogue.',4,'AC9E4LA12');
+add('{{S}} reads and writes words with complex letter combinations, including a variety of vowel sounds.',4,'AC9E4LY09');
+add('{{S}} spells words with double letters, word families, prefixes and suffixes.',4,'AC9E4LY10');
+add('{{S}} uses spelling generalisations and word families to spell new words.',4,'AC9E4LY10');
+add('{{S}} reads and writes high-frequency words and homophones, using context to choose the correct spelling.',4,'AC9E4LY11');
+add('{{S}} uses the meaning of a sentence to select the correct homophone.',4,'AC9E4LY11');
+add('{{S}} reads and spells words with complex letter combinations and different vowel sounds.',4,'AC9E4LY09');
+L.rest('Year 5 or 6 sentence; decided in batch 34');
+L.save();

@@ -1,0 +1,1462 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9EFLA03",
+   "year": "F",
+   "text": "Understand that texts take many forms, such as signs, books and digital texts"
+  },
+  {
+   "id": "AC9E1LA03",
+   "year": "1",
+   "text": "Explore how texts are organised by purpose, such as to recount, narrate, express opinion, inform, report and explain"
+  },
+  {
+   "id": "AC9E2LA03",
+   "year": "2",
+   "text": "Identify how curriculum texts are organised differently and use language features depending on purpose"
+  },
+  {
+   "id": "AC9EFLA04",
+   "year": "F",
+   "text": "Understand conventions of print and screen, including how books and simple digital texts are organised"
+  },
+  {
+   "id": "AC9E1LA04",
+   "year": "1",
+   "text": "Explore how repetition, rhyme and rhythm create cohesion in simple poems, chants and songs"
+  },
+  {
+   "id": "AC9E2LA04",
+   "year": "2",
+   "text": "Understand how texts are made cohesive through personal and possessive pronouns and omitting inferable words"
+  },
+  {
+   "id": "AC9E1LA05",
+   "year": "1",
+   "text": "Understand how print and screen texts use features such as page numbers, contents, headings, titles, navigation buttons, links and images"
+  },
+  {
+   "id": "AC9E2LA05",
+   "year": "2",
+   "text": "Navigate print and screen texts using chapters, contents, indexes, side-bar or drop-down menus, and links"
+  },
+  {
+   "id": "AC9EFLY01",
+   "year": "F",
+   "text": "Identify familiar texts, such as stories and informative texts, and their purposes"
+  },
+  {
+   "id": "AC9E1LY01",
+   "year": "1",
+   "text": "Discuss different texts and identify features that indicate their purposes"
+  },
+  {
+   "id": "AC9E2LY01",
+   "year": "2",
+   "text": "Identify how similar topics and information are presented in different text types"
+  },
+  {
+   "id": "AC9EFLY03",
+   "year": "F",
+   "text": "Identify some differences between imaginative and informative texts"
+  },
+  {
+   "id": "AC9E1LY03",
+   "year": "1",
+   "text": "Describe similarities and differences among imaginative, informative and persuasive texts"
+  },
+  {
+   "id": "AC9E2LY03",
+   "year": "2",
+   "text": "Identify the purpose and audience of imaginative, informative and persuasive texts"
+  },
+  {
+   "id": "AC9EFLY04",
+   "year": "F",
+   "text": "Read decodable and authentic texts using developing phonic knowledge, and monitor meaning using context and emerging grammar"
+  },
+  {
+   "id": "AC9E1LY04",
+   "year": "1",
+   "text": "Read decodable and authentic texts with developing phonic knowledge, phrasing and fluency, monitoring meaning with context and grammar"
+  },
+  {
+   "id": "AC9E2LY04",
+   "year": "2",
+   "text": "Read texts with phrasing and fluency using phonic and word knowledge, re-reading and self-correcting"
+  },
+  {
+   "id": "AC9EFLY05",
+   "year": "F",
+   "text": "Use comprehension strategies such as visualising, predicting, connecting, summarising and questioning to understand and discuss texts"
+  },
+  {
+   "id": "AC9E1LY05",
+   "year": "1",
+   "text": "Use comprehension strategies while listening, viewing and reading to build literal and inferred meaning, using vocabulary, context and text structures"
+  },
+  {
+   "id": "AC9E2LY05",
+   "year": "2",
+   "text": "Use comprehension strategies, including monitoring, to build literal and inferred meaning"
+  },
+  {
+   "id": "AC9EFLY09",
+   "year": "F",
+   "text": "Recognise and generate rhyming words, alliteration, syllables and phonemes in spoken words (phonological awareness)"
+  },
+  {
+   "id": "AC9E1LY09",
+   "year": "1",
+   "text": "Segment words into separate phonemes, including consonant blends or clusters at the beginning and end of words"
+  },
+  {
+   "id": "AC9E2LY09",
+   "year": "2",
+   "text": "Manipulate more complex sounds in spoken words, using blending, segmenting, phoneme deletion and substitution to read and write words"
+  },
+  {
+   "id": "AC9EFLY10",
+   "year": "F",
+   "text": "Segment sentences into words; blend and segment single-syllable words; isolate, blend and manipulate phonemes"
+  },
+  {
+   "id": "AC9E1LY10",
+   "year": "1",
+   "text": "Orally manipulate initial, medial and final phonemes by addition, deletion and substitution to generate new words"
+  },
+  {
+   "id": "AC9EFLY11",
+   "year": "F",
+   "text": "Recognise and name upper- and lower-case letters and know the most common sound each letter represents"
+  },
+  {
+   "id": "AC9E1LY11",
+   "year": "1",
+   "text": "Read one- and two-syllable words"
+  },
+  {
+   "id": "AC9E2LY10",
+   "year": "2",
+   "text": "Use short and common long vowels, consonant blends and digraphs to write and blend words; read consonant clusters and silent letters in words of one or more syllables, including compound words"
+  },
+  {
+   "id": "AC9EFLY12",
+   "year": "F",
+   "text": "Write CVC words by representing sounds with letters, and blend sounds when reading CVC words"
+  },
+  {
+   "id": "AC9E1LY12",
+   "year": "1",
+   "text": "Understand that a letter can represent more than one sound and that every syllable must contain a vowel sound"
+  },
+  {
+   "id": "AC9EFLY13",
+   "year": "F",
+   "text": "Use knowledge of letters and sounds to spell words"
+  },
+  {
+   "id": "AC9E1LY13",
+   "year": "1",
+   "text": "Spell one- and two-syllable words with common letter patterns"
+  },
+  {
+   "id": "AC9E2LY11",
+   "year": "2",
+   "text": "Use spelling patterns and morphemes to read and write words not fully predictable from sounds, including high-frequency words"
+  },
+  {
+   "id": "AC9EFLY14",
+   "year": "F",
+   "text": "Read and write some high-frequency and familiar words"
+  },
+  {
+   "id": "AC9E1LY14",
+   "year": "1",
+   "text": "Read and write an increasing number of high-frequency words"
+  },
+  {
+   "id": "AC9E2LY12",
+   "year": "2",
+   "text": "Build morphemic word families using knowledge of prefixes and suffixes"
+  },
+  {
+   "id": "AC9EFLY15",
+   "year": "F",
+   "text": "Understand that words are units of meaning and can be made of more than one meaningful part"
+  },
+  {
+   "id": "AC9E1LY15",
+   "year": "1",
+   "text": "Recognise and use grammatical morphemes to create word families"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} comprehends digital texts and advertisements and identifies key ideas in narratives.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies main ideas, understands simple inferences and explains how authors use evidence to support ideas.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads with confidence and connects with the ideas in texts.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses background knowledge and reading skills to better understand texts.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies key ideas and supporting details when reading.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies main ideas and is beginning to recognise how language features help build meaning.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads predictable texts with growing confidence and identifies key ideas to support comprehension.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads simple texts with support and is working towards identifying key information and following the main ideas.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} understands simple, predictable texts.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads predictable texts with guidance and draws basic connections to gain a clearer understanding of the stories.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads simple, familiar texts and is building confidence in recognising high-frequency words.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} comprehends predictable imaginative texts from the main character's perspective.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} tracks print from left to right.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} knows the front and back of a book.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies the spaces between words in a text.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} hears and says the first, middle and final sounds in familiar spoken words.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} blends chunks of spoken words to make new words, such as 'talk-ing'.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} has a strong understanding of taught letters and the sounds they usually make.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises some taught letters of the alphabet and the sounds they make.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} participates in whole class reading activities to blend and segment words.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} listens to familiar stories that are read to {{o}} and recalls basic events that occurred.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} stops at full stops and changes {{pos}} voice for questions when reading aloud.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses pictures to help {{o}} understand stories that are read to {{o}}.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} segments and blends words to read decodable texts with improved fluency and comprehension.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} can identify the beginning and final sound in words.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses background knowledge and personal experiences to connect with texts when reading.",
+   "tab": "Reading Comprehension",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} self-corrects when {{pos}} fluency or meaning is interrupted.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} has shown growth in recognising and re-reading when meaning has been interrupted.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} makes connections between {{pos}} experiences and the events in a story.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses headings, pictures and captions to find information in a text.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads between the lines using clues in the text.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads longer texts with accuracy and uses appropriate volume and speed when reading aloud.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses strategies to fix {{pos}} understanding when meaning breaks down.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} locates relevant information in a text.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies how persuasive, informative and imaginative texts are organised.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} compares print and digital texts to decide which is most useful for a task.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} engages with texts for different purposes.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} shows likes and dislikes about a story.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises familiar words in texts.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} asks questions when the meaning is unclear.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls key events and characters in a story.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls key facts from an information text.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} reads with confidence and connects with the ideas in texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses background knowledge and reading skills to better understand texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies key ideas and supporting details when reading.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads predictable texts with growing confidence and identifies key ideas to support comprehension.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads simple texts with support and is working towards identifying key information and following the main ideas.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} understands simple, predictable texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads predictable texts with guidance and draws basic connections to gain a clearer understanding of the stories.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads simple, familiar texts and is building confidence in recognising high-frequency words.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} comprehends predictable imaginative texts from the main character's perspective.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} tracks print from left to right.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} knows the front and back of a book.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies the spaces between words in a text.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} hears and says the first, middle and final sounds in familiar spoken words.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} blends chunks of spoken words to make new words, such as 'talk-ing'.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} has a strong understanding of taught letters and the sounds they usually make.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises some taught letters of the alphabet and the sounds they make.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} participates in whole class reading activities to blend and segment words.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} listens to familiar stories that are read to {{o}} and recalls basic events that occurred.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} stops at full stops and changes {{pos}} voice for questions when reading aloud.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses pictures to help {{o}} understand stories that are read to {{o}}.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} segments and blends words to read decodable texts with improved fluency and comprehension.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} can identify the beginning and final sound in words.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses background knowledge and personal experiences to connect with texts when reading.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} self-corrects when {{pos}} fluency or meaning is interrupted.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} has shown growth in recognising and re-reading when meaning has been interrupted.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} makes connections between {{pos}} experiences and the events in a story.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses headings, pictures and captions to find information in a text.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads between the lines using clues in the text.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} reads longer texts with accuracy and uses appropriate volume and speed when reading aloud.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses strategies to fix {{pos}} understanding when meaning breaks down.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} locates relevant information in a text.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies how persuasive, informative and imaginative texts are organised.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} compares print and digital texts to decide which is most useful for a task.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} comprehends digital texts and advertisements and identifies key ideas in narratives.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} identifies main ideas, understands simple inferences and explains how authors use evidence to support ideas.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} identifies main ideas and is beginning to recognise how language features help build meaning.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} engages with texts for different purposes.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} shows likes and dislikes about a story.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} recognises familiar words in texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} asks questions when the meaning is unclear.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} recalls key events and characters in a story.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} recalls key facts from an information text.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises that signs, books and screens are different kinds of texts.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} names different kinds of texts and says what each one is used for.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} knows that stories are written to entertain and that other texts give information.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies familiar texts and talks about why they were made.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} says how a story is different from a text that gives facts.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} tells the difference between an imaginative text and an informative text.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} handles books and screens correctly and knows where to begin reading.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} predicts what might happen next in a story and talks about {{pos}} ideas.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses letter sound knowledge to read simple decodable texts.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how a recount, a story and an opinion text are put together for their purpose.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises that a text can be organised to tell, to inform or to share an opinion.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} enjoys the repetition, rhyme and rhythm in poems, chants and songs.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how repeated words and rhymes hold a simple poem together.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses contents pages, headings and links to find information in a text.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} talks about the features of a text that show why it was written.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} discusses different texts and points out clues that show their purpose.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes how stories, information texts and opinion texts are alike and different.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} sorts texts into imaginative, informative and persuasive groups and gives reasons.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses visualising, predicting and questioning to understand texts read aloud.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads decodable texts with growing fluency and checks that they make sense.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how a text is organised differently depending on its purpose.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises how pronouns make a text flow and avoids repeating nouns.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how pronouns link ideas from one sentence to the next.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} navigates print and screen texts using contents pages, indexes, menus and links.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} compares how the same topic is presented in different kinds of texts.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies how information about one topic changes between a book and a website.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies the purpose and audience of imaginative, informative and persuasive texts.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains who a text is written for and what the author wants the reader to do or feel.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads aloud with expression and re-reads to check that the meaning is clear.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses comprehension strategies to build both literal and inferred meaning.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  }
+ ]
+}

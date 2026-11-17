@@ -1,0 +1,782 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "2",
+  "3",
+  "4"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9E2LA03",
+   "year": "2",
+   "text": "Identify how curriculum texts are organised differently and use language features depending on purpose"
+  },
+  {
+   "id": "AC9E3LA03",
+   "year": "3",
+   "text": "Describe how curriculum texts use different language features and structures relevant to their purpose"
+  },
+  {
+   "id": "AC9E4LA03",
+   "year": "4",
+   "text": "Identify how texts have different language features and are typically organised into characteristic stages by purpose"
+  },
+  {
+   "id": "AC9E2LA04",
+   "year": "2",
+   "text": "Understand how texts are made cohesive through personal and possessive pronouns and omitting inferable words"
+  },
+  {
+   "id": "AC9E3LA04",
+   "year": "3",
+   "text": "Understand that paragraphs organise written texts by grouping related information together"
+  },
+  {
+   "id": "AC9E4LA04",
+   "year": "4",
+   "text": "Identify how connectives (temporal and conditional words) and topic word associations sequence and connect ideas"
+  },
+  {
+   "id": "AC9E2LA05",
+   "year": "2",
+   "text": "Navigate print and screen texts using chapters, contents, indexes, side-bar or drop-down menus, and links"
+  },
+  {
+   "id": "AC9E3LA05",
+   "year": "3",
+   "text": "Identify the purpose of layout features in print and digital texts, and the words used for navigation"
+  },
+  {
+   "id": "AC9E4LA05",
+   "year": "4",
+   "text": "Identify online text navigation features that enhance readability, such as headlines, drop-down menus, links, graphics and layout"
+  },
+  {
+   "id": "AC9E2LY01",
+   "year": "2",
+   "text": "Identify how similar topics and information are presented in different text types"
+  },
+  {
+   "id": "AC9E3LY01",
+   "year": "3",
+   "text": "Recognise how texts can share similar purposes but target different audiences"
+  },
+  {
+   "id": "AC9E4LY01",
+   "year": "4",
+   "text": "Compare texts from different times with similar purposes and audiences, noting differences in how events are depicted"
+  },
+  {
+   "id": "AC9E2LY03",
+   "year": "2",
+   "text": "Identify the purpose and audience of imaginative, informative and persuasive texts"
+  },
+  {
+   "id": "AC9E3LY03",
+   "year": "3",
+   "text": "Identify audience and purpose of these text types through language features and/or images"
+  },
+  {
+   "id": "AC9E4LY03",
+   "year": "4",
+   "text": "Identify characteristic features these text types use to meet their purpose"
+  },
+  {
+   "id": "AC9E2LY04",
+   "year": "2",
+   "text": "Read texts with phrasing and fluency using phonic and word knowledge, re-reading and self-correcting"
+  },
+  {
+   "id": "AC9E3LY04",
+   "year": "3",
+   "text": "Read a range of texts using phonic, semantic and grammatical knowledge, accurately and fluently, re-reading and self-correcting"
+  },
+  {
+   "id": "AC9E4LY04",
+   "year": "4",
+   "text": "Read different text types, integrating phonic, semantic and grammatical knowledge to read accurately and fluently"
+  },
+  {
+   "id": "AC9E2LY05",
+   "year": "2",
+   "text": "Use comprehension strategies, including monitoring, to build literal and inferred meaning"
+  },
+  {
+   "id": "AC9E3LY05",
+   "year": "3",
+   "text": "Use comprehension strategies while listening and viewing to build meaning, and begin evaluating texts"
+  },
+  {
+   "id": "AC9E4LY05",
+   "year": "4",
+   "text": "Use comprehension strategies, including monitoring, to build meaning, expand topic knowledge and evaluate texts"
+  },
+  {
+   "id": "AC9E2LY09",
+   "year": "2",
+   "text": "Manipulate more complex sounds in spoken words, using blending, segmenting, phoneme deletion and substitution to read and write words"
+  },
+  {
+   "id": "AC9E2LY10",
+   "year": "2",
+   "text": "Use short and common long vowels, consonant blends and digraphs to write and blend words; read consonant clusters and silent letters in words of one or more syllables, including compound words"
+  },
+  {
+   "id": "AC9E3LY09",
+   "year": "3",
+   "text": "Blend and segment to read and write multisyllabic words with more complex letter patterns fluently"
+  },
+  {
+   "id": "AC9E4LY09",
+   "year": "4",
+   "text": "Read and write words with more complex letter combinations, including a variety of vowel sounds and known prefixes and suffixes"
+  },
+  {
+   "id": "AC9E2LY11",
+   "year": "2",
+   "text": "Use spelling patterns and morphemes to read and write words not fully predictable from sounds, including high-frequency words"
+  },
+  {
+   "id": "AC9E3LY10",
+   "year": "3",
+   "text": "Apply common base words, prefixes, suffixes and suffix-adding generalisations to read and understand new multimorphemic words"
+  },
+  {
+   "id": "AC9E4LY10",
+   "year": "4",
+   "text": "Use letter patterns (including double letters), spelling generalisations, word families, prefixes, suffixes and word origins to spell more complex words"
+  },
+  {
+   "id": "AC9E2LY12",
+   "year": "2",
+   "text": "Build morphemic word families using knowledge of prefixes and suffixes"
+  },
+  {
+   "id": "AC9E3LY11",
+   "year": "3",
+   "text": "Use phoneme-grapheme relationships and less common letter patterns to spell words"
+  },
+  {
+   "id": "AC9E3LY12",
+   "year": "3",
+   "text": "Recognise and write most high-frequency words, including some homophones"
+  },
+  {
+   "id": "AC9E4LY11",
+   "year": "4",
+   "text": "Read and write high-frequency words, including homophones, and use context to identify correct spelling"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} makes observations and supports them with evidence from the text to enhance {{pos}} understanding of stories and information.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads with confidence and uses context, grammar knowledge and skimming strategies to locate information in moderately complex texts.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies reading strategies to interpret complex texts and explains how these texts communicate meaning.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} monitors {{pos}} understanding and recognises when meaning breaks down.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} explains how authors make deliberate choices to shape the reader's perception.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} interprets key ideas in narratives and digital texts, and recognises how authors use language to shape meaning.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} comprehends digital texts and advertisements and identifies key ideas in narratives.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies main ideas, understands simple inferences and explains how authors use evidence to support ideas.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses reading strategies to comprehend more complex texts.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reads with confidence and uses skimming strategies to identify key ideas and locate details, and uses context to understand unfamiliar words.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies main ideas and is beginning to recognise how language features help build meaning.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.",
+   "tab": "Reading Comprehension",
+   "stageTag": "S2",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} comprehends digital texts and advertisements and identifies key ideas in narratives.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies main ideas, understands simple inferences and explains how authors use evidence to support ideas.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} can interpret language features, explain how authors use evidence to support ideas and understands simple inferences when reading moderately complex texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies main ideas and is beginning to recognise how language features help build meaning.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} is beginning to explain how language features, such as word choices and text clues, contribute to meaning.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes how texts use different language features and structures to suit their purpose.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how a text is organised into characteristic stages that suit its purpose.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies how language features change from one text type to another.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how paragraphs group related information together in a written text.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises that a new paragraph signals a change of idea.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how time words and topic word links sequence ideas in a text.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies words that show order and condition, such as first, then and if, when reading.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies the purpose of headings, captions and layout in print and digital texts.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses the words and symbols that guide navigation in digital texts.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses headlines, menus and links to move through online texts and find information.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how online navigation features make a text easier to read.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises that texts with the same purpose can be aimed at different audiences.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} compares two texts with a similar purpose and explains how they suit different readers.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} compares texts from different times that share a purpose and notes how they differ.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how the audience and purpose of a text affect the way it is written.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies the audience and purpose of a text using its language features and images.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how images and words work together to meet the purpose of a text.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies the characteristic features that a text type uses to meet its purpose.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} compares the features of imaginative, informative and persuasive texts.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads a range of texts accurately and fluently using what {{s}} knows about sounds, meaning and grammar.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads aloud with expression and self-corrects when the meaning is unclear.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads different types of text accurately and fluently by combining phonic, meaning and grammar knowledge.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} adjusts {{pos}} reading speed and expression to suit different text types.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses comprehension strategies while reading to build meaning and begin to evaluate ideas.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} asks and answers questions about a text to build understanding.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} monitors understanding and uses comprehension strategies to expand {{pos}} topic knowledge.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} summarises key ideas from a text and links them to what {{s}} already knows.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} makes observations and supports them with evidence from the text to enhance {{pos}} understanding of stories and information.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 25"
+  },
+  {
+   "text": "{{S}} reads with confidence and uses context, grammar knowledge and skimming strategies to locate information in moderately complex texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 25"
+  },
+  {
+   "text": "{{S}} applies reading strategies to interpret complex texts and explains how these texts communicate meaning.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 25"
+  },
+  {
+   "text": "{{S}} monitors {{pos}} understanding and recognises when meaning breaks down.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 25"
+  },
+  {
+   "text": "{{S}} explains how authors make deliberate choices to shape the reader's perception.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 25"
+  },
+  {
+   "text": "{{S}} interprets key ideas in narratives and digital texts, and recognises how authors use language to shape meaning.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 25"
+  },
+  {
+   "text": "{{S}} uses reading strategies to comprehend more complex texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 25"
+  },
+  {
+   "text": "{{S}} reads with confidence and uses skimming strategies to identify key ideas and locate details, and uses context to understand unfamiliar words.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 25"
+  }
+ ]
+}

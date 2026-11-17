@@ -1,0 +1,705 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "2",
+  "3",
+  "4"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9E2LA06",
+   "year": "2",
+   "text": "Understand that compound sentences link two or more independent clauses, usually with a coordinating conjunction, to connect ideas"
+  },
+  {
+   "id": "AC9E3LA06",
+   "year": "3",
+   "text": "Understand that a clause is a unit of grammar, usually with a subject and verb that must agree"
+  },
+  {
+   "id": "AC9E4LA06",
+   "year": "4",
+   "text": "Understand that complex sentences have one independent clause and at least one dependent clause, joined by subordinating conjunctions to show time and cause"
+  },
+  {
+   "id": "AC9E2LA07",
+   "year": "2",
+   "text": "Understand that nouns can extend into noun groups with articles and adjectives, and verbs can form verb groups"
+  },
+  {
+   "id": "AC9E3LA07",
+   "year": "3",
+   "text": "Understand how verbs represent processes of doing, feeling, thinking, saying and relating"
+  },
+  {
+   "id": "AC9E4LA07",
+   "year": "4",
+   "text": "Investigate how quoted (direct) and reported (indirect) speech are used"
+  },
+  {
+   "id": "AC9E3LA08",
+   "year": "3",
+   "text": "Understand that verbs are anchored in time through tense"
+  },
+  {
+   "id": "AC9E4LA08",
+   "year": "4",
+   "text": "Understand how adverb groups and prepositional phrases give circumstantial details about an activity"
+  },
+  {
+   "id": "AC9E4LA09",
+   "year": "4",
+   "text": "Understand past, present and future tenses and their impact on meaning in a sentence"
+  },
+  {
+   "id": "AC9E2LA10",
+   "year": "2",
+   "text": "Recognise capitals in titles and commas separating items in lists"
+  },
+  {
+   "id": "AC9E3LA11",
+   "year": "3",
+   "text": "Understand apostrophes for contractions and for singular and plural possession"
+  },
+  {
+   "id": "AC9E4LA12",
+   "year": "4",
+   "text": "Understand quotation marks signal dialogue, dialogue capitalisation conventions, and commas and boundary punctuation"
+  },
+  {
+   "id": "AC9E2LY09",
+   "year": "2",
+   "text": "Manipulate more complex sounds in spoken words, using blending, segmenting, phoneme deletion and substitution to read and write words"
+  },
+  {
+   "id": "AC9E2LY10",
+   "year": "2",
+   "text": "Use short and common long vowels, consonant blends and digraphs to write and blend words; read consonant clusters and silent letters in words of one or more syllables, including compound words"
+  },
+  {
+   "id": "AC9E3LY09",
+   "year": "3",
+   "text": "Blend and segment to read and write multisyllabic words with more complex letter patterns fluently"
+  },
+  {
+   "id": "AC9E4LY09",
+   "year": "4",
+   "text": "Read and write words with more complex letter combinations, including a variety of vowel sounds and known prefixes and suffixes"
+  },
+  {
+   "id": "AC9E2LY11",
+   "year": "2",
+   "text": "Use spelling patterns and morphemes to read and write words not fully predictable from sounds, including high-frequency words"
+  },
+  {
+   "id": "AC9E3LY10",
+   "year": "3",
+   "text": "Apply common base words, prefixes, suffixes and suffix-adding generalisations to read and understand new multimorphemic words"
+  },
+  {
+   "id": "AC9E4LY10",
+   "year": "4",
+   "text": "Use letter patterns (including double letters), spelling generalisations, word families, prefixes, suffixes and word origins to spell more complex words"
+  },
+  {
+   "id": "AC9E2LY12",
+   "year": "2",
+   "text": "Build morphemic word families using knowledge of prefixes and suffixes"
+  },
+  {
+   "id": "AC9E3LY11",
+   "year": "3",
+   "text": "Use phoneme-grapheme relationships and less common letter patterns to spell words"
+  },
+  {
+   "id": "AC9E3LY12",
+   "year": "3",
+   "text": "Recognise and write most high-frequency words, including some homophones"
+  },
+  {
+   "id": "AC9E4LY11",
+   "year": "4",
+   "text": "Read and write high-frequency words, including homophones, and use context to identify correct spelling"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} automatically uses strategies in a range of contexts to spell unfamiliar words.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies complex letter patterns and sounds when spelling and applies this knowledge to improve spelling accuracy.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies spelling generalisations to spell most familiar and less common words correctly.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects appropriate tenses to suit different writing tasks.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} checks {{pos}} work for spelling mistakes and uses dictionaries to correct them.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses commas to separate parts of a sentence and apostrophes for contractions.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} varies sentence length to improve {{pos}} writing.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S2",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} checks {{pos}} work for spelling mistakes and uses dictionaries to correct them.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses commas to separate parts of a sentence and apostrophes for contractions.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} varies sentence length to improve {{pos}} writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} selects appropriate tenses to suit different writing tasks.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes sentences with a clear clause that has a subject and a verb that agree.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies the subject and the verb in a clause and checks that they agree.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses verbs that show doing, feeling, thinking, saying and relating.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} chooses verbs to describe what characters do, feel, think and say.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses verb tense to show when something happens.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} keeps the tense of verbs consistent throughout a piece of writing.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses apostrophes for contractions and for singular and plural possession.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} blends and segments sounds to read and write longer words with more complex letter patterns.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} spells multisyllabic words by breaking them into sounds and syllables.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} applies base words, prefixes, suffixes and suffix-adding rules to spell and understand words.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses base words and common endings to work out the meaning of new words.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses sound and letter relationships and less common letter patterns to spell words.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises and writes most high-frequency words, including some homophones.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} chooses the correct homophone, such as there and their, when writing.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes complex sentences with one main clause and at least one dependent clause.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses linking words such as because, although and when to build complex sentences.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses quoted speech and reported speech correctly in {{pos}} writing.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains the difference between direct and reported speech.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} adds detail to sentences using adverb groups and prepositional phrases.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses words such as quickly, in the morning and near the river to say how, when and where.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses past, present and future tense and knows how tense changes meaning.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses quotation marks and capitals correctly when writing dialogue.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} starts a new line for each speaker when writing dialogue.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads and writes words with complex letter combinations, including a variety of vowel sounds.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} spells words with double letters, word families, prefixes and suffixes.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses spelling generalisations and word families to spell new words.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads and writes high-frequency words and homophones, using context to choose the correct spelling.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses the meaning of a sentence to select the correct homophone.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads and spells words with complex letter combinations and different vowel sounds.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} automatically uses strategies in a range of contexts to spell unfamiliar words.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 34"
+  },
+  {
+   "text": "{{S}} identifies complex letter patterns and sounds when spelling and applies this knowledge to improve spelling accuracy.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 34"
+  },
+  {
+   "text": "{{S}} applies spelling generalisations to spell most familiar and less common words correctly.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 34"
+  }
+ ]
+}

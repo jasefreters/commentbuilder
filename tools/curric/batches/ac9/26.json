@@ -1,0 +1,564 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9EFLA05",
+   "year": "F",
+   "text": "Recognise that sentences are key units for expressing ideas"
+  },
+  {
+   "id": "AC9E1LA06",
+   "year": "1",
+   "text": "Understand that a simple sentence has a single independent clause representing one event or idea"
+  },
+  {
+   "id": "AC9E2LA06",
+   "year": "2",
+   "text": "Understand that compound sentences link two or more independent clauses, usually with a coordinating conjunction, to connect ideas"
+  },
+  {
+   "id": "AC9EFLA06",
+   "year": "F",
+   "text": "Recognise that sentences are groups of words working together to make meaning"
+  },
+  {
+   "id": "AC9E1LA07",
+   "year": "1",
+   "text": "Understand word classes: nouns (including pronouns), verbs, adjectives and adverbs, and what each represents"
+  },
+  {
+   "id": "AC9E2LA07",
+   "year": "2",
+   "text": "Understand that nouns can extend into noun groups with articles and adjectives, and verbs can form verb groups"
+  },
+  {
+   "id": "AC9EFLA07",
+   "year": "F",
+   "text": "Explore how images and words contribute to meaning in stories and informative texts"
+  },
+  {
+   "id": "AC9E1LA08",
+   "year": "1",
+   "text": "Compare how images in different text types contribute to meaning"
+  },
+  {
+   "id": "AC9E2LA08",
+   "year": "2",
+   "text": "Understand that images add to or multiply the meanings of a text"
+  },
+  {
+   "id": "AC9EFLA08",
+   "year": "F",
+   "text": "Recognise and develop awareness of vocabulary from familiar contexts, personal interests and school topics"
+  },
+  {
+   "id": "AC9E1LA09",
+   "year": "1",
+   "text": "Recognise the vocabulary of learning area topics"
+  },
+  {
+   "id": "AC9E2LA09",
+   "year": "2",
+   "text": "Experiment with and begin making conscious vocabulary choices to suit the topic"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} draws vocabulary from texts {{s}} has read.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses a varied vocabulary in {{pos}} own writing.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects a basic vocabulary to enhance writing.",
+   "tab": "Vocabulary",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} includes describing words to add detail and variety to writing.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses a growing vocabulary to enhance {{pos}} writing.",
+   "tab": "Vocabulary",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that words can have multiple meanings and applies this knowledge to understand and create texts.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} understands that words can have multiple meanings and uses a varied vocabulary.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses basic descriptive language in {{pos}} writing.",
+   "tab": "Vocabulary",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is beginning to use known words and picture clues to help understand new vocabulary.",
+   "tab": "Vocabulary",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that words can have different meanings.",
+   "tab": "Vocabulary",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses new words from stories and class topics when talking about {{pos}} learning.",
+   "tab": "Vocabulary",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes objects using words for size, shape, colour and position.",
+   "tab": "Vocabulary",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses taught subject-specific words when writing informative sentences.",
+   "tab": "Vocabulary",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} joins in songs and identifies words that rhyme, including 'bat' and 'rat'.",
+   "tab": "Vocabulary",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and understands wordplay and rhyme in texts and can use these features in {{pos}} own writing.",
+   "tab": "Vocabulary",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} brainstorms words that have the same or opposite meaning and uses these to avoid repetition.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} talks about the meaning of figurative language, such as similes and idioms.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} draws vocabulary from texts {{s}} has read.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} selects a basic vocabulary to enhance writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} includes describing words to add detail and variety to writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses a growing vocabulary to enhance {{pos}} writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses basic descriptive language in {{pos}} writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} is beginning to use known words and picture clues to help understand new vocabulary.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises that words can have different meanings.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses new words from stories and class topics when talking about {{pos}} learning.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} describes objects using words for size, shape, colour and position.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses taught subject-specific words when writing informative sentences.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} joins in songs and identifies words that rhyme, including 'bat' and 'rat'.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies and understands wordplay and rhyme in texts and can use these features in {{pos}} own writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses a varied vocabulary in {{pos}} own writing.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} recognises that words can have multiple meanings and applies this knowledge to understand and create texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} understands that words can have multiple meanings and uses a varied vocabulary.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} brainstorms words that have the same or opposite meaning and uses these to avoid repetition.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} talks about the meaning of figurative language, such as similes and idioms.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses words from home, interests and familiar places when talking and writing.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} learns new words from stories and uses them in conversation.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} talks about how pictures and words work together to tell a story or give information.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses the pictures in a text to work out what the words mean.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises and uses the vocabulary of topics studied in class.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses words from class topics when talking and writing about {{pos}} learning.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} compares how images in different types of text add to the meaning.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains what a photograph or diagram adds to an information text.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} chooses words to suit the topic and experiments with new vocabulary.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} makes careful word choices to suit the topic of a text.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how images add to or extend the meaning of a text.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes how a picture can add information that the words do not give.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  }
+ ]
+}

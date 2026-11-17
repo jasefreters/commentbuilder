@@ -1,0 +1,526 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "4",
+  "5",
+  "6"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9E4LA01",
+   "year": "4",
+   "text": "Explore language used to build relationships in formal and informal situations"
+  },
+  {
+   "id": "AC9E5LA01",
+   "year": "5",
+   "text": "Understand that language is chosen for social contexts and signals social roles and relationships"
+  },
+  {
+   "id": "AC9E6LA01",
+   "year": "6",
+   "text": "Understand that language varies with levels of formality and social distance"
+  },
+  {
+   "id": "AC9E4LA02",
+   "year": "4",
+   "text": "Identify subjective language of opinion and feeling, and objective language of factual reporting"
+  },
+  {
+   "id": "AC9E5LA02",
+   "year": "5",
+   "text": "Understand how to go beyond bare assertions by considering differing ideas, opinions and authoritative sources"
+  },
+  {
+   "id": "AC9E6LA02",
+   "year": "6",
+   "text": "Understand the uses of objective and subjective language and identify bias"
+  },
+  {
+   "id": "AC9E4LY02",
+   "year": "4",
+   "text": "Listen for key points to carry out tasks and contribute to discussions, acknowledging other opinions, linking responses to the topic, and extending ideas"
+  },
+  {
+   "id": "AC9E5LY02",
+   "year": "5",
+   "text": "Use paraphrasing and questioning to clarify meaning, connect to experience, and present and justify an opinion or idea"
+  },
+  {
+   "id": "AC9E6LY02",
+   "year": "6",
+   "text": "Use paraphrasing, questioning and clarifying, with awareness of formality, to develop and support arguments and evaluate information and opinions"
+  },
+  {
+   "id": "AC9E4LY07",
+   "year": "4",
+   "text": "Plan, rehearse and deliver structured presentations to report, tell stories, recount events or argue, using subjective and objective language, complex sentences and visual features"
+  },
+  {
+   "id": "AC9E5LY07",
+   "year": "5",
+   "text": "Plan, rehearse and deliver presentations with elaborated, sequenced ideas, complex sentences, specialist vocabulary, delivery features and visual or digital features"
+  },
+  {
+   "id": "AC9E6LY07",
+   "year": "6",
+   "text": "Plan, rehearse and deliver presentations that develop a theme through arguments and details, using precise vocabulary, delivery features and visual or digital features"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} delivered a thoughtful and well-organised prepared speech.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} actively participates in class discussions, asking specific questions to clarify information and deepen {{pos}} understanding.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} adjusts {{pos}} volume, pace and expression when reading aloud to suit the purpose and complexity of the text.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} presented a thoughtful and well-organised prepared speech.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} communicates clearly and uses appropriate language during class discussions.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} appropriately adjusts {{pos}} volume and pace during class presentations to support audience engagement.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} seeks clarification during discussions and uses this to build a clearer understanding of texts.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} poses thoughtful questions to deepen interpretation and supports {{pos}} thinking with clear reasons.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} participates positively in class discussions and shares ideas about characters, themes and author choices.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses appropriate language skills when interacting with others during class discussions.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is developing the ability to change {{pos}} volume and pace to support audience engagement during class presentations.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} asks specific questions to clarify information and listens attentively to the contributions of others.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} joins in discussions, stays on topic, and builds on the ideas of others.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} asks questions to check or extend {{pos}} understanding and retells spoken texts in {{pos}} own words.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} plans a presentation to suit the audience, then reflects on how well it went.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} explores and develops new ideas with others.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "S4",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} chooses language for the audience and situation and shows respect for different roles and relationships.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how a speaker's word choices show {{pos}} relationship with the audience.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} supports a statement with different ideas, opinions and reliable sources.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} avoids bare statements by giving reasons and considering other points of view.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} actively participates in class discussions, asking specific questions to clarify information and deepen {{pos}} understanding.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LY02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} applies active listening strategies by retelling and building on others' ideas during discussions.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LY02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} asks questions to check or extend {{pos}} understanding and retells spoken texts in {{pos}} own words.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LY02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} adjusts {{pos}} volume, pace and expression when reading aloud to suit the purpose and complexity of the text.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LY07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} plans and delivers a presentation with sequenced ideas and uses visual or digital features well.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LY07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} adjusts the formality of {{pos}} language to suit the audience and social distance.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how language changes between formal and informal situations.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies objective and subjective language and recognises bias in texts.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how word choices can show a writer's bias.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} seeks clarification during discussions and uses this to build a clearer understanding of texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LY02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} poses thoughtful questions to deepen interpretation and supports {{pos}} thinking with clear reasons.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LY02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} develops a theme in a presentation using arguments, precise vocabulary and clear delivery.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LY07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} delivers a presentation and uses visual or digital features to strengthen {{pos}} arguments.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LY07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} explores and develops new ideas with others.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} delivered a thoughtful and well-organised prepared speech.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 20 or 21"
+  },
+  {
+   "text": "{{S}} presented a thoughtful and well-organised prepared speech.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 20 or 21"
+  },
+  {
+   "text": "{{S}} communicates clearly and uses appropriate language during class discussions.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 20 or 21"
+  },
+  {
+   "text": "{{S}} appropriately adjusts {{pos}} volume and pace during class presentations to support audience engagement.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 20 or 21"
+  },
+  {
+   "text": "{{S}} participates positively in class discussions and shares ideas about characters, themes and author choices.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 20 or 21"
+  },
+  {
+   "text": "{{S}} uses appropriate language skills when interacting with others during class discussions.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 20 or 21"
+  },
+  {
+   "text": "{{S}} is developing the ability to change {{pos}} volume and pace to support audience engagement during class presentations.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 20 or 21"
+  },
+  {
+   "text": "{{S}} asks specific questions to clarify information and listens attentively to the contributions of others.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 20 or 21"
+  },
+  {
+   "text": "{{S}} joins in discussions, stays on topic, and builds on the ideas of others.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 20 or 21"
+  },
+  {
+   "text": "{{S}} plans a presentation to suit the audience, then reflects on how well it went.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "decided in batch 20 or 21"
+  }
+ ]
+}

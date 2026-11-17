@@ -1,0 +1,12 @@
+const L = require('./lib')('ac9/27.json'); const { keep, add } = L;
+keep(6,3,'AC9E3LA10'); keep(8,3,'AC9E3LA10'); keep(9,4,'AC9E4LA11'); keep(10,4,'AC9E4LA11'); keep(11,4,'AC9E4LA11');
+add('{{S}} extends topic-specific and technical vocabulary and uses it when speaking and writing.',3,'AC9E3LA10');
+add('{{S}} knows that a word can have different meanings and chooses the one that fits the text.',3,'AC9E3LA10');
+add('{{S}} identifies how images extend the meaning of a text.',3,'AC9E3LA09');
+add('{{S}} explains how a diagram or illustration adds detail that the written words leave out.',3,'AC9E3LA09');
+add('{{S}} explores how the framing and placement of elements in a still image affect the viewer.',4,'AC9E4LA10');
+add('{{S}} describes what the placement and size of items in a picture draw the reader to notice.',4,'AC9E4LA10');
+add('{{S}} expands {{pos}} vocabulary by exploring synonyms and antonyms.',4,'AC9E4LA11');
+add('{{S}} uses words met in a range of sources when speaking and writing.',4,'AC9E4LA11');
+L.rest('Year 5 or 6 sentence; decided in batch 28');
+L.save();

@@ -1,0 +1,450 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "4",
+  "5",
+  "6"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9E4LA06",
+   "year": "4",
+   "text": "Understand that complex sentences have one independent clause and at least one dependent clause, joined by subordinating conjunctions to show time and cause"
+  },
+  {
+   "id": "AC9E5LA05",
+   "year": "5",
+   "text": "Understand that a complex sentence has a main clause and at least one dependent clause, and how writers use this for effect"
+  },
+  {
+   "id": "AC9E6LA05",
+   "year": "6",
+   "text": "Understand how embedded clauses expand complex sentences to elaborate, extend and explain ideas"
+  },
+  {
+   "id": "AC9E4LA07",
+   "year": "4",
+   "text": "Investigate how quoted (direct) and reported (indirect) speech are used"
+  },
+  {
+   "id": "AC9E5LA06",
+   "year": "5",
+   "text": "Understand how noun groups can be expanded to give fuller descriptions of a person, place, thing or idea"
+  },
+  {
+   "id": "AC9E6LA06",
+   "year": "6",
+   "text": "Understand how ideas can be expanded and sharpened through verb choice, elaborated tenses and adverb groups"
+  },
+  {
+   "id": "AC9E4LA08",
+   "year": "4",
+   "text": "Understand how adverb groups and prepositional phrases give circumstantial details about an activity"
+  },
+  {
+   "id": "AC9E4LA09",
+   "year": "4",
+   "text": "Understand past, present and future tenses and their impact on meaning in a sentence"
+  },
+  {
+   "id": "AC9E4LA10",
+   "year": "4",
+   "text": "Explore the effect of framing, element placement and salience on the composition of still and moving images"
+  },
+  {
+   "id": "AC9E5LA07",
+   "year": "5",
+   "text": "Explain how the sequence of images in print, digital and film texts affects meaning"
+  },
+  {
+   "id": "AC9E6LA07",
+   "year": "6",
+   "text": "Identify and explain how images, figures, tables, diagrams, maps and graphs contribute to meaning"
+  },
+  {
+   "id": "AC9E4LA11",
+   "year": "4",
+   "text": "Expand vocabulary by exploring synonyms and antonyms and using words met in a range of sources"
+  },
+  {
+   "id": "AC9E5LA08",
+   "year": "5",
+   "text": "Understand how vocabulary, including specialist and technical terms, gives precision of meaning, and explore word histories"
+  },
+  {
+   "id": "AC9E6LA08",
+   "year": "6",
+   "text": "Identify authors' use of vivid, emotive vocabulary such as metaphors, similes, personification, idioms, imagery and hyperbole"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} explains how word choices can make writing entertaining or informative in both fiction and non-fiction texts.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects words that persuade the reader and uses language that creates emotion in poetry.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} considers {{pos}} word choices carefully to make {{pos}} writing more engaging for the reader.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} explains how vocabulary choices can enhance the entertainment value of narratives.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects vocabulary that enhances meaning.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies known vocabulary effectively and is beginning to experiment with descriptive language to add detail.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses a varied vocabulary in {{pos}} own writing.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} experiments with different styles and incorporates vocabulary drawn from other texts.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that words can have multiple meanings and applies this knowledge to understand and create texts.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} understands that words can have multiple meanings and uses a varied vocabulary.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} brainstorms words that have the same or opposite meaning and uses these to avoid repetition.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} talks about the meaning of figurative language, such as similes and idioms.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} chooses words to give {{pos}} writing a particular style.",
+   "tab": "Vocabulary",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} understands the way language is used has changed over time.",
+   "tab": "Vocabulary",
+   "stageTag": "S4",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} explains how word choices can make writing entertaining or informative in both fiction and non-fiction texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} selects words that persuade the reader and uses language that creates emotion in poetry.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} considers {{pos}} word choices carefully to make {{pos}} writing more engaging for the reader.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} explains how vocabulary choices can enhance the entertainment value of narratives.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} selects vocabulary that enhances meaning.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} applies known vocabulary effectively and is beginning to experiment with descriptive language to add detail.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} experiments with different styles and incorporates vocabulary drawn from other texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} chooses words to give {{pos}} writing a particular style.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} understands the way language is used has changed over time.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses specialist and technical vocabulary to give precision to {{pos}} explanations.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how precise word choices sharpen the meaning of a text.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies vivid and emotive vocabulary, such as metaphors and similes, in the texts {{s}} reads.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses figurative language to create strong images in {{pos}} own writing.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how the order of images in print, digital and film texts affects meaning.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} compares how a sequence of images tells a story in a picture book and a film.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how images, tables, diagrams, maps and graphs add to the meaning of a text.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} interprets a diagram or graph in an information text and links it to the written explanation.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses a varied vocabulary in {{pos}} own writing.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 2 to 4 sentence; decided in batch 26 or 27"
+  },
+  {
+   "text": "{{S}} recognises that words can have multiple meanings and applies this knowledge to understand and create texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 2 to 4 sentence; decided in batch 26 or 27"
+  },
+  {
+   "text": "{{S}} understands that words can have multiple meanings and uses a varied vocabulary.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 2 to 4 sentence; decided in batch 26 or 27"
+  },
+  {
+   "text": "{{S}} brainstorms words that have the same or opposite meaning and uses these to avoid repetition.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 2 to 4 sentence; decided in batch 26 or 27"
+  },
+  {
+   "text": "{{S}} talks about the meaning of figurative language, such as similes and idioms.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 2 to 4 sentence; decided in batch 26 or 27"
+  }
+ ]
+}

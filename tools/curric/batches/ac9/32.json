@@ -1,0 +1,1175 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9EFLA05",
+   "year": "F",
+   "text": "Recognise that sentences are key units for expressing ideas"
+  },
+  {
+   "id": "AC9E1LA06",
+   "year": "1",
+   "text": "Understand that a simple sentence has a single independent clause representing one event or idea"
+  },
+  {
+   "id": "AC9E2LA06",
+   "year": "2",
+   "text": "Understand that compound sentences link two or more independent clauses, usually with a coordinating conjunction, to connect ideas"
+  },
+  {
+   "id": "AC9EFLA06",
+   "year": "F",
+   "text": "Recognise that sentences are groups of words working together to make meaning"
+  },
+  {
+   "id": "AC9E1LA07",
+   "year": "1",
+   "text": "Understand word classes: nouns (including pronouns), verbs, adjectives and adverbs, and what each represents"
+  },
+  {
+   "id": "AC9E2LA07",
+   "year": "2",
+   "text": "Understand that nouns can extend into noun groups with articles and adjectives, and verbs can form verb groups"
+  },
+  {
+   "id": "AC9EFLA09",
+   "year": "F",
+   "text": "Identify punctuation as a feature of written text that differs from letters; capitals mark names and sentence starts; punctuation marks sentence ends"
+  },
+  {
+   "id": "AC9E1LA10",
+   "year": "1",
+   "text": "Understand full stops, question marks and exclamation marks, and capitals for familiar proper nouns"
+  },
+  {
+   "id": "AC9E2LA10",
+   "year": "2",
+   "text": "Recognise capitals in titles and commas separating items in lists"
+  },
+  {
+   "id": "AC9EFLY09",
+   "year": "F",
+   "text": "Recognise and generate rhyming words, alliteration, syllables and phonemes in spoken words (phonological awareness)"
+  },
+  {
+   "id": "AC9E1LY09",
+   "year": "1",
+   "text": "Segment words into separate phonemes, including consonant blends or clusters at the beginning and end of words"
+  },
+  {
+   "id": "AC9E2LY09",
+   "year": "2",
+   "text": "Manipulate more complex sounds in spoken words, using blending, segmenting, phoneme deletion and substitution to read and write words"
+  },
+  {
+   "id": "AC9EFLY10",
+   "year": "F",
+   "text": "Segment sentences into words; blend and segment single-syllable words; isolate, blend and manipulate phonemes"
+  },
+  {
+   "id": "AC9E1LY10",
+   "year": "1",
+   "text": "Orally manipulate initial, medial and final phonemes by addition, deletion and substitution to generate new words"
+  },
+  {
+   "id": "AC9EFLY11",
+   "year": "F",
+   "text": "Recognise and name upper- and lower-case letters and know the most common sound each letter represents"
+  },
+  {
+   "id": "AC9E1LY11",
+   "year": "1",
+   "text": "Read one- and two-syllable words"
+  },
+  {
+   "id": "AC9E2LY10",
+   "year": "2",
+   "text": "Use short and common long vowels, consonant blends and digraphs to write and blend words; read consonant clusters and silent letters in words of one or more syllables, including compound words"
+  },
+  {
+   "id": "AC9EFLY12",
+   "year": "F",
+   "text": "Write CVC words by representing sounds with letters, and blend sounds when reading CVC words"
+  },
+  {
+   "id": "AC9E1LY12",
+   "year": "1",
+   "text": "Understand that a letter can represent more than one sound and that every syllable must contain a vowel sound"
+  },
+  {
+   "id": "AC9EFLY13",
+   "year": "F",
+   "text": "Use knowledge of letters and sounds to spell words"
+  },
+  {
+   "id": "AC9E1LY13",
+   "year": "1",
+   "text": "Spell one- and two-syllable words with common letter patterns"
+  },
+  {
+   "id": "AC9E2LY11",
+   "year": "2",
+   "text": "Use spelling patterns and morphemes to read and write words not fully predictable from sounds, including high-frequency words"
+  },
+  {
+   "id": "AC9EFLY14",
+   "year": "F",
+   "text": "Read and write some high-frequency and familiar words"
+  },
+  {
+   "id": "AC9E1LY14",
+   "year": "1",
+   "text": "Read and write an increasing number of high-frequency words"
+  },
+  {
+   "id": "AC9E2LY12",
+   "year": "2",
+   "text": "Build morphemic word families using knowledge of prefixes and suffixes"
+  },
+  {
+   "id": "AC9EFLY15",
+   "year": "F",
+   "text": "Understand that words are units of meaning and can be made of more than one meaningful part"
+  },
+  {
+   "id": "AC9E1LY15",
+   "year": "1",
+   "text": "Recognise and use grammatical morphemes to create word families"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} applies correct letter patterns and general rules when spelling words.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies correct spelling patterns and general rules when writing.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} has shown improvement in spelling by identifying letter patterns to support correct spelling.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies some spelling patterns and general rules when writing.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} spells words with double letters and identifies the meaning of most words by recognising their spelling.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} spells simple words with common endings and uses basic strategies to spell unfamiliar words with some success.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is learning to apply common spelling patterns in writing.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is beginning to identify nouns and verbs in simple sentences.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} spells common words correctly and sounds out unfamiliar words with care.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes {{pos}} first name by putting the letters in the right order.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes short sentences using familiar language and is improving {{pos}} use of full stops.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} adds 's' to words to show more than one, such as changing 'cat' to 'cats'.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes related sentences to create stories and adds phrases that show time and place.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} breaks words into sounds as a spelling strategy.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} spells high-frequency words correctly in {{pos}} writing.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} breaks longer words into chunks as a strategy for spelling.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} spells words with prefixes, such as un- and re-.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} spells words with suffixes, such as -ful and -est.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises common word beginnings such as 'un-' and 're-', and correctly uses them when spelling.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} checks {{pos}} work for spelling mistakes and uses dictionaries to correct them.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses commas to separate parts of a sentence and apostrophes for contractions.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} varies sentence length to improve {{pos}} writing.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} matches the letters in {{pos}} name and puts them in the correct order.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises words that start with the same sound.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies letters in familiar words.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "AP",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} applies correct letter patterns and general rules when spelling words.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY13"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} applies correct spelling patterns and general rules when writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} has shown improvement in spelling by identifying letter patterns to support correct spelling.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} applies common letter patterns and general rules when spelling and continues to develop accuracy.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} applies some spelling patterns and general rules when writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} spells words with double letters and identifies the meaning of most words by recognising their spelling.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} spells simple words with common endings and uses basic strategies to spell unfamiliar words with some success.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY15"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} is learning to apply common spelling patterns in writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY13"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} constructs sentences that include basic punctuation and is learning to use capital letters and full stops correctly.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} is beginning to identify nouns and verbs in simple sentences.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} spells common words correctly and sounds out unfamiliar words with care.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY13"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} writes {{pos}} first name by putting the letters in the right order.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY14"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} writes short sentences using familiar language and is improving {{pos}} use of full stops.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} adds 's' to words to show more than one, such as changing 'cat' to 'cats'.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY15"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} writes related sentences to create stories and adds phrases that show time and place.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} breaks words into sounds as a spelling strategy.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY13"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} spells high-frequency words correctly in {{pos}} writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY14"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} breaks longer words into chunks as a strategy for spelling.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY13"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} spells words with prefixes, such as un- and re-.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} spells words with suffixes, such as -ful and -est.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises common word beginnings such as 'un-' and 're-', and correctly uses them when spelling.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY15"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} applies familiar spelling patterns and is working towards greater accuracy when spelling less common words.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} spells familiar words by using common letter patterns and recognising the sounds in words.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} checks {{pos}} work for spelling mistakes and uses dictionaries to correct them.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} uses commas to separate parts of a sentence and apostrophes for contractions.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} varies sentence length to improve {{pos}} writing.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} matches the letters in {{pos}} name and puts them in the correct order.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} recognises words that start with the same sound.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} identifies letters in familiar words.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} knows that a sentence is a group of words that work together to share an idea.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses capital letters and full stops to mark the start and end of a sentence.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} claps syllables and recognises words that rhyme or start with the same sound.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes simple consonant-vowel-consonant words by matching sounds to letters.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} blends sounds to read simple consonant-vowel-consonant words.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses letter and sound knowledge to spell simple words.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY13"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads and writes familiar words such as I, the and is.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY14"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} knows that some words, such as compound words, can be made of more than one meaningful part.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY15"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes a simple sentence that tells about one event or idea.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes complete simple sentences that make sense.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses nouns, verbs, adjectives and adverbs when writing sentences.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} ends sentences with full stops, question marks or exclamation marks and uses capitals for names.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LA10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} breaks words into separate sounds, including blends, to help with reading and spelling.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} separates the first, middle and last sounds of words and changes them to make new words.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads one- and two-syllable words with growing confidence.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} knows that a letter can stand for more than one sound and that every syllable has a vowel.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} spells one- and two-syllable words with common letter patterns.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY13"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads and writes an increasing number of common words correctly.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY14"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} adds endings such as -s, -ed and -ing to words to change their meaning.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY15"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes compound sentences by joining ideas with words such as and, but and so.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses linking words to join two ideas into one sentence.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} extends nouns into noun groups using articles and adjectives.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses capitals in titles and commas in lists.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses commas to separate items in a list and capital letters in titles.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LA10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} blends and segments complex sounds in spoken words.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} swaps, adds and removes sounds in spoken words to make new words.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses short and long vowels, blends and digraphs to read and write words.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses spelling patterns and word parts to spell words that cannot be sounded out.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} builds word families using prefixes and suffixes.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} knows that sentences are made of words and that a sentence tells a complete idea.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} puts words in order to make a sentence that makes sense.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} breaks words into sounds, including blends, then uses them to read and spell.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} changes, adds or removes sounds in spoken words to make new words.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} reads one-syllable and two-syllable words by blending the parts.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  }
+ ]
+}

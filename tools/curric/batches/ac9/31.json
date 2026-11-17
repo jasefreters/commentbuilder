@@ -1,0 +1,394 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "4",
+  "5",
+  "6"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9E4LA03",
+   "year": "4",
+   "text": "Identify how texts have different language features and are typically organised into characteristic stages by purpose"
+  },
+  {
+   "id": "AC9E5LA03",
+   "year": "5",
+   "text": "Describe how spoken, written and multimodal texts use language features and characteristic stages and phases"
+  },
+  {
+   "id": "AC9E6LA03",
+   "year": "6",
+   "text": "Explain how curriculum texts are organised into stages and phases by purpose, noting that authors adapt structures and features"
+  },
+  {
+   "id": "AC9E4LA04",
+   "year": "4",
+   "text": "Identify how connectives (temporal and conditional words) and topic word associations sequence and connect ideas"
+  },
+  {
+   "id": "AC9E5LA04",
+   "year": "5",
+   "text": "Understand how sentence or paragraph starting points give prominence to the message and guide the reader"
+  },
+  {
+   "id": "AC9E6LA04",
+   "year": "6",
+   "text": "Understand that cohesion can be created through intentional repetition and word associations"
+  },
+  {
+   "id": "AC9E4LA05",
+   "year": "4",
+   "text": "Identify online text navigation features that enhance readability, such as headlines, drop-down menus, links, graphics and layout"
+  },
+  {
+   "id": "AC9E4LY06",
+   "year": "4",
+   "text": "Plan, create, edit and publish texts with visual features, linked ideas, complex sentences, appropriate tense, synonyms, antonyms, correctly spelled multisyllabic words and simple punctuation"
+  },
+  {
+   "id": "AC9E5LY06",
+   "year": "5",
+   "text": "Plan, create, edit and publish texts with visual features, suitable structure, text connectives, expanded noun groups, specialist vocabulary and dialogue punctuation"
+  },
+  {
+   "id": "AC9E6LY06",
+   "year": "6",
+   "text": "Plan, create, edit and publish texts with paragraphs, varied complex sentences, expanded verb groups, tense, vivid vocabulary, punctuation, spelling and visual features"
+  },
+  {
+   "id": "AC9E4LY07",
+   "year": "4",
+   "text": "Plan, rehearse and deliver structured presentations to report, tell stories, recount events or argue, using subjective and objective language, complex sentences and visual features"
+  },
+  {
+   "id": "AC9E5LY07",
+   "year": "5",
+   "text": "Plan, rehearse and deliver presentations with elaborated, sequenced ideas, complex sentences, specialist vocabulary, delivery features and visual or digital features"
+  },
+  {
+   "id": "AC9E6LY07",
+   "year": "6",
+   "text": "Plan, rehearse and deliver presentations that develop a theme through arguments and details, using precise vocabulary, delivery features and visual or digital features"
+  },
+  {
+   "id": "AC9E4LY08",
+   "year": "4",
+   "text": "Write words using clearly formed joined letters, with developing fluency and automaticity"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} experiments with narrative writing features, showcasing creativity and thoughtfulness.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} shows a strong understanding of how to plan, structure and revise persuasive texts.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} plans, drafts and revises persuasive texts effectively.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} plans and organises information reports.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies a variety of tenses to suit different writing tasks.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} maintains a consistent point of view throughout imaginative writing.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} argues against opposing views to strengthen {{pos}} persuasive writing.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} backs up a clear main argument about a text with evidence from it.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} works with others to write texts that bring together different ideas and values.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S4",
+   "skill": null
+  },
+  {
+   "text": "{{S}} reflects on how planning and revising changes the clarity of {{pos}} writing.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S4",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} experiments with narrative writing features, showcasing creativity and thoughtfulness.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} shows a strong understanding of how to plan, structure and revise persuasive texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} plans, drafts and revises persuasive texts effectively.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} plans and organises information reports.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} applies a variety of tenses to suit different writing tasks.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} maintains a consistent point of view throughout imaginative writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} argues against opposing views to strengthen {{pos}} persuasive writing.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} backs up a clear main argument about a text with evidence from it.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} works with others to write texts that bring together different ideas and values.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": "{{S}} reflects on how planning and revising changes the clarity of {{pos}} writing.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 7 or above"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} plans, creates, edits and publishes texts with a suitable structure and visual features.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses sentence and paragraph starters to guide the reader through {{pos}} writing.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} plans, edits and publishes texts with clear paragraphs, varied complex sentences and expanded noun groups.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses repetition and linked words on purpose to hold {{pos}} writing together.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes texts that follow the stages and phases of their purpose.",
+   "year": [
+    "6"
+   ],
+   "refs": [
+    "AC9E6LA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes texts with a clear structure that suits the purpose, such as a report or an argument.",
+   "year": [
+    "5"
+   ],
+   "refs": [
+    "AC9E5LA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  }
+ ]
+}

@@ -1,0 +1,457 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9EFLY06",
+   "year": "F",
+   "text": "Create and take part in shared editing of short written texts to record and report ideas and events, using learnt vocabulary, basic punctuation and some CVC words spelled correctly"
+  },
+  {
+   "id": "AC9E1LY06",
+   "year": "1",
+   "text": "Create and re-read to edit short texts that report, express opinion or recount events, using simple grammatical sentences, topic vocabulary, end punctuation and some one- and two-syllable words spelled correctly"
+  },
+  {
+   "id": "AC9E2LY06",
+   "year": "2",
+   "text": "Create and edit short imaginative, informative and persuasive texts for familiar audiences, using purpose-appropriate structure, simple and compound sentences, noun and verb groups, and common two-syllable words"
+  },
+  {
+   "id": "AC9EFLY07",
+   "year": "F",
+   "text": "Create and deliver short spoken texts to report ideas and events to peers, using appropriate volume"
+  },
+  {
+   "id": "AC9E1LY07",
+   "year": "1",
+   "text": "Create and deliver short oral or multimodal presentations with an opening, middle and concluding statement, using topic vocabulary, gesture, volume and pace"
+  },
+  {
+   "id": "AC9E2LY07",
+   "year": "2",
+   "text": "Create, rehearse and deliver short presentations for familiar audiences, using purpose-appropriate structure, topic vocabulary, and varied tone, volume and pace"
+  },
+  {
+   "id": "AC9EFLY08",
+   "year": "F",
+   "text": "Form most lower-case and upper-case letters using learnt letter formations"
+  },
+  {
+   "id": "AC9E1LY08",
+   "year": "1",
+   "text": "Write words using unjoined lower-case and upper-case letters"
+  },
+  {
+   "id": "AC9E2LY08",
+   "year": "2",
+   "text": "Write words legibly, with growing fluency, using unjoined upper-case and lower-case letters"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} presents written work neatly and maintains consistent letter formation.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} presents written and digital work neatly, demonstrating a consistent and legible handwriting style.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} joins letters when writing familiar words and uses keyboard skills to type efficiently.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} joins letters when writing familiar words and uses technology appropriately when creating texts.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} forms most letters correctly on the line and uses appropriate spacing between words.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is learning to form letters correctly and write on the line.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} forms letters correctly and maintains appropriate spacing when writing.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} holds {{pos}} pencil comfortably during handwriting tasks and remembers to write letters from left to right.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "During structured handwriting lessons, {{S}} carefully forms letters with the correct shape.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses basic word-processing tools to type and edit short texts.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "During handwriting lessons, {{s}} uses appropriate pencil control to form letters on the line.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} forms letters with consistent size and slope.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} types texts and searches for information online.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses word-processing tools to draft and edit {{pos}} writing.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} makes marks and strokes on a page or digital device using writing tools.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "AP",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} presents written work neatly and maintains consistent letter formation.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} presents written and digital work neatly, demonstrating a consistent and legible handwriting style.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} forms most letters correctly on the line and uses appropriate spacing between words.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} is learning to form letters correctly and write on the line.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} forms letters correctly and maintains appropriate spacing when writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} holds {{pos}} pencil comfortably during handwriting tasks and remembers to write letters from left to right.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "During structured handwriting lessons, {{S}} carefully forms letters with the correct shape.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses basic word-processing tools to type and edit short texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "During handwriting lessons, {{s}} uses appropriate pencil control to form letters on the line.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} forms letters with consistent size and slope.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} joins letters when writing familiar words and uses keyboard skills to type efficiently.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} joins letters when writing familiar words and uses technology appropriately when creating texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} types texts and searches for information online.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} uses word-processing tools to draft and edit {{pos}} writing.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} makes marks and strokes on a page or digital device using writing tools.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} forms most upper-case and lower-case letters using the letter formations {{s}} has learnt.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} sits comfortably, holds a pencil correctly and forms letters of a consistent size.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes words with unjoined upper-case and lower-case letters that are the right shape.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes words using unjoined letters that sit on the line.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes words legibly and with growing fluency using unjoined letters.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses a keyboard to type short texts and corrects mistakes.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  }
+ ]
+}

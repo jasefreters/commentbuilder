@@ -1,0 +1,17 @@
+const L = require('./lib')('ac9/22.json'); const { keep, add, drop } = L;
+add('{{S}} chooses language for the audience and situation and shows respect for different roles and relationships.', 5, 'AC9E5LA01');
+add('{{S}} explains how a speaker\'s word choices show {{pos}} relationship with the audience.', 5, 'AC9E5LA01');
+add('{{S}} supports a statement with different ideas, opinions and reliable sources.', 5, 'AC9E5LA02');
+add('{{S}} avoids bare statements by giving reasons and considering other points of view.', 5, 'AC9E5LA02');
+[1, 3, 14].forEach(i => keep(i, 5, 'AC9E5LY02'));
+keep(2, 5, 'AC9E5LY07'); add('{{S}} plans and delivers a presentation with sequenced ideas and uses visual or digital features well.', 5, 'AC9E5LY07');
+add('{{S}} adjusts the formality of {{pos}} language to suit the audience and social distance.', 6, 'AC9E6LA01');
+add('{{S}} explains how language changes between formal and informal situations.', 6, 'AC9E6LA01');
+add('{{S}} identifies objective and subjective language and recognises bias in texts.', 6, 'AC9E6LA02');
+add('{{S}} explains how word choices can show a writer\'s bias.', 6, 'AC9E6LA02');
+keep(7, 6, 'AC9E6LY02'); keep(8, 6, 'AC9E6LY02');
+add('{{S}} develops a theme in a presentation using arguments, precise vocabulary and clear delivery.', 6, 'AC9E6LY07');
+add('{{S}} delivers a presentation and uses visual or digital features to strengthen {{pos}} arguments.', 6, 'AC9E6LY07');
+drop(16, 'Year 7 or above');
+L.rest('decided in batch 20 or 21');
+L.save();

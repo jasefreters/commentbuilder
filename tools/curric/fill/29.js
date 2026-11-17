@@ -1,0 +1,15 @@
+const L = require('./lib')('ac9/29.json'); const { keep, add, ap, out } = L;
+keep(0,1,'AC9E1LY06'); keep(1,2,'AC9E2LY06'); keep(2,1,'AC9E1LY06'); keep(5,1,'AC9E1LY06'); keep(6,1,'AC9E1LY06'); keep(7,2,'AC9E2LY06'); keep(8,2,'AC9E2LY06');
+keep(9,'F','AC9EFLY06'); keep(10,'F','AC9EFLY06'); keep(11,'F','AC9EFLY06'); keep(12,'F','AC9EFLY06'); keep(13,2,'AC9E2LY06'); keep(14,1,'AC9E1LY06');
+out(3,4,15,16,17,18);
+ap(19,20,21,22);
+add('{{S}} joins in shared writing and helps to improve a short text.','F','AC9EFLY06');
+add('{{S}} writes a short text to record or report an idea using letters and sounds {{s}} knows.','F','AC9EFLY06');
+add('{{S}} writes a short recount that includes who, what and when.',1,'AC9E1LY06');
+add('{{S}} writes a short opinion text and gives a reason for {{pos}} view.',1,'AC9E1LY06');
+add('{{S}} re-reads {{pos}} writing and makes changes to improve it.',1,'AC9E1LY06');
+add('{{S}} creates short imaginative texts that have a clear beginning, middle and end.',2,'AC9E2LY06');
+add('{{S}} edits {{pos}} writing for spelling and punctuation before sharing it with others.',2,'AC9E2LY06');
+add('{{S}} writes short informative texts for a familiar audience.',2,'AC9E2LY06');
+L.rest('Year 3 to 6 sentence; decided in batch 30 or 31');
+L.save();

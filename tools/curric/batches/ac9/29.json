@@ -1,0 +1,633 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9EFLA03",
+   "year": "F",
+   "text": "Understand that texts take many forms, such as signs, books and digital texts"
+  },
+  {
+   "id": "AC9E1LA03",
+   "year": "1",
+   "text": "Explore how texts are organised by purpose, such as to recount, narrate, express opinion, inform, report and explain"
+  },
+  {
+   "id": "AC9E2LA03",
+   "year": "2",
+   "text": "Identify how curriculum texts are organised differently and use language features depending on purpose"
+  },
+  {
+   "id": "AC9EFLA04",
+   "year": "F",
+   "text": "Understand conventions of print and screen, including how books and simple digital texts are organised"
+  },
+  {
+   "id": "AC9E1LA04",
+   "year": "1",
+   "text": "Explore how repetition, rhyme and rhythm create cohesion in simple poems, chants and songs"
+  },
+  {
+   "id": "AC9E2LA04",
+   "year": "2",
+   "text": "Understand how texts are made cohesive through personal and possessive pronouns and omitting inferable words"
+  },
+  {
+   "id": "AC9E1LA05",
+   "year": "1",
+   "text": "Understand how print and screen texts use features such as page numbers, contents, headings, titles, navigation buttons, links and images"
+  },
+  {
+   "id": "AC9E2LA05",
+   "year": "2",
+   "text": "Navigate print and screen texts using chapters, contents, indexes, side-bar or drop-down menus, and links"
+  },
+  {
+   "id": "AC9EFLY06",
+   "year": "F",
+   "text": "Create and take part in shared editing of short written texts to record and report ideas and events, using learnt vocabulary, basic punctuation and some CVC words spelled correctly"
+  },
+  {
+   "id": "AC9E1LY06",
+   "year": "1",
+   "text": "Create and re-read to edit short texts that report, express opinion or recount events, using simple grammatical sentences, topic vocabulary, end punctuation and some one- and two-syllable words spelled correctly"
+  },
+  {
+   "id": "AC9E2LY06",
+   "year": "2",
+   "text": "Create and edit short imaginative, informative and persuasive texts for familiar audiences, using purpose-appropriate structure, simple and compound sentences, noun and verb groups, and common two-syllable words"
+  },
+  {
+   "id": "AC9EFLY07",
+   "year": "F",
+   "text": "Create and deliver short spoken texts to report ideas and events to peers, using appropriate volume"
+  },
+  {
+   "id": "AC9E1LY07",
+   "year": "1",
+   "text": "Create and deliver short oral or multimodal presentations with an opening, middle and concluding statement, using topic vocabulary, gesture, volume and pace"
+  },
+  {
+   "id": "AC9E2LY07",
+   "year": "2",
+   "text": "Create, rehearse and deliver short presentations for familiar audiences, using purpose-appropriate structure, topic vocabulary, and varied tone, volume and pace"
+  },
+  {
+   "id": "AC9EFLY08",
+   "year": "F",
+   "text": "Form most lower-case and upper-case letters using learnt letter formations"
+  },
+  {
+   "id": "AC9E1LY08",
+   "year": "1",
+   "text": "Write words using unjoined lower-case and upper-case letters"
+  },
+  {
+   "id": "AC9E2LY08",
+   "year": "2",
+   "text": "Write words legibly, with growing fluency, using unjoined upper-case and lower-case letters"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} includes specific details in {{pos}} writing to make {{pos}} ideas clearer and more engaging.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} structures writing in a clear and organised way and includes detail to support ideas.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses planning strategies effectively when creating texts.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is developing skills in structuring and editing persuasive texts.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} organises recounts and attempts informative texts with emerging control.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} draws pictures to represent {{pos}} ideas and writes short sentences using words displayed in the classroom.",
+   "tab": "Creating Written Texts",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes simple sentences using words displayed in the classroom.",
+   "tab": "Creating Written Texts",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} draws pictures to show {{pos}} ideas and labels {{pos}} work using words displayed in the classroom.",
+   "tab": "Creating Written Texts",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} plans {{pos}} writing and improves it after feedback.",
+   "tab": "Creating Written Texts",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes simple and compound sentences about characters and events using correct punctuation.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes for different purposes, such as to describe, explain, give an opinion or tell a story.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates a beginning, a problem, and a resolution using simple paragraphs.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes informative texts with headings and paragraphs that begin with a main idea.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} structures persuasive paragraphs with a clear statement of position and supporting ideas.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} forms simple paragraphs to express {{pos}} ideas and edits {{pos}} work for correct punctuation.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} takes part in creating texts with others.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses pictures and symbols to create texts.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} chooses topics to write about.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} draws pictures to support {{pos}} writing.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} includes specific details in {{pos}} writing to make {{pos}} ideas clearer and more engaging.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} structures writing in a clear and organised way and includes detail to support ideas.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses planning strategies effectively when creating texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} writes simple sentences and is learning to organise ideas more clearly in written tasks.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} includes basic descriptive language and is learning to organise ideas in {{pos}} writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} writes simple sentences and is beginning to organise ideas into short paragraphs.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} organises {{pos}} ideas into paragraphs and is learning to start each paragraph with its main idea.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} draws pictures to represent {{pos}} ideas and writes short sentences using words displayed in the classroom.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} writes simple sentences using words displayed in the classroom.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} draws pictures to show {{pos}} ideas and labels {{pos}} work using words displayed in the classroom.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} plans {{pos}} writing and improves it after feedback.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} writes simple and compound sentences about characters and events using correct punctuation.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} writes for different purposes, such as to describe, explain, give an opinion or tell a story.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} is developing skills in structuring and editing persuasive texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} organises recounts and attempts informative texts with emerging control.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} creates a beginning, a problem, and a resolution using simple paragraphs.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} writes informative texts with headings and paragraphs that begin with a main idea.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} structures persuasive paragraphs with a clear statement of position and supporting ideas.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} forms simple paragraphs to express {{pos}} ideas and edits {{pos}} work for correct punctuation.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} takes part in creating texts with others.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} uses pictures and symbols to create texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} chooses topics to write about.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": "{{S}} draws pictures to support {{pos}} writing.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "access point; handled in the access-point batch"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} joins in shared writing and helps to improve a short text.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes a short text to record or report an idea using letters and sounds {{s}} knows.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes a short recount that includes who, what and when.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes a short opinion text and gives a reason for {{pos}} view.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} re-reads {{pos}} writing and makes changes to improve it.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} creates short imaginative texts that have a clear beginning, middle and end.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} edits {{pos}} writing for spelling and punctuation before sharing it with others.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes short informative texts for a familiar audience.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  }
+ ]
+}

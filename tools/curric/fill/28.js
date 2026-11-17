@@ -1,0 +1,13 @@
+const L = require('./lib')('ac9/28.json'); const { keep, add, drop } = L;
+keep(0,5,'AC9E5LA08'); keep(1,6,'AC9E6LA08'); keep(2,5,'AC9E5LA08'); keep(3,6,'AC9E6LA08'); keep(4,5,'AC9E5LA08'); keep(5,5,'AC9E5LA08'); keep(7,6,'AC9E6LA08');
+drop(12,'Year 7 or above'); drop(13,'Year 7 or above');
+add('{{S}} uses specialist and technical vocabulary to give precision to {{pos}} explanations.',5,'AC9E5LA08');
+add('{{S}} explains how precise word choices sharpen the meaning of a text.',5,'AC9E5LA08');
+add('{{S}} identifies vivid and emotive vocabulary, such as metaphors and similes, in the texts {{s}} reads.',6,'AC9E6LA08');
+add('{{S}} uses figurative language to create strong images in {{pos}} own writing.',6,'AC9E6LA08');
+add('{{S}} explains how the order of images in print, digital and film texts affects meaning.',5,'AC9E5LA07');
+add('{{S}} compares how a sequence of images tells a story in a picture book and a film.',5,'AC9E5LA07');
+add('{{S}} explains how images, tables, diagrams, maps and graphs add to the meaning of a text.',6,'AC9E6LA07');
+add('{{S}} interprets a diagram or graph in an information text and links it to the written explanation.',6,'AC9E6LA07');
+L.rest('Year 2 to 4 sentence; decided in batch 26 or 27');
+L.save();

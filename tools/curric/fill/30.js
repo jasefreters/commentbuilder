@@ -1,0 +1,15 @@
+const L = require('./lib')('ac9/30.json'); const { keep, add } = L;
+keep(8,3,'AC9E3LY06'); keep(9,3,'AC9E3LY06'); keep(10,3,'AC9E3LY06'); keep(11,3,'AC9E3LA04'); keep(12,4,'AC9E4LY06'); keep(13,3,'AC9E3LA04'); keep(1,4,'AC9E4LY06');
+add('{{S}} plans, creates and publishes imaginative, informative and persuasive texts with visual features.',3,'AC9E3LY06');
+add('{{S}} edits {{pos}} writing to improve clarity and to correct spelling and punctuation.',3,'AC9E3LY06');
+add('{{S}} writes paragraphs that group related information and begin with a main idea.',3,'AC9E3LA04');
+add('{{S}} uses a new paragraph when {{s}} moves to a new idea.',3,'AC9E3LA04');
+add('{{S}} links ideas within and between sentences to help the reader follow {{pos}} writing.',4,'AC9E4LY06');
+add('{{S}} writes texts that use complex sentences and linked ideas to suit the audience.',4,'AC9E4LY06');
+add('{{S}} plans, edits and publishes texts that include visual features to support {{pos}} ideas.',4,'AC9E4LY06');
+add('{{S}} uses time and condition words to connect ideas in {{pos}} writing.',4,'AC9E4LA04');
+add('{{S}} sequences ideas in a text using time words and words linked to the topic.',4,'AC9E4LA04');
+add('{{S}} uses layout features such as headings and captions in texts {{s}} creates.',3,'AC9E3LA05');
+add('{{S}} selects layout features that suit the purpose of a digital text {{s}} is creating.',4,'AC9E4LA05');
+L.rest('Year 5 or 6 sentence; decided in batch 31');
+L.save();

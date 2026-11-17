@@ -1,0 +1,46 @@
+const L = require('./lib')('ac9/32.json'); const { keep, add, ap, out } = L;
+keep(0,1,'AC9E1LY13'); keep(1,2,'AC9E2LY11'); keep(2,1,'AC9E1LY12'); keep(3,2,'AC9E2LY10'); keep(4,2,'AC9E2LY11'); keep(7,2,'AC9E2LY11');
+keep(8,1,'AC9E1LY15'); keep(9,1,'AC9E1LY13'); keep(10,1,'AC9E1LA10'); keep(11,1,'AC9E1LA07');
+keep(12,'F','AC9EFLY13'); keep(13,'F','AC9EFLY14'); keep(14,'F','AC9EFLA09'); keep(15,'F','AC9EFLY15'); keep(16,'F','AC9EFLA05'); keep(17,'F','AC9EFLY13');
+keep(18,1,'AC9E1LY14'); keep(19,1,'AC9E1LY13'); keep(20,2,'AC9E2LY12'); keep(21,2,'AC9E2LY12'); keep(22,1,'AC9E1LY15');
+out(5,6,23,24,25);
+ap(26,27,28);
+// Foundation
+add('{{S}} knows that a sentence is a group of words that work together to share an idea.','F','AC9EFLA06');
+add('{{S}} uses capital letters and full stops to mark the start and end of a sentence.','F','AC9EFLA09');
+add('{{S}} claps syllables and recognises words that rhyme or start with the same sound.','F','AC9EFLY09');
+add('{{S}} writes simple consonant-vowel-consonant words by matching sounds to letters.','F','AC9EFLY12');
+add('{{S}} blends sounds to read simple consonant-vowel-consonant words.','F','AC9EFLY12');
+add('{{S}} uses letter and sound knowledge to spell simple words.','F','AC9EFLY13');
+add('{{S}} reads and writes familiar words such as I, the and is.','F','AC9EFLY14');
+add('{{S}} knows that some words, such as compound words, can be made of more than one meaningful part.','F','AC9EFLY15');
+// Year 1
+add('{{S}} writes a simple sentence that tells about one event or idea.',1,'AC9E1LA06');
+add('{{S}} writes complete simple sentences that make sense.',1,'AC9E1LA06');
+add('{{S}} uses nouns, verbs, adjectives and adverbs when writing sentences.',1,'AC9E1LA07');
+add('{{S}} ends sentences with full stops, question marks or exclamation marks and uses capitals for names.',1,'AC9E1LA10');
+add('{{S}} breaks words into separate sounds, including blends, to help with reading and spelling.',1,'AC9E1LY09');
+add('{{S}} separates the first, middle and last sounds of words and changes them to make new words.',1,'AC9E1LY10');
+add('{{S}} reads one- and two-syllable words with growing confidence.',1,'AC9E1LY11');
+add('{{S}} knows that a letter can stand for more than one sound and that every syllable has a vowel.',1,'AC9E1LY12');
+add('{{S}} spells one- and two-syllable words with common letter patterns.',1,'AC9E1LY13');
+add('{{S}} reads and writes an increasing number of common words correctly.',1,'AC9E1LY14');
+add('{{S}} adds endings such as -s, -ed and -ing to words to change their meaning.',1,'AC9E1LY15');
+// Year 2
+add('{{S}} writes compound sentences by joining ideas with words such as and, but and so.',2,'AC9E2LA06');
+add('{{S}} uses linking words to join two ideas into one sentence.',2,'AC9E2LA06');
+add('{{S}} extends nouns into noun groups using articles and adjectives.',2,'AC9E2LA07');
+add('{{S}} uses capitals in titles and commas in lists.',2,'AC9E2LA10');
+add('{{S}} uses commas to separate items in a list and capital letters in titles.',2,'AC9E2LA10');
+add('{{S}} blends and segments complex sounds in spoken words.',2,'AC9E2LY09');
+add('{{S}} swaps, adds and removes sounds in spoken words to make new words.',2,'AC9E2LY09');
+add('{{S}} uses short and long vowels, blends and digraphs to read and write words.',2,'AC9E2LY10');
+add('{{S}} uses spelling patterns and word parts to spell words that cannot be sounded out.',2,'AC9E2LY11');
+add('{{S}} builds word families using prefixes and suffixes.',2,'AC9E2LY12');
+add('{{S}} knows that sentences are made of words and that a sentence tells a complete idea.','F','AC9EFLA05');
+add('{{S}} puts words in order to make a sentence that makes sense.','F','AC9EFLA06');
+add('{{S}} breaks words into sounds, including blends, then uses them to read and spell.',1,'AC9E1LY09');
+add('{{S}} changes, adds or removes sounds in spoken words to make new words.',1,'AC9E1LY10');
+add('{{S}} reads one-syllable and two-syllable words by blending the parts.',1,'AC9E1LY11');
+L.rest('Year 3 to 6 sentence; decided in batch 33 or 34');
+L.save();

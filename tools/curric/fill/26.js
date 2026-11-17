@@ -1,0 +1,18 @@
+const L = require('./lib')('ac9/26.json'); const { keep, add, out } = L;
+keep(0,2,'AC9E2LA09'); keep(2,1,'AC9E1LA09'); keep(3,2,'AC9E2LA07'); keep(4,1,'AC9E1LA09'); keep(7,1,'AC9E1LA07'); keep(8,1,'AC9E1LA08');
+keep(9,2,'AC9E2LA09'); keep(10,'F','AC9EFLA08'); keep(11,'F','AC9EFLA08'); keep(12,1,'AC9E1LA09'); keep(13,'F','AC9EFLA08'); keep(14,2,'AC9E2LA09');
+out(1,5,6,15,16);
+add('{{S}} uses words from home, interests and familiar places when talking and writing.','F','AC9EFLA08');
+add('{{S}} learns new words from stories and uses them in conversation.','F','AC9EFLA08');
+add('{{S}} talks about how pictures and words work together to tell a story or give information.','F','AC9EFLA07');
+add('{{S}} uses the pictures in a text to work out what the words mean.','F','AC9EFLA07');
+add('{{S}} recognises and uses the vocabulary of topics studied in class.',1,'AC9E1LA09');
+add('{{S}} uses words from class topics when talking and writing about {{pos}} learning.',1,'AC9E1LA09');
+add('{{S}} compares how images in different types of text add to the meaning.',1,'AC9E1LA08');
+add('{{S}} explains what a photograph or diagram adds to an information text.',1,'AC9E1LA08');
+add('{{S}} chooses words to suit the topic and experiments with new vocabulary.',2,'AC9E2LA09');
+add('{{S}} makes careful word choices to suit the topic of a text.',2,'AC9E2LA09');
+add('{{S}} explains how images add to or extend the meaning of a text.',2,'AC9E2LA08');
+add('{{S}} describes how a picture can add information that the words do not give.',2,'AC9E2LA08');
+L.rest('Year 3 to 6 sentence; decided in batch 27 or 28');
+L.save();

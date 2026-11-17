@@ -1,0 +1,509 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "2",
+  "3",
+  "4"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9E2LY06",
+   "year": "2",
+   "text": "Create and edit short imaginative, informative and persuasive texts for familiar audiences, using purpose-appropriate structure, simple and compound sentences, noun and verb groups, and common two-syllable words"
+  },
+  {
+   "id": "AC9E3LY06",
+   "year": "3",
+   "text": "Plan, create, edit and publish imaginative, informative and persuasive texts with visual features, layout, simple paragraphs, mostly correct tense and most high-frequency words spelled correctly"
+  },
+  {
+   "id": "AC9E4LY06",
+   "year": "4",
+   "text": "Plan, create, edit and publish texts with visual features, linked ideas, complex sentences, appropriate tense, synonyms, antonyms, correctly spelled multisyllabic words and simple punctuation"
+  },
+  {
+   "id": "AC9E2LY07",
+   "year": "2",
+   "text": "Create, rehearse and deliver short presentations for familiar audiences, using purpose-appropriate structure, topic vocabulary, and varied tone, volume and pace"
+  },
+  {
+   "id": "AC9E3LY07",
+   "year": "3",
+   "text": "Plan, rehearse and deliver short presentations to inform, express opinions or tell stories, with clear structure, elaborated details, precise vocabulary, visual features and suitable delivery"
+  },
+  {
+   "id": "AC9E4LY07",
+   "year": "4",
+   "text": "Plan, rehearse and deliver structured presentations to report, tell stories, recount events or argue, using subjective and objective language, complex sentences and visual features"
+  },
+  {
+   "id": "AC9E2LY08",
+   "year": "2",
+   "text": "Write words legibly, with growing fluency, using unjoined upper-case and lower-case letters"
+  },
+  {
+   "id": "AC9E3LY08",
+   "year": "3",
+   "text": "Write words using joined letters that are clearly formed and consistent in size"
+  },
+  {
+   "id": "AC9E4LY08",
+   "year": "4",
+   "text": "Write words using clearly formed joined letters, with developing fluency and automaticity"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} writes with a legible and fluent handwriting style for extended periods and types words, numbers and punctuation efficiently.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} types words, numbers and punctuation efficiently.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} types accurately and presents ideas clearly in digital formats.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes with a fluent, legible handwriting style and types efficiently.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} presents written work neatly and maintains consistent letter formation.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes with a clear and legible handwriting style and types accurately using a keyboard.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} presents written work neatly and communicates ideas clearly when typing.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses the keyboard efficiently when publishing {{pos}} texts digitally.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} maintains a fluent handwriting style and types efficiently using the keyboard.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} presents written and digital work neatly, demonstrating a consistent and legible handwriting style.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} joins letters when writing familiar words and uses keyboard skills to type efficiently.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} joins letters when writing familiar words and uses technology appropriately when creating texts.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} forms most letters correctly on the line and uses appropriate spacing between words.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is learning to form letters correctly and write on the line.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} forms letters correctly and maintains appropriate spacing when writing.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses basic word-processing tools to type and edit short texts.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "During handwriting lessons, {{s}} uses appropriate pencil control to form letters on the line.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} forms letters with consistent size and slope.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} types texts and searches for information online.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses word-processing tools to draft and edit {{pos}} writing.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "S2",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} writes with a fluent, legible handwriting style and types efficiently.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} maintains a fluent handwriting style and types efficiently using the keyboard.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} is developing consistency in letter formation and spacing and uses the keyboard with increasing accuracy when creating digital texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} joins letters when writing familiar words and uses keyboard skills to type efficiently.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} joins letters when writing familiar words and uses technology appropriately when creating texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} types texts and searches for information online.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses word-processing tools to draft and edit {{pos}} writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes words using joined letters that are clearly formed and consistent in size.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} joins letters with growing fluency when writing everyday words.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes words with clearly formed joined letters and is developing fluency and automaticity.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} keeps {{pos}} joined handwriting legible when writing at speed.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses a keyboard to publish texts and presents them clearly in digital form.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} publishes digital texts with visual features and presents them clearly.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} writes with a legible and fluent handwriting style for extended periods and types words, numbers and punctuation efficiently.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} types words, numbers and punctuation efficiently.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} types accurately and presents ideas clearly in digital formats.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} presents written work neatly and maintains consistent letter formation.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} writes with a clear and legible handwriting style and types accurately using a keyboard.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} presents written work neatly and communicates ideas clearly when typing.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} uses the keyboard efficiently when publishing {{pos}} texts digitally.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} presents written and digital work neatly, demonstrating a consistent and legible handwriting style.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} forms most letters correctly on the line and uses appropriate spacing between words.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} is learning to form letters correctly and write on the line.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} forms letters correctly and maintains appropriate spacing when writing.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} uses basic word-processing tools to type and edit short texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "During handwriting lessons, {{s}} uses appropriate pencil control to form letters on the line.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  },
+  {
+   "text": "{{S}} forms letters with consistent size and slope.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 1 or 2, or Year 5 or 6 sentence; decided in another batch"
+  }
+ ]
+}

@@ -1,0 +1,415 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "2",
+  "3",
+  "4"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9E2LA06",
+   "year": "2",
+   "text": "Understand that compound sentences link two or more independent clauses, usually with a coordinating conjunction, to connect ideas"
+  },
+  {
+   "id": "AC9E3LA06",
+   "year": "3",
+   "text": "Understand that a clause is a unit of grammar, usually with a subject and verb that must agree"
+  },
+  {
+   "id": "AC9E4LA06",
+   "year": "4",
+   "text": "Understand that complex sentences have one independent clause and at least one dependent clause, joined by subordinating conjunctions to show time and cause"
+  },
+  {
+   "id": "AC9E2LA07",
+   "year": "2",
+   "text": "Understand that nouns can extend into noun groups with articles and adjectives, and verbs can form verb groups"
+  },
+  {
+   "id": "AC9E3LA07",
+   "year": "3",
+   "text": "Understand how verbs represent processes of doing, feeling, thinking, saying and relating"
+  },
+  {
+   "id": "AC9E4LA07",
+   "year": "4",
+   "text": "Investigate how quoted (direct) and reported (indirect) speech are used"
+  },
+  {
+   "id": "AC9E3LA08",
+   "year": "3",
+   "text": "Understand that verbs are anchored in time through tense"
+  },
+  {
+   "id": "AC9E4LA08",
+   "year": "4",
+   "text": "Understand how adverb groups and prepositional phrases give circumstantial details about an activity"
+  },
+  {
+   "id": "AC9E4LA09",
+   "year": "4",
+   "text": "Understand past, present and future tenses and their impact on meaning in a sentence"
+  },
+  {
+   "id": "AC9E2LA08",
+   "year": "2",
+   "text": "Understand that images add to or multiply the meanings of a text"
+  },
+  {
+   "id": "AC9E3LA09",
+   "year": "3",
+   "text": "Identify how images extend the meaning of a text"
+  },
+  {
+   "id": "AC9E4LA10",
+   "year": "4",
+   "text": "Explore the effect of framing, element placement and salience on the composition of still and moving images"
+  },
+  {
+   "id": "AC9E2LA09",
+   "year": "2",
+   "text": "Experiment with and begin making conscious vocabulary choices to suit the topic"
+  },
+  {
+   "id": "AC9E3LA10",
+   "year": "3",
+   "text": "Extend topic-specific and technical vocabulary, and know that words can have different meanings in different contexts"
+  },
+  {
+   "id": "AC9E4LA11",
+   "year": "4",
+   "text": "Expand vocabulary by exploring synonyms and antonyms and using words met in a range of sources"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} explains how word choices can make writing entertaining or informative in both fiction and non-fiction texts.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects words that persuade the reader and uses language that creates emotion in poetry.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} considers {{pos}} word choices carefully to make {{pos}} writing more engaging for the reader.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} explains how vocabulary choices can enhance the entertainment value of narratives.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} selects vocabulary that enhances meaning.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies known vocabulary effectively and is beginning to experiment with descriptive language to add detail.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses a varied vocabulary in {{pos}} own writing.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} experiments with different styles and incorporates vocabulary drawn from other texts.",
+   "tab": "Vocabulary",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises that words can have multiple meanings and applies this knowledge to understand and create texts.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} understands that words can have multiple meanings and uses a varied vocabulary.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} brainstorms words that have the same or opposite meaning and uses these to avoid repetition.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} talks about the meaning of figurative language, such as similes and idioms.",
+   "tab": "Vocabulary",
+   "stageTag": "S2",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} uses a varied vocabulary in {{pos}} own writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises that words can have multiple meanings and applies this knowledge to understand and create texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} understands that words can have multiple meanings and uses a varied vocabulary.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} brainstorms words that have the same or opposite meaning and uses these to avoid repetition.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} talks about the meaning of figurative language, such as similes and idioms.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} extends topic-specific and technical vocabulary and uses it when speaking and writing.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} knows that a word can have different meanings and chooses the one that fits the text.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies how images extend the meaning of a text.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how a diagram or illustration adds detail that the written words leave out.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explores how the framing and placement of elements in a still image affect the viewer.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes what the placement and size of items in a picture draw the reader to notice.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} expands {{pos}} vocabulary by exploring synonyms and antonyms.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses words met in a range of sources when speaking and writing.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} explains how word choices can make writing entertaining or informative in both fiction and non-fiction texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 28"
+  },
+  {
+   "text": "{{S}} selects words that persuade the reader and uses language that creates emotion in poetry.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 28"
+  },
+  {
+   "text": "{{S}} considers {{pos}} word choices carefully to make {{pos}} writing more engaging for the reader.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 28"
+  },
+  {
+   "text": "{{S}} explains how vocabulary choices can enhance the entertainment value of narratives.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 28"
+  },
+  {
+   "text": "{{S}} selects vocabulary that enhances meaning.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 28"
+  },
+  {
+   "text": "{{S}} applies known vocabulary effectively and is beginning to experiment with descriptive language to add detail.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 28"
+  },
+  {
+   "text": "{{S}} experiments with different styles and incorporates vocabulary drawn from other texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 28"
+  }
+ ]
+}

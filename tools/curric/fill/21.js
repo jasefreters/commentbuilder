@@ -1,0 +1,16 @@
+const L = require('./lib')('ac9/21.json'); const { keep, add } = L;
+keep(10, 3, 'AC9E3LA01'); keep(5, 3, 'AC9E3LA01');
+add('{{S}} changes words such as might and must to make a statement sound stronger or weaker.', 3, 'AC9E3LA02');
+add('{{S}} recognises language that expresses feelings and uses it to persuade.', 3, 'AC9E3LA02');
+add('{{S}} contributes ideas to discussions and shares information that is relevant to the topic.', 3, 'AC9E3LY02');
+add('{{S}} takes turns in conversations and uses polite language that suits the group.', 3, 'AC9E3LY02');
+keep(0, 3, 'AC9E3LY07'); keep(6, 3, 'AC9E3LY07'); keep(20, 3, 'AC9E3LY07');
+add('{{S}} uses language that suits formal and informal situations and explains why it suits them.', 4, 'AC9E4LA01');
+add('{{S}} builds positive relationships with others by choosing respectful words.', 4, 'AC9E4LA01');
+add('{{S}} identifies language that gives an opinion and language that reports facts.', 4, 'AC9E4LA02');
+add('{{S}} explains the difference between facts and opinions in texts and conversations.', 4, 'AC9E4LA02');
+[9, 12, 18].forEach(i => keep(i, 4, 'AC9E4LY02'));
+keep(4, 4, 'AC9E4LY07'); add('{{S}} plans and delivers a structured presentation using suitable language and visuals.', 4, 'AC9E4LY07');
+add('{{S}} plans and rehearses a short presentation for a familiar audience.',2,'AC9E2LY07');
+L.rest('decided in batch 20 or 22');
+L.save();

@@ -1,0 +1,13 @@
+const L = require('./lib')('ac9/35.json'); const { keep, add, ap, out } = L;
+keep(0,2,'AC9E2LY08'); keep(2,2,'AC9E2LY08'); keep(5,1,'AC9E1LY08'); keep(6,1,'AC9E1LY08'); keep(7,1,'AC9E1LY08'); keep(8,'F','AC9EFLY08'); keep(9,'F','AC9EFLY08');
+keep(10,2,'AC9E2LY06'); keep(11,1,'AC9E1LY08'); keep(12,2,'AC9E2LY08');
+out(1,3,4,13,14);
+ap(15,16);
+add('{{S}} forms most upper-case and lower-case letters using the letter formations {{s}} has learnt.','F','AC9EFLY08');
+add('{{S}} sits comfortably, holds a pencil correctly and forms letters of a consistent size.','F','AC9EFLY08');
+add('{{S}} writes words with unjoined upper-case and lower-case letters that are the right shape.',1,'AC9E1LY08');
+add('{{S}} writes words using unjoined letters that sit on the line.',1,'AC9E1LY08');
+add('{{S}} writes words legibly and with growing fluency using unjoined letters.',2,'AC9E2LY08');
+add('{{S}} uses a keyboard to type short texts and corrects mistakes.',2,'AC9E2LY06');
+L.rest('Year 3 to 6 sentence; decided in batch 36 or 37');
+L.save();

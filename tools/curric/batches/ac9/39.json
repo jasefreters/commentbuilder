@@ -1,0 +1,775 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "2",
+  "3",
+  "4"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9E2LE01",
+   "year": "2",
+   "text": "Discuss how characters and settings are connected in these literary texts"
+  },
+  {
+   "id": "AC9E3LE01",
+   "year": "3",
+   "text": "Discuss characters, events and settings in different contexts in these literary texts"
+  },
+  {
+   "id": "AC9E4LE01",
+   "year": "4",
+   "text": "Recognise similar storylines, ideas and relationships in different contexts in these literary texts"
+  },
+  {
+   "id": "AC9E2LE02",
+   "year": "2",
+   "text": "Identify features of literary texts, such as characters and settings, and give reasons for personal preferences"
+  },
+  {
+   "id": "AC9E3LE02",
+   "year": "3",
+   "text": "Discuss connections between personal experiences and character experiences, and share preferences"
+  },
+  {
+   "id": "AC9E4LE02",
+   "year": "4",
+   "text": "Describe the effects of text structures and language features when responding to and sharing opinions"
+  },
+  {
+   "id": "AC9E2LE03",
+   "year": "2",
+   "text": "Discuss the characters and settings of a range of texts and how language presents them in different ways"
+  },
+  {
+   "id": "AC9E3LE03",
+   "year": "3",
+   "text": "Discuss how authors and illustrators use language and illustrations to portray characters and settings, and how settings and events shape mood"
+  },
+  {
+   "id": "AC9E4LE03",
+   "year": "4",
+   "text": "Discuss how authors and illustrators make stories engaging through character, setting and plot tension"
+  },
+  {
+   "id": "AC9E2LE04",
+   "year": "2",
+   "text": "Identify, reproduce and experiment with rhythmic sound and word patterns in poems, chants, rhymes or songs"
+  },
+  {
+   "id": "AC9E3LE04",
+   "year": "3",
+   "text": "Discuss how literary devices such as rhythm and onomatopoeia in poetry and prose shape meaning and reader reaction"
+  },
+  {
+   "id": "AC9E4LE04",
+   "year": "4",
+   "text": "Examine literary devices and deliberate word play, including in poetry, that shape meaning"
+  },
+  {
+   "id": "AC9E2LE05",
+   "year": "2",
+   "text": "Create and edit literary texts by adapting structures and language features of familiar texts through drawing, writing, performance and digital tools"
+  },
+  {
+   "id": "AC9E3LE05",
+   "year": "3",
+   "text": "Create and edit imaginative texts using or adapting language features, characters, settings, plot structures and ideas from literary texts"
+  },
+  {
+   "id": "AC9E4LE05",
+   "year": "4",
+   "text": "Create and edit literary texts by developing storylines, characters and settings"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} explains how language in poetry can evoke emotion and shows creativity when developing ideas.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} explores how language can evoke emotions in poems and creates poems with a clear, consistent theme.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} analyses and creates poems with a clear focus and consistent theme, showing creativity and thoughtfulness.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} understands how language evokes emotions and describes characters through their traits and actions.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} understands how language can evoke emotion and identifies how characters are developed through their traits and actions.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and applies themes in various texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes how characters are built through their actions and viewpoints.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies how language creates emotions in poetry and explores how an author's choices influence meaning.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies themes in narratives and applies them when creating {{pos}} own texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} explores how language can evoke emotions in poems.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes the structure of persuasive texts and discusses how language can be used to evoke emotion.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies how characters are developed through their traits and actions.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies main ideas in narratives and uses these when creating original texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} explains how characters are developed in stories and describes how authors can show different points of view.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies words and phrases that are used to persuade the reader.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies themes in narratives and connects with key ideas in a variety of stories.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies how advertisements are organised and describes features of both fiction and non-fiction texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes features of fiction and non-fiction texts and how pictures and words contribute to meaning.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises how authors create characters and structure stories to engage the reader.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} talks about how stories build feelings and compares characters in different texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} finds figurative language, wordplay and symbols in texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses figurative language or wordplay in {{pos}} own writing.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses {{pos}} experiences to help {{o}} understand and form opinions about a text.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies how authors use words in unexpected ways to make stories interesting.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes how a character's choices affect a storyline.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies the difference between language that expresses opinion versus fact and uses this knowledge to describe the purpose of a text.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} explains how language in poetry can evoke emotion and shows creativity when developing ideas.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} understands how language can evoke emotion and identifies how characters are developed through their traits and actions.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies and applies themes in various texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies themes in narratives and applies them when creating {{pos}} own texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} explores how language can evoke emotions in poems.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} describes the structure of persuasive texts and discusses how language can be used to evoke emotion.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies words and phrases that are used to persuade the reader.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies themes in narratives and connects with key ideas in a variety of stories.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies how advertisements are organised and describes features of both fiction and non-fiction texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} describes how a character's choices affect a storyline.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies the difference between language that expresses opinion versus fact and uses this knowledge to describe the purpose of a text.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} discusses characters, events and settings in stories from different contexts.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} connects {{pos}} own experiences to what characters experience and shares {{pos}} response.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} discusses how authors and illustrators portray characters and settings through words and pictures.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies rhythm and onomatopoeia in poetry and prose and says how they shape meaning.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} creates and edits imaginative texts by adapting the characters, settings and features of texts {{s}} has read.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes an imaginative text with a clear storyline and edits it to improve it.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises similar storylines, ideas and relationships in stories from different contexts.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes how the structure and language of a text affect {{pos}} response.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} discusses how authors and illustrators make stories engaging through character, setting and events.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} examines word play and literary devices in poetry and prose and how they shape meaning.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} creates and edits literary texts by developing storylines, characters and settings.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} develops a storyline with believable characters and a clear setting in {{pos}} own story.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes how an author makes a story engaging through the characters and the setting.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how an illustrator and an author work together to show a character.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies word play and deliberate word choices that shape the meaning of a poem.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how rhythm and sound words add to the meaning of a poem.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} explores how language can evoke emotions in poems and creates poems with a clear, consistent theme.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} analyses and creates poems with a clear focus and consistent theme, showing creativity and thoughtfulness.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} understands how language evokes emotions and describes characters through their traits and actions.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} describes how characters are built through their actions and viewpoints.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} identifies how language creates emotions in poetry and explores how an author's choices influence meaning.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} identifies how characters are developed through their traits and actions.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} identifies main ideas in narratives and uses these when creating original texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} explains how characters are developed in stories and describes how authors can show different points of view.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} describes features of fiction and non-fiction texts and how pictures and words contribute to meaning.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} recognises how authors create characters and structure stories to engage the reader.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} talks about how stories build feelings and compares characters in different texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} finds figurative language, wordplay and symbols in texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} uses figurative language or wordplay in {{pos}} own writing.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} uses {{pos}} experiences to help {{o}} understand and form opinions about a text.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  },
+  {
+   "text": "{{S}} identifies how authors use words in unexpected ways to make stories interesting.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 40"
+  }
+ ]
+}

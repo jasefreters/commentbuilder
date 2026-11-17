@@ -1,0 +1,757 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "F",
+  "1",
+  "2"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9EFLE01",
+   "year": "F",
+   "text": "Share ideas about stories, poems and images, reflecting on similar or different experiences, using First Nations Australian and wider Australian and world texts"
+  },
+  {
+   "id": "AC9E1LE01",
+   "year": "1",
+   "text": "Discuss how language and images create characters, settings and events in these literary texts"
+  },
+  {
+   "id": "AC9E2LE01",
+   "year": "2",
+   "text": "Discuss how characters and settings are connected in these literary texts"
+  },
+  {
+   "id": "AC9EFLE02",
+   "year": "F",
+   "text": "Respond to stories and share feelings and thoughts about events and characters"
+  },
+  {
+   "id": "AC9E1LE02",
+   "year": "1",
+   "text": "Discuss literary texts and share responses by connecting them to students' own experiences"
+  },
+  {
+   "id": "AC9E2LE02",
+   "year": "2",
+   "text": "Identify features of literary texts, such as characters and settings, and give reasons for personal preferences"
+  },
+  {
+   "id": "AC9EFLE03",
+   "year": "F",
+   "text": "Recognise types of literary texts and their features, including events, characters, beginnings and endings"
+  },
+  {
+   "id": "AC9E1LE03",
+   "year": "1",
+   "text": "Discuss plot, character and setting as features of stories"
+  },
+  {
+   "id": "AC9E2LE03",
+   "year": "2",
+   "text": "Discuss the characters and settings of a range of texts and how language presents them in different ways"
+  },
+  {
+   "id": "AC9EFLE04",
+   "year": "F",
+   "text": "Explore and replicate rhythms and sound patterns in poems, rhymes and songs"
+  },
+  {
+   "id": "AC9E1LE04",
+   "year": "1",
+   "text": "Listen to and discuss poems, chants, rhymes and songs; imitate and invent sound patterns, including alliteration and rhyme"
+  },
+  {
+   "id": "AC9E2LE04",
+   "year": "2",
+   "text": "Identify, reproduce and experiment with rhythmic sound and word patterns in poems, chants, rhymes or songs"
+  },
+  {
+   "id": "AC9EFLE05",
+   "year": "F",
+   "text": "Retell and adapt familiar literary texts through play, performance, images or writing"
+  },
+  {
+   "id": "AC9E1LE05",
+   "year": "1",
+   "text": "Orally retell or adapt a familiar story using plot, characters, vocabulary and structure through role-play, writing, drawing or digital tools"
+  },
+  {
+   "id": "AC9E2LE05",
+   "year": "2",
+   "text": "Create and edit literary texts by adapting structures and language features of familiar texts through drawing, writing, performance and digital tools"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} understands how language evokes emotions and describes characters through their traits and actions.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies and applies themes in various texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies themes in narratives and applies them when creating {{pos}} own texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes the structure of persuasive texts and discusses how language can be used to evoke emotion.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies main ideas in narratives and uses these when creating original texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies words and phrases that are used to persuade the reader.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies themes in narratives and connects with key ideas in a variety of stories.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies how advertisements are organised and describes features of both fiction and non-fiction texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes features of fiction and non-fiction texts and how pictures and words contribute to meaning.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises how authors create characters and structure stories to engage the reader.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} shows enjoyment when listening to stories and expresses {{pos}} opinions about characters and events.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} joins in class discussions about stories to identify the beginning, middle and end.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} names {{pos}} favourite stories and characters in class discussions.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} enjoys creative language such as sound words and rhymes.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} tries creative language in {{pos}} own telling and writing.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes related sentences to create stories.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "ES1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} talks about how stories build feelings and compares characters in different texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} finds figurative language, wordplay and symbols in texts.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses figurative language or wordplay in {{pos}} own writing.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses {{pos}} experiences to help {{o}} understand and form opinions about a text.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies how authors use words in unexpected ways to make stories interesting.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S1",
+   "skill": null
+  },
+  {
+   "text": "{{S}} describes how a character's choices affect a storyline.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies the difference between language that expresses opinion versus fact and uses this knowledge to describe the purpose of a text.",
+   "tab": "Understanding and Responding to Literature",
+   "stageTag": "S2",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} understands how language evokes emotions and describes characters through their traits and actions.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies main ideas in narratives and uses these when creating original texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} describes features of fiction and non-fiction texts and how pictures and words contribute to meaning.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises how authors create characters and structure stories to engage the reader.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} shows enjoyment when listening to stories and expresses {{pos}} opinions about characters and events.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} joins in class discussions about stories to identify the beginning, middle and end.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} names {{pos}} favourite stories and characters in class discussions.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} enjoys creative language such as sound words and rhymes.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} tries creative language in {{pos}} own telling and writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} writes related sentences to create stories.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} talks about how stories build feelings and compares characters in different texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} finds figurative language, wordplay and symbols in texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses figurative language or wordplay in {{pos}} own writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses {{pos}} experiences to help {{o}} understand and form opinions about a text.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies how authors use words in unexpected ways to make stories interesting.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies and applies themes in various texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} identifies themes in narratives and applies them when creating {{pos}} own texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} describes the structure of persuasive texts and discusses how language can be used to evoke emotion.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} identifies words and phrases that are used to persuade the reader.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} identifies themes in narratives and connects with key ideas in a variety of stories.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} identifies how advertisements are organised and describes features of both fiction and non-fiction texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} describes how a character's choices affect a storyline.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": "{{S}} identifies the difference between language that expresses opinion versus fact and uses this knowledge to describe the purpose of a text.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "out of span (Year 3 or above); handled in the next batch"
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} shares ideas about stories, poems and pictures and says how they link to {{pos}} own experiences.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} shares feelings and thoughts about the events and characters in a story.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises the characters, events and endings in familiar stories.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} joins in rhymes, songs and poems and repeats their rhythm and sound patterns.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} retells a familiar story through play, drawing or performance.",
+   "year": [
+    "F"
+   ],
+   "refs": [
+    "AC9EFLE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} discusses how words and pictures show the characters, settings and events in a story.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes a character or setting using ideas from the words and pictures.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} shares {{pos}} response to a story by linking it to {{pos}} own life.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} discusses the plot, characters and setting of a story.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} listens to poems, chants and songs and makes up new lines using sound patterns.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} retells a familiar story aloud using the plot, characters and some of the story words.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} changes part of a familiar story and tells it in {{pos}} own way.",
+   "year": [
+    "1"
+   ],
+   "refs": [
+    "AC9E1LE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} explains how the characters and settings in a story are connected.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies characters and settings in a story and gives reasons for {{pos}} response.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes how the language of a text presents its characters and settings.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes a poem or chant that copies the rhythm and sound patterns of ones {{s}} has read.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} creates and edits a short story by adapting the structure and language of a familiar text.",
+   "year": [
+    "2"
+   ],
+   "refs": [
+    "AC9E2LE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  }
+ ]
+}

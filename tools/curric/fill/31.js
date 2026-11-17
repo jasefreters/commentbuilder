@@ -1,0 +1,11 @@
+const L = require('./lib')('ac9/31.json'); const { keep, add, drop } = L;
+keep(0,5,'AC9E5LY06'); keep(1,5,'AC9E5LY06'); keep(2,6,'AC9E6LY06'); keep(3,6,'AC9E6LY06'); keep(4,5,'AC9E5LY06'); keep(5,5,'AC9E5LY06'); keep(6,6,'AC9E6LY06'); keep(7,6,'AC9E6LY06');
+[8,9,10,11].forEach(i=>drop(i,'Year 7 or above'));
+add('{{S}} plans, creates, edits and publishes texts with a suitable structure and visual features.',5,'AC9E5LY06');
+add('{{S}} uses sentence and paragraph starters to guide the reader through {{pos}} writing.',5,'AC9E5LA04');
+add('{{S}} plans, edits and publishes texts with clear paragraphs, varied complex sentences and expanded noun groups.',6,'AC9E6LY06');
+add('{{S}} uses repetition and linked words on purpose to hold {{pos}} writing together.',6,'AC9E6LA04');
+add('{{S}} writes texts that follow the stages and phases of their purpose.',6,'AC9E6LA03');
+add('{{S}} writes texts with a clear structure that suits the purpose, such as a report or an argument.',5,'AC9E5LA03');
+L.rest('Year 2 to 4 sentence; decided in batch 29 or 30');
+L.save();

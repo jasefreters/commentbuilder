@@ -1,0 +1,10 @@
+const L = require('./lib')('ac9/36.json'); const { keep, add } = L;
+keep(3,4,'AC9E4LY08'); keep(8,4,'AC9E4LY08'); keep(9,3,'AC9E3LY08'); keep(11,3,'AC9E3LY08'); keep(12,3,'AC9E3LY06'); keep(19,4,'AC9E4LY06'); keep(20,3,'AC9E3LY06');
+add('{{S}} writes words using joined letters that are clearly formed and consistent in size.',3,'AC9E3LY08');
+add('{{S}} joins letters with growing fluency when writing everyday words.',3,'AC9E3LY08');
+add('{{S}} writes words with clearly formed joined letters and is developing fluency and automaticity.',4,'AC9E4LY08');
+add('{{S}} keeps {{pos}} joined handwriting legible when writing at speed.',4,'AC9E4LY08');
+add('{{S}} uses a keyboard to publish texts and presents them clearly in digital form.',3,'AC9E3LY06');
+add('{{S}} publishes digital texts with visual features and presents them clearly.',4,'AC9E4LY06');
+L.rest('Year 1 or 2, or Year 5 or 6 sentence; decided in another batch');
+L.save();

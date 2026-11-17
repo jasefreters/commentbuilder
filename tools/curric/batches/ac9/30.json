@@ -1,0 +1,528 @@
+{
+ "cur": "ac9",
+ "subject": "english",
+ "years": [
+  "2",
+  "3",
+  "4"
+ ],
+ "status": "todo",
+ "cds": [
+  {
+   "id": "AC9E2LA03",
+   "year": "2",
+   "text": "Identify how curriculum texts are organised differently and use language features depending on purpose"
+  },
+  {
+   "id": "AC9E3LA03",
+   "year": "3",
+   "text": "Describe how curriculum texts use different language features and structures relevant to their purpose"
+  },
+  {
+   "id": "AC9E4LA03",
+   "year": "4",
+   "text": "Identify how texts have different language features and are typically organised into characteristic stages by purpose"
+  },
+  {
+   "id": "AC9E2LA04",
+   "year": "2",
+   "text": "Understand how texts are made cohesive through personal and possessive pronouns and omitting inferable words"
+  },
+  {
+   "id": "AC9E3LA04",
+   "year": "3",
+   "text": "Understand that paragraphs organise written texts by grouping related information together"
+  },
+  {
+   "id": "AC9E4LA04",
+   "year": "4",
+   "text": "Identify how connectives (temporal and conditional words) and topic word associations sequence and connect ideas"
+  },
+  {
+   "id": "AC9E2LA05",
+   "year": "2",
+   "text": "Navigate print and screen texts using chapters, contents, indexes, side-bar or drop-down menus, and links"
+  },
+  {
+   "id": "AC9E3LA05",
+   "year": "3",
+   "text": "Identify the purpose of layout features in print and digital texts, and the words used for navigation"
+  },
+  {
+   "id": "AC9E4LA05",
+   "year": "4",
+   "text": "Identify online text navigation features that enhance readability, such as headlines, drop-down menus, links, graphics and layout"
+  },
+  {
+   "id": "AC9E2LY06",
+   "year": "2",
+   "text": "Create and edit short imaginative, informative and persuasive texts for familiar audiences, using purpose-appropriate structure, simple and compound sentences, noun and verb groups, and common two-syllable words"
+  },
+  {
+   "id": "AC9E3LY06",
+   "year": "3",
+   "text": "Plan, create, edit and publish imaginative, informative and persuasive texts with visual features, layout, simple paragraphs, mostly correct tense and most high-frequency words spelled correctly"
+  },
+  {
+   "id": "AC9E4LY06",
+   "year": "4",
+   "text": "Plan, create, edit and publish texts with visual features, linked ideas, complex sentences, appropriate tense, synonyms, antonyms, correctly spelled multisyllabic words and simple punctuation"
+  },
+  {
+   "id": "AC9E2LY07",
+   "year": "2",
+   "text": "Create, rehearse and deliver short presentations for familiar audiences, using purpose-appropriate structure, topic vocabulary, and varied tone, volume and pace"
+  },
+  {
+   "id": "AC9E3LY07",
+   "year": "3",
+   "text": "Plan, rehearse and deliver short presentations to inform, express opinions or tell stories, with clear structure, elaborated details, precise vocabulary, visual features and suitable delivery"
+  },
+  {
+   "id": "AC9E4LY07",
+   "year": "4",
+   "text": "Plan, rehearse and deliver structured presentations to report, tell stories, recount events or argue, using subjective and objective language, complex sentences and visual features"
+  },
+  {
+   "id": "AC9E2LY08",
+   "year": "2",
+   "text": "Write words legibly, with growing fluency, using unjoined upper-case and lower-case letters"
+  },
+  {
+   "id": "AC9E3LY08",
+   "year": "3",
+   "text": "Write words using joined letters that are clearly formed and consistent in size"
+  },
+  {
+   "id": "AC9E4LY08",
+   "year": "4",
+   "text": "Write words using clearly formed joined letters, with developing fluency and automaticity"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} experiments with narrative writing features, showcasing creativity and thoughtfulness.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with appropriate detail.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} shows a strong understanding of how to plan, structure and revise persuasive texts.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} plans, drafts and revises persuasive texts effectively.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} plans and organises information reports.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} applies a variety of tenses to suit different writing tasks.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  },
+  {
+   "text": "{{S}} is developing skills in structuring and editing persuasive texts.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} organises recounts and attempts informative texts with emerging control.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} creates a beginning, a problem, and a resolution using simple paragraphs.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} writes informative texts with headings and paragraphs that begin with a main idea.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} structures persuasive paragraphs with a clear statement of position and supporting ideas.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} forms simple paragraphs to express {{pos}} ideas and edits {{pos}} work for correct punctuation.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S2",
+   "skill": null
+  },
+  {
+   "text": "{{S}} maintains a consistent point of view throughout imaginative writing.",
+   "tab": "Creating Written Texts",
+   "stageTag": "S3",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} is developing skills in structuring and editing persuasive texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} organises recounts and attempts informative texts with emerging control.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} creates a beginning, a problem, and a resolution using simple paragraphs.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} writes informative texts with headings and paragraphs that begin with a main idea.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} structures persuasive paragraphs with a clear statement of position and supporting ideas.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} forms simple paragraphs to express {{pos}} ideas and edits {{pos}} work for correct punctuation.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} plans and drafts writing effectively, producing well-connected paragraphs that develop ideas with appropriate detail.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} plans, creates and publishes imaginative, informative and persuasive texts with visual features.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} edits {{pos}} writing to improve clarity and to correct spelling and punctuation.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes paragraphs that group related information and begin with a main idea.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses a new paragraph when {{s}} moves to a new idea.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} links ideas within and between sentences to help the reader follow {{pos}} writing.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} writes texts that use complex sentences and linked ideas to suit the audience.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} plans, edits and publishes texts that include visual features to support {{pos}} ideas.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses time and condition words to connect ideas in {{pos}} writing.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} sequences ideas in a text using time words and words linked to the topic.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses layout features such as headings and captions in texts {{s}} creates.",
+   "year": [
+    "3"
+   ],
+   "refs": [
+    "AC9E3LA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} selects layout features that suit the purpose of a digital text {{s}} is creating.",
+   "year": [
+    "4"
+   ],
+   "refs": [
+    "AC9E4LA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} experiments with narrative writing features, showcasing creativity and thoughtfulness.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 31"
+  },
+  {
+   "text": "{{S}} plans and structures informative and persuasive texts effectively and incorporates descriptive language to engage the reader.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 31"
+  },
+  {
+   "text": "{{S}} shows a strong understanding of how to plan, structure and revise persuasive texts.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 31"
+  },
+  {
+   "text": "{{S}} uses a variety of sentence structures and writes using past, present and future tenses to suit different text types.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 31"
+  },
+  {
+   "text": "{{S}} plans, drafts and revises persuasive texts effectively.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 31"
+  },
+  {
+   "text": "{{S}} plans and organises information reports.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 31"
+  },
+  {
+   "text": "{{S}} applies a variety of tenses to suit different writing tasks.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 31"
+  },
+  {
+   "text": "{{S}} maintains a consistent point of view throughout imaginative writing.",
+   "action": "drop",
+   "newText": null,
+   "year": [],
+   "refs": [],
+   "below": "ok",
+   "above": "ok",
+   "note": "Year 5 or 6 sentence; decided in batch 31"
+  }
+ ]
+}
