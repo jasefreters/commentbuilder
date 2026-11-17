@@ -1,0 +1,1447 @@
+{
+ "curriculum": "vic2",
+ "subject": "english",
+ "span": "AP",
+ "cds": [
+  {
+   "id": "VC2EFALA01",
+   "year": "A",
+   "text": "Use preferred communication to accept or reject an object, action or activity"
+  },
+  {
+   "id": "VC2EFALA02",
+   "year": "A",
+   "text": "Attend to images in print and digital texts"
+  },
+  {
+   "id": "VC2EFALA03",
+   "year": "A",
+   "text": "Respond to familiar objects, actions or activities being named"
+  },
+  {
+   "id": "VC2EFALE01",
+   "year": "A",
+   "text": "Show shared attention when responding to Australian and world literature"
+  },
+  {
+   "id": "VC2EFALE02",
+   "year": "A",
+   "text": "Attend to and explore a range of literary texts"
+  },
+  {
+   "id": "VC2EFALY01",
+   "year": "A",
+   "text": "Use preferred communication to gain attention or express comfort and discomfort"
+  },
+  {
+   "id": "VC2EFALY02",
+   "year": "A",
+   "text": "Respond to environmental sounds and familiar spoken, written or signed words"
+  },
+  {
+   "id": "VC2EFALY03",
+   "year": "A",
+   "text": "Participate in the shared creation of texts"
+  },
+  {
+   "id": "VC2EFALY04",
+   "year": "A",
+   "text": "Use tools to make marks"
+  },
+  {
+   "id": "VC2EFBLA01",
+   "year": "B",
+   "text": "Use preferred communication to indicate a preference"
+  },
+  {
+   "id": "VC2EFBLA02",
+   "year": "B",
+   "text": "Turn pages and identify the orientation of print and digital texts"
+  },
+  {
+   "id": "VC2EFBLA03",
+   "year": "B",
+   "text": "Describe an object with a single gesture, symbol or word"
+  },
+  {
+   "id": "VC2EFBLA04",
+   "year": "B",
+   "text": "Identify a favourite image in a print or digital text"
+  },
+  {
+   "id": "VC2EFBLA05",
+   "year": "B",
+   "text": "Recognise and name familiar objects, actions and activities"
+  },
+  {
+   "id": "VC2EFBLE01",
+   "year": "B",
+   "text": "Identify an event in Australian and world literature"
+  },
+  {
+   "id": "VC2EFBLE02",
+   "year": "B",
+   "text": "Respond to an event in a story"
+  },
+  {
+   "id": "VC2EFBLE03",
+   "year": "B",
+   "text": "Identify an event in a familiar text"
+  },
+  {
+   "id": "VC2EFBLE04",
+   "year": "B",
+   "text": "Respond to chants, rhymes and songs"
+  },
+  {
+   "id": "VC2EFBLY01",
+   "year": "B",
+   "text": "Use preferred communication to attend and respond to interactions with others"
+  },
+  {
+   "id": "VC2EFBLY02",
+   "year": "B",
+   "text": "Repeat some familiar letter sounds"
+  },
+  {
+   "id": "VC2EFBLY03",
+   "year": "B",
+   "text": "Identify some familiar images, symbols, letters or words in the environment"
+  },
+  {
+   "id": "VC2EFBLY04",
+   "year": "B",
+   "text": "Identify themselves in a mirror"
+  },
+  {
+   "id": "VC2EFBLY05",
+   "year": "B",
+   "text": "Use preferred communication when listening to or viewing texts"
+  },
+  {
+   "id": "VC2EFBLY06",
+   "year": "B",
+   "text": "Co-create short texts that record a single idea"
+  },
+  {
+   "id": "VC2EFBLY07",
+   "year": "B",
+   "text": "Use tools to create a variety of marks on a surface"
+  },
+  {
+   "id": "VC2EFCLA01",
+   "year": "C",
+   "text": "Use short phrases to request, accept or reject an object, action or event"
+  },
+  {
+   "id": "VC2EFCLA02",
+   "year": "C",
+   "text": "Turn one page at a time and tell words from images in print and digital texts"
+  },
+  {
+   "id": "VC2EFCLA03",
+   "year": "C",
+   "text": "Use short phrases to express ideas"
+  },
+  {
+   "id": "VC2EFCLA04",
+   "year": "C",
+   "text": "Use short phrases to describe objects"
+  },
+  {
+   "id": "VC2EFCLA05",
+   "year": "C",
+   "text": "Identify an image or object that represents an idea from a shared text"
+  },
+  {
+   "id": "VC2EFCLA06",
+   "year": "C",
+   "text": "Use learnt vocabulary about personal interests and school topics"
+  },
+  {
+   "id": "VC2EFCLE01",
+   "year": "C",
+   "text": "Identify settings, characters and events in Australian and world literature"
+  },
+  {
+   "id": "VC2EFCLE02",
+   "year": "C",
+   "text": "Comment on the characters and events in a text"
+  },
+  {
+   "id": "VC2EFCLE03",
+   "year": "C",
+   "text": "Identify a character or event in a familiar text"
+  },
+  {
+   "id": "VC2EFCLE04",
+   "year": "C",
+   "text": "Participate in familiar chants, rhymes and songs"
+  },
+  {
+   "id": "VC2EFCLE05",
+   "year": "C",
+   "text": "Retell an event from a preferred or familiar short text"
+  },
+  {
+   "id": "VC2EFCLY01",
+   "year": "C",
+   "text": "Use preferred communication to start a short interaction with others"
+  },
+  {
+   "id": "VC2EFCLY02",
+   "year": "C",
+   "text": "Use short phrases to present an idea or object to peers"
+  },
+  {
+   "id": "VC2EFCLY03",
+   "year": "C",
+   "text": "Recognise and name some common letters and their sounds"
+  },
+  {
+   "id": "VC2EFCLY04",
+   "year": "C",
+   "text": "Use beginning knowledge of letters and sounds to find the first sound and letter in a word"
+  },
+  {
+   "id": "VC2EFCLY05",
+   "year": "C",
+   "text": "Identify their name in writing with supporting images"
+  },
+  {
+   "id": "VC2EFCLY06",
+   "year": "C",
+   "text": "Respond to simple questions about a shared text"
+  },
+  {
+   "id": "VC2EFCLY07",
+   "year": "C",
+   "text": "Co-create short texts and sequence images"
+  },
+  {
+   "id": "VC2EFCLY08",
+   "year": "C",
+   "text": "Use tools to create letter-like symbols"
+  },
+  {
+   "id": "VC2EFDLA01",
+   "year": "D",
+   "text": "Use phrases to communicate with others at school, suited to their relationships"
+  },
+  {
+   "id": "VC2EFDLA02",
+   "year": "D",
+   "text": "Use phrases to communicate preferences, likes and dislikes"
+  },
+  {
+   "id": "VC2EFDLA03",
+   "year": "D",
+   "text": "Recognise that texts can take different forms"
+  },
+  {
+   "id": "VC2EFDLA04",
+   "year": "D",
+   "text": "Identify book covers, left-to-right direction and return sweep, and that words are separate from pictures"
+  },
+  {
+   "id": "VC2EFDLA05",
+   "year": "D",
+   "text": "Construct and use phrases to express ideas"
+  },
+  {
+   "id": "VC2EFDLA06",
+   "year": "D",
+   "text": "Use phrases to describe objects and actions"
+  },
+  {
+   "id": "VC2EFDLA07",
+   "year": "D",
+   "text": "Identify how images and words add to meaning in stories and information texts"
+  },
+  {
+   "id": "VC2EFDLA08",
+   "year": "D",
+   "text": "Use learnt vocabulary about everyday experiences, interests and school topics"
+  },
+  {
+   "id": "VC2EFDLA09",
+   "year": "D",
+   "text": "Identify that spaces between words show a new word"
+  },
+  {
+   "id": "VC2EFDLE01",
+   "year": "D",
+   "text": "Identify experiences similar to their own in Australian and world literature"
+  },
+  {
+   "id": "VC2EFDLE02",
+   "year": "D",
+   "text": "Share feelings about the events and characters in a text"
+  },
+  {
+   "id": "VC2EFDLE03",
+   "year": "D",
+   "text": "Identify a setting, character and event in a text"
+  },
+  {
+   "id": "VC2EFDLE04",
+   "year": "D",
+   "text": "Replicate the rhythms of familiar chants, rhymes and songs"
+  },
+  {
+   "id": "VC2EFDLE05",
+   "year": "D",
+   "text": "Retell an event from a known text through role-play, images, drawing or writing"
+  },
+  {
+   "id": "VC2EFDLY01",
+   "year": "D",
+   "text": "Use preferred communication to start and sustain an interaction with others"
+  },
+  {
+   "id": "VC2EFDLY02",
+   "year": "D",
+   "text": "Use phrases to retell a story or event to peers"
+  },
+  {
+   "id": "VC2EFDLY03",
+   "year": "D",
+   "text": "Blend and segment a small number of one-syllable words"
+  },
+  {
+   "id": "VC2EFDLY04",
+   "year": "D",
+   "text": "Use beginning letter and sound knowledge to read some simple three-sound words"
+  },
+  {
+   "id": "VC2EFDLY05",
+   "year": "D",
+   "text": "Recognise familiar words and find them in environmental print"
+  },
+  {
+   "id": "VC2EFDLY06",
+   "year": "D",
+   "text": "Apply developing sound knowledge to decode words in short sentences or decodable texts"
+  },
+  {
+   "id": "VC2EFDLY07",
+   "year": "D",
+   "text": "Use comprehension strategies such as connecting, predicting and questioning"
+  },
+  {
+   "id": "VC2EFDLY08",
+   "year": "D",
+   "text": "Create short texts to record an idea or event"
+  },
+  {
+   "id": "VC2EFDLY09",
+   "year": "D",
+   "text": "Join shared editing of a class text, noting capitals and spacing between words"
+  },
+  {
+   "id": "VC2EFDLY10",
+   "year": "D",
+   "text": "Use tools to form letters"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} looks at the person who is speaking.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} answers yes or no questions.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} follows a single instruction from the teacher.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} takes part in class discussions by sharing thoughts and feelings about a familiar topic.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} communicates one idea, or two connected ideas, when speaking to the teacher.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} starts social interactions with classmates and staff.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} takes turns when speaking to others.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} retells parts of a familiar story.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} answers questions about familiar people and places.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} engages with texts for different purposes.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} shows likes and dislikes about a story.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises familiar words in texts.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} asks questions when the meaning is unclear.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls key events and characters in a story.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls key facts from an information text.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} takes part in creating texts with others.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses pictures and symbols to create texts.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} chooses topics to write about.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} draws pictures to support {{pos}} writing.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} matches the letters in {{pos}} name and puts them in the correct order.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises words that start with the same sound.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies letters in familiar words.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} makes marks and strokes on a page or digital device using writing tools.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "AP",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} looks at the person who is speaking.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} answers yes or no questions.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLA01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} follows a single instruction from the teacher.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "VC2EFALY02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} takes part in class discussions by sharing thoughts and feelings about a familiar topic.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLA01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} communicates one idea, or two connected ideas, when speaking to the teacher.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} starts social interactions with classmates and staff.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} takes turns when speaking to others.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} retells parts of a familiar story.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLY02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} answers questions about familiar people and places.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} engages with texts for different purposes.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "VC2EFALE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} shows likes and dislikes about a story.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises familiar words in texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} asks questions when the meaning is unclear.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLY07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recalls key events and characters in a story.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recalls key facts from an information text.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} takes part in creating texts with others.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses pictures and symbols to create texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLY07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} chooses topics to write about.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} draws pictures to support {{pos}} writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} matches the letters in {{pos}} name and puts them in the correct order.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises words that start with the same sound.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies letters in familiar words.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} makes marks and strokes on a page or digital device using writing tools.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLY07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLY10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses {{pos}} preferred way of communicating to accept or reject an object or activity.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "VC2EFALA01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} looks at or reaches towards images in print and digital texts.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "VC2EFALA02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} responds when familiar objects, actions and activities are named.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "VC2EFALA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} shows shared attention when stories by Australian and world authors are shared.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "VC2EFALE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses {{pos}} preferred way of communicating to get attention or show comfort and discomfort.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "VC2EFALY01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} takes part in making a shared text with an adult or classmates.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "VC2EFALY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses tools to make marks on paper or a device.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "VC2EFALY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses {{pos}} preferred way of communicating to show what {{s}} prefers.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLA01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} turns pages and holds a book or device the right way up.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLA02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} describes an object with a single gesture, symbol or word.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} points to a favourite picture in a book or on a screen.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises and names familiar objects, actions and activities.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies an event in a story by an Australian or world author.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} responds to an event in a story with a sound, gesture or word.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies an event in a familiar text.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} responds to chants, rhymes and songs with sounds, movements or words.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} repeats some of the familiar letter sounds that {{s}} has heard.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLY02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies familiar images, symbols, letters or words in the classroom.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} looks in a mirror and identifies {{o}} as the person looking back.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses {{pos}} preferred way of communicating when listening to or viewing a text.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "VC2EFBLY05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} turns one page at a time and tells words from pictures in books and on screens.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLA02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses short phrases to describe objects that {{s}} can see or hold.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} chooses an image or object that stands for an idea from a shared text.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies settings, characters and events in stories by Australian and world authors.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} comments on the characters and events in a text.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLE02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies a character or event in a familiar text.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLE03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} takes part in familiar chants, rhymes and songs.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} retells an event from a favourite or familiar short text.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLE05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses short phrases to show an idea or object to classmates.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLY02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses writing tools to make shapes that look like letters.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "VC2EFCLY08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses phrases to say what {{s}} likes and dislikes.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLA02"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises that texts can take different forms, such as books and screens.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLA03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} finds the front and back of a book and follows print from left to right.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLA04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} builds and uses phrases to share ideas.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLA05"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses phrases to describe objects and actions.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLA06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies how pictures and words add meaning to stories and information texts.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLA07"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses new words about everyday experiences, interests and school topics.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLA08"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} knows that a space between words shows where a new word begins.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLA09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies experiences in stories that are similar to {{pos}} own.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLE01"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} copies the rhythm of familiar chants, rhymes and songs.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLE04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} blends and separates the sounds in some one-syllable words.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLY03"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses letters and sounds to read some simple three-sound words.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLY04"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses developing sound knowledge to read words in short, decodable sentences.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLY06"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} joins in shared editing of a class text by noting capital letters and spaces between words.",
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "VC2EFDLY09"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  }
+ ]
+}

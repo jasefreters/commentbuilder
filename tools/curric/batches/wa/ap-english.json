@@ -1,0 +1,895 @@
+{
+ "curriculum": "wa",
+ "subject": "english",
+ "span": "AP",
+ "cds": [
+  {
+   "id": "WAAPE-A-reading-language-0",
+   "year": "A",
+   "text": "Notice forms of communication such as sounds, symbols, images and objects; respond to names of objects"
+  },
+  {
+   "id": "WAAPE-A-reading-literature-1",
+   "year": "A",
+   "text": "Attend to images, rhyme and refrains; respond to texts about personal experiences"
+  },
+  {
+   "id": "WAAPE-A-reading-literacy-2",
+   "year": "A",
+   "text": "Attend to imaginative and informative texts and visual schedules; use images to find meaning"
+  },
+  {
+   "id": "WAAPE-A-writing-language-3",
+   "year": "A",
+   "text": "Connect an object, image and spoken word; make sounds to communicate basic wants"
+  },
+  {
+   "id": "WAAPE-A-writing-literature-4",
+   "year": "A",
+   "text": "Choose an image to stand for a familiar text or event"
+  },
+  {
+   "id": "WAAPE-A-writing-literacy-5",
+   "year": "A",
+   "text": "Make choices in a jointly built text; use software or apps to choose images and sounds"
+  },
+  {
+   "id": "WAAPE-A-speaking-language-6",
+   "year": "A",
+   "text": "Use sounds, gestures and facial expressions to communicate; show a choice"
+  },
+  {
+   "id": "WAAPE-A-speaking-literature-7",
+   "year": "A",
+   "text": "Show a preferred text; join rhymes and songs and echo rhythms"
+  },
+  {
+   "id": "WAAPE-A-speaking-literacy-8",
+   "year": "A",
+   "text": "Respond to simple instructions and familiar people; respond to a short presentation"
+  },
+  {
+   "id": "WAAPE-B-reading-language-9",
+   "year": "B",
+   "text": "Recognise objects named, signed or shown; notice differences by matching letters, images and words"
+  },
+  {
+   "id": "WAAPE-B-reading-literature-10",
+   "year": "B",
+   "text": "Notice features such as images, rhyme and refrains; recognise a familiar event or character"
+  },
+  {
+   "id": "WAAPE-B-reading-literacy-11",
+   "year": "B",
+   "text": "Attend to texts in different settings; use images to make meaning from shared texts"
+  },
+  {
+   "id": "WAAPE-B-writing-language-12",
+   "year": "B",
+   "text": "Link an object, image and spoken word; use speech sounds to ask for things"
+  },
+  {
+   "id": "WAAPE-B-writing-literature-13",
+   "year": "B",
+   "text": "Select an image to represent a familiar text or recent event"
+  },
+  {
+   "id": "WAAPE-B-writing-literacy-14",
+   "year": "B",
+   "text": "Choose an image for a short text about a special event; use software for shared texts"
+  },
+  {
+   "id": "WAAPE-B-speaking-language-15",
+   "year": "B",
+   "text": "Use sounds, gestures, images and expressions; indicate a choice; connect sounds and words to objects"
+  },
+  {
+   "id": "WAAPE-B-speaking-literature-16",
+   "year": "B",
+   "text": "Identify a preferred text; respond to familiar images or sounds; join rhymes and songs"
+  },
+  {
+   "id": "WAAPE-B-speaking-literacy-17",
+   "year": "B",
+   "text": "Respond to simple instructions and to others in familiar routines"
+  },
+  {
+   "id": "WAAPE-C-reading-language-18",
+   "year": "C",
+   "text": "Texts take many forms; a group of words conveys a message; objects connect to names and images"
+  },
+  {
+   "id": "WAAPE-C-reading-literature-19",
+   "year": "C",
+   "text": "Identify features of familiar literary texts including poetry; recognise key events"
+  },
+  {
+   "id": "WAAPE-C-reading-literacy-20",
+   "year": "C",
+   "text": "Explore texts and images used in the community; use simple visual schedules; use images to find key objects and events"
+  },
+  {
+   "id": "WAAPE-C-writing-language-21",
+   "year": "C",
+   "text": "Symbols, words and images communicate needs; know written name and its letters; know beginning sounds of familiar words"
+  },
+  {
+   "id": "WAAPE-C-writing-literature-22",
+   "year": "C",
+   "text": "Retell an event or familiar text using images"
+  },
+  {
+   "id": "WAAPE-C-writing-literacy-23",
+   "year": "C",
+   "text": "Make simple texts by labelling images with own writing; trace letters and patterns; use software to choose images and type labels"
+  },
+  {
+   "id": "WAAPE-C-speaking-language-24",
+   "year": "C",
+   "text": "Recognise ways to greet people and to express needs, likes and dislikes; use words and images to request and recount"
+  },
+  {
+   "id": "WAAPE-C-speaking-literature-25",
+   "year": "C",
+   "text": "Identify a preferred image or refrain and a favourite character; repeat rhythms in rhymes and songs"
+  },
+  {
+   "id": "WAAPE-C-speaking-literacy-26",
+   "year": "C",
+   "text": "Respond to adults in class; recognise when others speak in groups; add comments to a small group"
+  },
+  {
+   "id": "WAAPE-D-reading-language-27",
+   "year": "D",
+   "text": "Words can be spoken, written, signed or shown with symbols; statements and questions differ; capital and lower-case letters"
+  },
+  {
+   "id": "WAAPE-D-reading-literature-28",
+   "year": "D",
+   "text": "Literary texts have characters, events, settings and rhyme; texts about familiar experiences have key events"
+  },
+  {
+   "id": "WAAPE-D-reading-literacy-29",
+   "year": "D",
+   "text": "Identify familiar texts used in the community; read a simple sentence or its picture; use images to retell or comment"
+  },
+  {
+   "id": "WAAPE-D-writing-language-30",
+   "year": "D",
+   "text": "Write language down; use common words and familiar sounds; copy own name; a full stop marks a pause; find beginning sounds"
+  },
+  {
+   "id": "WAAPE-D-writing-literature-31",
+   "year": "D",
+   "text": "Retell a familiar text or event using sequenced images and simple statements"
+  },
+  {
+   "id": "WAAPE-D-writing-literacy-32",
+   "year": "D",
+   "text": "Make simple statements with symbols, letters and words; change own text in shared editing; copy letters and numbers; use software"
+  },
+  {
+   "id": "WAAPE-D-speaking-language-33",
+   "year": "D",
+   "text": "Start and keep up greetings and short exchanges; express needs, likes and dislikes; short phrases for different purposes; sounds in words"
+  },
+  {
+   "id": "WAAPE-D-speaking-literature-34",
+   "year": "D",
+   "text": "Identify favourite texts and characters; say likes and dislikes about events; copy rhythms and sound patterns"
+  },
+  {
+   "id": "WAAPE-D-speaking-literacy-35",
+   "year": "D",
+   "text": "Respond to others in classroom routines; take turns and ask simple questions; give a short talk about an object or event"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "{{S}} looks at the person who is speaking.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} answers yes or no questions.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} follows a single instruction from the teacher.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} takes part in class discussions by sharing thoughts and feelings about a familiar topic.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} communicates one idea, or two connected ideas, when speaking to the teacher.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} starts social interactions with classmates and staff.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} takes turns when speaking to others.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} retells parts of a familiar story.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} answers questions about familiar people and places.",
+   "tab": "Oral Language & Communication",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} engages with texts for different purposes.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} shows likes and dislikes about a story.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises familiar words in texts.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} asks questions when the meaning is unclear.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls key events and characters in a story.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recalls key facts from an information text.",
+   "tab": "Reading Comprehension",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} takes part in creating texts with others.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} uses pictures and symbols to create texts.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} chooses topics to write about.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} draws pictures to support {{pos}} writing.",
+   "tab": "Creating Written Texts",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} matches the letters in {{pos}} name and puts them in the correct order.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} recognises words that start with the same sound.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} identifies letters in familiar words.",
+   "tab": "Spelling & Grammar",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} makes marks and strokes on a page or digital device using writing tools.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "AP",
+   "skill": null
+  },
+  {
+   "text": "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger.",
+   "tab": "Handwriting & Digital Transcription",
+   "stageTag": "AP",
+   "skill": null
+  }
+ ],
+ "rows": [
+  {
+   "text": "{{S}} looks at the person who is speaking.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "WAAPE-B-speaking-literacy-17"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} answers yes or no questions.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "WAAPE-B-speaking-language-15"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} follows a single instruction from the teacher.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "WAAPE-A-speaking-literacy-8"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} takes part in class discussions by sharing thoughts and feelings about a familiar topic.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "WAAPE-C-speaking-literacy-26"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} communicates one idea, or two connected ideas, when speaking to the teacher.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-speaking-language-33"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} starts social interactions with classmates and staff.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "WAAPE-C-speaking-language-24"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} takes turns when speaking to others.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-speaking-literacy-35"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} retells parts of a familiar story.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-writing-literature-31"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} answers questions about familiar people and places.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-speaking-language-33"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} engages with texts for different purposes.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "WAAPE-C-reading-literacy-20"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} shows likes and dislikes about a story.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-speaking-literature-34"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises familiar words in texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-reading-literacy-29"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} asks questions when the meaning is unclear.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-speaking-literacy-35"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recalls key events and characters in a story.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-reading-literature-28"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recalls key facts from an information text.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-reading-literacy-29"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} takes part in creating texts with others.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "WAAPE-A-writing-literacy-5"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} uses pictures and symbols to create texts.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "WAAPE-C-writing-literacy-23"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} chooses topics to write about.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "WAAPE-B-writing-literacy-14"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} draws pictures to support {{pos}} writing.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "WAAPE-C-writing-literature-22"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} matches the letters in {{pos}} name and puts them in the correct order.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "WAAPE-C-writing-language-21"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} recognises words that start with the same sound.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-writing-language-30"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} identifies letters in familiar words.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-reading-language-27"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} makes marks and strokes on a page or digital device using writing tools.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "WAAPE-C-writing-literacy-23"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger.",
+   "action": "keep",
+   "newText": null,
+   "year": [
+    "D"
+   ],
+   "refs": [
+    "WAAPE-D-writing-literacy-32"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} notices sounds, symbols, images and objects as different ways of communicating.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "WAAPE-A-reading-language-0"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} looks at pictures and responds to rhymes and refrains in shared texts.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "WAAPE-A-reading-literature-1"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} attends to stories, information texts and visual schedules in everyday settings.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "WAAPE-A-reading-literacy-2"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} connects an object, a picture and a spoken word and makes sounds to ask for things.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "WAAPE-A-writing-language-3"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} chooses a picture to stand for a familiar story or a recent event.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "WAAPE-A-writing-literature-4"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} uses sounds, gestures and facial expressions to communicate with familiar people.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "WAAPE-A-speaking-language-6"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} shows which text {{s}} prefers and joins in rhymes and songs with familiar rhythms.",
+   "year": [
+    "A"
+   ],
+   "refs": [
+    "WAAPE-A-speaking-literature-7"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} recognises objects when they are named, signed or shown and matches familiar letters and images.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "WAAPE-B-reading-language-9"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} notices pictures, rhymes and refrains in a text and recognises a familiar event or character.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "WAAPE-B-reading-literature-10"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} attends to texts in different places and uses pictures to make meaning from shared texts.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "WAAPE-B-reading-literacy-11"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} links an object, a picture and a spoken word and uses sounds to ask for things.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "WAAPE-B-writing-language-12"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} selects a picture to represent a familiar story or a recent event.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "WAAPE-B-writing-literature-13"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies a preferred text and responds to familiar pictures or sounds when sharing a story.",
+   "year": [
+    "B"
+   ],
+   "refs": [
+    "WAAPE-B-speaking-literature-16"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} knows that texts take many forms and that a group of words can carry a message.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "WAAPE-C-reading-language-18"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies features of familiar texts such as poems and recognises key events.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "WAAPE-C-reading-literature-19"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  },
+  {
+   "text": null,
+   "action": "new",
+   "newText": "{{S}} identifies a favourite picture, refrain or character and repeats the rhythm of familiar rhymes and songs.",
+   "year": [
+    "C"
+   ],
+   "refs": [
+    "WAAPE-C-speaking-literature-25"
+   ],
+   "below": "ok",
+   "above": "ok",
+   "note": ""
+  }
+ ]
+}

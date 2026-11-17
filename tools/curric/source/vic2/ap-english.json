@@ -1,0 +1,546 @@
+[
+ {
+  "id": "VC2EFALA01",
+  "code": "VC2EFALA01",
+  "year": "A",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Use preferred communication to accept or reject an object, action or activity"
+ },
+ {
+  "id": "VC2EFALA02",
+  "code": "VC2EFALA02",
+  "year": "A",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Attend to images in print and digital texts"
+ },
+ {
+  "id": "VC2EFALA03",
+  "code": "VC2EFALA03",
+  "year": "A",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Respond to familiar objects, actions or activities being named"
+ },
+ {
+  "id": "VC2EFALE01",
+  "code": "VC2EFALE01",
+  "year": "A",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Show shared attention when responding to Australian and world literature"
+ },
+ {
+  "id": "VC2EFALE02",
+  "code": "VC2EFALE02",
+  "year": "A",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Attend to and explore a range of literary texts"
+ },
+ {
+  "id": "VC2EFALY01",
+  "code": "VC2EFALY01",
+  "year": "A",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use preferred communication to gain attention or express comfort and discomfort"
+ },
+ {
+  "id": "VC2EFALY02",
+  "code": "VC2EFALY02",
+  "year": "A",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Respond to environmental sounds and familiar spoken, written or signed words"
+ },
+ {
+  "id": "VC2EFALY03",
+  "code": "VC2EFALY03",
+  "year": "A",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Participate in the shared creation of texts"
+ },
+ {
+  "id": "VC2EFALY04",
+  "code": "VC2EFALY04",
+  "year": "A",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use tools to make marks"
+ },
+ {
+  "id": "VC2EFBLA01",
+  "code": "VC2EFBLA01",
+  "year": "B",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Use preferred communication to indicate a preference"
+ },
+ {
+  "id": "VC2EFBLA02",
+  "code": "VC2EFBLA02",
+  "year": "B",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Turn pages and identify the orientation of print and digital texts"
+ },
+ {
+  "id": "VC2EFBLA03",
+  "code": "VC2EFBLA03",
+  "year": "B",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Describe an object with a single gesture, symbol or word"
+ },
+ {
+  "id": "VC2EFBLA04",
+  "code": "VC2EFBLA04",
+  "year": "B",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Identify a favourite image in a print or digital text"
+ },
+ {
+  "id": "VC2EFBLA05",
+  "code": "VC2EFBLA05",
+  "year": "B",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Recognise and name familiar objects, actions and activities"
+ },
+ {
+  "id": "VC2EFBLE01",
+  "code": "VC2EFBLE01",
+  "year": "B",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Identify an event in Australian and world literature"
+ },
+ {
+  "id": "VC2EFBLE02",
+  "code": "VC2EFBLE02",
+  "year": "B",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Respond to an event in a story"
+ },
+ {
+  "id": "VC2EFBLE03",
+  "code": "VC2EFBLE03",
+  "year": "B",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Identify an event in a familiar text"
+ },
+ {
+  "id": "VC2EFBLE04",
+  "code": "VC2EFBLE04",
+  "year": "B",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Respond to chants, rhymes and songs"
+ },
+ {
+  "id": "VC2EFBLY01",
+  "code": "VC2EFBLY01",
+  "year": "B",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use preferred communication to attend and respond to interactions with others"
+ },
+ {
+  "id": "VC2EFBLY02",
+  "code": "VC2EFBLY02",
+  "year": "B",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Repeat some familiar letter sounds"
+ },
+ {
+  "id": "VC2EFBLY03",
+  "code": "VC2EFBLY03",
+  "year": "B",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Identify some familiar images, symbols, letters or words in the environment"
+ },
+ {
+  "id": "VC2EFBLY04",
+  "code": "VC2EFBLY04",
+  "year": "B",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Identify themselves in a mirror"
+ },
+ {
+  "id": "VC2EFBLY05",
+  "code": "VC2EFBLY05",
+  "year": "B",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use preferred communication when listening to or viewing texts"
+ },
+ {
+  "id": "VC2EFBLY06",
+  "code": "VC2EFBLY06",
+  "year": "B",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Co-create short texts that record a single idea"
+ },
+ {
+  "id": "VC2EFBLY07",
+  "code": "VC2EFBLY07",
+  "year": "B",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use tools to create a variety of marks on a surface"
+ },
+ {
+  "id": "VC2EFCLA01",
+  "code": "VC2EFCLA01",
+  "year": "C",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Use short phrases to request, accept or reject an object, action or event"
+ },
+ {
+  "id": "VC2EFCLA02",
+  "code": "VC2EFCLA02",
+  "year": "C",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Turn one page at a time and tell words from images in print and digital texts"
+ },
+ {
+  "id": "VC2EFCLA03",
+  "code": "VC2EFCLA03",
+  "year": "C",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Use short phrases to express ideas"
+ },
+ {
+  "id": "VC2EFCLA04",
+  "code": "VC2EFCLA04",
+  "year": "C",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Use short phrases to describe objects"
+ },
+ {
+  "id": "VC2EFCLA05",
+  "code": "VC2EFCLA05",
+  "year": "C",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Identify an image or object that represents an idea from a shared text"
+ },
+ {
+  "id": "VC2EFCLA06",
+  "code": "VC2EFCLA06",
+  "year": "C",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Use learnt vocabulary about personal interests and school topics"
+ },
+ {
+  "id": "VC2EFCLE01",
+  "code": "VC2EFCLE01",
+  "year": "C",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Identify settings, characters and events in Australian and world literature"
+ },
+ {
+  "id": "VC2EFCLE02",
+  "code": "VC2EFCLE02",
+  "year": "C",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Comment on the characters and events in a text"
+ },
+ {
+  "id": "VC2EFCLE03",
+  "code": "VC2EFCLE03",
+  "year": "C",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Identify a character or event in a familiar text"
+ },
+ {
+  "id": "VC2EFCLE04",
+  "code": "VC2EFCLE04",
+  "year": "C",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Participate in familiar chants, rhymes and songs"
+ },
+ {
+  "id": "VC2EFCLE05",
+  "code": "VC2EFCLE05",
+  "year": "C",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Retell an event from a preferred or familiar short text"
+ },
+ {
+  "id": "VC2EFCLY01",
+  "code": "VC2EFCLY01",
+  "year": "C",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use preferred communication to start a short interaction with others"
+ },
+ {
+  "id": "VC2EFCLY02",
+  "code": "VC2EFCLY02",
+  "year": "C",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use short phrases to present an idea or object to peers"
+ },
+ {
+  "id": "VC2EFCLY03",
+  "code": "VC2EFCLY03",
+  "year": "C",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Recognise and name some common letters and their sounds"
+ },
+ {
+  "id": "VC2EFCLY04",
+  "code": "VC2EFCLY04",
+  "year": "C",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use beginning knowledge of letters and sounds to find the first sound and letter in a word"
+ },
+ {
+  "id": "VC2EFCLY05",
+  "code": "VC2EFCLY05",
+  "year": "C",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Identify their name in writing with supporting images"
+ },
+ {
+  "id": "VC2EFCLY06",
+  "code": "VC2EFCLY06",
+  "year": "C",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Respond to simple questions about a shared text"
+ },
+ {
+  "id": "VC2EFCLY07",
+  "code": "VC2EFCLY07",
+  "year": "C",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Co-create short texts and sequence images"
+ },
+ {
+  "id": "VC2EFCLY08",
+  "code": "VC2EFCLY08",
+  "year": "C",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use tools to create letter-like symbols"
+ },
+ {
+  "id": "VC2EFDLA01",
+  "code": "VC2EFDLA01",
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Use phrases to communicate with others at school, suited to their relationships"
+ },
+ {
+  "id": "VC2EFDLA02",
+  "code": "VC2EFDLA02",
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Use phrases to communicate preferences, likes and dislikes"
+ },
+ {
+  "id": "VC2EFDLA03",
+  "code": "VC2EFDLA03",
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Recognise that texts can take different forms"
+ },
+ {
+  "id": "VC2EFDLA04",
+  "code": "VC2EFDLA04",
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Identify book covers, left-to-right direction and return sweep, and that words are separate from pictures"
+ },
+ {
+  "id": "VC2EFDLA05",
+  "code": "VC2EFDLA05",
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Construct and use phrases to express ideas"
+ },
+ {
+  "id": "VC2EFDLA06",
+  "code": "VC2EFDLA06",
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Use phrases to describe objects and actions"
+ },
+ {
+  "id": "VC2EFDLA07",
+  "code": "VC2EFDLA07",
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Identify how images and words add to meaning in stories and information texts"
+ },
+ {
+  "id": "VC2EFDLA08",
+  "code": "VC2EFDLA08",
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Use learnt vocabulary about everyday experiences, interests and school topics"
+ },
+ {
+  "id": "VC2EFDLA09",
+  "code": "VC2EFDLA09",
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "LA",
+  "text": "Identify that spaces between words show a new word"
+ },
+ {
+  "id": "VC2EFDLE01",
+  "code": "VC2EFDLE01",
+  "year": "D",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Identify experiences similar to their own in Australian and world literature"
+ },
+ {
+  "id": "VC2EFDLE02",
+  "code": "VC2EFDLE02",
+  "year": "D",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Share feelings about the events and characters in a text"
+ },
+ {
+  "id": "VC2EFDLE03",
+  "code": "VC2EFDLE03",
+  "year": "D",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Identify a setting, character and event in a text"
+ },
+ {
+  "id": "VC2EFDLE04",
+  "code": "VC2EFDLE04",
+  "year": "D",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Replicate the rhythms of familiar chants, rhymes and songs"
+ },
+ {
+  "id": "VC2EFDLE05",
+  "code": "VC2EFDLE05",
+  "year": "D",
+  "strand": "Literature",
+  "subStrand": "LE",
+  "text": "Retell an event from a known text through role-play, images, drawing or writing"
+ },
+ {
+  "id": "VC2EFDLY01",
+  "code": "VC2EFDLY01",
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use preferred communication to start and sustain an interaction with others"
+ },
+ {
+  "id": "VC2EFDLY02",
+  "code": "VC2EFDLY02",
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use phrases to retell a story or event to peers"
+ },
+ {
+  "id": "VC2EFDLY03",
+  "code": "VC2EFDLY03",
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Blend and segment a small number of one-syllable words"
+ },
+ {
+  "id": "VC2EFDLY04",
+  "code": "VC2EFDLY04",
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use beginning letter and sound knowledge to read some simple three-sound words"
+ },
+ {
+  "id": "VC2EFDLY05",
+  "code": "VC2EFDLY05",
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Recognise familiar words and find them in environmental print"
+ },
+ {
+  "id": "VC2EFDLY06",
+  "code": "VC2EFDLY06",
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Apply developing sound knowledge to decode words in short sentences or decodable texts"
+ },
+ {
+  "id": "VC2EFDLY07",
+  "code": "VC2EFDLY07",
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use comprehension strategies such as connecting, predicting and questioning"
+ },
+ {
+  "id": "VC2EFDLY08",
+  "code": "VC2EFDLY08",
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Create short texts to record an idea or event"
+ },
+ {
+  "id": "VC2EFDLY09",
+  "code": "VC2EFDLY09",
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Join shared editing of a class text, noting capitals and spacing between words"
+ },
+ {
+  "id": "VC2EFDLY10",
+  "code": "VC2EFDLY10",
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "LY",
+  "text": "Use tools to form letters"
+ }
+]

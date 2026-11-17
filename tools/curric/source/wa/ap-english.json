@@ -1,0 +1,290 @@
+[
+ {
+  "id": "WAAPE-A-reading-language-0",
+  "code": null,
+  "year": "A",
+  "strand": "Language",
+  "subStrand": "Reading and viewing",
+  "text": "Notice forms of communication such as sounds, symbols, images and objects; respond to names of objects"
+ },
+ {
+  "id": "WAAPE-A-reading-literature-1",
+  "code": null,
+  "year": "A",
+  "strand": "Literature",
+  "subStrand": "Reading and viewing",
+  "text": "Attend to images, rhyme and refrains; respond to texts about personal experiences"
+ },
+ {
+  "id": "WAAPE-A-reading-literacy-2",
+  "code": null,
+  "year": "A",
+  "strand": "Literacy",
+  "subStrand": "Reading and viewing",
+  "text": "Attend to imaginative and informative texts and visual schedules; use images to find meaning"
+ },
+ {
+  "id": "WAAPE-A-writing-language-3",
+  "code": null,
+  "year": "A",
+  "strand": "Language",
+  "subStrand": "Writing",
+  "text": "Connect an object, image and spoken word; make sounds to communicate basic wants"
+ },
+ {
+  "id": "WAAPE-A-writing-literature-4",
+  "code": null,
+  "year": "A",
+  "strand": "Literature",
+  "subStrand": "Writing",
+  "text": "Choose an image to stand for a familiar text or event"
+ },
+ {
+  "id": "WAAPE-A-writing-literacy-5",
+  "code": null,
+  "year": "A",
+  "strand": "Literacy",
+  "subStrand": "Writing",
+  "text": "Make choices in a jointly built text; use software or apps to choose images and sounds"
+ },
+ {
+  "id": "WAAPE-A-speaking-language-6",
+  "code": null,
+  "year": "A",
+  "strand": "Language",
+  "subStrand": "Speaking and listening",
+  "text": "Use sounds, gestures and facial expressions to communicate; show a choice"
+ },
+ {
+  "id": "WAAPE-A-speaking-literature-7",
+  "code": null,
+  "year": "A",
+  "strand": "Literature",
+  "subStrand": "Speaking and listening",
+  "text": "Show a preferred text; join rhymes and songs and echo rhythms"
+ },
+ {
+  "id": "WAAPE-A-speaking-literacy-8",
+  "code": null,
+  "year": "A",
+  "strand": "Literacy",
+  "subStrand": "Speaking and listening",
+  "text": "Respond to simple instructions and familiar people; respond to a short presentation"
+ },
+ {
+  "id": "WAAPE-B-reading-language-9",
+  "code": null,
+  "year": "B",
+  "strand": "Language",
+  "subStrand": "Reading and viewing",
+  "text": "Recognise objects named, signed or shown; notice differences by matching letters, images and words"
+ },
+ {
+  "id": "WAAPE-B-reading-literature-10",
+  "code": null,
+  "year": "B",
+  "strand": "Literature",
+  "subStrand": "Reading and viewing",
+  "text": "Notice features such as images, rhyme and refrains; recognise a familiar event or character"
+ },
+ {
+  "id": "WAAPE-B-reading-literacy-11",
+  "code": null,
+  "year": "B",
+  "strand": "Literacy",
+  "subStrand": "Reading and viewing",
+  "text": "Attend to texts in different settings; use images to make meaning from shared texts"
+ },
+ {
+  "id": "WAAPE-B-writing-language-12",
+  "code": null,
+  "year": "B",
+  "strand": "Language",
+  "subStrand": "Writing",
+  "text": "Link an object, image and spoken word; use speech sounds to ask for things"
+ },
+ {
+  "id": "WAAPE-B-writing-literature-13",
+  "code": null,
+  "year": "B",
+  "strand": "Literature",
+  "subStrand": "Writing",
+  "text": "Select an image to represent a familiar text or recent event"
+ },
+ {
+  "id": "WAAPE-B-writing-literacy-14",
+  "code": null,
+  "year": "B",
+  "strand": "Literacy",
+  "subStrand": "Writing",
+  "text": "Choose an image for a short text about a special event; use software for shared texts"
+ },
+ {
+  "id": "WAAPE-B-speaking-language-15",
+  "code": null,
+  "year": "B",
+  "strand": "Language",
+  "subStrand": "Speaking and listening",
+  "text": "Use sounds, gestures, images and expressions; indicate a choice; connect sounds and words to objects"
+ },
+ {
+  "id": "WAAPE-B-speaking-literature-16",
+  "code": null,
+  "year": "B",
+  "strand": "Literature",
+  "subStrand": "Speaking and listening",
+  "text": "Identify a preferred text; respond to familiar images or sounds; join rhymes and songs"
+ },
+ {
+  "id": "WAAPE-B-speaking-literacy-17",
+  "code": null,
+  "year": "B",
+  "strand": "Literacy",
+  "subStrand": "Speaking and listening",
+  "text": "Respond to simple instructions and to others in familiar routines"
+ },
+ {
+  "id": "WAAPE-C-reading-language-18",
+  "code": null,
+  "year": "C",
+  "strand": "Language",
+  "subStrand": "Reading and viewing",
+  "text": "Texts take many forms; a group of words conveys a message; objects connect to names and images"
+ },
+ {
+  "id": "WAAPE-C-reading-literature-19",
+  "code": null,
+  "year": "C",
+  "strand": "Literature",
+  "subStrand": "Reading and viewing",
+  "text": "Identify features of familiar literary texts including poetry; recognise key events"
+ },
+ {
+  "id": "WAAPE-C-reading-literacy-20",
+  "code": null,
+  "year": "C",
+  "strand": "Literacy",
+  "subStrand": "Reading and viewing",
+  "text": "Explore texts and images used in the community; use simple visual schedules; use images to find key objects and events"
+ },
+ {
+  "id": "WAAPE-C-writing-language-21",
+  "code": null,
+  "year": "C",
+  "strand": "Language",
+  "subStrand": "Writing",
+  "text": "Symbols, words and images communicate needs; know written name and its letters; know beginning sounds of familiar words"
+ },
+ {
+  "id": "WAAPE-C-writing-literature-22",
+  "code": null,
+  "year": "C",
+  "strand": "Literature",
+  "subStrand": "Writing",
+  "text": "Retell an event or familiar text using images"
+ },
+ {
+  "id": "WAAPE-C-writing-literacy-23",
+  "code": null,
+  "year": "C",
+  "strand": "Literacy",
+  "subStrand": "Writing",
+  "text": "Make simple texts by labelling images with own writing; trace letters and patterns; use software to choose images and type labels"
+ },
+ {
+  "id": "WAAPE-C-speaking-language-24",
+  "code": null,
+  "year": "C",
+  "strand": "Language",
+  "subStrand": "Speaking and listening",
+  "text": "Recognise ways to greet people and to express needs, likes and dislikes; use words and images to request and recount"
+ },
+ {
+  "id": "WAAPE-C-speaking-literature-25",
+  "code": null,
+  "year": "C",
+  "strand": "Literature",
+  "subStrand": "Speaking and listening",
+  "text": "Identify a preferred image or refrain and a favourite character; repeat rhythms in rhymes and songs"
+ },
+ {
+  "id": "WAAPE-C-speaking-literacy-26",
+  "code": null,
+  "year": "C",
+  "strand": "Literacy",
+  "subStrand": "Speaking and listening",
+  "text": "Respond to adults in class; recognise when others speak in groups; add comments to a small group"
+ },
+ {
+  "id": "WAAPE-D-reading-language-27",
+  "code": null,
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "Reading and viewing",
+  "text": "Words can be spoken, written, signed or shown with symbols; statements and questions differ; capital and lower-case letters"
+ },
+ {
+  "id": "WAAPE-D-reading-literature-28",
+  "code": null,
+  "year": "D",
+  "strand": "Literature",
+  "subStrand": "Reading and viewing",
+  "text": "Literary texts have characters, events, settings and rhyme; texts about familiar experiences have key events"
+ },
+ {
+  "id": "WAAPE-D-reading-literacy-29",
+  "code": null,
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "Reading and viewing",
+  "text": "Identify familiar texts used in the community; read a simple sentence or its picture; use images to retell or comment"
+ },
+ {
+  "id": "WAAPE-D-writing-language-30",
+  "code": null,
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "Writing",
+  "text": "Write language down; use common words and familiar sounds; copy own name; a full stop marks a pause; find beginning sounds"
+ },
+ {
+  "id": "WAAPE-D-writing-literature-31",
+  "code": null,
+  "year": "D",
+  "strand": "Literature",
+  "subStrand": "Writing",
+  "text": "Retell a familiar text or event using sequenced images and simple statements"
+ },
+ {
+  "id": "WAAPE-D-writing-literacy-32",
+  "code": null,
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "Writing",
+  "text": "Make simple statements with symbols, letters and words; change own text in shared editing; copy letters and numbers; use software"
+ },
+ {
+  "id": "WAAPE-D-speaking-language-33",
+  "code": null,
+  "year": "D",
+  "strand": "Language",
+  "subStrand": "Speaking and listening",
+  "text": "Start and keep up greetings and short exchanges; express needs, likes and dislikes; short phrases for different purposes; sounds in words"
+ },
+ {
+  "id": "WAAPE-D-speaking-literature-34",
+  "code": null,
+  "year": "D",
+  "strand": "Literature",
+  "subStrand": "Speaking and listening",
+  "text": "Identify favourite texts and characters; say likes and dislikes about events; copy rhythms and sound patterns"
+ },
+ {
+  "id": "WAAPE-D-speaking-literacy-35",
+  "code": null,
+  "year": "D",
+  "strand": "Literacy",
+  "subStrand": "Speaking and listening",
+  "text": "Respond to others in classroom routines; take turns and ask simple questions; give a short talk about an object or event"
+ }
+]

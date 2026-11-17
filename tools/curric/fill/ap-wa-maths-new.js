@@ -1,0 +1,13 @@
+module.exports = (L, I) => { const a = (t, st, sub) => L.add(t, st, I(st, sub));
+a('{{S}} responds when objects are counted, compared or added or taken away.','A','number');
+a('{{S}} responds when familiar objects are named or pointed out to {{o}}.','A','patterns');
+a('{{S}} responds to objects of different lengths and to everyday routine events.','A','units');
+a('{{S}} responds when an object moves from one place to another.','A','location');
+a('{{S}} responds to objects that go with a topic when data is being collected.','A','data');
+a('{{S}} compares objects to notice what is the same and what is different.','B','patterns');
+a('{{S}} compares two objects side by side and recognises familiar daily routines.','B','units');
+a('{{S}} responds to simple statements about where something is or which way to go.','B','location');
+a('{{S}} pairs identical objects from a small set and recognises a simple repeating pattern.','C','patterns');
+a('{{S}} finds named objects in the classroom, such as a ball or a box.','C','location');
+a('{{S}} identifies the information that suits a given topic when collecting data.','C','data');
+};

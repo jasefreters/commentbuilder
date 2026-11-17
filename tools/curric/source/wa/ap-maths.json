@@ -1,0 +1,186 @@
+[
+ {
+  "id": "WAAPM-A-number-and-place-value-0",
+  "code": null,
+  "year": "A",
+  "strand": "Number and Algebra",
+  "subStrand": "Number and place value",
+  "text": "Respond to counting, to two collections being compared, to groups of familiar objects, and to items added or removed"
+ },
+ {
+  "id": "WAAPM-A-patterns-and-algebra-1",
+  "code": null,
+  "year": "A",
+  "strand": "Number and Algebra",
+  "subStrand": "Patterns and algebra",
+  "text": "Respond to identifying objects"
+ },
+ {
+  "id": "WAAPM-A-units-of-measurement-2",
+  "code": null,
+  "year": "A",
+  "strand": "Measurement and Geometry",
+  "subStrand": "Units of measurement",
+  "text": "Respond to objects by length and to everyday routine events"
+ },
+ {
+  "id": "WAAPM-A-shape-3",
+  "code": null,
+  "year": "A",
+  "strand": "Measurement and Geometry",
+  "subStrand": "Shape",
+  "text": "Respond to familiar everyday shapes and objects"
+ },
+ {
+  "id": "WAAPM-A-location-and-transformation-4",
+  "code": null,
+  "year": "A",
+  "strand": "Measurement and Geometry",
+  "subStrand": "Location and transformation",
+  "text": "Respond to an object's movement"
+ },
+ {
+  "id": "WAAPM-A-data-representation-and-interpretation-5",
+  "code": null,
+  "year": "A",
+  "strand": "Statistics and Probability",
+  "subStrand": "Data representation and interpretation",
+  "text": "Respond to objects that suit a given context"
+ },
+ {
+  "id": "WAAPM-B-number-and-place-value-6",
+  "code": null,
+  "year": "B",
+  "strand": "Number and Algebra",
+  "subStrand": "Number and place value",
+  "text": "Count with the words one, two and three; match one object to one count word; recognise none, one and more; join in adding and taking away"
+ },
+ {
+  "id": "WAAPM-B-patterns-and-algebra-7",
+  "code": null,
+  "year": "B",
+  "strand": "Number and Algebra",
+  "subStrand": "Patterns and algebra",
+  "text": "Compare objects to notice what is the same and different"
+ },
+ {
+  "id": "WAAPM-B-units-of-measurement-8",
+  "code": null,
+  "year": "B",
+  "strand": "Measurement and Geometry",
+  "subStrand": "Units of measurement",
+  "text": "Compare objects directly by placing them side by side; recognise familiar daily routines"
+ },
+ {
+  "id": "WAAPM-B-shape-9",
+  "code": null,
+  "year": "B",
+  "strand": "Measurement and Geometry",
+  "subStrand": "Shape",
+  "text": "Identify whether two shapes or objects are the same kind"
+ },
+ {
+  "id": "WAAPM-B-location-and-transformation-10",
+  "code": null,
+  "year": "B",
+  "strand": "Measurement and Geometry",
+  "subStrand": "Location and transformation",
+  "text": "Respond to simple statements about position or direction"
+ },
+ {
+  "id": "WAAPM-B-data-representation-and-interpretation-11",
+  "code": null,
+  "year": "B",
+  "strand": "Statistics and Probability",
+  "subStrand": "Data representation and interpretation",
+  "text": "Take part in collecting data"
+ },
+ {
+  "id": "WAAPM-C-number-and-place-value-12",
+  "code": null,
+  "year": "C",
+  "strand": "Number and Algebra",
+  "subStrand": "Number and place value",
+  "text": "Count in order to five; match number names, numerals and quantities to three; say one, more or less; compare two collections; add or take away one"
+ },
+ {
+  "id": "WAAPM-C-patterns-and-algebra-13",
+  "code": null,
+  "year": "C",
+  "strand": "Number and Algebra",
+  "subStrand": "Patterns and algebra",
+  "text": "Pair identical objects from a small set and recognise a simple repeating pattern"
+ },
+ {
+  "id": "WAAPM-C-units-of-measurement-14",
+  "code": null,
+  "year": "C",
+  "strand": "Measurement and Geometry",
+  "subStrand": "Units of measurement",
+  "text": "Compare two objects by length; recognise parts of the day and sequence them on a visual schedule"
+ },
+ {
+  "id": "WAAPM-C-shape-15",
+  "code": null,
+  "year": "C",
+  "strand": "Measurement and Geometry",
+  "subStrand": "Shape",
+  "text": "Match familiar 2D shapes and 3D objects"
+ },
+ {
+  "id": "WAAPM-C-location-and-transformation-16",
+  "code": null,
+  "year": "C",
+  "strand": "Measurement and Geometry",
+  "subStrand": "Location and transformation",
+  "text": "Find named 3D objects in the classroom"
+ },
+ {
+  "id": "WAAPM-C-data-representation-and-interpretation-17",
+  "code": null,
+  "year": "C",
+  "strand": "Statistics and Probability",
+  "subStrand": "Data representation and interpretation",
+  "text": "Identify data that suits a given context"
+ },
+ {
+  "id": "WAAPM-D-number-and-place-value-18",
+  "code": null,
+  "year": "D",
+  "strand": "Number and Algebra",
+  "subStrand": "Number and place value",
+  "text": "Count aloud in everyday situations to 10; recognise numerals and quantities from five; see small groups to five at a glance; compare two collections; model adding and taking away to five"
+ },
+ {
+  "id": "WAAPM-D-patterns-and-algebra-19",
+  "code": null,
+  "year": "D",
+  "strand": "Number and Algebra",
+  "subStrand": "Patterns and algebra",
+  "text": "Sort objects by a feature; spot a simple repeating pattern and say what comes next"
+ },
+ {
+  "id": "WAAPM-D-units-of-measurement-20",
+  "code": null,
+  "year": "D",
+  "strand": "Measurement and Geometry",
+  "subStrand": "Units of measurement",
+  "text": "Compare weight and capacity; order the school day's events and say if short or long; name the days in order; sort objects and shapes by direct comparison"
+ },
+ {
+  "id": "WAAPM-D-location-and-transformation-21",
+  "code": null,
+  "year": "D",
+  "strand": "Measurement and Geometry",
+  "subStrand": "Location and transformation",
+  "text": "Follow simple directions using on, in and under"
+ },
+ {
+  "id": "WAAPM-D-data-representation-and-interpretation-22",
+  "code": null,
+  "year": "D",
+  "strand": "Statistics and Probability",
+  "subStrand": "Data representation and interpretation",
+  "text": "Answer yes or no questions about information collected in a familiar setting"
+ }
+]

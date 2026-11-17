@@ -1,0 +1,18 @@
+module.exports = (L, I) => { const a = (t, st, mode, strand) => L.add(t, st, I(st, mode, strand));
+a('{{S}} notices sounds, symbols, images and objects as different ways of communicating.','A','reading','Language');
+a('{{S}} looks at pictures and responds to rhymes and refrains in shared texts.','A','reading','Literature');
+a('{{S}} attends to stories, information texts and visual schedules in everyday settings.','A','reading','Literacy');
+a('{{S}} connects an object, a picture and a spoken word and makes sounds to ask for things.','A','writing','Language');
+a('{{S}} chooses a picture to stand for a familiar story or a recent event.','A','writing','Literature');
+a('{{S}} uses sounds, gestures and facial expressions to communicate with familiar people.','A','speaking','Language');
+a('{{S}} shows which text {{s}} prefers and joins in rhymes and songs with familiar rhythms.','A','speaking','Literature');
+a('{{S}} recognises objects when they are named, signed or shown and matches familiar letters and images.','B','reading','Language');
+a('{{S}} notices pictures, rhymes and refrains in a text and recognises a familiar event or character.','B','reading','Literature');
+a('{{S}} attends to texts in different places and uses pictures to make meaning from shared texts.','B','reading','Literacy');
+a('{{S}} links an object, a picture and a spoken word and uses sounds to ask for things.','B','writing','Language');
+a('{{S}} selects a picture to represent a familiar story or a recent event.','B','writing','Literature');
+a('{{S}} identifies a preferred text and responds to familiar pictures or sounds when sharing a story.','B','speaking','Literature');
+a('{{S}} knows that texts take many forms and that a group of words can carry a message.','C','reading','Language');
+a('{{S}} identifies features of familiar texts such as poems and recognises key events.','C','reading','Literature');
+a('{{S}} identifies a favourite picture, refrain or character and repeats the rhythm of familiar rhymes and songs.','C','speaking','Literature');
+};
