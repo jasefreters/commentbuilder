@@ -5599,24 +5599,6 @@ function clearS1SeededGrades(stu) {
   });
   return changed;
 }
-function _oldSeedS2Grades(stu) {
-  if (currentSemester !== 2 || !stu) return false;
-  let changed = false;
-  if (!stu.s2GradeSeeded || typeof stu.s2GradeSeeded !== 'object') stu.s2GradeSeeded = {};
-  [['eng', 'engGrades', 'engS1Grades'], ['math', 'mathGrades', 'mathS1Grades']].forEach(([k, live, old]) => {
-    const g1all = stu[old]; if (!g1all || typeof g1all !== 'object') return;
-    Object.keys(g1all).forEach(cat => {
-      const key = k + '|' + cat; if (stu.s2GradeSeeded[key]) return;
-      const g1 = normaliseGradeVal(g1all[cat]).filter(x => GRADE_ORDER.includes(x)); if (!g1.length) return;
-      if (!stu[live] || typeof stu[live] !== 'object') stu[live] = {};
-      // 'auto' = filled in from Semester 1 and not yet touched by the teacher
-      if (!normaliseGradeVal(stu[live][cat]).length) { stu[live][cat] = g1.slice(); stu.s2GradeSeeded[key] = 'auto'; }
-      else stu.s2GradeSeeded[key] = true;
-      changed = true;
-    });
-  });
-  return changed;
-}
 // v3.12.9: the Maths or English comments a student used in Semester 1 for one strand, in the order they were picked, whether or not the
 // bank still offers them. A comment the teacher reworded in the Semester 1 draft carries that wording. Custom sentences are left out
 // (they stay in "My sentences", where they are marked).
@@ -5848,11 +5830,6 @@ function setGradeFilter(val) {
   renderSidebar();
 }
 
-function closeAllStrands() {
-  _showAllStrands = false;
-  renderOpts();
-  renderSidebar();
-}
 
 function renderGradeEntryScreen(grid) {
   const screen = document.createElement('div');
@@ -6351,18 +6328,6 @@ function applyFDSuggestions() {
 
 function getFDText() {
   return getFDTextForStu(cur(), currentSubject);
-}
-function _getFDText_unused() {
-  const fd = getCurFD();
-  if (!fd.length) return '';
-  const name = cn(cur()) || '[Name]';
-  const p = PR[cur().pronoun];
-  const poss = p.Pos; // His/Her
-  // Build the combined FD paragraph
-  if (fd.length === 1) {
-    return `To further develop ${p.pos} skills, ${p.s} is encouraged to work on: ${fd[0].toLowerCase().replace(/\.$/, '')}.`;
-  }
-  return `To further develop ${p.pos} skills, ${p.s} is encouraged to work on: ${fd[0].toLowerCase().replace(/\.$/, '')} and ${fd[1].toLowerCase().replace(/\.$/, '')}.`;
 }
 
 // ── RENDER: BUILD ─────────────────────────────────────────────────
@@ -9057,7 +9022,6 @@ function appendSearchBtn(el) {
     el.addEventListener('click', e => { const t = e.target.closest && e.target.closest('.cat-btn'); if (t && !t.classList.contains('search-btn')) { _searchOpen = false; _quickEnd = false; _quickFull = false; _quickShowAll = false; } }, true);
   }
 }
-function closeSearch() { _searchOpen = false; }
 // the words typed, lower case; every word must appear in a sentence for it to match
 function _searchWords(q) { return String(q || '').toLowerCase().split(/\s+/).filter(Boolean); }
 function _searchHit(text, words) { const t = String(text).toLowerCase(); return words.every(w => t.indexOf(w) !== -1); }
@@ -13841,13 +13805,6 @@ function resolveKey(key, stu) {
   return (source.custom && source.custom[cat] && source.custom[cat][idx]) || '';
 }
 
-function removeSent(i) {
-  const rm = cur().ordered[i];
-  cur().ordered.splice(i, 1);
-  CATS.forEach(cat => { if (cur().selected[cat]) cur().selected[cat] = cur().selected[cat].filter(s => s !== rm); });
-  cur().published = false;
-  render();
-}
 
 function clearCurrent() {
   saveCur(); snapshotStudent(cur(), 'Before clearing', true);   // v3.16.0
@@ -14021,37 +13978,6 @@ function copyDraft() {
 }
 
 function getPublishedPaneText() { const el = document.getElementById('pubContent'); enforceAlternationDOM(el); return paneTextFromEl(el); }
-function _unusedPaneTextLegacy(el) {
-  if (!el || !el.innerHTML.trim()) return null;
-
-  const paras = el.querySelectorAll('.pub-para');
-  if (paras.length) {
-    // Standard rendered publish — read para by para
-    const parts = Array.from(paras).map(para => {
-      if (para.classList.contains('fd-para')) {
-        // FD lines — text already contains "* " prefix
-        return Array.from(para.querySelectorAll('.fd-line'))
-          .map(l => l.textContent.trim())
-          .filter(Boolean)
-          .join('\n');
-      }
-      // Regular paragraph — collect all span text
-      const spans = para.querySelectorAll('span');
-      if (spans.length) {
-        return Array.from(spans)
-          .map(s => s.textContent.trim())
-          .filter(Boolean)
-          .join(' ');
-      }
-      // No spans — fallback to innerText of the para
-      return para.innerText.trim();
-    }).filter(Boolean);
-    return parts.join('\n\n') || null;
-  }
-
-  // No .pub-para elements — fallback to raw innerText (handles edge cases)
-  return el.innerText.trim() || null;
-}
 
 function copyPublished() {
   // Always read from the live publish pane DOM first —
@@ -14863,7 +14789,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.51';
+const APP_VERSION = 'v3.17.52';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
