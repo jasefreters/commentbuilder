@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <title>Report Ready — Report Comments for NSW Primary Teachers</title>
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="description" content="Report Ready is a purpose-built tool for NSW primary school teachers. Build report comments from an approved sentence bank for General, English and Mathematics. Free to use.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -267,6 +270,8 @@
     .m-opt, .m-mark, .m-bar { transition: none; }
     .m-out .new { animation: none; }
   }
+  .logo { display: inline-flex; align-items: center; gap: 8px; }   /* v3.18.1: the logo mark sits before the name */
+  .logo-mark { width: 24px; height: 24px; flex: none; }
 </style>
 </head>
 <body>
@@ -282,7 +287,7 @@
 
 <header class="nav">
   <div class="wrap nav-in">
-    <a class="logo" href="#top" aria-label="Report Ready, top of page">Report Ready</a>
+    <a class="logo" href="#top" aria-label="Report Ready, top of page"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="1" y="1" width="30" height="30" rx="7.5" fill="#26233A" stroke="rgba(255,255,255,.16)" stroke-width="1"/><path d="M11.4 17.8L16.4 24.2L26 8" stroke="#7FD49A" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 25V7h6.4a4.7 4.7 0 0 1 0 9.4H9" stroke="#FFF" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Report Ready</a>
     <a class="nav-link opt" href="#features">Features</a>
     <a class="nav-link opt" href="demo.html">Try the demo</a>
     <a class="nav-link" href="#" onclick="openLogin(); return false">Sign in</a>
@@ -460,7 +465,7 @@
 
 <footer>
   <div class="wrap foot-in">
-    <span class="logo">Report Ready</span>
+    <span class="logo"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="1" y="1" width="30" height="30" rx="7.5" fill="#26233A" stroke="rgba(255,255,255,.16)" stroke-width="1"/><path d="M11.4 17.8L16.4 24.2L26 8" stroke="#7FD49A" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 25V7h6.4a4.7 4.7 0 0 1 0 9.4H9" stroke="#FFF" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Report Ready</span>
     <span>Built for NSW primary school teachers · Free to use</span>
     <span class="ver">landing v1.1.1</span>
   </div>
