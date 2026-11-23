@@ -559,6 +559,7 @@
   .sem-toggle { display: flex; background: var(--bg-3); border: 1px solid var(--border); border-radius: 999px; padding: 3px; gap: 2px; flex-shrink: 0; }
   .sem-sel { font-family: var(--font); font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 999px; border: none; background: none; color: var(--t1); cursor: pointer; }
   .sem-sel.s1 { background: var(--blue-bg); color: var(--blue); }
+  .sem-sel.yr-sel { background: var(--bg-3, transparent); color: var(--t1); margin-right: 4px; }
   .sem-sel.s2 { background: var(--green-bg); color: var(--green); }
   .board-btn { border: 1px solid var(--border); background: var(--bg-3); padding: 5px 14px; }
   .board-btn.active { background: var(--bg-0); color: var(--t0); font-weight: 500; border-color: var(--border-h); }
@@ -1433,7 +1434,8 @@
 
 <header>
   <div class="logo">Report Ready</div>
-  <div class="sem-toggle" role="group" aria-label="Semester">
+  <div class="sem-toggle" role="group" aria-label="School year and semester">
+    <select class="sem-sel yr-sel" id="yearSel" aria-label="School year" title="Choose the school year. Each year is its own class." onchange="setClassYear(+this.value)"></select>
     <select class="sem-sel s1" id="semSel" aria-label="Semester" title="Choose the semester" onchange="setSemester(+this.value)">
       <option value="1">Semester 1</option>
       <option value="2">Semester 2</option>
@@ -4847,6 +4849,27 @@ function inSemester(s, sem) {
 
 // ── STATE ─────────────────────────────────────────────────────────
 let currentView = 'build';
+// ══ v3.18.0 · SCHOOL YEAR ══════════════════════════════════════════════════════════════════════════════
+// Each school year is its own class. 2026 is the class every account already has, stored exactly where it always was
+// (local 'rcb_session', cloud 'session:user:pin'). Later years get their own keys, so nothing saved for 2026 is moved or
+// rewritten. The app opens on the year it was left on; the first time it opens in a new calendar year, it moves to that year.
+const CLASS_YEAR_FIRST = 2026;
+function _calYear() { try { return +new Intl.DateTimeFormat('en-AU', { year: 'numeric', timeZone: 'Australia/Sydney' }).format(new Date()); } catch (e) { return new Date().getFullYear(); } }
+function classYearList() { const out = [], last = Math.max(_calYear(), CLASS_YEAR_FIRST + 1); for (let y = CLASS_YEAR_FIRST; y <= last; y++) out.push(y); return out; }
+function _pickClassYear() {
+  const cy = Math.max(_calYear(), CLASS_YEAR_FIRST), list = classYearList();
+  let y = +lsGet('rcb_class_year', 0) || 0;
+  const seen = +lsGet('rcb_year_seen', 0) || 0;
+  if (seen < cy) { if (seen || !y) y = cy; lsSet('rcb_year_seen', cy); }   // a new calendar year: open on it, once
+  if (!list.includes(y)) y = cy;
+  lsSet('rcb_class_year', y);
+  return y;
+}
+let classYear = _pickClassYear();
+// The storage key for this year's class. 2026 keeps the original key.
+function _yk(k, y) { y = y || classYear; return y === CLASS_YEAR_FIRST ? k : k + '_' + y; }
+// Headers for the cloud class. 2026 sends no year, so a Worker that does not know about years still works for it.
+function _sessHdr(token, extra) { const h = Object.assign({}, extra || {}, { 'X-User-Token': token }); if (classYear !== CLASS_YEAR_FIRST) h['X-Class-Year'] = String(classYear); return h; }
 let currentSemester = 1;
 let currentTab = CATS[0];
 let students = [{ name: '', pronoun: 'he', year: '', selected: {}, ordered: [], custom: {}, customTiers: {}, published: false, confettiShown: false, draftOverride: null, editedCat: null, orderedAfterEdit: [], orderedAtDone: [], s1Comment: null, s1Ordered: null, s1Selected: null, s2RankOrder: null, s2Ordered: [], s2Selected: {}, s2DraftOverride: null, s2EditedCat: null, s2OrderedAfterEdit: [], s2OrderedAtDone: [], engSelected: {}, engOrdered: [], engGrades: {}, engDraft: null, engPublished: false, mathSelected: {}, mathOrdered: [], mathGrades: {}, mathDraft: null, mathPublished: false }];
@@ -6389,7 +6412,7 @@ function semLoad(stu, sem) {             // stored copy for semester `sem` -> li
 function _paintSemesterUI() {
   const _ss = document.getElementById('semSel'); if (_ss) { _ss.value = String(currentSemester); _ss.className = 'sem-sel s' + currentSemester; }
   document.getElementById('s2Banner').className = 's2-banner';   // v3.14.2: the Semester 2 banner is no longer shown
-  lsSet('rcb_semester', currentSemester);
+  lsSet(_yk('rcb_semester'), currentSemester);
 }
 function setSemester(n) {
   if (n !== 1 && n !== 2) return;
@@ -6418,7 +6441,7 @@ function _applySemesterAfterLoad(saved) {
     return;
   }
   // Legacy session (saved by v3.5.4 or earlier, no "semester" recorded): live fields are treated as S1.
-  if (lsGet('rcb_semester', 1) === 2) setSemester(2);
+  if (lsGet(_yk('rcb_semester'), 1) === 2) setSemester(2);
   else _paintSemesterUI();
 }
 
@@ -10319,7 +10342,7 @@ let _adminKey = '';
 // what it synced last, what is on this device and what is in the cloud. A student changed on only one side takes that side's version,
 // a student added or removed on one side is added or removed, and a student changed on both sides keeps THIS device's version while
 // the other device's version is kept as a copy that you can swap to. Comments already built are never edited by the merge itself.
-let _syncBase = lsGet('rcb_syncbase', null);   // { at, st:{uid:hash}, sm, mb, ts } as of the last load or save
+let _syncBase = lsGet(_yk('rcb_syncbase'), null);   // { at, st:{uid:hash}, sm, mb, ts } as of the last load or save
 let _syncBusy = false;
 let _conflicts = [];                           // [{ uid, name, cloud }] students changed on both devices
 function _canon(v) {
@@ -10362,7 +10385,7 @@ function _snapshot(sess) {
   (sess.students || []).forEach(s => { if (s.uid) st[s.uid] = _hs(s); });
   return { v: 3, at: sess.savedAt || null, st, sm: _hash(_canon(sess.styleMemory || null)), mb: _hash(_canon(sess.myBank || {})), ts: sess.totalStudents || 0 };
 }
-function _setSyncBase(b) { _syncBase = b; lsSet('rcb_syncbase', b); }
+function _setSyncBase(b) { _syncBase = b; lsSet(_yk('rcb_syncbase'), b); }
 // Three-way merge of the students and the shared lists. base = fingerprints, local/cloud = { students, styleMemory, myBank, totalStudents }
 function _mergeSessions(base, local, cloud) {
   const _hs = (base && base.v === 3) ? window._hs : (base && base.v === 2) ? window._hsV2 : _hsLegacy;   // a base saved by an older version is compared the old way, once
@@ -10436,7 +10459,7 @@ function _mergeIntoLive(cs) {
     currentIdx = at >= 0 ? at : Math.min(currentIdx, students.length - 1);
     loadCur(); render(); updateProgress();
     if (currentView === 'publish') { try { renderPublish(); } catch (e) {} }   // v3.17.15: Review shows the merged comment, not the one from before
-    const sess = buildSession(); idbSet('rcb_session', sess); lsSet('rcb_session', sess);
+    const sess = buildSession(); idbSet(_yk('rcb_session'), sess); lsSet(_yk('rcb_session'), sess);
     showToast('Updated with changes from your other device.');
   }
   if (r.conflicts.length) { r.conflicts.forEach(c => { _conflicts = _conflicts.filter(x => x.uid !== c.uid); _conflicts.push(c); }); showConflictBanner(); }
@@ -10444,9 +10467,9 @@ function _mergeIntoLive(cs) {
 }
 function _stashConflictCopies(list) {
   try {
-    const old = lsGet('rcb_conflict_copies', []);
+    const old = lsGet(_yk('rcb_conflict_copies'), []);
     list.forEach(c => old.push({ at: new Date().toISOString(), uid: c.uid, name: c.name, student: c.cloud }));
-    lsSet('rcb_conflict_copies', old.slice(-6));
+    lsSet(_yk('rcb_conflict_copies'), old.slice(-6));
   } catch (e) {}
 }
 // v3.17.17 · the conflict box says which device, when, and what is different, so you can choose with the facts in front of you.
@@ -10595,7 +10618,7 @@ async function cloudPull(manual) {
   if (!token || !_stateLoaded || _syncBusy || _cloudUnverified || !_syncBase) return;
   _syncBusy = true;
   try {
-    const res = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: { 'X-User-Token': token } });
+    const res = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: _sessHdr(token) });
     if (!res.ok) return;
     const d = await res.json();
     if (!d.found || !d.session || !(d.session.students || []).length) return;
@@ -14159,7 +14182,7 @@ async function adminRefresh() {
     tbody.innerHTML = '';
 
     data.accounts.forEach(acc => {
-      const isCurrentUser = acc.username === getCloudUser();
+      const isCurrentUser = String(acc.username).split(' ')[0] === getCloudUser();   // v3.18.0: a later year shows as "name (2027)"
       const lastSaved = acc.lastSaved && acc.lastSaved !== 'unknown'
         ? new Date(acc.lastSaved).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })
         : 'Never';
@@ -14402,7 +14425,7 @@ async function cloudSave(manual = false) {
   if (_cloudUnverified) {
     // Startup could not read the cloud copy. Do not overwrite it blind: only save if the cloud has nothing newer.
     try {
-      const chk = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: { 'X-User-Token': token } });
+      const chk = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: _sessHdr(token) });
       if (!chk.ok) { if (manual) showToast('Cloud sync paused — cannot reach the cloud copy.'); return; }
       const cd = await chk.json();
       if (cd.found && cd.session && (cd.session.students || []).length) {
@@ -14422,7 +14445,7 @@ async function cloudSave(manual = false) {
   // v3.10.1: look at the cloud copy first. If another device saved since this one last synced, fold its changes in before saving.
   if (_syncBase) {
     try {
-      const chk = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: { 'X-User-Token': token } });
+      const chk = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: _sessHdr(token) });
       if (chk.ok) {
         const cd = await chk.json();
         if (cd.found && cd.session && (cd.session.students || []).length && cd.session.savedAt && cd.session.savedAt !== _syncBase.at) {
@@ -14436,7 +14459,7 @@ async function cloudSave(manual = false) {
   try {
     const res = await fetch(CLOUD_WORKER + '/session', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'X-User-Token': token },
+      headers: _sessHdr(token, { 'Content-Type': 'application/json' }),
       body: JSON.stringify(session),
     });
     if (res.ok) {
@@ -14461,7 +14484,7 @@ async function cloudLoad(showPrompt = false, startup = false) {
   try {
     const res = await fetch(CLOUD_WORKER + '/session', {
       method: 'GET',
-      headers: { 'X-User-Token': token },
+      headers: _sessHdr(token),
     });
     if (!res.ok) return false;
     const data = await res.json();
@@ -14473,8 +14496,8 @@ async function cloudLoad(showPrompt = false, startup = false) {
     // v3.10.1: when the page opens, do not throw away changes this device has not yet sent. Merge them with the cloud copy.
     if (startup && _syncBase && saved.students && saved.students.length) {
       let localSaved = null;
-      try { localSaved = await idbGet('rcb_session'); } catch (e) {}
-      if (!localSaved) localSaved = lsGet('rcb_session', null);
+      try { localSaved = await idbGet(_yk('rcb_session')); } catch (e) {}
+      if (!localSaved) localSaved = lsGet(_yk('rcb_session'), null);
       if (localSaved && localSaved.students && localSaved.students.length) {
         _applyPersistedState(localSaved);
         _loadedSavedAt = saved.savedAt || null;
@@ -14498,8 +14521,8 @@ async function cloudLoad(showPrompt = false, startup = false) {
     // the user chose to sign in, so cloud is the source of truth
     _applyPersistedState(saved);
     _dirtySince = null; hideSyncBanner(false);   // v3.9.0: this device now matches the cloud
-    idbSet('rcb_session', saved);
-    lsSet('rcb_session', saved);
+    idbSet(_yk('rcb_session'), saved);
+    lsSet(_yk('rcb_session'), saved);
     loadCur();
     render();
     updateProgress();
@@ -14792,7 +14815,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.53';
+const APP_VERSION = 'v3.18.0';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -14850,7 +14873,7 @@ function buildSession() {
 // The backup file: everything in the session plus streak and badges, and the app version that wrote it.
 function buildBackup() {
   saveCur();
-  return { version: 1, appVersion: APP_VERSION, exportedAt: new Date().toISOString(), totalStudents: students.length, students, streak: getStreakData(), badges: getEarnedBadges(),
+  return { version: 1, appVersion: APP_VERSION, classYear, exportedAt: new Date().toISOString(), totalStudents: students.length, students, streak: getStreakData(), badges: getEarnedBadges(),
            semester: currentSemester, styleMemory, myBank, settings: getSettingsBlob() };
 }
 function autoSave() {
@@ -14862,8 +14885,8 @@ function autoSave() {
   setSaveState('saving', 'Saving…');
   const session = buildSession();
   // Save to both IndexedDB (primary) and localStorage (fallback)
-  idbSet('rcb_session', session)
-    .then(() => lsSet('rcb_session', session))
+  idbSet(_yk('rcb_session'), session)
+    .then(() => lsSet(_yk('rcb_session'), session))
     .then(() => {
       const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       setSaveState('saved', 'Saved ' + time);
@@ -14871,7 +14894,7 @@ function autoSave() {
       _saveTimer = setTimeout(() => setSaveState('', ''), 8000);
     })
     .catch(() => {
-      lsSet('rcb_session', session); // ensure localStorage backup always runs
+      lsSet(_yk('rcb_session'), session); // ensure localStorage backup always runs
       setSaveState('saved', 'Saved (local)');
     });
   // Schedule a cloud save (throttled to once per 15 seconds)
@@ -14879,6 +14902,7 @@ function autoSave() {
 }
 
 function loadPersistedState() {
+  renderYearSel();   // v3.18.0
   // Render immediately with default state so panes aren't empty on load
   loadCur();
   render();
@@ -14912,9 +14936,51 @@ function loadPersistedState() {
   updateCloudStatus();
 }
 
+// v3.18.0: a year with nothing saved yet starts as an empty class with the settings and My bank from the latest earlier year
+// (this device first, then the cloud). No students are copied.
+async function _newYearSeed() {
+  let prev = null;
+  for (let y = classYear - 1; y >= CLASS_YEAR_FIRST && !prev; y--) {
+    try { prev = await idbGet(_yk('rcb_session', y)); } catch (e) {}
+    if (!prev) prev = lsGet(_yk('rcb_session', y), null);
+  }
+  const token = getCloudToken();
+  if (!prev && token) {
+    try {
+      for (let y = classYear - 1; y >= CLASS_YEAR_FIRST && !prev; y--) {
+        const h = { 'X-User-Token': token }; if (y !== CLASS_YEAR_FIRST) h['X-Class-Year'] = String(y);
+        const r = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: h });
+        if (r.ok) { const d = await r.json(); if (d.found && d.session) prev = d.session; }
+      }
+    } catch (e) {}
+  }
+  if (!prev) return null;
+  return { semester: 1, students: [], myBank: prev.myBank || null, settings: prev.settings || null, savedAt: null };
+}
+function renderYearSel() {
+  const el = document.getElementById('yearSel'); if (!el) return;
+  el.innerHTML = classYearList().map(y => '<option value="' + y + '">' + y + '</option>').join('');
+  el.value = String(classYear);
+}
+// Switching saves this year's class (on this device and, when signed in, to the cloud), then opens the other year.
+async function setClassYear(y) {
+  y = +y;
+  if (!classYearList().includes(y) || y === classYear) { renderYearSel(); return; }
+  const el = document.getElementById('yearSel'); if (el) el.disabled = true;
+  setSaveState('saving', 'Saving ' + classYear + '…');
+  try { saveCur(); } catch (e) {}
+  const sess = buildSession();
+  try { lsSet(_yk('rcb_session'), sess); await idbSet(_yk('rcb_session'), sess); } catch (e) {}
+  if (getCloudToken() && _stateLoaded) {
+    try { await Promise.race([cloudSave(false), new Promise(r => setTimeout(r, 8000))]); } catch (e) {}
+  }
+  lsSet('rcb_class_year', y);
+  location.reload();
+}
 function loadFromLocal() {
-  idbGet('rcb_session').then(saved => {
-    if (!saved) saved = lsGet('rcb_session', null);
+  idbGet(_yk('rcb_session')).then(async saved => {
+    if (!saved) saved = lsGet(_yk('rcb_session'), null);
+    if (!saved && classYear !== CLASS_YEAR_FIRST) saved = await _newYearSeed();   // v3.18.0: a new year keeps the settings and My bank
     if (saved) {
       _applyPersistedState(saved);
       loadCur();
@@ -14926,7 +14992,7 @@ function loadFromLocal() {
       _applySemesterAfterLoad(saved);
     }
   }).catch(() => {
-    const saved = lsGet('rcb_session', null);
+    const saved = lsGet(_yk('rcb_session'), null);
     if (saved) {
       _applyPersistedState(saved);
       loadCur();
@@ -15362,9 +15428,9 @@ function applyJargonEverywhere() {
 const HIST_MAX = 40, HIST_GAP = 3 * 60 * 1000;
 var _hist = {}, _histChecked = {};
 var _histReady = null;
-try { _histReady = idbGet('rcb_history').then(h => { if (h && typeof h === 'object') _hist = Object.assign(h, _hist); }).catch(() => {}); } catch (e) {}
+try { _histReady = idbGet(_yk('rcb_history')).then(h => { if (h && typeof h === 'object') _hist = Object.assign(h, _hist); }).catch(() => {}); } catch (e) {}
 let _histSaveT = null;
-function _histPersist() { clearTimeout(_histSaveT); _histSaveT = setTimeout(() => { try { idbSet('rcb_history', _hist); } catch (e) {} }, 1500); }
+function _histPersist() { clearTimeout(_histSaveT); _histSaveT = setTimeout(() => { try { idbSet(_yk('rcb_history'), _hist); } catch (e) {} }, 1500); }
 function _histTexts(stu) {
   const o = {};
   ['general', 'english', 'maths'].forEach(s => { try { o[s] = (commentText(stu, s) || '').trim(); } catch (e) { o[s] = ''; } });
@@ -15537,6 +15603,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.18.0', date: '24 November 2026', items: [
+    'New school year menu beside the semester. 2026 is your class as it is now. 2027 starts as a new, empty class with your settings and My bank. Switch between them at any time: each year is saved separately, on this device and in the cloud.',
+    'The app opens on the year you last used. From 1 January it opens on the new year automatically.'
+  ] },
   { v: 'v3.17.51', date: '23 November 2026', items: [
     'After you paste a comment written for a girl into a boy\'s or a they/them student\'s draft, any "her" the app could not decide is underlined. Tap it to choose "him" or "his" (or "them" or "their").',
     'After give, offer, bring and similar words, "her" is changed to "him" only when what follows is something a person is given ("give her extra time"). Anything else ("brings her camera") is left for you to check.'
@@ -19328,7 +19398,7 @@ function _flushNow() {
   try {
     if (!_stateLoaded || !cur()) return;
     if (currentView === 'publish') savePublishEdits(); else if (currentView === 'build') flushDraftPane();
-    saveCur(); lsSet('rcb_session', buildSession());
+    saveCur(); lsSet(_yk('rcb_session'), buildSession());
   } catch (e) {}
 }
 window.addEventListener('pagehide', _flushNow);
