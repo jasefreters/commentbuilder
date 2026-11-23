@@ -12379,7 +12379,7 @@ ${text}`
         status.innerHTML = '<span style="font-size:13px;color:var(--red)">API key invalid — click API key button to update it</span>';
       } else {
         btn.disabled = false;
-        status.innerHTML = `<span style="font-size:13px;color:var(--red)">Error ${res.status}: ${errData?.error?.message || 'Unknown error'}</span>`;
+        status.innerHTML = `<span style="font-size:13px;color:var(--red)">Error ${res.status}: ${escHtml(errData?.error?.message || 'Unknown error')}</span>`;
       }
       return;
     }
@@ -12420,7 +12420,7 @@ ${text}`
     } else if (e.message === 'AI_NOT_JSON') {
       status.innerHTML = '<span style="font-size:13px;color:var(--red)">The checker gave an answer the app could not read. Click Check for issues again.</span>';
     } else {
-      status.innerHTML = `<span style="font-size:13px;color:var(--red)">Error: ${e.message}</span>`;
+      status.innerHTML = `<span style="font-size:13px;color:var(--red)">Error: ${escHtml(e && e.message || String(e))}</span>`;
     }
   }
 }
@@ -14170,19 +14170,22 @@ async function adminRefresh() {
 
       tr.innerHTML = `
         <td style="padding:10px 16px;color:var(--t0);font-weight:${isCurrentUser ? '600' : '400'}">
-          ${acc.username}${isCurrentUser ? ' <span style="font-size:10px;color:var(--blue);font-weight:500">(you)</span>' : ''}
+          ${escHtml(acc.username)}${isCurrentUser ? ' <span style="font-size:10px;color:var(--blue);font-weight:500">(you)</span>' : ''}
         </td>
         <td style="padding:10px 16px;color:var(--t2)">${lastSaved}</td>
-        <td style="padding:10px 16px;text-align:center;color:var(--t1)">${acc.students}</td>
+        <td style="padding:10px 16px;text-align:center;color:var(--t1)">${Number(acc.students) || 0}</td>
         <td style="padding:10px 16px;text-align:right">
           ${isCurrentUser
             ? '<span style="font-size:11px;color:var(--t3)">—</span>'
-            : `<button onclick="adminDeleteAccount('${acc.key}','${acc.username}')"
+            : `<button data-admin-del
                 style="font-family:var(--font);font-size:11px;padding:3px 10px;border-radius:var(--r-sm);border:1px solid var(--red,#f87171);background:none;color:var(--red,#f87171);cursor:pointer">
                 Delete
               </button>`
           }
         </td>`;
+      // v3.17.53: the delete button is wired here, not built into an onclick string, so a name with a quote in it cannot break it
+      const del = tr.querySelector('[data-admin-del]');
+      if (del) del.addEventListener('click', () => adminDeleteAccount(acc.key, acc.username));
       tbody.appendChild(tr);
     });
 
@@ -14789,7 +14792,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.52';
+const APP_VERSION = 'v3.17.53';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
