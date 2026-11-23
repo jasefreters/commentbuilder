@@ -4960,6 +4960,18 @@ function onDraftBlur() {
   if (el && cur() && el.innerText.search(_FRIENDLY_RE) !== -1) el.innerText = fillTypedPlaceholders(el.innerText);
   onDraftInput();
 }
+// v3.17.44: a pronoun placeholder gets its capital from where it sits, not from how it was typed in the bank.
+// "Although {{S}} is working..." gave "Although She is working..." on a pronoun turn (a name turn hid it). A lone placeholder is left as it is.
+const _PRON_CASE = { S: 's', s: 's', O: 'o', o: 'o', Pos: 'pos', pos: 'pos' };
+function _pronCaseByPlace(t) {
+  if (typeof t !== 'string' || t.indexOf('{{') === -1 || /^\s*\{\{[A-Za-z]+\}\}\s*$/.test(t)) return t;
+  return t.replace(/\{\{(S|s|O|o|Pos|pos)\}\}/g, (m, k, off) => {
+    const before = t.slice(0, off);
+    const atStart = /^[\s"'\u201c\u2018(]*$/.test(before) || (/[.!?]["'\u201d\u2019)]*\s+["'\u201c\u2018(]*$/.test(before) && !/\b(?:e\.g|i\.e|etc)\.\s*$/i.test(before));
+    const low = _PRON_CASE[k];
+    return '{{' + (atStart ? low.charAt(0).toUpperCase() + low.slice(1) : low) + '}}';
+  });
+}
 function applyRaw(text, name, p, year) {
   text = friendlyTokens(text);
   const n = name || '[Name]';
@@ -4969,6 +4981,7 @@ function applyRaw(text, name, p, year) {
   const yearLabel = yr ? yearWord(yr) : 'Year [X]';
   const alLabel = alYr ? yearWord(alYr) : '';
   if (p && p.S === 'They') text = theyAgree(text);   // v3.9.2
+  text = _pronCaseByPlace(text);   // v3.17.44
   return text
     .replace(/\{\{N\}\}/g, n)
     .replace(/\{\{n\}\}/g, n)   // v3.8.7: was lower-cased ("aisha has missed"); a name keeps its capital
@@ -14617,7 +14630,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.44';
+const APP_VERSION = 'v3.17.45';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15362,6 +15375,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.45', date: '23 November 2026', items: [
+    'Three comments no longer put a capital pronoun in the middle of a sentence: "Although she is working significantly below stage expectations…" (English and Maths) and "During structured handwriting lessons, she carefully forms letters…".'
+  ] },
   { v: 'v3.17.44', date: '23 November 2026', items: [
     'For a student who uses they/them, placeholders typed or pasted into the draft now give the right verb: "They share their ideas", not "They shares". Final check also flags "they" with the wrong verb, for any student, and fixes it in one click.'
   ] },
