@@ -119,7 +119,10 @@ function fakeCloud() {
       if (this.offline) return route.abort();
       if (req.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: cors });
       if (url.pathname !== '/session') return route.fulfill({ status: 404, headers: cors, body: '{}' });
-      const token = (req.headers()['x-user-token'] || '').toLowerCase();
+      // v3.18.0: like the Worker, a class year other than 2026 is its own key ("user:pin:2027"); 2026 keeps the plain key
+      const yr = (req.headers()['x-class-year'] || '').trim();
+      this.years = this.years || []; this.years.push(yr || '2026');
+      const token = (req.headers()['x-user-token'] || '').toLowerCase() + (yr && yr !== '2026' ? ':' + yr : '');
       const json = (o, status = 200) => route.fulfill({ status, headers: cors, contentType: 'application/json', body: JSON.stringify(o) });
       if (req.method() === 'GET') return store.has(token) ? json({ found: true, session: JSON.parse(store.get(token)) }) : json({ found: false });
       if (req.method() === 'PUT') { store.set(token, req.postData()); this.saves++; return json({ ok: true, savedAt: new Date().toISOString() }); }
