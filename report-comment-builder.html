@@ -223,6 +223,8 @@
   /* Toast */
   .toast { position: fixed; bottom: calc(5rem + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%) translateY(8px); background: var(--bg-4); border: 1px solid var(--border-h); color: var(--t0); font-size: 13px; padding: 9px 18px; border-radius: 999px; opacity: 0; transition: all .22s; pointer-events: none; z-index: 999; white-space: nowrap; }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.act { pointer-events: auto; }
+  .toast-btn { margin-left: 10px; background: none; border: 1px solid currentColor; color: inherit; font: inherit; font-weight: 600; border-radius: 999px; padding: 2px 12px; cursor: pointer; }
 
   ::-webkit-scrollbar { width: 4px; height: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -1705,7 +1707,7 @@
         </div>
         <div class="out-editable" id="outEditable" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Draft comment"
              data-placeholder="Pick sentences from the bank to build this student’s comment, or type here directly…"
-             onblur="onDraftBlur()" oninput="onDraftInput()" onpaste="onDraftPaste()" onkeydown="onDraftKeydown(event)" onbeforeinput="onDraftBeforeInput(event)"></div>
+             onblur="onDraftBlur()" oninput="onDraftInput()" onpaste="onDraftPaste(event)" onkeydown="onDraftKeydown(event)" onbeforeinput="onDraftBeforeInput(event)"></div>
         <div class="draft-edit-bar" id="draftEditBar">
           <button class="draft-reset-btn" onclick="resetDraft()">Reset</button>
           <div class="draft-edit-label">Editing draft…</div>
@@ -13036,8 +13038,106 @@ function pasteTick(stu, subj) {
   showToast('Ticked ' + n + (n === 1 ? ' sentence' : ' sentences') + ' from the pasted comment' + (r.left ? ' · ' + r.left + (r.left === 1 ? ' sentence is' : ' sentences are') + ' not from the bank' : ''));
   return n;
 }
-function onDraftPaste() {
+// ══ v3.17.50 · A COMMENT PASTED FROM ANOTHER STUDENT IS CHANGED TO THIS ONE ══════════════════════════
+// Jason, 23 Nov: automatic, no question first. Only the pasted text changes, as it lands. Undo puts back exactly what was pasted.
+// Settings (Comments): "Change a pasted comment to this student".
+const _PC_SUBJ = ['he', 'she', 'they'];
+const _PC_REL = /\b(mother|father|mum|mom|dad|parent|parents|sister|brother|friend|friends|partner|teacher|teachers|peer|peers|classmate|classmates|character|characters|author|authors|grandmother|grandfather|nan|pop|grandparents?)\b/i;
+let _pcWords = null;
+function _pcBankWord(w) {   // any word the English and Maths banks use ("Mathematics", "Reading") is not a name
+  if (!_pcWords) { _pcWords = new Set(); try { JSON.stringify([ENGLISH_BANK, MATHS_BANK, ENGLISH_FD, MATHS_FD]).toLowerCase().replace(/[^a-z' ]+/g, ' ').split(/\s+/).forEach(x => { if (x) _pcWords.add(x); }); } catch (e) {} }
+  return _pcWords.has(String(w).toLowerCase());
+}
+function _pcSubject(sent) {   // the subject word of a sentence, after up to three opening phrases ("In Science, Mia ...")
+  const m = String(sent).match(/^\s*["'\u201c\u2018(]*((?:[^,.!?]{1,100},\s+){0,3})([A-Za-z][A-Za-z'\u2019-]*)/);
+  return m ? m[2].replace(/['\u2019]s$/i, '') : '';
+}
+// Pure. Returns { text, changed, fromName, fromSet, toName, toSet, unsure }.
+function convertPasted(text, stu, classFirsts) {
+  const none = { text, changed: false, unsure: 0 };
+  if (!text || !stu || !stu.name || !PR[stu.pronoun]) return none;
+  const toName = cn(stu) || String(stu.name).trim().split(/\s+/)[0], toSet = stu.pronoun, p = PR[toSet];
+  const own = _fcNameTokens(stu).concat([String(toName).toLowerCase()]);
+  const firsts = (classFirsts || _fcAllFirstNames()).filter(n => !own.includes(String(n).toLowerCase()));
+  const sents = splitSentences(text);
+  // Who was it written for? A first name used as the subject of a sentence.
+  const counts = new Map(), sets = new Set();
+  sents.forEach(x => {
+    const w = _pcSubject(x); if (!w) return;
+    const lw = w.toLowerCase();
+    if (_PC_SUBJ.includes(lw)) { sets.add(lw); return; }
+    if (w[0] !== w[0].toUpperCase() || own.includes(lw)) return;
+    counts.set(w, (counts.get(w) || 0) + 1);
+  });
+  const names = [...counts.entries()].filter(([w, c]) => {
+    const inClass = firsts.some(n => n === w);
+    if (inClass) return !_fcCommonWord(w) || c >= 2;
+    return c >= 2 && !FC_COMMON_NAMES.has(w.toLowerCase()) && !_fcCommonWord(w);
+  }).map(([w]) => w);
+  if (names.length > 1) return none;                 // two different names: leave it, Final check flags it
+  // a name-like subject that was not accepted (someone outside the class, named once): changing only the pronouns would leave it half-changed
+  if ([...counts.keys()].some(w => !names.includes(w) && !FC_COMMON_NAMES.has(w.toLowerCase()) && !_fcCommonWord(w) && !_pcBankWord(w))) return none;
+  const fromName = names[0] || null;
+  const fromSet = sets.size === 1 && !sets.has(toSet) ? [...sets][0] : null;   // mixed sets: the pronouns stay
+  if (!fromName && !fromSet) return none;
+  // Pronouns beside "mother", "friend", "character" and the like may be about someone else: they are held back and put back unchanged.
+  const held = [];
+  let t = String(text).replace(/\b(he|she|they|him|her|them|his|their|hers|theirs|himself|herself|themselves)\b/gi, (m, w, off, whole) => {
+    const before = whole.slice(0, off).split(/[.!?]\s/).pop().split(/\s+/).slice(-3).join(' '), after = whole.slice(off + m.length).split(/[.,;:!?]/)[0].split(/\s+/).slice(0, 3).join(' ');
+    if (_PC_REL.test(before) || _PC_REL.test(after)) { held.push(m); return '\u2060' + (held.length - 1) + '\u2060'; }
+    return m;
+  });
+  let unsure = 0, tpl;
+  if (fromSet) {
+    const srcP = PR[fromSet], choices = {};
+    if (srcP.o === srcP.pos) _herReads(friendlyTokens(t)).forEach(h => { if (!h.sure) { choices[h.n] = 'keep'; unsure++; } });
+    tpl = templatise(t, fromName || '', srcP, choices);
+    // written for "they", now for he or she: "{{S}} share" becomes "{{S}} shares"
+    if (fromSet === 'they' && toSet !== 'they') tpl = tpl.replace(/(\{\{[Ss]\}\})((?:[^.!?{]|\{\{(?:O|o|Pos|pos|r)\}\})*)/g, (m, tok, tail) => tok + _agreeTail(tail, false));
+  } else {
+    tpl = t.replace(new RegExp('(?<![A-Za-z0-9-])' + escapeRegex(fromName) + '(?![A-Za-z0-9-])', 'g'), '{{N}}');
+  }
+  let out = applyRaw(tpl, toName, p, stu.year || '');
+  out = out.replace(/\u2060(\d+)\u2060/g, (m, i) => held[+i]);
+  if (out === text) return none;
+  return { text: out, changed: true, fromName, fromSet, toName, toSet, unsure };
+}
+function _pcToastMsg(r) {
+  const bits = [];
+  if (r.fromName) bits.push(r.fromName + ' to ' + r.toName);
+  if (r.fromSet) bits.push(r.fromSet + ' to ' + r.toSet);
+  return 'Changed ' + bits.join(' and ') + '.' + (r.unsure ? ' Final check will list ' + (r.unsure === 1 ? 'a "her"' : r.unsure + ' "her"s') + ' to check.' : '');
+}
+function showToastAction(msg, label, fn, ms) {
+  const t = document.getElementById('toast'); if (!t) return;
+  t.textContent = msg + ' ';
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'toast-btn'; b.textContent = label;
+  b.addEventListener('click', () => { t.classList.remove('show', 'act'); fn(); });
+  t.appendChild(b); t.classList.add('show', 'act');
+  clearTimeout(showToastAction._t); showToastAction._t = setTimeout(() => t.classList.remove('show', 'act'), ms || 9000);
+}
+function _pasteConvert(e, stu) {
+  const cd = e && (e.clipboardData || window.clipboardData); if (!cd) return;
+  const pasted = String(cd.getData('text/plain') || cd.getData('text') || '').replace(/\r\n?/g, '\n');
+  if (!pasted.trim()) return;
+  const r = convertPasted(pasted, stu); if (!r.changed) return;
+  const el = document.getElementById('outEditable'); if (!el) return;
+  e.preventDefault();
+  let ok = false;
+  try { el.focus(); ok = document.execCommand('insertText', false, r.text); } catch (err) {}
+  if (!ok || el.innerText.indexOf(r.text.trim()) === -1) el.innerText = (el.innerText.replace(/\s+$/, '') + (el.innerText.trim() ? ' ' : '') + r.text).trim();
+  try { onDraftInput(); } catch (err) {}
+  showToastAction(_pcToastMsg(r), 'Undo', () => {
+    if (cur() !== stu) return;
+    const cur0 = el.innerText, i = cur0.indexOf(r.text);
+    if (i === -1) { showToast('That paste has been edited, so it cannot be undone.'); return; }
+    el.innerText = cur0.slice(0, i) + pasted + cur0.slice(i + r.text.length);
+    try { onDraftInput(); } catch (err) {}
+  });
+}
+function onDraftPaste(e) {
   const stu = cur(), subj = currentSubject;
+  try { if (e && flagOn('pasteConvert')) _pasteConvert(e, stu); } catch (err) { /* converting is a convenience: it must never get in the way of pasting */ }
   if (!flagOn('pasteTick')) return;   // v3.16.22: Settings > Comments
   setTimeout(() => { try { if (cur() === stu && currentSubject === subj) pasteTick(stu, subj); } catch (e) { /* ticking is a convenience: it must never get in the way of pasting */ } }, 80);
 }
@@ -14692,7 +14792,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.49';
+const APP_VERSION = 'v3.17.50';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15437,6 +15537,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.50', date: '23 November 2026', items: [
+    'Paste a comment written for another student into a draft and it is changed to this student as it lands: the name, and he, she or they with the right verbs. A message says what changed and has Undo. "Her" next to a word like mother or friend, and other students named in the comment, are left alone. Settings > Comments: "Change a pasted comment to this student".'
+  ] },
   { v: 'v3.17.49', date: '23 November 2026', items: [
     '"Add & save to my bank" now keeps "her" right when the sentence is used for a boy ("help him learn", not "help his learn"). When it cannot tell, it asks you: like "him" or like "his"?',
     'Final check now fixes "help her learn" to "help him learn" for a boy. When it cannot tell which "her" is meant, it asks you to check the sentence.'
@@ -17965,6 +18068,7 @@ function templatise(text, name, pronounSet, herChoices) {
     const hs = _herReads(t);
     for (let k = hs.length - 1; k >= 0; k--) {
       const h = hs[k], role = (herChoices && herChoices[h.n]) || h.role;
+      if (role === 'keep') continue;   // v3.17.50: a pasted "her" the reader is not sure about stays as it was
       const tok = role === 'obj' ? (h.word === 'Her' ? '{{O}}' : '{{o}}') : (h.word === 'Her' ? '{{Pos}}' : '{{pos}}');
       t = t.slice(0, h.start) + tok + t.slice(h.end);
     }
@@ -18165,7 +18269,7 @@ function showNextLongSentence() {
 // ══ v3.16.13 · MORE SETTINGS ═══════════════════════════════════════════════
 // Saved on this device, like the word limits. Every default leaves the app working exactly as before.
 function getSimMode() { const v = lsGet('rcb_simmode', 'top'); return v === 'mark' || v === 'off' ? v : 'top'; }
-const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch', pasteTick: 'rcb_pastetick', catOrder: 'rcb_catorder', firstName: 'rcb_firstname', swapBtn: 'rcb_swapbtn' };
+const _FLAG_KEYS = { s2LevelFirst: 'rcb_s2levelfirst', s2StartLevel: 'rcb_s2startlevel', doneReview: 'rcb_donereview', confetti: 'rcb_confetti', paras: 'rcb_paras', topOnSwitch: 'rcb_toponswitch', pasteTick: 'rcb_pastetick', catOrder: 'rcb_catorder', firstName: 'rcb_firstname', swapBtn: 'rcb_swapbtn', pasteConvert: 'rcb_pasteconvert' };
 function flagOn(name) { return lsGet(_FLAG_KEYS[name], true) !== false; }
 function _settingChanged(name) {
   try {
@@ -18207,7 +18311,8 @@ function renderMoreSettings() {
     + '<div class="sw-pane-title">Adding sentences to the draft</div>'
     + sw('catOrder', 'Put new sentences in category order', 'A sentence you add goes where its category sits in the list, among the sentences already in the draft. A sentence you moved stays where you put it. Off adds each new sentence at the end.')
     + '<div class="sw-pane-title">Pasting a finished comment</div>'
-    + sw('pasteTick', 'Tick the sentences from a pasted comment', 'Ticks the bank sentences found in the comment you paste into the draft and scrolls the list to the first one. The text you paste is never changed. Off leaves a pasted comment as plain text.')
+    + sw('pasteConvert', 'Change a pasted comment to this student', 'A comment written for another student (another name, or he, she or they) is changed to this student as you paste it. A toast says what changed and has Undo. Off pastes the text as it is.')
+    + sw('pasteTick', 'Tick the sentences from a pasted comment', 'Ticks the bank sentences found in the comment you paste into the draft and scrolls the list to the first one. Ticking never changes the words. Off leaves a pasted comment as plain text.')
     + '<div class="sw-pane-title">Quick mode</div>'
     + `<div class="settings-row"><span class="settings-row-label">Quick mode<span class="sw-help">Build shows one screen per category with a button for each characteristic (in English and Maths, each skill). In English and Maths it uses the student’s year and the mark set for the strand. Tap what fits and the sentences are chosen for you. Off keeps the usual lists. You can also switch it at the top of Build.</span></span><button class="settings-action-btn${quickOn() ? ' green' : ''}" role="switch" aria-checked="${quickOn()}" data-flag="quickMode" onclick="setQuick(${!quickOn()})">${quickOn() ? 'On' : 'Off'}</button></div>`
     + '<div class="sw-pane-title">Review</div>'
