@@ -224,6 +224,10 @@
   .toast { position: fixed; bottom: calc(5rem + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%) translateY(8px); background: var(--bg-4); border: 1px solid var(--border-h); color: var(--t0); font-size: 13px; padding: 9px 18px; border-radius: 999px; opacity: 0; transition: all .22s; pointer-events: none; z-index: 999; white-space: nowrap; }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast.act { pointer-events: auto; }
+  .her-ask { text-decoration: underline wavy var(--amber-line); text-underline-offset: 3px; background: var(--amber-bg); border-radius: 3px; cursor: pointer; }
+  .her-ask-pop { position: absolute; z-index: 1000; background: var(--bg-2, #fff); color: var(--t0); border: 1px solid var(--border-h); border-radius: 10px; padding: 10px 12px; box-shadow: 0 6px 24px rgba(0,0,0,.18); font-size: 13px; max-width: calc(100vw - 16px); }
+  .her-ask-q { margin-bottom: 8px; }
+  .her-ask-btns { display: flex; gap: 6px; flex-wrap: wrap; }
   .toast-btn { margin-left: 10px; background: none; border: 1px solid currentColor; color: inherit; font: inherit; font-weight: 600; border-radius: 999px; padding: 2px 12px; cursor: pointer; }
 
   ::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -11712,9 +11716,11 @@ const _ALT_OBJ_FOLLOW = /^(to|in|with|for|on|and|as|by|from|at|of|about|into|thr
 // disagreed ("Others respect Ava's because...", "help his learn"). herRole is the one reader. It looks at one word either side and
 // says how sure it is. Callers treat "not sure" as "leave the word alone", never as a guess.
 const HER_OBJ_NEXT = /^(?:to|in|with|for|on|and|as|by|from|at|of|about|into|through|that|when|so|up|than|if|or|but|while|during|after|before|which|who|because|since|until|unless|although|though|whenever|where|how|why|what|whether|too|again|back|out|down|off|over|here|there|now|then|today|a|an|the|this|these|those|some|any|every|each|all|no|another|many|much|more|less|well|once|twice|throughout|across|along|around|towards?|within|without|like|both|either|neither|plenty|lots)\b/i;
-const HER_POSS_NEXT = /^(?:own|best|very|most|first|last|work|learning|ideas?|classmates|peers|friends|skills|thinking|writing|reading|knowledge|understanding|confidence|effort|progress|growth|goals?|strengths?|abilities|ability|class|team|group|family|teachers?|book|answers?|views|feelings|emotions|behaviou?r|attitude|approach|role|turn|place|name|experiences?|enthusiasm|interest|interests)\b/i;
+const HER_POSS_NEXT = /^(?:own|best|very|most|first|last|continued|ongoing|future|work|learning|ideas?|classmates|peers|friends|skills|thinking|writing|reading|knowledge|understanding|confidence|effort|progress|growth|goals?|strengths?|abilities|ability|class|team|group|family|teachers?|book|answers?|views|feelings|emotions|behaviou?r|attitude|approach|role|turn|place|name|experiences?|enthusiasm|interest|interests)\b/i;
 const HER_BARE_BEFORE = new Set(['help', 'helps', 'helped', 'helping', 'see', 'sees', 'seeing', 'saw', 'seen', 'watch', 'watching', 'watched', 'let', 'lets', 'make', 'makes', 'made', 'making', 'hear', 'heard', 'have', 'has', 'had', 'notice', 'noticed', 'observe', 'observed', 'enable']);
 const HER_GIVE_BEFORE = new Set(['give', 'gives', 'gave', 'given', 'giving', 'offer', 'offers', 'offered', 'teach', 'teaches', 'taught', 'tell', 'tells', 'told', 'lend', 'send', 'bring', 'brings', 'brought', 'allow', 'allows', 'allowed', 'award', 'awarded', 'grant', 'granted', 'hand', 'pass', 'wish', 'wishes', 'wished', 'wishing', 'afford', 'afforded', 'owe', 'buy', 'get', 'gets', 'got']);
+// v3.17.51: after give, offer, bring and the like, "her" is "him" only when what follows is something a person is given
+const HER_GIVEN = /^(?:extra|additional|increased|further|regular|time|support|feedback|chances?|opportunit(?:y|ies)|encouragement|praise|reminders?|help|advice|responsibilit(?:y|ies)|credit|space|guidance|instructions?|tasks?|jobs?|options?|choices?|joy|pleasure|confidence|strategies|tools|access|permission|independence|success|congratulations|thanks)\b/i;
 const HER_BASE_VERB = /^(?:learn|improve|take|continue|succeed|build|understand|speak|grow|explore|develop|become|reach|make|use|work|achieve|focus|share|try|stay|feel|think|read|write|express|organise|complete|manage|participate|engage|apply|set|remain|follow|practise|plan|check|ask|solve|gain|be|do|go|keep|find|settle|join|contribute|lead|show|recall|recognise|identify|access|catch|move|embrace|thrive|flourish|shine|excel|enjoy|attempt|tackle|persist|persevere|cope|connect|communicate|listen|respond|reflect|relax|calm|regulate|choose|decide|create|present|play|cooperate|collaborate)\b/i;
 function herRole(before, after) {
   const a = String(after || '').trim();
@@ -11724,7 +11730,7 @@ function herRole(before, after) {
   if (HER_BARE_BEFORE.has(prev) && HER_BASE_VERB.test(a)) return { role: 'obj', sure: true };   // "help her learn", "see her take"
   if (HER_POSS_NEXT.test(a)) return { role: 'poss', sure: true };
   if (HER_OBJ_NEXT.test(a)) return { role: 'obj', sure: true };
-  if (HER_GIVE_BEFORE.has(prev)) return { role: 'obj', sure: true };   // "give her extra time"
+  if (HER_GIVE_BEFORE.has(prev) && HER_GIVEN.test(a)) return { role: 'obj', sure: true };   // "give her extra time"; v3.17.51: "brings her camera" is no longer read as "him"
   if (/^\w+(?:'s|s)?\b/.test(a) && !/^\w+ly\b/i.test(a)) return { role: 'poss', sure: false };
   return { role: 'obj', sure: false };
 }
@@ -13066,6 +13072,7 @@ function convertPasted(text, stu, classFirsts) {
     const w = _pcSubject(x); if (!w) return;
     const lw = w.toLowerCase();
     if (_PC_SUBJ.includes(lw)) { sets.add(lw); return; }
+    if (/^(?:her|his|their|its|my|our|your|him|them|it|i|we|you|this|that|these|those)$/.test(lw)) return;   // v3.17.51: "Her teacher ..." is not a name
     if (w[0] !== w[0].toUpperCase() || own.includes(lw)) return;
     counts.set(w, (counts.get(w) || 0) + 1);
   });
@@ -13089,9 +13096,15 @@ function convertPasted(text, stu, classFirsts) {
   });
   let unsure = 0, tpl;
   if (fromSet) {
-    const srcP = PR[fromSet], choices = {};
-    if (srcP.o === srcP.pos) _herReads(friendlyTokens(t)).forEach(h => { if (!h.sure) { choices[h.n] = 'keep'; unsure++; } });
-    tpl = templatise(t, fromName || '', srcP, choices);
+    const srcP = PR[fromSet];
+    // v3.17.51: a "her" the reader is not sure about is held back with a marker, so the draft can underline it once it lands
+    if (srcP.o === srcP.pos) {
+      t = friendlyTokens(t);
+      const hs = _herReads(t).filter(h => !h.sure);
+      for (let k = hs.length - 1; k >= 0; k--) { const h = hs[k]; t = t.slice(0, h.start) + '\u2062' + (h.word === 'Her' ? 'X' : 'x') + '\u2062' + t.slice(h.end); }
+      unsure = hs.length;
+    }
+    tpl = templatise(t, fromName || '', srcP);
     // written for "they", now for he or she: "{{S}} share" becomes "{{S}} shares"
     if (fromSet === 'they' && toSet !== 'they') tpl = tpl.replace(/(\{\{[Ss]\}\})((?:[^.!?{]|\{\{(?:O|o|Pos|pos|r)\}\})*)/g, (m, tok, tail) => tok + _agreeTail(tail, false));
   } else {
@@ -13099,14 +13112,16 @@ function convertPasted(text, stu, classFirsts) {
   }
   let out = applyRaw(tpl, toName, p, stu.year || '');
   out = out.replace(/\u2060(\d+)\u2060/g, (m, i) => held[+i]);
+  const unsureAt = [];   // where each held "her" sits in the finished text
+  out = out.replace(/\u2062([Xx])\u2062/g, (m, w, off) => { unsureAt.push(off - unsureAt.length * 2); return w === 'X' ? 'Her' : 'her'; });
   if (out === text) return none;
-  return { text: out, changed: true, fromName, fromSet, toName, toSet, unsure };
+  return { text: out, changed: true, fromName, fromSet, toName, toSet, unsure, unsureAt };
 }
 function _pcToastMsg(r) {
   const bits = [];
   if (r.fromName) bits.push(r.fromName + ' to ' + r.toName);
   if (r.fromSet) bits.push(r.fromSet + ' to ' + r.toSet);
-  return 'Changed ' + bits.join(' and ') + '.' + (r.unsure ? ' Final check will list ' + (r.unsure === 1 ? 'a "her"' : r.unsure + ' "her"s') + ' to check.' : '');
+  return 'Changed ' + bits.join(' and ') + '.' + (r.unsure ? ' ' + (r.unsure === 1 ? 'One "her" is' : r.unsure + ' "her"s are') + ' underlined for you to choose.' : '');
 }
 function showToastAction(msg, label, fn, ms) {
   const t = document.getElementById('toast'); if (!t) return;
@@ -13127,6 +13142,7 @@ function _pasteConvert(e, stu) {
   try { el.focus(); ok = document.execCommand('insertText', false, r.text); } catch (err) {}
   if (!ok || el.innerText.indexOf(r.text.trim()) === -1) el.innerText = (el.innerText.replace(/\s+$/, '') + (el.innerText.trim() ? ' ' : '') + r.text).trim();
   try { onDraftInput(); } catch (err) {}
+  if (r.unsure && stu.pronoun !== 'she') { try { markUnsureHer(el, r); } catch (err) {} }
   showToastAction(_pcToastMsg(r), 'Undo', () => {
     if (cur() !== stu) return;
     const cur0 = el.innerText, i = cur0.indexOf(r.text);
@@ -13135,6 +13151,61 @@ function _pasteConvert(e, stu) {
     try { onDraftInput(); } catch (err) {}
   });
 }
+// v3.17.51 · Draft marks: after a paste is changed, a "her" the reader could not decide stays "her", which is wrong for a boy or a
+// "they" student either way. It is underlined in the draft; tapping it offers the two words it could be. Marks are never saved
+// (the draft is saved as plain text) and go when the word is chosen or the draft is redrawn.
+function markUnsureHer(el, r) {
+  const full = el.textContent, start = full.indexOf(r.text.replace(/\n+/g, ''));
+  const base = start === -1 ? full.lastIndexOf(r.text.replace(/\n+/g, '').slice(0, 40)) : start;
+  if (base === -1) return 0;
+  const flat = r.text.slice(0), nl = i => (flat.slice(0, i).match(/\n/g) || []).length;
+  const want = new Set(r.unsureAt.map(i => base + i - nl(i)));
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); const nodes = []; let nd, pos = 0;
+  while ((nd = walker.nextNode())) { nodes.push({ nd, from: pos }); pos += nd.nodeValue.length; }
+  let n = 0;
+  for (let k = nodes.length - 1; k >= 0; k--) {
+    const { nd: node, from } = nodes[k];
+    [...want].filter(w => w >= from && w + 3 <= from + node.nodeValue.length).sort((a, b) => b - a).forEach(w => {
+      const at = w - from; if (!/^[Hh]er$/.test(node.nodeValue.substr(at, 3))) return;
+      const tail = node.splitText(at); tail.splitText(3);
+      const m = document.createElement('span'); m.className = 'her-ask'; m.tabIndex = 0; m.setAttribute('role', 'button');
+      m.title = 'Not sure which word this should be. Tap to choose.';
+      m.setAttribute('aria-label', '"' + tail.nodeValue + '": not sure which word this should be. Press to choose.');
+      tail.parentNode.replaceChild(m, tail); m.appendChild(tail); n++;
+    });
+  }
+  return n;
+}
+function _herAskChoices(stu) { return stu && stu.pronoun === 'they' ? ['them', 'their'] : ['him', 'his']; }
+function openHerAsk(mark) {
+  closeHerAsk();
+  const stu = cur(), [o, pos] = _herAskChoices(stu), cap = /^H/.test(mark.textContent);
+  const fix = w => cap ? w.charAt(0).toUpperCase() + w.slice(1) : w;
+  const box = document.createElement('div'); box.id = 'herAskPop'; box.className = 'her-ask-pop'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Choose the word');
+  box.innerHTML = `<div class="her-ask-q">Is this like “${fix(o)}” or like “${fix(pos)}”?</div><div class="her-ask-btns"><button type="button" class="btn-sec" data-w="${o}">${fix(o)}</button><button type="button" class="btn-sec" data-w="${pos}">${fix(pos)}</button><button type="button" class="btn-sec" data-w="">Leave it</button></div>`;
+  document.body.appendChild(box);
+  const rc = mark.getBoundingClientRect();
+  box.style.left = Math.max(8, Math.min(window.innerWidth - box.offsetWidth - 8, rc.left)) + 'px';
+  box.style.top = (rc.bottom + window.scrollY + 6) + 'px';
+  box.querySelectorAll('button').forEach(b => b.addEventListener('mousedown', e => e.preventDefault()));
+  box.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    const w = b.dataset.w, txt = document.createTextNode(w ? fix(w) : mark.textContent);
+    if (mark.parentNode) mark.parentNode.replaceChild(txt, mark);
+    closeHerAsk(); try { onDraftInput(); } catch (e) {}
+  }));
+  const first = box.querySelector('button'); if (first) first.focus();
+}
+function closeHerAsk() { const b = document.getElementById('herAskPop'); if (b) b.remove(); }
+document.addEventListener('click', e => {
+  const m = e.target && e.target.closest && e.target.closest('#outEditable .her-ask');
+  if (m) { openHerAsk(m); return; }
+  if (!(e.target && e.target.closest && e.target.closest('#herAskPop'))) closeHerAsk();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeHerAsk(); return; }
+  const m = (e.key === 'Enter' || e.key === ' ') && document.activeElement && document.activeElement.closest && document.activeElement.closest('#outEditable .her-ask');
+  if (m) { e.preventDefault(); openHerAsk(m); }
+});
 function onDraftPaste(e) {
   const stu = cur(), subj = currentSubject;
   try { if (e && flagOn('pasteConvert')) _pasteConvert(e, stu); } catch (err) { /* converting is a convenience: it must never get in the way of pasting */ }
@@ -14792,7 +14863,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.50';
+const APP_VERSION = 'v3.17.51';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15537,6 +15608,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.51', date: '23 November 2026', items: [
+    'After you paste a comment written for a girl into a boy\'s or a they/them student\'s draft, any "her" the app could not decide is underlined. Tap it to choose "him" or "his" (or "them" or "their").',
+    'After give, offer, bring and similar words, "her" is changed to "him" only when what follows is something a person is given ("give her extra time"). Anything else ("brings her camera") is left for you to check.'
+  ] },
   { v: 'v3.17.50', date: '23 November 2026', items: [
     'Paste a comment written for another student into a draft and it is changed to this student as it lands: the name, and he, she or they with the right verbs. A message says what changed and has Undo. "Her" next to a word like mother or friend, and other students named in the comment, are left alone. Settings > Comments: "Change a pasted comment to this student".'
   ] },
