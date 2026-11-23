@@ -11732,11 +11732,12 @@ function _altRef(sent, name, p) {
   const lead = sent.match(/^\s*/)[0].length;
   const body = sent.slice(lead);
   const lc = x => String(x || '').toLowerCase();
-  const kindOfPron = (tok, after) => {
+  let herSure = true;
+  const kindOfPron = (tok, after, before) => {
     const t = lc(tok);
     if (t === lc(p.r)) return 'refl';
     const isO = t === lc(p.o), isPos = t === lc(p.pos);
-    if (isO && isPos) return (!after.trim() || _ALT_OBJ_FOLLOW.test(after.trim()) || /^[.,;:!?]/.test(after.trim())) ? 'obj' : 'poss';
+    if (isO && isPos) { const h = herRole(before, after); herSure = h.sure; return h.role; }   // v3.17.48: the one "her" reader
     if (isPos) return 'poss';
     if (isO) return 'obj';
     return 'subj';
@@ -11748,8 +11749,8 @@ function _altRef(sent, name, p) {
   if (m) {
     const tok = m[2], start = lead + m[1].length;
     const isName = tok.startsWith(name);
-    const poss = isName ? /['’]s$/i.test(tok) && tok.length > name.length : kindOfPron(tok, body.slice(m[1].length + tok.length)) === 'poss';
-    return { role: isName ? 'name' : 'pron', kind: poss ? 'poss' : 'subj', start, end: start + tok.length, atStart: start === lead, tok };
+    const poss = isName ? /['’]s$/i.test(tok) && tok.length > name.length : kindOfPron(tok, body.slice(m[1].length + tok.length), body.slice(0, m[1].length)) === 'poss';
+    return { role: isName ? 'name' : 'pron', kind: poss ? 'poss' : 'subj', start, end: start + tok.length, atStart: start === lead, tok, sure: herSure };
   }
   // 2. first mention anywhere
   const pr = [p.S, p.s, p.O, p.o, p.Pos, p.pos, p.r].filter((v, k, a) => v && a.findIndex(y => lc(y) === lc(v)) === k).map(escapeRegex).join('|');
@@ -11767,12 +11768,12 @@ function _altRef(sent, name, p) {
     return { role: 'name', kind, start: lead + pn, end: lead + pn + tok.length, atStart: pn === 0, tok, fixPoss: wishPoss };
   }
   const tok = mp[2];
-  let pkind = kindOfPron(tok, body.slice(pp + tok.length));
+  let pkind = kindOfPron(tok, body.slice(pp + tok.length), body.slice(0, pp));
   const bw = body.slice(0, pp).trim().split(/\s+/).pop().replace(/[^\w]/g, '').toLowerCase();
   if (pkind === 'subj') { if (_ALT_OBJ_PRECEDERS.has(bw) && !_ALT_NOT_OBJ.has(bw)) pkind = 'obj'; }   // "I wish he" is an object slot
   let fixPoss = false;
   if (pkind === 'poss' && _ALT_WISH.has(bw) && _ALT_WISH_NEXT.test(body.slice(pp + tok.length))) { pkind = 'obj'; fixPoss = true; }   // "I wish his all the best"
-  return { role: 'pron', kind: pkind, start: lead + pp, end: lead + pp + tok.length, atStart: pp === 0, tok, fixPoss };
+  return { role: 'pron', kind: pkind, start: lead + pp, end: lead + pp + tok.length, atStart: pp === 0, tok, fixPoss, sure: herSure };
 }
 function _altReplacement(ref, toRole, name, p) {
   if (toRole === 'name') return ref.kind === 'poss' ? name + "'s" : name;
@@ -11780,10 +11781,21 @@ function _altReplacement(ref, toRole, name, p) {
   if (ref.kind === 'obj') return p.o;
   return ref.atStart ? p.S : p.s;
 }
-function _altPlan(sents, name, p) {
+// v3.17.48: the first names of the other students in the class, for _altPlan. Names that are everyday words ("Will", "May") are left out.
+function _altOthersFor(stu) {
+  if (!stu || typeof students === 'undefined') return [];
+  const own = _fcNameTokens(stu);
+  return _fcAllFirstNames().filter(n => n.length >= 2 && !own.includes(n.toLowerCase()) && !_fcCommonWord(n));
+}
+// others: optional list of other students' first names. A sentence whose subject is one of them (a comment pasted from another
+// student) is the name turn and is never changed. Leave it out and every sentence is read as before.
+function _altPlan(sents, name, p, others) {
   const out = []; let expect = 'name';
   const flip = r => r === 'name' ? 'pron' : 'name';
+  const oth = (others || []).filter(n => n && n.toLowerCase() !== String(name || '').toLowerCase());
+  const otherRe = oth.length ? new RegExp('^\\s*((?:[^,.!?]{1,100},\\s+){0,3})(?:' + oth.map(escapeRegex).join('|') + ")(?:['\u2019]s)?(?![\\w'\u2019-])") : null;
   sents.forEach((s, i) => {
+    if (otherRe && otherRe.test(s)) { expect = 'pron'; return; }
     // Comments saved by an older version may hold "She's English proficiency ..."; put the name back.
     const hm = s.match(/^(\s*)(He|She|They)['’]s (?=English proficiency)/);
     if (hm) { out.push({ i, start: hm[1].length, end: hm[1].length + hm[2].length, rep: name, from: hm[2] }); expect = 'pron'; return; }
@@ -11801,6 +11813,8 @@ function _altPlan(sents, name, p) {
       out.push({ i, warn: true, from: ref.tok, want: expect, note: "This sentence is meant to use " + (expect === 'name' ? 'the name' : 'a pronoun') + " here but “" + ref.tok + "” can't be swapped automatically. Please reword it." });
       expect = flip(ref.role); return;
     }
+    // v3.17.48: a "her" the reader is not sure about is left as it is. Two pronoun turns in a row is a small slip; "Ava's take" is a wrong sentence.
+    if (ref.sure === false && ref.role === 'pron') { expect = flip(expect); return; }
     let start = ref.start, end = ref.end, rep = _altReplacement(ref, expect, name, p);
     // v3.9.2: with They / their, the verb follows the swap ("Alex has shown" <-> "They have shown")
     if (p.S === 'They' && ref.kind === 'subj') {
@@ -11820,7 +11834,7 @@ function _altPlan(sents, name, p) {
 }
 const _SENT_RE = /[^.!?]+[.!?]+\s*|[^.!?]+$/g;
 // Text version. Returns { text, fixes } where fixes lists each sentence that was corrected.
-function fixAlternation(text, name, p) {
+function fixAlternation(text, name, p, others) {
   if (!text || !text.trim()) return { text, fixes: [] };
   name = name || '[Name]';
   const parts = text.split(/(\n+)/);
@@ -11831,7 +11845,7 @@ function fixAlternation(text, name, p) {
     sents.forEach((t, si) => recs.push({ bi, si, t }));
     return { sents };
   });
-  const plan = _altPlan(recs.map(r => r.t), name, p);
+  const plan = _altPlan(recs.map(r => r.t), name, p, others);
   const fixes = [];
   plan.filter(a => !a.warn).forEach(a => {
     const r = recs[a.i];
@@ -11851,7 +11865,7 @@ function enforceAlternationDOM(root) {
   if (flagOn('firstName') && /\s/.test(String(stu.name || '').trim())) {   // v3.17.11: a comment written with the whole name keeps just the first name
     spans.forEach(sp => { const w = document.createTreeWalker(sp, NodeFilter.SHOW_TEXT); let nd; while ((nd = w.nextNode())) { const v = _fullToFirst(stu, nd.nodeValue); if (v !== nd.nodeValue) nd.nodeValue = v; } });
   }
-  const plan = _altPlan(spans.map(x => x.textContent), name, p);
+  const plan = _altPlan(spans.map(x => x.textContent), name, p, _altOthersFor(stu));
   let n = 0;
   plan.forEach(a => {
     const span = spans[a.i];
@@ -11877,7 +11891,7 @@ function stripAltMarks(html) { return String(html || '').replace(/ data-alt="[^"
 function enforceAltText(stu, text) {
   if (!text || !stu) return text;
   const p = PR[stu.pronoun]; if (!p) return text;
-  return fixAlternation(_fullToFirst(stu, text), cn(stu) || '[Name]', p).text;
+  return fixAlternation(_fullToFirst(stu, text), cn(stu) || '[Name]', p, _altOthersFor(stu)).text;
 }
 
 function escapeRegex(str) {
@@ -11974,7 +11988,7 @@ function renderPublish() {
   }
 
   // Auto-fix alternation per paragraph (general comments only)
-  const _altRes = fixAlternation(publishedText, name, p);   // v3.8.6: whole comment, every subject
+  const _altRes = fixAlternation(publishedText, name, p, _altOthersFor(stu));   // v3.8.6: whole comment, every subject
   const allFixes = _altRes.fixes.slice();
   const fixedParas = _altRes.text.split(/\n\n/).filter(p => p.trim());
 
@@ -14651,7 +14665,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.47';
+const APP_VERSION = 'v3.17.48';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15396,6 +15410,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.48', date: '23 November 2026', items: [
+    'Name and pronoun alternation no longer writes "Ava\'s" where "her" means "him": "Others respect Ava because she is kind", "Staff give Ava extra time". When it cannot tell which "her" is meant, it now leaves the sentence alone.',
+    'A comment written for another student in the class and pasted into a draft is no longer half-changed by alternation (one "She" swapped for this student\'s name). Final check still flags the other student\'s name.'
+  ] },
   { v: 'v3.17.46', date: '23 November 2026', items: [
     'Final check now flags a comment that never uses the student\'s name, which usually means it was pasted from another student.'
   ] },
@@ -17517,7 +17535,7 @@ function getBuiltCommentText(stu, subj) {
   const raw = getSubjectPublishText(stu, s);
   if (!raw || !raw.trim()) return '';
   const name = cn(stu) || '[Name]', p = PR[stu.pronoun];
-  return fixAlternation(raw, name, p).text;
+  return fixAlternation(raw, name, p, _altOthersFor(stu)).text;
 }
 // Called when a comment is finished or left: compare the built text with the final text and remember the swaps.
 function learnFromCurrent(quiet) {
