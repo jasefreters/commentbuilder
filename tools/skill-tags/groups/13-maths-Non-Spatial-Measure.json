@@ -106,7 +106,7 @@
     {
       "kind": "sentence",
       "stage": "S2A",
-      "text": "{{S}} measures and compares the duration of events in minutes."
+      "text": "{{S}} calculates the length of time an event takes in minutes."
     },
     {
       "kind": "sentence",

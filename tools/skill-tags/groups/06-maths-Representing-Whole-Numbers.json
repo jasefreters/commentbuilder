@@ -166,7 +166,7 @@
     {
       "kind": "sentence",
       "stage": "S4",
-      "text": "{{S}} writes one amount as a fraction, decimal or percentage of another."
+      "text": "{{S}} writes a given amount as a fraction, decimal or percentage of another."
     },
     {
       "kind": "sentence",
