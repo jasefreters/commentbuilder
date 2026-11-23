@@ -13516,14 +13516,15 @@ function renderSubjOpts(grid) {
   }
 }
 
-function addSubjCustomSentence(saveToBank) {
+function addSubjCustomSentence(saveToBank, herChoices) {
   const ta = document.getElementById('customInput');
   if (!ta) return;
   let text = ta.value.trim();
   if (!text) { showToast('Please type a sentence first.'); return; }
+  if (saveToBank && !herChoices && askHerRoles(text, c => addSubjCustomSentence(true, c))) return;   // v3.17.49
   const _grp = curGroupPick();   // v3.13.1: '' = My sentences
   if (saveToBank) {
-    text = templatise(text, cur().name, getPron());
+    text = templatise(text, cur().name, getPron(), herChoices);
     const mk = mineKey(currentTab);
     if (!myBank[mk]) myBank[mk] = [];
     if (!myBank[mk].some(x => x.text === text)) myBank[mk].push({ id: Math.random().toString(36).slice(2, 10), text, tier: 'strong', group: _grp || undefined });
@@ -13543,15 +13544,16 @@ function addSubjCustomSentence(saveToBank) {
   showToast(saveToBank ? 'Added, and saved to your bank for every student.' : 'Sentence added and saved.');
 }
 
-function addCustomSentence(saveToBank) {
+function addCustomSentence(saveToBank, herChoices) {
   const ta = document.getElementById('customInput');
   if (!ta) return;
   let text = ta.value.trim();
   if (!text) { showToast('Please type a sentence first.'); return; }
+  if (saveToBank && !herChoices && askHerRoles(text, c => addCustomSentence(true, c))) return;   // v3.17.49
   const _tier = (TIER_BOUNDARIES[currentTab] || {}).average != null ? _customTierSelected : 'strong';   // v3.13.1
   const _grp = curGroupPick();
   if (saveToBank) {
-    text = templatise(text, cur().name, getPron());
+    text = templatise(text, cur().name, getPron(), herChoices);
     if (!myBank[currentTab]) myBank[currentTab] = [];
     if (!myBank[currentTab].some(x => x.text === text)) myBank[currentTab].push({ id: Math.random().toString(36).slice(2, 10), text, tier: _tier, group: _grp || undefined });
   }
@@ -13571,6 +13573,31 @@ function addCustomSentence(saveToBank) {
   showToast(saveToBank ? 'Added, and saved to your bank for every student.' : 'Sentence added and saved.');
 }
 
+// v3.17.49 · "Add & save to my bank" for a girl: when the one "her" reader is not sure whether a "her" means "him" or "his",
+// ask before saving, one word at a time. Returns false when there is nothing to ask. Cancel saves nothing.
+function askHerRoles(text, done) {
+  const list = templatiseUnsure(text, cur() && cur().name, getPron());
+  if (!list.length) return false;
+  const t = friendlyTokens(String(text || '').trim()), choices = {};
+  let m = document.getElementById('herAsk');
+  if (!m) { m = document.createElement('div'); m.id = 'herAsk'; m.className = 's1m-back'; document.body.appendChild(m); }
+  const close = () => { m.style.display = 'none'; m.innerHTML = ''; document.removeEventListener('keydown', onKey, true); };
+  const onKey = e => { if (e.key === 'Escape') { e.preventDefault(); close(); } };
+  const ask = k => {
+    if (k >= list.length) { close(); done(choices); return; }
+    const h = list[k];
+    m.innerHTML = `<div class="s1m-card" role="dialog" aria-modal="true" aria-labelledby="herAskTitle">
+      <div class="s1m-head"><div><div class="s1m-title" id="herAskTitle">Which "her" is this?</div><div class="s1m-sub">So the sentence reads right for a boy too${list.length > 1 ? ' (' + (k + 1) + ' of ' + list.length + ')' : ''}.</div></div><button class="s1m-x" data-her="cancel" aria-label="Cancel">&times;</button></div>
+      <div class="s1m-orig">${escHtml(t.slice(0, h.start))}<mark>${escHtml(t.slice(h.start, h.end))}</mark>${escHtml(t.slice(h.end))}</div>
+      <div class="s1m-actions"><button class="btn-sec" data-her="cancel">Cancel</button><button class="btn-primary" data-her="obj">Like “him”</button><button class="btn-primary" data-her="poss">Like “his”</button></div>
+    </div>`;
+    m.querySelectorAll('[data-her]').forEach(b => b.addEventListener('click', () => { const v = b.dataset.her; if (v === 'cancel') { close(); return; } choices[h.n] = v; ask(k + 1); }));
+    const f = m.querySelector('[data-her="obj"]'); if (f) f.focus();
+  };
+  m.style.display = 'flex'; document.addEventListener('keydown', onKey, true);
+  ask(0);
+  return true;
+}
 function toggleCustomOpt(cat, idx) {
   const key = '__custom__' + cat + '__' + idx;
   if (!cur().selected[cat]) cur().selected[cat] = [];
@@ -14665,7 +14692,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.48';
+const APP_VERSION = 'v3.17.49';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15410,6 +15437,10 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.49', date: '23 November 2026', items: [
+    '"Add & save to my bank" now keeps "her" right when the sentence is used for a boy ("help him learn", not "help his learn"). When it cannot tell, it asks you: like "him" or like "his"?',
+    'Final check now fixes "help her learn" to "help him learn" for a boy. When it cannot tell which "her" is meant, it asks you to check the sentence.'
+  ] },
   { v: 'v3.17.48', date: '23 November 2026', items: [
     'Name and pronoun alternation no longer writes "Ava\'s" where "her" means "him": "Others respect Ava because she is kind", "Staff give Ava extra time". When it cannot tell which "her" is meant, it now leaves the sentence alone.',
     'A comment written for another student in the class and pasted into a draft is no longer half-changed by alternation (one "She" swapped for this student\'s name). Final check still flags the other student\'s name.'
@@ -16006,10 +16037,10 @@ function _fcWordInfo(w) {
   return null;
 }
 // The right word for the student, or null when a safe automatic fix does not exist.
-function _fcReplacement(word, after, target) {
+function _fcReplacement(word, after, target, before) {
   const info = _fcWordInfo(word); if (!info || info.who === target) return null;
   let role = info.role;
-  if (role === 'her') role = FC_NEXT_NOUN_BLOCK.test(after.trim()) || /^(?:and|or|but|to|in|on|for|with|at|by|from|as|so|when|while|because|that|which|who)\b/i.test(after.trim()) ? 'obj' : 'pos';
+  if (role === 'her') { const h = herRole(before || '', after); if (!h.sure) return null; role = h.role === 'obj' ? 'obj' : 'pos'; }   // v3.17.49: the one "her" reader; not sure = no automatic fix
   // "he / she / they" change the verb ("they are" / "he is"), so a subject swap to or from "they" is flagged, not fixed
   if (role === 'subj' && (target === 'they' || info.who === 'they')) return null;
   const to = FC_SETS[target][role === 'obj' ? 'obj' : role === 'pos' ? 'pos' : role === 'refl' ? 'refl' : 'subj'][0];
@@ -16042,7 +16073,7 @@ function finalCheck(stu, subj, text, others) {
     let fixed = sent, kinds = [], notes = [], canFix = true;
     // Pronouns
     if (target) {
-      let bad = 0, unfixable = 0, rel = false;
+      let bad = 0, unfixable = 0, rel = false, herUnsure = false;
       fixed = fixed.replace(FC_PRON_ALL, (m, w, off, whole) => {
         const info = _fcWordInfo(w); if (!info || info.who === target) return m;
         if (info.who === 'they' && target !== 'they') return m;   // in a he/she comment, they/them/their usually mean other people or things ("share them"), so they are not flagged
@@ -16050,14 +16081,14 @@ function finalCheck(stu, subj, text, others) {
         bad++;
         // "her mother", "his friend": the pronoun may be about someone else, so show it as a check and leave the fix to the teacher
         if (/\b(mother|father|mum|mom|dad|parent|parents|sister|brother|friend|partner|teacher|peer|classmate|character|author|grandmother|grandfather|nan|pop)\b/i.test(whole.slice(0, off) + ' ' + whole.slice(off + m.length).split(/[.,;:!?]/)[0].split(/\s+/).slice(0, 2).join(' '))) { unfixable++; rel = true; return m; }
-        const r = _fcReplacement(w, whole.slice(off + m.length), target);
-        if (r === null) { unfixable++; return m; }
+        const r = _fcReplacement(w, whole.slice(off + m.length), target, whole.slice(0, off));
+        if (r === null) { unfixable++; if (info.role === 'her' && !herRole(whole.slice(0, off), whole.slice(off + m.length)).sure) herUnsure = true; return m; }
         return r;
       });
       if (bad) {
         kinds.push('pronoun');
         notes.push('Uses ' + (bad === 1 ? 'a pronoun' : 'pronouns') + ' that ' + (bad === 1 ? 'does' : 'do') + ' not match ' + ({ he: 'he/him', she: 'she/her', they: 'they/them' })[target] + '.');
-        if (unfixable) { canFix = false; notes.push(rel ? 'Check this one: it may be about someone else.' : 'The verb needs changing too, so open the comment to fix it.'); }
+        if (unfixable) { canFix = false; notes.push(rel ? 'Check this one: it may be about someone else.' : herUnsure ? 'Check this one: "her" could mean "him" or "his" here, so open the comment to fix it.' : 'The verb needs changing too, so open the comment to fix it.'); }
       }
     }
     // v3.17.44 · "They shares": a verb after "they" must be plural, whoever "they" is. Only verbs the banks use are changed, so a word that merely ends in s is left alone.
@@ -17913,17 +17944,38 @@ function applyS1Starter(id, original, name, pronounSet) {
   return st.build(parsed);
 }
 // Turn a resolved sentence back into a template so it follows the student's name and pronouns
-function templatise(text, name, pronounSet) {
+// v3.17.49: every "her" in a sentence, with what the one reader says about it. Used by templatise and the "like him or like his?" question.
+function _herReads(t) {
+  const out = []; let n = 0; const re = /\{\{[^{}]*\}\}|\b([Hh]er)\b/g; let m;
+  while ((m = re.exec(t))) { if (!m[1]) continue; const r = herRole(t.slice(0, m.index), t.slice(m.index + 3)); out.push({ n: n++, start: m.index, end: m.index + 3, word: m[1], role: r.role, sure: r.sure }); }
+  return out;
+}
+// The "her"s that templatise cannot decide on its own. Only a "she" student's sentence has them (her = him and his).
+function templatiseUnsure(text, name, pronounSet) {
+  const p = pronounSet; if (!p || p.o !== p.pos) return [];
+  return _herReads(friendlyTokens(String(text || '').trim())).filter(h => !h.sure);
+}
+// herChoices (optional): { n: 'obj' | 'poss' } for the "her"s templatiseUnsure lists. Without it the reader's best guess is used.
+function templatise(text, name, pronounSet, herChoices) {
   // v3.16.7: placeholders ({{He-she}} and the like) become tokens first and are then left alone. Before, the "He" and "she" inside {{He-she}} were swapped for tokens too.
   let t = friendlyTokens(String(text || '').trim());
   const p = pronounSet;
+  // v3.17.49: "her" is "him" or "his". It used to become {{pos}} every time ("help his learn" for a boy); the one "her" reader now decides each one.
+  if (p && p.o === p.pos) {
+    const hs = _herReads(t);
+    for (let k = hs.length - 1; k >= 0; k--) {
+      const h = hs[k], role = (herChoices && herChoices[h.n]) || h.role;
+      const tok = role === 'obj' ? (h.word === 'Her' ? '{{O}}' : '{{o}}') : (h.word === 'Her' ? '{{Pos}}' : '{{pos}}');
+      t = t.slice(0, h.start) + tok + t.slice(h.end);
+    }
+  }
   const segs = t.split(/(\{\{[^{}]*\}\})/);   // odd positions are tokens, never touched
   for (let i = 0; i < segs.length; i += 2) {
     let x = segs[i];
     if (name) x = x.replace(new RegExp('\\b' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'g'), '{{N}}');
     const swap = (word, tok) => { if (word) x = x.replace(new RegExp('\\b' + word + '\\b', 'g'), tok); };
-    swap(p.S, '{{S}}'); swap(p.s, '{{s}}'); swap(p.r, '{{r}}'); swap(p.Pos, '{{Pos}}'); swap(p.pos, '{{pos}}');
-    if (p.o !== p.pos) { swap(p.O, '{{O}}'); swap(p.o, '{{o}}'); }
+    swap(p.S, '{{S}}'); swap(p.s, '{{s}}'); swap(p.r, '{{r}}');
+    if (p.o !== p.pos) { swap(p.Pos, '{{Pos}}'); swap(p.pos, '{{pos}}'); swap(p.O, '{{O}}'); swap(p.o, '{{o}}'); }
     segs[i] = x;
   }
   return segs.join('');
