@@ -11705,6 +11705,27 @@ const _ALT_NOT_OBJ = new Set(['than', 'like', 'as']);
 const _ALT_WISH = new Set(['wish', 'wishes', 'wished', 'wishing', 'congratulate', 'congratulates', 'congratulated', 'commend', 'commends', 'commended', 'thank', 'thanks', 'thanked']);
 const _ALT_WISH_NEXT = /^\s*(all|every|a|an|the|well|success|good|happy|best)\b/i;   // "older than he", "like he did" take a subject pronoun
 const _ALT_OBJ_FOLLOW = /^(to|in|with|for|on|and|as|by|from|at|of|about|into|through|that|when|so|up|than|if|or|but|while|during|after|before|which|who)\b/i;
+// ══ v3.17.47 · ONE "HER" READER ══════════════════════════════════════════════════════════════════════
+// "her" is both "him" (object) and "his" (possessive). Three places used to decide which, each with its own word list, and they
+// disagreed ("Others respect Ava's because...", "help his learn"). herRole is the one reader. It looks at one word either side and
+// says how sure it is. Callers treat "not sure" as "leave the word alone", never as a guess.
+const HER_OBJ_NEXT = /^(?:to|in|with|for|on|and|as|by|from|at|of|about|into|through|that|when|so|up|than|if|or|but|while|during|after|before|which|who|because|since|until|unless|although|though|whenever|where|how|why|what|whether|too|again|back|out|down|off|over|here|there|now|then|today|a|an|the|this|these|those|some|any|every|each|all|no|another|many|much|more|less|well|once|twice|throughout|across|along|around|towards?|within|without|like|both|either|neither|plenty|lots)\b/i;
+const HER_POSS_NEXT = /^(?:own|best|very|most|first|last|work|learning|ideas?|classmates|peers|friends|skills|thinking|writing|reading|knowledge|understanding|confidence|effort|progress|growth|goals?|strengths?|abilities|ability|class|team|group|family|teachers?|book|answers?|views|feelings|emotions|behaviou?r|attitude|approach|role|turn|place|name|experiences?|enthusiasm|interest|interests)\b/i;
+const HER_BARE_BEFORE = new Set(['help', 'helps', 'helped', 'helping', 'see', 'sees', 'seeing', 'saw', 'seen', 'watch', 'watching', 'watched', 'let', 'lets', 'make', 'makes', 'made', 'making', 'hear', 'heard', 'have', 'has', 'had', 'notice', 'noticed', 'observe', 'observed', 'enable']);
+const HER_GIVE_BEFORE = new Set(['give', 'gives', 'gave', 'given', 'giving', 'offer', 'offers', 'offered', 'teach', 'teaches', 'taught', 'tell', 'tells', 'told', 'lend', 'send', 'bring', 'brings', 'brought', 'allow', 'allows', 'allowed', 'award', 'awarded', 'grant', 'granted', 'hand', 'pass', 'wish', 'wishes', 'wished', 'wishing', 'afford', 'afforded', 'owe', 'buy', 'get', 'gets', 'got']);
+const HER_BASE_VERB = /^(?:learn|improve|take|continue|succeed|build|understand|speak|grow|explore|develop|become|reach|make|use|work|achieve|focus|share|try|stay|feel|think|read|write|express|organise|complete|manage|participate|engage|apply|set|remain|follow|practise|plan|check|ask|solve|gain|be|do|go|keep|find|settle|join|contribute|lead|show|recall|recognise|identify|access|catch|move|embrace|thrive|flourish|shine|excel|enjoy|attempt|tackle|persist|persevere|cope|connect|communicate|listen|respond|reflect|relax|calm|regulate|choose|decide|create|present|play|cooperate|collaborate)\b/i;
+function herRole(before, after) {
+  const a = String(after || '').trim();
+  const prev = (String(before || '').trim().split(/\s+/).pop() || '').replace(/[^\w']/g, '').toLowerCase();
+  if (!a || /^[.,;:!?)"”’]/.test(a)) return { role: 'obj', sure: true };
+  if (/^own\b/i.test(a)) return { role: 'poss', sure: true };
+  if (HER_BARE_BEFORE.has(prev) && HER_BASE_VERB.test(a)) return { role: 'obj', sure: true };   // "help her learn", "see her take"
+  if (HER_POSS_NEXT.test(a)) return { role: 'poss', sure: true };
+  if (HER_OBJ_NEXT.test(a)) return { role: 'obj', sure: true };
+  if (HER_GIVE_BEFORE.has(prev)) return { role: 'obj', sure: true };   // "give her extra time"
+  if (/^\w+(?:'s|s)?\b/.test(a) && !/^\w+ly\b/i.test(a)) return { role: 'poss', sure: false };
+  return { role: 'obj', sure: false };
+}
 // Find the student reference that decides a sentence's turn. Prefer the subject (after any opening phrase);
 // otherwise the first mention of the name or a pronoun anywhere ("This support has helped her...").
 function _altRef(sent, name, p) {
@@ -14630,7 +14651,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.46';
+const APP_VERSION = 'v3.17.47';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
