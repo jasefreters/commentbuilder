@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Report Ready demo</title>
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>try{if(JSON.parse(localStorage.getItem("rcb_scheme"))==="classic")document.documentElement.setAttribute("data-scheme","classic")}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -1389,12 +1392,14 @@
 @media (max-width: 1100px) and (min-width: 701px) { .demo-reset { display: none; } }
 @media (max-width: 1100px) and (min-width: 701px) { .demo-cta { padding: 8px 10px; } }
 
+  .logo { display: inline-flex; align-items: center; gap: 8px; }   /* v3.18.1: the logo mark sits before the name */
+  .logo-mark { width: 24px; height: 24px; flex: none; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">Report Ready</div>
+  <div class="logo"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="1" y="1" width="30" height="30" rx="7.5" fill="#26233A" stroke="rgba(255,255,255,.16)" stroke-width="1"/><path d="M11.4 17.8L16.4 24.2L26 8" stroke="#7FD49A" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 25V7h6.4a4.7 4.7 0 0 1 0 9.4H9" stroke="#FFF" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Report Ready</div>
   <div class="sem-toggle" role="group" aria-label="Semester">
     <button class="sem-btn active s1" id="semS1" onclick="setSemester(1)">Semester 1</button>
     <button class="sem-btn s2" id="semS2" onclick="setSemester(2)">Semester 2</button>
