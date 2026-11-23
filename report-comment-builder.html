@@ -4949,7 +4949,10 @@ function fillTypedPlaceholders(text) {
   if (typeof text !== 'string' || text.search(_FRIENDLY_RE) === -1) return text;
   const stu = cur(), p = stu && PR[stu.pronoun]; if (!p) return text;
   const name = cn(stu) || '[Name]', yr = stu.year || '';
-  return friendlyTokens(text).replace(/\{\{(?:N|S|s|Pos|pos|o|r)\}\}/g, m => applyRaw(m, name, p, yr));
+  // v3.17.44: the whole text is read first, so "they" gets "they share" and not "they shares" (each placeholder used to be filled on its own)
+  let t = friendlyTokens(text);
+  if (p.S === 'They') t = theyAgree(t);
+  return t.replace(/\{\{(?:N|S|s|Pos|pos|o|r)\}\}/g, m => applyRaw(m, name, p, yr));
 }
 function onDraftBlur() {
   if (!_paneIsMine()) return;   // v3.17.5
@@ -14614,7 +14617,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.17.43';
+const APP_VERSION = 'v3.17.44';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -15359,6 +15362,9 @@ async function adminDeleteSuggestion(id) {
 // wording. Small fixes (a colour, a scrollbar, a bug nobody saw) do not, so a release with nothing to tell gets no entry.
 // The last version a teacher has seen syncs with their account, so reading it on one device clears it on the others.
 const RECENT_CHANGES = [
+  { v: 'v3.17.44', date: '23 November 2026', items: [
+    'For a student who uses they/them, placeholders typed or pasted into the draft now give the right verb: "They share their ideas", not "They shares". Final check also flags "they" with the wrong verb, for any student, and fixes it in one click.'
+  ] },
   { v: 'v3.17.43', date: '23 November 2026', items: [
     'Nine comments reworded from report feedback: "a given amount as a fraction, decimal or percentage", "identifies main ideas and explains how authors use evidence" (no inferences), "calculates the length of time an event takes in minutes", "familiar letter patterns", picture and column graphs "that use a scale, such as 2 or 5", "the beginning of Year [Y] outcomes" (English and Maths, below expectations), "refer to other well-known stories, films or characters", and "the most efficient strategies" (future direction). A comment you have already built keeps its wording.',
     'Zone Carnivals: the one-carnival sentence now reads, for example, "represented the school at Zone Athletics".',
@@ -15951,6 +15957,22 @@ function _fcReplacement(word, after, target) {
   const to = FC_SETS[target][role === 'obj' ? 'obj' : role === 'pos' ? 'pos' : role === 'refl' ? 'refl' : 'subj'][0];
   return _fcCase(word, to);
 }
+// v3.17.44: fixes the verb straight after each "they" (and the verbs joined to it by "and" or a comma), but only when that first verb is one the banks use.
+function _fcTheyVerbs(sent) {
+  const V = _theyVerbs();
+  return String(sent).replace(/\b([Tt]hey)\b([^.!?;:]*)/g, (m, they, tail) => {
+    const w = tail.match(new RegExp('^(?:\\s+' + _AGREE_ADV + ')*\\s+([A-Za-z\']+)'));
+    if (!w) return m;
+    const lw = w[1].toLowerCase();
+    if (!_THEY_IRR[lw] && !V.plural.has(lw)) return m;
+    return they + _agreeTail(tail, true);
+  });
+}
+function _fcTheyFirstFix(before, after) {
+  const a = String(before).split(/\s+/), b = String(after).split(/\s+/);
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return (b[i] || '').replace(/[^A-Za-z']/g, '');
+  return '';
+}
 function _fcNameTokens(stu) { return String(stu && stu.name || '').split(/[\s-]+/).map(x => x.toLowerCase()).filter(Boolean); }
 // Pure: returns a list of {kind, sentence, fixed|null, note}. `others` is a list of other students' first names.
 function finalCheck(stu, subj, text, others) {
@@ -15980,6 +16002,9 @@ function finalCheck(stu, subj, text, others) {
         if (unfixable) { canFix = false; notes.push(rel ? 'Check this one: it may be about someone else.' : 'The verb needs changing too, so open the comment to fix it.'); }
       }
     }
+    // v3.17.44 · "They shares": a verb after "they" must be plural, whoever "they" is. Only verbs the banks use are changed, so a word that merely ends in s is left alone.
+    { const vf = _fcTheyVerbs(fixed);
+      if (vf !== fixed) { kinds.push('verb'); notes.push('The verb after "they" should be "they ' + _fcTheyFirstFix(fixed, vf) + '".'); fixed = vf; } }
     // Half of a hyphenated first name on its own ("Mary" for "Mary-Jane")
     { const full = cn(stu) || '';
       if (full.indexOf('-') > 0) full.split('-').forEach(part => {
@@ -16048,7 +16073,7 @@ function renderFinalCheck() {
   const live = (_fc.ran ? _fc.items : []).concat(_ai.items).filter(x => !_fc.ignored.has(x.key));
   const nPron = live.filter(x => !x.ai && x.kinds.includes('pronoun') && x.fixed && !x.partial).length;
   const nSp = live.filter(x => !x.ai && x.kinds.length === 1 && x.kinds[0] === 'spacing' && x.fixed).length;
-  const label = { pronoun: 'Pronoun', name: 'Name', othername: 'Other student', spacing: 'Spacing', doubled: 'Repeated word', ending: 'Full stop', overlap: 'Same idea twice', ai: 'AI suggestion' };
+  const label = { pronoun: 'Pronoun', name: 'Name', othername: 'Other student', spacing: 'Spacing', verb: 'Verb', doubled: 'Repeated word', ending: 'Full stop', overlap: 'Same idea twice', ai: 'AI suggestion' };
   const subjName = { general: 'General', english: 'English', maths: 'Maths' };
   const rows = live.map(x => {
     const s = students[x.stuIdx]; if (!s) return '';
