@@ -40,7 +40,7 @@ test('every English and Maths skill comment has exactly one group, with the bank
   assert.strictEqual(d.total, 520);
   assert.deepStrictEqual(d.cats, [7, 10]);
   // SHA-256 of JSON.stringify([ENGLISH_BANK, MATHS_BANK]) on main when the groups were approved (15 Nov 2026), updated 16 Nov 2026 for the eight final-check rewordings (v3.17.39).
-  assert.strictEqual(d.hash, '759894f7cdab59bc0673c1f58d6ed1c68710c1c670600da03af2d52cc510973a', 'the English and Maths banks were changed; update this value and give the new sentence a group');
+  assert.strictEqual(d.hash, 'f8458485f1ecc6fa08cea4bdb44ed34ddb8ff05a39e9cd62100a1fc2431a3d01', 'the English and Maths banks were changed; update this value and give the new sentence a group');
   await page.context().close();
 });
 

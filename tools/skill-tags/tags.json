@@ -636,7 +636,7 @@
       "group": "english|Reading Comprehension",
       "kind": "sentence",
       "stage": "S2",
-      "text": "{{S}} identifies main ideas, understands simple inferences and explains how authors use evidence to support ideas.",
+      "text": "{{S}} identifies main ideas and explains how authors use evidence to support ideas.",
       "skill": "main-ideas",
       "skill2": "evidence-and-inference"
     },
@@ -1853,7 +1853,7 @@
       "group": "english|Spelling",
       "kind": "sentence",
       "stage": "S1",
-      "text": "{{S}} applies some spelling patterns and general rules when writing.",
+      "text": "{{S}} applies some familiar letter patterns and general rules when writing.",
       "skill": "letter-patterns",
       "skill2": "word-part-rules"
     },
@@ -2765,7 +2765,7 @@
       "group": "maths|Representing Whole Numbers",
       "kind": "sentence",
       "stage": "S4",
-      "text": "{{S}} writes one amount as a fraction, decimal or percentage of another.",
+      "text": "{{S}} writes a given amount as a fraction, decimal or percentage of another.",
       "skill": "percentages",
       "skill2": "decimals"
     },
@@ -3271,7 +3271,7 @@
       "group": "maths|Additive Relations",
       "kind": "fd",
       "stage": "Stage 3",
-      "text": "Applying known strategies to solve addition and subtraction problems.",
+      "text": "Applying the most efficient strategies to solve addition and subtraction problems.",
       "skill": "strategies"
     },
     {
@@ -5106,7 +5106,7 @@
       "group": "maths|Non-Spatial Measure",
       "kind": "sentence",
       "stage": "S2A",
-      "text": "{{S}} measures and compares the duration of events in minutes.",
+      "text": "{{S}} calculates the length of time an event takes in minutes.",
       "skill": "duration"
     },
     {
@@ -5408,7 +5408,7 @@
       "group": "maths|Data",
       "kind": "sentence",
       "stage": "S3A",
-      "text": "{{S}} constructs and interprets data displays where each symbol or bar stands for more than one.",
+      "text": "{{S}} can construct and interpret picture and column graphs that use a scale, where each symbol represents a group of items, such as 2 or 5.",
       "skill": "making-displays",
       "skill2": "reading-graphs"
     },
