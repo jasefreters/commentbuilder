@@ -1484,6 +1484,15 @@
   .lp-table td { padding: 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
   .lp-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; letter-spacing: .04em; }
   .lp-off { opacity: .5; }
+  /* v3.19.1: the school year menu made the header too wide on tablets (701-1099 px), so the page scrolled sideways.
+     Drop the progress bar there (the "0 of 22 done" count stays) and keep the save status as its dot, with the words for screen readers. */
+  @media (max-width: 1099px) and (min-width: 701px) {
+    .progress-track { display: none; }
+    #saveLabel { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .hdr-right { gap: 10px; }
+  }
+  @media (max-width: 899px) and (min-width: 701px) { .logo { font-size: 0; gap: 0; } }   /* narrow tablets: the logo mark alone */
+  @media (max-width: 759px) and (min-width: 701px) { .board-btn { display: none; } }   /* the "done" count beside it still opens the Class board */
 </style>
 </head>
 <body>

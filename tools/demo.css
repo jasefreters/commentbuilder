@@ -9,3 +9,10 @@
 #checkBtn, #polishBtn, button[onclick="reviewAndCheck()"], button[onclick="reviewAndPolish()"] { display: none !important; }
 @media (max-width: 1100px) and (min-width: 701px) { .demo-reset { display: none; } }
 @media (max-width: 1100px) and (min-width: 701px) { .demo-cta { padding: 8px 10px; } }
+/* The demo has one class, so no school year menu. It also keeps the header inside the window at 1280 px (no sideways scroll) */
+#yearSel { display: none !important; }
+/* The demo's two extra header buttons need room: drop the progress bar (the "0 of 4 done" count stays) until the window is wide */
+@media (max-width: 1500px) and (min-width: 701px) { .progress-track { display: none !important; } .hdr-right { gap: 12px; } }
+@media (max-width: 1180px) and (min-width: 701px) { #saveIndicator, .save-ind { display: none !important; } }
+@media (max-width: 1023px) and (min-width: 701px) { .logo { font-size: 0; gap: 0; } .demo-pill { font-size: 9px; } .board-btn { display: none !important; } }
+@media (max-width: 799px) and (min-width: 701px) { .demo-pill { display: none !important; } .demo-cta { padding: 8px 10px; } .hdr-right { gap: 8px; } }

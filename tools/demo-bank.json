@@ -27,7 +27,7 @@
   "Independence": [
    "{{N}} displays a high level of independence, approaching tasks with confidence and persistence.",
    "{{S}} begins tasks without prompting and generally stays focused until completion.",
-   "{{S}} works quietly alone and is beginning to stay calm, keep trying and finish tasks."
+   "{{S}} works quietly alone and can stay calm, keep trying and finish tasks."
   ],
   "Semester KLAs": [
    "{{N}} has shown strong engagement in Science and Technology this semester, actively participating in research on weather and climate."
@@ -120,7 +120,7 @@
     "{{S}} holds {{pos}} pencil comfortably during handwriting tasks and remembers to write letters from left to right.",
     "{{S}} uses basic word-processing tools to type and edit short texts.",
     "{{S}} uses word-processing tools to draft and edit {{pos}} writing.",
-    "{{S}} navigates the keyboard efficiently when typing words, numbers and punctuation.",
+    "{{S}} types words, numbers and punctuation efficiently.",
     "{{S}} forms letters using playdough and traces letter templates with {{pos}} finger.",
     "{{S}} uses the keyboard efficiently when publishing {{pos}} texts digitally.",
     "{{S}} types texts and searches for information online.",
@@ -238,7 +238,7 @@
     "{{S}} draws conclusions from data shown in tables and different graphs.",
     "{{S}} answers yes or no questions or chooses from options to help collect data.",
     "{{S}} explains how data displays can sometimes be misleading.",
-    "{{S}} creates surveys and records data using predicted categories.",
+    "{{S}} creates surveys and records data using predetermined categories.",
     "{{S}} answers questions about side-by-side column graphs that compare two groups.",
     "{{S}} identifies the type of data collected and chooses a graph to suit it."
    ],
