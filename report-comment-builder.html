@@ -1433,6 +1433,57 @@
   .rdot[data-s="maths"].done { background: var(--subj-maths-fill); border-color: var(--subj-maths); color: var(--subj-maths-on); }
   .logo { display: inline-flex; align-items: center; gap: 8px; }   /* v3.18.1: the logo mark sits before the name */
   .logo-mark { width: 24px; height: 24px; flex: none; }
+  /* ══ v3.19.0 · LAUNCH PREVIEW: sign-in, trial, passes and codes (placeholders until the Worker side is built) ══ */
+  .lp-banner { margin: 4px 14px 8px; padding: 8px 10px; border: 1px dashed var(--amber-bd); background: var(--amber-bg); color: var(--amber-fg); border-radius: var(--r-sm); font-size: 12px; line-height: 1.5; }
+  .lp-form { display: flex; flex-direction: column; gap: 8px; padding: 4px 14px 10px; }
+  .lp-input { font-family: var(--font); font-size: 13px; background: var(--bg-3); border: 1px solid var(--border); border-radius: var(--r-sm); color: var(--t0); padding: 8px 10px; width: 100%; box-sizing: border-box; }
+  .lp-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .lp-btn { font-family: var(--font); font-size: 13px; font-weight: 600; padding: 8px 14px; min-height: 36px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--bg-3); color: var(--t0); cursor: pointer; }
+  .lp-btn:hover { border-color: var(--border-h); }
+  .lp-btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .lp-btn.google { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--bg-1); }
+  .lp-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .lp-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .lp-row > * { flex: 1 1 120px; }
+  .lp-or { display: flex; align-items: center; gap: 10px; color: var(--t2); font-size: 12px; }
+  .lp-or::before, .lp-or::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+  .lp-link { font-family: var(--font); font-size: 12px; color: var(--accent); background: none; border: none; padding: 2px 0; cursor: pointer; text-decoration: underline; align-self: flex-start; }
+  .lp-msg { font-size: 12px; line-height: 1.5; color: var(--t1); }
+  .lp-msg.err { color: var(--red); }
+  .lp-msg.ok { color: var(--green); }
+  .lp-card { margin: 4px 14px 10px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg-2); display: flex; flex-direction: column; gap: 6px; }
+  .lp-card-top { display: flex; align-items: center; gap: 10px; justify-content: space-between; flex-wrap: wrap; }
+  .lp-email { font-size: 13px; font-weight: 600; color: var(--t0); overflow-wrap: anywhere; }
+  .lp-plan { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-bd); }
+  .lp-plan.paid { background: var(--green-bg); color: var(--green); border-color: var(--green-bd); }
+  .lp-plan.ended { background: var(--red-bg); color: var(--red); border-color: var(--red-bd); }
+  .lp-tools { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 14px 10px; }
+  .lp-tools .lp-link { color: var(--t2); }
+  /* plans and trial-ended screens */
+  .lp-ov { position: fixed; inset: 0; background: rgba(20,18,32,.72); z-index: 9000; display: none; align-items: center; justify-content: center; padding: 16px; }
+  .lp-ov.on { display: flex; }
+  .lp-box { background: var(--bg-1); color: var(--t0); border: 1px solid var(--border); border-radius: var(--r-lg); width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; padding: 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow-pop); }
+  .lp-box h2 { margin: 0; font-size: 20px; text-wrap: balance; }
+  .lp-box p { margin: 0; font-size: 14px; color: var(--t1); line-height: 1.55; }
+  .lp-passes { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .lp-pass { border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+  .lp-pass.best { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+  .lp-pass-name { font-size: 13px; font-weight: 700; color: var(--t1); text-transform: uppercase; letter-spacing: .06em; }
+  .lp-price { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+  .lp-price small { font-size: 13px; font-weight: 500; color: var(--t2); letter-spacing: 0; }
+  .lp-pass-note { font-size: 13px; color: var(--t1); line-height: 1.45; flex: 1; }
+  .lp-close { align-self: flex-end; font-family: var(--font); font-size: 18px; background: none; border: none; color: var(--t2); cursor: pointer; padding: 2px 6px; margin: -10px -8px -14px 0; }
+  /* admin: codes and term dates */
+  .lp-admin { display: none; overflow-y: auto; flex: 1; padding: 14px 20px; flex-direction: column; gap: 12px; }
+  .lp-admin.on { display: flex; }
+  .lp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .lp-lbl[hidden] { display: none; }
+  .lp-lbl { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--t1); font-weight: 600; }
+  .lp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .lp-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--t2); padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  .lp-table td { padding: 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .lp-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; letter-spacing: .04em; }
+  .lp-off { opacity: .5; }
 </style>
 </head>
 <body>
@@ -1532,6 +1583,7 @@
       </section>
 
       <section class="sw-pane" data-swpane="account" role="tabpanel">
+        <div id="lpAccount" hidden></div>   <!-- v3.19.0: launch preview, filled by renderLaunchPreview() -->
         <div class="sw-pane-title">Cloud sync</div>
         <!-- Signed-in state -->
     <div id="cloudSignedIn" style="display:none">
@@ -14165,6 +14217,7 @@ function adminLogout() {
 }
 
 async function adminRefresh() {
+  adminHideLp();   // v3.19.0
   checkSuggestionCount();   // v3.16.0: the Suggestions button shows how many are new
   const loadEl  = document.getElementById('adminLoading');
   const tableWrap = document.getElementById('adminTableWrap');
@@ -15591,6 +15644,7 @@ async function adminShowSuggestions(stay) {
   const showing = wrap.style.display === 'flex';
   if (showing && !stay) { wrap.style.display = 'none'; btn.textContent = 'Suggestions'; adminRefresh(); return; }
   tableIds.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+  adminHideLp();   // v3.19.0
   wrap.style.display = 'flex'; btn.textContent = 'Accounts';
   wrap.innerHTML = '<div style="color:var(--t2)">Loading suggestions…</div>';
   try {
@@ -15609,6 +15663,343 @@ async function adminDeleteSuggestion(id) {
   try { await fetch(CLOUD_WORKER + '/admin/feedback/' + id, { method: 'DELETE', headers: { 'X-Admin-Key': _adminKey } }); } catch (e) {}
   const wrap = document.getElementById('adminFbWrap'); wrap.style.display = 'none'; adminShowSuggestions();
 }
+
+// ══ v3.19.0 · LAUNCH PREVIEW ════════════════════════════════════════════════════════════════════════════
+// How sign-in, the 7-day trial, passes and access codes will work at launch. Nothing here talks to the Worker yet:
+// accounts, codes and term dates are kept on this device only (rcb_pv), so the screens can be tried and tidied now.
+// Teachers never see it unless the preview is switched on (?preview=launch, or the switch in the Admin panel).
+// The rules (trial length, semester end, code redeeming) are written to move to the Worker unchanged.
+const LP_TRIAL_DAYS = 7;
+const LP_PRICES = { semester: 29, year: 49 };   // AUD, GST included
+const LP_TERMS_DEFAULT = {   // last day of Term 2 and Term 4, NSW public schools (education.nsw.gov.au calendars)
+  2026: { t2: '2026-07-03', t4: '2026-12-17' },
+  2027: { t2: '2027-07-02', t4: '2027-12-17' }
+};
+const LP_DAY = 86400000;
+function lpOn() { try { return localStorage.getItem('rcb_preview') === 'launch'; } catch (e) { return false; } }
+function lpSetOn(on) { try { on ? localStorage.setItem('rcb_preview', 'launch') : localStorage.removeItem('rcb_preview'); } catch (e) {} renderLaunchPreview(); }
+(function () {   // ?preview=launch switches it on for this browser, ?preview=off switches it off
+  try {
+    const p = new URLSearchParams(location.search).get('preview');
+    if (p === 'launch') localStorage.setItem('rcb_preview', 'launch');
+    if (p === 'off') localStorage.removeItem('rcb_preview');
+  } catch (e) {}
+})();
+function lpStore() {
+  const s = lsGet('rcb_pv', null) || {};
+  s.codes = Array.isArray(s.codes) ? s.codes : [];
+  s.terms = s.terms && typeof s.terms === 'object' ? s.terms : {};
+  s.trialEmails = Array.isArray(s.trialEmails) ? s.trialEmails : [];
+  return s;
+}
+function lpSave(s) { lsSet('rcb_pv', s); }
+function lpTerms(s) { return Object.assign({}, LP_TERMS_DEFAULT, (s || lpStore()).terms); }
+function _lpEndOfDay(iso) { const d = new Date(iso + 'T23:59:59'); return isNaN(d) ? null : d.getTime(); }
+function _lpDate(ms) { return new Date(ms).toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' }); }
+// A semester pass runs to the end of Term 2 (Semester 1) or the end of Term 4 (Semester 2): whichever comes next.
+function lpSemesterEnd(now, terms) {
+  const t = terms || lpTerms();
+  const ends = [];
+  Object.keys(t).forEach(y => ['t2', 't4'].forEach(k => { const e = t[y] && t[y][k] && _lpEndOfDay(t[y][k]); if (e) ends.push(e); }));
+  ends.sort((a, b) => a - b);
+  const next = ends.find(e => e > now);
+  return next || null;   // null: no term dates set that far ahead (the Admin panel asks for them)
+}
+// What an account can do right now
+function lpStatus(acct, now) {
+  now = now || Date.now();
+  if (!acct) return { state: 'none' };
+  if (acct.plan === 'lifetime') return { state: 'paid', plan: 'lifetime', label: 'Lifetime access' };
+  if (acct.until && acct.until > now) {
+    if (acct.plan === 'trial') {
+      const days = Math.max(1, Math.ceil((acct.until - now) / LP_DAY));
+      return { state: 'trial', plan: 'trial', until: acct.until, days, label: 'Free trial · ' + days + ' day' + (days === 1 ? '' : 's') + ' left' };
+    }
+    const name = acct.plan === 'semester' ? 'Semester pass' : 'Year pass';
+    return { state: 'paid', plan: acct.plan, until: acct.until, label: name + ' · until ' + _lpDate(acct.until) };
+  }
+  return { state: 'ended', plan: acct.plan, label: acct.plan === 'trial' ? 'Free trial ended' : 'Pass ended' };
+}
+// Give an account a pass or more trial time. Never shortens what it already has.
+function lpGrant(acct, kind, days, now, terms) {
+  now = now || Date.now();
+  if (acct.plan === 'lifetime') return { ok: true, acct };
+  if (kind === 'lifetime') return { ok: true, acct: Object.assign({}, acct, { plan: 'lifetime', until: null }) };
+  const from = Math.max(now, acct.until || 0);
+  let until;
+  if (kind === 'semester') { until = lpSemesterEnd(now, terms); if (!until) return { ok: false, msg: 'Term dates for that semester are not set yet.' }; }
+  else if (kind === 'year') until = from + 365 * LP_DAY;
+  else until = from + Math.max(1, days | 0) * LP_DAY;
+  if (acct.until && acct.until > until) until = acct.until;
+  const paidNow = lpStatus(acct, now).state === 'paid';
+  const plan = kind === 'trial' ? (paidNow ? acct.plan : 'trial') : kind;
+  return { ok: true, acct: Object.assign({}, acct, { plan, until }) };
+}
+function lpCodeNorm(c) { return String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); }
+// Check and use a code. The Worker will run exactly this, against its own copy of the codes.
+function lpRedeem(store, acct, raw, now) {
+  now = now || Date.now();
+  const code = lpCodeNorm(raw);
+  if (!code) return { ok: false, msg: 'Type a code first.' };
+  const c = store.codes.find(x => x.code === code);
+  if (!c) return { ok: false, msg: 'That code isn’t right. Check it and try again.' };
+  if (!c.on) return { ok: false, msg: 'That code has been switched off.' };
+  if (c.expires && _lpEndOfDay(c.expires) < now) return { ok: false, msg: 'That code has expired.' };
+  if ((c.used || []).includes(acct.email)) return { ok: false, msg: 'You’ve already used that code.' };
+  if ((c.used || []).length >= c.uses) return { ok: false, msg: 'That code has been used up.' };
+  const g = lpGrant(acct, c.type, c.days, now, lpTerms(store));
+  if (!g.ok) return g;
+  c.used = (c.used || []).concat(acct.email);
+  return { ok: true, acct: g.acct, code: c };
+}
+function lpCodeLabel(c) {
+  return c.type === 'lifetime' ? 'Lifetime' : c.type === 'semester' ? 'Semester pass' : c.type === 'year' ? 'Year pass' : (c.days + '-day trial');
+}
+function lpNewCode() {
+  const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';   // no 0/O or 1/I, so codes read aloud cleanly
+  let s = 'RR';
+  for (let i = 0; i < 6; i++) s += a[Math.floor(Math.random() * a.length)];
+  return s;
+}
+
+// ── teacher side: the Account pane ──
+let _lpView = 'signin', _lpPending = null, _lpMsg = '', _lpMsgKind = '';
+function _lpSay(msg, kind) { _lpMsg = msg; _lpMsgKind = kind || ''; renderLaunchPreview(); }
+const _LP_G = '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.1C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.6c0-1.6-.1-3.1-.4-4.6H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17z"/><path fill="#FBBC05" d="M10.6 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.1C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.7c-2.1 1.4-4.8 2.3-8.5 2.3-6.2 0-11.5-4.1-13.4-9.9l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/></svg>';
+function renderLaunchPreview() {
+  const box = document.getElementById('lpAccount');
+  if (!box) return;
+  box.hidden = !lpOn();
+  if (box.hidden) return;
+  const s = lpStore(), acct = s.acct || null, st = lpStatus(acct);
+  const msg = _lpMsg ? `<div class="lp-msg ${_lpMsgKind}" role="status">${escHtml(_lpMsg)}</div>` : '';
+  let h = `<div class="sw-pane-title">Account</div>
+    <div class="lp-banner"><strong>Preview.</strong> This is how sign-in will look at launch. Nothing here signs you in yet, and it’s kept on this device only. Cloud sync below still works as normal.</div>`;
+  if (acct && acct.verified) {
+    h += `<div class="lp-card">
+        <div class="lp-card-top"><span class="lp-email">${escHtml(acct.email)}</span><span class="lp-plan ${st.state === 'paid' ? 'paid' : st.state === 'ended' ? 'ended' : ''}">${escHtml(st.label)}</span></div>
+        ${st.state === 'trial' ? `<div class="lp-msg">Full access until ${escHtml(_lpDate(st.until))}. Your class stays saved when it ends.</div>` : ''}
+        ${st.state === 'ended' ? `<div class="lp-msg">Your class is saved. Choose a pass or enter a code to keep writing.</div>` : ''}
+        <div class="lp-row">${st.plan !== 'lifetime' ? `<button type="button" class="lp-btn primary" onclick="lpOpenPlans()">${st.state === 'paid' ? 'Extend' : 'Choose a pass'}</button>` : ''}<button type="button" class="lp-btn" onclick="lpSignOut()">Sign out</button></div>
+      </div>
+      <div class="lp-form">
+        <label class="lp-lbl" for="lpCode">Have a code?</label>
+        <div class="lp-row"><input id="lpCode" class="lp-input" autocomplete="off" spellcheck="false" autocapitalize="characters" placeholder="e.g. RR7KQ2MX" onkeydown="if(event.key==='Enter')lpApplyCode()"><button type="button" class="lp-btn" style="flex:0 0 auto" onclick="lpApplyCode()">Apply</button></div>
+        ${msg}
+      </div>
+      <div class="lp-tools"><button type="button" class="lp-link" onclick="lpEndTrialNow()">Preview: end the trial now</button><button type="button" class="lp-link" onclick="lpReset()">Preview: start again</button></div>`;
+  } else if (_lpView === 'verify' && _lpPending) {
+    h += `<div class="lp-form">
+        <div class="lp-msg">We’ve sent a 6-digit code to <strong>${escHtml(_lpPending.email)}</strong>. Type it in to finish making your account.</div>
+        <div class="lp-banner" style="margin:0">Email isn’t set up yet, so in this preview the code is <strong>123456</strong>.</div>
+        <input id="lpVerify" class="lp-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6-digit code" aria-label="6-digit code" onkeydown="if(event.key==='Enter')lpVerify()">
+        ${msg}
+        <div class="lp-row"><button type="button" class="lp-btn primary" onclick="lpVerify()">Verify and start my trial</button></div>
+        <button type="button" class="lp-link" onclick="_lpSay('Email isn\\u2019t set up yet, so no new code was sent. Use 123456.')">Send the code again</button>
+        <button type="button" class="lp-link" onclick="_lpView='signin';_lpPending=null;_lpSay('')">Use a different email</button>
+      </div>`;
+  } else if (_lpView === 'forgot') {
+    h += `<div class="lp-form">
+        <div class="lp-msg">Enter your email and we’ll send a link to set a new password.</div>
+        <input id="lpForgotEmail" class="lp-input" type="email" autocomplete="email" placeholder="Email" aria-label="Email">
+        ${msg}
+        <div class="lp-row"><button type="button" class="lp-btn primary" onclick="_lpSay('Password reset emails are coming soon. Email isn\\u2019t set up yet.')">Send reset link</button></div>
+        <button type="button" class="lp-link" onclick="_lpView='signin';_lpSay('')">Back to sign in</button>
+      </div>`;
+  } else {
+    h += `<div class="lp-form">
+        <button type="button" class="lp-btn google" onclick="_lpSay('Sign in with Google is coming soon.')">${_LP_G}<span>Continue with Google</span></button>
+        <div class="lp-or">or</div>
+        <input id="lpEmail" class="lp-input" type="email" autocomplete="email" placeholder="Email" aria-label="Email" value="${escHtml((acct && acct.email) || '')}">
+        <input id="lpPass" class="lp-input" type="password" autocomplete="current-password" placeholder="Password (at least 8 characters)" aria-label="Password" onkeydown="if(event.key==='Enter')lpSignIn()">
+        ${msg}
+        <div class="lp-row"><button type="button" class="lp-btn primary" onclick="lpSignIn()">Sign in</button><button type="button" class="lp-btn" onclick="lpCreate()">Create account</button></div>
+        <button type="button" class="lp-link" onclick="_lpView='forgot';_lpSay('')">Forgot password?</button>
+        <div class="lp-msg">New accounts get a ${LP_TRIAL_DAYS}-day free trial with full access. No card needed.</div>
+      </div>`;
+  }
+  box.innerHTML = h;
+}
+function _lpCreds() {
+  const email = ((document.getElementById('lpEmail') || {}).value || '').trim().toLowerCase();
+  const pass = (document.getElementById('lpPass') || {}).value || '';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _lpSay('Enter your email address.', 'err'); return null; }
+  if (pass.length < 8) { _lpSay('Your password needs at least 8 characters.', 'err'); return null; }
+  return { email, pass };
+}
+function lpCreate() {
+  const c = _lpCreds(); if (!c) return;
+  _lpPending = { email: c.email }; _lpView = 'verify'; _lpSay('');
+  setTimeout(() => { const v = document.getElementById('lpVerify'); if (v) v.focus(); }, 30);
+}
+function lpVerify() {
+  const v = ((document.getElementById('lpVerify') || {}).value || '').trim();
+  if (v !== '123456') { _lpSay('That code isn’t right. In this preview it’s 123456.', 'err'); return; }
+  const s = lpStore(), now = Date.now(), email = _lpPending.email;
+  const usedTrial = s.trialEmails.includes(email);   // one free trial per email address, ever
+  s.acct = { email, verified: true, created: now, plan: 'trial', until: usedTrial ? now - 1 : now + LP_TRIAL_DAYS * LP_DAY };
+  if (!usedTrial) s.trialEmails.push(email);
+  lpSave(s); _lpPending = null; _lpView = 'signin';
+  _lpSay(usedTrial ? 'That email has already had a free trial. Choose a pass or enter a code.' : 'Your account is ready. Your ' + LP_TRIAL_DAYS + '-day free trial has started.', usedTrial ? 'err' : 'ok');
+}
+function lpSignIn() {
+  const c = _lpCreds(); if (!c) return;
+  const s = lpStore();
+  if (!s.lastAcct || s.lastAcct.email !== c.email) { _lpSay('No account with that email in this preview. Choose Create account.', 'err'); return; }
+  s.acct = s.lastAcct; lpSave(s); _lpSay('Signed in.', 'ok'); lpCheckEnded();
+}
+function lpSignOut() {
+  const s = lpStore(); s.lastAcct = s.acct; delete s.acct; lpSave(s);
+  _lpView = 'signin'; _lpSay('Signed out. At launch, signing out also clears your class from this computer once it’s saved.');
+}
+function lpApplyCode() {
+  const s = lpStore(); if (!s.acct) return;
+  const r = lpRedeem(s, s.acct, (document.getElementById('lpCode') || {}).value);
+  if (!r.ok) { _lpSay(r.msg, 'err'); return; }
+  s.acct = r.acct; lpSave(s);
+  _lpSay(lpCodeDone(r), 'ok');
+  lpClose('lpEnded');
+}
+function lpEndTrialNow() { const s = lpStore(); if (!s.acct) return; s.acct.until = Date.now() - 1; if (s.acct.plan === 'lifetime') s.acct.plan = 'trial'; lpSave(s); _lpSay(''); lpCheckEnded(); }
+function lpReset() { try { localStorage.removeItem('rcb_pv'); } catch (e) {} _lpView = 'signin'; _lpPending = null; _lpSay(''); }
+
+// ── passes: the "Choose a pass" dialog, and the screen shown when access has ended ──
+function _lpPassCards() {
+  const semEnd = lpSemesterEnd(Date.now());
+  return `<div class="lp-passes">
+      <div class="lp-pass"><span class="lp-pass-name">Semester pass</span><span class="lp-price">A$${LP_PRICES.semester}</span>
+        <span class="lp-pass-note">${semEnd ? 'Full access until ' + escHtml(_lpDate(semEnd)) + ', the end of this report season.' : 'Full access to the end of this report season.'}</span>
+        <button type="button" class="lp-btn" onclick="lpBuy('semester')">Choose semester</button></div>
+      <div class="lp-pass best"><span class="lp-pass-name">Year pass</span><span class="lp-price">A$${LP_PRICES.year}<small> / year</small></span>
+        <span class="lp-pass-note">Full access for 12 months: both report seasons. Saves A$${LP_PRICES.semester * 2 - LP_PRICES.year}.</span>
+        <button type="button" class="lp-btn primary" onclick="lpBuy('year')">Choose year</button></div>
+    </div>
+    <div class="lp-msg" id="lpBuyMsg" role="status"></div>
+    <p style="font-size:13px">Prices in Australian dollars, GST included. AI extras are included, with a fair-use limit. Buying for a whole school? <a href="index.html#schools" target="_blank" rel="noopener">Send us an enquiry</a>.</p>`;
+}
+function lpOpenPlans() {
+  const b = document.getElementById('lpPlansBox'); if (!b) return;
+  b.innerHTML = `<button type="button" class="lp-close" aria-label="Close" onclick="lpClose('lpPlans')">✕</button>
+    <h2 id="lpPlansTitle">Choose a pass</h2>
+    <p>Everything in Report Ready, for every student in your class. Pay once: nothing renews on its own.</p>
+    ${_lpPassCards()}`;
+  lpShow('lpPlans');
+}
+function lpBuy(kind) {
+  const m = document.getElementById('lpBuyMsg');
+  if (m) { m.className = 'lp-msg'; m.textContent = 'Payments are coming soon. For now, ask for a code and enter it under Account.'; }
+}
+function lpCheckEnded() {
+  if (!lpOn()) return;
+  const s = lpStore(); if (!s.acct || lpStatus(s.acct).state !== 'ended') return;
+  const b = document.getElementById('lpEndedBox'); if (!b) return;
+  const wasTrial = s.acct.plan === 'trial';
+  b.innerHTML = `<h2 id="lpEndedTitle">${wasTrial ? 'Your free trial has ended' : 'Your pass has ended'}</h2>
+    <p>Your class and comments are saved. Choose a pass to keep writing reports.</p>
+    ${_lpPassCards()}
+    <div class="lp-form" style="padding:0">
+      <label class="lp-lbl" for="lpCode2">Have a code?</label>
+      <div class="lp-row"><input id="lpCode2" class="lp-input" autocomplete="off" spellcheck="false" autocapitalize="characters" placeholder="e.g. RR7KQ2MX" onkeydown="if(event.key==='Enter')lpApplyCode2()"><button type="button" class="lp-btn" style="flex:0 0 auto" onclick="lpApplyCode2()">Apply</button></div>
+      <div class="lp-msg" id="lpCode2Msg" role="status"></div>
+    </div>
+    <div class="lp-row" style="justify-content:space-between"><button type="button" class="lp-link" onclick="lpClose('lpEnded');lpSignOut()">Sign out</button><button type="button" class="lp-link" onclick="lpClose('lpEnded')">Close preview</button></div>`;
+  lpShow('lpEnded');
+}
+function lpApplyCode2() {
+  const s = lpStore(); if (!s.acct) return;
+  const r = lpRedeem(s, s.acct, (document.getElementById('lpCode2') || {}).value);
+  const m = document.getElementById('lpCode2Msg');
+  if (!r.ok) { if (m) { m.className = 'lp-msg err'; m.textContent = r.msg; } return; }
+  s.acct = r.acct; lpSave(s); lpClose('lpEnded');
+  _lpSay(lpCodeDone(r), 'ok');
+}
+function lpCodeDone(r) {
+  const st = lpStatus(r.acct);
+  if (st.plan === 'lifetime') return 'Code applied. You have lifetime access.';
+  return 'Code applied. Full access until ' + _lpDate(st.until) + '.';
+}
+let _lpLastFocus = null;
+function lpShow(id) {
+  const o = document.getElementById(id); if (!o) return;
+  _lpLastFocus = document.activeElement; o.classList.add('on');
+  const f = o.querySelector('button, input, a'); if (f) setTimeout(() => f.focus(), 20);
+}
+function lpClose(id) { const o = document.getElementById(id); if (!o || !o.classList.contains('on')) return; o.classList.remove('on'); if (_lpLastFocus) try { _lpLastFocus.focus(); } catch (e) {} renderLaunchPreview(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { const p = document.getElementById('lpPlans'); if (p && p.classList.contains('on')) lpClose('lpPlans'); } });
+
+// ── admin side: Codes and Term dates ──
+function adminShowLp(which) {
+  ['adminTableWrap', 'adminEmpty', 'adminLoading'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+  const fb = document.getElementById('adminFbWrap'); if (fb) fb.style.display = 'none';
+  const fbBtn = document.getElementById('adminFbBtn'); if (fbBtn && /Accounts/.test(fbBtn.textContent)) fbBtn.textContent = 'Suggestions';
+  ['lpAdminCodes', 'lpAdminTerms'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.toggle('on', id === which); });
+  if (which === 'lpAdminCodes') lpRenderCodes(); else lpRenderTerms();
+}
+function adminHideLp() { ['lpAdminCodes', 'lpAdminTerms'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('on'); }); }
+const _LP_ADMIN_NOTE = '<div class="lp-banner" style="margin:0"><strong>Preview.</strong> Codes and term dates are saved on this computer only, until the Worker side is built. They work in the launch preview so you can try them.</div>';
+function lpRenderCodes(msg, kind) {
+  const w = document.getElementById('lpAdminCodes'); if (!w) return;
+  const s = lpStore();
+  const rows = s.codes.slice().reverse().map(c => {
+    const used = (c.used || []).length;
+    return `<tr class="${c.on ? '' : 'lp-off'}"><td><span class="lp-code">${escHtml(c.code)}</span>${c.note ? `<div style="font-size:12px;color:var(--t2)">${escHtml(c.note)}</div>` : ''}</td>
+      <td>${escHtml(lpCodeLabel(c))}</td><td>${used} / ${c.uses}</td><td>${c.expires ? escHtml(_lpDate(_lpEndOfDay(c.expires))) : 'Never'}</td>
+      <td style="text-align:right;white-space:nowrap"><button type="button" class="settings-action-btn" data-lpcopy="${escHtml(c.code)}">Copy</button>
+      <button type="button" class="settings-action-btn" data-lptoggle="${escHtml(c.code)}">${c.on ? 'Turn off' : 'Turn on'}</button></td></tr>`;
+  }).join('');
+  w.innerHTML = `${_LP_ADMIN_NOTE}
+    <div style="font-size:15px;font-weight:700">New code</div>
+    <div class="lp-grid">
+      <label class="lp-lbl">Code<div class="lp-row" style="flex-wrap:nowrap"><input id="lpcCode" class="lp-input lp-code" value="${lpNewCode()}" autocomplete="off" spellcheck="false"><button type="button" class="settings-action-btn" style="flex:0 0 auto" onclick="document.getElementById('lpcCode').value=lpNewCode()" aria-label="Make a new random code">New</button></div></label>
+      <label class="lp-lbl">Gives<select id="lpcType" class="lp-input" onchange="document.getElementById('lpcDaysWrap').hidden=this.value!=='trial'">
+        <option value="lifetime">Lifetime access</option><option value="trial">Trial (number of days)</option><option value="semester">Semester pass</option><option value="year">Year pass</option></select></label>
+      <label class="lp-lbl" id="lpcDaysWrap" hidden>Days<input id="lpcDays" class="lp-input" type="number" min="1" max="365" value="30"></label>
+      <label class="lp-lbl">How many people can use it<input id="lpcUses" class="lp-input" type="number" min="1" max="10000" value="1"></label>
+      <label class="lp-lbl">Stops working after (optional)<input id="lpcExpires" class="lp-input" type="date"></label>
+      <label class="lp-lbl">Note, only you see it<input id="lpcNote" class="lp-input" maxlength="80" placeholder="e.g. Ambarvale staff"></label>
+    </div>
+    <div class="lp-row" style="align-items:center"><button type="button" class="lp-btn primary" style="flex:0 0 auto" onclick="lpCreateCode()">Make code</button>
+      <span class="lp-msg ${kind || ''}" role="status">${escHtml(msg || '')}</span></div>
+    <div style="font-size:15px;font-weight:700;margin-top:6px">Codes (${s.codes.length})</div>
+    ${s.codes.length ? `<div style="overflow-x:auto"><table class="lp-table"><thead><tr><th>Code</th><th>Gives</th><th>Used</th><th>Stops</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` : '<div class="lp-msg">No codes yet.</div>'}`;
+  w.querySelectorAll('[data-lpcopy]').forEach(b => b.onclick = () => { const c = b.dataset.lpcopy; try { navigator.clipboard.writeText(c).then(() => showToast('Copied ' + c), () => showToast(c)); } catch (e) { showToast(c); } });
+  w.querySelectorAll('[data-lptoggle]').forEach(b => b.onclick = () => { const s2 = lpStore(), c = s2.codes.find(x => x.code === b.dataset.lptoggle); if (c) { c.on = !c.on; lpSave(s2); lpRenderCodes(); } });
+}
+function lpCreateCode() {
+  const s = lpStore();
+  const code = lpCodeNorm(document.getElementById('lpcCode').value);
+  const type = document.getElementById('lpcType').value;
+  const days = parseInt(document.getElementById('lpcDays').value, 10);
+  const uses = parseInt(document.getElementById('lpcUses').value, 10);
+  const expires = document.getElementById('lpcExpires').value || '';
+  const note = document.getElementById('lpcNote').value.trim().slice(0, 80);
+  if (code.length < 4 || code.length > 20) return lpRenderCodes('Codes need 4 to 20 letters or numbers.', 'err');
+  if (s.codes.some(c => c.code === code)) return lpRenderCodes('That code already exists. Choose New for another.', 'err');
+  if (type === 'trial' && !(days >= 1 && days <= 365)) return lpRenderCodes('Trial days must be from 1 to 365.', 'err');
+  if (!(uses >= 1 && uses <= 10000)) return lpRenderCodes('Uses must be from 1 to 10,000.', 'err');
+  s.codes.push({ code, type, days: type === 'trial' ? days : 0, uses, expires, note, on: true, used: [], created: Date.now() });
+  lpSave(s); lpRenderCodes('Made ' + code + '.', 'ok');
+}
+function lpRenderTerms(msg, kind) {
+  const w = document.getElementById('lpAdminTerms'); if (!w) return;
+  const t = lpTerms(), y0 = new Date().getFullYear();
+  const years = Array.from(new Set(Object.keys(t).map(Number).concat([y0, y0 + 1]))).sort();
+  w.innerHTML = `${_LP_ADMIN_NOTE}
+    <div class="lp-msg">A semester pass runs to the last day of Term 2 (Semester 1) or Term 4 (Semester 2). Set the dates for each year before it starts. Filled in from the NSW public school calendar.</div>
+    <div style="overflow-x:auto"><table class="lp-table"><thead><tr><th>Year</th><th>Term 2 ends</th><th>Term 4 ends</th></tr></thead><tbody>
+    ${years.map(y => `<tr><td style="font-weight:700">${y}</td><td><input class="lp-input" type="date" data-lpterm="${y}:t2" value="${escHtml((t[y] && t[y].t2) || '')}" aria-label="${y} Term 2 last day"></td><td><input class="lp-input" type="date" data-lpterm="${y}:t4" value="${escHtml((t[y] && t[y].t4) || '')}" aria-label="${y} Term 4 last day"></td></tr>`).join('')}
+    </tbody></table></div>
+    <div class="lp-row" style="align-items:center"><button type="button" class="lp-btn primary" style="flex:0 0 auto" onclick="lpSaveTerms()">Save term dates</button><span class="lp-msg ${kind || ''}" role="status">${escHtml(msg || '')}</span></div>
+    <div style="font-size:15px;font-weight:700;margin-top:6px">Launch preview</div>
+    <div class="lp-row" style="align-items:center"><span class="lp-msg" style="flex:1 1 240px">Show the launch sign-in, trial and passes in Settings › Account &amp; sync, on this computer only.</span>
+      <button type="button" class="lp-btn" style="flex:0 0 auto" onclick="lpSetOn(!lpOn());lpRenderTerms()">${lpOn() ? 'Turn preview off' : 'Turn preview on'}</button></div>`;
+}
+function lpSaveTerms() {
+  const s = lpStore(), t = {};
+  document.querySelectorAll('[data-lpterm]').forEach(i => { const [y, k] = i.dataset.lpterm.split(':'); if (i.value) { t[y] = t[y] || {}; t[y][k] = i.value; } });
+  s.terms = t; lpSave(s); lpRenderTerms('Saved.', 'ok');
+}
+document.addEventListener('DOMContentLoaded', () => { renderLaunchPreview(); lpCheckEnded(); });
 
 // ══ v3.13.2 · RECENT CHANGES ════════════════════════════════════════════════
 // Opens when the page loads if there is anything new since the teacher last closed it. Newest first.
@@ -16004,6 +16395,7 @@ function setSettingsTab(tab) {
   const onBtn = document.querySelector('#settingsPanel .sw-tab.on');
   if (onBtn) try { onBtn.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) {}
   lsSet('rcb_settings_tab', tab);
+  if (tab === 'account') renderLaunchPreview();   // v3.19.0
 }
 function toggleSettings(tab) {
   const ov = document.getElementById('settingsOverlay');
@@ -19461,6 +19853,10 @@ loadTheme(); loadScheme();
   </div>
 </div>
 
+<!-- v3.19.0 · LAUNCH PREVIEW: choose a pass, and the screen shown when access has ended -->
+<div class="lp-ov" id="lpPlans" role="dialog" aria-modal="true" aria-labelledby="lpPlansTitle" onclick="if(event.target===this)lpClose('lpPlans')"><div class="lp-box" id="lpPlansBox"></div></div>
+<div class="lp-ov" id="lpEnded" role="dialog" aria-modal="true" aria-labelledby="lpEndedTitle"><div class="lp-box" id="lpEndedBox"></div></div>
+
 <!-- ADMIN PANEL -->
 <div id="adminOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:10000;align-items:center;justify-content:center;padding:20px">
   <div style="background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-lg);width:100%;max-width:700px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden">
@@ -19490,6 +19886,8 @@ loadTheme(); loadScheme();
       <div style="padding:10px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0">
         <span id="adminAccountCount" style="font-size:13px;color:var(--t1);flex:1"></span>
         <button onclick="adminShowSuggestions()" id="adminFbBtn" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--accent-bd);background:var(--accent-bg);color:var(--accent);cursor:pointer">Suggestions</button>
+        <button onclick="adminShowLp('lpAdminCodes')" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer">Codes</button>
+        <button onclick="adminShowLp('lpAdminTerms')" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer">Term dates</button>
         <button onclick="adminRefresh()" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer">↻ Refresh</button>
         <button onclick="adminLogout()" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t2);cursor:pointer">Sign out</button>
       </div>
@@ -19511,6 +19909,8 @@ loadTheme(); loadScheme();
       </div>
       <div id="adminEmpty" style="display:none;padding:32px;text-align:center;color:var(--t2);font-size:13px">No accounts found.</div>
       <div id="adminFbWrap" style="display:none;overflow-y:auto;flex:1;padding:14px 20px;flex-direction:column;gap:10px"></div>
+      <div class="lp-admin" id="lpAdminCodes"></div>
+      <div class="lp-admin" id="lpAdminTerms"></div>
     </div>
 
   </div>
