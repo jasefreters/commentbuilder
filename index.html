@@ -272,6 +272,26 @@
   }
   .logo { display: inline-flex; align-items: center; gap: 8px; }   /* v3.18.1: the logo mark sits before the name */
   .logo-mark { width: 24px; height: 24px; flex: none; }
+  /* v1.2.0 · launch preview: pricing and school enquiries (shown only with ?preview=launch) */
+  [data-lp-show] { display: none !important; }
+  html.lp [data-lp-show] { display: revert !important; }
+  html.lp [data-lp-hide] { display: none !important; }
+  .passes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 20px; margin-top: 36px; max-width: 760px; }
+  .pass { border: 1.5px solid var(--border); border-radius: 16px; padding: 24px; background: var(--bg-1); display: flex; flex-direction: column; gap: 10px; }
+  .pass.best { border-color: var(--accent); }
+  .pass-name { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--t1); }
+  .pass-price { font-size: 44px; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+  .pass-price small { font-size: 16px; font-weight: 500; color: var(--t2); letter-spacing: 0; }
+  .pass p { font-size: 15px; line-height: 1.55; color: var(--t1); flex: 1; }
+  .fine { margin-top: 18px; font-size: 14px; color: var(--t2); max-width: 64ch; line-height: 1.6; }
+  .enq { margin-top: 28px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 760px; }
+  .enq label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: var(--t1); min-width: 0; }
+  .enq .full { grid-column: 1 / -1; }
+  .enq input, .enq textarea { font: inherit; font-size: 15px; font-weight: 400; color: var(--t0); background: var(--bg-0); border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; width: 100%; box-sizing: border-box; }
+  .enq textarea { min-height: 110px; resize: vertical; }
+  .enq-msg { font-size: 15px; color: var(--t1); align-self: center; }
+  .enq-msg.ok { color: var(--done); } .enq-msg.err { color: var(--red); }
+  @media (max-width: 640px) { .enq { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -308,10 +328,11 @@
       <h1>Report comments in <span class="hl">minutes</span>, not hours.</h1>
       <p class="hero-sub">Report Ready is a purpose-built tool for NSW primary school teachers. Build polished, professional report comments from an approved sentence bank, for General, English and Mathematics.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary btn-lg" href="#" onclick="openSignup(); return false">Create free account</a>
+        <a class="btn btn-primary btn-lg" href="#" onclick="openSignup(); return false"><span data-lp-hide>Create free account</span><span data-lp-show>Start free trial</span></a>
         <a class="btn btn-lg" href="demo.html">Try the demo<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </div>
-      <p class="hero-note">Free to use. <b>No subscription required.</b> Cloud sync included.</p>
+      <p class="hero-note" data-lp-hide>Free to use. <b>No subscription required.</b> Cloud sync included.</p>
+      <p class="hero-note" data-lp-show>7 days free. <b>No card needed.</b> Then from A$29 a semester. <a href="#pricing">See pricing</a></p>
     </div>
 
     <div class="mock" id="mock" role="img" aria-label="Picking three sentences from the bank builds a comment for a student called Alex in the draft panel.">
@@ -449,13 +470,46 @@
   </div>
 </section>
 
+<!-- PRICING (v1.2.0 launch preview: hidden until ?preview=launch) -->
+<section class="block band" id="pricing" data-lp-show>
+  <div class="wrap">
+    <h2>Simple pricing. Pay once, per season.</h2>
+    <p class="lede">Try everything free for 7 days. No card needed. Then pick a pass: nothing renews on its own.</p>
+    <div class="passes">
+      <div class="pass"><span class="pass-name">Semester pass</span><span class="pass-price">A$29</span>
+        <p>Full access to the end of the report season: the end of Term 2 for Semester 1, or Term 4 for Semester 2.</p></div>
+      <div class="pass best"><span class="pass-name">Year pass</span><span class="pass-price">A$49<small> / year</small></span>
+        <p>Full access for 12 months, so both report seasons. Saves A$9 on two semester passes.</p></div>
+    </div>
+    <p class="fine">Prices in Australian dollars, GST included. Every pass includes the whole sentence bank, Final check, cloud sync and the AI extras (with a fair-use limit).</p>
+    <div class="btns" style="margin-top:22px"><a class="btn btn-primary btn-lg" href="#" onclick="openSignup(); return false">Start free trial</a></div>
+  </div>
+</section>
+
+<section class="block" id="schools" data-lp-show>
+  <div class="wrap">
+    <h2>Buying for your school?</h2>
+    <p class="lede">Tell us how many teachers, and we'll be in touch about a school licence.</p>
+    <form class="enq" id="enqForm" novalidate>
+      <label>Your name<input id="enqName" autocomplete="name" maxlength="80" required></label>
+      <label>Email<input id="enqEmail" type="email" autocomplete="email" maxlength="120" required></label>
+      <label>School<input id="enqSchool" autocomplete="organization" maxlength="120" required></label>
+      <label>Number of teachers<input id="enqCount" type="number" min="1" max="500" inputmode="numeric"></label>
+      <label class="full">Anything else (optional)<textarea id="enqMsg" maxlength="1500"></textarea></label>
+      <button type="submit" class="btn btn-primary" id="enqBtn">Send enquiry</button>
+      <span class="enq-msg" id="enqStatus" role="status"></span>
+    </form>
+  </div>
+</section>
+
 <!-- CLOSE -->
 <section class="close">
   <div class="wrap">
     <h2>Ready to save hours this report season?</h2>
-    <p>Free to use. No subscription. No credit card. Just faster, better report comments.</p>
+    <p data-lp-hide>Free to use. No subscription. No credit card. Just faster, better report comments.</p>
+    <p data-lp-show>Try it free for 7 days. No card needed. Then A$29 a semester or A$49 a year.</p>
     <div class="btns">
-      <a class="btn btn-lg" href="#" onclick="openSignup(); return false">Create free account</a>
+      <a class="btn btn-lg" href="#" onclick="openSignup(); return false"><span data-lp-hide>Create free account</span><span data-lp-show>Start free trial</span></a>
       <a class="btn btn-lg btn-line" href="https://jasefreters.github.io/commentbuilder/report-comment-builder.html">Open the app<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
   </div>
@@ -466,8 +520,8 @@
 <footer>
   <div class="wrap foot-in">
     <span class="logo"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="1" y="1" width="30" height="30" rx="7.5" fill="#26233A" stroke="rgba(255,255,255,.16)" stroke-width="1"/><path d="M11.4 17.8L16.4 24.2L26 8" stroke="#7FD49A" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 25V7h6.4a4.7 4.7 0 0 1 0 9.4H9" stroke="#FFF" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Report Ready</span>
-    <span>Built for NSW primary school teachers · Free to use</span>
-    <span class="ver">landing v1.1.1</span>
+    <span>Built for NSW primary school teachers<span data-lp-hide> · Free to use</span></span>
+    <span class="ver">landing v1.2.0</span>
   </div>
 </footer>
 
@@ -476,7 +530,7 @@
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
     <button type="button" class="icon-btn modal-close" onclick="closeModal('signupModal')" aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
     <h2 class="modal-title" id="signupTitle">Create account</h2>
-    <p class="modal-sub">Free forever. Your comments sync across any device.</p>
+    <p class="modal-sub"><span data-lp-hide>Free forever. </span>Your comments sync across any device.</p>
     <div class="modal-error" id="signupError" role="alert"></div>
     <div class="modal-success" id="signupSuccess" role="status"></div>
     <div class="field">
@@ -522,6 +576,37 @@
 <script>
 const WORKER = 'https://black-sea-3013.freters.workers.dev';
 const APP_URL = 'https://jasefreters.github.io/commentbuilder/report-comment-builder.html';
+
+// ── v1.2.0 · launch preview: ?preview=launch shows pricing and the school enquiry form (?preview=off hides them) ──
+(function () {
+  try {
+    const p = new URLSearchParams(location.search).get('preview');
+    if (p === 'launch') localStorage.setItem('rcb_preview', 'launch');
+    if (p === 'off') localStorage.removeItem('rcb_preview');
+    if (localStorage.getItem('rcb_preview') === 'launch') document.documentElement.classList.add('lp');
+  } catch (e) {}
+})();
+// School enquiries arrive in the Admin panel's Suggestions, marked "School enquiry"
+document.getElementById('enqForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const v = id => document.getElementById(id).value.trim();
+  const st = document.getElementById('enqStatus'), btn = document.getElementById('enqBtn');
+  const name = v('enqName'), email = v('enqEmail'), school = v('enqSchool');
+  st.className = 'enq-msg err';
+  if (!name || !school) { st.textContent = 'Add your name and school.'; return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { st.textContent = 'Add an email so we can reply.'; return; }
+  btn.disabled = true; st.className = 'enq-msg'; st.textContent = 'Sending…';
+  const message = 'School: ' + school + '\nTeachers: ' + (v('enqCount') || 'not given') + (v('enqMsg') ? '\n\n' + v('enqMsg') : '');
+  try {
+    const r = await fetch(WORKER + '/feedback', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'School enquiry', message, contact: name + ' <' + email + '>', version: 'landing' }) });
+    if (!r.ok) throw new Error(r.status);
+    st.className = 'enq-msg ok'; st.textContent = 'Thanks! We\u2019ll be in touch soon.'; e.target.reset();
+  } catch (err) {
+    st.className = 'enq-msg err'; st.textContent = 'That didn\u2019t send. Check your internet and try again.';
+  }
+  btn.disabled = false;
+});
 
 // ── Modal helpers ───────────────────────────────────────────────
 let lastFocus = null;
