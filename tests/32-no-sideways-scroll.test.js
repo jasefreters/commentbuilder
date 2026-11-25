@@ -7,8 +7,9 @@ const { browser, closeBrowser } = require('./helpers');
 
 after(closeBrowser);
 const WIDTHS = [701, 768, 820, 1024, 1180, 1280, 1366, 1440];
+const PHONE = [320, 360, 390, 430];   // the landing page works on phones too (v3.21.0: the longer name)
 
-for (const file of ['report-comment-builder.html', 'demo.html']) {
+for (const [file, widths] of [['report-comment-builder.html', WIDTHS], ['demo.html', WIDTHS], ['index.html', PHONE.concat(WIDTHS)]]) {
   test(file + ' has no sideways scroll at tablet and desktop widths', async () => {
     const ctx = await (await browser()).newContext();
     await ctx.route(/^https?:\/\//, r => r.abort());
@@ -16,7 +17,7 @@ for (const file of ['report-comment-builder.html', 'demo.html']) {
     await page.goto('file://' + path.join(__dirname, '..', file));
     await page.waitForTimeout(800);
     const over = [];
-    for (const w of WIDTHS) {
+    for (const w of widths) {
       await page.setViewportSize({ width: w, height: 800 });
       await page.waitForTimeout(80);
       const sw = await page.evaluate(() => document.documentElement.scrollWidth);

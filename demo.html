@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Report Ready demo</title>
+<title>Complete Comments demo</title>
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -1519,7 +1519,7 @@
 <body>
 
 <header>
-  <div class="logo"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="1" y="1" width="30" height="30" rx="7.5" fill="#26233A" stroke="rgba(255,255,255,.16)" stroke-width="1"/><path d="M11.4 17.8L16.4 24.2L26 8" stroke="#7FD49A" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 25V7h6.4a4.7 4.7 0 0 1 0 9.4H9" stroke="#FFF" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Report Ready</div>
+  <div class="logo"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="1" y="1" width="30" height="30" rx="7.5" fill="#26233A" stroke="rgba(255,255,255,.16)" stroke-width="1"/><path d="M11.4 17.8L16.4 24.2L26 8" stroke="#7FD49A" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 25V7h6.4a4.7 4.7 0 0 1 0 9.4H9" stroke="#FFF" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Complete Comments</div>
   <div class="sem-toggle" role="group" aria-label="School year and semester">
     <select class="sem-sel yr-sel" id="yearSel" aria-label="School year" title="Choose the school year. Each year is its own class." onchange="setClassYear(+this.value)"></select>
     <select class="sem-sel s1" id="semSel" aria-label="Semester" title="Choose the semester" onchange="setSemester(+this.value)">
@@ -9049,7 +9049,7 @@ async function cloudPull(manual) {
   if (!token || !_stateLoaded || _syncBusy || _cloudUnverified || !_syncBase) return;
   _syncBusy = true;
   try {
-    const res = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: _sessHdr(token) });
+    const res = await _cloudFetch('GET');
     if (!res.ok) return;
     const d = await res.json();
     if (!d.found || !d.session || !(d.session.students || []).length) return;
@@ -12493,6 +12493,7 @@ document.getElementById('yearSet').addEventListener('change', () => {
 // ── CLOUD SYNC (Cloudflare KV) ────────────────────────────────────
 
 function getCloudUser() {
+  if (acctToken()) return acctEmail() || 'account';   // v3.20.0: signed in with an email account
   return (lsGet('rcb_cloud_user', '') || '').trim().toLowerCase();
 }
 function getCloudPin() {
@@ -12504,9 +12505,14 @@ function setCloudUser(u) {
 function setCloudPin(p) {
   lsSet('rcb_cloud_pin', p.trim());
 }
-// Cloud token = username:pin (pin is required)
+// Cloud token = username:pin (pin is required). v3.20.0: an email account counts as signed in too; its requests go
+// through _cloudFetch, which sends the account's session instead.
 function getCloudToken() {
-  const user = getCloudUser();
+  if (acctToken()) return 'acct';
+  return _legacyToken();
+}
+function _legacyToken() {
+  const user = (lsGet('rcb_cloud_user', '') || '').trim().toLowerCase();
   const pin  = getCloudPin();
   if (!user || !pin) return null;
   return user + ':' + pin;
@@ -12557,6 +12563,11 @@ async function adminLogin() {
       errEl.style.display = 'block';
       return;
     }
+    if (res.status === 429) {   // v3.19.2: the Worker allows only a few wrong keys an hour from one connection
+      errEl.textContent = 'Too many wrong keys from this connection. Wait an hour and try again.';
+      errEl.style.display = 'block';
+      return;
+    }
     if (!res.ok) {
       errEl.textContent = 'Server error — try again.';
       errEl.style.display = 'block';
@@ -12584,6 +12595,7 @@ function adminLogout() {
 
 async function adminRefresh() {
   adminHideLp();   // v3.19.0
+  { const ub = document.getElementById('adminUsersBtn'); if (ub) ub.hidden = !acctLive(); }   // v3.20.0
   checkSuggestionCount();   // v3.16.0: the Suggestions button shows how many are new
   const loadEl  = document.getElementById('adminLoading');
   const tableWrap = document.getElementById('adminTableWrap');
@@ -12610,37 +12622,48 @@ async function adminRefresh() {
       return;
     }
 
-    countEl.textContent = data.total + ' account' + (data.total !== 1 ? 's' : '');
-    tbody.innerHTML = '';
-
+    // v3.19.3: one row per teacher, with each school year's class inside it. A teacher is an account (username + PIN),
+    // so two teachers who chose the same username stay separate. Older Workers send no acct: group by username.
+    const groups = new Map();
     data.accounts.forEach(acc => {
-      const isCurrentUser = String(acc.username).split(' ')[0] === getCloudUser();   // v3.18.0: a later year shows as "name (2027)"
-      const lastSaved = acc.lastSaved && acc.lastSaved !== 'unknown'
-        ? new Date(acc.lastSaved).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })
-        : 'Never';
+      const name = acc.user || String(acc.username).replace(/ \(\d{4}\)$/, '');   // older Workers: "name (2027)"
+      const k = acc.acct || name;
+      if (!groups.has(k)) groups.set(k, { user: name, classes: [], aiUsd: acc.aiUsd });
+      const yr = acc.year || (String(acc.username).match(/\((\d{4})\)/) || [])[1] || 2026;
+      groups.get(k).classes.push({ id: acc.id || acc.key, year: Number(yr), students: Number(acc.students) || 0, lastSaved: acc.lastSaved });
+    });
+    const teachers = [...groups.values()];
+    teachers.forEach(t => { t.classes.sort((a, b) => a.year - b.year); t.last = t.classes.map(c => c.lastSaved).filter(x => x && x !== 'unknown').sort().pop() || ''; });
+    teachers.sort((a, b) => String(b.last).localeCompare(String(a.last)));
+    countEl.textContent = teachers.length + ' teacher' + (teachers.length !== 1 ? 's' : '') + (data.total !== teachers.length ? ' \u00b7 ' + data.total + ' classes' : '');
+    tbody.innerHTML = '';
+    const me = getCloudUser();
+    const btnCss = 'font-family:var(--font);font-size:11px;padding:3px 10px;border-radius:var(--r-sm);border:1px solid var(--red,#f87171);background:none;color:var(--red,#f87171);cursor:pointer';
 
+    teachers.forEach(t => {
+      const isCurrentUser = t.user === me;
+      const lastSaved = t.last ? new Date(t.last).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' }) : 'Never';
       const tr = document.createElement('tr');
-      tr.style.cssText = 'border-bottom:1px solid var(--border);' +
-        (isCurrentUser ? 'background:rgba(96,165,250,0.06);' : '');
-
+      tr.style.cssText = 'border-bottom:1px solid var(--border);' + (isCurrentUser ? 'background:rgba(96,165,250,0.06);' : '');
+      const chips = t.classes.map((c, i) => `<span style="display:inline-flex;align-items:center;gap:6px;margin:2px 6px 2px 0;padding:2px 8px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--t1);white-space:nowrap">${c.year} \u00b7 ${c.students} student${c.students === 1 ? '' : 's'}${(!isCurrentUser && t.classes.length > 1) ? `<button data-admin-del-year="${i}" aria-label="Delete the ${c.year} class only" title="Delete the ${c.year} class only" style="font:inherit;font-size:12px;line-height:1;border:none;background:none;color:var(--t2);cursor:pointer;padding:0 0 0 2px">\u2715</button>` : ''}</span>`).join('');
+      const ai = typeof t.aiUsd === 'number' ? `$${t.aiUsd.toFixed(2)}<span style="color:var(--t3)"> of $${data.aiLimitUsd || 2}</span>` : '\u2014';
       tr.innerHTML = `
         <td style="padding:10px 16px;color:var(--t0);font-weight:${isCurrentUser ? '600' : '400'}">
-          ${escHtml(acc.username)}${isCurrentUser ? ' <span style="font-size:10px;color:var(--blue);font-weight:500">(you)</span>' : ''}
+          ${escHtml(t.user)}${isCurrentUser ? ' <span style="font-size:10px;color:var(--blue);font-weight:500">(you)</span>' : ''}
         </td>
-        <td style="padding:10px 16px;color:var(--t2)">${lastSaved}</td>
-        <td style="padding:10px 16px;text-align:center;color:var(--t1)">${Number(acc.students) || 0}</td>
+        <td style="padding:10px 16px;color:var(--t2);white-space:nowrap">${lastSaved}</td>
+        <td style="padding:8px 16px">${chips}</td>
+        <td style="padding:10px 16px;text-align:right;color:var(--t1);white-space:nowrap">${ai}</td>
         <td style="padding:10px 16px;text-align:right">
-          ${isCurrentUser
-            ? '<span style="font-size:11px;color:var(--t3)">—</span>'
-            : `<button data-admin-del
-                style="font-family:var(--font);font-size:11px;padding:3px 10px;border-radius:var(--r-sm);border:1px solid var(--red,#f87171);background:none;color:var(--red,#f87171);cursor:pointer">
-                Delete
-              </button>`
-          }
+          ${isCurrentUser ? '<span style="font-size:11px;color:var(--t3)">\u2014</span>' : `<button data-admin-del style="${btnCss}">Delete</button>`}
         </td>`;
-      // v3.17.53: the delete button is wired here, not built into an onclick string, so a name with a quote in it cannot break it
+      // the delete buttons are wired here, not built into an onclick string, so a name with a quote in it cannot break them
       const del = tr.querySelector('[data-admin-del]');
-      if (del) del.addEventListener('click', () => adminDeleteAccount(acc.key, acc.username));
+      if (del) del.addEventListener('click', () => adminDeleteTeacher(t));
+      tr.querySelectorAll('[data-admin-del-year]').forEach(b => b.addEventListener('click', () => {
+        const c = t.classes[+b.dataset.adminDelYear];
+        adminDeleteAccount(c.id, t.user + ' (' + c.year + ' class only)');
+      }));
       tbody.appendChild(tr);
     });
 
@@ -12648,6 +12671,22 @@ async function adminRefresh() {
   } catch(e) {
     loadEl.textContent = 'Error: ' + e.message;
   }
+}
+
+// v3.19.3: delete a teacher with every year's class. Later years go first; the first (2026) class goes last,
+// because deleting it also removes the account itself.
+async function adminDeleteTeacher(t) {
+  const list = t.classes.map(c => c.year + ': ' + c.students + ' student' + (c.students === 1 ? '' : 's')).join(', ');
+  if (!confirm('Delete "' + t.user + '" and every class they have saved (' + list + ')? This cannot be undone.')) return;
+  let ok = true;
+  for (const c of t.classes.slice().sort((a, b) => b.year - a.year)) {
+    try {
+      const res = await fetch(CLOUD_WORKER + '/admin/accounts/' + encodeURIComponent(c.id), { method: 'DELETE', headers: { 'X-Admin-Key': _adminKey } });
+      if (!res.ok) ok = false;
+    } catch (e) { ok = false; }
+  }
+  showToast(ok ? '"' + t.user + '" deleted.' : 'Some classes could not be deleted. Refresh and try again.');
+  adminRefresh();
 }
 
 async function adminDeleteAccount(key, username) {
@@ -12685,7 +12724,12 @@ function updateCloudStatus() {
   const nameEl      = document.getElementById('cloudSignedInName');
   const statusEl    = document.getElementById('cloudSignedInStatus');
   if (!signedInEl || !signedOutEl) return;
-  if (user && pin) {
+  if (acctToken()) {   // v3.20.0: an email account (its card is in the Account section above)
+    signedInEl.style.display  = 'block';
+    signedOutEl.style.display = 'none';
+    if (nameEl)   nameEl.textContent   = acctEmail();
+    if (statusEl) statusEl.textContent = '\u25cf Signed in \u2014 syncing automatically';
+  } else if (user && pin) {
     signedInEl.style.display  = 'block';
     signedOutEl.style.display = 'none';
     if (nameEl)   nameEl.textContent   = user;
@@ -12694,6 +12738,9 @@ function updateCloudStatus() {
     signedInEl.style.display  = 'none';
     signedOutEl.style.display = 'block';
   }
+  // v3.20.0: once email accounts are on, no new username + PIN accounts (existing ones can still sign in until the cut-off)
+  const mk = document.querySelector('#cloudSignedOut .settings-action-btn:not(.green)');
+  if (mk) mk.style.display = acctLive() ? 'none' : '';
   updateAdminButtonVisibility();
 }
 
@@ -12828,6 +12875,7 @@ async function cloudCreateAccount() {
 }
 
 function cloudSignOut() {
+  if (acctToken()) { acctSignOut(); return; }   // v3.20.0
   if (!confirm('Sign out? Your session data stays safely in the cloud and will reload next time you sign in.')) return;
   setCloudUser('');
   setCloudPin('');
@@ -12857,7 +12905,7 @@ async function cloudSave(manual = false) {
   if (_cloudUnverified) {
     // Startup could not read the cloud copy. Do not overwrite it blind: only save if the cloud has nothing newer.
     try {
-      const chk = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: _sessHdr(token) });
+      const chk = await _cloudFetch('GET');
       if (!chk.ok) { if (manual) showToast('Cloud sync paused — cannot reach the cloud copy.'); return; }
       const cd = await chk.json();
       if (cd.found && cd.session && (cd.session.students || []).length) {
@@ -12877,7 +12925,7 @@ async function cloudSave(manual = false) {
   // v3.10.1: look at the cloud copy first. If another device saved since this one last synced, fold its changes in before saving.
   if (_syncBase) {
     try {
-      const chk = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: _sessHdr(token) });
+      const chk = await _cloudFetch('GET');
       if (chk.ok) {
         const cd = await chk.json();
         if (cd.found && cd.session && (cd.session.students || []).length && cd.session.savedAt && cd.session.savedAt !== _syncBase.at) {
@@ -12889,11 +12937,7 @@ async function cloudSave(manual = false) {
   const session = buildSession();
   const _startedAt = Date.now(); _lastCloudTry = _startedAt;
   try {
-    const res = await fetch(CLOUD_WORKER + '/session', {
-      method: 'PUT',
-      headers: _sessHdr(token, { 'Content-Type': 'application/json' }),
-      body: JSON.stringify(session),
-    });
+    const res = await _cloudFetch('PUT', JSON.stringify(session));
     if (res.ok) {
       _setSyncBase(_snapshot(session));
       if (_lastChangeAt <= _startedAt) { _dirtySince = null; hideSyncBanner(true); }   // v3.9.0: nothing newer than what the cloud now holds
@@ -12914,10 +12958,7 @@ async function cloudLoad(showPrompt = false, startup = false) {
   const token = getCloudToken();
   if (!token) return false;
   try {
-    const res = await fetch(CLOUD_WORKER + '/session', {
-      method: 'GET',
-      headers: _sessHdr(token),
-    });
+    const res = await _cloudFetch('GET');
     if (!res.ok) return false;
     const data = await res.json();
     if (!data.found || !data.session) {
@@ -13132,7 +13173,7 @@ let _lastChangeAt = 0, _lastCloudTry = 0, _lastBannerAt = 0, _lastExportAt = 0;
 let _stateLoaded = false;        // true once the initial load (cloud / IndexedDB / localStorage) has finished
 let _cloudUnverified = false;    // true if startup could not read the cloud copy — verify before overwriting it
 let _loadedSavedAt = null;       // savedAt of the session this device loaded
-const APP_VERSION = 'v3.18.0';
+const APP_VERSION = 'v3.21.0';
 document.addEventListener('DOMContentLoaded', () => { const vb = document.getElementById('versionBadge'); if (vb) vb.textContent = APP_VERSION; });   // v3.16.29: the tag at the bottom corner reads the real version
 // v3.9.0: settings that used to live only in this browser (custom Future Directions lines, length limits) now travel with
 // the session, so cloud sync and the backup file carry them too.
@@ -13265,8 +13306,7 @@ async function _newYearSeed() {
   if (!prev && token) {
     try {
       for (let y = classYear - 1; y >= CLASS_YEAR_FIRST && !prev; y--) {
-        const h = { 'X-User-Token': token }; if (y !== CLASS_YEAR_FIRST) h['X-Class-Year'] = String(y);
-        const r = await fetch(CLOUD_WORKER + '/session', { method: 'GET', headers: h });
+        const r = await _cloudFetch('GET', undefined, y);
         if (r.ok) { const d = await r.json(); if (d.found && d.session) prev = d.session; }
       }
     } catch (e) {}
@@ -13451,6 +13491,7 @@ function parseAiJson(raw, kind) {
   }
   throw new Error('AI_NOT_JSON');
 }
+// v3.19.3: the Worker only accepts this exact system line (AI_APP_SYSTEM in worker/worker.js). Change both together.
 const AI_JSON_SYSTEM = 'You reply with valid JSON only. The first character of your reply must be the opening bracket. Write no words before or after the JSON.';
 
 function anthropicFetch(body) {
@@ -13462,7 +13503,7 @@ function anthropicFetch(body) {
     if (!token) { _aiNote('signin'); return Promise.reject(new Error('AI_SIGNIN')); }
     return fetch(CLOUD_WORKER + '/api/anthropic', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-User-Token': token },
+      headers: acctToken() ? { 'Content-Type': 'application/json', Authorization: 'Bearer ' + acctToken() } : { 'Content-Type': 'application/json', 'X-User-Token': token },
       body: JSON.stringify(body)
     }).then(async res => {
       if (res.status === 401 || res.status === 429) {
@@ -14020,33 +14061,44 @@ const _LP_G = '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true
 function renderLaunchPreview() {
   const box = document.getElementById('lpAccount');
   if (!box) return;
-  box.hidden = !lpOn();
+  const live = acctLive();   // v3.20.0: the Worker has accounts on, so this is the real thing
+  box.hidden = !(live || lpOn());
   if (box.hidden) return;
-  const s = lpStore(), acct = s.acct || null, st = lpStatus(acct);
+  const s = live ? null : lpStore();
+  const acct = live ? (acctToken() ? { email: (_acctMe && _acctMe.email) || acctEmail(), verified: true } : null) : (s.acct || null);
+  const st = live ? _acctStatus() : lpStatus(acct);
   const msg = _lpMsg ? `<div class="lp-msg ${_lpMsgKind}" role="status">${escHtml(_lpMsg)}</div>` : '';
-  let h = `<div class="sw-pane-title">Account</div>
-    <div class="lp-banner"><strong>Preview.</strong> This is how sign-in will look at launch. Nothing here signs you in yet, and it’s kept on this device only. Cloud sync below still works as normal.</div>`;
-  if (acct && acct.verified) {
+  let h = `<div class="sw-pane-title">Account</div>` + (live ? '' : `
+    <div class="lp-banner"><strong>Preview.</strong> This is how sign-in will look at launch. Nothing here signs you in yet, and it’s kept on this device only. Cloud sync below still works as normal.</div>`);
+  if (live && !acct && _legacyToken() && _lpView === 'signin') h += `<div class="lp-banner">You’re signed in with a username and PIN. <strong>Add your email and a password</strong> to keep your account safe: your classes come with you, and you keep lifetime access. After that you sign in with your email, and your PIN stops working. Username and PIN sign-in ends on 31 March 2027.</div>`;
+  if (live && _lpView === 'reset') {
+    h += `<div class="lp-form">
+        <div class="lp-msg">Choose a new password for your account.</div>
+        <input id="lpNewPass" class="lp-input" type="password" autocomplete="new-password" placeholder="New password (at least 8 characters)" aria-label="New password" onkeydown="if(event.key==='Enter')acctReset()">
+        ${msg}
+        <div class="lp-row"><button type="button" class="lp-btn primary" onclick="acctReset()">Set new password</button></div>
+      </div>`;
+  } else if (acct && acct.verified) {
     h += `<div class="lp-card">
         <div class="lp-card-top"><span class="lp-email">${escHtml(acct.email)}</span><span class="lp-plan ${st.state === 'paid' ? 'paid' : st.state === 'ended' ? 'ended' : ''}">${escHtml(st.label)}</span></div>
         ${st.state === 'trial' ? `<div class="lp-msg">Full access until ${escHtml(_lpDate(st.until))}. Your class stays saved when it ends.</div>` : ''}
         ${st.state === 'ended' ? `<div class="lp-msg">Your class is saved. Choose a pass or enter a code to keep writing.</div>` : ''}
-        <div class="lp-row">${st.plan !== 'lifetime' ? `<button type="button" class="lp-btn primary" onclick="lpOpenPlans()">${st.state === 'paid' ? 'Extend' : 'Choose a pass'}</button>` : ''}<button type="button" class="lp-btn" onclick="lpSignOut()">Sign out</button></div>
+        <div class="lp-row">${st.plan && st.plan !== 'lifetime' ? `<button type="button" class="lp-btn primary" onclick="lpOpenPlans()">${st.state === 'paid' ? 'Extend' : 'Choose a pass'}</button>` : ''}<button type="button" class="lp-btn" onclick="lpSignOut()">Sign out</button></div>
       </div>
       <div class="lp-form">
         <label class="lp-lbl" for="lpCode">Have a code?</label>
         <div class="lp-row"><input id="lpCode" class="lp-input" autocomplete="off" spellcheck="false" autocapitalize="characters" placeholder="e.g. RR7KQ2MX" onkeydown="if(event.key==='Enter')lpApplyCode()"><button type="button" class="lp-btn" style="flex:0 0 auto" onclick="lpApplyCode()">Apply</button></div>
         ${msg}
       </div>
-      <div class="lp-tools"><button type="button" class="lp-link" onclick="lpEndTrialNow()">Preview: end the trial now</button><button type="button" class="lp-link" onclick="lpReset()">Preview: start again</button></div>`;
+      ${live ? '' : `<div class="lp-tools"><button type="button" class="lp-link" onclick="lpEndTrialNow()">Preview: end the trial now</button><button type="button" class="lp-link" onclick="lpReset()">Preview: start again</button></div>`}`;
   } else if (_lpView === 'verify' && _lpPending) {
     h += `<div class="lp-form">
         <div class="lp-msg">We’ve sent a 6-digit code to <strong>${escHtml(_lpPending.email)}</strong>. Type it in to finish making your account.</div>
-        <div class="lp-banner" style="margin:0">Email isn’t set up yet, so in this preview the code is <strong>123456</strong>.</div>
+        ${live ? '<div class="lp-msg">It can take a minute to arrive. Check your junk mail too.</div>' : '<div class="lp-banner" style="margin:0">Email isn’t set up yet, so in this preview the code is <strong>123456</strong>.</div>'}
         <input id="lpVerify" class="lp-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6-digit code" aria-label="6-digit code" onkeydown="if(event.key==='Enter')lpVerify()">
         ${msg}
-        <div class="lp-row"><button type="button" class="lp-btn primary" onclick="lpVerify()">Verify and start my trial</button></div>
-        <button type="button" class="lp-link" onclick="_lpSay('Email isn\\u2019t set up yet, so no new code was sent. Use 123456.')">Send the code again</button>
+        <div class="lp-row"><button type="button" class="lp-btn primary" onclick="lpVerify()">${live && _lpPending.legacy ? 'Verify and move my account' : 'Verify and start my trial'}</button></div>
+        <button type="button" class="lp-link" onclick="${live ? 'acctResend()' : "_lpSay('Email isn\\u2019t set up yet, so no new code was sent. Use 123456.')"}">Send the code again</button>
         <button type="button" class="lp-link" onclick="_lpView='signin';_lpPending=null;_lpSay('')">Use a different email</button>
       </div>`;
   } else if (_lpView === 'forgot') {
@@ -14054,7 +14106,7 @@ function renderLaunchPreview() {
         <div class="lp-msg">Enter your email and we’ll send a link to set a new password.</div>
         <input id="lpForgotEmail" class="lp-input" type="email" autocomplete="email" placeholder="Email" aria-label="Email">
         ${msg}
-        <div class="lp-row"><button type="button" class="lp-btn primary" onclick="_lpSay('Password reset emails are coming soon. Email isn\\u2019t set up yet.')">Send reset link</button></div>
+        <div class="lp-row"><button type="button" class="lp-btn primary" onclick="${live ? 'acctForgot()' : "_lpSay('Password reset emails are coming soon. Email isn\\u2019t set up yet.')"}">Send reset link</button></div>
         <button type="button" class="lp-link" onclick="_lpView='signin';_lpSay('')">Back to sign in</button>
       </div>`;
   } else {
@@ -14064,9 +14116,9 @@ function renderLaunchPreview() {
         <input id="lpEmail" class="lp-input" type="email" autocomplete="email" placeholder="Email" aria-label="Email" value="${escHtml((acct && acct.email) || '')}">
         <input id="lpPass" class="lp-input" type="password" autocomplete="current-password" placeholder="Password (at least 8 characters)" aria-label="Password" onkeydown="if(event.key==='Enter')lpSignIn()">
         ${msg}
-        <div class="lp-row"><button type="button" class="lp-btn primary" onclick="lpSignIn()">Sign in</button><button type="button" class="lp-btn" onclick="lpCreate()">Create account</button></div>
+        <div class="lp-row"><button type="button" class="lp-btn primary" onclick="lpSignIn()">Sign in</button><button type="button" class="lp-btn" onclick="lpCreate()">${live && _legacyToken() ? 'Add email and password' : 'Create account'}</button></div>
         <button type="button" class="lp-link" onclick="_lpView='forgot';_lpSay('')">Forgot password?</button>
-        <div class="lp-msg">New accounts get a ${LP_TRIAL_DAYS}-day free trial with full access. No card needed.</div>
+        <div class="lp-msg">${live && _legacyToken() ? 'Already made an email account? Sign in with it, and your username and PIN account moves into it.' : `New accounts get a ${LP_TRIAL_DAYS}-day free trial with full access. No card needed.`}</div>
       </div>`;
   }
   box.innerHTML = h;
@@ -14079,11 +14131,13 @@ function _lpCreds() {
   return { email, pass };
 }
 function lpCreate() {
+  if (acctLive()) return acctCreate();
   const c = _lpCreds(); if (!c) return;
   _lpPending = { email: c.email }; _lpView = 'verify'; _lpSay('');
   setTimeout(() => { const v = document.getElementById('lpVerify'); if (v) v.focus(); }, 30);
 }
 function lpVerify() {
+  if (acctLive()) return acctVerify();
   const v = ((document.getElementById('lpVerify') || {}).value || '').trim();
   if (v !== '123456') { _lpSay('That code isn’t right. In this preview it’s 123456.', 'err'); return; }
   const s = lpStore(), now = Date.now(), email = _lpPending.email;
@@ -14094,16 +14148,19 @@ function lpVerify() {
   _lpSay(usedTrial ? 'That email has already had a free trial. Choose a pass or enter a code.' : 'Your account is ready. Your ' + LP_TRIAL_DAYS + '-day free trial has started.', usedTrial ? 'err' : 'ok');
 }
 function lpSignIn() {
+  if (acctLive()) return acctSignIn();
   const c = _lpCreds(); if (!c) return;
   const s = lpStore();
   if (!s.lastAcct || s.lastAcct.email !== c.email) { _lpSay('No account with that email in this preview. Choose Create account.', 'err'); return; }
   s.acct = s.lastAcct; lpSave(s); _lpSay('Signed in.', 'ok'); lpCheckEnded();
 }
 function lpSignOut() {
+  if (acctLive()) return acctSignOut();
   const s = lpStore(); s.lastAcct = s.acct; delete s.acct; lpSave(s);
   _lpView = 'signin'; _lpSay('Signed out. At launch, signing out also clears your class from this computer once it’s saved.');
 }
 function lpApplyCode() {
+  if (acctLive()) return acctApplyCode('lpCode', _lpSay).then(ok => { if (ok) lpClose('lpEnded'); });
   const s = lpStore(); if (!s.acct) return;
   const r = lpRedeem(s, s.acct, (document.getElementById('lpCode') || {}).value);
   if (!r.ok) { _lpSay(r.msg, 'err'); return; }
@@ -14132,7 +14189,7 @@ function lpOpenPlans() {
   const b = document.getElementById('lpPlansBox'); if (!b) return;
   b.innerHTML = `<button type="button" class="lp-close" aria-label="Close" onclick="lpClose('lpPlans')">✕</button>
     <h2 id="lpPlansTitle">Choose a pass</h2>
-    <p>Everything in Report Ready, for every student in your class. Pay once: nothing renews on its own.</p>
+    <p>Everything in Complete Comments, for every student in your class. Pay once: nothing renews on its own.</p>
     ${_lpPassCards()}`;
   lpShow('lpPlans');
 }
@@ -14141,10 +14198,13 @@ function lpBuy(kind) {
   if (m) { m.className = 'lp-msg'; m.textContent = 'Payments are coming soon. For now, ask for a code and enter it under Account.'; }
 }
 function lpCheckEnded() {
+  if (acctLive()) return acctCheckEnded();
   if (!lpOn()) return;
   const s = lpStore(); if (!s.acct || lpStatus(s.acct).state !== 'ended') return;
+  _lpShowEnded(s.acct.plan === 'trial', true);
+}
+function _lpShowEnded(wasTrial, preview) {
   const b = document.getElementById('lpEndedBox'); if (!b) return;
-  const wasTrial = s.acct.plan === 'trial';
   b.innerHTML = `<h2 id="lpEndedTitle">${wasTrial ? 'Your free trial has ended' : 'Your pass has ended'}</h2>
     <p>Your class and comments are saved. Choose a pass to keep writing reports.</p>
     ${_lpPassCards()}
@@ -14153,10 +14213,14 @@ function lpCheckEnded() {
       <div class="lp-row"><input id="lpCode2" class="lp-input" autocomplete="off" spellcheck="false" autocapitalize="characters" placeholder="e.g. RR7KQ2MX" onkeydown="if(event.key==='Enter')lpApplyCode2()"><button type="button" class="lp-btn" style="flex:0 0 auto" onclick="lpApplyCode2()">Apply</button></div>
       <div class="lp-msg" id="lpCode2Msg" role="status"></div>
     </div>
-    <div class="lp-row" style="justify-content:space-between"><button type="button" class="lp-link" onclick="lpClose('lpEnded');lpSignOut()">Sign out</button><button type="button" class="lp-link" onclick="lpClose('lpEnded')">Close preview</button></div>`;
+    <div class="lp-row" style="justify-content:space-between"><button type="button" class="lp-link" onclick="lpClose('lpEnded');lpSignOut()">Sign out</button><button type="button" class="lp-link" onclick="lpClose('lpEnded')">${preview ? 'Close preview' : 'Close'}</button></div>`;
   lpShow('lpEnded');
 }
 function lpApplyCode2() {
+  if (acctLive()) {
+    const m = document.getElementById('lpCode2Msg');
+    return acctApplyCode('lpCode2', (t, k) => { if (m) { m.className = 'lp-msg ' + (k || ''); m.textContent = t; } }).then(ok => { if (ok) { lpClose('lpEnded'); renderLaunchPreview(); } });
+  }
   const s = lpStore(); if (!s.acct) return;
   const r = lpRedeem(s, s.acct, (document.getElementById('lpCode2') || {}).value);
   const m = document.getElementById('lpCode2Msg');
@@ -14183,14 +14247,20 @@ function adminShowLp(which) {
   ['adminTableWrap', 'adminEmpty', 'adminLoading'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
   const fb = document.getElementById('adminFbWrap'); if (fb) fb.style.display = 'none';
   const fbBtn = document.getElementById('adminFbBtn'); if (fbBtn && /Accounts/.test(fbBtn.textContent)) fbBtn.textContent = 'Suggestions';
-  ['lpAdminCodes', 'lpAdminTerms'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.toggle('on', id === which); });
-  if (which === 'lpAdminCodes') lpRenderCodes(); else lpRenderTerms();
+  ['lpAdminCodes', 'lpAdminTerms', 'lpAdminUsers'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.toggle('on', id === which); });
+  if (which === 'lpAdminCodes') lpRenderCodes(); else if (which === 'lpAdminUsers') acctRenderUsers(); else lpRenderTerms();
 }
-function adminHideLp() { ['lpAdminCodes', 'lpAdminTerms'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('on'); }); }
+function adminHideLp() { ['lpAdminCodes', 'lpAdminTerms', 'lpAdminUsers'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('on'); }); }
 const _LP_ADMIN_NOTE = '<div class="lp-banner" style="margin:0"><strong>Preview.</strong> Codes and term dates are saved on this computer only, until the Worker side is built. They work in the launch preview so you can try them.</div>';
-function lpRenderCodes(msg, kind) {
+async function lpRenderCodes(msg, kind) {
   const w = document.getElementById('lpAdminCodes'); if (!w) return;
-  const s = lpStore();
+  const live = acctLive();   // v3.20.0: codes live on the Worker once accounts are on
+  let s = live ? null : lpStore();
+  if (live) {
+    const r = await _adminCall('GET', '/admin/codes');
+    if (r.status !== 200) { w.innerHTML = '<div class="lp-msg err">' + escHtml(r.json.error || 'Couldn\u2019t load the codes.') + '</div>'; return; }
+    s = { codes: (r.json.codes || []).slice().reverse() };
+  }
   const rows = s.codes.slice().reverse().map(c => {
     const used = (c.used || []).length;
     return `<tr class="${c.on ? '' : 'lp-off'}"><td><span class="lp-code">${escHtml(c.code)}</span>${c.note ? `<div style="font-size:12px;color:var(--t2)">${escHtml(c.note)}</div>` : ''}</td>
@@ -14198,7 +14268,7 @@ function lpRenderCodes(msg, kind) {
       <td style="text-align:right;white-space:nowrap"><button type="button" class="settings-action-btn" data-lpcopy="${escHtml(c.code)}">Copy</button>
       <button type="button" class="settings-action-btn" data-lptoggle="${escHtml(c.code)}">${c.on ? 'Turn off' : 'Turn on'}</button></td></tr>`;
   }).join('');
-  w.innerHTML = `${_LP_ADMIN_NOTE}
+  w.innerHTML = `${live ? '' : _LP_ADMIN_NOTE}
     <div style="font-size:15px;font-weight:700">New code</div>
     <div class="lp-grid">
       <label class="lp-lbl">Code<div class="lp-row" style="flex-wrap:nowrap"><input id="lpcCode" class="lp-input lp-code" value="${lpNewCode()}" autocomplete="off" spellcheck="false"><button type="button" class="settings-action-btn" style="flex:0 0 auto" onclick="document.getElementById('lpcCode').value=lpNewCode()" aria-label="Make a new random code">New</button></div></label>
@@ -14214,9 +14284,12 @@ function lpRenderCodes(msg, kind) {
     <div style="font-size:15px;font-weight:700;margin-top:6px">Codes (${s.codes.length})</div>
     ${s.codes.length ? `<div style="overflow-x:auto"><table class="lp-table"><thead><tr><th>Code</th><th>Gives</th><th>Used</th><th>Stops</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` : '<div class="lp-msg">No codes yet.</div>'}`;
   w.querySelectorAll('[data-lpcopy]').forEach(b => b.onclick = () => { const c = b.dataset.lpcopy; try { navigator.clipboard.writeText(c).then(() => showToast('Copied ' + c), () => showToast(c)); } catch (e) { showToast(c); } });
-  w.querySelectorAll('[data-lptoggle]').forEach(b => b.onclick = () => { const s2 = lpStore(), c = s2.codes.find(x => x.code === b.dataset.lptoggle); if (c) { c.on = !c.on; lpSave(s2); lpRenderCodes(); } });
+  w.querySelectorAll('[data-lptoggle]').forEach(b => b.onclick = async () => {
+    if (live) { const c = s.codes.find(x => x.code === b.dataset.lptoggle); await _adminCall('PATCH', '/admin/codes/' + c.code, { on: !c.on }); lpRenderCodes(); return; }
+    const s2 = lpStore(), c = s2.codes.find(x => x.code === b.dataset.lptoggle); if (c) { c.on = !c.on; lpSave(s2); lpRenderCodes(); }
+  });
 }
-function lpCreateCode() {
+async function lpCreateCode() {
   const s = lpStore();
   const code = lpCodeNorm(document.getElementById('lpcCode').value);
   const type = document.getElementById('lpcType').value;
@@ -14228,14 +14301,21 @@ function lpCreateCode() {
   if (s.codes.some(c => c.code === code)) return lpRenderCodes('That code already exists. Choose New for another.', 'err');
   if (type === 'trial' && !(days >= 1 && days <= 365)) return lpRenderCodes('Trial days must be from 1 to 365.', 'err');
   if (!(uses >= 1 && uses <= 10000)) return lpRenderCodes('Uses must be from 1 to 10,000.', 'err');
+  if (acctLive()) {
+    const r = await _adminCall('POST', '/admin/codes', { code, type, days, uses, expires, note });
+    return lpRenderCodes(r.status === 200 ? 'Made ' + code + '.' : (r.json.error || 'Couldn\u2019t make it.'), r.status === 200 ? 'ok' : 'err');
+  }
   s.codes.push({ code, type, days: type === 'trial' ? days : 0, uses, expires, note, on: true, used: [], created: Date.now() });
   lpSave(s); lpRenderCodes('Made ' + code + '.', 'ok');
 }
-function lpRenderTerms(msg, kind) {
+async function lpRenderTerms(msg, kind) {
   const w = document.getElementById('lpAdminTerms'); if (!w) return;
-  const t = lpTerms(), y0 = new Date().getFullYear();
+  const live = acctLive();
+  let t = lpTerms();
+  if (live) { const r = await _adminCall('GET', '/admin/terms'); if (r.status === 200) t = r.json.terms || t; }
+  const y0 = new Date().getFullYear();
   const years = Array.from(new Set(Object.keys(t).map(Number).concat([y0, y0 + 1]))).sort();
-  w.innerHTML = `${_LP_ADMIN_NOTE}
+  w.innerHTML = `${live ? '' : _LP_ADMIN_NOTE}
     <div class="lp-msg">A semester pass runs to the last day of Term 2 (Semester 1) or Term 4 (Semester 2). Set the dates for each year before it starts. Filled in from the NSW public school calendar.</div>
     <div style="overflow-x:auto"><table class="lp-table"><thead><tr><th>Year</th><th>Term 2 ends</th><th>Term 4 ends</th></tr></thead><tbody>
     ${years.map(y => `<tr><td style="font-weight:700">${y}</td><td><input class="lp-input" type="date" data-lpterm="${y}:t2" value="${escHtml((t[y] && t[y].t2) || '')}" aria-label="${y} Term 2 last day"></td><td><input class="lp-input" type="date" data-lpterm="${y}:t4" value="${escHtml((t[y] && t[y].t4) || '')}" aria-label="${y} Term 4 last day"></td></tr>`).join('')}
@@ -14245,12 +14325,243 @@ function lpRenderTerms(msg, kind) {
     <div class="lp-row" style="align-items:center"><span class="lp-msg" style="flex:1 1 240px">Show the launch sign-in, trial and passes in Settings › Account &amp; sync, on this computer only.</span>
       <button type="button" class="lp-btn" style="flex:0 0 auto" onclick="lpSetOn(!lpOn());lpRenderTerms()">${lpOn() ? 'Turn preview off' : 'Turn preview on'}</button></div>`;
 }
-function lpSaveTerms() {
+async function lpSaveTerms() {
   const s = lpStore(), t = {};
   document.querySelectorAll('[data-lpterm]').forEach(i => { const [y, k] = i.dataset.lpterm.split(':'); if (i.value) { t[y] = t[y] || {}; t[y][k] = i.value; } });
+  if (acctLive()) { const r = await _adminCall('PUT', '/admin/terms', { terms: t }); return lpRenderTerms(r.status === 200 ? 'Saved.' : (r.json.error || 'Couldn\u2019t save.'), r.status === 200 ? 'ok' : 'err'); }
   s.terms = t; lpSave(s); lpRenderTerms('Saved.', 'ok');
 }
 document.addEventListener('DOMContentLoaded', () => { renderLaunchPreview(); lpCheckEnded(); });
+// ══ v3.20.0 · ACCOUNTS: email + password, live once the Worker says so ═════════════════════════════════
+// The Worker's /auth/config says whether accounts are on. Until it does, everything below stays quiet and the launch
+// preview (above) and username + PIN sync work as before. Once on, the Account section in Settings signs teachers in
+// for real, classes sync to their account (with a version check), and a teacher still on username + PIN is asked to
+// add an email and password. Plan: claude/account-redesign-plan.md.
+let _acctCfg = { accounts: false };
+let _acctMe = null;   // GET /me: { email, access: { state, plan, until, daysLeft }, enforce }
+const _acctVersion = {};   // the last class version this device saw, per year
+function acctToken() { try { return localStorage.getItem('rcb_acct_token') || ''; } catch (e) { return ''; } }
+function acctEmail() { return lsGet('rcb_acct_email', '') || ''; }
+function acctLive() { return !!(_acctCfg && _acctCfg.accounts); }
+function _acctDevice() { const u = navigator.userAgent || ''; return (/iPad/.test(u) ? 'iPad' : /iPhone/.test(u) ? 'iPhone' : /Android/.test(u) ? 'Android' : /Mac/.test(u) ? 'Mac' : /Windows/.test(u) ? 'Windows' : 'Browser'); }
+async function _acctCall(method, path, body, extra) {
+  const h = Object.assign({}, extra || {});
+  if (body !== undefined) h['Content-Type'] = 'application/json';
+  const tok = acctToken();
+  if (tok && !/^\/auth\/(signup|verify|signin|forgot|reset)$/.test(path)) h.Authorization = 'Bearer ' + tok;
+  let r;
+  try { r = await fetch(CLOUD_WORKER + path, { method, headers: h, body: body === undefined ? undefined : JSON.stringify(body) }); }
+  catch (e) { return { status: 0, json: { error: 'Couldn’t reach Complete Comments. Check your internet connection.' } }; }
+  let j = {}; try { j = await r.json(); } catch (e) {}
+  if (r.status === 401 && j && j.signin && tok) acctSessionEnded();
+  return { status: r.status, json: j || {} };
+}
+async function acctLoadConfig() {
+  try { const r = await fetch(CLOUD_WORKER + '/auth/config'); if (r.ok) _acctCfg = await r.json(); } catch (e) {}
+  if (acctLive() && acctToken()) await acctRefreshMe();
+  renderLaunchPreview(); updateCloudStatus();
+  if (acctLive()) {
+    const reset = new URLSearchParams(location.search).get('reset');
+    if (reset && /^[0-9a-f]{64}$/.test(reset)) { _lpResetToken = reset; _lpView = 'reset'; toggleSettings('account'); renderLaunchPreview(); }
+    else if (_legacyToken() && !acctToken()) {
+      showToastAction('Keep your account safe: add your email and a password.', 'Set up', () => { _lpView = 'signin'; toggleSettings('account'); }, 15000);
+    }
+    acctCheckEnded();
+  }
+}
+async function acctRefreshMe() {
+  const r = await _acctCall('GET', '/me');
+  if (r.status === 200) { _acctMe = r.json; lsSet('rcb_acct_email', r.json.email); }
+  return _acctMe;
+}
+// The plan line on the account card, in the same words as the preview
+function _acctStatus() {
+  const a = _acctMe && _acctMe.access;
+  if (!a) return { state: 'none', label: '' };
+  if (a.plan === 'lifetime') return { state: 'paid', plan: 'lifetime', label: 'Lifetime access' };
+  if (a.state === 'trial') return { state: 'trial', plan: 'trial', until: a.until, label: 'Free trial · ' + a.daysLeft + ' day' + (a.daysLeft === 1 ? '' : 's') + ' left' };
+  if (a.state === 'paid') return { state: 'paid', plan: a.plan, until: a.until, label: (a.plan === 'semester' ? 'Semester pass' : 'Year pass') + ' · until ' + _lpDate(a.until) };
+  return { state: 'ended', plan: a.plan, label: a.plan === 'trial' ? 'Free trial ended' : 'Pass ended' };
+}
+
+// ── the class, on the account (email) or the old username + PIN ──
+// Every cloud read and write of the class goes through here, so the sync code above works the same for both.
+async function _cloudFetch(method, body, y) {
+  y = y || classYear;
+  const tok = acctToken();
+  if (tok) {
+    const h = { Authorization: 'Bearer ' + tok };
+    if (body !== undefined) { h['Content-Type'] = 'application/json'; if (_acctVersion[y] !== undefined) h['X-Base-Version'] = String(_acctVersion[y]); }
+    const res = await fetch(CLOUD_WORKER + '/class?year=' + y, { method, headers: h, body });
+    try { const d = await res.clone().json(); if (typeof d.version === 'number') _acctVersion[y] = d.version; if (res.status === 401 && d.signin) acctSessionEnded(); } catch (e) {}
+    return res;
+  }
+  const h = { 'X-User-Token': _legacyToken() };
+  if (body !== undefined) h['Content-Type'] = 'application/json';
+  if (y !== CLASS_YEAR_FIRST) h['X-Class-Year'] = String(y);
+  const res = await fetch(CLOUD_WORKER + '/session', { method, headers: h, body });
+  if (res.status === 410) {   // moved to email sign-in, or username + PIN has ended
+    let d = {}; try { d = await res.clone().json(); } catch (e) {}
+    setCloudUser(''); setCloudPin(''); updateCloudStatus();
+    showToastAction(d.error || 'Sign in with your email instead.', 'Sign in', () => toggleSettings('account'), 20000);
+  }
+  return res;
+}
+function acctSessionEnded() {
+  try { localStorage.removeItem('rcb_acct_token'); } catch (e) {}
+  _acctMe = null; updateCloudStatus(); renderLaunchPreview();
+  showToastAction('You’ve been signed out. Sign in again to keep syncing.', 'Sign in', () => toggleSettings('account'), 20000);
+}
+
+// ── signing up, in and out ──
+function _acctWho() { const c = _lpCreds(); return c; }
+async function acctCreate() {
+  const c = _acctWho(); if (!c) return;
+  const legacy = _legacyToken();
+  if (legacy && _stateLoaded) { try { saveCur(); } catch (e) {} try { await cloudSave(false); } catch (e) {} }   // bring the latest work across
+  _lpSay('Sending your code…');
+  const r = await _acctCall('POST', '/auth/signup', { email: c.email, password: c.pass }, legacy ? { 'X-User-Token': legacy } : undefined);
+  if (r.status !== 200) { _lpSay(r.json.error || 'That didn’t work. Try again.', 'err'); return; }
+  _lpPending = { email: c.email, pass: c.pass, legacy: !!legacy }; _lpView = 'verify'; _lpSay('');
+  setTimeout(() => { const v = document.getElementById('lpVerify'); if (v) v.focus(); }, 30);
+}
+async function acctResend() {
+  if (!_lpPending) return;
+  const legacy = _legacyToken();
+  const r = await _acctCall('POST', '/auth/signup', { email: _lpPending.email, password: _lpPending.pass }, legacy ? { 'X-User-Token': legacy } : undefined);
+  _lpSay(r.status === 200 ? 'We’ve sent a new code. Check your junk mail too.' : (r.json.error || 'That didn’t work.'), r.status === 200 ? 'ok' : 'err');
+}
+async function acctVerify() {
+  const code = ((document.getElementById('lpVerify') || {}).value || '').trim();
+  if (!/^\d{6}$/.test(code)) { _lpSay('Type the 6-digit code from the email.', 'err'); return; }
+  const r = await _acctCall('POST', '/auth/verify', { email: _lpPending.email, code, device: _acctDevice() });
+  if (r.status !== 200) { _lpSay(r.json.error || 'That didn’t work. Try again.', 'err'); return; }
+  const moved = _lpPending.legacy;
+  await acctSignedIn(r.json.token, _lpPending.email, { moved, isNew: true, hadTrial: r.json.hadTrial });
+}
+async function acctSignIn() {
+  const c = _acctWho(); if (!c) return;
+  _lpSay('Signing in…');
+  const r = await _acctCall('POST', '/auth/signin', { email: c.email, password: c.pass, device: _acctDevice() });
+  if (r.status !== 200) { _lpSay(r.json.error || 'That didn’t work. Try again.', 'err'); return; }
+  await acctSignedIn(r.json.token, c.email, {});
+}
+async function acctSignedIn(token, email, opts) {
+  try { localStorage.setItem('rcb_acct_token', token); } catch (e) {}
+  lsSet('rcb_acct_email', email);
+  _lpPending = null; _lpView = 'signin';
+  // a teacher still on username + PIN brings that account across (if sign-up didn't already)
+  const legacy = _legacyToken();
+  let moved = !!opts.moved;
+  if (legacy && !moved) {
+    if (_stateLoaded) { try { saveCur(); } catch (e) {} }
+    const l = await _acctCall('POST', '/auth/link', {}, { 'X-User-Token': legacy });
+    moved = l.status === 200;
+  }
+  if (legacy && moved) { setCloudUser(''); setCloudPin(''); }
+  await acctRefreshMe();
+  _setSyncBase(null);
+  const loaded = await cloudLoad(true);
+  if (!loaded && _stateLoaded) { _cloudUnverified = false; await cloudSave(false); }   // a new account starts with this device's class
+  updateCloudStatus();
+  _lpSay(opts.isNew
+    ? (moved ? 'Your account is ready, with lifetime access. From now on, sign in with your email; your PIN no longer works.'
+      : opts.hadTrial ? 'Your account is ready. That email has already had a free trial, so choose a pass or enter a code.'
+      : 'Your account is ready. Your ' + ((_acctCfg && _acctCfg.trialDays) || 7) + '-day free trial has started.')
+    : (moved ? 'Signed in, and your old account has moved across. Your PIN no longer works.' : 'Signed in.'), 'ok');
+  acctCheckEnded();
+}
+// Signing out saves first, then clears the class from this computer (D5). If the save fails, nothing is cleared.
+async function acctSignOut() {
+  if (!confirm('Sign out? Your class is saved to your account, then removed from this computer.')) return;
+  try { saveCur(); } catch (e) {}
+  if (_stateLoaded) { try { await cloudSave(false); } catch (e) {} }
+  if (_dirtySince !== null) { _lpSay('Your latest changes haven’t reached your account yet, so you’re still signed in. Check your internet connection and try again.', 'err'); toggleSettings('account'); return; }
+  await _acctCall('POST', '/auth/signout');
+  await acctClearDevice();
+  window.location.replace('https://jasefreters.github.io/commentbuilder/index.html');
+}
+async function acctClearDevice() {
+  _stateLoaded = false;   // nothing may save the class again on the way out (autosave, or the save when the page closes)
+  try {
+    Object.keys(localStorage).filter(k => /^rcb_(session|acct_)/.test(k)).forEach(k => localStorage.removeItem(k));
+  } catch (e) {}
+  try {
+    const db = await openDB();
+    await new Promise(res => { const tx = db.transaction(STORE, 'readwrite'); tx.objectStore(STORE).clear(); tx.oncomplete = res; tx.onerror = res; });
+  } catch (e) {}
+  _setSyncBase(null);
+}
+async function acctForgot() {
+  const email = ((document.getElementById('lpForgotEmail') || {}).value || '').trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _lpSay('Enter your email address.', 'err'); return; }
+  await _acctCall('POST', '/auth/forgot', { email });
+  _lpSay('If that email has an account, we’ve sent a link to set a new password. It works for an hour. Check your junk mail too.', 'ok');
+}
+let _lpResetToken = '';
+async function acctReset() {
+  const pass = (document.getElementById('lpNewPass') || {}).value || '';
+  if (pass.length < 8) { _lpSay('Your password needs at least 8 characters.', 'err'); return; }
+  const r = await _acctCall('POST', '/auth/reset', { token: _lpResetToken, password: pass, device: _acctDevice() });
+  if (r.status !== 200) { _lpSay(r.json.error || 'That didn’t work.', 'err'); return; }
+  try { history.replaceState(null, '', location.pathname); } catch (e) {}
+  _lpResetToken = '';
+  const me = await (async () => { try { localStorage.setItem('rcb_acct_token', r.json.token); } catch (e) {} return acctRefreshMe(); })();
+  await acctSignedIn(r.json.token, (me && me.email) || '', {});
+  _lpSay('Your new password is set, and you’re signed in. Any other devices have been signed out.', 'ok');
+}
+async function acctApplyCode(inputId, say) {
+  const code = (document.getElementById(inputId) || {}).value || '';
+  const r = await _acctCall('POST', '/codes/redeem', { code });
+  if (r.status !== 200) { say(r.json.error || 'That didn’t work.', 'err'); return false; }
+  if (_acctMe) _acctMe.access = r.json.access;
+  const st = _acctStatus();
+  say(st.plan === 'lifetime' ? 'Code applied. You have lifetime access.' : 'Code applied. Full access until ' + _lpDate(st.until) + '.', 'ok');
+  return true;
+}
+function acctCheckEnded() {
+  if (!acctLive() || !_acctCfg.enforce || !acctToken() || _acctStatus().state !== 'ended') return;
+  _lpShowEnded(_acctStatus().plan === 'trial', false);
+}
+
+// ── admin: email accounts, codes and term dates on the Worker ──
+async function _adminCall(method, path, body) {
+  try {
+    const r = await fetch(CLOUD_WORKER + path, { method, headers: Object.assign({ 'X-Admin-Key': _adminKey }, body === undefined ? {} : { 'Content-Type': 'application/json' }), body: body === undefined ? undefined : JSON.stringify(body) });
+    let j = {}; try { j = await r.json(); } catch (e) {}
+    return { status: r.status, json: j || {} };
+  } catch (e) { return { status: 0, json: { error: 'Couldn’t reach the server.' } }; }
+}
+async function acctRenderUsers(msg, kind) {
+  const w = document.getElementById('lpAdminUsers'); if (!w) return;
+  w.innerHTML = '<div class="lp-msg">Loading…</div>';
+  const r = await _adminCall('GET', '/admin/users');
+  if (r.status !== 200) { w.innerHTML = '<div class="lp-msg err">' + escHtml(r.json.error || 'Couldn’t load the email accounts.') + '</div>'; return; }
+  const users = (r.json.users || []).slice().sort((a, b) => (b.lastSeen || 0) - (a.lastSeen || 0));
+  const plan = a => a.plan === 'lifetime' ? 'Lifetime' : a.state === 'trial' ? 'Trial · ' + a.daysLeft + 'd left' : a.state === 'paid' ? (a.plan === 'semester' ? 'Semester' : 'Year') + ' to ' + _lpDate(a.until) : 'Ended';
+  w.innerHTML = `<div class="lp-row" style="align-items:center"><span style="font-size:15px;font-weight:700;flex:1 1 auto">Email accounts (${users.length})</span><span class="lp-msg ${kind || ''}" role="status">${escHtml(msg || '')}</span></div>
+    ${users.length ? `<div style="overflow-x:auto"><table class="lp-table"><thead><tr><th>Email</th><th>Access</th><th>Classes</th><th>Last used</th><th></th></tr></thead><tbody>
+    ${users.map(u => `<tr><td style="overflow-wrap:anywhere">${escHtml(u.email)}${u.legacy ? `<div style="font-size:12px;color:var(--t2)">was ${escHtml(u.legacy)}</div>` : ''}</td>
+      <td style="white-space:nowrap">${escHtml(plan(u.access || {}))}</td>
+      <td>${(u.classes || []).sort((a, b) => a.year - b.year).map(c => `<span style="white-space:nowrap">${c.year} · ${c.students}</span>`).join('<br>') || '—'}</td>
+      <td style="white-space:nowrap">${u.lastSeen ? escHtml(new Date(u.lastSeen).toLocaleDateString('en-AU')) : '—'}</td>
+      <td style="text-align:right;white-space:nowrap"><button type="button" class="settings-action-btn" data-acreset="${escHtml(u.id)}">Send reset link</button>
+        <button type="button" class="settings-action-btn" data-acdel="${escHtml(u.id)}" style="color:var(--red);border-color:var(--red)">Delete</button></td></tr>`).join('')}
+    </tbody></table></div>` : '<div class="lp-msg">No email accounts yet.</div>'}`;
+  w.querySelectorAll('[data-acreset]').forEach(b => b.onclick = async () => {
+    const u = users.find(x => x.id === b.dataset.acreset);
+    if (!confirm('Email ' + u.email + ' a link to set a new password? You never see or set their password.')) return;
+    const x = await _adminCall('POST', '/admin/users/' + u.id + '/reset');
+    acctRenderUsers(x.status === 200 ? 'Reset link sent to ' + u.email + '.' : (x.json.error || 'Couldn’t send it.'), x.status === 200 ? 'ok' : 'err');
+  });
+  w.querySelectorAll('[data-acdel]').forEach(b => b.onclick = async () => {
+    const u = users.find(x => x.id === b.dataset.acdel);
+    if (!confirm('Delete ' + u.email + ' and every class they have saved? This cannot be undone.')) return;
+    const x = await _adminCall('DELETE', '/admin/users/' + u.id);
+    acctRenderUsers(x.status === 200 ? u.email + ' deleted.' : (x.json.error || 'Couldn’t delete it.'), x.status === 200 ? 'ok' : 'err');
+  });
+}
+document.addEventListener('DOMContentLoaded', () => { acctLoadConfig(); });
 
 // ══ v3.13.2 · RECENT CHANGES ════════════════════════════════════════════════
 // Opens when the page loads if there is anything new since the teacher last closed it. Newest first.
@@ -17884,7 +18195,7 @@ loadTheme(); loadScheme();
     <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
       <div>
         <div style="font-size:15px;font-weight:600;color:var(--t0)">Admin Panel</div>
-        <div style="font-size:11px;color:var(--t2);margin-top:2px">Report Ready — Cloud Accounts</div>
+        <div style="font-size:11px;color:var(--t2);margin-top:2px">Complete Comments — Cloud Accounts</div>
       </div>
       <button onclick="closeAdminPanel()" style="font-family:var(--font);font-size:18px;background:none;border:none;color:var(--t2);cursor:pointer;padding:4px 8px">✕</button>
     </div>
@@ -17905,6 +18216,7 @@ loadTheme(); loadScheme();
       <div style="padding:10px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0">
         <span id="adminAccountCount" style="font-size:13px;color:var(--t1);flex:1"></span>
         <button onclick="adminShowSuggestions()" id="adminFbBtn" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--accent-bd);background:var(--accent-bg);color:var(--accent);cursor:pointer">Suggestions</button>
+        <button id="adminUsersBtn" hidden onclick="adminShowLp('lpAdminUsers')" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer">Email accounts</button>
         <button onclick="adminShowLp('lpAdminCodes')" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer">Codes</button>
         <button onclick="adminShowLp('lpAdminTerms')" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer">Term dates</button>
         <button onclick="adminRefresh()" style="font-family:var(--font);font-size:12px;padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--border);background:none;color:var(--t1);cursor:pointer">↻ Refresh</button>
@@ -17917,9 +18229,10 @@ loadTheme(); loadScheme();
         <table style="width:100%;border-collapse:collapse;font-size:13px">
           <thead>
             <tr style="background:var(--bg-2);border-bottom:1px solid var(--border)">
-              <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Username</th>
+              <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Teacher</th>
               <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Last synced</th>
-              <th style="padding:10px 16px;text-align:center;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Students</th>
+              <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Classes</th>
+              <th style="padding:10px 16px;text-align:right;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em" title="AI used this month, of the monthly allowance">AI this month</th>
               <th style="padding:10px 16px;text-align:right;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Actions</th>
             </tr>
           </thead>
@@ -17930,6 +18243,7 @@ loadTheme(); loadScheme();
       <div id="adminFbWrap" style="display:none;overflow-y:auto;flex:1;padding:14px 20px;flex-direction:column;gap:10px"></div>
       <div class="lp-admin" id="lpAdminCodes"></div>
       <div class="lp-admin" id="lpAdminTerms"></div>
+      <div class="lp-admin" id="lpAdminUsers"></div>
     </div>
 
   </div>

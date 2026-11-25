@@ -173,7 +173,7 @@ function nextMonthStart() {
 //   ACCOUNTS        "on" to switch these routes on
 //   ENFORCE_ACCESS  "on" from launch day: saving, the bank and AI need an active trial or pass
 //   RESEND_API_KEY  (secret) sends sign-up codes and reset links; without it sign-up says email isn't set up
-//   EMAIL_FROM      e.g. "Report Ready <hello@reportready.com.au>"
+//   EMAIL_FROM      e.g. "Complete Comments <hello@completecomments.com.au>"
 //   APP_URL         the app's address, for reset links
 //   LEGACY_UNTIL    last day of username + PIN sign-in, default 2027-03-31
 
@@ -191,7 +191,7 @@ const COMMON_PW = new Set(('password password1 password12 password123 passw0rd 1
   '00000000 87654321 qwertyui qwertyuiop qwerty123 iloveyou abc12345 abcd1234 letmein1 welcome1 welcome123 ' +
   'football baseball sunshine princess superman starwars trustno1 whatever 1q2w3e4r 1qaz2wsx zaq12wsx ' +
   'aaaaaaaa asdfghjk asdf1234 monkey123 dragon12 master12 teacher1 teacher123 school123 student1 ' +
-  'reportready report123 changeme').split(' '));
+  'reportready completecomments complete123 report123 changeme').split(' '));
 
 const enc = new TextEncoder();
 function b64(bytes) { let s = ''; for (const b of new Uint8Array(bytes)) s += String.fromCharCode(b); return btoa(s); }
@@ -315,9 +315,9 @@ async function sendReset(env, KV, user) {
   const token = randomHex(32);
   await KV.put('reset:' + await sha(token), user.id, { expirationTtl: 3600 });
   const link = (env.APP_URL || 'https://jasefreters.github.io/commentbuilder/report-comment-builder.html') + '?reset=' + token;
-  return sendEmail(env, user.email, 'Reset your Report Ready password',
-    'Hi,\n\nSomeone asked to reset the password for your Report Ready account. To choose a new one, open this link within the next hour:\n\n' +
-    link + '\n\nIf you didn\'t ask for this, you can ignore this email. Your password hasn\'t changed.\n\nReport Ready');
+  return sendEmail(env, user.email, 'Reset your Complete Comments password',
+    'Hi,\n\nSomeone asked to reset the password for your Complete Comments account. To choose a new one, open this link within the next hour:\n\n' +
+    link + '\n\nIf you didn\'t ask for this, you can ignore this email. Your password hasn\'t changed.\n\nComplete Comments');
 }
 
 // Answers an /auth, /me, /class, /codes or /admin/(users|codes|terms) request, or returns null for other paths.
@@ -354,8 +354,8 @@ async function accountsRoute(request, env, path, reply) {
     if (!(env.RESEND_API_KEY && env.EMAIL_FROM)) return reply({ error: 'Email isn\'t set up yet, so new accounts can\'t be made. Try again soon.' }, 503);
     const code = String(crypto.getRandomValues(new Uint32Array(1))[0] % 1000000).padStart(6, '0');
     await KV.put('verify:' + email, JSON.stringify({ code: await sha(email + ':' + code), tries: 0, pw: await pwMake(b.password), legacy }), { expirationTtl: 900 });
-    const sent = await sendEmail(env, email, 'Your Report Ready code: ' + code,
-      'Hi,\n\nYour code to finish making your Report Ready account is:\n\n' + code + '\n\nIt works for 15 minutes. If you didn\'t ask for this, you can ignore this email.\n\nReport Ready');
+    const sent = await sendEmail(env, email, 'Your Complete Comments code: ' + code,
+      'Hi,\n\nYour code to finish making your Complete Comments account is:\n\n' + code + '\n\nIt works for 15 minutes. If you didn\'t ask for this, you can ignore this email.\n\nComplete Comments');
     if (!sent) return reply({ error: 'The email couldn\'t be sent. Check the address and try again.' }, 502);
     return reply({ ok: true, sent: true });
   }
@@ -732,7 +732,7 @@ export default {
         }
         const until = endOfDay(env.LEGACY_UNTIL || '2027-03-31');
         if (until && Date.now() > until) {
-          return cors(JSON.stringify({ error: 'Username and PIN sign-in has ended. Contact Report Ready to move your account across.', ended: true }), 410);
+          return cors(JSON.stringify({ error: 'Username and PIN sign-in has ended. Contact Complete Comments to move your account across.', ended: true }), 410);
         }
       }
 
