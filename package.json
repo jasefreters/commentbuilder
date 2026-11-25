@@ -1,7 +1,7 @@
 {
-  "name": "report-ready",
+  "name": "complete-comments",
   "private": true,
-  "description": "Report Ready: tooling and safety-net tests. The app itself is report-comment-builder.html.",
+  "description": "Complete Comments: tooling and safety-net tests. The app itself is report-comment-builder.html.",
   "scripts": {
     "test": "node --test --test-concurrency=1 tests/*.test.js",
     "build-demo": "node tools/build-demo.js"

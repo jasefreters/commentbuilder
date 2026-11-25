@@ -6,7 +6,7 @@ const { browser, closeBrowser, APP } = require('./helpers');
 const { world, loadWorker, cls } = require('./worker-harness');
 
 after(closeBrowser);
-const ON = { ACCOUNTS: 'on', RESEND_API_KEY: 're_test', EMAIL_FROM: 'Report Ready <hello@example.com>' };
+const ON = { ACCOUNTS: 'on', RESEND_API_KEY: 're_test', EMAIL_FROM: 'Complete Comments <hello@example.com>' };
 const CORS = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*', 'Access-Control-Allow-Methods': '*' };
 
 // Opens the app with its cloud calls answered by the Worker code in this process

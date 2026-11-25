@@ -5,7 +5,7 @@ const { test } = require('node:test');
 const assert = require('node:assert');
 const { world, cls } = require('./worker-harness');
 
-const ON = { ACCOUNTS: 'on', RESEND_API_KEY: 're_test', EMAIL_FROM: 'Report Ready <hello@example.com>', APP_URL: 'https://app.example/' };
+const ON = { ACCOUNTS: 'on', RESEND_API_KEY: 're_test', EMAIL_FROM: 'Complete Comments <hello@example.com>', APP_URL: 'https://app.example/' };
 const DAY = 86400000;
 
 async function signup(w, email = 'ava@school.edu.au', password = 'blue-kangaroo-7', opts = {}) {
@@ -40,7 +40,7 @@ test('sign-up: password rules, the 6-digit code, then a 7-day trial and a sessio
   assert.match((await w.call('POST', '/auth/signup', { body: { email: 'a@b.co', password: 'Password123' } })).json.error, /too easy/);
   await w.call('POST', '/auth/signup', { body: { email: 'Ava@School.edu.au ', password: 'blue-kangaroo-7' } });
   assert.strictEqual(w.emails.length, 1);
-  assert.match(w.emails[0].subject, /Your Report Ready code: \d{6}/);
+  assert.match(w.emails[0].subject, /Your Complete Comments code: \d{6}/);
   assert.strictEqual((await w.call('POST', '/auth/verify', { body: { email: 'ava@school.edu.au', code: '000000' } })).status, 400);
   const v = await w.call('POST', '/auth/verify', { body: { email: 'ava@school.edu.au', code: w.codeFor('ava@school.edu.au') } });
   assert.strictEqual(v.status, 200);
@@ -260,7 +260,7 @@ test('admin: list email accounts with their classes, send a reset link, delete',
   const n = w.emails.length;
   assert.strictEqual((await w.call('POST', '/admin/users/' + u.id + '/reset', A)).status, 200);
   assert.strictEqual(w.emails.length, n + 1);
-  assert.match(w.emails[n].subject, /Reset your Report Ready password/);
+  assert.match(w.emails[n].subject, /Reset your Complete Comments password/);
   assert.strictEqual((await w.call('DELETE', '/admin/users/' + u.id, A)).status, 200);
   assert.strictEqual((await w.call('GET', '/me', { bearer: t })).status, 401);
   assert.ok(![...w.env.SESSIONS.m.keys()].some(k => k.startsWith('class:')));

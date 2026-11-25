@@ -109,7 +109,7 @@ const head = fs.readFileSync(path.join(__dirname, 'demo-head.js'), 'utf8');
 const tail = fs.readFileSync(path.join(__dirname, 'demo-tail.js'), 'utf8');
 const css = fs.readFileSync(path.join(__dirname, 'demo.css'), 'utf8');
 html = html.replace(/\{\{S\}\} calculates areas of rectangles and applies the formula to find the area of triangles\./g, '(a bank sentence)');   // quoted in one code comment
-html = html.replace(/<title>[^<]*<\/title>/, '<title>Report Ready demo</title>');
+html = html.replace(/<title>[^<]*<\/title>/, '<title>Complete Comments demo</title>');
 html = html.replace('</style>\n</head>', '</style>\n<style id="demoCss">\n' + css + '\n</style>\n</head>');
 if (!html.includes('id="demoCss"')) throw new Error('css marker');
 html = html.replace(/<script>\nconst PR = \{/, '<script>\n' + head + '\nconst PR = {');
