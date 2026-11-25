@@ -14258,38 +14258,47 @@ async function adminRefresh() {
       return;
     }
 
-    countEl.textContent = data.total + ' account' + (data.total !== 1 ? 's' : '');
-    tbody.innerHTML = '';
-
+    // v3.19.3: one row per teacher, with each school year's class inside it. A teacher is an account (username + PIN),
+    // so two teachers who chose the same username stay separate. Older Workers send no acct: group by username.
+    const groups = new Map();
     data.accounts.forEach(acc => {
-      const isCurrentUser = String(acc.username).split(' ')[0] === getCloudUser();   // v3.18.0: a later year shows as "name (2027)"
-      const lastSaved = acc.lastSaved && acc.lastSaved !== 'unknown'
-        ? new Date(acc.lastSaved).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })
-        : 'Never';
+      const k = acc.acct || String(acc.username).split(' ')[0];
+      if (!groups.has(k)) groups.set(k, { user: acc.user || String(acc.username).split(' ')[0], classes: [], aiUsd: acc.aiUsd });
+      const yr = acc.year || (String(acc.username).match(/\((\d{4})\)/) || [])[1] || 2026;
+      groups.get(k).classes.push({ id: acc.id || acc.key, year: Number(yr), students: Number(acc.students) || 0, lastSaved: acc.lastSaved });
+    });
+    const teachers = [...groups.values()];
+    teachers.forEach(t => { t.classes.sort((a, b) => a.year - b.year); t.last = t.classes.map(c => c.lastSaved).filter(x => x && x !== 'unknown').sort().pop() || ''; });
+    teachers.sort((a, b) => String(b.last).localeCompare(String(a.last)));
+    countEl.textContent = teachers.length + ' teacher' + (teachers.length !== 1 ? 's' : '') + (data.total !== teachers.length ? ' \u00b7 ' + data.total + ' classes' : '');
+    tbody.innerHTML = '';
+    const me = getCloudUser();
+    const btnCss = 'font-family:var(--font);font-size:11px;padding:3px 10px;border-radius:var(--r-sm);border:1px solid var(--red,#f87171);background:none;color:var(--red,#f87171);cursor:pointer';
 
+    teachers.forEach(t => {
+      const isCurrentUser = t.user === me;
+      const lastSaved = t.last ? new Date(t.last).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' }) : 'Never';
       const tr = document.createElement('tr');
-      tr.style.cssText = 'border-bottom:1px solid var(--border);' +
-        (isCurrentUser ? 'background:rgba(96,165,250,0.06);' : '');
-
+      tr.style.cssText = 'border-bottom:1px solid var(--border);' + (isCurrentUser ? 'background:rgba(96,165,250,0.06);' : '');
+      const chips = t.classes.map((c, i) => `<span style="display:inline-flex;align-items:center;gap:6px;margin:2px 6px 2px 0;padding:2px 8px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--t1);white-space:nowrap">${c.year} \u00b7 ${c.students} student${c.students === 1 ? '' : 's'}${(!isCurrentUser && t.classes.length > 1) ? `<button data-admin-del-year="${i}" aria-label="Delete the ${c.year} class only" title="Delete the ${c.year} class only" style="font:inherit;font-size:12px;line-height:1;border:none;background:none;color:var(--t2);cursor:pointer;padding:0 0 0 2px">\u2715</button>` : ''}</span>`).join('');
+      const ai = typeof t.aiUsd === 'number' ? `$${t.aiUsd.toFixed(2)}<span style="color:var(--t3)"> of $${data.aiLimitUsd || 2}</span>` : '\u2014';
       tr.innerHTML = `
         <td style="padding:10px 16px;color:var(--t0);font-weight:${isCurrentUser ? '600' : '400'}">
-          ${escHtml(acc.username)}${isCurrentUser ? ' <span style="font-size:10px;color:var(--blue);font-weight:500">(you)</span>' : ''}
+          ${escHtml(t.user)}${isCurrentUser ? ' <span style="font-size:10px;color:var(--blue);font-weight:500">(you)</span>' : ''}
         </td>
-        <td style="padding:10px 16px;color:var(--t2)">${lastSaved}</td>
-        <td style="padding:10px 16px;text-align:center;color:var(--t1)">${Number(acc.students) || 0}</td>
+        <td style="padding:10px 16px;color:var(--t2);white-space:nowrap">${lastSaved}</td>
+        <td style="padding:8px 16px">${chips}</td>
+        <td style="padding:10px 16px;text-align:right;color:var(--t1);white-space:nowrap">${ai}</td>
         <td style="padding:10px 16px;text-align:right">
-          ${isCurrentUser
-            ? '<span style="font-size:11px;color:var(--t3)">—</span>'
-            : `<button data-admin-del
-                style="font-family:var(--font);font-size:11px;padding:3px 10px;border-radius:var(--r-sm);border:1px solid var(--red,#f87171);background:none;color:var(--red,#f87171);cursor:pointer">
-                Delete
-              </button>`
-          }
+          ${isCurrentUser ? '<span style="font-size:11px;color:var(--t3)">\u2014</span>' : `<button data-admin-del style="${btnCss}">Delete</button>`}
         </td>`;
-      // v3.17.53: the delete button is wired here, not built into an onclick string, so a name with a quote in it cannot break it
+      // the delete buttons are wired here, not built into an onclick string, so a name with a quote in it cannot break them
       const del = tr.querySelector('[data-admin-del]');
-      // v3.19.2: the Worker sends an id instead of the storage key (which held the PIN); acc.key is for a Worker not yet updated
-      if (del) del.addEventListener('click', () => adminDeleteAccount(acc.id || acc.key, acc.username));
+      if (del) del.addEventListener('click', () => adminDeleteTeacher(t));
+      tr.querySelectorAll('[data-admin-del-year]').forEach(b => b.addEventListener('click', () => {
+        const c = t.classes[+b.dataset.adminDelYear];
+        adminDeleteAccount(c.id, t.user + ' (' + c.year + ' class only)');
+      }));
       tbody.appendChild(tr);
     });
 
@@ -14297,6 +14306,22 @@ async function adminRefresh() {
   } catch(e) {
     loadEl.textContent = 'Error: ' + e.message;
   }
+}
+
+// v3.19.3: delete a teacher with every year's class. Later years go first; the first (2026) class goes last,
+// because deleting it also removes the account itself.
+async function adminDeleteTeacher(t) {
+  const list = t.classes.map(c => c.year + ': ' + c.students + ' student' + (c.students === 1 ? '' : 's')).join(', ');
+  if (!confirm('Delete "' + t.user + '" and every class they have saved (' + list + ')? This cannot be undone.')) return;
+  let ok = true;
+  for (const c of t.classes.slice().sort((a, b) => b.year - a.year)) {
+    try {
+      const res = await fetch(CLOUD_WORKER + '/admin/accounts/' + encodeURIComponent(c.id), { method: 'DELETE', headers: { 'X-Admin-Key': _adminKey } });
+      if (!res.ok) ok = false;
+    } catch (e) { ok = false; }
+  }
+  showToast(ok ? '"' + t.user + '" deleted.' : 'Some classes could not be deleted. Refresh and try again.');
+  adminRefresh();
 }
 
 async function adminDeleteAccount(key, username) {
@@ -15215,6 +15240,7 @@ function parseAiJson(raw, kind) {
   }
   throw new Error('AI_NOT_JSON');
 }
+// v3.19.3: the Worker only accepts this exact system line (AI_APP_SYSTEM in worker/worker.js). Change both together.
 const AI_JSON_SYSTEM = 'You reply with valid JSON only. The first character of your reply must be the opening bracket. Write no words before or after the JSON.';
 
 function anthropicFetch(body) {
@@ -19913,9 +19939,10 @@ loadTheme(); loadScheme();
         <table style="width:100%;border-collapse:collapse;font-size:13px">
           <thead>
             <tr style="background:var(--bg-2);border-bottom:1px solid var(--border)">
-              <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Username</th>
+              <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Teacher</th>
               <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Last synced</th>
-              <th style="padding:10px 16px;text-align:center;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Students</th>
+              <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Classes</th>
+              <th style="padding:10px 16px;text-align:right;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em" title="AI used this month, of the monthly allowance">AI this month</th>
               <th style="padding:10px 16px;text-align:right;font-weight:600;color:var(--t1);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Actions</th>
             </tr>
           </thead>

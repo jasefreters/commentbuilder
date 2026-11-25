@@ -9,6 +9,12 @@
 // - Wrong admin keys are limited per address (ADMIN_TRIES_PER_ADDRESS), on every admin route.
 // - The admin account list no longer contains PINs: each account has an id (a fingerprint of its storage key).
 //   Delete by that id. The list pages past 1,000 accounts, and student counts come from save metadata.
+// Version 2026-11-25b (app v3.19.3):
+// - The admin list also sends, for each class, its account fingerprint, username, year and the account's AI
+//   spending this month, so the app can show one row per teacher.
+// - The AI route only takes requests shaped like the app's own (D8): one user message of plain text, the app's
+//   own system line or none, an allowed model, and no tools, images, files or extra settings.
+// - AI spending is reserved before the request and settled after, so requests sent together can't overspend.
 
 const ALLOWED_ORIGIN = 'https://jasefreters.github.io';
 
@@ -60,6 +66,22 @@ const AI_MODELS = {
 };
 const AI_MAX_TOKENS = 1200;          // most output one request may ask for
 const AI_MAX_BODY = 60 * 1024;       // largest request the AI route accepts
+// The only system line the app sends (AI_JSON_SYSTEM in the app). A request may send this or no system line.
+const AI_APP_SYSTEM = 'You reply with valid JSON only. The first character of your reply must be the opening bracket. Write no words before or after the JSON.';
+const AI_ALLOWED_KEYS = ['model', 'max_tokens', 'system', 'messages', 'temperature'];
+// What's wrong with an AI request, or '' when it is shaped like one of the app's own
+function aiShapeProblem(req) {
+  if (!req || typeof req !== 'object' || Array.isArray(req)) return 'Invalid request.';
+  const extra = Object.keys(req).filter(k => !AI_ALLOWED_KEYS.includes(k));
+  if (extra.length) return 'That request has settings the app does not use: ' + extra.join(', ') + '.';
+  if (req.system !== undefined && req.system !== AI_APP_SYSTEM) return 'That system instruction is not one the app uses.';
+  if (!Array.isArray(req.messages) || req.messages.length !== 1) return 'The app sends one message at a time.';
+  const m = req.messages[0];
+  if (!m || m.role !== 'user' || typeof m.content !== 'string' || Object.keys(m).length !== 2) return 'The app sends plain text only.';
+  if (!m.content.trim()) return 'Empty request.';
+  if (req.temperature !== undefined && !(typeof req.temperature === 'number' && req.temperature >= 0 && req.temperature <= 1)) return 'Invalid temperature.';
+  return '';
+}
 const SIGNIN_PER_ADDRESS = 10;       // wrong username/PIN tries per username from one address, per 15 minutes
 const SIGNIN_PER_USERNAME = 60;      // wrong tries per username from anywhere, per hour
 const NEW_ACCOUNTS_PER_ADDRESS = 3;  // new accounts one address may create per day
@@ -127,6 +149,12 @@ async function listAll(KV, prefix) {
 }
 function studentsIn(text) {
   try { return (JSON.parse(text).students || []).length; } catch { return 0; }
+}
+
+// Replace a reservation with the real cost, reading the latest total so other requests' reservations stay counted
+async function settle(KV, key, reserve, cost) {
+  const now = parseInt((await KV.get(key)) || '0', 10);
+  await KV.put(key, String(Math.max(0, now - reserve + cost)), { expirationTtl: 62 * 86400 });
 }
 
 function monthKey() { return new Date().toISOString().slice(0, 7); }
@@ -216,15 +244,27 @@ export default {
         const meta = k.metadata || {};
         // Saves since 25 Nov 2026 carry the student count; older ones are read once to count.
         const students = typeof meta.students === 'number' ? meta.students : studentsIn(await env.SESSIONS.get(k.name));
+        // The account fingerprint (username + PIN, hashed) groups a teacher's years without showing the PIN.
+        // Two teachers who picked the same username have different fingerprints, so they stay apart.
+        const acct = await sha(parts[0] + ':' + parts[1]);
         return {
           id: await sha(k.name),
-          username: parts[0] + (parts[2] ? ' (' + parts[2] + ')' : ''),
+          acct,
+          user: parts[0],
+          year: parts[2] ? parseInt(parts[2], 10) : FIRST_CLASS_YEAR,
+          username: parts[0] + (parts[2] ? ' (' + parts[2] + ')' : ''),   // for app versions before v3.19.3
           lastSaved: meta.savedAt || 'unknown',
           students,
         };
       }));
+      // AI spending this month, once per account (millionths of a dollar, shown in dollars)
+      const spend = {};
+      await Promise.all([...new Set(accounts.map(a => a.acct))].map(async (acct) => {
+        spend[acct] = parseInt((await env.SESSIONS.get('ai:' + acct + ':' + monthKey())) || '0', 10) / 1e6;
+      }));
+      accounts.forEach(a => { a.aiUsd = Math.round(spend[a.acct] * 10000) / 10000; });
       accounts.sort((a, b) => new Date(b.lastSaved) - new Date(a.lastSaved));
-      return cors(JSON.stringify({ total: accounts.length, accounts }), 200);
+      return cors(JSON.stringify({ total: accounts.length, teachers: new Set(accounts.map(a => a.acct)).size, aiLimitUsd: AI_MONTHLY_USD, accounts }), 200);
     }
 
     // ── ADMIN: delete an account ───────────────────────────────
@@ -339,6 +379,8 @@ export default {
       const price = AI_MODELS[req && req.model];
       if (!price) return aiError('bad_request', 'That AI model is not available.', 400);
       if (req.stream) return aiError('bad_request', 'Streaming is not available.', 400);
+      const shape = aiShapeProblem(req);
+      if (shape) return aiError('bad_request', shape, 400);
       req.max_tokens = Math.min(parseInt(req.max_tokens, 10) || AI_MAX_TOKENS, AI_MAX_TOKENS);
 
       // Spending so far this month, kept in millionths of a dollar.
@@ -353,26 +395,40 @@ export default {
         } }), 429);
       }
 
-      const upstream = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': env.ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01',
-        },
-        body: JSON.stringify(req),
-      });
+      // Reserve the most this request could cost before sending it, so requests sent together each see the others'
+      // share. Input is estimated at one token per 3 characters (generous for English); output at max_tokens.
+      const reserve = Math.ceil((body.length / 3) * price[0] + req.max_tokens * price[1]);
+      await env.SESSIONS.put(useKey, String(used + reserve), { expirationTtl: 62 * 86400 });
+
+      let upstream;
+      try {
+        upstream = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': env.ANTHROPIC_API_KEY,
+            'anthropic-version': '2023-06-01',
+          },
+          body: JSON.stringify(req),
+        });
+      } catch (e) {
+        await settle(env.SESSIONS, useKey, reserve, 0);
+        return aiError('upstream', 'The AI service could not be reached. Try again.', 502);
+      }
       const data = await upstream.text();
 
-      // Add what this request cost to the account's total.
+      // Swap the reservation for what this request really cost (nothing, if it failed). Storage has no add-up-in-one-step,
+      // so two requests finishing at the same moment can leave one counted at its reservation: a small over-count,
+      // never an under-count.
+      let cost = 0;
       try {
         const u = JSON.parse(data).usage;
         if (u) {
           const inTok = (u.input_tokens || 0) + (u.cache_creation_input_tokens || 0) + (u.cache_read_input_tokens || 0);
-          const cost = Math.ceil(inTok * price[0] + (u.output_tokens || 0) * price[1]);
-          await env.SESSIONS.put(useKey, String(used + cost), { expirationTtl: 62 * 86400 });
+          cost = Math.ceil(inTok * price[0] + (u.output_tokens || 0) * price[1]);
         }
       } catch {}
+      await settle(env.SESSIONS, useKey, reserve, cost);
 
       return new Response(data, {
         status: upstream.status,
