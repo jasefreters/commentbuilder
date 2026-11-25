@@ -14262,8 +14262,9 @@ async function adminRefresh() {
     // so two teachers who chose the same username stay separate. Older Workers send no acct: group by username.
     const groups = new Map();
     data.accounts.forEach(acc => {
-      const k = acc.acct || String(acc.username).split(' ')[0];
-      if (!groups.has(k)) groups.set(k, { user: acc.user || String(acc.username).split(' ')[0], classes: [], aiUsd: acc.aiUsd });
+      const name = acc.user || String(acc.username).replace(/ \(\d{4}\)$/, '');   // older Workers: "name (2027)"
+      const k = acc.acct || name;
+      if (!groups.has(k)) groups.set(k, { user: name, classes: [], aiUsd: acc.aiUsd });
       const yr = acc.year || (String(acc.username).match(/\((\d{4})\)/) || [])[1] || 2026;
       groups.get(k).classes.push({ id: acc.id || acc.key, year: Number(yr), students: Number(acc.students) || 0, lastSaved: acc.lastSaved });
     });
