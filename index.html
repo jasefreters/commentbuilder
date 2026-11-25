@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>Complete Comments — Report Comments for NSW Primary Teachers</title>
+<title>Complete Comments — Report Comments for Australian Primary Teachers</title>
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="description" content="Complete Comments is a purpose-built tool for NSW primary school teachers. Build report comments from an approved sentence bank for General, English and Mathematics. Free to use.">
+<meta name="description" content="Complete Comments is a purpose-built report comment tool for Australian primary school teachers, tailored to your state's syllabus. Build report comments from an approved sentence bank for General, English and Mathematics. Free to use.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
@@ -144,6 +144,9 @@
   .fits-in ul { display: flex; flex-wrap: wrap; gap: 8px 22px; list-style: none; }
   .fits-in li { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--t1); }
   .fits-in li .ic { width: 16px; height: 16px; color: var(--done); stroke-width: 2.2; }
+  .fits-in li.soon { color: var(--t2, var(--t1)); }
+  .fits-in li .ring { width: 12px; height: 12px; margin-inline: 2px; border: 1.5px dashed currentColor; border-radius: 50%; flex: none; }
+  .fits-in li em { font-style: normal; opacity: .8; }
 
   /* Sections */
   section.block { padding-block: clamp(56px, 8vw, 104px); }
@@ -328,7 +331,7 @@
   <div class="wrap hero-grid">
     <div>
       <h1>Report comments in <span class="hl">minutes</span>, not hours.</h1>
-      <p class="hero-sub">Complete Comments is a purpose-built tool for NSW primary school teachers. Build polished, professional report comments from an approved sentence bank, for General, English and Mathematics.</p>
+      <p class="hero-sub">Complete Comments is a purpose-built tool for Australian primary school teachers, tailored to your state's syllabus. Build polished, professional report comments from an approved sentence bank, for General, English and Mathematics.</p>
       <div class="hero-cta">
         <a class="btn btn-primary btn-lg" href="#" onclick="openSignup(); return false"><span data-lp-hide>Create free account</span><span data-lp-show>Start free trial</span></a>
         <a class="btn btn-lg" href="demo.html">Try the demo<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
@@ -355,9 +358,12 @@
 <!-- WHAT IT FITS -->
 <div class="fits">
   <div class="wrap fits-in">
-    <p>Aligned with NSW curriculum</p>
+    <p>Tailored to your syllabus</p>
     <ul>
       <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>NSW Syllabus K–10</li>
+      <li class="soon"><span class="ring" aria-hidden="true"></span>Australian Curriculum v9 <em>(coming)</em></li>
+      <li class="soon"><span class="ring" aria-hidden="true"></span>Victorian Curriculum 2.0 <em>(coming)</em></li>
+      <li class="soon"><span class="ring" aria-hidden="true"></span>WA Curriculum <em>(coming)</em></li>
       <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Access Points to Stage 4</li>
       <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>A–E grading</li>
       <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>EAL/D support</li>
@@ -405,7 +411,7 @@
 <section class="block">
   <div class="wrap">
     <h2>Three subjects. Every strand covered.</h2>
-    <p class="lede">Sentence banks built specifically for NSW primary curriculum outcomes from Access Points to Stage 4.</p>
+    <p class="lede">Sentence banks written to match each syllabus's outcomes. The NSW banks run from Access Points to Stage 4; the Australian Curriculum, Victorian and WA banks are on the way.</p>
     <div class="cover">
       <div>
         <h3>General comment</h3>
@@ -522,7 +528,7 @@
 <footer>
   <div class="wrap foot-in">
     <span class="logo"><svg class="logo-mark" viewBox="8 24 240 196" aria-hidden="true" focusable="false"><path fill="currentColor" d="M174.6 58.43A95 95 0 1 0 174.6 185.57A23 23 0 0 0 140.41 154.79A49 49 0 1 1 140.41 89.21A23 23 0 0 0 174.6 58.43Z"/><circle cx="219" cy="190" r="26" fill="#2E9E5B"/></svg>Complete Comments</span>
-    <span>Built for NSW primary school teachers<span data-lp-hide> · Free to use</span></span>
+    <span>Built for Australian primary school teachers<span data-lp-hide> · Free to use</span></span>
     <span class="ver">landing v1.2.0</span>
   </div>
 </footer>
