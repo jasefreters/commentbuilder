@@ -16,3 +16,5 @@
 @media (max-width: 1180px) and (min-width: 701px) { #saveIndicator, .save-ind { display: none !important; } }
 @media (max-width: 1023px) and (min-width: 701px) { .logo { font-size: 0; gap: 0; } .demo-pill { font-size: 9px; } .board-btn { display: none !important; } }
 @media (max-width: 799px) and (min-width: 701px) { .demo-pill { display: none !important; } .demo-cta { padding: 8px 10px; } .hdr-right { gap: 8px; } }
+/* v3.21.0: the longer name (Complete Comments) needs more room beside the demo's extra buttons: the mark alone until the window is wide */
+@media (max-width: 1499px) and (min-width: 701px) { .logo { font-size: 0 !important; gap: 0 !important; } }
