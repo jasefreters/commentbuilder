@@ -4,6 +4,11 @@
 // Version 2026-11-24 (app v3.18.0): school years. A request may send X-Class-Year (2027 and later). 2026, or no year,
 // uses the original key 'session:user:pin', so every class saved before this change stays where it is.
 // Later years are stored as 'session:user:pin:YEAR'.
+// Version 2026-11-25 (app v3.19.2): sign-in hardening, no change to how classes are stored.
+// - Wrong sign-ins are also limited per address across every username (SIGNIN_PER_ADDRESS_ALL).
+// - Wrong admin keys are limited per address (ADMIN_TRIES_PER_ADDRESS), on every admin route.
+// - The admin account list no longer contains PINs: each account has an id (a fingerprint of its storage key).
+//   Delete by that id. The list pages past 1,000 accounts, and student counts come from save metadata.
 
 const ALLOWED_ORIGIN = 'https://jasefreters.github.io';
 
@@ -58,6 +63,8 @@ const AI_MAX_BODY = 60 * 1024;       // largest request the AI route accepts
 const SIGNIN_PER_ADDRESS = 10;       // wrong username/PIN tries per username from one address, per 15 minutes
 const SIGNIN_PER_USERNAME = 60;      // wrong tries per username from anywhere, per hour
 const NEW_ACCOUNTS_PER_ADDRESS = 3;  // new accounts one address may create per day
+const SIGNIN_PER_ADDRESS_ALL = 30;   // wrong tries from one address across every username, per hour
+const ADMIN_TRIES_PER_ADDRESS = 5;   // wrong admin keys from one address, per hour
 
 function aiError(type, message, status) {
   return cors(JSON.stringify({ type: 'error', error: { type, message } }), status);
@@ -83,6 +90,43 @@ async function accountExists(env, token) {
   if (!val) return false;
   await env.SESSIONS.put(mark, '1');
   return true;
+}
+
+// ── Admin key check (added 25 Nov 2026) ───────────────────────────
+// A wrong key counts against the address; after ADMIN_TRIES_PER_ADDRESS in an hour, even the right key is refused
+// until the hour is up. Returns null when the key is right, or the Response to send.
+function sameText(a, b) {   // compares in the same time whatever matches, so the key can't be guessed letter by letter
+  a = String(a || ''); b = String(b || '');
+  let d = a.length ^ b.length;
+  for (let i = 0; i < Math.max(a.length, b.length); i++) d |= (a.charCodeAt(i) || 0) ^ (b.charCodeAt(i) || 0);
+  return d === 0;
+}
+async function adminCheck(request, KV, env, reply) {
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+  const rl = 'rl:admin:' + await sha(ip);
+  if (parseInt((await KV.get(rl)) || '0', 10) >= ADMIN_TRIES_PER_ADDRESS) {
+    return reply({ error: 'Too many wrong admin keys. Wait an hour and try again.' }, 429);
+  }
+  const key = request.headers.get('X-Admin-Key');
+  if (!env.ADMIN_KEY || !key || !sameText(key, env.ADMIN_KEY)) {
+    await bump(KV, rl, 3600);
+    return reply({ error: 'Unauthorised' }, 401);
+  }
+  return null;
+}
+// Every key with a prefix, past KV's 1,000-a-page limit
+async function listAll(KV, prefix) {
+  const keys = [];
+  let cursor;
+  do {
+    const page = await KV.list({ prefix, cursor });
+    keys.push(...page.keys);
+    cursor = page.list_complete ? null : page.cursor;
+  } while (cursor);
+  return keys;
+}
+function studentsIn(text) {
+  try { return (JSON.parse(text).students || []).length; } catch { return 0; }
 }
 
 function monthKey() { return new Date().toISOString().slice(0, 7); }
@@ -132,10 +176,11 @@ export default {
     }
 
     // Reading and deleting needs the admin key
-    if (request.headers.get('X-Admin-Key') !== env.ADMIN_KEY) return json({ error: 'unauthorised' }, 401);
+    const denied = await adminCheck(request, KV, env, json);
+    if (denied) return denied;
     if (url.pathname === '/admin/feedback' && request.method === 'GET') {
-      const list = await KV.list({ prefix: 'feedback:' });
-      const items = (await Promise.all(list.keys.map(k => KV.get(k.name, 'json')))).filter(Boolean)
+      const keys = await listAll(KV, 'feedback:');
+      const items = (await Promise.all(keys.map(k => KV.get(k.name, 'json')))).filter(Boolean)
         .sort((a, b) => String(b.at).localeCompare(String(a.at)));
       return json({ items });
     }
@@ -157,65 +202,52 @@ export default {
     const path = url.pathname.replace(/\/$/, '');
 
     // ── ADMIN: list all accounts ───────────────────────────────
-    // GET /admin/accounts  (requires X-Admin-Key header)
+    // GET /admin/accounts  (requires X-Admin-Key header). PINs are never sent: each account has an id instead.
     if (path === '/admin/accounts') {
-      const adminKey = request.headers.get('X-Admin-Key');
-      if (!adminKey || adminKey !== env.ADMIN_KEY) {
-        return cors(JSON.stringify({ error: 'Unauthorised' }), 401);
-      }
+      const denied = await adminCheck(request, env.SESSIONS, env, (o, st) => cors(JSON.stringify(o), st));
+      if (denied) return denied;
       if (request.method !== 'GET') {
         return cors(JSON.stringify({ error: 'Method not allowed' }), 405);
       }
-
-      // List all keys with prefix "session:"
-      const list = await env.SESSIONS.list({ prefix: 'session:' });
-      const accounts = await Promise.all(
-        list.keys.map(async (k) => {
-          // Key format: session:username:pin[:year] — show username only, not PIN
-          const parts = k.name.replace('session:', '').split(':');
-          const username = parts[0] + (parts[2] ? ' (' + parts[2] + ')' : '');
-          // Get metadata for last saved time
-          const meta = k.metadata || {};
-          // Get value to count students
-          let studentCount = 0;
-          try {
-            const val = await env.SESSIONS.get(k.name);
-            if (val) {
-              const parsed = JSON.parse(val);
-              studentCount = (parsed.students || []).length;
-            }
-          } catch {}
-          return {
-            username,
-            lastSaved: meta.savedAt || 'unknown',
-            students: studentCount,
-            key: k.name,
-          };
-        })
-      );
-
-      // Sort by lastSaved descending
+      const keys = await listAll(env.SESSIONS, 'session:');
+      const accounts = await Promise.all(keys.map(async (k) => {
+        // Key format: session:username:pin[:year]. Show the username (and a later year), never the PIN.
+        const parts = k.name.slice('session:'.length).split(':');
+        const meta = k.metadata || {};
+        // Saves since 25 Nov 2026 carry the student count; older ones are read once to count.
+        const students = typeof meta.students === 'number' ? meta.students : studentsIn(await env.SESSIONS.get(k.name));
+        return {
+          id: await sha(k.name),
+          username: parts[0] + (parts[2] ? ' (' + parts[2] + ')' : ''),
+          lastSaved: meta.savedAt || 'unknown',
+          students,
+        };
+      }));
       accounts.sort((a, b) => new Date(b.lastSaved) - new Date(a.lastSaved));
-
-      return cors(JSON.stringify({
-        total: accounts.length,
-        accounts,
-      }), 200);
+      return cors(JSON.stringify({ total: accounts.length, accounts }), 200);
     }
 
     // ── ADMIN: delete an account ───────────────────────────────
-    // DELETE /admin/accounts/:key  (requires X-Admin-Key header)
+    // DELETE /admin/accounts/:id  (requires X-Admin-Key header). The id comes from the list above.
     if (path.startsWith('/admin/accounts/')) {
-      const adminKey = request.headers.get('X-Admin-Key');
-      if (!adminKey || adminKey !== env.ADMIN_KEY) {
-        return cors(JSON.stringify({ error: 'Unauthorised' }), 401);
-      }
+      const denied = await adminCheck(request, env.SESSIONS, env, (o, st) => cors(JSON.stringify(o), st));
+      if (denied) return denied;
       if (request.method !== 'DELETE') {
         return cors(JSON.stringify({ error: 'Method not allowed' }), 405);
       }
-      const kvKey = decodeURIComponent(path.replace('/admin/accounts/', ''));
+      const id = decodeURIComponent(path.slice('/admin/accounts/'.length));
+      let kvKey = null;
+      if (/^[0-9a-f]{32}$/.test(id)) {
+        for (const k of await listAll(env.SESSIONS, 'session:')) {
+          if (await sha(k.name) === id) { kvKey = k.name; break; }
+        }
+      }
+      if (!kvKey) return cors(JSON.stringify({ error: 'Not found' }), 404);
       await env.SESSIONS.delete(kvKey);
-      return cors(JSON.stringify({ ok: true, deleted: kvKey }), 200);
+      // The whole account goes when its first (2026) class goes, as when a teacher deletes it themselves
+      const parts = kvKey.slice('session:'.length).split(':');
+      if (parts.length === 2) await env.SESSIONS.delete('acct:' + await sha(parts.join(':')));
+      return cors(JSON.stringify({ ok: true }), 200);
     }
 
     // ── SESSION ROUTES ─────────────────────────────────────────
@@ -237,18 +269,20 @@ export default {
       const username = token.split(':')[0];
       const rlAddr = 'rl:signin:' + username + ':' + await sha(ip);
       const rlUser = 'rl:signin:' + username;
+      const rlAll = 'rl:signin-all:' + await sha(ip);   // every username from this address
 
       if (request.method === 'GET') {
         // Too many wrong tries for this username: stop before looking anything up.
-        const [a, u] = await Promise.all([env.SESSIONS.get(rlAddr), env.SESSIONS.get(rlUser)]);
-        if (parseInt(a || '0', 10) >= SIGNIN_PER_ADDRESS || parseInt(u || '0', 10) >= SIGNIN_PER_USERNAME) {
+        const [a, u, all] = await Promise.all([env.SESSIONS.get(rlAddr), env.SESSIONS.get(rlUser), env.SESSIONS.get(rlAll)]);
+        if (parseInt(a || '0', 10) >= SIGNIN_PER_ADDRESS || parseInt(u || '0', 10) >= SIGNIN_PER_USERNAME ||
+            parseInt(all || '0', 10) >= SIGNIN_PER_ADDRESS_ALL) {
           return cors(JSON.stringify({ error: 'Too many attempts. Wait 15 minutes and try again.' }), 429);
         }
         const val = await env.SESSIONS.get(key);
         if (!val) {
           // An empty new year for a real account is not a wrong sign-in, so it does not count towards the limit.
           if (!(year && await accountExists(env, token))) {
-            await Promise.all([bump(env.SESSIONS, rlAddr, 900), bump(env.SESSIONS, rlUser, 3600)]);
+            await Promise.all([bump(env.SESSIONS, rlAddr, 900), bump(env.SESSIONS, rlUser, 3600), bump(env.SESSIONS, rlAll, 3600)]);
           }
           return cors(JSON.stringify({ found: false }), 200);
         }
@@ -273,7 +307,7 @@ export default {
           await env.SESSIONS.put('acct:' + await sha(token), '1');
         }
         await env.SESSIONS.put(key, body, {
-          metadata: { savedAt: new Date().toISOString() }
+          metadata: { savedAt: new Date().toISOString(), students: studentsIn(body) }   // the count saves the admin list a read
         });
         return cors(JSON.stringify({ ok: true, savedAt: new Date().toISOString() }), 200);
       }

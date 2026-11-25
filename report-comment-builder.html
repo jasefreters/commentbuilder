@@ -14200,6 +14200,11 @@ async function adminLogin() {
       errEl.style.display = 'block';
       return;
     }
+    if (res.status === 429) {   // v3.19.2: the Worker allows only a few wrong keys an hour from one connection
+      errEl.textContent = 'Too many wrong keys from this connection. Wait an hour and try again.';
+      errEl.style.display = 'block';
+      return;
+    }
     if (!res.ok) {
       errEl.textContent = 'Server error — try again.';
       errEl.style.display = 'block';
@@ -14283,7 +14288,8 @@ async function adminRefresh() {
         </td>`;
       // v3.17.53: the delete button is wired here, not built into an onclick string, so a name with a quote in it cannot break it
       const del = tr.querySelector('[data-admin-del]');
-      if (del) del.addEventListener('click', () => adminDeleteAccount(acc.key, acc.username));
+      // v3.19.2: the Worker sends an id instead of the storage key (which held the PIN); acc.key is for a Worker not yet updated
+      if (del) del.addEventListener('click', () => adminDeleteAccount(acc.id || acc.key, acc.username));
       tbody.appendChild(tr);
     });
 
