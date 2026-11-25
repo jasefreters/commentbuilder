@@ -29,6 +29,7 @@ test('the admin account list shows a hostile username as text, and its Delete bu
   const r = await page.evaluate(async ([P1, P2]) => {
     const calls = [];
     window.adminDeleteAccount = (k, u) => { calls.push([k, u]); };
+    window.adminDeleteTeacher = t => { calls.push([t.classes[0].id, t.user]); };   // v3.19.3: Delete removes the whole teacher
     const realFetch = window.fetch;
     window.fetch = async (url) => /admin\/accounts/.test(String(url))
       ? new Response(JSON.stringify({ total: 2, accounts: [{ username: P1, key: 'session:' + P1 + ':1234', lastSaved: 'unknown', students: '<b>9</b>' }, { username: P2, key: 'session:' + P2 + ':9', lastSaved: 'unknown', students: 3 }] }), { status: 200, headers: { 'Content-Type': 'application/json' } })
