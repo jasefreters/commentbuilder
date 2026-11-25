@@ -1432,7 +1432,7 @@
   .rdot[data-s="english"].done { background: var(--subj-english-fill); border-color: var(--subj-english); color: var(--subj-english-on); }
   .rdot[data-s="maths"].done { background: var(--subj-maths-fill); border-color: var(--subj-maths); color: var(--subj-maths-on); }
   .logo { display: inline-flex; align-items: center; gap: 8px; }   /* v3.18.1: the logo mark sits before the name */
-  .logo-mark { width: 24px; height: 24px; flex: none; }
+  .logo-mark { width: 24px; height: 20px; flex: none; }   /* v3.21.1: the "C." mark (Complete Comments) */
   /* ══ v3.19.0 · LAUNCH PREVIEW: sign-in, trial, passes and codes (placeholders until the Worker side is built) ══ */
   .lp-banner { margin: 4px 14px 8px; padding: 8px 10px; border: 1px dashed var(--amber-bd); background: var(--amber-bg); color: var(--amber-fg); border-radius: var(--r-sm); font-size: 12px; line-height: 1.5; }
   .lp-form { display: flex; flex-direction: column; gap: 8px; padding: 4px 14px 10px; }
@@ -1498,7 +1498,7 @@
 <body>
 
 <header>
-  <div class="logo"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="1" y="1" width="30" height="30" rx="7.5" fill="#26233A" stroke="rgba(255,255,255,.16)" stroke-width="1"/><path d="M11.4 17.8L16.4 24.2L26 8" stroke="#7FD49A" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 25V7h6.4a4.7 4.7 0 0 1 0 9.4H9" stroke="#FFF" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Complete Comments</div>
+  <div class="logo"><svg class="logo-mark" viewBox="8 24 240 196" aria-hidden="true" focusable="false"><path fill="currentColor" d="M174.6 58.43A95 95 0 1 0 174.6 185.57A23 23 0 0 0 140.41 154.79A49 49 0 1 1 140.41 89.21A23 23 0 0 0 174.6 58.43Z"/><circle cx="219" cy="190" r="26" fill="#2E9E5B"/></svg>Complete Comments</div>
   <div class="sem-toggle" role="group" aria-label="School year and semester">
     <select class="sem-sel yr-sel" id="yearSel" aria-label="School year" title="Choose the school year. Each year is its own class." onchange="setClassYear(+this.value)"></select>
     <select class="sem-sel s1" id="semSel" aria-label="Semester" title="Choose the semester" onchange="setSemester(+this.value)">
